@@ -2,7 +2,7 @@
 
 Create 5e-styled statblocks in Obsidian.md notes.
 
-<img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/master/images/example.png">
+<img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/master/images/example.PNG">
 
 ## Usage
 
@@ -69,7 +69,7 @@ name: Paarthurnax
 ```
 ````
 
-<img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/master/images/override.png">
+<img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/master/images/override.PNG">
 
 ### Full Example
 
