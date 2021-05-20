@@ -1,0 +1,10 @@
+{
+    "id": "obsidian-5e-statblocks",
+    "name": "5e Statblocks",
+    "version": "0.0.1",
+    "description": "Create 5e styled statblocks in Obsidian.md",
+    "minAppVersion": "0.12.0",
+    "author": "Jeremy Valentine",
+    "authorUrl": "",
+    "isDesktopOnly": false
+}

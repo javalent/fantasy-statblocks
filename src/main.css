@@ -1,0 +1,140 @@
+:root {
+    --statblock-primary-color: #7a200d;
+    --statblock-rule-color: #922610;
+    --statblock-bar-color: #e69a28;
+    --statblock-background-color: #fdf1dc;
+}
+
+/** Tapered Rule */
+.obsidian-statblock-plugin .tapered-rule {
+    width: auto;
+    margin: 0.5em 0;
+    height: 5px;
+    background: -webkit-linear-gradient(
+        0deg,
+        var(--statblock-rule-color) 0%,
+        var(--statblock-rule-color) 50%,
+        var(--statblock-background-color) 95%,
+        var(--statblock-background-color) 100%
+    );
+    clip-path: polygon(0 0, 0 100%, 95% 50%);
+    -webkit-clip-path: polygon(0 0, 0 100%, 95% 50%);
+}
+
+/** Top and Bottom Bars */
+.obsidian-statblock-plugin > .bar {
+    height: 5px;
+    background: var(--statblock-bar-color);
+    border: 1px solid #000;
+    /* position: absolute; */
+    z-index: 1;
+    width: auto;
+}
+.obsidian-statblock-plugin > .bar.top {
+    top: 0;
+}
+.obsidian-statblock-plugin > .bar.bottom {
+    bottom: 0;
+}
+.obsidian-statblock-plugin {
+    margin: 0 auto;
+    position: relative;
+}
+/** Wrapper Element */
+.obsidian-statblock-plugin > .content-wrap {
+    font-family: "Noto Sans", "Myriad Pro", Calibri, Helvetica, Arial,
+        sans-serif;
+    font-size: 14px;
+    color: var(--statblock-primary-color);
+    background-color: var(--statblock-background-color);
+    padding: 0.5em;
+    border: 1px #ddd solid;
+    box-shadow: 0 0 1.5em #ddd;
+    margin-left: 2px;
+    margin-right: 2px;
+    column-width: 400px;
+    column-gap: 1em;
+    column-fill: auto;
+}
+
+.obsidian-statblock-plugin > .content-wrap > * {
+    max-width: 400px;
+}
+
+/** Creature Name and Type */
+.obsidian-statblock-plugin .creature-heading > .name {
+    font-family: "Libre Baskerville", "Lora", "Calisto MT", "Bookman Old Style",
+        Bookman, "Goudy Old Style", Garamond, "Hoefler Text",
+        "Bitstream Charter", Georgia, serif;
+    color: var(--statblock-primary-color);
+    font-weight: 700;
+    margin: 0px;
+    font-size: 23px;
+    letter-spacing: 1px;
+    font-variant: small-caps;
+}
+.obsidian-statblock-plugin .creature-heading > .subheading {
+    font-weight: normal;
+    font-style: italic;
+    font-size: 12px;
+    margin: 0;
+}
+
+.obsidian-statblock-plugin .property-line {
+    line-height: 1.4;
+    display: block;
+    color: var(--statblock-primary-color);
+}
+.obsidian-statblock-plugin .property-line > .property-name {
+    margin: 0;
+    margin-right: 0.25em;
+    display: inline;
+    font-weight: bold;
+}
+.obsidian-statblock-plugin .property-line > .property-text {
+    display: inline;
+    margin: 0;
+}
+
+/** Ability Scores */
+.obsidian-statblock-plugin .abilities {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+
+    color: var(--statblock-primary-color);
+}
+.obsidian-statblock-plugin .abilities .ability-score {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.obsidian-statblock-plugin .section-header {
+    border-bottom: 1px solid var(--statblock-primary-color);
+    color: var(--statblock-primary-color);
+    font-size: 21px;
+    font-variant: small-caps;
+    font-weight: normal;
+    letter-spacing: 1px;
+    margin: 0;
+    margin-bottom: 0.3em;
+    break-inside: avoid-column;
+    break-after: avoid-column;
+}
+
+.obsidian-statblock-plugin .property:not(:last-child) {
+    margin-bottom: 0.25em;
+}
+
+.obsidian-statblock-plugin .property > .property-name {
+    margin: 0;
+    margin-right: 0.25em;
+    display: inline;
+    font-weight: bold;
+    font-style: italic;
+}
+.obsidian-statblock-plugin .property > .property-text {
+    display: inline;
+    text-indent: 0;
+}
