@@ -2,7 +2,7 @@ import { parseYaml } from "obsidian";
 
 /** Get Modifier for Ability Score */
 export function getMod(arg0: any) {
-    let mod = Math.floor((arg0 ?? 10 - 10) / 2);
+    let mod = Math.floor(((arg0 ?? 10) - 10) / 2);
     return `${mod >= 0 ? "+" : "-"}${Math.abs(mod)}`;
 }
 
