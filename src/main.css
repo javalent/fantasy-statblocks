@@ -136,5 +136,10 @@
 }
 .obsidian-statblock-plugin .property > .property-text {
     display: inline;
+    white-space: pre-line;
     text-indent: 0;
+}
+
+.obsidian-statblock-plugin .spell-line .spells {
+    font-style: italic;
 }

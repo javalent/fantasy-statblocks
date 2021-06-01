@@ -1,7 +1,12 @@
 import { MarkdownPostProcessorContext, MarkdownView, Plugin } from "obsidian";
 import { BESTIARY_BY_NAME } from "./data/srd-bestiary";
 import StatBlock from "./statblock";
-import { getColumns, getParamsFromSource, traitMapFrom } from "./util";
+import {
+    getColumns,
+    getParamsFromSource,
+    spellArrayFrom,
+    traitMapFrom
+} from "./util";
 
 import "./main.css";
 
@@ -39,6 +44,13 @@ export default class StatBlockPlugin extends Plugin {
                     monster.legendary_actions
                 );
 
+                if (params.spells) traits.delete("Spellcasting");
+                if (traits.has("Spellcasting")) {
+                    const spells = spellArrayFrom(traits.get("Spellcasting"));
+                    traits.delete("Spellcasting");
+                    params.spells = spells;
+                }
+
                 params.traits = new Map([...traits, ...params.traits]);
                 params.actions = new Map([...actions, ...params.actions]);
                 params.reactions = new Map([...reactions, ...params.reactions]);
@@ -52,7 +64,6 @@ export default class StatBlockPlugin extends Plugin {
             let statblock: StatBlock = new StatBlock(el, toBuild);
             ctx.addChild(statblock);
             statblock.onunload = () => {
-                console.log("unload");
                 let newPre = createEl("pre");
                 newPre.createEl("code", {
                     text: `\`\`\`statblock\n${source}\`\`\``
@@ -94,11 +105,13 @@ export default class StatBlockPlugin extends Plugin {
                 };
             }
         } catch (e) {
-            console.error(`Obsidian Statblock Error:\n${e}`);
-
+            /* console.error(`Obsidian Statblock Error:\n${e}`); */
             let newPre = createEl("pre");
             newPre.createEl("code", {}, (code) => {
-                code.innerText = `\`\`\`statblock\n${e.message.trim()}\n${source}\`\`\``;
+                code.innerText = `\`\`\`statblock\n${e.stack
+                    .split("\n")
+                    .slice(0, 2)
+                    .join("\n")}\n\`\`\``;
                 el.replaceWith(newPre);
             });
         }

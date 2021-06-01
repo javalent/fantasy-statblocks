@@ -18,7 +18,7 @@ interface Monster {
     speed: string;
     stats: [number, number, number, number, number, number];
     saves?: { [K in ability]?: number }[];
-    skills?: { [key: string]: number }[];
+    skillsaves?: { [key: string]: number }[];
     damage_vulnerabilities: string;
     damage_resistances: string;
     damage_immunities: string;
@@ -41,8 +41,11 @@ interface StatblockMonster
     actions: Map<string, Trait>;
     legendary_actions: Map<string, Trait>;
     reactions: Map<string, Trait>;
+    spells: Spell[];
     monster: string;
 }
+
+type Spell = string | { [key: string]: string };
 
 interface Trait {
     name: string;

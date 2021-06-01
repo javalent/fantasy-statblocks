@@ -1,5 +1,9 @@
 import { parseYaml } from "obsidian";
 
+export function toTitleCase(str: string): string {
+    return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
+
 /** Get Modifier for Ability Score */
 export function getMod(arg0: any) {
     let mod = Math.floor(((arg0 ?? 10) - 10) / 2);
@@ -9,8 +13,7 @@ export function getMod(arg0: any) {
 type YamlTrait = [string, ...{ [key: string]: any }[]];
 /** Parse Yaml-Defined Trait to Trait */
 export function parseTrait(arg: YamlTrait): Trait {
-    console.log("🚀 ~ file: util.ts ~ line 5 ~ splitTrait ~ arg", arg);
-    if (!arg) return;
+    if (!arg || !(arg instanceof Array)) return;
     if (!arg.length) return;
 
     const name = arg[0];
@@ -64,6 +67,26 @@ export function getParamsFromSource(source: string): StatblockMonster {
 
 export function traitMapFrom(traits: Trait[] = []): Map<string, Trait> {
     return new Map(traits.map((t) => [t.name, t]));
+}
+export function spellArrayFrom(arg0: Trait): Spell[] {
+    const { desc } = arg0;
+    if (!desc) return [];
+
+    return desc
+        .split("\n")
+        .filter((d) => d.trim().length)
+        .map((d) => d.trim())
+        .map((spell) => {
+            if (/^•\s?([\d\w\s\(\)]+):/.test(spell)) {
+                const [, level, spellList] = spell.match(
+                    /^•\s?([\d\w\s\(\)]+):\s?([\s\S]+?)$/
+                );
+                return {
+                    [level]: spellList
+                };
+            }
+            return spell;
+        });
 }
 export function getColumns(contentEl: HTMLElement) {
     let width = contentEl?.getBoundingClientRect()?.width || 400;

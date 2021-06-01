@@ -10,7 +10,9 @@ A statblock may be defined in a note using the syntax below.
 
 All fields are optional - if not provided, that Statblock will simply not render them.
 
-The `monster` field may be combined with other fields to override the field. See ![Overriding Fields](#Overriding-Fields).
+The `monster` field may be combined with other fields to override the field. See [Overriding Fields](#Overriding-Fields).
+
+The spellcasting trait requires a special field (`spells`) - See [Spellcasting](#Spellcasting)
 
 ````
 ```statblock
@@ -43,6 +45,9 @@ condition_immunities: string
 senses: string
 languages: string
 cr: number
+spells:
+    - <description>
+    - <spell level>: <spell-list>
 traits:
     - [<trait-name>, <trait-description>]
     - ...
@@ -65,11 +70,37 @@ The `monster` field may be combined with other fields to override the field of t
 ````
 ```statblock
 monster: Ancient Black Dragon
-name: Paarthurnax
+name: Paarthunax
 ```
 ````
 
 <img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/master/images/override.PNG">
+
+### Spellcasting
+
+The spellcasting trait requires a special `spells` field using the following syntax:
+
+> **Please Note:**
+>
+> Overriding an existing monster's spells replaces the spells, _it does not combine_.
+
+````
+```statblock
+spells:
+    - The archmage is an 18th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 17, +9 to hit with spell attacks). The archmage can cast disguise self and invisibility at will and has the following wizard spells prepared
+    - Cantrips (at will): fire bolt, light, mage hand, prestidigitation, shocking grasp
+    - 1st level (4 slots): detect magic, identify, mage armor*, magic missile
+    - 2nd level (3 slots): detect thoughts, mirror image, misty step
+    - 3rd level (3 slots): counterspell, fly, lightning bolt
+    - 4th level (3 slots): banishment, fire shield, stoneskin*
+    - 5th level (3 slots): cone of cold, scrying, wall of force
+    - 6th level (1 slot): globe of invulnerability
+    - 7th level (1 slot): teleport
+    - 8th level (1 slot): mind blank*
+    - 9th level (1 slot): time stop
+    - * The archmage casts these spells on itself before combat.
+```
+````
 
 ### Full Example
 
@@ -90,7 +121,7 @@ saves:
     - constitution: 14
     - wisdom: 9
     - charisma: 11
-skills:
+skillsaves:
     - perception: 16
     - stealth: 9
 damage_vulnerabilities:

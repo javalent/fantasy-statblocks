@@ -141,3 +141,32 @@ export const CR: { [key: string]: CR } = {
         xp: 155000
     }
 };
+
+export const DiceBySize: { [key: string]: number } = {
+    tiny: 4,
+    small: 6,
+    medium: 8,
+    large: 10,
+    huge: 12,
+    gargantuan: 20
+};
+
+export const AbilityAliases: { [key: string]: string } = {
+    str: "Str",
+    strength: "Str",
+
+    dex: "Dex",
+    dexterity: "Dex",
+
+    con: "Con",
+    constitution: "Con",
+
+    int: "Int",
+    intelligence: "Int",
+
+    wis: "Wis",
+    wisdom: "Wis",
+
+    cha: "Cha",
+    charisma: "Cha"
+};
