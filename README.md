@@ -151,7 +151,7 @@ legendary_actions:
 
 # Installation
 
-<!-- ## From within Obsidian
+## From within Obsidian
 
 From Obsidian v0.9.8, you can activate this plugin within Obsidian by doing the following:
 
@@ -160,7 +160,7 @@ From Obsidian v0.9.8, you can activate this plugin within Obsidian by doing the 
 -   Click Browse community plugins
 -   Search for this plugin
 -   Click Install
--   Once installed, close the community plugins window and activate the newly installed plugin -->
+-   Once installed, close the community plugins window and activate the newly installed plugin
 
 ## From GitHub
 
