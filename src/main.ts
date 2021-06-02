@@ -11,8 +11,13 @@ import {
 import "./main.css";
 
 export default class StatBlockPlugin extends Plugin {
+    data: Map<string, StatblockMonster>;
     async onload() {
         console.log("5e StatBlocks loaded");
+
+        this.data = new Map();
+        const data = await this.loadData();
+        if (data && data instanceof Array) this.data = new Map(...data);
 
         this.registerMarkdownCodeBlockProcessor(
             "statblock",
@@ -21,6 +26,14 @@ export default class StatBlockPlugin extends Plugin {
     }
     onunload() {
         console.log("5e StatBlocks unloaded");
+    }
+
+    async saveMonster(monster: StatblockMonster) {
+        console.log(monster);
+        if (!this.data.has(monster.name)) {
+            this.data.set(monster.name, monster);
+            await this.saveData([...this.data]);
+        }
     }
 
     async postprocessor(
@@ -61,7 +74,7 @@ export default class StatBlockPlugin extends Plugin {
             }
             const toBuild = Object.assign(monster ?? {}, params);
 
-            let statblock: StatBlock = new StatBlock(el, toBuild);
+            let statblock: StatBlock = new StatBlock(el, toBuild, this);
             ctx.addChild(statblock);
             statblock.onunload = () => {
                 let newPre = createEl("pre");

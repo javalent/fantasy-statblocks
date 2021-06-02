@@ -72,6 +72,9 @@
     font-size: 23px;
     letter-spacing: 1px;
     font-variant: small-caps;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .obsidian-statblock-plugin .creature-heading > .subheading {
     font-weight: normal;

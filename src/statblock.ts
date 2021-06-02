@@ -1,5 +1,6 @@
-import { MarkdownRenderChild, Stat } from "obsidian";
+import { MarkdownRenderChild, setIcon } from "obsidian";
 import { AbilityAliases, CR, DiceBySize } from "./data/constants";
+import { StatblockMonsterPlugin } from "./types";
 import { getMod, toTitleCase } from "./util";
 
 export default class StatBlockRenderer extends MarkdownRenderChild {
@@ -9,7 +10,12 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
     loaded: boolean = false;
     statblockEl: HTMLDivElement;
     contentEl: HTMLDivElement;
-    constructor(container: HTMLElement, monster: StatblockMonster) {
+    constructor(
+        container: HTMLElement,
+        monster: StatblockMonster,
+        private plugin: StatblockMonsterPlugin,
+        public canSave: boolean = true
+    ) {
         super(container);
         this.monster = monster;
         this.statblockEl = this.containerEl.createDiv({
@@ -266,7 +272,15 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         subtype: string,
         alignment: string
     ) {
-        if (name) creatureHeadingEl.createDiv({ cls: "name", text: name });
+        if (name) {
+            const nameEl = creatureHeadingEl.createDiv({ cls: "name" });
+            nameEl.createSpan({ text: name });
+            if (this.canSave) {
+                const iconEl = nameEl.createDiv("clickable-icon");
+                iconEl.onclick = () => this.plugin.saveMonster(this.monster);
+                setIcon(iconEl, "create-new");
+            }
+        }
         let sub = creatureHeadingEl.createDiv({
             cls: "subheading"
         });
