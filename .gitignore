@@ -12,3 +12,8 @@ main.js
 .DS_Store
 *build.js
 rollup.config-dev.js
+src/converted-bestiary.json
+src/convert-spells.js
+src/convert.js
+src/importers/Curse of Strahd Bestiary.xml
+src/importers/improved-initiative.json

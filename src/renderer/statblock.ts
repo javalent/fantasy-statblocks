@@ -1,20 +1,20 @@
 import { MarkdownRenderChild, setIcon } from "obsidian";
-import { AbilityAliases, CR, DiceBySize } from "./data/constants";
-import { StatblockMonsterPlugin } from "./types";
-import { getMod, toTitleCase } from "./util";
+import { AbilityAliases, CR, DiceBySize, SAVE_SYMBOL } from "../data/constants";
+import { catchError, catchErrorAsync, getMod, toTitleCase } from "../util/util";
+import { Spell, Monster, StatblockMonsterPlugin } from "@types";
 
 export default class StatBlockRenderer extends MarkdownRenderChild {
     topBar: HTMLDivElement;
     bottomBar: HTMLDivElement;
-    monster: StatblockMonster;
+    monster: Monster;
     loaded: boolean = false;
     statblockEl: HTMLDivElement;
     contentEl: HTMLDivElement;
     constructor(
         container: HTMLElement,
-        monster: StatblockMonster,
+        monster: Monster,
         private plugin: StatblockMonsterPlugin,
-        public canSave: boolean = true
+        private canSave: boolean
     ) {
         super(container);
         this.monster = monster;
@@ -37,24 +37,68 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             this.monster.subtype,
             this.monster.alignment
         );
-        this.contentEl.createDiv("tapered-rule");
 
         // Top Stats ( ac, hp, speed )
         this._buildTopStats(
             this.contentEl.createDiv("top-stats"),
-            this.monster /* .ac,
-            this.monster.hp,
-            this.monster.hit_dice,
-            this.monster.speed */
+            this.monster
         );
-        this.contentEl.createDiv("tapered-rule");
 
         // Ability Score Table
-        this._buildAbilityScores(this.contentEl.createDiv("abilities"), [
-            ...(this.monster.stats ?? [10, 10, 10, 10, 10, 10])
-        ]);
-        this.contentEl.createDiv("tapered-rule");
+        if (this.monster.stats) {
+            this._buildAbilityScores(
+                this.contentEl.createDiv("abilities"),
+                this.monster.stats
+            );
+            this.contentEl.createDiv("tapered-rule");
+        }
 
+        this._buildBottomStats();
+
+        /** Add Traits, if any */
+        // Spellcasting first
+        if (this.monster.spells && this.monster.spells.length) {
+            this._buildSpells(this.contentEl, this.monster.spells);
+        }
+        this.monster.traits.forEach(({ name, desc }) => {
+            try {
+                this._buildPropertyBlock(this.contentEl, name, desc);
+            } catch (e) {}
+        });
+
+        /** Add Actions, if any */
+        if (this.monster.actions.length) {
+            this._createSectionHeader(this.contentEl, "Actions");
+            this.monster.actions.forEach(({ name, desc }) => {
+                try {
+                    this._buildPropertyBlock(this.contentEl, name, desc);
+                } catch (e) {}
+            });
+        }
+
+        /** Add Legendary Actions, if any */
+        if (this.monster.legendary_actions.length) {
+            this._createSectionHeader(this.contentEl, "Legendary Actions");
+            this.monster.legendary_actions.forEach(({ name, desc }) => {
+                try {
+                    this._buildPropertyBlock(this.contentEl, name, desc);
+                } catch (e) {}
+            });
+        }
+
+        /** Add Reactions, if any */
+        if (this.monster.reactions.length) {
+            this._createSectionHeader(this.contentEl, "Reactions");
+            this.monster.reactions.forEach(({ name, desc }) => {
+                try {
+                    this._buildPropertyBlock(this.contentEl, name, desc);
+                } catch (e) {}
+            });
+        }
+    }
+    @catchError
+    private _buildBottomStats() {
+        let needRule = false;
         /** Build Saving Throws */
         if (this.monster.saves) {
             let save = [];
@@ -77,6 +121,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 `Saving Throws`,
                 save.join(", ")
             );
+            needRule = true;
         }
         /** Build Skill Saves */
         if (this.monster.skillsaves) {
@@ -92,6 +137,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             }
 
             this._buildProperty(this.contentEl, `Skills`, save.join(", "));
+            needRule = true;
         }
 
         /** Build Immunities */
@@ -104,6 +150,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 `Damage Immunities`,
                 this.monster.damage_immunities
             );
+            needRule = true;
         }
         /** Build Immunities */
         if (
@@ -115,6 +162,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 `Condition Immunities`,
                 this.monster.condition_immunities
             );
+            needRule = true;
         }
 
         /** Build Resistances */
@@ -127,9 +175,10 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 `Resistances`,
                 this.monster.damage_resistances
             );
+            needRule = true;
         }
 
-        /** Build Resistances */
+        /** Build Vulnerabilities */
         if (
             this.monster.damage_vulnerabilities &&
             this.monster.damage_vulnerabilities.length
@@ -139,67 +188,39 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 `Damage Vulnerabilities`,
                 this.monster.damage_vulnerabilities
             );
+            needRule = true;
         }
 
         /** Build Senses */
         if (this.monster.senses && this.monster.senses.length) {
             this._buildProperty(this.contentEl, `Senses`, this.monster.senses);
+            needRule = true;
         }
 
-        /** Build Languages & CR (always displayed) */
-        this._buildProperty(
-            this.contentEl,
-            `Languages`,
-            this.monster.languages && this.monster.languages.length
-                ? this.monster.languages
-                : "—"
-        );
-        this._buildCR(this.monster.cr);
+        /** Build Languages */
+        if (this.monster.languages) {
+            this._buildProperty(
+                this.contentEl,
+                `Languages`,
+                this.monster.languages && this.monster.languages.length
+                    ? this.monster.languages
+                    : "—"
+            );
+            needRule = true;
+        }
+        if (this.monster.cr) {
+            this._buildCR(this.monster.cr);
+            needRule = true;
+        }
 
         /** End of Section */
-        this.contentEl.createDiv("tapered-rule");
 
-        /** Add Traits, if any */
-        // Spellcasting first
-        if (this.monster.spells && this.monster.spells.length) {
-            this._buildSpells(this.contentEl, this.monster.spells);
-        }
-        this.monster.traits.forEach(({ name, desc }) => {
-            try {
-                this._buildPropertyBlock(this.contentEl, name, desc);
-            } catch (e) {}
-        });
-
-        /** Add Actions, if any */
-        if (this.monster.actions.size) {
-            this._createSectionHeader(this.contentEl, "Actions");
-            this.monster.actions.forEach(({ name, desc }) => {
-                try {
-                    this._buildPropertyBlock(this.contentEl, name, desc);
-                } catch (e) {}
-            });
-        }
-
-        /** Add Legendary Actions, if any */
-        if (this.monster.legendary_actions.size) {
-            this._createSectionHeader(this.contentEl, "Legendary Actions");
-            this.monster.legendary_actions.forEach(({ name, desc }) => {
-                try {
-                    this._buildPropertyBlock(this.contentEl, name, desc);
-                } catch (e) {}
-            });
-        }
-
-        /** Add Reactions, if any */
-        if (this.monster.reactions.size) {
-            this._createSectionHeader(this.contentEl, "Reactions");
-            this.monster.reactions.forEach(({ name, desc }) => {
-                try {
-                    this._buildPropertyBlock(this.contentEl, name, desc);
-                } catch (e) {}
-            });
+        if (needRule) {
+            this.contentEl.createDiv("tapered-rule");
         }
     }
+
+    @catchError
     private _buildSpells(el: HTMLElement, spells: Spell[]) {
         const spellEl = el.createDiv("statblock-spellcasting");
         let spellText = `${this.monster.name} knows the following spells:`;
@@ -231,10 +252,14 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             }
         }
     }
+
+    @catchErrorAsync
     async onload() {
         this.loaded = true;
         /** Build Structure */
     }
+
+    @catchError
     setMaxWidth(pixels: number) {
         if (!this.loaded) return;
         if (this.contentEl.getBoundingClientRect().height <= 500) {
@@ -242,6 +267,8 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         }
         this._setStyleAttr("maxWidth", pixels);
     }
+
+    @catchError
     setWidth(pixels: number) {
         if (!this.loaded) return;
         if (this.contentEl.getBoundingClientRect().height <= 500) {
@@ -250,10 +277,12 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         this._setStyleAttr("width", pixels);
     }
 
+    @catchError
     private _createSectionHeader(el: HTMLElement, text: string) {
         el.createEl("h3", { cls: "section-header", text: text });
     }
 
+    @catchError
     private _buildAbilityScores(abilityScoresEl: HTMLElement, stats: any) {
         ["STR", "DEX", "CON", "INT", "WIS", "CHA"].forEach((stat, index) => {
             let el = abilityScoresEl.createDiv("ability-score");
@@ -264,6 +293,8 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             });
         });
     }
+
+    @catchError
     private _buildName(
         creatureHeadingEl: HTMLElement,
         name: string,
@@ -272,38 +303,54 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         subtype: string,
         alignment: string
     ) {
+        let needRule = false;
         if (name) {
             const nameEl = creatureHeadingEl.createDiv({ cls: "name" });
             nameEl.createSpan({ text: name });
             if (this.canSave) {
                 const iconEl = nameEl.createDiv("clickable-icon");
+                this.monster.source = "Homebrew";
                 iconEl.onclick = () => this.plugin.saveMonster(this.monster);
-                setIcon(iconEl, "create-new");
+                setIcon(iconEl, SAVE_SYMBOL.toString());
             }
+            needRule = true;
         }
-        let sub = creatureHeadingEl.createDiv({
-            cls: "subheading"
-        });
-        let text = "";
-        if (size)
-            text += `${size[0].toUpperCase() + size.slice(1).toLowerCase()}`;
-        if (type) {
-            text += `${text.length ? " " : ""}` + type;
-            if (subtype) text += ` (${subtype})`;
+        if (size || type || alignment) {
+            let sub = creatureHeadingEl.createDiv({
+                cls: "subheading"
+            });
+            let text = "";
+            if (size)
+                text += `${
+                    size[0].toUpperCase() + size.slice(1).toLowerCase()
+                }`;
+            if (type) {
+                text += `${text.length ? " " : ""}` + type;
+                if (subtype) text += ` (${subtype})`;
+            }
+            if (alignment) text += `${text.length ? ", " : ""}` + alignment;
+            sub.appendText(text);
+            needRule = true;
         }
-        if (alignment) text += `${text.length ? ", " : ""}` + alignment;
-        sub.appendText(text);
+
+        if (needRule) this.contentEl.createDiv("tapered-rule");
     }
+
+    @catchError
     private _buildTopStats(
         topStatsEl: HTMLElement,
         /* ac: number,
         hp: number,
         hit_dice: string,
         speed: string */
-        monster: StatblockMonster
+        monster: Monster
     ) {
         let { ac, hp, hit_dice, speed } = monster;
-        if (ac) this._buildProperty(topStatsEl, `Armor Class`, `${ac}`);
+        let needRule = false;
+        if (ac) {
+            this._buildProperty(topStatsEl, `Armor Class`, `${ac}`);
+            needRule = true;
+        }
         if (hp) {
             let line = `${hp}`;
             if (hit_dice) {
@@ -317,12 +364,21 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 const average = dice / 2 + 0.5;
 
                 const needed = Math.ceil(Number(hp) / (average + Number(mod)));
-                line += ` (${needed}d${dice} + ${needed})`;
+                line += ` (${needed}d${dice} + ${needed * Number(mod)})`;
             }
             this._buildProperty(topStatsEl, `Hit Points`, line);
+            needRule = true;
         }
-        if (speed) this._buildProperty(topStatsEl, `Speed`, speed);
+        if (speed) {
+            this._buildProperty(topStatsEl, `Speed`, speed);
+            needRule = true;
+        }
+        if (needRule) {
+            this.contentEl.createDiv("tapered-rule");
+        }
     }
+
+    @catchError
     private _buildCR(cr: string | number) {
         if (!cr) return;
         if (typeof cr !== "string" && typeof cr !== "number") return;
@@ -334,17 +390,22 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             cr + ` (${CR[`${cr}`].xp} XP)`
         );
     }
+
+    @catchError
     private _buildProperty(el: HTMLElement, header: string, text: string) {
         const property = el.createDiv("property-line");
         property.createDiv({ cls: "property-name", text: header });
         property.createSpan({ cls: "property-text", text: text });
     }
+
+    @catchError
     private _buildPropertyBlock(el: HTMLElement, header: string, text: string) {
         const property = el.createDiv("property");
         property.createDiv({ cls: "property-name", text: header });
         property.createSpan({ cls: "property-text", text: text });
     }
 
+    @catchError
     private _setStyleAttr(type: "width" | "maxWidth", pixels: number) {
         this.statblockEl.style[type] = `calc(${pixels}px + ${
             pixels / 400

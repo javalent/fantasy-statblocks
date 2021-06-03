@@ -1,4 +1,19 @@
-type ability =
+import { MarkdownPostProcessorContext, Plugin } from "obsidian";
+
+export declare abstract class StatblockMonsterPlugin extends Plugin {
+    data: Map<string, Monster>;
+    abstract postprocessor(
+        source: string,
+        el: HTMLElement,
+        ctx: MarkdownPostProcessorContext
+    ): Promise<void>;
+    get sorted(): string[];
+    abstract saveMonster(monster: Monster): Promise<void>;
+    abstract saveMonsters(monsters: Monster[]): Promise<void>;
+    abstract deleteMonster(monster: string): Promise<void>;
+}
+
+export type ability =
     | "strength"
     | "dexterity"
     | "constitution"
@@ -6,7 +21,7 @@ type ability =
     | "wisdom"
     | "charisma";
 
-interface Monster {
+export interface Monster {
     name: string;
     size: string;
     type: string;
@@ -27,12 +42,15 @@ interface Monster {
     languages: string;
     cr: string | number;
     traits?: Trait[];
+    spells?: Spell[];
     actions?: Trait[];
     legendary_actions?: Trait[];
     reactions?: Trait[];
+    monster?: string;
+    source?: string;
 }
 
-interface StatblockMonster
+/* export interface StatblockMonster
     extends Omit<
         Monster,
         "traits" | "actions" | "legendary_actions" | "reactions"
@@ -41,13 +59,12 @@ interface StatblockMonster
     actions: Map<string, Trait>;
     legendary_actions: Map<string, Trait>;
     reactions: Map<string, Trait>;
-    spells: Spell[];
-    monster: string;
-}
+    monster?: string;
+} */
 
-type Spell = string | { [key: string]: string };
+export type Spell = string | { [key: string]: string };
 
-interface Trait {
+export interface Trait {
     name: string;
     desc: string;
     [key: string]: any;

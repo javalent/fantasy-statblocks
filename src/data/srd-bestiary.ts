@@ -17,6 +17,8 @@
  *  "15 COPYRIGHT NOTICE Open Game License v 1.0 Copyright 2000, Wizards of the Coast, Inc."
  */
 
+import { Monster } from "@types";
+
 export const BESTIARY: Monster[] = [
     {
         name: "Aboleth",
@@ -29,8 +31,25 @@ export const BESTIARY: Monster[] = [
         hit_dice: "18d10",
         speed: "10 ft., swim 40 ft.",
         stats: [21, 9, 15, 18, 15, 18],
-        saves: [{ constitution: 6 }, { intelligence: 8 }, { wisdom: 6 }],
-        skillsaves: [{ history: 12 }, { perception: 10 }],
+        saves: [
+            {
+                constitution: 6
+            },
+            {
+                intelligence: 8
+            },
+            {
+                wisdom: 6
+            }
+        ],
+        skillsaves: [
+            {
+                history: 12
+            },
+            {
+                perception: 10
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -110,7 +129,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "2d8",
         speed: "30 ft.",
         stats: [10, 10, 10, 10, 14, 11],
-        skillsaves: [{ medicine: 4 }, { religion: 2 }],
+        skillsaves: [
+            {
+                medicine: 4
+            },
+            {
+                religion: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -118,19 +144,22 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 12",
         languages: "any one language (usually Common)",
         cr: "1/4",
-        traits: [
-            {
-                name: "Spellcasting",
-                desc: "The acolyte is a 1st-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 12, +4 to hit with spell attacks). The acolyte has following cleric spells prepared:\n\n• Cantrips (at will): light, sacred flame, thaumaturgy\n• 1st level (3 slots): bless, cure wounds, sanctuary",
-                attack_bonus: 0
-            }
-        ],
+        traits: [],
         actions: [
             {
                 name: "Club",
                 desc: "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 2 (1d4) bludgeoning damage.",
                 attack_bonus: 2,
                 damage_dice: "1d4"
+            }
+        ],
+        spells: [
+            "The acolyte is a 1st-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 12, +4 to hit with spell attacks). The acolyte has following cleric spells prepared:",
+            {
+                "Cantrips (at will)": "light, sacred flame, thaumaturgy"
+            },
+            {
+                "1st level (3 slots)": "bless, cure wounds, sanctuary"
             }
         ]
     },
@@ -146,12 +175,28 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., fly 80 ft., swim 40 ft.",
         stats: [23, 14, 21, 14, 13, 17],
         saves: [
-            { dexterity: 7 },
-            { constitution: 10 },
-            { wisdom: 6 },
-            { charisma: 8 }
+            {
+                dexterity: 7
+            },
+            {
+                constitution: 10
+            },
+            {
+                wisdom: 6
+            },
+            {
+                charisma: 8
+            }
         ],
-        skillsaves: [, { perception: 11 }, { stealth: 7 }],
+        skillsaves: [
+            null,
+            {
+                perception: 11
+            },
+            {
+                stealth: 7
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "acid",
@@ -239,7 +284,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "18d12",
         speed: "40 ft., burrow 30 ft., fly 80 ft.",
         stats: [25, 10, 23, 16, 15, 19],
-        skillsaves: [{ perception: 12 }],
+        skillsaves: [
+            {
+                perception: 12
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "necrotic",
         damage_immunities: "lightning, poison",
@@ -329,14 +378,24 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., burrow 30 ft., fly 80 ft.",
         stats: [25, 10, 23, 16, 15, 19],
         saves: [
-            { dexterity: 5 },
-            { constitution: 11 },
-            { wisdom: 7 },
-            { charisma: 9 }
+            {
+                dexterity: 5
+            },
+            {
+                constitution: 11
+            },
+            {
+                wisdom: 7
+            },
+            {
+                charisma: 9
+            }
         ],
         skillsaves: [
-            ,
-            { perception: 12 },
+            null,
+            {
+                perception: 12
+            },
             {
                 stealth: 5
             }
@@ -424,17 +483,33 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., burrow 40 ft., fly 80 ft.",
         stats: [23, 10, 21, 14, 13, 17],
         saves: [
-            { dexterity: 5 },
-            { constitution: 10 },
-            { wisdom: 6 },
-            { charisma: 8 }
+            {
+                dexterity: 5
+            },
+            {
+                constitution: 10
+            },
+            {
+                wisdom: 6
+            },
+            {
+                charisma: 8
+            }
         ],
         skillsaves: [
-            ,
-            { history: 7 },
-            { persuasion: 8 },
-            { perception: 11 },
-            { stealth: 5 }
+            null,
+            {
+                history: 7
+            },
+            {
+                persuasion: 8
+            },
+            {
+                perception: 11
+            },
+            {
+                stealth: 5
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "",
@@ -502,12 +577,30 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., fly 80 ft., swim 40 ft.",
         stats: [25, 10, 23, 16, 15, 19],
         saves: [
-            { dexterity: 5 },
-            { constitution: 11 },
-            { wisdom: 7 },
-            { charisma: 9 }
+            {
+                dexterity: 5
+            },
+            {
+                constitution: 11
+            },
+            {
+                wisdom: 7
+            },
+            {
+                charisma: 9
+            }
         ],
-        skillsaves: [{ insight: 7 }, { perception: 12 }, { stealth: 5 }],
+        skillsaves: [
+            {
+                insight: 7
+            },
+            {
+                perception: 12
+            },
+            {
+                stealth: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "lightning",
@@ -596,12 +689,30 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., climb 40 ft., fly 80 ft.",
         stats: [23, 12, 21, 18, 15, 17],
         saves: [
-            { dexterity: 6 },
-            { constitution: 10 },
-            { wisdom: 7 },
-            { charisma: 8 }
+            {
+                dexterity: 6
+            },
+            {
+                constitution: 10
+            },
+            {
+                wisdom: 7
+            },
+            {
+                charisma: 8
+            }
         ],
-        skillsaves: [{ deception: 8 }, { perception: 12 }, { stealth: 6 }],
+        skillsaves: [
+            {
+                deception: 8
+            },
+            {
+                perception: 12
+            },
+            {
+                stealth: 6
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "acid",
@@ -685,16 +796,32 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., fly 80 ft., swim 40 ft.",
         stats: [27, 14, 25, 16, 15, 24],
         saves: [
-            { dexterity: 8 },
-            { constitution: 13 },
-            { wisdom: 8 },
-            { charisma: 13 }
+            {
+                dexterity: 8
+            },
+            {
+                constitution: 13
+            },
+            {
+                wisdom: 8
+            },
+            {
+                charisma: 13
+            }
         ],
         skillsaves: [
-            { insight: 8 },
-            { persuasion: 13 },
-            { perception: 14 },
-            { stealth: 8 }
+            {
+                insight: 8
+            },
+            {
+                persuasion: 13
+            },
+            {
+                perception: 14
+            },
+            {
+                stealth: 8
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "",
@@ -784,17 +911,35 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., fly 80 ft., swim 40 ft.",
         stats: [23, 12, 21, 18, 15, 17],
         saves: [
-            { dexterity: 6 },
-            { constitution: 10 },
-            { wisdom: 7 },
-            { charisma: 8 }
+            {
+                dexterity: 6
+            },
+            {
+                constitution: 10
+            },
+            {
+                wisdom: 7
+            },
+            {
+                charisma: 8
+            }
         ],
         skillsaves: [
-            { deception: 8 },
-            { insight: 7 },
-            { persuasion: 8 },
-            { perception: 12 },
-            { stealth: 6 }
+            {
+                deception: 8
+            },
+            {
+                insight: 7
+            },
+            {
+                persuasion: 8
+            },
+            {
+                perception: 12
+            },
+            {
+                stealth: 6
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "",
@@ -884,12 +1029,27 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., climb 40 ft., fly 80 ft.",
         stats: [27, 10, 25, 16, 13, 21],
         saves: [
-            { dexterity: 6 },
-            { constitution: 13 },
-            { wisdom: 7 },
-            { charisma: 11 }
+            {
+                dexterity: 6
+            },
+            {
+                constitution: 13
+            },
+            {
+                wisdom: 7
+            },
+            {
+                charisma: 11
+            }
         ],
-        skillsaves: [{ perception: 13 }, { stealth: 6 }],
+        skillsaves: [
+            {
+                perception: 13
+            },
+            {
+                stealth: 6
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "fire",
@@ -979,16 +1139,32 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., fly 80 ft.",
         stats: [27, 10, 25, 16, 13, 21],
         saves: [
-            { dexterity: 5 },
-            { constitution: 12 },
-            { wisdom: 6 },
-            { charisma: 10 }
+            {
+                dexterity: 5
+            },
+            {
+                constitution: 12
+            },
+            {
+                wisdom: 6
+            },
+            {
+                charisma: 10
+            }
         ],
         skillsaves: [
-            { arcana: 8 },
-            { history: 8 },
-            { perception: 11 },
-            { stealth: 5 }
+            {
+                arcana: 8
+            },
+            {
+                history: 8
+            },
+            {
+                perception: 11
+            },
+            {
+                stealth: 5
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "",
@@ -1073,12 +1249,27 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., burrow 30 ft., fly 80 ft., swim 40 ft.",
         stats: [22, 10, 22, 8, 12, 12],
         saves: [
-            { dexterity: 5 },
-            { constitution: 11 },
-            { wisdom: 6 },
-            { charisma: 6 }
+            {
+                dexterity: 5
+            },
+            {
+                constitution: 11
+            },
+            {
+                wisdom: 6
+            },
+            {
+                charisma: 6
+            }
         ],
-        skillsaves: [{ perception: 11 }, { stealth: 5 }],
+        skillsaves: [
+            {
+                perception: 11
+            },
+            {
+                stealth: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "cold",
@@ -1214,12 +1405,27 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., fly 80 ft., swim 40 ft.",
         stats: [27, 14, 25, 16, 15, 19],
         saves: [
-            { dexterity: 9 },
-            { constitution: 14 },
-            { wisdom: 9 },
-            { charisma: 11 }
+            {
+                dexterity: 9
+            },
+            {
+                constitution: 14
+            },
+            {
+                wisdom: 9
+            },
+            {
+                charisma: 11
+            }
         ],
-        skillsaves: [{ perception: 16 }, { stealth: 9 }],
+        skillsaves: [
+            {
+                perception: 16
+            },
+            {
+                stealth: 9
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "acid",
@@ -1307,12 +1513,27 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., burrow 40 ft., fly 80 ft.",
         stats: [29, 10, 27, 18, 17, 21],
         saves: [
-            { dexterity: 7 },
-            { constitution: 15 },
-            { wisdom: 10 },
-            { charisma: 12 }
+            {
+                dexterity: 7
+            },
+            {
+                constitution: 15
+            },
+            {
+                wisdom: 10
+            },
+            {
+                charisma: 12
+            }
         ],
-        skillsaves: [{ perception: 17 }, { stealth: 7 }],
+        skillsaves: [
+            {
+                perception: 17
+            },
+            {
+                stealth: 7
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "lightning",
@@ -1389,16 +1610,32 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., burrow 40 ft., fly 80 ft.",
         stats: [27, 10, 25, 16, 15, 19],
         saves: [
-            { dexterity: 6 },
-            { constitution: 13 },
-            { wisdom: 8 },
-            { charisma: 10 }
+            {
+                dexterity: 6
+            },
+            {
+                constitution: 13
+            },
+            {
+                wisdom: 8
+            },
+            {
+                charisma: 10
+            }
         ],
         skillsaves: [
-            { history: 9 },
-            { persuasion: 10 },
-            { perception: 14 },
-            { stealth: 6 }
+            {
+                history: 9
+            },
+            {
+                persuasion: 10
+            },
+            {
+                perception: 14
+            },
+            {
+                stealth: 6
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "",
@@ -1488,12 +1725,30 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., fly 80 ft., swim 40 ft.",
         stats: [29, 10, 27, 18, 17, 21],
         saves: [
-            { dexterity: 7 },
-            { constitution: 15 },
-            { wisdom: 10 },
-            { charisma: 12 }
+            {
+                dexterity: 7
+            },
+            {
+                constitution: 15
+            },
+            {
+                wisdom: 10
+            },
+            {
+                charisma: 12
+            }
         ],
-        skillsaves: [{ insight: 10 }, { perception: 17 }, { stealth: 7 }],
+        skillsaves: [
+            {
+                insight: 10
+            },
+            {
+                perception: 17
+            },
+            {
+                stealth: 7
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "lightning",
@@ -1587,12 +1842,30 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., climb 40 ft., fly 80 ft.",
         stats: [27, 12, 25, 20, 17, 19],
         saves: [
-            { dexterity: 8 },
-            { constitution: 14 },
-            { wisdom: 10 },
-            { charisma: 11 }
+            {
+                dexterity: 8
+            },
+            {
+                constitution: 14
+            },
+            {
+                wisdom: 10
+            },
+            {
+                charisma: 11
+            }
         ],
-        skillsaves: [{ stealth: 8 }, { perception: 17 }, { deception: 11 }],
+        skillsaves: [
+            {
+                stealth: 8
+            },
+            {
+                perception: 17
+            },
+            {
+                deception: 11
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "acid",
@@ -1681,16 +1954,32 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., fly 80 ft., swim 40 ft.",
         stats: [30, 14, 29, 18, 17, 28],
         saves: [
-            { dexterity: 9 },
-            { constitution: 16 },
-            { wisdom: 10 },
-            { charisma: 16 }
+            {
+                dexterity: 9
+            },
+            {
+                constitution: 16
+            },
+            {
+                wisdom: 10
+            },
+            {
+                charisma: 16
+            }
         ],
         skillsaves: [
-            { persuasion: 16 },
-            { stealth: 9 },
-            { perception: 17 },
-            { insight: 10 }
+            {
+                persuasion: 16
+            },
+            {
+                stealth: 9
+            },
+            {
+                perception: 17
+            },
+            {
+                insight: 10
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "",
@@ -1785,17 +2074,35 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., fly 80 ft., swim 40 ft.",
         stats: [27, 12, 25, 20, 17, 19],
         saves: [
-            { dexterity: 8 },
-            { constitution: 14 },
-            { wisdom: 10 },
-            { charisma: 11 }
+            {
+                dexterity: 8
+            },
+            {
+                constitution: 14
+            },
+            {
+                wisdom: 10
+            },
+            {
+                charisma: 11
+            }
         ],
         skillsaves: [
-            { deception: 11 },
-            { insight: 10 },
-            { perception: 17 },
-            { persuasion: 11 },
-            { stealth: 8 }
+            {
+                deception: 11
+            },
+            {
+                insight: 10
+            },
+            {
+                perception: 17
+            },
+            {
+                persuasion: 11
+            },
+            {
+                stealth: 8
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "",
@@ -1885,12 +2192,27 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., climb 40 ft., fly 80 ft.",
         stats: [30, 10, 29, 18, 15, 23],
         saves: [
-            { dexterity: 7 },
-            { constitution: 16 },
-            { wisdom: 9 },
-            { charisma: 13 }
+            {
+                dexterity: 7
+            },
+            {
+                constitution: 16
+            },
+            {
+                wisdom: 9
+            },
+            {
+                charisma: 13
+            }
         ],
-        skillsaves: [{ perception: 16 }, { stealth: 7 }],
+        skillsaves: [
+            {
+                perception: 16
+            },
+            {
+                stealth: 7
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "fire",
@@ -1974,16 +2296,32 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., fly 80 ft.",
         stats: [30, 10, 29, 18, 15, 23],
         saves: [
-            { dexterity: 7 },
-            { constitution: 16 },
-            { wisdom: 9 },
-            { charisma: 13 }
+            {
+                dexterity: 7
+            },
+            {
+                constitution: 16
+            },
+            {
+                wisdom: 9
+            },
+            {
+                charisma: 13
+            }
         ],
         skillsaves: [
-            { arcana: 11 },
-            { perception: 16 },
-            { history: 11 },
-            { stealth: 7 }
+            {
+                arcana: 11
+            },
+            {
+                perception: 16
+            },
+            {
+                history: 11
+            },
+            {
+                stealth: 7
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "",
@@ -2073,12 +2411,27 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., burrow 40 ft., fly 80 ft., swim 40 ft.",
         stats: [26, 10, 26, 10, 13, 14],
         saves: [
-            { dexterity: 6 },
-            { constitution: 14 },
-            { wisdom: 7 },
-            { charisma: 8 }
+            {
+                dexterity: 6
+            },
+            {
+                constitution: 14
+            },
+            {
+                wisdom: 7
+            },
+            {
+                charisma: 8
+            }
         ],
-        skillsaves: [{ perception: 13 }, { stealth: 6 }],
+        skillsaves: [
+            {
+                perception: 13
+            },
+            {
+                stealth: 6
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "cold",
@@ -2150,12 +2503,30 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., fly 60 ft.",
         stats: [22, 10, 20, 16, 18, 23],
         saves: [
-            { dexterity: 6 },
-            { constitution: 11 },
-            { intelligence: 9 },
-            { wisdom: 10 }
+            {
+                dexterity: 6
+            },
+            {
+                constitution: 11
+            },
+            {
+                intelligence: 9
+            },
+            {
+                wisdom: 10
+            }
         ],
-        skillsaves: [{ religion: 15 }, { perception: 10 }, { arcana: 9 }],
+        skillsaves: [
+            {
+                religion: 15
+            },
+            {
+                perception: 10
+            },
+            {
+                arcana: 9
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities:
@@ -2173,11 +2544,6 @@ export const BESTIARY: Monster[] = [
             {
                 name: "Magic Weapons",
                 desc: "The sphinx's weapon attacks are magical.",
-                attack_bonus: 0
-            },
-            {
-                name: "Spellcasting",
-                desc: "The sphinx is a 12th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 18, +10 to hit with spell attacks). It requires no material components to cast its spells. The sphinx has the following cleric spells prepared:\n\n• Cantrips (at will): sacred flame, spare the dying, thaumaturgy\n• 1st level (4 slots): command, detect evil and good, detect magic\n• 2nd level (3 slots): lesser restoration, zone of truth\n• 3rd level (3 slots): dispel magic, tongues\n• 4th level (3 slots): banishment, freedom of movement\n• 5th level (2 slots): flame strike, greater restoration\n• 6th level (1 slot): heroes' feast",
                 attack_bonus: 0
             }
         ],
@@ -2215,6 +2581,32 @@ export const BESTIARY: Monster[] = [
                 name: "Cast a Spell (Costs 3 Actions)",
                 desc: "The sphinx casts a spell from its list of prepared spells, using a spell slot as normal.",
                 attack_bonus: 0
+            }
+        ],
+        spells: [
+            "The sphinx is a 12th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 18, +10 to hit with spell attacks). It requires no material components to cast its spells. The sphinx has the following cleric spells prepared:",
+            {
+                "Cantrips (at will)":
+                    "sacred flame, spare the dying, thaumaturgy"
+            },
+            {
+                "1st level (4 slots)":
+                    "command, detect evil and good, detect magic"
+            },
+            {
+                "2nd level (3 slots)": "lesser restoration, zone of truth"
+            },
+            {
+                "3rd level (3 slots)": "dispel magic, tongues"
+            },
+            {
+                "4th level (3 slots)": "banishment, freedom of movement"
+            },
+            {
+                "5th level (2 slots)": "flame strike, greater restoration"
+            },
+            {
+                "6th level (1 slot)": "heroes' feast"
             }
         ]
     },
@@ -2309,7 +2701,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "3d8",
         speed: "30 ft., climb 30 ft.",
         stats: [16, 14, 14, 6, 12, 7],
-        skillsaves: [{ athletics: 5 }, { perception: 3 }],
+        skillsaves: [
+            {
+                athletics: 5
+            },
+            {
+                perception: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -2350,8 +2749,22 @@ export const BESTIARY: Monster[] = [
         hit_dice: "18d8 + 18",
         speed: "30 ft.",
         stats: [10, 14, 12, 20, 15, 16],
-        saves: [{ intelligence: 9 }, { wisdom: 6 }],
-        skillsaves: [{ arcana: 13 }, { history: 13 }],
+        saves: [
+            {
+                intelligence: 9
+            },
+            {
+                wisdom: 6
+            }
+        ],
+        skillsaves: [
+            {
+                arcana: 13
+            },
+            {
+                history: 13
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances:
             "damage from spells; non magical bludgeoning, piercing, and slashing (from stoneskin)",
@@ -2365,11 +2778,6 @@ export const BESTIARY: Monster[] = [
                 name: "Magic Resistance",
                 desc: "The archmage has advantage on saving throws against spells and other magical effects.",
                 attack_bonus: 0
-            },
-            {
-                name: "Spellcasting",
-                desc: "The archmage is an 18th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 17, +9 to hit with spell attacks). The archmage can cast disguise self and invisibility at will and has the following wizard spells prepared:\n\n• Cantrips (at will): fire bolt, light, mage hand, prestidigitation, shocking grasp\n• 1st level (4 slots): detect magic, identify, mage armor*, magic missile\n• 2nd level (3 slots): detect thoughts, mirror image, misty step\n• 3rd level (3 slots): counterspell,fly, lightning bolt\n• 4th level (3 slots): banishment, fire shield, stoneskin*\n• 5th level (3 slots): cone of cold, scrying, wall of force\n• 6th level (1 slot): globe of invulnerability\n• 7th level (1 slot): teleport\n• 8th level (1 slot): mind blank*\n• 9th level (1 slot): time stop\n* The archmage casts these spells on itself before combat.",
-                attack_bonus: 0
             }
         ],
         actions: [
@@ -2380,6 +2788,43 @@ export const BESTIARY: Monster[] = [
                 damage_dice: "1d4",
                 damage_bonus: 2
             }
+        ],
+        spells: [
+            "The archmage is an 18th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 17, +9 to hit with spell attacks). The archmage can cast disguise self and invisibility at will and has the following wizard spells prepared:",
+            {
+                "Cantrips (at will)":
+                    "fire bolt, light, mage hand, prestidigitation, shocking grasp"
+            },
+            {
+                "1st level (4 slots)":
+                    "detect magic, identify, mage armor*, magic missile"
+            },
+            {
+                "2nd level (3 slots)":
+                    "detect thoughts, mirror image, misty step"
+            },
+            {
+                "3rd level (3 slots)": "counterspell,fly, lightning bolt"
+            },
+            {
+                "4th level (3 slots)": "banishment, fire shield, stoneskin*"
+            },
+            {
+                "5th level (3 slots)": "cone of cold, scrying, wall of force"
+            },
+            {
+                "6th level (1 slot)": "globe of invulnerability"
+            },
+            {
+                "7th level (1 slot)": "teleport"
+            },
+            {
+                "8th level (1 slot)": "mind blank*"
+            },
+            {
+                "9th level (1 slot)": "time stop"
+            },
+            "* The archmage casts these spells on itself before combat."
         ]
     },
     {
@@ -2393,12 +2838,27 @@ export const BESTIARY: Monster[] = [
         hit_dice: "12d8",
         speed: "30 ft.",
         stats: [11, 16, 14, 13, 11, 10],
-        saves: [{ dexterity: 6 }, { intelligence: 4 }],
+        saves: [
+            {
+                dexterity: 6
+            },
+            {
+                intelligence: 4
+            }
+        ],
         skillsaves: [
-            { acrobatics: 6 },
-            { deception: 3 },
-            { perception: 3 },
-            { stealth: 9 }
+            {
+                acrobatics: 6
+            },
+            {
+                deception: 3
+            },
+            {
+                perception: 3
+            },
+            {
+                stealth: 9
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "poison",
@@ -2556,7 +3016,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "6d8",
         speed: "30 ft.",
         stats: [17, 12, 15, 12, 13, 10],
-        saves: [{ constitution: 4 }],
+        saves: [
+            {
+                constitution: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "fire, poison",
@@ -2673,10 +3137,18 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., fly 80 ft.",
         stats: [26, 15, 22, 20, 16, 22],
         saves: [
-            { strength: 14 },
-            { constitution: 12 },
-            { wisdom: 9 },
-            { charisma: 12 }
+            {
+                strength: 14
+            },
+            {
+                constitution: 12
+            },
+            {
+                wisdom: 9
+            },
+            {
+                charisma: 12
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances:
@@ -2788,8 +3260,25 @@ export const BESTIARY: Monster[] = [
         hit_dice: "10d8",
         speed: "30 ft.",
         stats: [15, 16, 14, 14, 11, 14],
-        saves: [{ strength: 4 }, { dexterity: 5 }, { wisdom: 2 }],
-        skillsaves: [{ athletics: 4 }, { deception: 4 }],
+        saves: [
+            {
+                strength: 4
+            },
+            {
+                dexterity: 5
+            },
+            {
+                wisdom: 2
+            }
+        ],
+        skillsaves: [
+            {
+                athletics: 4
+            },
+            {
+                deception: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -2838,12 +3327,30 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft.",
         stats: [16, 17, 18, 12, 14, 14],
         saves: [
-            { strength: 6 },
-            { constitution: 7 },
-            { wisdom: 5 },
-            { charisma: 5 }
+            {
+                strength: 6
+            },
+            {
+                constitution: 7
+            },
+            {
+                wisdom: 5
+            },
+            {
+                charisma: 5
+            }
         ],
-        skillsaves: [{ deception: 5 }, { insight: 5 }, { perception: 8 }],
+        skillsaves: [
+            {
+                deception: 5
+            },
+            {
+                insight: 5
+            },
+            {
+                perception: 8
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances:
             "cold; bludgeoning, piercing, and slashing from nonmagical weapons that aren't silvered",
@@ -2983,7 +3490,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "8d8",
         speed: "30 ft.",
         stats: [16, 15, 15, 9, 11, 11],
-        saves: [{ strength: 5 }, { constitution: 4 }, { wisdom: 2 }],
+        saves: [
+            {
+                strength: 5
+            },
+            {
+                constitution: 4
+            },
+            {
+                wisdom: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances:
             "cold; bludgeoning, piercing, and slashing from nonmagical weapons that aren't silvered",
@@ -3042,7 +3559,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "16d12",
         speed: "50 ft., climb 40 ft.",
         stats: [23, 16, 18, 7, 14, 12],
-        skillsaves: [{ perception: 6 }, { stealth: 7 }],
+        skillsaves: [
+            {
+                perception: 6
+            },
+            {
+                stealth: 7
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "lightning",
@@ -3178,12 +3702,27 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft., fly 60 ft., swim 30 ft.",
         stats: [15, 14, 13, 10, 11, 13],
         saves: [
-            { dexterity: 4 },
-            { constitution: 3 },
-            { wisdom: 2 },
-            { charisma: 3 }
+            {
+                dexterity: 4
+            },
+            {
+                constitution: 3
+            },
+            {
+                wisdom: 2
+            },
+            {
+                charisma: 3
+            }
         ],
-        skillsaves: [{ perception: 4 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                perception: 4
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "acid",
@@ -3279,7 +3818,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "4d8",
         speed: "40 ft.",
         stats: [12, 17, 12, 10, 13, 11],
-        skillsaves: [{ perception: 3 }, { stealth: 5 }],
+        skillsaves: [
+            {
+                perception: 3
+            },
+            {
+                stealth: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -3320,7 +3866,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "2d6",
         speed: "10 ft., fly 60 ft.",
         stats: [6, 14, 10, 3, 14, 5],
-        skillsaves: [{ perception: 4 }],
+        skillsaves: [
+            {
+                perception: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -3362,12 +3912,27 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft., burrow 15 ft., fly 60 ft.",
         stats: [17, 10, 15, 12, 11, 15],
         saves: [
-            { dexterity: 2 },
-            { constitution: 4 },
-            { wisdom: 2 },
-            { charisma: 4 }
+            {
+                dexterity: 2
+            },
+            {
+                constitution: 4
+            },
+            {
+                wisdom: 2
+            },
+            {
+                charisma: 4
+            }
         ],
-        skillsaves: [{ perception: 4 }, { stealth: 2 }],
+        skillsaves: [
+            {
+                perception: 4
+            },
+            {
+                stealth: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "lightning",
@@ -3443,8 +4008,25 @@ export const BESTIARY: Monster[] = [
         hit_dice: "15d10",
         speed: "40 ft., fly 40 ft.",
         stats: [18, 16, 18, 13, 14, 16],
-        saves: [{ intelligence: 5 }, { wisdom: 6 }, { charisma: 7 }],
-        skillsaves: [{ deception: 7 }, { insight: 6 }],
+        saves: [
+            {
+                intelligence: 5
+            },
+            {
+                wisdom: 6
+            },
+            {
+                charisma: 7
+            }
+        ],
+        skillsaves: [
+            {
+                deception: 7
+            },
+            {
+                insight: 6
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances:
             "cold; bludgeoning, piercing, and slashing from nonmagical weapons that aren't silvered",
@@ -3518,12 +4100,27 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft., burrow 15 ft., fly 60 ft.",
         stats: [15, 10, 13, 10, 11, 13],
         saves: [
-            { dexterity: 2 },
-            { constitution: 3 },
-            { wisdom: 2 },
-            { charisma: 3 }
+            {
+                dexterity: 2
+            },
+            {
+                constitution: 3
+            },
+            {
+                wisdom: 2
+            },
+            {
+                charisma: 3
+            }
         ],
-        skillsaves: [{ perception: 4 }, { stealth: 2 }],
+        skillsaves: [
+            {
+                perception: 4
+            },
+            {
+                stealth: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "fire",
@@ -3559,12 +4156,27 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft., fly 60 ft., swim 30 ft.",
         stats: [17, 10, 15, 12, 11, 15],
         saves: [
-            { dexterity: 2 },
-            { constitution: 4 },
-            { wisdom: 2 },
-            { charisma: 4 }
+            {
+                dexterity: 2
+            },
+            {
+                constitution: 4
+            },
+            {
+                wisdom: 2
+            },
+            {
+                charisma: 4
+            }
         ],
-        skillsaves: [{ perception: 4 }, { stealth: 2 }],
+        skillsaves: [
+            {
+                perception: 4
+            },
+            {
+                stealth: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "lightning",
@@ -3606,7 +4218,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "4d10",
         speed: "40 ft., climb 30 ft.",
         stats: [19, 10, 16, 2, 13, 7],
-        skillsaves: [{ perception: 3 }],
+        skillsaves: [
+            {
+                perception: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -3654,7 +4270,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "5d8",
         speed: "30 ft.",
         stats: [15, 14, 13, 8, 11, 9],
-        skillsaves: [{ stealth: 6 }, { survival: 2 }],
+        skillsaves: [
+            {
+                stealth: 6
+            },
+            {
+                survival: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -3703,7 +4326,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "9d10",
         speed: "40 ft., burrow 40 ft.",
         stats: [19, 11, 21, 2, 10, 5],
-        skillsaves: [{ perception: 6 }],
+        skillsaves: [
+            {
+                perception: 6
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -3771,7 +4398,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "6d10",
         speed: "30 ft., climb 30 ft.",
         stats: [14, 13, 16, 1, 12, 5],
-        skillsaves: [{ perception: 3 }],
+        skillsaves: [
+            {
+                perception: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -3824,7 +4455,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "1d4",
         speed: "40 ft., climb 30 ft.",
         stats: [3, 15, 10, 3, 12, 7],
-        skillsaves: [{ perception: 3 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                perception: 3
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -3859,7 +4497,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "5d10",
         speed: "40 ft., swim 30 ft.",
         stats: [20, 10, 16, 2, 13, 7],
-        skillsaves: [{ perception: 3 }],
+        skillsaves: [
+            {
+                perception: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -3907,7 +4549,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "6d10",
         speed: "50 ft.",
         stats: [18, 14, 14, 9, 13, 11],
-        skillsaves: [{ athletics: 6 }, { perception: 3 }, { survival: 3 }],
+        skillsaves: [
+            {
+                athletics: 6
+            },
+            {
+                perception: 3
+            },
+            {
+                survival: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -4021,7 +4673,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "12d10",
         speed: "30 ft., fly 60 ft.",
         stats: [19, 11, 19, 3, 14, 10],
-        skillsaves: [{ perception: 8 }],
+        skillsaves: [
+            {
+                perception: 8
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -4075,7 +4731,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "11d10",
         speed: "30 ft., swim 30 ft.",
         stats: [19, 10, 16, 5, 11, 5],
-        skillsaves: [{ perception: 4 }],
+        skillsaves: [
+            {
+                perception: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "poison",
@@ -4193,7 +4853,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "12d10",
         speed: "10 ft., fly 40 ft.",
         stats: [17, 15, 12, 13, 12, 14],
-        skillsaves: [{ stealth: 5 }],
+        skillsaves: [
+            {
+                stealth: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -4261,8 +4925,25 @@ export const BESTIARY: Monster[] = [
         hit_dice: "16d12",
         speed: "40 ft.",
         stats: [27, 10, 22, 12, 16, 16],
-        saves: [{ constitution: 10 }, { wisdom: 7 }, { charisma: 7 }],
-        skillsaves: [{ insight: 7 }, { perception: 7 }],
+        saves: [
+            {
+                constitution: 10
+            },
+            {
+                wisdom: 7
+            },
+            {
+                charisma: 7
+            }
+        ],
+        skillsaves: [
+            {
+                insight: 7
+            },
+            {
+                perception: 7
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -4406,12 +5087,27 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft., climb 30 ft., fly 60 ft.",
         stats: [15, 12, 13, 14, 11, 13],
         saves: [
-            { dexterity: 3 },
-            { constitution: 3 },
-            { wisdom: 2 },
-            { charisma: 3 }
+            {
+                dexterity: 3
+            },
+            {
+                constitution: 3
+            },
+            {
+                wisdom: 2
+            },
+            {
+                charisma: 3
+            }
         ],
-        skillsaves: [{ perception: 4 }, { stealth: 3 }],
+        skillsaves: [
+            {
+                perception: 4
+            },
+            {
+                stealth: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "acid",
@@ -4446,7 +5142,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "13d8",
         speed: "30 ft., fly 90 ft.",
         stats: [16, 20, 17, 18, 20, 18],
-        saves: [{ constitution: 5 }, { wisdom: 7 }, { charisma: 6 }],
+        saves: [
+            {
+                constitution: 5
+            },
+            {
+                wisdom: 7
+            },
+            {
+                charisma: 6
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "radiant",
         damage_immunities:
@@ -4505,7 +5211,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "1d4",
         speed: "20 ft., swim 20 ft.",
         stats: [2, 11, 10, 1, 8, 2],
-        skillsaves: [{ stealth: 2 }],
+        skillsaves: [
+            {
+                stealth: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -4540,7 +5250,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "3d10",
         speed: "20 ft., swim 20 ft.",
         stats: [15, 10, 13, 2, 10, 5],
-        skillsaves: [{ stealth: 2 }],
+        skillsaves: [
+            {
+                stealth: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -4576,7 +5290,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "6d8",
         speed: "30 ft.",
         stats: [11, 14, 12, 10, 13, 14],
-        skillsaves: [{ deception: 4 }, { persuasion: 4 }, { religion: 2 }],
+        skillsaves: [
+            {
+                deception: 4
+            },
+            {
+                persuasion: 4
+            },
+            {
+                religion: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -4588,11 +5312,6 @@ export const BESTIARY: Monster[] = [
             {
                 name: "Dark Devotion",
                 desc: "The fanatic has advantage on saving throws against being charmed or frightened.",
-                attack_bonus: 0
-            },
-            {
-                name: "Spellcasting",
-                desc: "The fanatic is a 4th-level spellcaster. Its spell casting ability is Wisdom (spell save DC 11, +3 to hit with spell attacks). The fanatic has the following cleric spells prepared:\n\nCantrips (at will): light, sacred flame, thaumaturgy\n• 1st level (4 slots): command, inflict wounds, shield of faith\n• 2nd level (3 slots): hold person, spiritual weapon",
                 attack_bonus: 0
             }
         ],
@@ -4609,6 +5328,17 @@ export const BESTIARY: Monster[] = [
                 damage_dice: "1d4",
                 damage_bonus: 2
             }
+        ],
+        spells: [
+            "The fanatic is a 4th-level spellcaster. Its spell casting ability is Wisdom (spell save DC 11, +3 to hit with spell attacks). The fanatic has the following cleric spells prepared:",
+            "Cantrips (at will): light, sacred flame, thaumaturgy",
+            {
+                "1st level (4 slots)":
+                    "command, inflict wounds, shield of faith"
+            },
+            {
+                "2nd level (3 slots)": "hold person, spiritual weapon"
+            }
         ]
     },
     {
@@ -4622,7 +5352,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "2d8",
         speed: "30 ft.",
         stats: [11, 12, 10, 10, 11, 10],
-        skillsaves: [{ deception: 2 }, { religion: 2 }],
+        skillsaves: [
+            {
+                deception: 2
+            },
+            {
+                religion: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -4658,7 +5395,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "5d6",
         speed: "10 ft., fly 30 ft.",
         stats: [16, 12, 13, 2, 10, 5],
-        skillsaves: [{ stealth: 3 }],
+        skillsaves: [
+            {
+                stealth: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -4704,7 +5445,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "6d8",
         speed: "40 ft.",
         stats: [15, 14, 14, 3, 13, 6],
-        skillsaves: [{ perception: 5 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                perception: 5
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -4745,7 +5493,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "3d6",
         speed: "20 ft.",
         stats: [15, 14, 14, 12, 10, 9],
-        skillsaves: [{ perception: 2 }, { investigation: 3 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                perception: 2
+            },
+            {
+                investigation: 3
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -4825,8 +5583,22 @@ export const BESTIARY: Monster[] = [
         hit_dice: "16d8",
         speed: "30 ft., fly 90 ft.",
         stats: [18, 18, 18, 17, 20, 20],
-        saves: [{ wisdom: 9 }, { charisma: 9 }],
-        skillsaves: [{ insight: 9 }, { perception: 9 }],
+        saves: [
+            {
+                wisdom: 9
+            },
+            {
+                charisma: 9
+            }
+        ],
+        skillsaves: [
+            {
+                insight: 9
+            },
+            {
+                perception: 9
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances:
             "radiant; bludgeoning, piercing, and slashing from nonmagical weapons",
@@ -4888,7 +5660,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "5d10",
         speed: "50 ft.",
         stats: [17, 15, 15, 3, 12, 7],
-        skillsaves: [{ perception: 3 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                perception: 3
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -4929,7 +5708,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "14d10",
         speed: "30 ft., fly 90 ft.",
         stats: [21, 15, 22, 15, 16, 20],
-        saves: [{ dexterity: 6 }, { wisdom: 7 }, { charisma: 9 }],
+        saves: [
+            {
+                dexterity: 6
+            },
+            {
+                wisdom: 7
+            },
+            {
+                charisma: 9
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "lightning, thunder",
@@ -4985,7 +5774,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "8d8",
         speed: "30 ft.",
         stats: [11, 18, 14, 11, 12, 14],
-        skillsaves: [{ deception: 6 }, { insight: 3 }],
+        skillsaves: [
+            {
+                deception: 6
+            },
+            {
+                insight: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "charmed",
@@ -5070,7 +5866,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "22d20",
         speed: "20 ft., swim 40 ft.",
         stats: [25, 10, 20, 10, 12, 12],
-        saves: [{ dexterity: 6 }, { constitution: 11 }, { wisdom: 7 }],
+        saves: [
+            {
+                dexterity: 6
+            },
+            {
+                constitution: 11
+            },
+            {
+                wisdom: 7
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "fire",
         damage_immunities: "",
@@ -5175,7 +5981,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "13d10",
         speed: "30 ft., climb 30 ft.",
         stats: [16, 16, 18, 13, 14, 12],
-        skillsaves: [{ perception: 5 }, { stealth: 9 }],
+        skillsaves: [
+            {
+                perception: 5
+            },
+            {
+                stealth: 9
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -5250,7 +6063,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "3d8",
         speed: "30 ft.",
         stats: [10, 14, 10, 11, 11, 12],
-        skillsaves: [{ perception: 2 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                perception: 2
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -5303,7 +6123,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "5d8",
         speed: "30 ft.",
         stats: [10, 12, 13, 12, 15, 11],
-        skillsaves: [{ nature: 3 }, { medicine: 4 }, { perception: 4 }],
+        skillsaves: [
+            {
+                nature: 3
+            },
+            {
+                medicine: 4
+            },
+            {
+                perception: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -5311,19 +6141,26 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 14",
         languages: "Druidic plus any two languages",
         cr: "2",
-        traits: [
-            {
-                name: "Spellcasting",
-                desc: "The druid is a 4th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 12, +4 to hit with spell attacks). It has the following druid spells prepared:\n\n• Cantrips (at will): druidcraft, produce flame, shillelagh\n• 1st level (4 slots): entangle, longstrider, speak with animals, thunderwave\n• 2nd level (3 slots): animal messenger, barkskin",
-                attack_bonus: 0
-            }
-        ],
+        traits: [],
         actions: [
             {
                 name: "Quarterstaff",
                 desc: "Melee Weapon Attack: +2 to hit (+4 to hit with shillelagh), reach 5 ft., one target. Hit: 3 (1d6) bludgeoning damage, or 6 (1d8 + 2) bludgeoning damage with shillelagh or if wielded with two hands.",
                 attack_bonus: 2,
                 damage_dice: "1d6"
+            }
+        ],
+        spells: [
+            "The druid is a 4th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 12, +4 to hit with spell attacks). It has the following druid spells prepared:",
+            {
+                "Cantrips (at will)": "druidcraft, produce flame, shillelagh"
+            },
+            {
+                "1st level (4 slots)":
+                    "entangle, longstrider, speak with animals, thunderwave"
+            },
+            {
+                "2nd level (3 slots)": "animal messenger, barkskin"
             }
         ]
     },
@@ -5338,7 +6175,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "5d8",
         speed: "30 ft.",
         stats: [10, 12, 11, 14, 15, 18],
-        skillsaves: [{ perception: 4 }, { stealth: 5 }],
+        skillsaves: [
+            {
+                perception: 4
+            },
+            {
+                stealth: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -5450,7 +6294,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "5d6",
         speed: "30 ft., fly 30 ft.",
         stats: [5, 14, 10, 9, 11, 10],
-        skillsaves: [{ perception: 2 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                perception: 2
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "fire",
         damage_resistances: "",
         damage_immunities: "poison",
@@ -5501,7 +6352,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "1d6",
         speed: "10 ft., fly 60 ft.",
         stats: [6, 15, 10, 2, 14, 7],
-        skillsaves: [{ perception: 4 }],
+        skillsaves: [
+            {
+                perception: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -5584,7 +6439,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "16d10",
         speed: "40 ft., fly 60 ft.",
         stats: [22, 12, 24, 16, 15, 16],
-        saves: [{ intelligence: 7 }, { wisdom: 6 }, { charisma: 7 }],
+        saves: [
+            {
+                intelligence: 7
+            },
+            {
+                wisdom: 6
+            },
+            {
+                charisma: 7
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "fire",
@@ -5723,10 +6588,18 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft., fly 60 ft.",
         stats: [18, 16, 18, 14, 14, 18],
         saves: [
-            { dexterity: 7 },
-            { constitution: 8 },
-            { wisdom: 6 },
-            { charisma: 8 }
+            {
+                dexterity: 7
+            },
+            {
+                constitution: 8
+            },
+            {
+                wisdom: 6
+            },
+            {
+                charisma: 8
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances:
@@ -5793,7 +6666,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "8d8",
         speed: "30 ft., climb 30 ft.",
         stats: [14, 15, 13, 7, 12, 8],
-        skillsaves: [{ perception: 3 }, { stealth: 4 }, { survival: 3 }],
+        skillsaves: [
+            {
+                perception: 3
+            },
+            {
+                stealth: 4
+            },
+            {
+                survival: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -5863,7 +6746,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "10d10",
         speed: "40 ft.",
         stats: [21, 8, 17, 6, 10, 8],
-        skillsaves: [{ perception: 4 }],
+        skillsaves: [
+            {
+                perception: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -5969,8 +6856,25 @@ export const BESTIARY: Monster[] = [
         hit_dice: "13d12",
         speed: "30 ft.",
         stats: [25, 9, 23, 10, 14, 13],
-        saves: [{ dexterity: 3 }, { constitution: 10 }, { charisma: 5 }],
-        skillsaves: [{ athletics: 11 }, { perception: 6 }],
+        saves: [
+            {
+                dexterity: 3
+            },
+            {
+                constitution: 10
+            },
+            {
+                charisma: 5
+            }
+        ],
+        skillsaves: [
+            {
+                athletics: 11
+            },
+            {
+                perception: 6
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "fire",
@@ -6112,7 +7016,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "5d6",
         speed: "0 ft., fly 50 ft. It can hover.",
         stats: [12, 15, 11, 1, 5, 1],
-        saves: [{ dexterity: 4 }],
+        saves: [
+            {
+                dexterity: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "poison, psychic",
@@ -6154,7 +7062,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "1d4",
         speed: "20 ft., swim 20 ft.",
         stats: [1, 13, 8, 1, 8, 3],
-        skillsaves: [{ perception: 1 }, { stealth: 3 }],
+        skillsaves: [
+            {
+                perception: 1
+            },
+            {
+                stealth: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -6186,8 +7101,25 @@ export const BESTIARY: Monster[] = [
         hit_dice: "12d12",
         speed: "40 ft.",
         stats: [23, 9, 21, 9, 10, 12],
-        saves: [{ constitution: 8 }, { wisdom: 3 }, { charisma: 4 }],
-        skillsaves: [{ athletics: 9 }, { perception: 3 }],
+        saves: [
+            {
+                constitution: 8
+            },
+            {
+                wisdom: 3
+            },
+            {
+                charisma: 4
+            }
+        ],
+        skillsaves: [
+            {
+                athletics: 9
+            },
+            {
+                perception: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "cold",
@@ -6458,7 +7390,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "15d12",
         speed: "40 ft., climb 40 ft.",
         stats: [23, 14, 18, 7, 12, 7],
-        skillsaves: [{ athletics: 9 }, { perception: 4 }],
+        skillsaves: [
+            {
+                athletics: 9
+            },
+            {
+                perception: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -6655,7 +7594,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "8d12",
         speed: "30 ft., swim 30 ft.",
         stats: [19, 14, 12, 1, 10, 3],
-        skillsaves: [{ perception: 2 }],
+        skillsaves: [
+            {
+                perception: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -6691,7 +7634,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "3d8",
         speed: "30 ft., swim 30 ft.",
         stats: [13, 15, 11, 1, 9, 3],
-        skillsaves: [{ stealth: 4 }],
+        skillsaves: [
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -6727,7 +7674,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "9d12",
         speed: "30 ft., swim 50 ft.",
         stats: [21, 9, 17, 2, 10, 7],
-        skillsaves: [{ stealth: 5 }],
+        skillsaves: [
+            {
+                stealth: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -6775,7 +7726,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "4d10",
         speed: "10 ft., fly 80 ft.",
         stats: [16, 17, 13, 8, 14, 10],
-        skillsaves: [{ perception: 4 }],
+        skillsaves: [
+            {
+                perception: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -6823,7 +7778,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "5d12",
         speed: "60 ft.",
         stats: [19, 16, 14, 7, 14, 10],
-        skillsaves: [{ perception: 4 }],
+        skillsaves: [
+            {
+                perception: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -6903,7 +7862,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "4d8",
         speed: "30 ft., swim 30 ft.",
         stats: [12, 13, 11, 2, 10, 3],
-        skillsaves: [{ perception: 2 }, { stealth: 3 }],
+        skillsaves: [
+            {
+                perception: 2
+            },
+            {
+                stealth: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -6990,7 +7956,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "6d10",
         speed: "50 ft.",
         stats: [16, 14, 14, 2, 12, 7],
-        skillsaves: [{ perception: 3 }],
+        skillsaves: [
+            {
+                perception: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -7066,7 +8036,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "8d10",
         speed: "10 ft., swim 60 ft.",
         stats: [17, 13, 13, 4, 10, 4],
-        skillsaves: [{ perception: 4 }, { stealth: 5 }],
+        skillsaves: [
+            {
+                perception: 4
+            },
+            {
+                stealth: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -7117,7 +8094,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "3d10",
         speed: "5 ft., fly 60 ft.",
         stats: [13, 15, 12, 8, 13, 10],
-        skillsaves: [{ perception: 5 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                perception: 5
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -7159,7 +8143,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "2d8",
         speed: "30 ft., swim 30 ft.",
         stats: [10, 18, 13, 2, 10, 3],
-        skillsaves: [{ perception: 2 }],
+        skillsaves: [
+            {
+                perception: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -7337,7 +8325,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "11d12",
         speed: "swim 50 ft.",
         stats: [23, 11, 21, 1, 10, 5],
-        skillsaves: [{ perception: 3 }],
+        skillsaves: [
+            {
+                perception: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -7378,7 +8370,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "4d10",
         speed: "30 ft., climb 30 ft.",
         stats: [14, 16, 12, 2, 11, 4],
-        skillsaves: [{ stealth: 7 }],
+        skillsaves: [
+            {
+                stealth: 7
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -7474,7 +8470,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "3d10",
         speed: "10 ft., fly 60 ft.",
         stats: [15, 10, 15, 6, 12, 7],
-        skillsaves: [{ perception: 3 }],
+        skillsaves: [
+            {
+                perception: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -7555,7 +8555,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "2d8",
         speed: "40 ft.",
         stats: [11, 16, 10, 4, 12, 5],
-        skillsaves: [{ perception: 3 }, { stealth: 5 }],
+        skillsaves: [
+            {
+                perception: 3
+            },
+            {
+                stealth: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -7591,7 +8598,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "2d8",
         speed: "40 ft., climb 40 ft.",
         stats: [12, 16, 13, 3, 12, 4],
-        skillsaves: [{ perception: 3 }, { stealth: 7 }],
+        skillsaves: [
+            {
+                perception: 3
+            },
+            {
+                stealth: 7
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -7687,10 +8701,18 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft.",
         stats: [20, 15, 21, 19, 17, 16],
         saves: [
-            { strength: 9 },
-            { constitution: 9 },
-            { wisdom: 7 },
-            { charisma: 7 }
+            {
+                strength: 9
+            },
+            {
+                constitution: 9
+            },
+            {
+                wisdom: 7
+            },
+            {
+                charisma: 7
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances:
@@ -7750,8 +8772,25 @@ export const BESTIARY: Monster[] = [
         hit_dice: "15d8",
         speed: "30 ft.",
         stats: [18, 15, 16, 10, 12, 15],
-        saves: [{ strength: 7 }, { dexterity: 5 }, { constitution: 6 }],
-        skillsaves: [{ intimidation: 5 }, { athletics: 10 }],
+        saves: [
+            {
+                strength: 7
+            },
+            {
+                dexterity: 5
+            },
+            {
+                constitution: 6
+            }
+        ],
+        skillsaves: [
+            {
+                intimidation: 5
+            },
+            {
+                athletics: 10
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -7901,7 +8940,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "2d6",
         speed: "30 ft.",
         stats: [8, 14, 10, 10, 8, 8],
-        skillsaves: [{ stealth: 6 }],
+        skillsaves: [
+            {
+                stealth: 6
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -7945,12 +8988,27 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft., fly 60 ft., swim 30 ft.",
         stats: [19, 14, 17, 14, 11, 16],
         saves: [
-            { dexterity: 4 },
-            { constitution: 5 },
-            { wisdom: 2 },
-            { charisma: 5 }
+            {
+                dexterity: 4
+            },
+            {
+                constitution: 5
+            },
+            {
+                wisdom: 2
+            },
+            {
+                charisma: 5
+            }
         ],
-        skillsaves: [{ perception: 4 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                perception: 4
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "fire",
@@ -7992,7 +9050,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "12d10",
         speed: "40 ft.",
         stats: [20, 11, 18, 2, 12, 7],
-        skillsaves: [{ perception: 4 }],
+        skillsaves: [
+            {
+                perception: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "petrified",
@@ -8040,7 +9102,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "3d8",
         speed: "10 ft., climb 10 ft.",
         stats: [12, 6, 16, 1, 6, 2],
-        skillsaves: [{ stealth: 2 }],
+        skillsaves: [
+            {
+                stealth: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "acid, cold, fire",
         damage_immunities: "",
@@ -8088,12 +9154,27 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft., fly 60 ft., swim 30 ft.",
         stats: [15, 12, 13, 14, 11, 13],
         saves: [
-            { dexterity: 3 },
-            { constitution: 3 },
-            { wisdom: 2 },
-            { charisma: 3 }
+            {
+                dexterity: 3
+            },
+            {
+                constitution: 3
+            },
+            {
+                wisdom: 2
+            },
+            {
+                charisma: 3
+            }
         ],
-        skillsaves: [{ perception: 4 }, { stealth: 3 }],
+        skillsaves: [
+            {
+                perception: 4
+            },
+            {
+                stealth: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "poison",
@@ -8136,10 +9217,18 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft.",
         stats: [18, 12, 16, 13, 14, 14],
         skillsaves: [
-            { arcana: 3 },
-            { deception: 4 },
-            { perception: 4 },
-            { stealth: 3 }
+            {
+                arcana: 3
+            },
+            {
+                deception: 4
+            },
+            {
+                perception: 4
+            },
+            {
+                stealth: 3
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "",
@@ -8259,7 +9348,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "7d10",
         speed: "30 ft., fly 80 ft.",
         stats: [18, 15, 16, 2, 13, 8],
-        skillsaves: [{ perception: 5 }],
+        skillsaves: [
+            {
+                perception: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -8307,7 +9400,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "2d8",
         speed: "30 ft.",
         stats: [16, 12, 12, 9, 8, 6],
-        skillsaves: [{ athletics: 5 }, { perception: 3 }, { stealth: 3 }],
+        skillsaves: [
+            {
+                athletics: 5
+            },
+            {
+                perception: 3
+            },
+            {
+                stealth: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "blinded",
@@ -8353,7 +9456,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "2d8",
         speed: "30 ft.",
         stats: [13, 12, 12, 10, 11, 10],
-        skillsaves: [{ perception: 2 }],
+        skillsaves: [
+            {
+                perception: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -8383,11 +9490,21 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft.",
         stats: [19, 18, 16, 16, 19, 18],
         saves: [
-            { dexterity: 8 },
-            { constitution: 7 },
-            { intelligence: 7 },
-            { wisdom: 8 },
-            { charisma: 8 }
+            {
+                dexterity: 8
+            },
+            {
+                constitution: 7
+            },
+            {
+                intelligence: 7
+            },
+            {
+                wisdom: 8
+            },
+            {
+                charisma: 8
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "",
@@ -8400,11 +9517,6 @@ export const BESTIARY: Monster[] = [
             {
                 name: "Rejuvenation",
                 desc: "If it dies, the naga returns to life in 1d6 days and regains all its hit points. Only a wish spell can prevent this trait from functioning.",
-                attack_bonus: 0
-            },
-            {
-                name: "Spellcasting",
-                desc: "The naga is an 11th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 16, +8 to hit with spell attacks), and it needs only verbal components to cast its spells. It has the following cleric spells prepared:\n\n• Cantrips (at will): mending, sacred flame, thaumaturgy\n• 1st level (4 slots): command, cure wounds, shield of faith\n• 2nd level (3 slots): calm emotions, hold person\n• 3rd level (3 slots): bestow curse, clairvoyance\n• 4th level (3 slots): banishment, freedom of movement\n• 5th level (2 slots): flame strike, geas\n• 6th level (1 slot): true seeing",
                 attack_bonus: 0
             }
         ],
@@ -8422,6 +9534,30 @@ export const BESTIARY: Monster[] = [
                 attack_bonus: 8,
                 damage_dice: "10d8"
             }
+        ],
+        spells: [
+            "The naga is an 11th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 16, +8 to hit with spell attacks), and it needs only verbal components to cast its spells. It has the following cleric spells prepared:",
+            {
+                "Cantrips (at will)": "mending, sacred flame, thaumaturgy"
+            },
+            {
+                "1st level (4 slots)": "command, cure wounds, shield of faith"
+            },
+            {
+                "2nd level (3 slots)": "calm emotions, hold person"
+            },
+            {
+                "3rd level (3 slots)": "bestow curse, clairvoyance"
+            },
+            {
+                "4th level (3 slots)": "banishment, freedom of movement"
+            },
+            {
+                "5th level (2 slots)": "flame strike, geas"
+            },
+            {
+                "6th level (1 slot)": "true seeing"
+            }
         ]
     },
     {
@@ -8436,10 +9572,18 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., fly 60 ft.",
         stats: [18, 15, 16, 18, 18, 18],
         skillsaves: [
-            { arcana: 12 },
-            { history: 12 },
-            { perception: 8 },
-            { religion: 8 }
+            {
+                arcana: 12
+            },
+            {
+                history: 12
+            },
+            {
+                perception: 8
+            },
+            {
+                religion: 8
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances:
@@ -8458,11 +9602,6 @@ export const BESTIARY: Monster[] = [
             {
                 name: "Magic Weapons",
                 desc: "The sphinx's weapon attacks are magical.",
-                attack_bonus: 0
-            },
-            {
-                name: "Spellcasting",
-                desc: "The sphinx is a 9th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 16, +8 to hit with spell attacks). It requires no material components to cast its spells. The sphinx has the following wizard spells prepared:\n\n• Cantrips (at will): mage hand, minor illusion, prestidigitation\n• 1st level (4 slots): detect magic, identify, shield\n• 2nd level (3 slots): darkness, locate object, suggestion\n• 3rd level (3 slots): dispel magic, remove curse, tongues\n• 4th level (3 slots): banishment, greater invisibility\n• 5th level (1 slot): legend lore",
                 attack_bonus: 0
             }
         ],
@@ -8495,6 +9634,28 @@ export const BESTIARY: Monster[] = [
                 name: "Cast a Spell (Costs 3 Actions)",
                 desc: "The sphinx casts a spell from its list of prepared spells, using a spell slot as normal.",
                 attack_bonus: 0
+            }
+        ],
+        spells: [
+            "The sphinx is a 9th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 16, +8 to hit with spell attacks). It requires no material components to cast its spells. The sphinx has the following wizard spells prepared:",
+            {
+                "Cantrips (at will)":
+                    "mage hand, minor illusion, prestidigitation"
+            },
+            {
+                "1st level (4 slots)": "detect magic, identify, shield"
+            },
+            {
+                "2nd level (3 slots)": "darkness, locate object, suggestion"
+            },
+            {
+                "3rd level (3 slots)": "dispel magic, remove curse, tongues"
+            },
+            {
+                "4th level (3 slots)": "banishment, greater invisibility"
+            },
+            {
+                "5th level (1 slot)": "legend lore"
             }
         ]
     },
@@ -8607,7 +9768,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "1d4",
         speed: "10 ft., fly 60 ft.",
         stats: [5, 16, 8, 2, 14, 6],
-        skillsaves: [{ perception: 4 }],
+        skillsaves: [
+            {
+                perception: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -8642,7 +9807,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "7d8",
         speed: "50 ft.",
         stats: [17, 12, 14, 6, 13, 6],
-        skillsaves: [{ perception: 5 }],
+        skillsaves: [
+            {
+                perception: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "fire",
@@ -8689,7 +9858,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "13d10",
         speed: "30 ft.",
         stats: [19, 17, 20, 5, 12, 13],
-        saves: [{ strength: 7 }, { constitution: 8 }, { wisdom: 4 }],
+        saves: [
+            {
+                strength: 7
+            },
+            {
+                constitution: 8
+            },
+            {
+                wisdom: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances:
             "cold, fire, lightning; bludgeoning, piercing, and slashing from nonmagical weapons",
@@ -8748,7 +9927,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "10d12",
         speed: "40 ft.",
         stats: [21, 8, 19, 5, 9, 6],
-        skillsaves: [{ perception: 2 }],
+        skillsaves: [
+            {
+                perception: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -8789,7 +9972,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "3d10",
         speed: "40 ft, fly 60 ft.",
         stats: [17, 13, 13, 2, 12, 8],
-        skillsaves: [{ perception: 5 }],
+        skillsaves: [
+            {
+                perception: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -8915,10 +10102,18 @@ export const BESTIARY: Monster[] = [
         speed: "20 ft., fly 60 ft.",
         stats: [22, 17, 21, 12, 16, 17],
         saves: [
-            { strength: 10 },
-            { dexterity: 7 },
-            { wisdom: 7 },
-            { charisma: 7 }
+            {
+                strength: 10
+            },
+            {
+                dexterity: 7
+            },
+            {
+                wisdom: 7
+            },
+            {
+                charisma: 7
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances:
@@ -8979,7 +10174,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "6d10",
         speed: "swim 40 ft.",
         stats: [18, 13, 15, 1, 10, 4],
-        skillsaves: [{ perception: 2 }],
+        skillsaves: [
+            {
+                perception: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -9020,7 +10219,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "15d12",
         speed: "30 ft., swim 30 ft.",
         stats: [20, 12, 20, 2, 10, 7],
-        skillsaves: [{ perception: 6 }],
+        skillsaves: [
+            {
+                perception: 6
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -9076,7 +10279,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "1d8",
         speed: "50 ft.",
         stats: [11, 13, 12, 2, 12, 5],
-        skillsaves: [{ perception: 3 }],
+        skillsaves: [
+            {
+                perception: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -9112,10 +10319,18 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft.",
         stats: [21, 14, 18, 18, 15, 18],
         saves: [
-            { dexterity: 7 },
-            { constitution: 9 },
-            { wisdom: 7 },
-            { charisma: 9 }
+            {
+                dexterity: 7
+            },
+            {
+                constitution: 9
+            },
+            {
+                wisdom: 7
+            },
+            {
+                charisma: 9
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances:
@@ -9182,7 +10397,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "6d6",
         speed: "30 ft., fly 30 ft.",
         stats: [7, 13, 10, 9, 11, 12],
-        skillsaves: [{ perception: 2 }, { stealth: 3 }],
+        skillsaves: [
+            {
+                perception: 2
+            },
+            {
+                stealth: 3
+            }
+        ],
         damage_vulnerabilities: "bludgeoning, fire",
         damage_resistances: "",
         damage_immunities: "cold, poison",
@@ -9240,10 +10462,18 @@ export const BESTIARY: Monster[] = [
         speed: "20 ft., fly 40 ft.",
         stats: [6, 17, 13, 11, 12, 14],
         skillsaves: [
-            { deception: 4 },
-            { insight: 3 },
-            { persuasion: 4 },
-            { stealth: 5 }
+            {
+                deception: 4
+            },
+            {
+                insight: 3
+            },
+            {
+                persuasion: 4
+            },
+            {
+                stealth: 5
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances:
@@ -9301,7 +10531,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "16d8",
         speed: "50 ft., fly 50 ft. (hover)",
         stats: [16, 19, 14, 10, 15, 11],
-        skillsaves: [{ perception: 8 }, { stealth: 10 }],
+        skillsaves: [
+            {
+                perception: 8
+            },
+            {
+                stealth: 10
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances:
             "bludgeoning, piercing, and slashing from nonmagical weapons",
@@ -9419,7 +10656,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "1d6",
         speed: "40 ft.",
         stats: [8, 15, 11, 3, 12, 6],
-        skillsaves: [{ perception: 3 }],
+        skillsaves: [
+            {
+                perception: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -9460,7 +10701,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "12d12",
         speed: "swim 60 ft.",
         stats: [19, 10, 13, 3, 12, 7],
-        skillsaves: [{ perception: 3 }],
+        skillsaves: [
+            {
+                perception: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -9504,7 +10749,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "8d8",
         speed: "30 ft.",
         stats: [16, 11, 14, 11, 11, 15],
-        saves: [{ constitution: 4 }, { wisdom: 2 }],
+        saves: [
+            {
+                constitution: 4
+            },
+            {
+                wisdom: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -9611,11 +10863,21 @@ export const BESTIARY: Monster[] = [
         speed: "20 ft., swim 60 ft.",
         stats: [30, 11, 25, 22, 18, 20],
         saves: [
-            { strength: 17 },
-            { dexterity: 7 },
-            { constitution: 14 },
-            { intelligence: 13 },
-            { wisdom: 11 }
+            {
+                strength: 17
+            },
+            {
+                dexterity: 7
+            },
+            {
+                constitution: 14
+            },
+            {
+                intelligence: 13
+            },
+            {
+                wisdom: 11
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "",
@@ -9704,7 +10966,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "13d10",
         speed: "30 ft.",
         stats: [16, 13, 15, 14, 15, 16],
-        skillsaves: [{ deception: 7 }, { insight: 4 }, { stealth: 3 }],
+        skillsaves: [
+            {
+                deception: 7
+            },
+            {
+                insight: 4
+            },
+            {
+                stealth: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -9796,12 +11068,30 @@ export const BESTIARY: Monster[] = [
         hit_dice: "18d8",
         speed: "30 ft.",
         stats: [11, 16, 16, 20, 14, 16],
-        saves: [{ constitution: 10 }, { intelligence: 12 }, { wisdom: 9 }],
+        saves: [
+            {
+                constitution: 10
+            },
+            {
+                intelligence: 12
+            },
+            {
+                wisdom: 9
+            }
+        ],
         skillsaves: [
-            { arcana: 18 },
-            { history: 12 },
-            { insight: 9 },
-            { perception: 9 }
+            {
+                arcana: 18
+            },
+            {
+                history: 12
+            },
+            {
+                insight: 9
+            },
+            {
+                perception: 9
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "cold, lightning, necrotic",
@@ -9821,11 +11111,6 @@ export const BESTIARY: Monster[] = [
             {
                 name: "Rejuvenation",
                 desc: "If it has a phylactery, a destroyed lich gains a new body in 1d10 days, regaining all its hit points and becoming active again. The new body appears within 5 feet of the phylactery.",
-                attack_bonus: 0
-            },
-            {
-                name: "Spellcasting",
-                desc: "The lich is an 18th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 20, +12 to hit with spell attacks). The lich has the following wizard spells prepared:\n\n• Cantrips (at will): mage hand, prestidigitation, ray of frost\n• 1st level (4 slots): detect magic, magic missile, shield, thunderwave\n• 2nd level (3 slots): detect thoughts, invisibility, Melf's acid arrow, mirror image\n• 3rd level (3 slots): animate dead, counterspell, dispel magic, fireball\n• 4th level (3 slots): blight, dimension door\n• 5th level (3 slots): cloudkill, scrying\n• 6th level (1 slot): disintegrate, globe of invulnerability\n• 7th level (1 slot): finger of death, plane shift\n• 8th level (1 slot): dominate monster, power word stun\n• 9th level (1 slot): power word kill",
                 attack_bonus: 0
             },
             {
@@ -9864,6 +11149,43 @@ export const BESTIARY: Monster[] = [
                 attack_bonus: 0,
                 damage_dice: "6d6"
             }
+        ],
+        spells: [
+            "The lich is an 18th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 20, +12 to hit with spell attacks). The lich has the following wizard spells prepared:",
+            {
+                "Cantrips (at will)":
+                    "mage hand, prestidigitation, ray of frost"
+            },
+            {
+                "1st level (4 slots)":
+                    "detect magic, magic missile, shield, thunderwave"
+            },
+            {
+                "2nd level (3 slots)":
+                    "detect thoughts, invisibility, Melf's acid arrow, mirror image"
+            },
+            {
+                "3rd level (3 slots)":
+                    "animate dead, counterspell, dispel magic, fireball"
+            },
+            {
+                "4th level (3 slots)": "blight, dimension door"
+            },
+            {
+                "5th level (3 slots)": "cloudkill, scrying"
+            },
+            {
+                "6th level (1 slot)": "disintegrate, globe of invulnerability"
+            },
+            {
+                "7th level (1 slot)": "finger of death, plane shift"
+            },
+            {
+                "8th level (1 slot)": "dominate monster, power word stun"
+            },
+            {
+                "9th level (1 slot)": "power word kill"
+            }
         ]
     },
     {
@@ -9877,7 +11199,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "4d10",
         speed: "50 ft.",
         stats: [17, 15, 13, 3, 12, 8],
-        skillsaves: [{ perception: 3 }, { stealth: 6 }],
+        skillsaves: [
+            {
+                perception: 3
+            },
+            {
+                stealth: 6
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -9962,7 +11291,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "4d8",
         speed: "30 ft., swim 30 ft.",
         stats: [15, 10, 13, 7, 12, 7],
-        skillsaves: [{ perception: 3 }, { stealth: 4 }, { survival: 5 }],
+        skillsaves: [
+            {
+                perception: 3
+            },
+            {
+                stealth: 4
+            },
+            {
+                survival: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -10024,8 +11363,22 @@ export const BESTIARY: Monster[] = [
         hit_dice: "9d8",
         speed: "30 ft.",
         stats: [9, 14, 11, 17, 12, 11],
-        saves: [{ intelligence: 6 }, { wisdom: 4 }],
-        skillsaves: [{ arcana: 6 }, { history: 6 }],
+        saves: [
+            {
+                intelligence: 6
+            },
+            {
+                wisdom: 4
+            }
+        ],
+        skillsaves: [
+            {
+                arcana: 6
+            },
+            {
+                history: 6
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -10033,13 +11386,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 11",
         languages: "any four languages",
         cr: "6",
-        traits: [
-            {
-                name: "Spellcasting",
-                desc: "The mage is a 9th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 14, +6 to hit with spell attacks). The mage has the following wizard spells prepared:\n\n• Cantrips (at will): fire bolt, light, mage hand, prestidigitation\n• 1st level (4 slots): detect magic, mage armor, magic missile, shield\n• 2nd level (3 slots): misty step, suggestion\n• 3rd level (3 slots): counterspell, fireball, fly\n• 4th level (3 slots): greater invisibility, ice storm\n• 5th level (1 slot): cone of cold",
-                attack_bonus: 0
-            }
-        ],
+        traits: [],
         actions: [
             {
                 name: "Dagger",
@@ -10047,6 +11394,29 @@ export const BESTIARY: Monster[] = [
                 attack_bonus: 5,
                 damage_dice: "1d4",
                 damage_bonus: 2
+            }
+        ],
+        spells: [
+            "The mage is a 9th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 14, +6 to hit with spell attacks). The mage has the following wizard spells prepared:",
+            {
+                "Cantrips (at will)":
+                    "fire bolt, light, mage hand, prestidigitation"
+            },
+            {
+                "1st level (4 slots)":
+                    "detect magic, mage armor, magic missile, shield"
+            },
+            {
+                "2nd level (3 slots)": "misty step, suggestion"
+            },
+            {
+                "3rd level (3 slots)": "counterspell, fireball, fly"
+            },
+            {
+                "4th level (3 slots)": "greater invisibility, ice storm"
+            },
+            {
+                "5th level (1 slot)": "cone of cold"
             }
         ]
     },
@@ -10061,7 +11431,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "5d6",
         speed: "30 ft., fly 30 ft.",
         stats: [8, 12, 12, 7, 10, 10],
-        skillsaves: [{ stealth: 3 }],
+        skillsaves: [
+            {
+                stealth: 3
+            }
+        ],
         damage_vulnerabilities: "cold",
         damage_resistances: "",
         damage_immunities: "fire, poison",
@@ -10256,10 +11630,18 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft.",
         stats: [18, 20, 20, 18, 16, 20],
         saves: [
-            { strength: 9 },
-            { constitution: 10 },
-            { wisdom: 8 },
-            { charisma: 10 }
+            {
+                strength: 9
+            },
+            {
+                constitution: 10
+            },
+            {
+                wisdom: 8
+            },
+            {
+                charisma: 10
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances:
@@ -10336,7 +11718,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "1d8",
         speed: "40 ft.",
         stats: [13, 14, 12, 3, 12, 7],
-        skillsaves: [{ perception: 3 }],
+        skillsaves: [
+            {
+                perception: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -10373,10 +11759,18 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft.",
         stats: [10, 15, 16, 12, 13, 15],
         skillsaves: [
-            { deception: 5 },
-            { insight: 4 },
-            { perception: 4 },
-            { stealth: 5 }
+            {
+                deception: 5
+            },
+            {
+                insight: 4
+            },
+            {
+                perception: 4
+            },
+            {
+                stealth: 5
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "",
@@ -10431,7 +11825,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "2d8",
         speed: "10 ft., swim 40 ft.",
         stats: [10, 13, 12, 11, 11, 12],
-        skillsaves: [{ perception: 2 }],
+        skillsaves: [
+            {
+                perception: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -10520,7 +11918,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "9d8",
         speed: "15 ft.",
         stats: [17, 12, 15, 5, 13, 8],
-        skillsaves: [{ stealth: 5 }],
+        skillsaves: [
+            {
+                stealth: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "acid",
@@ -10578,7 +11980,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "9d10",
         speed: "40 ft.",
         stats: [18, 11, 16, 6, 16, 9],
-        skillsaves: [{ perception: 7 }],
+        skillsaves: [
+            {
+                perception: 7
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -10715,7 +12121,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "9d8",
         speed: "20 ft.",
         stats: [16, 8, 15, 6, 10, 12],
-        saves: [{ wisdom: 2 }],
+        saves: [
+            {
+                wisdom: 2
+            }
+        ],
         damage_vulnerabilities: "fire",
         damage_resistances: "",
         damage_immunities:
@@ -10756,12 +12166,27 @@ export const BESTIARY: Monster[] = [
         speed: "20 ft.",
         stats: [18, 10, 17, 11, 18, 16],
         saves: [
-            { constitution: 8 },
-            { intelligence: 5 },
-            { wisdom: 9 },
-            { charisma: 8 }
+            {
+                constitution: 8
+            },
+            {
+                intelligence: 5
+            },
+            {
+                wisdom: 9
+            },
+            {
+                charisma: 8
+            }
         ],
-        skillsaves: [{ history: 5 }, { religion: 5 }],
+        skillsaves: [
+            {
+                history: 5
+            },
+            {
+                religion: 5
+            }
+        ],
         damage_vulnerabilities: "bludgeoning",
         damage_resistances: "",
         damage_immunities:
@@ -10780,11 +12205,6 @@ export const BESTIARY: Monster[] = [
             {
                 name: "Rejuvenation",
                 desc: "A destroyed mummy lord gains a new body in 24 hours if its heart is intact, regaining all its hit points and becoming active again. The new body appears within 5 feet of the mummy lord's heart.",
-                attack_bonus: 0
-            },
-            {
-                name: "Spellcasting",
-                desc: "The mummy lord is a 10th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 17, +9 to hit with spell attacks). The mummy lord has the following cleric spells prepared:\n\n• Cantrips (at will): sacred flame, thaumaturgy\n• 1st level (4 slots): command, guiding bolt, shield of faith\n• 2nd level (3 slots): hold person, silence, spiritual weapon\n• 3rd level (3 slots): animate dead, dispel magic\n• 4th level (3 slots): divination, guardian of faith\n• 5th level (2 slots): contagion, insect plague\n• 6th level (1 slot): harm",
                 attack_bonus: 0
             }
         ],
@@ -10833,6 +12253,30 @@ export const BESTIARY: Monster[] = [
                 desc: "The mummy lord magically transforms into a whirlwind of sand, moves up to 60 feet, and reverts to its normal form. While in whirlwind form, the mummy lord is immune to all damage, and it can't be grappled, petrified, knocked prone, restrained, or stunned. Equipment worn or carried by the mummy lord remain in its possession.",
                 attack_bonus: 0
             }
+        ],
+        spells: [
+            "The mummy lord is a 10th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 17, +9 to hit with spell attacks). The mummy lord has the following cleric spells prepared:",
+            {
+                "Cantrips (at will)": "sacred flame, thaumaturgy"
+            },
+            {
+                "1st level (4 slots)": "command, guiding bolt, shield of faith"
+            },
+            {
+                "2nd level (3 slots)": "hold person, silence, spiritual weapon"
+            },
+            {
+                "3rd level (3 slots)": "animate dead, dispel magic"
+            },
+            {
+                "4th level (3 slots)": "divination, guardian of faith"
+            },
+            {
+                "5th level (2 slots)": "contagion, insect plague"
+            },
+            {
+                "6th level (1 slot)": "harm"
+            }
         ]
     },
     {
@@ -10847,10 +12291,18 @@ export const BESTIARY: Monster[] = [
         speed: "20 ft., fly 30 ft.",
         stats: [21, 10, 22, 19, 12, 15],
         saves: [
-            { constitution: 11 },
-            { intelligence: 9 },
-            { wisdom: 6 },
-            { charisma: 7 }
+            {
+                constitution: 11
+            },
+            {
+                intelligence: 9
+            },
+            {
+                wisdom: 6
+            },
+            {
+                charisma: 7
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances:
@@ -10916,10 +12368,18 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft.",
         stats: [18, 15, 16, 16, 14, 16],
         skillsaves: [
-            { deception: 7 },
-            { insight: 6 },
-            { perception: 6 },
-            { stealth: 6 }
+            {
+                deception: 7
+            },
+            {
+                insight: 6
+            },
+            {
+                perception: 6
+            },
+            {
+                stealth: 6
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances:
@@ -11042,7 +12502,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "2d8",
         speed: "30 ft.",
         stats: [11, 12, 11, 12, 14, 16],
-        skillsaves: [{ deception: 5 }, { insight: 4 }, { persuasion: 5 }],
+        skillsaves: [
+            {
+                deception: 5
+            },
+            {
+                insight: 4
+            },
+            {
+                persuasion: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -11126,7 +12596,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "1d6",
         speed: "5 ft., swim 30 ft.",
         stats: [4, 15, 11, 3, 10, 4],
-        skillsaves: [{ perception: 2 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                perception: 2
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -11211,7 +12688,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "9d10",
         speed: "30 ft.",
         stats: [19, 6, 18, 3, 6, 5],
-        saves: [{ wisdom: 0 }],
+        saves: [
+            {
+                wisdom: 0
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "poison",
@@ -11248,12 +12729,30 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft., fly 30 ft.",
         stats: [19, 11, 16, 14, 12, 15],
         saves: [
-            { dexterity: 3 },
-            { constitution: 6 },
-            { wisdom: 4 },
-            { charisma: 5 }
+            {
+                dexterity: 3
+            },
+            {
+                constitution: 6
+            },
+            {
+                wisdom: 4
+            },
+            {
+                charisma: 5
+            }
         ],
-        skillsaves: [{ arcana: 5 }, { deception: 8 }, { perception: 4 }],
+        skillsaves: [
+            {
+                arcana: 5
+            },
+            {
+                deception: 8
+            },
+            {
+                perception: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -11316,7 +12815,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "2d8",
         speed: "30 ft.",
         stats: [16, 12, 16, 7, 11, 10],
-        skillsaves: [{ intimidation: 2 }],
+        skillsaves: [
+            {
+                intimidation: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -11359,7 +12862,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "12d10",
         speed: "30 ft.",
         stats: [16, 11, 19, 6, 13, 6],
-        saves: [{ constitution: 7 }],
+        saves: [
+            {
+                constitution: 7
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -11412,7 +12919,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "1d4",
         speed: "5 ft., fly 60 ft.",
         stats: [3, 13, 8, 2, 12, 7],
-        skillsaves: [{ perception: 3 }, { stealth: 3 }],
+        skillsaves: [
+            {
+                perception: 3
+            },
+            {
+                stealth: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -11452,7 +12966,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "7d10",
         speed: "40 ft.",
         stats: [20, 12, 17, 3, 12, 7],
-        skillsaves: [{ perception: 3 }],
+        skillsaves: [
+            {
+                perception: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -11500,7 +13018,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "3d8",
         speed: "50 ft., climb 40 ft.",
         stats: [14, 15, 10, 3, 14, 7],
-        skillsaves: [{ perception: 4 }, { stealth: 6 }],
+        skillsaves: [
+            {
+                perception: 4
+            },
+            {
+                stealth: 6
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -11548,8 +13073,22 @@ export const BESTIARY: Monster[] = [
         hit_dice: "7d10",
         speed: "60 ft., fly 90 ft.",
         stats: [18, 15, 16, 10, 15, 13],
-        saves: [{ dexterity: 4 }, { wisdom: 4 }, { charisma: 3 }],
-        skillsaves: [{ perception: 6 }],
+        saves: [
+            {
+                dexterity: 4
+            },
+            {
+                wisdom: 4
+            },
+            {
+                charisma: 3
+            }
+        ],
+        skillsaves: [
+            {
+                perception: 6
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -11579,7 +13118,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "5d10",
         speed: "30 ft., climb 30 ft.",
         stats: [15, 15, 12, 6, 10, 6],
-        skillsaves: [{ stealth: 6 }],
+        skillsaves: [
+            {
+                stealth: 6
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -11625,7 +13168,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "24d10",
         speed: "30 ft., fly 60 ft.",
         stats: [26, 14, 24, 22, 18, 24],
-        saves: [{ dexterity: 8 }, { constitution: 13 }, { wisdom: 10 }],
+        saves: [
+            {
+                dexterity: 8
+            },
+            {
+                constitution: 13
+            },
+            {
+                wisdom: 10
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances:
             "cold; bludgeoning, piercing, and slashing from nonmagical weapons that aren't silvered",
@@ -11703,8 +13256,22 @@ export const BESTIARY: Monster[] = [
         hit_dice: "16d10",
         speed: "40 ft., fly 120 ft.",
         stats: [24, 20, 24, 19, 22, 25],
-        saves: [{ constitution: 12 }, { wisdom: 11 }, { charisma: 12 }],
-        skillsaves: [{ perception: 11 }],
+        saves: [
+            {
+                constitution: 12
+            },
+            {
+                wisdom: 11
+            },
+            {
+                charisma: 12
+            }
+        ],
+        skillsaves: [
+            {
+                perception: 11
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances:
             "radiant; bludgeoning, piercing, and slashing from nonmagical weapons",
@@ -11766,7 +13333,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "8d10",
         speed: "20 ft., swim 40 ft.",
         stats: [18, 15, 16, 2, 12, 5],
-        skillsaves: [{ perception: 3 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                perception: 3
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -11829,7 +13403,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "5d10",
         speed: "40 ft., swim 30 ft.",
         stats: [20, 10, 16, 2, 13, 7],
-        skillsaves: [{ perception: 3 }],
+        skillsaves: [
+            {
+                perception: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -11905,7 +13483,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "5d8",
         speed: "25 ft.",
         stats: [10, 10, 12, 13, 16, 13],
-        skillsaves: [{ medicine: 7 }, { persuasion: 3 }, { religion: 4 }],
+        skillsaves: [
+            {
+                medicine: 7
+            },
+            {
+                persuasion: 3
+            },
+            {
+                religion: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -11919,11 +13507,6 @@ export const BESTIARY: Monster[] = [
                 desc: "As a bonus action, the priest can expend a spell slot to cause its melee weapon attacks to magically deal an extra 10 (3d6) radiant damage to a target on a hit. This benefit lasts until the end of the turn. If the priest expends a spell slot of 2nd level or higher, the extra damage increases by 1d6 for each level above 1st.",
                 attack_bonus: 0,
                 damage_dice: "3d6"
-            },
-            {
-                name: "Spellcasting",
-                desc: "The priest is a 5th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 13, +5 to hit with spell attacks). The priest has the following cleric spells prepared:\n\n• Cantrips (at will): light, sacred flame, thaumaturgy\n• 1st level (4 slots): cure wounds, guiding bolt, sanctuary\n• 2nd level (3 slots): lesser restoration, spiritual weapon\n• 3rd level (2 slots): dispel magic, spirit guardians",
-                attack_bonus: 0
             }
         ],
         actions: [
@@ -11932,6 +13515,21 @@ export const BESTIARY: Monster[] = [
                 desc: "Melee Weapon Attack: +2 to hit, reach 5 ft., one target. Hit: 3 (1d6) bludgeoning damage.",
                 attack_bonus: 2,
                 damage_dice: "1d6"
+            }
+        ],
+        spells: [
+            "The priest is a 5th-level spellcaster. Its spellcasting ability is Wisdom (spell save DC 13, +5 to hit with spell attacks). The priest has the following cleric spells prepared:",
+            {
+                "Cantrips (at will)": "light, sacred flame, thaumaturgy"
+            },
+            {
+                "1st level (4 slots)": "cure wounds, guiding bolt, sanctuary"
+            },
+            {
+                "2nd level (3 slots)": "lesser restoration, spiritual weapon"
+            },
+            {
+                "3rd level (2 slots)": "dispel magic, spirit guardians"
             }
         ]
     },
@@ -11946,7 +13544,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "2d4",
         speed: "15 ft., fly 60 ft.",
         stats: [6, 15, 13, 10, 12, 10],
-        skillsaves: [{ perception: 3 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                perception: 3
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -12004,7 +13609,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "15d20",
         speed: "50 ft., burrow 30 ft.",
         stats: [28, 7, 22, 1, 8, 4],
-        saves: [{ constitution: 11 }, { wisdom: 4 }],
+        saves: [
+            {
+                constitution: 11
+            },
+            {
+                wisdom: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -12052,7 +13664,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "3d4",
         speed: "40 ft.",
         stats: [5, 17, 10, 7, 10, 10],
-        skillsaves: [{ stealth: 5 }],
+        skillsaves: [
+            {
+                stealth: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances:
             "cold; fire; lightning; bludgeoning, piercing, and slashing from nonmagical weapons",
@@ -12148,7 +13764,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "13d8",
         speed: "40 ft.",
         stats: [14, 17, 18, 13, 16, 20],
-        skillsaves: [{ deception: 10 }, { insight: 8 }],
+        skillsaves: [
+            {
+                deception: 10
+            },
+            {
+                insight: 8
+            }
+        ],
         damage_vulnerabilities:
             "piercing from magic weapons wielded by good creatures",
         damage_resistances: "",
@@ -12230,7 +13853,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "1d4",
         speed: "10 ft., fly 50 ft.",
         stats: [2, 14, 8, 2, 12, 6],
-        skillsaves: [{ perception: 3 }],
+        skillsaves: [
+            {
+                perception: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -12265,12 +13892,27 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft., climb 30 ft., fly 60 ft.",
         stats: [19, 10, 17, 12, 11, 15],
         saves: [
-            { dexterity: 2 },
-            { constitution: 5 },
-            { wisdom: 2 },
-            { charisma: 4 }
+            {
+                dexterity: 2
+            },
+            {
+                constitution: 5
+            },
+            {
+                wisdom: 2
+            },
+            {
+                charisma: 4
+            }
         ],
-        skillsaves: [{ perception: 4 }, { stealth: 2 }],
+        skillsaves: [
+            {
+                perception: 4
+            },
+            {
+                stealth: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "fire",
@@ -12305,7 +13947,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "4d8",
         speed: "swim 40 ft.",
         stats: [14, 13, 13, 1, 10, 4],
-        skillsaves: [{ perception: 2 }],
+        skillsaves: [
+            {
+                perception: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -12452,12 +14098,24 @@ export const BESTIARY: Monster[] = [
         speed: "20 ft., fly 120 ft.",
         stats: [28, 10, 20, 3, 10, 9],
         saves: [
-            { dexterity: 4 },
-            { constitution: 9 },
-            { wisdom: 4 },
-            { charisma: 3 }
+            {
+                dexterity: 4
+            },
+            {
+                constitution: 9
+            },
+            {
+                wisdom: 4
+            },
+            {
+                charisma: 3
+            }
         ],
-        skillsaves: [{ perception: 4 }],
+        skillsaves: [
+            {
+                perception: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -12505,7 +14163,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "11d10",
         speed: "10 ft., climb 10 ft.",
         stats: [18, 8, 17, 7, 16, 6],
-        skillsaves: [{ perception: 6 }, { stealth: 5 }],
+        skillsaves: [
+            {
+                perception: 6
+            },
+            {
+                stealth: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -12657,7 +14322,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "7d10",
         speed: "40 ft.",
         stats: [18, 14, 15, 3, 12, 8],
-        skillsaves: [{ perception: 3 }, { stealth: 6 }],
+        skillsaves: [
+            {
+                perception: 3
+            },
+            {
+                stealth: 6
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -12705,7 +14377,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "4d8",
         speed: "30 ft., swim 40 ft.",
         stats: [13, 11, 12, 12, 13, 9],
-        skillsaves: [{ perception: 5 }],
+        skillsaves: [
+            {
+                perception: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -12824,7 +14500,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "7d8",
         speed: "40 ft.",
         stats: [12, 16, 11, 12, 10, 14],
-        skillsaves: [{ perception: 2 }, { performance: 6 }, { stealth: 5 }],
+        skillsaves: [
+            {
+                perception: 2
+            },
+            {
+                performance: 6
+            },
+            {
+                stealth: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -12907,10 +14593,18 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft.",
         stats: [11, 14, 12, 11, 13, 11],
         skillsaves: [
-            { nature: 4 },
-            { perception: 5 },
-            { stealth: 6 },
-            { survival: 5 }
+            {
+                nature: 4
+            },
+            {
+                perception: 5
+            },
+            {
+                stealth: 6
+            },
+            {
+                survival: 5
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "",
@@ -13050,7 +14744,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "3d8",
         speed: "40 ft.",
         stats: [6, 14, 13, 6, 10, 8],
-        skillsaves: [{ stealth: 4 }],
+        skillsaves: [
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "radiant",
         damage_resistances:
             "acid, cold, fire, lightning, thunder; bludgeoning, piercing, and slashing from nonmagical weapons",
@@ -13098,7 +14796,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "16d10",
         speed: "20 ft., swim 20 ft.",
         stats: [18, 8, 16, 5, 10, 5],
-        skillsaves: [{ stealth: 2 }],
+        skillsaves: [
+            {
+                stealth: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "cold, fire",
         damage_immunities: "lightning",
@@ -13236,12 +14938,27 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft., fly 60 ft.",
         stats: [19, 10, 17, 12, 11, 15],
         saves: [
-            { dexterity: 2 },
-            { constitution: 5 },
-            { wisdom: 2 },
-            { charisma: 4 }
+            {
+                dexterity: 2
+            },
+            {
+                constitution: 5
+            },
+            {
+                wisdom: 2
+            },
+            {
+                charisma: 4
+            }
         ],
-        skillsaves: [{ perception: 4 }, { stealth: 2 }],
+        skillsaves: [
+            {
+                perception: 4
+            },
+            {
+                stealth: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "cold",
@@ -13311,8 +15028,22 @@ export const BESTIARY: Monster[] = [
         hit_dice: "18d10",
         speed: "50 ft., fly 150 ft.",
         stats: [26, 22, 26, 25, 25, 30],
-        saves: [{ intelligence: 14 }, { wisdom: 14 }, { charisma: 17 }],
-        skillsaves: [{ perception: 14 }],
+        saves: [
+            {
+                intelligence: 14
+            },
+            {
+                wisdom: 14
+            },
+            {
+                charisma: 17
+            }
+        ],
+        skillsaves: [
+            {
+                perception: 14
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances:
             "radiant; bludgeoning, piercing, and slashing from nonmagical weapons",
@@ -13444,7 +15175,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "1d4",
         speed: "20 ft., climb 20 ft.",
         stats: [2, 14, 8, 1, 10, 2],
-        skillsaves: [{ stealth: 4 }],
+        skillsaves: [
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -13490,10 +15225,18 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft.",
         stats: [18, 17, 14, 16, 15, 16],
         saves: [
-            { dexterity: 6 },
-            { constitution: 5 },
-            { wisdom: 5 },
-            { charisma: 6 }
+            {
+                dexterity: 6
+            },
+            {
+                constitution: 5
+            },
+            {
+                wisdom: 5
+            },
+            {
+                charisma: 6
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "",
@@ -13507,11 +15250,6 @@ export const BESTIARY: Monster[] = [
                 name: "Rejuvenation",
                 desc: "If it dies, the naga returns to life in 1d6 days and regains all its hit points. Only a wish spell can prevent this trait from functioning.",
                 attack_bonus: 0
-            },
-            {
-                name: "Spellcasting",
-                desc: "The naga is a 10th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 14, +6 to hit with spell attacks), and it needs only verbal components to cast its spells. It has the following wizard spells prepared:\n\n• Cantrips (at will): mage hand, minor illusion, ray of frost\n• 1st level (4 slots): charm person, detect magic, sleep\n• 2nd level (3 slots): detect thoughts, hold person\n• 3rd level (3 slots): lightning bolt, water breathing\n• 4th level (3 slots): blight, dimension door\n• 5th level (2 slots): dominate person",
-                attack_bonus: 0
             }
         ],
         actions: [
@@ -13521,6 +15259,27 @@ export const BESTIARY: Monster[] = [
                 attack_bonus: 7,
                 damage_dice: "1d6",
                 damage_bonus: 4
+            }
+        ],
+        spells: [
+            "The naga is a 10th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 14, +6 to hit with spell attacks), and it needs only verbal components to cast its spells. It has the following wizard spells prepared:",
+            {
+                "Cantrips (at will)": "mage hand, minor illusion, ray of frost"
+            },
+            {
+                "1st level (4 slots)": "charm person, detect magic, sleep"
+            },
+            {
+                "2nd level (3 slots)": "detect thoughts, hold person"
+            },
+            {
+                "3rd level (3 slots)": "lightning bolt, water breathing"
+            },
+            {
+                "4th level (3 slots)": "blight, dimension door"
+            },
+            {
+                "5th level (2 slots)": "dominate person"
             }
         ]
     },
@@ -13535,7 +15294,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "1d4",
         speed: "10 ft., fly 40 ft.",
         stats: [3, 18, 10, 14, 13, 11],
-        skillsaves: [{ perception: 3 }, { stealth: 8 }],
+        skillsaves: [
+            {
+                perception: 3
+            },
+            {
+                stealth: 8
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -13580,12 +15346,24 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft.",
         stats: [10, 15, 10, 12, 14, 16],
         skillsaves: [
-            { deception: 5 },
-            { insight: 4 },
-            { investigation: 5 },
-            { perception: 6 },
-            { persuasion: 5 },
-            { stealth: 4 }
+            {
+                deception: 5
+            },
+            {
+                insight: 4
+            },
+            {
+                investigation: 5
+            },
+            {
+                perception: 6
+            },
+            {
+                persuasion: 5
+            },
+            {
+                stealth: 4
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "",
@@ -13718,8 +15496,25 @@ export const BESTIARY: Monster[] = [
         hit_dice: "11d12",
         speed: "40 ft.",
         stats: [23, 15, 20, 10, 12, 9],
-        saves: [{ dexterity: 5 }, { constitution: 8 }, { wisdom: 4 }],
-        skillsaves: [{ athletics: 12 }, { perception: 4 }],
+        saves: [
+            {
+                dexterity: 5
+            },
+            {
+                constitution: 8
+            },
+            {
+                wisdom: 4
+            }
+        ],
+        skillsaves: [
+            {
+                athletics: 12
+            },
+            {
+                perception: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -13832,16 +15627,32 @@ export const BESTIARY: Monster[] = [
         speed: "50 ft., swim 50 ft.",
         stats: [29, 14, 20, 16, 18, 18],
         saves: [
-            { strength: 14 },
-            { constitution: 10 },
-            { wisdom: 9 },
-            { charisma: 9 }
+            {
+                strength: 14
+            },
+            {
+                constitution: 10
+            },
+            {
+                wisdom: 9
+            },
+            {
+                charisma: 9
+            }
         ],
         skillsaves: [
-            { arcana: 8 },
-            { athletics: 14 },
-            { history: 8 },
-            { perception: 9 }
+            {
+                arcana: 8
+            },
+            {
+                athletics: 14
+            },
+            {
+                history: 8
+            },
+            {
+                perception: 9
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "cold",
@@ -13902,11 +15713,21 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft., fly 60 ft.",
         stats: [8, 17, 13, 15, 12, 20],
         skillsaves: [
-            { deception: 9 },
-            { insight: 5 },
-            { perception: 5 },
-            { persuasion: 9 },
-            { stealth: 7 }
+            {
+                deception: 9
+            },
+            {
+                insight: 5
+            },
+            {
+                perception: 5
+            },
+            {
+                persuasion: 9
+            },
+            {
+                stealth: 7
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances:
@@ -14356,7 +16177,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "33d20",
         speed: "40 ft.",
         stats: [30, 11, 30, 3, 11, 11],
-        saves: [{ intelligence: 5 }, { wisdom: 9 }, { charisma: 9 }],
+        saves: [
+            {
+                intelligence: 5
+            },
+            {
+                wisdom: 9
+            },
+            {
+                charisma: 9
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities:
@@ -14461,7 +16292,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "5d8",
         speed: "30 ft.",
         stats: [15, 11, 14, 10, 10, 11],
-        skillsaves: [{ intimidation: 2 }],
+        skillsaves: [
+            {
+                intimidation: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -14508,7 +16343,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "5d10",
         speed: "40 ft.",
         stats: [17, 15, 14, 3, 12, 8],
-        skillsaves: [{ perception: 3 }, { stealth: 6 }],
+        skillsaves: [
+            {
+                perception: 3
+            },
+            {
+                stealth: 6
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -14688,7 +16530,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "8d10",
         speed: "30 ft.",
         stats: [18, 13, 20, 7, 9, 7],
-        skillsaves: [{ perception: 2 }],
+        skillsaves: [
+            {
+                perception: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -14746,7 +16592,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "13d12",
         speed: "50 ft.",
         stats: [25, 10, 19, 2, 12, 9],
-        skillsaves: [{ perception: 4 }],
+        skillsaves: [
+            {
+                perception: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -14877,8 +16727,25 @@ export const BESTIARY: Monster[] = [
         hit_dice: "17d8",
         speed: "30 ft.",
         stats: [18, 18, 18, 17, 15, 18],
-        saves: [{ dexterity: 9 }, { wisdom: 7 }, { charisma: 9 }],
-        skillsaves: [{ perception: 7 }, { stealth: 9 }],
+        saves: [
+            {
+                dexterity: 9
+            },
+            {
+                wisdom: 7
+            },
+            {
+                charisma: 9
+            }
+        ],
+        skillsaves: [
+            {
+                perception: 7
+            },
+            {
+                stealth: 9
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances:
             "necrotic; bludgeoning, piercing, and slashing from nonmagical weapons",
@@ -14979,8 +16846,22 @@ export const BESTIARY: Monster[] = [
         hit_dice: "11d8",
         speed: "30 ft.",
         stats: [16, 16, 16, 11, 10, 12],
-        saves: [{ dexterity: 6 }, { wisdom: 3 }],
-        skillsaves: [{ perception: 3 }, { stealth: 6 }],
+        saves: [
+            {
+                dexterity: 6
+            },
+            {
+                wisdom: 3
+            }
+        ],
+        skillsaves: [
+            {
+                perception: 3
+            },
+            {
+                stealth: 6
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances:
             "necrotic; bludgeoning, piercing, and slashing from nonmagical weapons",
@@ -15037,7 +16918,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "9d8",
         speed: "30 ft.",
         stats: [16, 13, 14, 10, 11, 10],
-        skillsaves: [{ athletics: 5 }, { perception: 2 }],
+        skillsaves: [
+            {
+                athletics: 5
+            },
+            {
+                perception: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -15124,7 +17012,17 @@ export const BESTIARY: Monster[] = [
         hit_dice: "11d10",
         speed: "40 ft., fly 60 ft.",
         stats: [17, 15, 18, 8, 13, 8],
-        saves: [{ dexterity: 5 }, { wisdom: 4 }, { charisma: 2 }],
+        saves: [
+            {
+                dexterity: 5
+            },
+            {
+                wisdom: 4
+            },
+            {
+                charisma: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances:
             "cold, fire, lightning; bludgeoning, piercing, and slashing from nonmagical weapons",
@@ -15188,7 +17086,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "1d8",
         speed: "10 ft., fly 50 ft.",
         stats: [7, 10, 13, 2, 12, 4],
-        skillsaves: [{ perception: 3 }],
+        skillsaves: [
+            {
+                perception: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -15343,7 +17245,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "1d4",
         speed: "30 ft.",
         stats: [3, 16, 8, 2, 12, 3],
-        skillsaves: [{ perception: 3 }, { stealth: 5 }],
+        skillsaves: [
+            {
+                perception: 3
+            },
+            {
+                stealth: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -15378,7 +17287,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "18d8",
         speed: "30 ft. (40 ft., climb 30 ft. in bear or hybrid form)",
         stats: [19, 10, 17, 11, 12, 12],
-        skillsaves: [{ perception: 7 }],
+        skillsaves: [
+            {
+                perception: 7
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities:
@@ -15439,7 +17352,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "12d8",
         speed: "30 ft. (40 ft. in boar form)",
         stats: [17, 10, 15, 10, 11, 8],
-        skillsaves: [{ perception: 2 }],
+        skillsaves: [
+            {
+                perception: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities:
@@ -15499,7 +17416,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "6d8",
         speed: "30 ft.",
         stats: [10, 15, 12, 11, 10, 8],
-        skillsaves: [{ perception: 2 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                perception: 2
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities:
@@ -15560,7 +17484,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "16d8",
         speed: "30 ft. (40 ft. in tiger form)",
         stats: [17, 15, 16, 10, 13, 11],
-        skillsaves: [{ perception: 5 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                perception: 5
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities:
@@ -15633,7 +17564,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "9d8",
         speed: "30 ft. (40 ft. in wolf form)",
         stats: [15, 13, 14, 10, 11, 10],
-        skillsaves: [{ perception: 4 }],
+        skillsaves: [
+            {
+                perception: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities:
@@ -15695,12 +17630,27 @@ export const BESTIARY: Monster[] = [
         speed: "30 ft., burrow 15 ft., fly 60 ft., swim 30 ft.",
         stats: [14, 10, 14, 5, 10, 11],
         saves: [
-            { dexterity: 2 },
-            { constitution: 4 },
-            { wisdom: 2 },
-            { charisma: 2 }
+            {
+                dexterity: 2
+            },
+            {
+                constitution: 4
+            },
+            {
+                wisdom: 2
+            },
+            {
+                charisma: 2
+            }
         ],
-        skillsaves: [{ perception: 4 }, { stealth: 2 }],
+        skillsaves: [
+            {
+                perception: 4
+            },
+            {
+                stealth: 2
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "cold",
@@ -15735,7 +17685,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "6d8",
         speed: "30 ft.",
         stats: [15, 14, 16, 10, 13, 15],
-        skillsaves: [{ perception: 3 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                perception: 3
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities:
@@ -15847,7 +17804,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "10d10",
         speed: "50 ft.",
         stats: [18, 13, 14, 7, 12, 8],
-        skillsaves: [{ perception: 5 }, { stealth: 3 }],
+        skillsaves: [
+            {
+                perception: 5
+            },
+            {
+                stealth: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "cold",
@@ -15899,7 +17863,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "2d8",
         speed: "40 ft.",
         stats: [12, 15, 12, 3, 12, 6],
-        skillsaves: [{ perception: 3 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                perception: 3
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -15940,7 +17911,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "4d10",
         speed: "50 ft.",
         stats: [16, 13, 13, 7, 11, 8],
-        skillsaves: [{ perception: 4 }],
+        skillsaves: [
+            {
+                perception: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -16023,7 +17998,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "13d10",
         speed: "20 ft., fly 80 ft.",
         stats: [19, 10, 16, 5, 12, 6],
-        skillsaves: [{ perception: 4 }],
+        skillsaves: [
+            {
+                perception: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -16071,7 +18050,14 @@ export const BESTIARY: Monster[] = [
         hit_dice: "7d8",
         speed: "20 ft., burrow 20 ft.",
         stats: [17, 10, 22, 11, 10, 11],
-        skillsaves: [{ perception: 6 }, { stealth: 3 }],
+        skillsaves: [
+            {
+                perception: 6
+            },
+            {
+                stealth: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances:
             "piercing and slashing from nonmagical weapons that aren't adamantine",
@@ -16131,12 +18117,27 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., fly 80 ft., swim 40 ft.",
         stats: [19, 14, 17, 12, 11, 15],
         saves: [
-            { dexterity: 5 },
-            { constitution: 6 },
-            { wisdom: 3 },
-            { charisma: 5 }
+            {
+                dexterity: 5
+            },
+            {
+                constitution: 6
+            },
+            {
+                wisdom: 3
+            },
+            {
+                charisma: 5
+            }
         ],
-        skillsaves: [{ perception: 6 }, { stealth: 5 }],
+        skillsaves: [
+            {
+                perception: 6
+            },
+            {
+                stealth: 5
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "acid",
@@ -16191,12 +18192,27 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., burrow 40 ft., fly 80 ft.",
         stats: [21, 10, 19, 14, 13, 17],
         saves: [
-            { dexterity: 4 },
-            { constitution: 8 },
-            { wisdom: 5 },
-            { charisma: 7 }
+            {
+                dexterity: 4
+            },
+            {
+                constitution: 8
+            },
+            {
+                wisdom: 5
+            },
+            {
+                charisma: 7
+            }
         ],
-        skillsaves: [{ perception: 9 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                perception: 9
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "lightning",
@@ -16244,12 +18260,30 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., burrow 20 ft., fly 80 ft.",
         stats: [19, 10, 17, 12, 11, 15],
         saves: [
-            { dexterity: 3 },
-            { constitution: 6 },
-            { wisdom: 3 },
-            { charisma: 5 }
+            {
+                dexterity: 3
+            },
+            {
+                constitution: 6
+            },
+            {
+                wisdom: 3
+            },
+            {
+                charisma: 5
+            }
         ],
-        skillsaves: [{ perception: 6 }, { persuasion: 5 }, { stealth: 3 }],
+        skillsaves: [
+            {
+                perception: 6
+            },
+            {
+                persuasion: 5
+            },
+            {
+                stealth: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "fire",
@@ -16297,12 +18331,30 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., fly 80 ft., swim 40 ft.",
         stats: [21, 10, 19, 14, 13, 17],
         saves: [
-            { dexterity: 3 },
-            { constitution: 7 },
-            { wisdom: 4 },
-            { charisma: 6 }
+            {
+                dexterity: 3
+            },
+            {
+                constitution: 7
+            },
+            {
+                wisdom: 4
+            },
+            {
+                charisma: 6
+            }
         ],
-        skillsaves: [{ insight: 4 }, { perception: 7 }, { stealth: 3 }],
+        skillsaves: [
+            {
+                insight: 4
+            },
+            {
+                perception: 7
+            },
+            {
+                stealth: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "lightning",
@@ -16357,12 +18409,30 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., climb 40 ft., fly 80 ft.",
         stats: [19, 12, 17, 16, 13, 15],
         saves: [
-            { dexterity: 4 },
-            { constitution: 6 },
-            { wisdom: 4 },
-            { charisma: 5 }
+            {
+                dexterity: 4
+            },
+            {
+                constitution: 6
+            },
+            {
+                wisdom: 4
+            },
+            {
+                charisma: 5
+            }
         ],
-        skillsaves: [{ deception: 5 }, { perception: 7 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                deception: 5
+            },
+            {
+                perception: 7
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "acid",
@@ -16410,16 +18480,32 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., fly 80 ft., swim 40 ft.",
         stats: [23, 14, 21, 16, 13, 20],
         saves: [
-            { dexterity: 6 },
-            { constitution: 9 },
-            { wisdom: 5 },
-            { charisma: 9 }
+            {
+                dexterity: 6
+            },
+            {
+                constitution: 9
+            },
+            {
+                wisdom: 5
+            },
+            {
+                charisma: 9
+            }
         ],
         skillsaves: [
-            { insight: 5 },
-            { perception: 9 },
-            { persuasion: 9 },
-            { stealth: 6 }
+            {
+                insight: 5
+            },
+            {
+                perception: 9
+            },
+            {
+                persuasion: 9
+            },
+            {
+                stealth: 6
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "",
@@ -16475,12 +18561,30 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., fly 80 ft., swim 40 ft.",
         stats: [19, 12, 17, 16, 13, 15],
         saves: [
-            { dexterity: 4 },
-            { constitution: 6 },
-            { wisdom: 4 },
-            { charisma: 5 }
+            {
+                dexterity: 4
+            },
+            {
+                constitution: 6
+            },
+            {
+                wisdom: 4
+            },
+            {
+                charisma: 5
+            }
         ],
-        skillsaves: [{ deception: 5 }, { perception: 7 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                deception: 5
+            },
+            {
+                perception: 7
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "poison",
@@ -16535,12 +18639,27 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., climb 40 ft., fly 80 ft.",
         stats: [23, 10, 21, 14, 11, 19],
         saves: [
-            { dexterity: 4 },
-            { constitution: 9 },
-            { wisdom: 4 },
-            { charisma: 8 }
+            {
+                dexterity: 4
+            },
+            {
+                constitution: 9
+            },
+            {
+                wisdom: 4
+            },
+            {
+                charisma: 8
+            }
         ],
-        skillsaves: [{ perception: 8 }, { stealth: 4 }],
+        skillsaves: [
+            {
+                perception: 8
+            },
+            {
+                stealth: 4
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "fire",
@@ -16588,16 +18707,32 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., fly 80 ft.",
         stats: [23, 10, 21, 14, 11, 19],
         saves: [
-            { dexterity: 4 },
-            { constitution: 9 },
-            { wisdom: 4 },
-            { charisma: 8 }
+            {
+                dexterity: 4
+            },
+            {
+                constitution: 9
+            },
+            {
+                wisdom: 4
+            },
+            {
+                charisma: 8
+            }
         ],
         skillsaves: [
-            { arcana: 6 },
-            { history: 6 },
-            { perception: 8 },
-            { stealth: 4 }
+            {
+                arcana: 6
+            },
+            {
+                history: 6
+            },
+            {
+                perception: 8
+            },
+            {
+                stealth: 4
+            }
         ],
         damage_vulnerabilities: "",
         damage_resistances: "",
@@ -16646,12 +18781,27 @@ export const BESTIARY: Monster[] = [
         speed: "40 ft., burrow 20 ft., fly 80 ft., swim 40 ft.",
         stats: [18, 10, 18, 6, 11, 12],
         saves: [
-            { dexterity: 3 },
-            { constitution: 7 },
-            { wisdom: 3 },
-            { charisma: 4 }
+            {
+                dexterity: 3
+            },
+            {
+                constitution: 7
+            },
+            {
+                wisdom: 3
+            },
+            {
+                charisma: 4
+            }
         ],
-        skillsaves: [{ perception: 6 }, { stealth: 3 }],
+        skillsaves: [
+            {
+                perception: 6
+            },
+            {
+                stealth: 3
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "cold",
@@ -16705,7 +18855,11 @@ export const BESTIARY: Monster[] = [
         hit_dice: "3d8",
         speed: "20 ft.",
         stats: [13, 6, 16, 3, 6, 5],
-        saves: [{ wisdom: 0 }],
+        saves: [
+            {
+                wisdom: 0
+            }
+        ],
         damage_vulnerabilities: "",
         damage_resistances: "",
         damage_immunities: "",
@@ -16732,6 +18886,23 @@ export const BESTIARY: Monster[] = [
     }
 ];
 
-export const BESTIARY_BY_NAME = Object.fromEntries(
+/* export const BESTIARY_BY_NAME = Object.fromEntries(
     BESTIARY.map((monster) => [monster.name, monster])
+); */
+
+export const BESTIARY_BY_NAME: Map<string, Monster> = new Map(
+    BESTIARY.map((monster) => {
+        /*         const statblock: StatblockMonster = Object.assign({}, monster, {
+            traits: new Map(),
+            actions: new Map(),
+            reactions: new Map(),
+            legendary_actions: new Map()
+        });
+        statblock.traits = traitMapFrom(monster.traits);
+        statblock.actions = traitMapFrom(monster.actions);
+        statblock.reactions = traitMapFrom(monster.reactions);
+        statblock.legendary_actions = traitMapFrom(monster.legendary_actions); */
+
+        return [monster.name, monster];
+    })
 );
