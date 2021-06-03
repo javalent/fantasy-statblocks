@@ -24,10 +24,12 @@ export default class StatBlockPlugin
 {
     data: Map<string, Monster>;
     bestiary: Map<string, Monster>;
-    private _sorted: string[] = [];
+    private _sorted: Monster[] = [];
     get sorted() {
         if (!this._sorted.length)
-            this._sorted = sort<string>(Array.from(this.data.keys())).asc();
+            this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
+                (m) => m.name
+            );
         return this._sorted;
     }
     async onload() {
@@ -65,14 +67,18 @@ export default class StatBlockPlugin
             this.bestiary.set(monster.name, monster);
             await this.saveData(this._transformData(this.data));
             if (sortFields)
-                this._sorted = sort<string>(Array.from(this.data.keys())).asc();
+                this._sorted = sort<Monster>(
+                    Array.from(this.data.values())
+                ).asc((m) => m.name);
         }
     }
     async saveMonsters(monsters: Monster[]) {
         for (let monster of monsters) {
             await this.saveMonster(monster, false);
         }
-        this._sorted = sort<string>(Array.from(this.data.keys())).asc();
+        this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
+            (m) => m.name
+        );
     }
 
     async deleteMonster(monster: string) {
@@ -80,7 +86,9 @@ export default class StatBlockPlugin
         this.data.delete(monster);
         this.bestiary.delete(monster);
         await this.saveData(this._transformData(this.data));
-        this._sorted = sort<string>(Array.from(this.data.keys())).asc();
+        this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
+            (m) => m.name
+        );
     }
 
     private _transformData(data: Map<string, Monster>): any[] {

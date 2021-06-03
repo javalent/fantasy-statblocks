@@ -1,6 +1,13 @@
 import { StatblockMonsterPlugin } from "@types";
-import { App, Notice, PluginSettingTab, Setting } from "obsidian";
+import {
+    App,
+    Notice,
+    PluginSettingTab,
+    Setting,
+    TextComponent
+} from "obsidian";
 import { DnDAppFilesImporter } from "src/importers/DnDAppFilesImporter";
+import { MonsterSuggester } from "src/util/suggester";
 
 export default class StatblockSettingTab extends PluginSettingTab {
     constructor(app: App, private plugin: StatblockMonsterPlugin) {
@@ -65,9 +72,13 @@ export default class StatblockSettingTab extends PluginSettingTab {
             const additionalContainer = containerEl.createDiv(
                 "statblock-additional-container"
             );
-            new Setting(additionalContainer)
+            let monsterFilter: TextComponent;
+            const homebrewMonsters = new Setting(additionalContainer)
                 .setName("Homebrew Monsters")
-                .setDesc("Manage saved homebrew monsters.");
+                .addText((t) => {
+                    t.setPlaceholder("Filter Monsters");
+                    monsterFilter = t;
+                });
             const additional = additionalContainer.createDiv("additional");
             if (!this.plugin.data.size) {
                 additional
@@ -81,8 +92,38 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     });
                 return;
             }
-            //TODO: MEMOIZE THE SORT
-            for (let monster of this.plugin.sorted) {
+
+            let suggester = new MonsterSuggester(
+                this.plugin,
+                monsterFilter,
+                additional,
+                this.plugin.sorted
+            );
+
+            homebrewMonsters.setDesc(
+                `Manage homebrew monsters. Currently: ${
+                    suggester.getItems().length
+                } monsters.`
+            );
+
+            suggester.onRemoveItem = async (monster) => {
+                try {
+                    await this.plugin.deleteMonster(monster.name);
+                } catch (e) {
+                    new Notice(
+                        `There was an error deleting the monster:${
+                            `\n\n` + e.message
+                        }`
+                    );
+                }
+                this.display();
+            };
+            suggester.onInputChanged = () =>
+                homebrewMonsters.setDesc(
+                    `Manage homebrew monsters. Currently: ${suggester.filteredItems.length} monsters.`
+                );
+
+            /* for (let monster of this.plugin.sorted) {
                 let setting = new Setting(additional)
                     .setName(monster)
                     .setDesc(this.plugin.data.get(monster).source ?? "");
@@ -103,7 +144,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                             this.display();
                         });
                 });
-            }
+            } */
         } catch (e) {
             new Notice(
                 "There was an error displaying the settings tab for 5e Statblocks."

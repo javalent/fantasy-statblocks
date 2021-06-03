@@ -7,7 +7,7 @@ export declare abstract class StatblockMonsterPlugin extends Plugin {
         el: HTMLElement,
         ctx: MarkdownPostProcessorContext
     ): Promise<void>;
-    get sorted(): string[];
+    get sorted(): Monster[];
     abstract saveMonster(monster: Monster): Promise<void>;
     abstract saveMonsters(monsters: Monster[]): Promise<void>;
     abstract deleteMonster(monster: string): Promise<void>;
