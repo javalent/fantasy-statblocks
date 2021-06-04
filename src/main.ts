@@ -32,6 +32,11 @@ export default class StatBlockPlugin
             );
         return this._sorted;
     }
+    get sources() {
+        console.log("🚀 ~ file: main.ts ~ line 36 ~ getsources ~ sources");
+
+        return new Set(Array.from(this.data.values()).map((m) => m.source));
+    }
     async onload() {
         console.log("5e StatBlocks loaded");
 

@@ -140,8 +140,33 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     t.setPlaceholder("Filter Monsters");
                     monsterFilter = t;
                 });
-            /* const sourcesSetting = filters.createEl("details");
-            sourcesSetting.createEl("summary", { text: "Filter Sources" }); */
+            const sourcesSetting = filters.createEl("details");
+            sourcesSetting.createEl("summary", { text: "Filter Sources" });
+            const list = sourcesSetting.createEl(
+                "ul",
+                "contains-task-list task-list-inline markdown-preview-view"
+            );
+            console.log(
+                "🚀 ~ file: settings.ts ~ line 150 ~ StatblockSettingTab ~ display ~ this.plugin.sources",
+                this.plugin.sources
+            );
+            for (let source of this.plugin.sources) {
+                const li = list.createEl("li", "task-list-item");
+                li.createEl("input", {
+                    attr: {
+                        id: "input_" + source,
+                        checked: true
+                    },
+                    type: "checkbox",
+                    cls: "task-list-item-checkbox"
+                });
+                li.createEl("label", {
+                    attr: {
+                        for: "input_" + source
+                    },
+                    text: source
+                });
+            }
 
             const additional = additionalContainer.createDiv("additional");
             if (!this.plugin.data.size) {

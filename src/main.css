@@ -17,6 +17,11 @@
     background-color: inherit;
 }
 
+.statblock-additional-container .task-list-inline {
+    display: grid;
+    gap: 6px;
+}
+
 .statblock-monster-filter {
     position: sticky;
     top: -5px;
