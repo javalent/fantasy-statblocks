@@ -14,6 +14,14 @@
     border-top: 1px solid var(--background-modifier-border);
     border-bottom: 0px solid var(--background-modifier-border);
     padding: 18px 0 0 0;
+    background-color: inherit;
+}
+
+.statblock-monster-filter {
+    position: sticky;
+    top: -5px;
+    padding-top: 5px;
+    background-color: inherit;
 }
 
 .statblock-additional-container > .setting-item-heading:only-child {

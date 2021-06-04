@@ -6,76 +6,75 @@ import { StatBlockImporter } from "./StatBlockImporter"; */
 import { Monster, Spell, Trait } from "@types";
 import { titleCase } from "title-case";
 
-export class DnDAppFilesImporter {
-    public ImportEntitiesFromXml = async (
-        ...files: File[]
-    ): Promise<Monster[]> => {
-        return new Promise((resolve) => {
-            for (let xmlFile of files) {
-                const reader = new FileReader();
+export const ImportEntitiesFromXml = async (
+    ...files: File[]
+): Promise<Monster[]> => {
+    return new Promise((resolve) => {
+        for (let xmlFile of files) {
+            const reader = new FileReader();
 
-                reader.onload = async (event: any) => {
-                    const xml: string = event.target.result;
+            reader.onload = async (event: any) => {
+                const xml: string = event.target.result;
 
-                    const dom = new DOMParser().parseFromString(
-                        xml,
-                        "application/xml"
-                    );
-                    const monsters = dom.getElementsByTagName("monster");
-                    const importedMonsters: Monster[] = [];
-                    if (!monsters.length) return;
-                    for (let monster of Array.from(monsters)) {
-                        const importedMonster: Monster = {
-                            name: getParameter(monster, "name"),
-                            size: getSize(monster),
-                            type: getParameter(monster, "type"),
-                            subtype: getParameter(monster, "subtype"),
-                            alignment: getParameter(monster, "alignment"),
-                            ac: getAC(monster),
-                            hp: Number(getHP(monster, "hp")),
-                            hit_dice: getHP(monster, "hit_dice"),
-                            speed: getParameter(monster, "speed"),
-                            stats: [
-                                Number(getParameter(monster, "str")),
-                                Number(getParameter(monster, "dex")),
-                                Number(getParameter(monster, "con")),
-                                Number(getParameter(monster, "int")),
-                                Number(getParameter(monster, "wis")),
-                                Number(getParameter(monster, "cha"))
-                            ],
-                            saves: getSaves(monster),
-                            skillsaves: getSkillSaves(monster),
-                            damage_vulnerabilities: getParameter(
-                                monster,
-                                "vulnerable"
-                            ),
-                            damage_resistances: getParameter(monster, "resist"),
-                            damage_immunities: getParameter(monster, "immune"),
-                            condition_immunities: getParameter(
-                                monster,
-                                "conditionImmune"
-                            ),
-                            senses: getParameter(monster, "senses"),
-                            languages: getParameter(monster, "languages"),
-                            cr: getParameter(monster, "cr"),
-                            traits: getTraits(monster, "trait"),
-                            spells: getSpells(monster),
-                            actions: getTraits(monster, "action"),
-                            legendary_actions: getTraits(monster, "legendary"),
-                            reactions: getTraits(monster, "reaction"),
-                            source: getSource(monster)
-                        };
+                const dom = new DOMParser().parseFromString(
+                    xml,
+                    "application/xml"
+                );
+                const monsters = dom.getElementsByTagName("monster");
+                const importedMonsters: Monster[] = [];
+                if (!monsters.length) return;
+                for (let monster of Array.from(monsters)) {
+                    const importedMonster: Monster = {
+                        name: getParameter(monster, "name"),
+                        size: getSize(monster),
+                        type: getParameter(monster, "type"),
+                        subtype: getParameter(monster, "subtype"),
+                        alignment: getParameter(monster, "alignment"),
+                        ac: getAC(monster),
+                        hp: Number(getHP(monster, "hp")),
+                        hit_dice: getHP(monster, "hit_dice"),
+                        speed: getParameter(monster, "speed"),
+                        stats: [
+                            Number(getParameter(monster, "str")),
+                            Number(getParameter(monster, "dex")),
+                            Number(getParameter(monster, "con")),
+                            Number(getParameter(monster, "int")),
+                            Number(getParameter(monster, "wis")),
+                            Number(getParameter(monster, "cha"))
+                        ],
+                        saves: getSaves(monster),
+                        skillsaves: getSkillSaves(monster),
+                        damage_vulnerabilities: getParameter(
+                            monster,
+                            "vulnerable"
+                        ),
+                        damage_resistances: getParameter(monster, "resist"),
+                        damage_immunities: getParameter(monster, "immune"),
+                        condition_immunities: getParameter(
+                            monster,
+                            "conditionImmune"
+                        ),
+                        senses: getParameter(monster, "senses"),
+                        languages: getParameter(monster, "languages"),
+                        cr: getParameter(monster, "cr"),
+                        traits: getTraits(monster, "trait"),
+                        spells: getSpells(monster),
+                        actions: getTraits(monster, "action"),
+                        legendary_actions: getTraits(monster, "legendary"),
+                        reactions: getTraits(monster, "reaction"),
+                        source: getSource(monster)
+                    };
 
-                        importedMonsters.push(importedMonster);
-                    }
-                    resolve(importedMonsters);
-                };
+                    importedMonsters.push(importedMonster);
+                }
+                resolve(importedMonsters);
+            };
 
-                reader.readAsText(xmlFile);
-            }
-        });
-    };
-}
+            reader.readAsText(xmlFile);
+        }
+    });
+};
+
 function getParameter(monster: Element, tag: string): string {
     const element = monster.getElementsByTagName(tag);
     if (element && element.length) return element[0].textContent;
@@ -221,9 +220,5 @@ function getSource(monster: Element): string {
             );
         }
     }
-    console.log(
-        "🚀 ~ file: DnDAppFilesImporter.ts ~ line 226 ~ getSource ~ source",
-        source
-    );
     return source;
 }
