@@ -95,6 +95,7 @@
     box-shadow: 0 0 1.5em #ddd;
     margin-left: 2px;
     margin-right: 2px;
+    
     column-width: 400px;
     column-gap: 1em;
     column-fill: auto;
@@ -123,7 +124,6 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    
 }
 
 .obsidian-statblock-plugin .creature-heading > .subheading {

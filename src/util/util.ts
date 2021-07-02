@@ -109,7 +109,7 @@ export function spellArrayFrom(arg0: Trait): Spell[] {
 
 export function getColumns(contentEl: HTMLElement) {
     let width = contentEl?.getBoundingClientRect()?.width || 400;
-    return Math.floor(width / 400);
+    return Math.floor((width - 20) / 400);
 }
 
 export function catchError(
