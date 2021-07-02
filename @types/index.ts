@@ -1,6 +1,7 @@
 import { MarkdownPostProcessorContext, Plugin } from "obsidian";
 
 export declare abstract class StatblockMonsterPlugin extends Plugin {
+    exportAsPng(name: string, containerEl: HTMLElement): void;
     data: Map<string, Monster>;
     abstract postprocessor(
         source: string,

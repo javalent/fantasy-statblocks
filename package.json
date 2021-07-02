@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-5e-statblocks",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"description": "Create 5e styled statblocks in Obsidian.md",
 	"main": "main.js",
 	"scripts": {
@@ -14,7 +14,9 @@
 		"@rollup/plugin-commonjs": "^15.1.0",
 		"@rollup/plugin-node-resolve": "^9.0.0",
 		"@rollup/plugin-typescript": "^6.0.0",
+		"@types/dom-to-image": "^2.6.2",
 		"@types/node": "^14.14.2",
+		"dom-to-image": "^2.6.0",
 		"fast-sort": "^3.0.2",
 		"obsidian": "https://github.com/obsidianmd/obsidian-api/tarball/master",
 		"rollup": "^2.32.1",

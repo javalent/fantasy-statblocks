@@ -119,6 +119,13 @@
     justify-content: space-between;
     align-items: center;
 }
+.obsidian-statblock-plugin .creature-heading .statblock-icons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    
+}
+
 .obsidian-statblock-plugin .creature-heading > .subheading {
     font-weight: normal;
     font-style: italic;
