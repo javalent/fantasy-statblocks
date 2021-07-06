@@ -62,10 +62,6 @@ async function buildMonsterFromFile(file: File): Promise<Monster> {
                                 value: string
                             ]
                         ) => {
-                            console.log(
-                                "🚀 ~ file: 5eToolsImport.ts ~ line 62 ~ thr.value",
-                                thr
-                            );
                             const [, v] = thr[1].match(/.*(\d+)/);
                             return { [abilityMap[thr[0]]]: v };
                         }

@@ -3,12 +3,15 @@ import {
     App,
     FuzzyMatch,
     FuzzySuggestModal,
+    Modal,
     Notice,
     Scope,
     Setting,
     SuggestModal,
     TextComponent
 } from "obsidian";
+import StatBlockRenderer from "src/renderer/statblock";
+import { getColumns } from "./util";
 /* import { createPopper, Instance as PopperInstance } from "@popperjs/core"; */
 
 class Suggester<T> {
@@ -261,11 +264,28 @@ export class MonsterSuggester extends SuggestionModal<Monster> {
         }
 
         content.setDesc(item.source);
-        content.addExtraButton((b) => {
-            b.setIcon("trash")
-                .setTooltip("Delete")
-                .onClick(() => this.onRemoveItem(item));
-        });
+        content
+            .addExtraButton((b) => {
+                b.setIcon("magnifying-glass")
+                    .setTooltip("View")
+                    .onClick(() => {
+                        const modal = new ViewMonsterModal(this.plugin, item);
+                        modal.open();
+                    });
+            })
+            /* .addExtraButton((b) => {
+                b.setIcon("pencil")
+                    .setTooltip("Edit")
+                    .onClick(() => {
+                        const modal = new EditMonsterModal(this.plugin, item);
+                        modal.open();
+                    });
+            }) */
+            .addExtraButton((b) => {
+                b.setIcon("trash")
+                    .setTooltip("Delete")
+                    .onClick(() => this.onRemoveItem(item));
+            });
     }
     getItems() {
         return this.plugin.sorted.filter(({ source }) =>
@@ -274,4 +294,64 @@ export class MonsterSuggester extends SuggestionModal<Monster> {
     }
     onClose(item?: Monster) {}
     onRemoveItem(item: Monster) {}
+}
+
+class ViewMonsterModal extends Modal {
+    constructor(
+        private plugin: StatblockMonsterPlugin,
+        private monster: Monster
+    ) {
+        super(plugin.app);
+    }
+    async display() {
+        const renderer = new StatBlockRenderer(
+            this.contentEl,
+            this.monster,
+            this.plugin,
+            false,
+            false
+        );
+        renderer.loaded = true;
+        let columns =
+            this.contentEl.getBoundingClientRect().height > 500
+                ? Math.ceil(this.contentEl.getBoundingClientRect().height / 750)
+                : 1;
+        if (columns >= 1) renderer.setWidth(columns * 400, true);
+        if (columns === 0) renderer.setMaxWidth(400);
+        renderer.statblockEl.toggleVisibility(true);
+    }
+    onOpen() {
+        this.display();
+    }
+}
+class EditMonsterModal extends Modal {
+    private _tempMonster: Monster;
+    constructor(
+        private plugin: StatblockMonsterPlugin,
+        private monster: Monster
+    ) {
+        super(plugin.app);
+        this._tempMonster = { ...monster };
+    }
+    async display() {
+        const { contentEl } = this;
+
+        const topLevel = createDiv();
+        topLevel.createEl("h2", { text: "Edit Monster" });
+
+        /**
+         * Name
+         * Source
+         * Type
+         * Size
+         * Alignment
+         * HP, AC
+         */
+        const basicStats = createDiv();
+
+        contentEl.appendChild(topLevel);
+    }
+    onOpen() {
+        this.display();
+    }
 }

@@ -21,7 +21,8 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         container: HTMLElement,
         monster: Monster,
         private plugin: StatblockMonsterPlugin,
-        private canSave: boolean
+        private canSave: boolean,
+        private canExport: boolean = true
     ) {
         super(container);
         this.monster = monster;
@@ -326,10 +327,12 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 saveEl.onclick = () => this.plugin.saveMonster(this.monster);
                 setIcon(saveEl, SAVE_SYMBOL);
             }
-            const iconEl = iconsEl.createDiv("clickable-icon");
-            iconEl.onclick = () =>
-                this.plugin.exportAsPng(name, this.containerEl);
-            setIcon(iconEl, EXPORT_SYMBOL);
+            if (this.canExport) {
+                const iconEl = iconsEl.createDiv("clickable-icon");
+                iconEl.onclick = () =>
+                    this.plugin.exportAsPng(name, this.containerEl);
+                setIcon(iconEl, EXPORT_SYMBOL);
+            }
 
             needRule = true;
         }

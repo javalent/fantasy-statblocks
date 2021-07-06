@@ -1,6 +1,7 @@
-import { StatblockMonsterPlugin } from "@types";
+import { Monster, StatblockMonsterPlugin } from "@types";
 import {
     App,
+    Modal,
     Notice,
     PluginSettingTab,
     Setting,
@@ -307,7 +308,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         }`
                     );
                 }
-                this.display();
+                suggester._onInputChanged();
             };
             suggester.onInputChanged = () =>
                 searchMonsters.setDesc(
@@ -320,3 +321,4 @@ export default class StatblockSettingTab extends PluginSettingTab {
         }
     }
 }
+
