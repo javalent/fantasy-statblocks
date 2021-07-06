@@ -120,7 +120,6 @@ class Suggester<T> {
 }
 
 abstract class SuggestionModal<T> extends FuzzySuggestModal<T> {
-    items: T[] = [];
     suggestions: HTMLDivElement[];
     scope: Scope = new Scope();
     suggester: Suggester<FuzzyMatch<T>>;
@@ -132,12 +131,10 @@ abstract class SuggestionModal<T> extends FuzzySuggestModal<T> {
     constructor(
         app: App,
         inputEl: HTMLInputElement,
-        suggestEl: HTMLDivElement,
-        items: T[]
+        suggestEl: HTMLDivElement
     ) {
         super(app);
         this.inputEl = inputEl;
-        this.items = items;
 
         this.suggestEl = suggestEl.createDiv(/* "suggestion-container" */);
 
@@ -145,11 +142,11 @@ abstract class SuggestionModal<T> extends FuzzySuggestModal<T> {
 
         this.suggester = new Suggester(this, this.contentEl, this.scope);
 
-        this.scope.register([], "Escape", this.close.bind(this));
+        /* this.scope.register([], "Escape", this.close.bind(this)); */
 
         this.inputEl.addEventListener("input", this._onInputChanged.bind(this));
         this.inputEl.addEventListener("focus", this._onInputChanged.bind(this));
-        this.inputEl.addEventListener("blur", this.close.bind(this));
+        /* this.inputEl.addEventListener("blur", this.close.bind(this)); */
         this.suggestEl.on(
             "mousedown",
             ".suggestion-container",
@@ -208,10 +205,9 @@ export class MonsterSuggester extends SuggestionModal<Monster> {
         public plugin: StatblockMonsterPlugin,
         input: TextComponent,
         el: HTMLDivElement,
-        items: Monster[]
+        public displayed: Set<string>
     ) {
-        super(plugin.app, input.inputEl, el, items);
-        this.monsters = [...items];
+        super(plugin.app, input.inputEl, el);
         this.text = input;
         //this.getItem();
         this._onInputChanged();
@@ -222,7 +218,7 @@ export class MonsterSuggester extends SuggestionModal<Monster> {
     createPrompts() {}
     getItem() {
         const v = this.inputEl.value,
-            monster = this.monsters.find(
+            monster = this.getItems().find(
                 (c) => c.name === v.trim() /* || c.source === v.trim() */
             );
         if (monster == this.monster) return;
@@ -263,7 +259,7 @@ export class MonsterSuggester extends SuggestionModal<Monster> {
 
             content.nameEl.appendText(item.name[i]);
         }
-        
+
         content.setDesc(item.source);
         content.addExtraButton((b) => {
             b.setIcon("trash")
@@ -272,7 +268,9 @@ export class MonsterSuggester extends SuggestionModal<Monster> {
         });
     }
     getItems() {
-        return this.monsters;
+        return this.plugin.sorted.filter(({ source }) =>
+            this.displayed.has(source)
+        );
     }
     onClose(item?: Monster) {}
     onRemoveItem(item: Monster) {}

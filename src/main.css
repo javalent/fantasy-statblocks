@@ -17,9 +17,17 @@
     background-color: inherit;
 }
 
+.statblock-additional-container details {
+    padding: 18px 0 18px 0;
+    
+}
+
 .statblock-additional-container .task-list-inline {
     display: grid;
-    gap: 6px;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 3em;
+    padding-bottom: 0px;
+    margin: 0px;
 }
 
 .statblock-monster-filter {
@@ -95,7 +103,7 @@
     box-shadow: 0 0 1.5em #ddd;
     margin-left: 2px;
     margin-right: 2px;
-    
+
     column-width: 400px;
     column-gap: 1em;
     column-fill: auto;

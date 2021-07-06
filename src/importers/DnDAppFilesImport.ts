@@ -8,72 +8,75 @@ import { titleCase } from "title-case";
 
 export const ImportEntitiesFromXml = async (
     ...files: File[]
-): Promise<Monster[]> => {
-    return new Promise((resolve) => {
-        for (let xmlFile of files) {
-            const reader = new FileReader();
+): Promise<Map<string, Monster>> => {
+    let importedMonsters: Map<string, Monster> = new Map();
 
-            reader.onload = async (event: any) => {
-                const xml: string = event.target.result;
-
-                const dom = new DOMParser().parseFromString(
-                    xml,
-                    "application/xml"
-                );
-                const monsters = dom.getElementsByTagName("monster");
-                const importedMonsters: Monster[] = [];
-                if (!monsters.length) return;
-                for (let monster of Array.from(monsters)) {
-                    const importedMonster: Monster = {
-                        name: getParameter(monster, "name"),
-                        size: getSize(monster),
-                        type: getParameter(monster, "type"),
-                        subtype: getParameter(monster, "subtype"),
-                        alignment: getParameter(monster, "alignment"),
-                        ac: getAC(monster),
-                        hp: Number(getHP(monster, "hp")),
-                        hit_dice: getHP(monster, "hit_dice"),
-                        speed: getParameter(monster, "speed"),
-                        stats: [
-                            Number(getParameter(monster, "str")),
-                            Number(getParameter(monster, "dex")),
-                            Number(getParameter(monster, "con")),
-                            Number(getParameter(monster, "int")),
-                            Number(getParameter(monster, "wis")),
-                            Number(getParameter(monster, "cha"))
-                        ],
-                        saves: getSaves(monster),
-                        skillsaves: getSkillSaves(monster),
-                        damage_vulnerabilities: getParameter(
-                            monster,
-                            "vulnerable"
-                        ),
-                        damage_resistances: getParameter(monster, "resist"),
-                        damage_immunities: getParameter(monster, "immune"),
-                        condition_immunities: getParameter(
-                            monster,
-                            "conditionImmune"
-                        ),
-                        senses: getParameter(monster, "senses"),
-                        languages: getParameter(monster, "languages"),
-                        cr: getParameter(monster, "cr"),
-                        traits: getTraits(monster, "trait"),
-                        spells: getSpells(monster),
-                        actions: getTraits(monster, "action"),
-                        legendary_actions: getTraits(monster, "legendary"),
-                        reactions: getTraits(monster, "reaction"),
-                        source: getSource(monster)
-                    };
-
-                    importedMonsters.push(importedMonster);
-                }
-                resolve(importedMonsters);
-            };
-
-            reader.readAsText(xmlFile);
-        }
-    });
+    for (let file of files) {
+        try {
+            const monsters = await buildMonsterFromFile(file);
+            importedMonsters = new Map([...importedMonsters, ...monsters]);
+        } catch (e) {}
+    }
+    return importedMonsters;
 };
+
+async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+
+        reader.onload = async (event: any) => {
+            const xml: string = event.target.result;
+
+            const dom = new DOMParser().parseFromString(xml, "application/xml");
+            const monsters = dom.getElementsByTagName("monster");
+            const importedMonsters: Map<string, Monster> = new Map();
+            if (!monsters.length) return;
+            for (let monster of Array.from(monsters)) {
+                const importedMonster: Monster = {
+                    name: getParameter(monster, "name"),
+                    size: getSize(monster),
+                    type: getParameter(monster, "type"),
+                    subtype: getParameter(monster, "subtype"),
+                    alignment: getParameter(monster, "alignment"),
+                    ac: getAC(monster),
+                    hp: Number(getHP(monster, "hp")),
+                    hit_dice: getHP(monster, "hit_dice"),
+                    speed: getParameter(monster, "speed"),
+                    stats: [
+                        Number(getParameter(monster, "str")),
+                        Number(getParameter(monster, "dex")),
+                        Number(getParameter(monster, "con")),
+                        Number(getParameter(monster, "int")),
+                        Number(getParameter(monster, "wis")),
+                        Number(getParameter(monster, "cha"))
+                    ],
+                    saves: getSaves(monster),
+                    skillsaves: getSkillSaves(monster),
+                    damage_vulnerabilities: getParameter(monster, "vulnerable"),
+                    damage_resistances: getParameter(monster, "resist"),
+                    damage_immunities: getParameter(monster, "immune"),
+                    condition_immunities: getParameter(
+                        monster,
+                        "conditionImmune"
+                    ),
+                    senses: getParameter(monster, "senses"),
+                    languages: getParameter(monster, "languages"),
+                    cr: getParameter(monster, "cr"),
+                    traits: getTraits(monster, "trait"),
+                    spells: getSpells(monster),
+                    actions: getTraits(monster, "action"),
+                    legendary_actions: getTraits(monster, "legendary"),
+                    reactions: getTraits(monster, "reaction"),
+                    source: getSource(monster)
+                };
+                importedMonsters.set(importedMonster.name, importedMonster);
+            }
+            resolve(importedMonsters);
+        };
+
+        reader.readAsText(file);
+    });
+}
 
 function getParameter(monster: Element, tag: string): string {
     const element = monster.getElementsByTagName(tag);
