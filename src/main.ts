@@ -6,7 +6,6 @@ import {
 } from "obsidian";
 import domtoimage from "dom-to-image";
 
-
 import { BESTIARY_BY_NAME } from "./data/srd-bestiary";
 import StatBlockRenderer from "./renderer/statblock";
 import { getColumns, getParamsFromSource, renderError } from "./util/util";
@@ -16,7 +15,7 @@ import {
     SAVE_ICON,
     SAVE_SYMBOL
 } from "./data/constants";
-import {
+import type {
     /* StatblockMonster, */ Monster,
     StatblockMonsterPlugin
 } from "@types";
@@ -90,6 +89,11 @@ export default class StatBlockPlugin
         this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
             (m) => m.name
         );
+    }
+
+    async updateMonster(oldMonster: Monster, newMonster: Monster) {
+        this.data.delete(oldMonster.name);
+        await this.saveMonster(newMonster);
     }
 
     async deleteMonster(monster: string) {
@@ -257,7 +261,7 @@ export default class StatBlockPlugin
             if (view && view instanceof MarkdownView) {
                 view.onResize = () => {
                     let c = getColumns(statblock.containerEl.parentElement);
-                    
+
                     if (c == columns) return;
                     columns = c;
 

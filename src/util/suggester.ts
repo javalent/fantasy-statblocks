@@ -1,18 +1,17 @@
-import { Monster, StatblockMonsterPlugin } from "@types";
+import type { Monster, StatblockMonsterPlugin } from "@types";
 import {
     App,
     FuzzyMatch,
     FuzzySuggestModal,
     Modal,
-    Notice,
     Scope,
     Setting,
     SuggestModal,
     TextComponent
 } from "obsidian";
 import StatBlockRenderer from "src/renderer/statblock";
-import { getColumns } from "./util";
-/* import { createPopper, Instance as PopperInstance } from "@popperjs/core"; */
+
+import EditMonsterApp from "../svelte/EditMonster.svelte";
 
 class Suggester<T> {
     owner: SuggestModal<T>;
@@ -266,21 +265,24 @@ export class MonsterSuggester extends SuggestionModal<Monster> {
         content.setDesc(item.source);
         content
             .addExtraButton((b) => {
-                b.setIcon("magnifying-glass")
+                b.setIcon("info")
                     .setTooltip("View")
                     .onClick(() => {
                         const modal = new ViewMonsterModal(this.plugin, item);
                         modal.open();
                     });
             })
-            /* .addExtraButton((b) => {
+            .addExtraButton((b) => {
                 b.setIcon("pencil")
                     .setTooltip("Edit")
                     .onClick(() => {
                         const modal = new EditMonsterModal(this.plugin, item);
                         modal.open();
+                        modal.onClose = () => {
+                            this._onInputChanged();
+                        };
                     });
-            }) */
+            })
             .addExtraButton((b) => {
                 b.setIcon("trash")
                     .setTooltip("Delete")
@@ -325,33 +327,32 @@ class ViewMonsterModal extends Modal {
     }
 }
 class EditMonsterModal extends Modal {
-    private _tempMonster: Monster;
+    private _instance: any;
     constructor(
         private plugin: StatblockMonsterPlugin,
         private monster: Monster
     ) {
         super(plugin.app);
-        this._tempMonster = { ...monster };
     }
-    async display() {
-        const { contentEl } = this;
 
-        const topLevel = createDiv();
-        topLevel.createEl("h2", { text: "Edit Monster" });
-
-        /**
-         * Name
-         * Source
-         * Type
-         * Size
-         * Alignment
-         * HP, AC
-         */
-        const basicStats = createDiv();
-
-        contentEl.appendChild(topLevel);
-    }
     onOpen() {
-        this.display();
+        this._instance = new EditMonsterApp({
+            target: this.contentEl,
+            props: {
+                monster: this.monster
+            }
+        });
+        this._instance.$on("cancel", () => {
+            this.close();
+        });
+        this._instance.$on("save", async ({ detail }: { detail: Monster }) => {
+            await this.plugin.updateMonster(this.monster, detail);
+            this.close();
+        });
+    }
+    onClose() {}
+    close() {
+        if (this._instance) this._instance.$destroy();
+        super.close();
     }
 }

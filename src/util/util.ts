@@ -1,4 +1,4 @@
-import { Spell, Monster, Trait } from "@types";
+import type { Spell, Monster, Trait } from "@types";
 import { parseYaml } from "obsidian";
 
 export function toTitleCase(str: string): string {

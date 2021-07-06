@@ -3,7 +3,7 @@ import { StatBlock } from "../../common/StatBlock"; */
 /* import { SpellImporter } from "./SpellImporter";
 import { StatBlockImporter } from "./StatBlockImporter"; */
 
-import { Monster, Spell, Trait } from "@types";
+import type { Monster, Spell, Trait } from "@types";
 import { titleCase } from "title-case";
 
 export const ImportEntitiesFromXml = async (

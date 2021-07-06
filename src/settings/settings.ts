@@ -1,7 +1,6 @@
-import { Monster, StatblockMonsterPlugin } from "@types";
+import type {  StatblockMonsterPlugin } from "@types";
 import {
     App,
-    Modal,
     Notice,
     PluginSettingTab,
     Setting,

@@ -1,4 +1,4 @@
-import { Monster } from "@types";
+import type { Monster } from "@types";
 const SAVES: Record<
     string,
     | "strength"

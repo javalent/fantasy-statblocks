@@ -3,12 +3,11 @@ import {
     AbilityAliases,
     CR,
     DiceBySize,
-    EXPORT_ICON,
     EXPORT_SYMBOL,
     SAVE_SYMBOL
 } from "../data/constants";
 import { catchError, catchErrorAsync, getMod, toTitleCase } from "../util/util";
-import { Spell, Monster, StatblockMonsterPlugin } from "@types";
+import type { Spell, Monster, StatblockMonsterPlugin } from "@types";
 
 export default class StatBlockRenderer extends MarkdownRenderChild {
     topBar: HTMLDivElement;
@@ -116,12 +115,13 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         let needRule = false;
         let element = createDiv();
         /** Build Saving Throws */
-        if (this.monster.saves) {
+        if (this.monster.saves && this.monster.saves.length) {
             let save = [];
             for (let i = 0; i < this.monster.saves.length; i++) {
                 let ability = this.monster.saves[i];
                 if (typeof ability != "object" || ability == null) continue;
                 let key = Object.keys(ability).shift();
+                if (!key) continue;
                 if (!AbilityAliases[key.toLowerCase()]) continue;
 
                 let value = Object.values(ability).shift();
@@ -136,13 +136,15 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             needRule = true;
         }
         /** Build Skill Saves */
-        if (this.monster.skillsaves) {
+        if (this.monster.skillsaves && this.monster.skillsaves.length) {
             let save = [];
             for (let i = 0; i < this.monster.skillsaves.length; i++) {
                 let ability = this.monster.skillsaves[i];
                 if (typeof ability != "object" || ability == null) continue;
                 let key = Object.keys(ability).shift();
+                if (!key) continue;
                 let value = Object.values(ability).shift();
+                if (!value) continue;
                 save.push(
                     `${toTitleCase(key)} ${value > 0 ? "+" : ""}${value}`
                 );
@@ -269,7 +271,6 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
     @catchErrorAsync
     async onload() {
         this.loaded = true;
-        /** Build Structure */
     }
 
     @catchError

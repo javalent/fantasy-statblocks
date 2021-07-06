@@ -1,4 +1,4 @@
-import { Monster } from "@types";
+import type { Monster } from "@types";
 
 export const ImportFrom5eTools = async (
     ...files: File[]

@@ -13,6 +13,10 @@ export declare abstract class StatblockMonsterPlugin extends Plugin {
     abstract saveMonster(monster: Monster): Promise<void>;
     abstract saveMonsters(monsters: Monster[]): Promise<void>;
     abstract deleteMonster(monster: string): Promise<void>;
+    abstract updateMonster(
+        oldMonster: Monster,
+        newMonster: Monster
+    ): Promise<void>;
 }
 
 export type ability =

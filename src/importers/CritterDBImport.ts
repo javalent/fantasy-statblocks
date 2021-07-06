@@ -1,4 +1,4 @@
-import { Monster } from "@types";
+import type { Monster } from "@types";
 
 export const ImportFromCritterDB = async (
     ...files: File[]
@@ -72,32 +72,31 @@ async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
                                 ?.join(", ")
                                 .toLowerCase()
                                 .trim() ?? "",
-                        saves: monster.stats.savingThrows?.map(
-                            (thr: {
-                                ability: keyof Monster["saves"];
-                                value: number;
-                            }) => {
-                                return { [thr.ability]: thr.value };
-                            }
-                        ),
+                        saves:
+                            monster.stats.savingThrows
+                                ?.map((thr: any) => {
+                                    if (
+                                        !("value" in thr) &&
+                                        !("modifier" in thr)
+                                    )
+                                        return;
+                                    return {
+                                        [thr.ability]: thr.value ?? thr.modifier
+                                    };
+                                })
+                                .filter((x: any) => x) ?? [],
                         skillsaves:
                             monster.stats.skills
-                                ?.map(
-                                    ({
-                                        name,
-                                        value,
-                                        modifier
-                                    }: {
-                                        name: string;
-                                        value: number;
-                                        modifier: number;
-                                    }) => {
-                                        if (!value && !modifier) return;
-                                        return {
-                                            [name]: value ?? modifier
-                                        };
-                                    }
-                                )
+                                ?.map((thr: any) => {
+                                    if (
+                                        !("value" in thr) &&
+                                        !("modifier" in thr)
+                                    )
+                                        return;
+                                    return {
+                                        [thr.name]: thr.value ?? thr.modifier
+                                    };
+                                })
                                 .filter((x: any) => x) ?? [],
                         senses: monster.stats.senses?.join(", ").trim() ?? "",
                         languages:
