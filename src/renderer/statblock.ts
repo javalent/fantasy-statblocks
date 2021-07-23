@@ -52,7 +52,13 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         );
 
         // Ability Score Table
-        if (this.monster.stats) {
+        if (this.monster.fage_stats) {
+            this._buildFAbilityScores(
+                this.contentEl.createDiv("abilities fage"),
+                this.monster.fage_stats
+            );
+            this.contentEl.createDiv("tapered-rule");
+        } else if (this.monster.stats) {
             this._buildAbilityScores(
                 this.contentEl.createDiv("abilities"),
                 this.monster.stats
@@ -306,6 +312,36 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 text: `${stats[index]} (${getMod(stats[index])})`
             });
         });
+    }
+
+    @catchError
+    private _buildFAbilityScores(abilityScoresEl: HTMLElement, stats: any) {
+        const top = abilityScoresEl.createDiv("top");
+        const bottom = abilityScoresEl.createDiv("bottom");
+        [
+            "Accuracy",
+            "Communication",
+            "Constitution",
+            "Dexterity",
+            "Fighting"
+        ].forEach((stat, index) => {
+            let el = top.createDiv("ability-score");
+            el.createEl("strong", { text: `${stat}` });
+
+            el.createDiv({
+                text: `${stats[index]}` /*  (${getMod(stats[index])}) */
+            });
+        });
+        ["Intelligence", "Perception", "Strength", "Willpower"].forEach(
+            (stat, index) => {
+                let el = bottom.createDiv("ability-score");
+                el.createEl("strong", { text: `${stat}` });
+
+                el.createDiv({
+                    text: `${stats[index]}` /*  (${getMod(stats[index])}) */
+                });
+            }
+        );
     }
 
     @catchError

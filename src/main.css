@@ -19,7 +19,6 @@
 
 .statblock-additional-container details {
     padding: 18px 0 18px 0;
-    
 }
 
 .statblock-additional-container .task-list-inline {
@@ -164,6 +163,20 @@
 
     color: var(--statblock-primary-color);
 }
+.obsidian-statblock-plugin .abilities.fage {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+}
+.obsidian-statblock-plugin .abilities.fage .top {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+}
+.obsidian-statblock-plugin .abilities.fage .bottom {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
 .obsidian-statblock-plugin .abilities .ability-score {
     display: flex;
     flex-flow: column nowrap;
