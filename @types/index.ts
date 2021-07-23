@@ -26,6 +26,16 @@ export type ability =
     | "intelligence"
     | "wisdom"
     | "charisma";
+export type fage_ability =
+    | "accuracy"
+    | "communication"
+    | "constitution"
+    | "dexterity"
+    | "fighting"
+    | "intelligence"
+    | "perception"
+    | "strength"
+    | "willpower";
 
 export interface Monster {
     name: string;
@@ -38,6 +48,17 @@ export interface Monster {
     hit_dice?: string;
     speed: string;
     stats: [number, number, number, number, number, number];
+    fage_stats?: [
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number,
+        number
+    ];
     saves?: { [K in ability]?: number }[];
     skillsaves?: { [key: string]: number }[];
     damage_vulnerabilities: string;

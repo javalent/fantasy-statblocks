@@ -34,6 +34,7 @@ hp: number
 hit_dice: string
 speed: string
 stats: [number, number, number, number, number, number]
+fage_stats: [number, number, number, number, number, number, number, number, number]
 saves:
     - <ability-score>: number
 skillsaves:
@@ -101,6 +102,10 @@ spells:
     - * The archmage casts these spells on itself before combat.
 ```
 ````
+
+### Fantasy AGE
+
+Those of you using the plugin for Fantasy AGE may use `fage_stats` to set the nine stats.
 
 ### Full Example
 
