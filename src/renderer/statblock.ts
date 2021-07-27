@@ -338,7 +338,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 el.createEl("strong", { text: `${stat}` });
 
                 el.createDiv({
-                    text: `${stats[index]}` /*  (${getMod(stats[index])}) */
+                    text: `${stats[index + 5]}` /*  (${getMod(stats[index])}) */
                 });
             }
         );
