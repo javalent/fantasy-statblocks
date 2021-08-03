@@ -1,4 +1,5 @@
 import type { Monster } from "@types";
+import { Notice } from "obsidian";
 
 export const ImportFrom5eTools = async (
     ...files: File[]
@@ -8,7 +9,10 @@ export const ImportFrom5eTools = async (
         try {
             const monster = await buildMonsterFromFile(file);
             importedMonsters.set(monster.name, monster);
-        } catch (e) {}
+        } catch (e) {
+            new Notice("There was an issue importing the monster.");
+            console.error(e);
+        }
     }
     return importedMonsters;
 };

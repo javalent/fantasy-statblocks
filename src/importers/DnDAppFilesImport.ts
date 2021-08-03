@@ -32,44 +32,51 @@ async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
             const importedMonsters: Map<string, Monster> = new Map();
             if (!monsters.length) return;
             for (let monster of Array.from(monsters)) {
-                const importedMonster: Monster = {
-                    name: getParameter(monster, "name"),
-                    size: getSize(monster),
-                    type: getParameter(monster, "type"),
-                    subtype: getParameter(monster, "subtype"),
-                    alignment: getParameter(monster, "alignment"),
-                    ac: getAC(monster),
-                    hp: Number(getHP(monster, "hp")),
-                    hit_dice: getHP(monster, "hit_dice"),
-                    speed: getParameter(monster, "speed"),
-                    stats: [
-                        Number(getParameter(monster, "str")),
-                        Number(getParameter(monster, "dex")),
-                        Number(getParameter(monster, "con")),
-                        Number(getParameter(monster, "int")),
-                        Number(getParameter(monster, "wis")),
-                        Number(getParameter(monster, "cha"))
-                    ],
-                    saves: getSaves(monster),
-                    skillsaves: getSkillSaves(monster),
-                    damage_vulnerabilities: getParameter(monster, "vulnerable"),
-                    damage_resistances: getParameter(monster, "resist"),
-                    damage_immunities: getParameter(monster, "immune"),
-                    condition_immunities: getParameter(
-                        monster,
-                        "conditionImmune"
-                    ),
-                    senses: getParameter(monster, "senses"),
-                    languages: getParameter(monster, "languages"),
-                    cr: getParameter(monster, "cr"),
-                    traits: getTraits(monster, "trait"),
-                    spells: getSpells(monster),
-                    actions: getTraits(monster, "action"),
-                    legendary_actions: getTraits(monster, "legendary"),
-                    reactions: getTraits(monster, "reaction"),
-                    source: getSource(monster)
-                };
-                importedMonsters.set(importedMonster.name, importedMonster);
+                try {
+                    const importedMonster: Monster = {
+                        name: getParameter(monster, "name"),
+                        size: getSize(monster),
+                        type: getParameter(monster, "type"),
+                        subtype: getParameter(monster, "subtype"),
+                        alignment: getParameter(monster, "alignment"),
+                        ac: getAC(monster),
+                        hp: Number(getHP(monster, "hp")),
+                        hit_dice: getHP(monster, "hit_dice"),
+                        speed: getParameter(monster, "speed"),
+                        stats: [
+                            Number(getParameter(monster, "str")),
+                            Number(getParameter(monster, "dex")),
+                            Number(getParameter(monster, "con")),
+                            Number(getParameter(monster, "int")),
+                            Number(getParameter(monster, "wis")),
+                            Number(getParameter(monster, "cha"))
+                        ],
+                        saves: getSaves(monster),
+                        skillsaves: getSkillSaves(monster),
+                        damage_vulnerabilities: getParameter(
+                            monster,
+                            "vulnerable"
+                        ),
+                        damage_resistances: getParameter(monster, "resist"),
+                        damage_immunities: getParameter(monster, "immune"),
+                        condition_immunities: getParameter(
+                            monster,
+                            "conditionImmune"
+                        ),
+                        senses: getParameter(monster, "senses"),
+                        languages: getParameter(monster, "languages"),
+                        cr: getParameter(monster, "cr"),
+                        traits: getTraits(monster, "trait"),
+                        spells: getSpells(monster),
+                        actions: getTraits(monster, "action"),
+                        legendary_actions: getTraits(monster, "legendary"),
+                        reactions: getTraits(monster, "reaction"),
+                        source: getSource(monster)
+                    };
+                    importedMonsters.set(importedMonster.name, importedMonster);
+                } catch (e) {
+                    continue;
+                }
             }
             resolve(importedMonsters);
         };
@@ -92,10 +99,13 @@ function getTraits(
     for (let trait of Array.from(traits)) {
         const name = trait.getElementsByTagName("name");
         if (!name) continue;
+        if (!name.length) continue;
+        if (!name[0].textContent) continue;
         if (name[0].textContent.includes("Spellcasting")) continue;
         const text = [];
         const traitTexts = trait.getElementsByTagName("text");
         for (let index in traitTexts) {
+            if (!traitTexts[index])
             text.push(traitTexts[index].textContent);
         }
         traitList.push({
