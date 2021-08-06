@@ -217,3 +217,13 @@
 .obsidian-statblock-plugin .spell-line .spells {
     font-style: italic;
 }
+
+.statblock-settings .coffee {
+    width: 60%;
+    color: var(--text-faint);
+    margin: 1rem auto;
+    text-align: center;
+}
+.statblock-settings .coffee img {
+    height: 30px;
+}

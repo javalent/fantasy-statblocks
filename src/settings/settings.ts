@@ -1,4 +1,4 @@
-import type {  StatblockMonsterPlugin } from "@types";
+import type { StatblockMonsterPlugin } from "@types";
 import {
     App,
     Notice,
@@ -24,6 +24,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
             let { containerEl } = this;
 
             containerEl.empty();
+
+            containerEl.addClass("statblock-settings");
 
             containerEl.createEl("h2", { text: "5e Statblock Settings" });
 
@@ -313,6 +315,15 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 searchMonsters.setDesc(
                     `Manage homebrew monsters. Currently: ${suggester.filteredItems.length} monsters.`
                 );
+
+            const div = containerEl.createDiv("coffee");
+            div.createEl("a", {
+                href: "https://www.buymeacoffee.com/valentine195"
+            }).createEl("img", {
+                attr: {
+                    src: "https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=valentine195&button_colour=e3e7ef&font_colour=262626&font_family=Inter&outline_colour=262626&coffee_colour=ff0000"
+                }
+            });
         } catch (e) {
             new Notice(
                 "There was an error displaying the settings tab for 5e Statblocks."
@@ -320,4 +331,3 @@ export default class StatblockSettingTab extends PluginSettingTab {
         }
     }
 }
-
