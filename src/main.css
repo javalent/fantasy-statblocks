@@ -34,6 +34,7 @@
     top: -5px;
     padding-top: 5px;
     background-color: inherit;
+    z-index: 99999;
 }
 
 .statblock-additional-container > .setting-item-heading:only-child {
