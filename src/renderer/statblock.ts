@@ -359,13 +359,19 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             nameEl.createSpan({ text: name });
             const iconsEl = nameEl.createDiv("statblock-icons");
             if (this.canSave) {
-                const saveEl = iconsEl.createDiv("clickable-icon");
+                const saveEl = iconsEl.createDiv({
+                    cls: "clickable-icon",
+                    attr: { "aria-label": "Save as Homebrew" }
+                });
                 this.monster.source = "Homebrew";
                 saveEl.onclick = () => this.plugin.saveMonster(this.monster);
                 setIcon(saveEl, SAVE_SYMBOL);
             }
             if (this.canExport) {
-                const iconEl = iconsEl.createDiv("clickable-icon");
+                const iconEl = iconsEl.createDiv({
+                    cls: "clickable-icon",
+                    attr: { "aria-label": "Export as PNG" }
+                });
                 iconEl.onclick = () =>
                     this.plugin.exportAsPng(name, this.containerEl);
                 setIcon(iconEl, EXPORT_SYMBOL);

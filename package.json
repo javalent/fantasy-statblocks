@@ -16,7 +16,7 @@
 		"@rollup/plugin-typescript": "^6.0.0",
 		"@tsconfig/svelte": "^2.0.1",
 		"@types/dom-to-image": "^2.6.2",
-		"@types/node": "^14.14.2",
+		"@types/node": "^14.17.21",
 		"dom-to-image": "^2.6.0",
 		"fast-sort": "^3.0.2",
 		"obsidian": "https://github.com/obsidianmd/obsidian-api/tarball/master",
