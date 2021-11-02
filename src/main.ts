@@ -248,7 +248,7 @@ export default class StatBlockPlugin
             let columns = 0;
             statblock.onload = async () => {
                 statblock.loaded = true;
-                columns = getColumns(view.contentEl);
+                columns = getColumns(parent);
                 if (columns >= 1) statblock.setWidth(columns * 400, true);
                 if (columns === 0) statblock.setMaxWidth(400);
 
@@ -260,7 +260,7 @@ export default class StatBlockPlugin
              */
             if (view && view instanceof MarkdownView) {
                 view.onResize = () => {
-                    let c = getColumns(statblock.containerEl.parentElement);
+                    let c = getColumns(parent);
 
                     if (c == columns) return;
                     columns = c;
