@@ -1,23 +1,4 @@
-import { MarkdownPostProcessorContext, Plugin } from "obsidian";
 
-export declare abstract class StatblockMonsterPlugin extends Plugin {
-    exportAsPng(name: string, containerEl: HTMLElement): void;
-    data: Map<string, Monster>;
-    abstract postprocessor(
-        source: string,
-        el: HTMLElement,
-        ctx: MarkdownPostProcessorContext
-    ): Promise<void>;
-    get sorted(): Monster[];
-    get sources(): Set<string>;
-    abstract saveMonster(monster: Monster): Promise<void>;
-    abstract saveMonsters(monsters: Monster[]): Promise<void>;
-    abstract deleteMonster(monster: string): Promise<void>;
-    abstract updateMonster(
-        oldMonster: Monster,
-        newMonster: Monster
-    ): Promise<void>;
-}
 
 export type ability =
     | "strength"

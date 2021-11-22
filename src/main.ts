@@ -2,12 +2,15 @@ import {
     addIcon,
     MarkdownPostProcessorContext,
     MarkdownView,
+    Notice,
     Plugin
 } from "obsidian";
 import domtoimage from "dom-to-image";
 
+import type DiceRollerPlugin from "../../obsidian-dice-roller/src/main";
+
 import { BESTIARY_BY_NAME } from "./data/srd-bestiary";
-import StatBlockRenderer from "./renderer/statblock";
+import StatBlockRenderer from "./view/statblock";
 import { getColumns, getParamsFromSource, renderError } from "./util/util";
 import {
     EXPORT_ICON,
@@ -15,22 +18,57 @@ import {
     SAVE_ICON,
     SAVE_SYMBOL
 } from "./data/constants";
-import type {
-    /* StatblockMonster, */ Monster,
-    StatblockMonsterPlugin
-} from "@types";
+import type { /* StatblockMonster, */ Monster } from "@types";
 import StatblockSettingTab from "./settings/settings";
 
 import "./main.css";
 import { sort } from "fast-sort";
 
-export default class StatBlockPlugin
-    extends Plugin
-    implements StatblockMonsterPlugin
-{
+export interface StatblockData {
+    monsters: Array<[string, Monster]>;
+    statblocks: any[];
+    version: {
+        major: number;
+        minor: number;
+        patch: number;
+    };
+}
+
+const DEFAULT_DATA: StatblockData = {
+    monsters: [],
+    statblocks: [],
+    version: {
+        major: null,
+        minor: null,
+        patch: null
+    }
+};
+
+declare module "obsidian" {
+    interface App {
+        plugins: {
+            plugins: {
+                "obsidian-dice-roller": DiceRollerPlugin;
+            };
+        };
+    }
+}
+
+export default class StatBlockPlugin extends Plugin {
+    settings: StatblockData;
     data: Map<string, Monster>;
     bestiary: Map<string, Monster>;
     private _sorted: Monster[] = [];
+    get canUseDiceRoller() {
+        return "obsidian-dice-roller" in this.app.plugins.plugins;
+    }
+    getRoller(str: string) {
+        if (!this.canUseDiceRoller) return;
+        const roller = this.app.plugins.plugins[
+            "obsidian-dice-roller"
+        ].getRoller(str, "statblock", true);
+        return roller;
+    }
     get sorted() {
         if (!this._sorted.length)
             this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
@@ -44,7 +82,11 @@ export default class StatBlockPlugin
     async onload() {
         console.log("5e StatBlocks loaded");
 
-        this.data = await this.loadMonsterData();
+        await this.loadSettings();
+        await this.loadMonsterData();
+
+        await this.saveSettings();
+
         this.addSettingTab(new StatblockSettingTab(this.app, this));
 
         addIcon(SAVE_SYMBOL, SAVE_ICON);
@@ -57,38 +99,79 @@ export default class StatBlockPlugin
             this.postprocessor.bind(this)
         );
     }
+    async loadSettings() {
+        const settings = await this.loadData();
 
+        if (settings != undefined && !("version" in settings)) {
+            //1.X settings;
+            this.settings = { ...DEFAULT_DATA };
+            this.settings.monsters = settings;
+
+            await this.loadMonsterData();
+
+            new Notice(
+                "5e Statblocks is now TTRPG Statblocks. Check out the ReadMe for more information!"
+            );
+        } else {
+            this.settings = {
+                ...DEFAULT_DATA,
+                ...settings
+            };
+        }
+        const version = this.manifest.version.split(".");
+        this.settings.version = {
+            major: Number(version[0]),
+            minor: Number(version[1]),
+            patch: Number(version[2])
+        };
+    }
+    async saveSettings() {
+        this.settings.monsters = this._transformData(this.data);
+
+        await this.saveData(this.settings);
+    }
     async loadMonsterData() {
-        const data = await this.loadData();
-        if (!data) return new Map();
-        return new Map(
-            data.map(([name, monster]: [name: string, monster: any]) => {
-                const statblock: Monster = Object.assign({}, monster);
+        const data = this.settings.monsters;
+
+        if (!data) this.data = new Map();
+
+        this.data = new Map(
+            data.map(([name, monster]) => {
+                const statblock = Object.assign({}, monster);
 
                 return [name, statblock];
             })
         );
     }
 
-    async saveMonster(monster: Monster, sortFields: boolean = true) {
+    async saveMonster(
+        monster: Monster,
+        sortFields: boolean = true,
+        save: boolean = true
+    ) {
         if (!monster.name) return;
-        if (!this.data.has(monster.name)) {
-            this.data.set(monster.name, monster);
-            this.bestiary.set(monster.name, monster);
-            await this.saveData(this._transformData(this.data));
-            if (sortFields)
-                this._sorted = sort<Monster>(
-                    Array.from(this.data.values())
-                ).asc((m) => m.name);
+        /* if (!this.data.has(monster.name)) { */
+        this.data.set(monster.name, monster);
+        this.bestiary.set(monster.name, monster);
+
+        if (save) {
+            await this.saveSettings();
         }
+
+        if (sortFields)
+            this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
+                (m) => m.name
+            );
+        /* } */
     }
     async saveMonsters(monsters: Monster[]) {
         for (let monster of monsters) {
-            await this.saveMonster(monster, false);
+            await this.saveMonster(monster, false, false);
         }
         this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
             (m) => m.name
         );
+        await this.saveSettings();
     }
 
     async updateMonster(oldMonster: Monster, newMonster: Monster) {
@@ -100,13 +183,17 @@ export default class StatBlockPlugin
         if (!this.data.has(monster)) return;
         this.data.delete(monster);
         this.bestiary.delete(monster);
-        await this.saveData(this._transformData(this.data));
+
+        await this.saveSettings();
+
         this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
             (m) => m.name
         );
     }
 
-    private _transformData(data: Map<string, Monster>): any[] {
+    private _transformData(
+        data: Map<string, Monster>
+    ): Array<[string, Monster]> {
         return [...(data ?? [])].map(([name, monster]) => {
             let convMonster = {
                 ...monster,
@@ -230,22 +317,21 @@ export default class StatBlockPlugin
 
             let statblock = new StatBlockRenderer(el, toBuild, this, canSave);
 
-            statblock.onunload = () => {
+            /* statblock.onunload = () => {
                 let newPre = createEl("pre");
                 newPre.createEl("code", {
                     text: `\`\`\`statblock\n${source}\`\`\``
                 });
                 statblock.statblockEl.replaceWith(newPre);
-            };
+            }; */
 
             const view = this.app.workspace.getActiveViewOfType(MarkdownView);
-            const parent = statblock.containerEl.parentElement;
 
             /**
              * setImmediate call to allow statblock to be appended to document.
              * This allows the plugin to get the height of the statblock for proper initial column rendering.
              */
-            let columns = 0;
+            /* let columns = 0;
             statblock.onload = async () => {
                 statblock.loaded = true;
                 columns = getColumns(view.contentEl);
@@ -253,12 +339,12 @@ export default class StatBlockPlugin
                 if (columns === 0) statblock.setMaxWidth(400);
 
                 statblock.statblockEl.toggleVisibility(true);
-            };
+            }; */
 
             /**
              * Initiate view resize handler to update columns.
              */
-            if (view && view instanceof MarkdownView) {
+            /*  if (view && view instanceof MarkdownView) {
                 view.onResize = () => {
                     let c = getColumns(statblock.containerEl.parentElement);
 
@@ -268,7 +354,7 @@ export default class StatBlockPlugin
                     if (c >= 1) statblock.setWidth(columns * 400);
                     if (c === 0) statblock.setMaxWidth(400);
                 };
-            }
+            } */
 
             ctx.addChild(statblock);
         } catch (e) {

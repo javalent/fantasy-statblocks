@@ -109,7 +109,8 @@ function getTraits(
         const text = [];
         const traitTexts = trait.getElementsByTagName("text");
         for (let index in traitTexts) {
-            if (!traitTexts[index]) text.push(traitTexts[index].textContent);
+            /* if (!traitTexts[index]) break; */
+            text.push(traitTexts[index].textContent);
         }
         traitList.push({
             name: name[0].textContent,
@@ -236,11 +237,14 @@ function getSource(monster: Element): string {
     } else if (monster.getElementsByTagName("description")?.length) {
         const description = monster.getElementsByTagName("description");
         const searchString = "Source: ";
-        const sourcePos = description[0].textContent.lastIndexOf(searchString);
-        const sources = description[0].textContent
-            .substr(sourcePos + searchString.length)
-            .split(/, ?/);
-        source = sources[0];
+        if (description[0].textContent.includes(searchString)) {
+            const sourcePos =
+                description[0].textContent.lastIndexOf(searchString);
+            const sources = description[0].textContent
+                .slice(sourcePos + searchString.length)
+                .split(/, ?/);
+            source = sources[0];
+        }
     }
     return source;
 }

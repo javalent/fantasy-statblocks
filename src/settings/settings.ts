@@ -1,6 +1,7 @@
-import type { StatblockMonsterPlugin } from "@types";
+
 import {
     App,
+    Modal,
     Notice,
     PluginSettingTab,
     Setting,
@@ -12,10 +13,11 @@ import {
     ImportFrom5eTools,
     ImportFromCritterDB
 } from "src/importers";
+import type StatBlockPlugin from "src/main";
 import { MonsterSuggester } from "src/util/suggester";
 
 export default class StatblockSettingTab extends PluginSettingTab {
-    constructor(app: App, private plugin: StatblockMonsterPlugin) {
+    constructor(app: App, private plugin: StatBlockPlugin) {
         super(app, plugin);
     }
 
@@ -27,7 +29,31 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
             containerEl.addClass("statblock-settings");
 
-            containerEl.createEl("h2", { text: "5e Statblock Settings" });
+            containerEl.createEl("h2", { text: "TTRPG Statblock Settings" });
+
+            /* const statblockCreatorContainer = containerEl.createDiv(
+                "statblock-additional-container"
+            );
+            new Setting(statblockCreatorContainer)
+                .setName("Statblocks")
+                .setDesc(
+                    createFragment((el) => {
+                        el.createSpan({
+                            text: "New statblocks can be created and managed here. A specific statblock can be used for a creature using the "
+                        });
+                        el.createEl("code", { text: "statblock" });
+                        el.createSpan({ text: " parameter." });
+                    })
+                )
+                .addButton((b) =>
+                    b
+                        .setIcon("plus-with-circle")
+                        .setTooltip("Add New Statblock")
+                        .onClick(() => {
+                            const modal = new CreateStatblockModal(this.plugin);
+                            modal.open();
+                        })
+                ); */
 
             const importSettingsContainer = containerEl.createDiv(
                 "statblock-additional-container"
@@ -330,4 +356,16 @@ export default class StatblockSettingTab extends PluginSettingTab {
             );
         }
     }
+}
+
+class CreateStatblockModal extends Modal {
+    constructor(public plugin: StatBlockPlugin, statblock?: any) {
+        super(plugin.app);
+    }
+
+    onOpen() {
+        this.display();
+    }
+
+    display() {}
 }
