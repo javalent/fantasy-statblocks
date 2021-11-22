@@ -7,24 +7,36 @@ import {
     SAVE_SYMBOL
 } from "../data/constants";
 import { catchError, catchErrorAsync, getMod, toTitleCase } from "../util/util";
-import type { Spell, Monster, StatblockMonsterPlugin } from "@types";
+import type { Spell, Monster } from "@types";
+
+import Statblock from "./Statblock.svelte";
+import type StatBlockPlugin from "src/main";
 
 export default class StatBlockRenderer extends MarkdownRenderChild {
     topBar: HTMLDivElement;
     bottomBar: HTMLDivElement;
-    monster: Monster;
     loaded: boolean = false;
     statblockEl: HTMLDivElement;
     contentEl: HTMLDivElement;
     constructor(
         container: HTMLElement,
-        monster: Monster,
-        private plugin: StatblockMonsterPlugin,
+        public monster: Monster,
+        private plugin: StatBlockPlugin,
         private canSave: boolean,
         private canExport: boolean = true
     ) {
         super(container);
-        this.monster = monster;
+
+        new Statblock({
+            target: this.containerEl,
+            props: {
+                monster: this.monster,
+                plugin: this.plugin
+            }
+        });
+    }
+
+    old() {
         this.statblockEl = this.containerEl.createDiv({
             cls: "obsidian-statblock-plugin",
             attr: { style: "visibility: hidden;" }

@@ -9,7 +9,7 @@ import {
     SuggestModal,
     TextComponent
 } from "obsidian";
-import StatBlockRenderer from "src/renderer/statblock";
+import StatBlockRenderer from "src/view/statblock";
 
 import EditMonsterApp from "../svelte/EditMonster.svelte";
 

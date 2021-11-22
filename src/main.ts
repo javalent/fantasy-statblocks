@@ -9,7 +9,7 @@ import domtoimage from "dom-to-image";
 
 import type DiceRollerPlugin from "../../obsidian-dice-roller/src/main";
 
-import { BESTIARY_BY_NAME } from "./data/srd-bestiary";
+import { BESTIARY, BESTIARY_BY_NAME } from "./data/srd-bestiary";
 import StatBlockRenderer from "./view/statblock";
 import { getColumns, getParamsFromSource, renderError } from "./util/util";
 import {

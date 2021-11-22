@@ -173,17 +173,17 @@
         height: 500px;
         max-height: 50vh;
     }
-    .json {
+    /* .json {
         margin-bottom: 1rem;
         display: flex;
         justify-content: flex-start;
         align-items: center;
-    }
+    } */
 
-    .attributes {
+    /* .attributes {
         display: grid;
         grid-template-columns: repeat(6, 1fr);
-    }
+    } */
 
     .buttons {
         margin-top: 1rem;
