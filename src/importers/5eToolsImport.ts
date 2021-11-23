@@ -122,7 +122,8 @@ async function buildMonsterFromFile(file: File): Promise<Monster> {
 
                 resolve(importedMonster);
             } catch (e) {
-                reject();
+                console.error(e)
+                reject(e);
             }
         };
 
