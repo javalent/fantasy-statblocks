@@ -66,19 +66,4 @@
     height: 30px;
 }
 
-.obsidian-statblock-plugin .property > .property-name {
-    margin: 0;
-    margin-right: 0.25em;
-    display: inline;
-    font-weight: bold;
-    font-style: italic;
-}
-.obsidian-statblock-plugin .property > .property-text {
-    display: inline;
-    white-space: pre-line;
-    text-indent: 0;
-}
 
-.obsidian-statblock-plugin .spell-line .spells {
-    font-style: italic;
-}

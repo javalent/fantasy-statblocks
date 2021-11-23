@@ -1,7 +1,179 @@
+import type { Monster } from "@types";
+
 interface CR {
     cr: string;
     xp: number;
 }
+
+export type StatblockItemType =
+    | "section"
+    | "heading"
+    | "subheading"
+    | "property"
+    | "table"
+    | "saves"
+    | "spells";
+
+export interface StatblockItem {
+    type: StatblockItemType;
+    properties: Array<keyof Monster>;
+    conditioned?: boolean;
+    fallback?: string;
+    display?: string;
+    saveIcon?: boolean;
+    downloadIcon?: boolean;
+    hasRule?: boolean;
+    heading?: string;
+    headers?: string[];
+    dice?: {
+        default?: keyof Monster;
+        text?: keyof Monster;
+        conditioned?: boolean;
+        parse?: boolean;
+    };
+}
+
+export const Statblock5e: StatblockItem[] = [
+    {
+        type: "heading",
+        properties: ["name"],
+        saveIcon: true,
+        downloadIcon: true,
+        hasRule: false,
+        conditioned: true
+    },
+    {
+        type: "subheading",
+        properties: ["size", "type", "subtype", "alignment"],
+        hasRule: true,
+        conditioned: true
+    },
+    {
+        type: "property",
+        properties: ["ac"],
+        display: "Armor Class",
+        conditioned: true
+    },
+    {
+        type: "property",
+        properties: ["hp"],
+        display: "Hit Points",
+        dice: {
+            default: "hp",
+            text: "hit_dice",
+            conditioned: true,
+            parse: false
+        },
+        conditioned: true
+    },
+    {
+        type: "property",
+        display: "Speed",
+        properties: ["speed"],
+        hasRule: true,
+        conditioned: true
+    },
+    {
+        type: "table",
+        properties: ["stats"],
+        headers: ["Str", "Dex", "Con", "Wis", "Int", "Cha"],
+        hasRule: true,
+        conditioned: true
+    },
+    {
+        type: "saves",
+        display: "Saves",
+        properties: ["saves"],
+        conditioned: true
+    },
+    {
+        type: "saves",
+        display: "Skills",
+        properties: ["skillsaves"],
+        conditioned: true
+    },
+    {
+        type: "property",
+        display: "Damage Immunities",
+        properties: ["damage_immunities"],
+        conditioned: true
+    },
+    {
+        type: "property",
+        display: "Condition Immunities",
+        properties: ["condition_immunities"],
+        conditioned: true
+    },
+    {
+        type: "property",
+        display: "Resistances",
+        properties: ["damage_resistances"],
+        conditioned: true
+    },
+    {
+        type: "property",
+        display: "Damage Vulnerabilities",
+        properties: ["damage_vulnerabilities"],
+        conditioned: true
+    },
+    {
+        type: "property",
+        display: "Senses",
+        properties: ["senses"],
+        conditioned: true
+    },
+    {
+        type: "property",
+        display: "Languages",
+        properties: ["languages"],
+        conditioned: true,
+        fallback: "-",
+        hasRule: true
+    },
+    {
+        type: "section",
+        properties: ["traits"],
+        conditioned: true,
+        dice: {
+            parse: true
+        }
+    },
+    {
+        type: "spells",
+        properties: ["spells"],
+        conditioned: true,
+        dice: {
+            parse: true
+        }
+    },
+    {
+        type: "section",
+        properties: ["actions"],
+        heading: "Actions",
+        conditioned: true,
+        dice: {
+            parse: true
+        }
+    },
+    {
+        type: "section",
+        properties: ["legendary_actions"],
+        heading: "Legendary Actions",
+        conditioned: true,
+        dice: {
+            parse: true
+        }
+    },
+    {
+        type: "section",
+        properties: ["reactions"],
+        heading: "Reactions",
+        conditioned: true,
+        dice: {
+            parse: true
+        }
+    }
+];
 
 export const CR: { [key: string]: CR } = {
     "0": {
@@ -174,5 +346,5 @@ export const AbilityAliases: { [key: string]: string } = {
 export const SAVE_ICON = `<svg aria-hidden="true" focusable="false" data-prefix="far" data-icon="save" class="svg-inline--fa fa-save fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M433.941 129.941l-83.882-83.882A48 48 0 0 0 316.118 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V163.882a48 48 0 0 0-14.059-33.941zM272 80v80H144V80h128zm122 352H54a6 6 0 0 1-6-6V86a6 6 0 0 1 6-6h42v104c0 13.255 10.745 24 24 24h176c13.255 0 24-10.745 24-24V83.882l78.243 78.243a6 6 0 0 1 1.757 4.243V426a6 6 0 0 1-6 6zM224 232c-48.523 0-88 39.477-88 88s39.477 88 88 88 88-39.477 88-88-39.477-88-88-88zm0 128c-22.056 0-40-17.944-40-40s17.944-40 40-40 40 17.944 40 40-17.944 40-40 40z"></path></svg>`;
 export const SAVE_SYMBOL = "statblock-save";
 
-export const EXPORT_ICON = `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="download" class="svg-inline--fa fa-download fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg>`
-export const EXPORT_SYMBOL = "statblock-export-as-png"
+export const EXPORT_ICON = `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="download" class="svg-inline--fa fa-download fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M216 0h80c13.3 0 24 10.7 24 24v168h87.7c17.8 0 26.7 21.5 14.1 34.1L269.7 378.3c-7.5 7.5-19.8 7.5-27.3 0L90.1 226.1c-12.6-12.6-3.7-34.1 14.1-34.1H192V24c0-13.3 10.7-24 24-24zm296 376v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h146.7l49 49c20.1 20.1 52.5 20.1 72.6 0l49-49H488c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"/></svg>`;
+export const EXPORT_SYMBOL = "statblock-export-as-png";

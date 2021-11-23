@@ -75,10 +75,6 @@ async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
                     };
                     importedMonsters.set(importedMonster.name, importedMonster);
                 } catch (e) {
-                    console.log(
-                        "🚀 ~ file: DnDAppFilesImport.ts ~ line 78 ~ e",
-                        e
-                    );
                     continue;
                 }
             }

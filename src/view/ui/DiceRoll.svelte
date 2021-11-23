@@ -9,8 +9,8 @@
 
     const plugin = getContext<StatBlockPlugin>("plugin");
 
-    let roller: BasicRoller;
-    if (plugin.canUseDiceRoller) {
+    export let roller: BasicRoller = null;
+    if (!roller && plugin.canUseDiceRoller) {
         roller = plugin.getRoller(`${text}`);
     }
 
@@ -32,4 +32,7 @@
 <span class="dice-original">({text})</span>
 
 <style>
+    .roller-result {
+        font-weight: 700;
+    }
 </style>

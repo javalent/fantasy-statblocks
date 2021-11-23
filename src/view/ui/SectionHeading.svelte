@@ -1,21 +1,10 @@
 <script lang="ts">
-    import type { Trait } from "@types";
-    import PropertyBlock from "./PropertyBlock.svelte";
-
-    export let header: string = null;
-    export let blocks: Trait[];
+    export let header: string;
 </script>
 
-<div class="section">
-    {#if header}
-        <h3 class="section-header">
-            {header}
-        </h3>
-    {/if}
-    {#each blocks as block}
-        <PropertyBlock name={block.name} desc={block.desc} />
-    {/each}
-</div>
+<h3 class="section-header">
+    {header}
+</h3>
 
 <style>
     .section-header {

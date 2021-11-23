@@ -4,7 +4,9 @@ import {
     CR,
     DiceBySize,
     EXPORT_SYMBOL,
-    SAVE_SYMBOL
+    SAVE_SYMBOL,
+    Statblock5e,
+    StatblockItem
 } from "../data/constants";
 import { catchError, catchErrorAsync, getMod, toTitleCase } from "../util/util";
 import type { Spell, Monster } from "@types";
@@ -18,6 +20,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
     loaded: boolean = false;
     statblockEl: HTMLDivElement;
     contentEl: HTMLDivElement;
+    statblock: StatblockItem[] = Statblock5e;
     constructor(
         container: HTMLElement,
         public monster: Monster,
@@ -31,6 +34,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             target: this.containerEl,
             props: {
                 monster: this.monster,
+                statblock: this.statblock,
                 plugin: this.plugin
             }
         });

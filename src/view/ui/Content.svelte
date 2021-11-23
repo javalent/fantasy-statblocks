@@ -1,60 +1,196 @@
 <script lang="ts">
-    import type { Monster } from "@types";
-    import BottomStats from "./BottomStats.svelte";
+    import type { Monster, Trait } from "@types";
+    import type { StatblockItem } from "src/data/constants";
+    import type StatblockPlugin from "src/main";
+    import PropertyBlock from "./PropertyBlock.svelte";
+    import Spells from "./Spells.svelte";
+    import Heading from "./Heading.svelte";
+    import PropertyLine from "./PropertyLine.svelte";
     import Rule from "./Rule.svelte";
-    import Stats from "./Stats.svelte";
-    import TopHeading from "./TopHeading.svelte";
-    import TopStats from "./TopStats.svelte";
-    import Traits from "./Traits.svelte";
-    import Section from "./Section.svelte";
+    import Saves from "./Saves.svelte";
+    import SectionHeading from "./SectionHeading.svelte";
+    import Subheading from "./Subheading.svelte";
+    import Table from "./Table.svelte";
+    import { getContext, onMount, tick } from "svelte";
 
     export let monster: Monster;
+    export let statblock: StatblockItem[];
+    export let columns: number = 1;
+    export let ready: boolean;
 
-    function inMonster<T extends keyof Monster>(...keys: T[]) {
-        return keys.some((s) => {
-            if (!(s in monster)) return false;
-            if (monster[s] == undefined) return false;
-            if (typeof monster[s] !== "number") {
-                return (monster[s] as any).length;
+    const plugin = getContext<StatblockPlugin>("plugin");
+
+    const buildStatblock = (node: HTMLElement) => {
+        node.empty();
+        let columnEl = node.createDiv("column");
+        const targets: HTMLElement[] = [];
+
+        for (let item of statblock) {
+            const target = createDiv("statblock-item-container");
+
+            if (item.conditioned) {
+                if (!item.properties.some((prop) => prop in monster)) continue;
             }
-            return true;
-        });
+            switch (item.type) {
+                case "heading": {
+                    new Heading({
+                        target,
+                        props: {
+                            monster,
+                            item
+                        },
+                        context: new Map([["plugin", plugin]])
+                    });
+                    break;
+                }
+                case "property": {
+                    new PropertyLine({
+                        target,
+                        props: {
+                            monster,
+                            item
+                        },
+                        context: new Map([["plugin", plugin]])
+                    });
+                    break;
+                }
+                case "saves": {
+                    new Saves({
+                        target,
+                        props: {
+                            monster,
+                            item
+                        },
+                        context: new Map([["plugin", plugin]])
+                    });
+                    break;
+                }
+                case "section": {
+                    const blocks: Trait[] = monster[
+                        item.properties[0]
+                    ] as Trait[];
+                    if (!Array.isArray(blocks) || !blocks.length) continue;
+
+                    if (item.heading) {
+                        new SectionHeading({
+                            target,
+                            props: {
+                                header: item.heading
+                            },
+                            context: new Map([["plugin", plugin]])
+                        });
+                        targets.push(target);
+                    }
+                    try {
+                        for (const block of blocks) {
+                            const prop = createDiv("statblock-item-container");
+                            new PropertyBlock({
+                                target: prop,
+                                props: {
+                                    name: block.name,
+                                    desc: block.desc,
+                                    dice: item.dice && item.dice.parse
+                                },
+                                context: new Map([["plugin", plugin]])
+                            });
+                            targets.push(prop);
+                        }
+                    } catch (e) {
+                        continue;
+                    }
+
+                    break;
+                }
+                case "spells": {
+                    const blocks: Trait[] = monster[
+                        item.properties[0]
+                    ] as Trait[];
+                    if (!Array.isArray(blocks) || !blocks.length) continue;
+
+                    new Spells({
+                        target,
+                        props: {
+                            monster
+                        },
+                        context: new Map([["plugin", plugin]])
+                    });
+                    break;
+                }
+                case "subheading": {
+                    new Subheading({
+                        target,
+                        props: {
+                            monster,
+                            item
+                        },
+                        context: new Map([["plugin", plugin]])
+                    });
+                    break;
+                }
+                case "table": {
+                    new Table({
+                        target,
+                        props: {
+                            monster,
+                            item
+                        },
+                        context: new Map([["plugin", plugin]])
+                    });
+                    break;
+                }
+                default: {
+                    continue;
+                }
+            }
+            if (item.hasRule) {
+                new Rule({
+                    target
+                });
+            }
+
+            if (item.type != "section") targets.push(target);
+        }
+
+        const temp = document.body.createDiv("statblock-detached");
+        targets.forEach((b) => {
+            temp.appendChild(b.cloneNode(true));
+        }, 0);
+        const splitHeight = Math.max(temp.clientHeight, 500);
+
+        temp.detach();
+        if (columns == 1) {
+            targets.forEach((el) => columnEl.appendChild(el));
+            return;
+        }
+
+        for (let target of targets) {
+            columnEl.appendChild(target);
+            if (
+                columnEl.clientHeight + target.clientHeight > splitHeight &&
+                node.childElementCount != columns
+            ) {
+                target.detach();
+                columnEl = node.createDiv("column");
+                columnEl.appendChild(target);
+            }
+        }
+    };
+
+    let content: HTMLElement;
+
+    onMount(async () => {
+        if (!ready) return;
+        buildStatblock(content);
+    });
+
+    $: {
+        if (ready && content) {
+            buildStatblock(content);
+        }
     }
 </script>
 
-<div class="statblock-content">
-    {#if inMonster("name", "type", "alignment")}
-        <TopHeading {monster} />
-        <Rule />
-    {/if}
-    {#if inMonster("ac", "hp", "speed")}
-        <TopStats {monster} />
-        <Rule />
-    {/if}
-    {#if inMonster("fage_stats", "stats")}
-        <Stats {monster} />
-        <Rule />
-    {/if}
-    {#if inMonster("saves", "skillsaves", "damage_immunities", "condition_immunities", "damage_vulnerabilities", "senses", "languages", "cr")}
-        <BottomStats {monster} />
-        <Rule />
-    {/if}
-    {#if inMonster("spells", "traits")}
-        <Traits {monster} />
-    {/if}
-    {#if inMonster("actions")}
-        <Section blocks={monster.actions} header={"Actions"} />
-    {/if}
-    {#if inMonster("legendary_actions")}
-        <Section
-            blocks={monster.legendary_actions}
-            header={"Legendary Actions"}
-        />
-    {/if}
-    {#if inMonster("reactions")}
-        <Section blocks={monster.reactions} header={"Reactions"} />
-    {/if}
-</div>
+<div class="statblock-content" bind:this={content} />
 
 <style>
     .statblock-content {
@@ -68,6 +204,19 @@
         box-shadow: 0 0 1.5em #ddd;
         margin-left: 2px;
         margin-right: 2px;
-        max-width: 400px;
+        display: flex;
+        gap: 1rem;
+    }
+    .statblock-content > :global(.column) {
+        width: 400px;
+    }
+
+    :global(.statblock-item-container) {
+        margin-bottom: 0.25rem;
+    }
+
+    :global(.statblock-detached) {
+        position: absolute;
+        top: -9999px;
     }
 </style>
