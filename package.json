@@ -17,6 +17,7 @@
     "author": "Jeremy Valentine",
     "license": "MIT",
     "devDependencies": {
+        "@babel/core": "^7.16.0",
         "@rollup/plugin-commonjs": "^15.1.0",
         "@rollup/plugin-node-resolve": "^9.0.0",
         "@rollup/plugin-typescript": "^6.0.0",
