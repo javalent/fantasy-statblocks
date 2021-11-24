@@ -75,6 +75,7 @@ async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
                     };
                     importedMonsters.set(importedMonster.name, importedMonster);
                 } catch (e) {
+                    console.error(e);
                     continue;
                 }
             }

@@ -122,7 +122,8 @@ async function buildMonsterFromFile(file: File): Promise<Monster> {
 
                 resolve(importedMonster);
             } catch (e) {
-                reject();
+                console.error(e);
+                reject(e);
             }
         };
 
@@ -156,20 +157,62 @@ const spellMap: { [key: string]: string } = {
 function getSpells(monster: any): any[] {
     if (!monster.spellcasting || !monster.spellcasting.length) return [];
 
-    return [
-        monster.spellcasting[0].headerEntries.join("\n"),
-        ...Object.entries(monster.spellcasting[0].spells).map(
-            ([level, { slots, spells }]) => {
-                let name = `${spellMap[level]}`;
-                name += slots != undefined ? ` (${slots} slots)` : "";
+    const spells = monster.spellcasting[0].spells ?? {};
+    const will = monster.spellcasting[0].will ?? [];
+    const daily = monster.spellcasting[0].daily ?? {};
 
-                const sp = spells
+    const ret = [(monster.spellcasting[0].headerEntries ?? []).join("\n")];
+
+    if (spells) {
+        try {
+            ret.push(
+                ...Object.entries(spells).map(
+                    ([level, { slots, spells }]) => {
+                        let name = `${spellMap[level]}`;
+                        name += slots != undefined ? ` (${slots} slots)` : "";
+
+                        const sp = spells
+                            .join(", ")
+                            .replace(/\{@spell ([\s\S]+?)\}/g, `$1`);
+                        return { [name]: sp };
+                    }
+                )
+            );
+        } catch (e) {
+            throw new Error("There was an error parsing the spells.");
+        }
+    }
+    if (will) {
+        try {
+            ret.push({
+                "At will": will
                     .join(", ")
-                    .replace(/\{@spell ([\s\S]+?)\}/g, `$1`);
-                return { [name]: sp };
-            }
-        )
-    ];
+                    .replace(/\{@spell ([\s\S]+?)\}/g, `$1`)
+            })
+        } catch(e) {
+            throw new Error("There was an error parsing the at-will spells.")
+        }
+    }
+    if (daily) {
+        try {
+            ret.push(
+                ...Object.entries(daily).map(
+                    ([num, spells]) => {
+                        let name = `Daily (${num})`;
+
+                        const sp = spells
+                            .join(", ")
+                            .replace(/\{@spell ([\s\S]+?)\}/g, `$1`);
+                        return { [name]: sp };
+                    }
+                )
+            );
+        } catch (e) {
+            throw new Error("There was an error parsing the daily spells.");
+        }
+    }
+
+    return ret;
 }
 
 function getAlignmentString(alignment: any) {
