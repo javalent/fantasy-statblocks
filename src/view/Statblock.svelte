@@ -11,6 +11,8 @@
     export let monster: Monster;
     export let plugin: StatBlockPlugin;
     export let statblock: StatblockItem[];
+    export let canSave: boolean;
+    export let canExport: boolean;
 
     setContext<StatBlockPlugin>("plugin", plugin);
 
@@ -46,7 +48,16 @@
                 <Bar />
 
                 {#key columns}
-                    <Content {monster} {columns} {statblock} {ready} />
+                    <Content
+                        {monster}
+                        {columns}
+                        {statblock}
+                        {ready}
+                        {canSave}
+                        {canExport}
+                        on:save
+                        on:export
+                    />
                 {/key}
                 <Bar />
             {:else}

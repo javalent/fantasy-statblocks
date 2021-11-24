@@ -11,13 +11,15 @@
     const dispatch = createEventDispatcher();
     export let monster: Monster;
     export let item: StatblockItem;
+    export let canSave: boolean;
+    export let canExport: boolean;
 
     const save = (node: HTMLElement) => {
         new ExtraButtonComponent(node)
             .setIcon(SAVE_SYMBOL)
             .setTooltip("Save as Homebrew")
             .onClick(() => {
-                dispatch("save", { ...monster, source: "Homebrew" });
+                dispatch("save");
             });
     };
     const png = (node: HTMLElement) => {
@@ -38,10 +40,10 @@
     {/each}
     {#if item.saveIcon || item.downloadIcon}
         <div class="icons">
-            {#if item.saveIcon}
+            {#if item.saveIcon && canSave}
                 <div class="save" use:save />
             {/if}
-            {#if item.downloadIcon}
+            {#if item.downloadIcon && canExport}
                 <div class="png" use:png />
             {/if}
         </div>

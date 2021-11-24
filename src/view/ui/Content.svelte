@@ -11,14 +11,186 @@
     import SectionHeading from "./SectionHeading.svelte";
     import Subheading from "./Subheading.svelte";
     import Table from "./Table.svelte";
-    import { getContext, onMount, tick } from "svelte";
+    import { getContext, onMount, createEventDispatcher } from "svelte";
+
+    const dispatch = createEventDispatcher();
 
     export let monster: Monster;
     export let statblock: StatblockItem[];
     export let columns: number = 1;
     export let ready: boolean;
+    export let canExport: boolean;
+    export let canSave: boolean;
+
+    const checkConditioned = (item: StatblockItem) => {
+        if (!item.conditioned) return true;
+        if (!item.properties.length) return true;
+        return item.properties.some((prop) => {
+            if (prop in monster) {
+                if (
+                    Array.isArray(monster[prop]) &&
+                    (monster[prop] as Array<any>).length
+                ) {
+                    return true;
+                }
+                if (
+                    typeof monster[prop] === "string" &&
+                    (monster[prop] as string).length
+                ) {
+                    return true;
+                }
+                if (typeof monster[prop] === "number") {
+                    return true;
+                }
+            }
+            return false;
+        });
+    };
 
     const plugin = getContext<StatblockPlugin>("plugin");
+
+    const getElementForStatblockItem = (
+        item: StatblockItem,
+        container?: HTMLDivElement
+    ): HTMLDivElement[] => {
+        const targets: HTMLDivElement[] = [];
+        const target = container ?? createDiv("statblock-item-container");
+
+        if (!checkConditioned(item)) {
+            return [];
+        }
+        targets.push(target);
+        switch (item.type) {
+            case "heading": {
+                const heading = new Heading({
+                    target,
+                    props: {
+                        monster,
+                        item,
+                        canSave,
+                        canExport
+                    },
+                    context: new Map([["plugin", plugin]])
+                });
+                heading.$on("save", (e) => dispatch("save", e.detail));
+                heading.$on("export", (e) => dispatch("export", e.detail));
+                break;
+            }
+            case "property": {
+                new PropertyLine({
+                    target,
+                    props: {
+                        monster,
+                        item
+                    },
+                    context: new Map([["plugin", plugin]])
+                });
+                break;
+            }
+            case "saves": {
+                new Saves({
+                    target,
+                    props: {
+                        monster,
+                        item
+                    },
+                    context: new Map([["plugin", plugin]])
+                });
+                break;
+            }
+            case "section": {
+                const blocks: Trait[] = monster[item.properties[0]] as Trait[];
+                if (!Array.isArray(blocks) || !blocks.length) return [];
+
+                if (item.heading) {
+                    new SectionHeading({
+                        target,
+                        props: {
+                            header: item.heading
+                        },
+                        context: new Map([["plugin", plugin]])
+                    });
+                }
+                try {
+                    for (const block of blocks) {
+                        const prop = target.createDiv(
+                            "statblock-item-container"
+                        );
+                        new PropertyBlock({
+                            target: prop,
+                            props: {
+                                name: block.name,
+                                desc: block.desc,
+                                dice: item.dice && item.dice.parse
+                            },
+                            context: new Map([["plugin", plugin]])
+                        });
+                        targets.push(prop);
+                    }
+                } catch (e) {
+                    return [];
+                }
+                break;
+            }
+            case "spells": {
+                const blocks: Trait[] = monster[item.properties[0]] as Trait[];
+                if (!Array.isArray(blocks) || !blocks.length) return;
+
+                new Spells({
+                    target,
+                    props: {
+                        monster
+                    },
+                    context: new Map([["plugin", plugin]])
+                });
+                break;
+            }
+            case "subheading": {
+                new Subheading({
+                    target,
+                    props: {
+                        monster,
+                        item
+                    },
+                    context: new Map([["plugin", plugin]])
+                });
+                break;
+            }
+            case "table": {
+                new Table({
+                    target,
+                    props: {
+                        monster,
+                        item
+                    },
+                    context: new Map([["plugin", plugin]])
+                });
+                break;
+            }
+            case "inline": {
+                const inline = target.createDiv("statblock-item-inline");
+                for (const nested of item.nested ?? []) {
+                    getElementForStatblockItem(nested, inline);
+                }
+                break;
+            }
+            case "group": {
+                for (const nested of item.nested ?? []) {
+                    targets.push(...getElementForStatblockItem(nested));
+                }
+
+                break;
+            }
+        }
+        if (item.hasRule) {
+            const rule = createDiv("statblock-item-container");
+            new Rule({
+                target: rule
+            });
+            targets.push(rule);
+        }
+        return targets;
+    };
 
     const buildStatblock = (node: HTMLElement) => {
         node.empty();
@@ -26,129 +198,7 @@
         const targets: HTMLElement[] = [];
 
         for (let item of statblock) {
-            const target = createDiv("statblock-item-container");
-
-            if (item.conditioned) {
-                if (!item.properties.some((prop) => prop in monster)) continue;
-            }
-            switch (item.type) {
-                case "heading": {
-                    new Heading({
-                        target,
-                        props: {
-                            monster,
-                            item
-                        },
-                        context: new Map([["plugin", plugin]])
-                    });
-                    break;
-                }
-                case "property": {
-                    new PropertyLine({
-                        target,
-                        props: {
-                            monster,
-                            item
-                        },
-                        context: new Map([["plugin", plugin]])
-                    });
-                    break;
-                }
-                case "saves": {
-                    new Saves({
-                        target,
-                        props: {
-                            monster,
-                            item
-                        },
-                        context: new Map([["plugin", plugin]])
-                    });
-                    break;
-                }
-                case "section": {
-                    const blocks: Trait[] = monster[
-                        item.properties[0]
-                    ] as Trait[];
-                    if (!Array.isArray(blocks) || !blocks.length) continue;
-
-                    if (item.heading) {
-                        new SectionHeading({
-                            target,
-                            props: {
-                                header: item.heading
-                            },
-                            context: new Map([["plugin", plugin]])
-                        });
-                        targets.push(target);
-                    }
-                    try {
-                        for (const block of blocks) {
-                            const prop = createDiv("statblock-item-container");
-                            new PropertyBlock({
-                                target: prop,
-                                props: {
-                                    name: block.name,
-                                    desc: block.desc,
-                                    dice: item.dice && item.dice.parse
-                                },
-                                context: new Map([["plugin", plugin]])
-                            });
-                            targets.push(prop);
-                        }
-                    } catch (e) {
-                        continue;
-                    }
-
-                    break;
-                }
-                case "spells": {
-                    const blocks: Trait[] = monster[
-                        item.properties[0]
-                    ] as Trait[];
-                    if (!Array.isArray(blocks) || !blocks.length) continue;
-
-                    new Spells({
-                        target,
-                        props: {
-                            monster
-                        },
-                        context: new Map([["plugin", plugin]])
-                    });
-                    break;
-                }
-                case "subheading": {
-                    new Subheading({
-                        target,
-                        props: {
-                            monster,
-                            item
-                        },
-                        context: new Map([["plugin", plugin]])
-                    });
-                    break;
-                }
-                case "table": {
-                    new Table({
-                        target,
-                        props: {
-                            monster,
-                            item
-                        },
-                        context: new Map([["plugin", plugin]])
-                    });
-                    break;
-                }
-                default: {
-                    continue;
-                }
-            }
-            if (item.hasRule) {
-                new Rule({
-                    target
-                });
-            }
-
-            if (item.type != "section") targets.push(target);
+            targets.push(...getElementForStatblockItem(item));
         }
 
         const temp = document.body.createDiv("statblock-detached");
@@ -218,5 +268,10 @@
     :global(.statblock-detached) {
         position: absolute;
         top: -9999px;
+    }
+
+    :global(.statblock-item-inline) {
+        display: flex;
+        justify-content: space-between;
     }
 </style>

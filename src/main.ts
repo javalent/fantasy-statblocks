@@ -210,12 +210,18 @@ export default class StatBlockPlugin extends Plugin {
         console.log("5e StatBlocks unloaded");
     }
 
-    exportAsPng(name: string, containerEl: HTMLElement) {
+    exportAsPng(name: string, containerEl: Element) {
         function filter(node: HTMLElement) {
             return !node.hasClass || !node.hasClass("clickable-icon");
         }
+        const content =
+            containerEl.querySelector<HTMLDivElement>(".statblock-content");
+        if (content) delete content.style["boxShadow"];
         domtoimage
-            .toPng(containerEl, { filter: filter, style: { height: "100%" } })
+            .toPng(containerEl, {
+                filter: filter,
+                style: { height: "100%" }
+            })
             .then((url) => {
                 const link = document.createElement("a");
                 link.download = name + ".png";

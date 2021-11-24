@@ -6,8 +6,12 @@
     export let monster: Monster;
     export let item: StatblockItem;
 
-    const property = monster[item.properties[0]];
-    const display = item.display ?? item.properties[0];
+    let property = monster[item.properties[0]];
+    let display = item.display ?? item.properties[0];
+
+    if (item.callback) {
+        property = item.callback(monster) ?? property;
+    }
     let dice = false,
         def: number,
         text: string;

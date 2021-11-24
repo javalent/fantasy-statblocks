@@ -30,13 +30,25 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
     ) {
         super(container);
 
-        new Statblock({
+        const statblock = new Statblock({
             target: this.containerEl,
             props: {
                 monster: this.monster,
                 statblock: this.statblock,
-                plugin: this.plugin
+                plugin: this.plugin,
+                canSave: this.canSave,
+                canExport: this.canExport
             }
+        });
+        statblock.$on("save", () => {
+            this.plugin.saveMonster({ ...this.monster, source: "Homebrew" });
+        });
+
+        statblock.$on("export", () => {
+            this.plugin.exportAsPng(
+                this.monster.name,
+                this.containerEl.firstElementChild
+            );
         });
     }
 
