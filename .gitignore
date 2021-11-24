@@ -10,7 +10,7 @@ main.js
 *.js.map
 .DS_Store
 *build.js
-rollup.config-dev.js
+*dev.js
 src/converted-bestiary.json
 src/convert-spells.js
 src/convert.js
