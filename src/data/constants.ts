@@ -38,6 +38,11 @@ export interface StatblockItem {
     callback?: (monster: Monster) => string;
 }
 
+export interface Layout {
+    name: string;
+    blocks: StatblockItem[];
+}
+
 export const Statblock5e: StatblockItem[] = [
     {
         type: "group",
@@ -245,6 +250,11 @@ export const Statblock5e: StatblockItem[] = [
         }
     }
 ];
+
+export const Layout5e: Layout = {
+    blocks: Statblock5e,
+    name: "Basic 5e Layout"
+};
 
 export const CR: { [key: string]: CR } = {
     "0": {

@@ -1,4 +1,3 @@
-
 import {
     App,
     Modal,
@@ -7,6 +6,7 @@ import {
     Setting,
     TextComponent
 } from "obsidian";
+import { Layout5e } from "src/data/constants";
 import {
     ImportEntitiesFromXml,
     ImportEntitiesFromImprovedInitiative,
@@ -31,15 +31,15 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
             containerEl.createEl("h2", { text: "TTRPG Statblock Settings" });
 
-            /* const statblockCreatorContainer = containerEl.createDiv(
+            const statblockCreatorContainer = containerEl.createDiv(
                 "statblock-additional-container"
             );
             new Setting(statblockCreatorContainer)
-                .setName("Statblocks")
+                .setName("Layouts")
                 .setDesc(
                     createFragment((el) => {
                         el.createSpan({
-                            text: "New statblocks can be created and managed here. A specific statblock can be used for a creature using the "
+                            text: "New statblock layouts can be created and managed here. A specific statblock can be used for a creature using the "
                         });
                         el.createEl("code", { text: "statblock" });
                         el.createSpan({ text: " parameter." });
@@ -53,7 +53,42 @@ export default class StatblockSettingTab extends PluginSettingTab {
                             const modal = new CreateStatblockModal(this.plugin);
                             modal.open();
                         })
-                ); */
+                );
+            const statblockAdditional =
+                statblockCreatorContainer.createDiv("additional");
+            new Setting(statblockAdditional)
+                .setName("Default Layout")
+                .setDesc(
+                    "Change the default statblock layout used, if not specified."
+                )
+                .addDropdown(async (d) => {
+                    d.addOption(Layout5e.name, Layout5e.name);
+                    for (const layout of this.plugin.settings.layouts) {
+                        d.addOption(layout.name, layout.name);
+                    }
+
+                    if (
+                        !this.plugin.settings.default ||
+                        !this.plugin.settings.layouts.find(
+                            ({ name }) => name == this.plugin.settings.default
+                        )
+                    ) {
+                        this.plugin.settings.default = Layout5e.name;
+                        await this.plugin.saveSettings();
+                    }
+
+                    d.setValue(this.plugin.settings.default ?? Layout5e.name);
+
+                    d.onChange(async (v) => {
+                        this.plugin.settings.default = v;
+                        await this.plugin.saveSettings();
+                    });
+                });
+
+            const layoutContainer =
+                statblockCreatorContainer.createDiv("additional");
+
+            this.buildCustomLayouts(layoutContainer);
 
             const importSettingsContainer = containerEl.createDiv(
                 "statblock-additional-container"
@@ -354,6 +389,55 @@ export default class StatblockSettingTab extends PluginSettingTab {
             new Notice(
                 "There was an error displaying the settings tab for 5e Statblocks."
             );
+        }
+    }
+    buildCustomLayouts(layoutContainer: HTMLDivElement) {
+        layoutContainer.empty();
+        new Setting(layoutContainer)
+            .setName(Layout5e.name)
+            .addExtraButton((b) => {
+                b.setIcon("duplicate-glyph")
+                    .setTooltip("Create Copy")
+                    .onClick(async () => {
+                        this.plugin.settings.layouts.push({
+                            ...Layout5e,
+                            name: `${Layout5e.name} Copy`
+                        });
+                        await this.plugin.saveSettings();
+                        this.buildCustomLayouts(layoutContainer);
+                    });
+            });
+        for (const layout of this.plugin.settings.layouts) {
+            new Setting(layoutContainer)
+                .setName(layout.name)
+                .addExtraButton((b) => {
+                    b.setIcon("duplicate-glyph")
+                        .setTooltip("Create Copy")
+                        .onClick(async () => {
+                            this.plugin.settings.layouts.push({
+                                ...Layout5e,
+                                name: `${layout.name} Copy`
+                            });
+                            await this.plugin.saveSettings();
+                            this.buildCustomLayouts(layoutContainer);
+                        });
+                })
+                .addExtraButton((b) => {
+                    b.setIcon("pencil").setTooltip("Edit");
+                })
+                .addExtraButton((b) => {
+                    b.setIcon("trash")
+                        .setTooltip("Delete")
+                        .onClick(async () => {
+                            this.plugin.settings.layouts =
+                                this.plugin.settings.layouts.filter(
+                                    (l) => l.name !== layout.name
+                                );
+                            await this.plugin.saveSettings();
+
+                            this.buildCustomLayouts(layoutContainer);
+                        });
+                });
         }
     }
 }

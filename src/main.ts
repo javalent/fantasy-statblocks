@@ -9,12 +9,14 @@ import domtoimage from "dom-to-image";
 
 import type DiceRollerPlugin from "../../obsidian-dice-roller/src/main";
 
-import { BESTIARY, BESTIARY_BY_NAME } from "./data/srd-bestiary";
+import { BESTIARY_BY_NAME } from "./data/srd-bestiary";
 import StatBlockRenderer from "./view/statblock";
-import { getColumns, getParamsFromSource, renderError } from "./util/util";
+import { getParamsFromSource, renderError } from "./util/util";
 import {
     EXPORT_ICON,
     EXPORT_SYMBOL,
+    Layout,
+    Layout5e,
     SAVE_ICON,
     SAVE_SYMBOL
 } from "./data/constants";
@@ -26,7 +28,8 @@ import { sort } from "fast-sort";
 
 export interface StatblockData {
     monsters: Array<[string, Monster]>;
-    statblocks: any[];
+    layouts: Layout[];
+    default: string;
     version: {
         major: number;
         minor: number;
@@ -36,7 +39,8 @@ export interface StatblockData {
 
 const DEFAULT_DATA: StatblockData = {
     monsters: [],
-    statblocks: [],
+    layouts: [],
+    default: Layout5e.name,
     version: {
         major: null,
         minor: null,
@@ -247,7 +251,8 @@ export default class StatBlockPlugin extends Plugin {
 
             const monster: Monster = Object.assign(
                 {},
-                this.bestiary.get(params.monster)
+                this.bestiary.get(params.monster) ??
+                    this.bestiary.get(params.creature)
             );
             let traits, actions, legendary_actions, reactions;
             if (monster) {

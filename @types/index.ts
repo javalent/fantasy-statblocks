@@ -55,6 +55,7 @@ export interface Monster {
     legendary_actions?: Trait[];
     reactions?: Trait[];
     monster?: string;
+    creature?: string;
     source?: string;
 }
 

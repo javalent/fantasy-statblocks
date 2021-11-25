@@ -21,6 +21,10 @@
     padding: 18px 0 18px 0;
 }
 
+.statblock-additional-container .clickable-icon {
+    margin: 0 6px;
+}
+
 .statblock-additional-container .task-list-inline {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -65,5 +69,3 @@
 .statblock-settings .coffee img {
     height: 30px;
 }
-
-
