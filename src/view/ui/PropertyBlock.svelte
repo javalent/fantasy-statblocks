@@ -3,6 +3,7 @@
 
     import DiceRoll from "./DiceRoll.svelte";
     import { getContext } from "svelte";
+    import { traitBuilder } from "./helpers";
 
     export let name: string;
     export let desc: string;
@@ -10,70 +11,14 @@
 
     const plugin = getContext<StatBlockPlugin>("plugin");
 
-    const traitBuilder = (node: HTMLElement, desc: string) => {
-        if (!plugin.canUseDiceRoller || !dice) {
-            node.setText(desc);
-            return;
-        }
-
-        const holder = createSpan();
-
-        const split = desc.split(
-            /([\+\-]\d+ to hit|\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\))/
-        );
-
-        for (let str of split) {
-            if (/[\+\-]\d+ to hit/.test(str.trim())) {
-                let [, sign, number] = str.match(/([\+\-])(\d+)/) ?? [];
-
-                let mult = 1;
-                if (sign === "-") {
-                    mult = -1;
-                }
-
-                if (!isNaN(Number(number))) {
-                    const roller = plugin.getRoller(
-                        `1d20+${mult * Number(number)}`
-                    );
-                    new DiceRoll({
-                        target: holder,
-                        props: {
-                            defaultValue: Math.ceil(
-                                10.5 + mult * Number(number)
-                            ),
-                            text: str,
-                            roller
-                        }
-                    });
-                    continue;
-                }
-            } else if (/\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)/.test(str.trim())) {
-                let [, base, dice] =
-                    str.match(/(\d+)\s\((\d+d\d+(?:\s*[+\-]\s*\d+)?)\)/) ?? [];
-
-                if (!isNaN(Number(base)) && dice) {
-                    const roller = plugin.getRoller(dice);
-                    new DiceRoll({
-                        target: holder,
-                        props: {
-                            defaultValue: Number(base),
-                            text: dice,
-                            roller
-                        }
-                    });
-                    continue;
-                }
-            }
-            holder.appendText(str);
-        }
-
-        node.appendChild(holder);
+    const builder = (node: HTMLElement, desc: string) => {
+        traitBuilder(node, desc, plugin, dice);
     };
 </script>
 
 <div class="property">
     <div class="property-name">{name}</div>
-    <div class="property-text" use:traitBuilder={desc} />
+    <div class="property-text" use:builder={desc} />
 </div>
 
 <style>

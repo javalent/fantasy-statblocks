@@ -6,6 +6,14 @@ interface CR {
     xp: number;
 }
 
+export function nanoid() {
+    return "xyxyxyxyxyxy".replace(/[xy]/g, function (c) {
+        var r = (Math.random() * 16) | 0,
+            v = c == "x" ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+    });
+}
+
 export type StatblockItemType =
     | "section"
     | "heading"
@@ -17,8 +25,60 @@ export type StatblockItemType =
     | "inline"
     | "group";
 
-export interface StatblockItem {
+interface CommonProps {
     type: StatblockItemType;
+    id: string;
+    properties: Array<keyof Monster>;
+    conditioned?: boolean;
+    fallback?: string;
+    display?: string;
+    hasRule?: boolean;
+    dice?: {
+        default?: keyof Monster;
+        text?: keyof Monster;
+        conditioned?: boolean;
+        parse?: boolean;
+    };
+}
+
+type GroupProps = {
+    type: "group";
+    nested: StatblockItem[];
+};
+type HeadingProps = {
+    type: "heading";
+    saveIcon?: boolean;
+    downloadIcon?: boolean;
+};
+type InlineProps = {
+    type: "inline";
+    nested: StatblockItem[];
+};
+type PropertyProps = {
+    type: "property";
+    callback?: (monster: Monster) => string;
+};
+type SavesProps = {
+    type: "saves";
+};
+type SectionProps = {
+    type: "section";
+    heading?: string;
+};
+type SpellsProps = {
+    type: "spells";
+};
+type SubHeadingProps = {
+    type: "subheading";
+};
+type TableProps = {
+    type: "table";
+    headers: string[];
+};
+
+/* export interface StatblockItem {
+    type: StatblockItemType;
+    id: string;
     properties: Array<keyof Monster>;
     conditioned?: boolean;
     fallback?: string;
@@ -36,7 +96,38 @@ export interface StatblockItem {
     };
     nested?: StatblockItem[];
     callback?: (monster: Monster) => string;
-}
+} */
+
+type ItemProps =
+    | GroupProps
+    | HeadingProps
+    | InlineProps
+    | PropertyProps
+    | SavesProps
+    | SectionProps
+    | SpellsProps
+    | SubHeadingProps
+    | TableProps;
+
+export type GroupItem = CommonProps & GroupProps;
+export type HeadingItem = CommonProps & HeadingProps;
+export type InlineItem = CommonProps & InlineProps;
+export type PropertyItem = CommonProps & PropertyProps;
+export type SavesItem = CommonProps & SavesProps;
+export type SectionItem = CommonProps & SectionProps;
+export type SpellsItem = CommonProps & SpellsProps;
+export type SubHeadingItem = CommonProps & SubHeadingProps;
+export type TableItem = CommonProps & TableProps;
+export type StatblockItem =
+    | GroupItem
+    | HeadingItem
+    | InlineItem
+    | PropertyItem
+    | SavesItem
+    | SectionItem
+    | SpellsItem
+    | SubHeadingItem
+    | TableItem;
 
 export interface Layout {
     name: string;
@@ -46,10 +137,12 @@ export interface Layout {
 export const Statblock5e: StatblockItem[] = [
     {
         type: "group",
+        id: nanoid(),
         properties: ["name", "size", "type", "subtype", "alignment"],
         nested: [
             {
                 type: "heading",
+                id: nanoid(),
                 properties: ["name"],
                 saveIcon: true,
                 downloadIcon: true,
@@ -57,6 +150,7 @@ export const Statblock5e: StatblockItem[] = [
             },
             {
                 type: "subheading",
+                id: nanoid(),
                 properties: ["size", "type", "subtype", "alignment"],
                 conditioned: true
             }
@@ -67,16 +161,19 @@ export const Statblock5e: StatblockItem[] = [
 
     {
         type: "group",
+        id: nanoid(),
         properties: ["ac", "hp", "speed"],
         nested: [
             {
                 type: "property",
+                id: nanoid(),
                 properties: ["ac"],
                 display: "Armor Class",
                 conditioned: true
             },
             {
                 type: "property",
+                id: nanoid(),
                 properties: ["hp"],
                 display: "Hit Points",
                 dice: {
@@ -89,6 +186,7 @@ export const Statblock5e: StatblockItem[] = [
             },
             {
                 type: "property",
+                id: nanoid(),
                 display: "Speed",
                 properties: ["speed"],
                 conditioned: true
@@ -100,6 +198,7 @@ export const Statblock5e: StatblockItem[] = [
 
     {
         type: "table",
+        id: nanoid(),
         properties: ["stats"],
         headers: ["Str", "Dex", "Con", "Wis", "Int", "Cha"],
         hasRule: true,
@@ -108,6 +207,7 @@ export const Statblock5e: StatblockItem[] = [
 
     {
         type: "group",
+        id: nanoid(),
         properties: [
             "saves",
             "skillsaves",
@@ -122,59 +222,75 @@ export const Statblock5e: StatblockItem[] = [
         nested: [
             {
                 type: "saves",
+                id: nanoid(),
                 display: "Saves",
                 properties: ["saves"],
-                conditioned: true
+                conditioned: true,
+                dice: {
+                    parse: true
+                }
             },
             {
                 type: "saves",
+                id: nanoid(),
                 display: "Skills",
                 properties: ["skillsaves"],
-                conditioned: true
+                conditioned: true,
+                dice: {
+                    parse: true
+                }
             },
             {
                 type: "property",
+                id: nanoid(),
                 display: "Damage Immunities",
                 properties: ["damage_immunities"],
                 conditioned: true
             },
             {
                 type: "property",
+                id: nanoid(),
                 display: "Condition Immunities",
                 properties: ["condition_immunities"],
                 conditioned: true
             },
             {
                 type: "property",
+                id: nanoid(),
                 display: "Resistances",
                 properties: ["damage_resistances"],
                 conditioned: true
             },
             {
                 type: "property",
+                id: nanoid(),
                 display: "Damage Vulnerabilities",
                 properties: ["damage_vulnerabilities"],
                 conditioned: true
             },
             {
                 type: "property",
+                id: nanoid(),
                 display: "Senses",
                 properties: ["senses"],
                 conditioned: true
             },
             {
                 type: "property",
+                id: nanoid(),
                 display: "Languages",
                 properties: ["languages"],
                 fallback: "-"
             },
             {
                 type: "inline",
+                id: nanoid(),
                 properties: [],
                 conditioned: true,
                 nested: [
                     {
                         type: "property",
+                        id: nanoid(),
                         display: "Challenge",
                         properties: ["cr"],
                         callback: (monster) => {
@@ -188,6 +304,7 @@ export const Statblock5e: StatblockItem[] = [
                     },
                     {
                         type: "property",
+                        id: nanoid(),
                         display: "Proficiency Bonus",
                         properties: ["cr"],
                         callback: (monster) => {
@@ -208,6 +325,7 @@ export const Statblock5e: StatblockItem[] = [
 
     {
         type: "section",
+        id: nanoid(),
         properties: ["traits"],
         conditioned: true,
         dice: {
@@ -216,6 +334,7 @@ export const Statblock5e: StatblockItem[] = [
     },
     {
         type: "spells",
+        id: nanoid(),
         properties: ["spells"],
         conditioned: true,
         dice: {
@@ -224,6 +343,7 @@ export const Statblock5e: StatblockItem[] = [
     },
     {
         type: "section",
+        id: nanoid(),
         properties: ["actions"],
         heading: "Actions",
         conditioned: true,
@@ -233,6 +353,7 @@ export const Statblock5e: StatblockItem[] = [
     },
     {
         type: "section",
+        id: nanoid(),
         properties: ["legendary_actions"],
         heading: "Legendary Actions",
         conditioned: true,
@@ -242,6 +363,7 @@ export const Statblock5e: StatblockItem[] = [
     },
     {
         type: "section",
+        id: nanoid(),
         properties: ["reactions"],
         heading: "Reactions",
         conditioned: true,

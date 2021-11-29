@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { Monster } from "@types";
-    import type { StatblockItem } from "src/data/constants";
+    import type { StatblockItem, SubHeadingItem } from "src/data/constants";
 
     export let monster: Monster;
-    export let item: StatblockItem;
+    export let item: SubHeadingItem;
     const subheading: string[] = [];
     for (let property of item.properties) {
         if (property in monster) {

@@ -6,7 +6,7 @@ import {
     Setting,
     TextComponent
 } from "obsidian";
-import { Layout5e } from "src/data/constants";
+import { Layout, Layout5e } from "src/data/constants";
 import {
     ImportEntitiesFromXml,
     ImportEntitiesFromImprovedInitiative,
@@ -14,6 +14,7 @@ import {
     ImportFromCritterDB
 } from "src/importers";
 import type StatBlockPlugin from "src/main";
+import StatblockCreator from "./StatblockCreator.svelte";
 import { MonsterSuggester } from "src/util/suggester";
 
 export default class StatblockSettingTab extends PluginSettingTab {
@@ -423,7 +424,15 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         });
                 })
                 .addExtraButton((b) => {
-                    b.setIcon("pencil").setTooltip("Edit");
+                    b.setIcon("pencil")
+                        .setTooltip("Edit")
+                        .onClick(() => {
+                            const modal = new CreateStatblockModal(
+                                this.plugin,
+                                layout
+                            );
+                            modal.open();
+                        });
                 })
                 .addExtraButton((b) => {
                     b.setIcon("trash")
@@ -443,7 +452,14 @@ export default class StatblockSettingTab extends PluginSettingTab {
 }
 
 class CreateStatblockModal extends Modal {
-    constructor(public plugin: StatBlockPlugin, statblock?: any) {
+    creator: StatblockCreator;
+    constructor(
+        public plugin: StatBlockPlugin,
+        public layout: Layout = {
+            name: "Layout",
+            blocks: []
+        }
+    ) {
         super(plugin.app);
     }
 
@@ -451,5 +467,12 @@ class CreateStatblockModal extends Modal {
         this.display();
     }
 
-    display() {}
+    display() {
+        this.creator = new StatblockCreator({
+            target: this.contentEl,
+            props: {
+                layout: this.layout
+            }
+        });
+    }
 }

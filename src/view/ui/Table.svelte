@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { Monster } from "@types";
-    import type { StatblockItem } from "src/data/constants";
+    import type { StatblockItem, TableItem } from "src/data/constants";
 
     export let monster: Monster;
-    export let item: StatblockItem;
+    export let item: TableItem;
 
     function getMod(stat: number) {
         let mod = Math.floor(((stat ?? 10) - 10) / 2);

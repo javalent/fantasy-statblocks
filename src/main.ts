@@ -232,6 +232,12 @@ export default class StatBlockPlugin extends Plugin {
                 link.href = url;
                 link.click();
                 link.detach();
+            })
+            .catch((e) => {
+                new Notice(
+                    `There was an error creating the image: \n\n${e.message}`
+                );
+                console.error(e);
             });
     }
 

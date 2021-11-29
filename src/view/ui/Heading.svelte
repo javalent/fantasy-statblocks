@@ -3,14 +3,14 @@
     import { ExtraButtonComponent } from "obsidian";
     import {
         EXPORT_SYMBOL,
-        SAVE_SYMBOL,
-        StatblockItem
+        HeadingItem,
+        SAVE_SYMBOL
     } from "src/data/constants";
     import { createEventDispatcher } from "svelte";
 
     const dispatch = createEventDispatcher();
     export let monster: Monster;
-    export let item: StatblockItem;
+    export let item: HeadingItem;
     export let canSave: boolean;
     export let canExport: boolean;
 

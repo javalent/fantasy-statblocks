@@ -2353,7 +2353,7 @@ export const BESTIARY: Monster[] = [
         alignment: "any alignment",
         ac: 12,
         hp: 99,
-        hit_dice: "18d8 + 18 + NaN",
+        hit_dice: "18d8 + 18",
         speed: "30 ft.",
         stats: [10, 14, 12, 20, 15, 16],
         saves: [{ intelligence: 9 }, { wisdom: 6 }],

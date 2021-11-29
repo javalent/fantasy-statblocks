@@ -1,11 +1,13 @@
 <script lang="ts">
     import type { Monster } from "@types";
-    import type { StatblockItem } from "src/data/constants";
+    import type { SavesItem, StatblockItem } from "src/data/constants";
+    import type StatBlockPlugin from "src/main";
     import { toTitleCase } from "src/util/util";
-    import GenericProperty from "./GenericProperty.svelte";
+    import { getContext } from "svelte";
+    import { traitBuilder } from "./helpers";
 
     export let monster: Monster;
-    export let item: StatblockItem;
+    export let item: SavesItem;
 
     function getMod(value: number) {
         return `${value > 0 ? "+" : ""}${value}`;
@@ -25,14 +27,40 @@
             if (!value || isNaN(Number(value))) return null;
             return `${toTitleCase(key)} ${getMod(value as number)}`;
         })
-        .filter((m) => m);
+        .filter((m) => m)
+        .join(", ");
+
+    const plugin = getContext<StatBlockPlugin>("plugin");
+    let parse = item.dice?.parse;
+    const builder = (node: HTMLElement, desc: string) => {
+        traitBuilder(node, desc, plugin, parse);
+    };
 </script>
 
 <div class="info">
-    {#if saves && saves.length}
-        <GenericProperty
-            property={item.display ?? toTitleCase(item.properties[0])}
-            text={saves.join(", ")}
-        />
-    {/if}
+    <div class="line">
+        <span class="property-name"
+            >{item.display ?? toTitleCase(item.properties[0])}</span
+        >
+
+        <span class="property-text" use:builder={saves} />
+    </div>
 </div>
+
+<style>
+    .line {
+        line-height: 1.4;
+        display: block;
+        color: var(--statblock-primary-color);
+    }
+    .property-name {
+        margin: 0;
+        margin-right: 0.25em;
+        display: inline;
+        font-weight: bold;
+    }
+    .property-text {
+        display: inline;
+        margin: 0;
+    }
+</style>
