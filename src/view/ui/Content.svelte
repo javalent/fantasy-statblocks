@@ -263,7 +263,7 @@
 
     @media screen and (max-width: 400px) {
         .statblock-content > :global(.column) {
-            width: 85vw;
+            width: 75vw;
         }
     }
 
