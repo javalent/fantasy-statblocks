@@ -261,6 +261,12 @@
         width: 400px;
     }
 
+    @media screen and (max-width: 400px) {
+        .statblock-content > :global(.column) {
+            width: 85vw;
+        }
+    }
+
     :global(.statblock-item-container) {
         margin-bottom: 0.25rem;
     }
