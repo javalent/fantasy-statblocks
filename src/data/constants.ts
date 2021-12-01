@@ -76,39 +76,6 @@ type TableProps = {
     headers: string[];
 };
 
-/* export interface StatblockItem {
-    type: StatblockItemType;
-    id: string;
-    properties: Array<keyof Monster>;
-    conditioned?: boolean;
-    fallback?: string;
-    display?: string;
-    saveIcon?: boolean;
-    downloadIcon?: boolean;
-    hasRule?: boolean;
-    heading?: string;
-    headers?: string[];
-    dice?: {
-        default?: keyof Monster;
-        text?: keyof Monster;
-        conditioned?: boolean;
-        parse?: boolean;
-    };
-    nested?: StatblockItem[];
-    callback?: (monster: Monster) => string;
-} */
-
-type ItemProps =
-    | GroupProps
-    | HeadingProps
-    | InlineProps
-    | PropertyProps
-    | SavesProps
-    | SectionProps
-    | SpellsProps
-    | SubHeadingProps
-    | TableProps;
-
 export type GroupItem = CommonProps & GroupProps;
 export type HeadingItem = CommonProps & HeadingProps;
 export type InlineItem = CommonProps & InlineProps;

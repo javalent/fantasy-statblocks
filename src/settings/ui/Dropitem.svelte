@@ -5,7 +5,7 @@
     const dispatch = createEventDispatcher();
 
     const grip = (node: HTMLElement) => {
-        setIcon(node, "fantasy-calendar-grip");
+        setIcon(node, "dropzone-grip");
     };
 
     function startDrag(e: Event) {
@@ -35,5 +35,8 @@
     }
     .item {
         width: 100%;
+    }
+    .icon {
+        display: flex;
     }
 </style>

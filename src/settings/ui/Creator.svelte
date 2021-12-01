@@ -1,27 +1,26 @@
 <script lang="ts">
     import type { StatblockItem } from "src/data/constants";
 
-    import { addIcon } from "obsidian";
-
-    import Dropitem from "./Dropitem.svelte";
-
     import { flip } from "svelte/animate";
     import { dndzone, SOURCES, TRIGGERS } from "svelte-dnd-action";
-    import { blockBuilder } from "./block";
+    import Block from "./Block.svelte";
+    import type StatBlockPlugin from "src/main";
+    import { createEventDispatcher } from "svelte";
+    import { setIcon } from "obsidian";
 
-    addIcon(
-        "dropzone-grip",
-        `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="grip-lines" class="svg-inline--fa fa-grip-lines fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M496 288H16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16zm0-128H16c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16v-32c0-8.8-7.2-16-16-16z"/></svg>`
-    );
+    const dispatch = createEventDispatcher();
 
     export let blocks: StatblockItem[] = [];
     export let inline = false;
+    export let plugin: StatBlockPlugin;
+
+    export let dropFromOthersDisabled = false;
 
     /** Dropzone Functions */
     $: items = [...blocks];
 
     let flipDurationMs = 300;
-    let dragDisabled = false;
+    let dragDisabled = true;
     function handleConsider(e: CustomEvent<GenericDndEvent<StatblockItem>>) {
         const {
             items: newItems,
@@ -39,25 +38,51 @@
             info: { source }
         } = e.detail;
         items = newItems;
+        dispatch("sorted", items);
         // Ensure dragging is stopped on drag finish via pointer (mouse, touch)
         if (source === SOURCES.POINTER) {
             dragDisabled = true;
         }
     }
+    const grip = (node: HTMLElement) => {
+        setIcon(node, "dropzone-grip");
+    };
+
+    function startDrag(e: Event) {
+        // preventing default to prevent lag on touch devices (because of the browser checking for screen scrolling)
+        e.preventDefault();
+        dragDisabled = false;
+    }
 </script>
 
 <div class="creator">
     <section
-        use:dndzone={{ items, flipDurationMs }}
+        use:dndzone={{
+            items,
+            flipDurationMs,
+            dropFromOthersDisabled,
+            dragDisabled
+        }}
         on:consider={handleConsider}
         on:finalize={handleFinalize}
         class:inline
     >
         {#each items as block (block.id)}
             <div animate:flip={{ duration: flipDurationMs }}>
-                <Dropitem on:disabled={() => (dragDisabled = !dragDisabled)}>
-                    <div use:blockBuilder={block} />
-                </Dropitem>
+                <div class="block">
+                    <div
+                        class="icon"
+                        use:grip
+                        on:mousedown={startDrag}
+                        on:touchstart={startDrag}
+                        style={dragDisabled
+                            ? "cursor: grab"
+                            : "cursor: grabbing"}
+                    />
+                    <div class="item">
+                        <Block {plugin} {block} />
+                    </div>
+                </div>
             </div>
         {/each}
     </section>
@@ -68,5 +93,16 @@
         display: flex;
         justify-content: space-between;
         border: 2px dashed grey;
+    }
+    .block {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .item {
+        width: 100%;
+    }
+    .icon {
+        display: flex;
     }
 </style>

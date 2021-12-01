@@ -3,7 +3,8 @@ import {
     MarkdownPostProcessorContext,
     MarkdownView,
     Notice,
-    Plugin
+    Plugin,
+    TFile
 } from "obsidian";
 import domtoimage from "dom-to-image";
 

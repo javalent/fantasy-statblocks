@@ -1,3 +1,12 @@
+<script lang="ts">
+    import type { HeadingItem } from "src/data/constants";
+
+    import type StatBlockPlugin from "src/main";
+
+    export let block: HeadingItem;
+    export let plugin: StatBlockPlugin;
+</script>
+
 <div class="heading">Heading</div>
 
 <style>

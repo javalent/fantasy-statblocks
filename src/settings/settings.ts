@@ -453,14 +453,17 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
 class CreateStatblockModal extends Modal {
     creator: StatblockCreator;
+    layout: Layout;
+    saved: boolean = false;
     constructor(
         public plugin: StatBlockPlugin,
-        public layout: Layout = {
+        layout: Layout = {
             name: "Layout",
             blocks: []
         }
     ) {
         super(plugin.app);
+        this.layout = { ...layout };
     }
 
     onOpen() {
@@ -471,8 +474,18 @@ class CreateStatblockModal extends Modal {
         this.creator = new StatblockCreator({
             target: this.contentEl,
             props: {
-                layout: this.layout
+                layout: this.layout,
+                plugin: this.plugin
             }
+        });
+
+        this.creator.$on("saved", () => {
+            this.saved = true;
+            console.log(...this.layout.blocks);
+            this.close();
+        });
+        this.creator.$on("cancel", () => {
+            this.close();
         });
     }
 }
