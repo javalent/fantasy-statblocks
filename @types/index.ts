@@ -1,5 +1,3 @@
-
-
 export type ability =
     | "strength"
     | "dexterity"
@@ -57,6 +55,11 @@ export interface Monster {
     monster?: string;
     creature?: string;
     source?: string;
+
+    export?: boolean;
+    dice?: boolean;
+    render?: boolean;
+    layout?: string;
 }
 
 /* export interface StatblockMonster

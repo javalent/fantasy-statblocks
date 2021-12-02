@@ -1,20 +1,42 @@
 <script lang="ts">
     import type { Monster } from "@types";
-    import { debounce } from "obsidian";
-    import type { StatblockItem } from "src/data/constants";
+    import { debounce, ExtraButtonComponent, Menu } from "obsidian";
+    import {
+        EXPORT_SYMBOL,
+        SAVE_SYMBOL,
+        StatblockItem
+    } from "src/data/constants";
     import type StatBlockPlugin from "src/main";
-    import { onDestroy, onMount, setContext } from "svelte";
+    import {
+        createEventDispatcher,
+        onDestroy,
+        onMount,
+        setContext
+    } from "svelte";
+    import { Writable, writable } from "svelte/store";
 
     import Bar from "./ui/Bar.svelte";
     import Content from "./ui/Content.svelte";
 
+    const dispatch = createEventDispatcher();
+
     export let monster: Monster;
+
     export let plugin: StatBlockPlugin;
     export let statblock: StatblockItem[];
     export let canSave: boolean;
-    export let canExport: boolean;
+
+    let canExport = monster.export ?? plugin.settings.export;
+    let canDice = monster.dice ?? plugin.settings.useDice;
+
+    let canRender = monster.render ?? plugin.settings.renderDice;
 
     setContext<StatBlockPlugin>("plugin", plugin);
+    setContext<boolean>("dice", canDice);
+    setContext<boolean>("render", canRender);
+
+    const reset = writable<boolean>(false);
+    setContext<Writable<boolean>>("reset", reset);
 
     let container: HTMLElement;
     let columns: number = 1;
@@ -39,6 +61,42 @@
     onDestroy(() => {
         observer.disconnect();
     });
+
+    const icons = (node: HTMLElement) => {
+        if (!canExport && !canSave && !canDice) {
+            node.detach();
+            return;
+        }
+        new ExtraButtonComponent(node).setIcon("vertical-three-dots");
+    };
+    const menu = new Menu(plugin.app);
+    if (canSave)
+        menu.addItem((item) =>
+            item
+                .setIcon(SAVE_SYMBOL)
+                .setTitle("Save as Homebrew")
+                .onClick(() => dispatch("save"))
+        );
+    if (canExport)
+        menu.addItem((item) =>
+            item
+                .setIcon(EXPORT_SYMBOL)
+                .setTitle("Export as PNG")
+                .onClick(() => dispatch("export"))
+        );
+    if (canDice)
+        menu.addItem((item) =>
+            item
+                .setIcon("reset")
+                .setTitle("Reset Dice")
+                .onClick(() => {
+                    reset.set(true);
+                    reset.set(false);
+                })
+        );
+    const showMenu = (evt: MouseEvent) => {
+        menu.showAtMouseEvent(evt);
+    };
 </script>
 
 <div class="container" bind:this={container}>
@@ -46,15 +104,13 @@
         <div class="obsidian-statblock-plugin statblock">
             {#if monster}
                 <Bar />
-
+                <div class="icons" use:icons on:click={showMenu} />
                 {#key columns}
                     <Content
                         {monster}
                         {columns}
                         {statblock}
                         {ready}
-                        {canSave}
-                        {canExport}
                         on:save
                         on:export
                     />
@@ -75,5 +131,11 @@
     }
     .statblock {
         margin: 0 auto;
+        position: relative;
+    }
+    .icons {
+        position: absolute;
+        left: calc(400px - 1em);
+        top: 1em;
     }
 </style>

@@ -1,10 +1,10 @@
 <script lang="ts">
     import type { Monster } from "@types";
-    import type { SavesItem, StatblockItem } from "src/data/constants";
+    import type { SavesItem } from "src/data/constants";
     import type StatBlockPlugin from "src/main";
     import { toTitleCase } from "src/util/util";
     import { getContext } from "svelte";
-    import { traitBuilder } from "./helpers";
+    import Trait from "./Trait.svelte";
 
     export let monster: Monster;
     export let item: SavesItem;
@@ -30,11 +30,7 @@
         .filter((m) => m)
         .join(", ");
 
-    const plugin = getContext<StatBlockPlugin>("plugin");
-    let parse = item.dice?.parse;
-    const builder = (node: HTMLElement, desc: string) => {
-        traitBuilder(node, desc, plugin, parse);
-    };
+    let canDice = getContext<boolean>("dice");
 </script>
 
 <div class="info">
@@ -42,8 +38,9 @@
         <span class="property-name"
             >{item.display ?? toTitleCase(item.properties[0])}</span
         >
-
-        <span class="property-text" use:builder={saves} />
+        <div class="property-text">
+            <Trait trait={saves} dice={item.dice?.parse && canDice} />
+        </div>
     </div>
 </div>
 

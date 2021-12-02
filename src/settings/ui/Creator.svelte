@@ -14,10 +14,9 @@
     export let inline = false;
     export let plugin: StatBlockPlugin;
 
-    export let dropFromOthersDisabled = false;
+    let dropFromOthersDisabled = false;
 
     /** Dropzone Functions */
-    $: items = [...blocks];
 
     let flipDurationMs = 300;
     let dragDisabled = true;
@@ -26,7 +25,7 @@
             items: newItems,
             info: { source, trigger }
         } = e.detail;
-        items = newItems;
+        blocks = newItems;
         // Ensure dragging is stopped on drag finish via keyboard
         if (source === SOURCES.KEYBOARD && trigger === TRIGGERS.DRAG_STOPPED) {
             dragDisabled = true;
@@ -37,8 +36,8 @@
             items: newItems,
             info: { source }
         } = e.detail;
-        items = newItems;
-        dispatch("sorted", items);
+        blocks = newItems;
+        dispatch("sorted", blocks);
         // Ensure dragging is stopped on drag finish via pointer (mouse, touch)
         if (source === SOURCES.POINTER) {
             dragDisabled = true;
@@ -53,12 +52,17 @@
         e.preventDefault();
         dragDisabled = false;
     }
+
+    const trash = (evt: CustomEvent<StatblockItem>) => {
+        blocks = blocks.filter((b) => b.id != evt.detail.id);
+        dispatch("sorted", blocks);
+    };
 </script>
 
 <div class="creator">
     <section
         use:dndzone={{
-            items,
+            items: blocks,
             flipDurationMs,
             dropFromOthersDisabled,
             dragDisabled
@@ -67,7 +71,7 @@
         on:finalize={handleFinalize}
         class:inline
     >
-        {#each items as block (block.id)}
+        {#each blocks as block (block.id)}
             <div animate:flip={{ duration: flipDurationMs }}>
                 <div class="block">
                     <div
@@ -80,7 +84,7 @@
                             : "cursor: grabbing"}
                     />
                     <div class="item">
-                        <Block {plugin} {block} />
+                        <Block {plugin} {block} on:edit on:trash={trash} />
                     </div>
                 </div>
             </div>
@@ -92,7 +96,6 @@
     .inline {
         display: flex;
         justify-content: space-between;
-        border: 2px dashed grey;
     }
     .block {
         display: flex;

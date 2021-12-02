@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Monster, Trait } from "@types";
     import type { StatblockItem } from "src/data/constants";
-    import type StatblockPlugin from "src/main";
+
     import PropertyBlock from "./PropertyBlock.svelte";
     import Spells from "./Spells.svelte";
     import Heading from "./Heading.svelte";
@@ -11,7 +11,7 @@
     import SectionHeading from "./SectionHeading.svelte";
     import Subheading from "./Subheading.svelte";
     import Table from "./Table.svelte";
-    import { getContext, onMount, createEventDispatcher } from "svelte";
+    import { onMount, createEventDispatcher, getAllContexts } from "svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -19,8 +19,6 @@
     export let statblock: StatblockItem[];
     export let columns: number = 1;
     export let ready: boolean;
-    export let canExport: boolean;
-    export let canSave: boolean;
 
     const checkConditioned = (item: StatblockItem) => {
         if (!item.conditioned) return true;
@@ -47,7 +45,7 @@
         });
     };
 
-    const plugin = getContext<StatblockPlugin>("plugin");
+    const context = getAllContexts();
 
     const getElementForStatblockItem = (
         item: StatblockItem,
@@ -66,11 +64,9 @@
                     target,
                     props: {
                         monster,
-                        item,
-                        canSave,
-                        canExport
+                        item
                     },
-                    context: new Map([["plugin", plugin]])
+                    context
                 });
                 heading.$on("save", (e) => dispatch("save", e.detail));
                 heading.$on("export", (e) => dispatch("export", e.detail));
@@ -83,7 +79,7 @@
                         monster,
                         item
                     },
-                    context: new Map([["plugin", plugin]])
+                    context
                 });
                 break;
             }
@@ -94,7 +90,7 @@
                         monster,
                         item
                     },
-                    context: new Map([["plugin", plugin]])
+                    context
                 });
                 break;
             }
@@ -108,7 +104,7 @@
                         props: {
                             header: item.heading
                         },
-                        context: new Map([["plugin", plugin]])
+                        context
                     });
                 }
                 try {
@@ -121,9 +117,9 @@
                             props: {
                                 name: block.name,
                                 desc: block.desc,
-                                dice: item.dice && item.dice.parse
+                                dice: item.dice?.parse
                             },
-                            context: new Map([["plugin", plugin]])
+                            context
                         });
                         targets.push(prop);
                     }
@@ -139,9 +135,10 @@
                 new Spells({
                     target,
                     props: {
-                        monster
+                        monster,
+                        item
                     },
-                    context: new Map([["plugin", plugin]])
+                    context
                 });
                 break;
             }
@@ -152,7 +149,7 @@
                         monster,
                         item
                     },
-                    context: new Map([["plugin", plugin]])
+                    context
                 });
                 break;
             }
@@ -163,7 +160,7 @@
                         monster,
                         item
                     },
-                    context: new Map([["plugin", plugin]])
+                    context
                 });
                 break;
             }

@@ -1,24 +1,19 @@
 <script lang="ts">
-    import type StatBlockPlugin from "src/main";
-
-    import DiceRoll from "./DiceRoll.svelte";
-    import { getContext } from "svelte";
-    import { traitBuilder } from "./helpers";
+        import { getContext } from "svelte";
+    import Trait from "./Trait.svelte";
 
     export let name: string;
     export let desc: string;
     export let dice: boolean = true;
 
-    const plugin = getContext<StatBlockPlugin>("plugin");
-
-    const builder = (node: HTMLElement, desc: string) => {
-        traitBuilder(node, desc, plugin, dice);
-    };
+    let canDice = getContext<boolean>("dice");
 </script>
 
 <div class="property">
     <div class="property-name">{name}</div>
-    <div class="property-text" use:builder={desc} />
+    <div class="property-text">
+        <Trait trait={desc} dice={dice && canDice} />
+    </div>
 </div>
 
 <style>

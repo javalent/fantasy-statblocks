@@ -38,6 +38,7 @@ interface CommonProps {
         text?: keyof Monster;
         conditioned?: boolean;
         parse?: boolean;
+        regex?: RegExp;
     };
 }
 
@@ -73,6 +74,7 @@ type SubHeadingProps = {
 };
 type TableProps = {
     type: "table";
+    dice: boolean;
     headers: string[];
 };
 
@@ -169,7 +171,8 @@ export const Statblock5e: StatblockItem[] = [
         properties: ["stats"],
         headers: ["Str", "Dex", "Con", "Wis", "Int", "Cha"],
         hasRule: true,
-        conditioned: true
+        conditioned: true,
+        dice: true
     },
 
     {

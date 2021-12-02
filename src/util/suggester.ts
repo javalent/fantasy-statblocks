@@ -1,4 +1,4 @@
-import type { Monster, StatblockMonsterPlugin } from "@types";
+import type { Monster } from "@types";
 import {
     App,
     FuzzyMatch,
@@ -9,6 +9,7 @@ import {
     SuggestModal,
     TextComponent
 } from "obsidian";
+import type StatBlockPlugin from "src/main";
 import StatBlockRenderer from "src/view/statblock";
 
 import EditMonsterApp from "../svelte/EditMonster.svelte";
@@ -204,7 +205,7 @@ export class MonsterSuggester extends SuggestionModal<Monster> {
     monster: Monster;
     text: TextComponent;
     constructor(
-        public plugin: StatblockMonsterPlugin,
+        public plugin: StatBlockPlugin,
         input: TextComponent,
         el: HTMLDivElement,
         public displayed: Set<string>
@@ -299,10 +300,7 @@ export class MonsterSuggester extends SuggestionModal<Monster> {
 }
 
 class ViewMonsterModal extends Modal {
-    constructor(
-        private plugin: StatblockMonsterPlugin,
-        private monster: Monster
-    ) {
+    constructor(private plugin: StatBlockPlugin, private monster: Monster) {
         super(plugin.app);
     }
     async display() {
@@ -328,10 +326,7 @@ class ViewMonsterModal extends Modal {
 }
 class EditMonsterModal extends Modal {
     private _instance: any;
-    constructor(
-        private plugin: StatblockMonsterPlugin,
-        private monster: Monster
-    ) {
+    constructor(private plugin: StatBlockPlugin, private monster: Monster) {
         super(plugin.app);
     }
 

@@ -1,10 +1,10 @@
 <script lang="ts">
     import type { Monster } from "@types";
-    import type { PropertyItem, StatblockItem } from "src/data/constants";
+    import type { PropertyItem } from "src/data/constants";
     import type StatBlockPlugin from "src/main";
     import { getContext } from "svelte";
     import DiceRoll from "./DiceRoll.svelte";
-    import { traitBuilder } from "./helpers";
+    import Trait from "./Trait.svelte";
 
     export let monster: Monster;
     export let item: PropertyItem;
@@ -17,11 +17,13 @@
     if (item.callback) {
         property = item.callback(monster) ?? property;
     }
+    let canDice = getContext<boolean>("dice");
+
     let dice = false,
         parse = item.dice?.parse,
         def: number,
         text: string;
-    if (item.dice) {
+    if (item.dice && canDice) {
         if (
             item.dice.conditioned &&
             item.dice.text &&
@@ -34,9 +36,6 @@
             dice = true;
         }
     }
-    const builder = (node: HTMLElement, desc: string) => {
-        traitBuilder(node, desc, plugin, parse);
-    };
 </script>
 
 <div class="line">
@@ -44,7 +43,9 @@
     {#if dice}
         <DiceRoll {text} defaultValue={def} />
     {:else if parse}
-        <span class="property-text" use:builder={property} />
+        <div class="property-text">
+            <Trait trait={property} dice={dice && canDice} />
+        </div>
     {:else}
         <span class="property-text">{property}</span>
     {/if}

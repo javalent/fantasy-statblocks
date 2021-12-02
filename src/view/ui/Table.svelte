@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Monster } from "@types";
-    import type { StatblockItem, TableItem } from "src/data/constants";
+    import type { TableItem } from "src/data/constants";
 
     export let monster: Monster;
     export let item: TableItem;
@@ -24,7 +24,7 @@
     {#each values as value, index}
         <div class="table-item">
             <strong>{`${headers[index]}`.toUpperCase()}</strong>
-            <span>{value} ({getMod(value)})</span>
+            <span>{value} ({getMod(value)}) </span>
         </div>
     {/each}
 </div>

@@ -3,12 +3,15 @@
         addIcon,
         ButtonComponent,
         ExtraButtonComponent,
+        Menu,
+        Modal,
         TextComponent
     } from "obsidian";
 
     import type { Layout, StatblockItem } from "src/data/constants";
     import type StatBlockPlugin from "src/main";
     import { createEventDispatcher } from "svelte";
+import AddButton from "./ui/AddButton.svelte";
     import Creator from "./ui/Creator.svelte";
 
     export let layout: Layout;
@@ -61,12 +64,6 @@
         }
     };
 
-    const add = (node: HTMLDivElement) => {
-        new ExtraButtonComponent(node)
-            .setIcon("plus-with-circle")
-            .setTooltip("Add Block")
-            .onClick(() => {});
-    };
     const save = (node: HTMLDivElement) => {
         new ButtonComponent(node)
             .setIcon("checkmark")
@@ -84,16 +81,34 @@
                 dispatch("cancel");
             });
     };
+
+    const edit = (evt: CustomEvent<StatblockItem>) => {
+        console.log("🚀 ~ file: StatblockCreator.svelte ~ line 110 ~ evt", evt);
+        const modal = new BlockModal(plugin, evt.detail);
+        modal.open();
+    };
+
+    class BlockModal extends Modal {
+        constructor(
+            public plugin: StatBlockPlugin,
+            public block?: StatblockItem
+        ) {
+            super(plugin.app);
+        }
+    }
 </script>
 
 <div class="top">
     <div class="name" use:name />
-    <div class="add" use:add />
+    <AddButton {plugin} />
 </div>
 <div class="creator-container">
-    <div class="creator">
-        <Creator blocks={layout.blocks} {plugin} on:sorted={handleSorted} />
-    </div>
+    <Creator
+        blocks={layout.blocks}
+        {plugin}
+        on:sorted={handleSorted}
+        on:edit={edit}
+    />
 </div>
 <div class="bottom">
     <div class="save" use:save />
@@ -101,7 +116,7 @@
 </div>
 
 <style>
-    .creator {
+    :global(body:not(.is-mobile)) .creator-container {
         max-width: 75vw;
         max-height: 75vh;
     }

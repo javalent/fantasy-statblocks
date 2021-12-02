@@ -26,11 +26,22 @@ import StatblockSettingTab from "./settings/settings";
 
 import "./main.css";
 import { sort } from "fast-sort";
-
+declare module "obsidian" {
+    interface Workspace {
+        on(
+            name: "dice-roller:rendered-result",
+            callback: (result: number) => void
+        ): EventRef;
+        on(name: "dice-roller:unload", callback: () => void): EventRef;
+    }
+}
 export interface StatblockData {
     monsters: Array<[string, Monster]>;
     layouts: Layout[];
     default: string;
+    useDice: boolean;
+    renderDice: boolean;
+    export: boolean;
     version: {
         major: number;
         minor: number;
@@ -42,6 +53,9 @@ const DEFAULT_DATA: StatblockData = {
     monsters: [],
     layouts: [],
     default: Layout5e.name,
+    useDice: true,
+    renderDice: false,
+    export: true,
     version: {
         major: null,
         minor: null,
@@ -102,6 +116,12 @@ export default class StatBlockPlugin extends Plugin {
         this.registerMarkdownCodeBlockProcessor(
             "statblock",
             this.postprocessor.bind(this)
+        );
+
+        this.registerEvent(
+            this.app.workspace.on("dice-roller:unload", () => {
+                this.settings.useDice = false;
+            })
         );
     }
     async loadSettings() {
@@ -333,46 +353,18 @@ export default class StatBlockPlugin extends Plugin {
 
             const toBuild = Object.assign(monster ?? {}, params ?? {});
 
-            let statblock = new StatBlockRenderer(el, toBuild, this, canSave);
+            let layout =
+                this.settings.layouts.find(
+                    (layout) => layout.name == params?.layout
+                ) ?? Layout5e;
 
-            /* statblock.onunload = () => {
-                let newPre = createEl("pre");
-                newPre.createEl("code", {
-                    text: `\`\`\`statblock\n${source}\`\`\``
-                });
-                statblock.statblockEl.replaceWith(newPre);
-            }; */
-
-            const view = this.app.workspace.getActiveViewOfType(MarkdownView);
-
-            /**
-             * setImmediate call to allow statblock to be appended to document.
-             * This allows the plugin to get the height of the statblock for proper initial column rendering.
-             */
-            /* let columns = 0;
-            statblock.onload = async () => {
-                statblock.loaded = true;
-                columns = getColumns(view.contentEl);
-                if (columns >= 1) statblock.setWidth(columns * 400, true);
-                if (columns === 0) statblock.setMaxWidth(400);
-
-                statblock.statblockEl.toggleVisibility(true);
-            }; */
-
-            /**
-             * Initiate view resize handler to update columns.
-             */
-            /*  if (view && view instanceof MarkdownView) {
-                view.onResize = () => {
-                    let c = getColumns(statblock.containerEl.parentElement);
-
-                    if (c == columns) return;
-                    columns = c;
-
-                    if (c >= 1) statblock.setWidth(columns * 400);
-                    if (c === 0) statblock.setMaxWidth(400);
-                };
-            } */
+            let statblock = new StatBlockRenderer(
+                el,
+                toBuild,
+                this,
+                canSave,
+                layout
+            );
 
             ctx.addChild(statblock);
         } catch (e) {
