@@ -31,7 +31,6 @@ interface CommonProps {
     properties: Array<keyof Monster>;
     conditioned?: boolean;
     fallback?: string;
-    display?: string;
     hasRule?: boolean;
     dice?: {
         default?: keyof Monster;
@@ -48,8 +47,6 @@ type GroupProps = {
 };
 type HeadingProps = {
     type: "heading";
-    saveIcon?: boolean;
-    downloadIcon?: boolean;
 };
 type InlineProps = {
     type: "inline";
@@ -58,9 +55,11 @@ type InlineProps = {
 type PropertyProps = {
     type: "property";
     callback?: (monster: Monster) => string;
+    display?: string;
 };
 type SavesProps = {
     type: "saves";
+    display?: string;
 };
 type SectionProps = {
     type: "section";
@@ -74,7 +73,6 @@ type SubHeadingProps = {
 };
 type TableProps = {
     type: "table";
-    dice: boolean;
     headers: string[];
 };
 
@@ -98,6 +96,18 @@ export type StatblockItem =
     | SubHeadingItem
     | TableItem;
 
+export interface StatblockRecord {
+    section: SectionItem;
+    heading: HeadingItem;
+    subheading: SubHeadingItem;
+    property: PropertyItem;
+    table: TableItem;
+    saves: SavesItem;
+    spells: SpellsItem;
+    inline: InlineItem;
+    group: GroupItem;
+}
+
 export interface Layout {
     name: string;
     blocks: StatblockItem[];
@@ -113,8 +123,6 @@ export const Statblock5e: StatblockItem[] = [
                 type: "heading",
                 id: nanoid(),
                 properties: ["name"],
-                saveIcon: true,
-                downloadIcon: true,
                 conditioned: true
             },
             {
@@ -171,8 +179,7 @@ export const Statblock5e: StatblockItem[] = [
         properties: ["stats"],
         headers: ["Str", "Dex", "Con", "Wis", "Int", "Cha"],
         hasRule: true,
-        conditioned: true,
-        dice: true
+        conditioned: true
     },
 
     {
