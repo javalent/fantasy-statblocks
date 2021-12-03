@@ -1,33 +1,31 @@
 <script lang="ts">
-    import type { GroupItem, StatblockItem } from "src/data/constants";
+    import type {
+        GroupItem,
+        InlineItem,
+        StatblockItem
+    } from "src/data/constants";
     import type StatBlockPlugin from "src/main";
-    import { createEventDispatcher } from "svelte";
-    import AddButton from "../AddButton.svelte";
     import Creator from "../Creator.svelte";
 
-    const dispatch = createEventDispatcher();
-
-    export let block: GroupItem;
+    export let block: GroupItem | InlineItem;
     export let plugin: StatBlockPlugin;
+    export let inline: boolean;
+
+    $: blocks = block.nested;
 
     const handleSorted = (e: CustomEvent<StatblockItem[]>) => {
         block.nested = [...e.detail];
     };
 </script>
 
-<div class="group">
-    <Creator blocks={block.nested} {plugin} on:sorted={handleSorted} on:edit />
-
-    <AddButton
-        {plugin}
-        on:add={(e) => dispatch("add", { type: e.detail, block })}
-    />
+<div class="group" class:inline-group={inline}>
+    <Creator {blocks} {plugin} {inline} on:sorted={handleSorted} />
 </div>
 
 <style>
     .group {
         display: grid;
-        grid-template-columns: 1fr auto;
+        grid-template-columns: 1fr;
         border: 2px dashed grey;
         min-height: 2rem;
     }

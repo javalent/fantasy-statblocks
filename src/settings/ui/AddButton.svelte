@@ -12,28 +12,9 @@
             .setIcon("plus-with-circle")
             .setTooltip("Add Block");
     };
-
-    const types = [
-        "Traits",
-        "Heading",
-        "Subheading",
-        "Property",
-        "Table",
-        "Saves",
-        "Spells",
-        "Inline",
-        "Group"
-    ];
-
-    const addMenu = new Menu(plugin.app).setNoIcon();
-    types.forEach((type) => {
-        addMenu.addItem((item) => {
-            item.setTitle(type).onClick(() => dispatch("add", type));
-        });
-    });
 </script>
 
-<div class="add" use:add on:click={(evt) => addMenu.showAtMouseEvent(evt)} />
+<div class="add" use:add on:click={(evt) => dispatch("add", evt)} />
 
 <style>
     .add {

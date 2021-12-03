@@ -3,19 +3,20 @@
         addIcon,
         ButtonComponent,
         ExtraButtonComponent,
-        Menu,
-        Modal,
         TextComponent
     } from "obsidian";
 
     import type { Layout, StatblockItem } from "src/data/constants";
     import type StatBlockPlugin from "src/main";
     import { createEventDispatcher } from "svelte";
-import AddButton from "./ui/AddButton.svelte";
+    import { generate } from "./add";
+    import AddButton from "./ui/AddButton.svelte";
     import Creator from "./ui/Creator.svelte";
 
     export let layout: Layout;
     export let plugin: StatBlockPlugin;
+
+    $: items = layout.blocks;
 
     const dispatch = createEventDispatcher();
 
@@ -82,33 +83,20 @@ import AddButton from "./ui/AddButton.svelte";
             });
     };
 
-    const edit = (evt: CustomEvent<StatblockItem>) => {
-        console.log("🚀 ~ file: StatblockCreator.svelte ~ line 110 ~ evt", evt);
-        const modal = new BlockModal(plugin, evt.detail);
-        modal.open();
+    const add = async (e: CustomEvent<MouseEvent>) => {
+        const block = await generate(plugin, e.detail);
+        if (block) layout.blocks = [...layout.blocks, block];
     };
-
-    class BlockModal extends Modal {
-        constructor(
-            public plugin: StatBlockPlugin,
-            public block?: StatblockItem
-        ) {
-            super(plugin.app);
-        }
-    }
 </script>
 
 <div class="top">
     <div class="name" use:name />
-    <AddButton {plugin} />
+    <AddButton {plugin} on:add={add} />
 </div>
 <div class="creator-container">
-    <Creator
-        blocks={layout.blocks}
-        {plugin}
-        on:sorted={handleSorted}
-        on:edit={edit}
-    />
+    {#key layout}
+        <Creator blocks={items} {plugin} on:sorted={handleSorted} />
+    {/key}
 </div>
 <div class="bottom">
     <div class="save" use:save />

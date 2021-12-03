@@ -32,6 +32,7 @@
         "esbuild": "^0.13.14",
         "esbuild-loader": "^2.16.0",
         "esbuild-svelte": "^0.5.7",
+        "fast-copy": "^2.1.1",
         "fast-sort": "^3.0.2",
         "mini-css-extract-plugin": "^2.4.5",
         "obsidian": "^0.12.17",

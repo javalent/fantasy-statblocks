@@ -17,6 +17,8 @@ import type StatBlockPlugin from "src/main";
 import StatblockCreator from "./StatblockCreator.svelte";
 import { MonsterSuggester } from "src/util/suggester";
 
+import fastCopy from "fast-copy";
+
 export default class StatblockSettingTab extends PluginSettingTab {
     constructor(app: App, private plugin: StatBlockPlugin) {
         super(app, plugin);
@@ -489,6 +491,24 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
         this.buildCustomLayouts(layoutContainer);
     }
+    getDuplicate(layout: Layout) {
+        const names = this.plugin.settings.layouts
+            .filter((l) => l.name.contains(`${layout.name} Copy`))
+            .map((l) => l.name);
+
+        let temp = `${layout.name} Copy`;
+
+        let name = temp;
+        let index = 1;
+        while (names.includes(name)) {
+            name = `${temp} (${index})`;
+            index++;
+        }
+        return {
+            blocks: fastCopy(layout.blocks),
+            name: name
+        };
+    }
     buildCustomLayouts(layoutContainer: HTMLDivElement) {
         layoutContainer.empty();
         new Setting(layoutContainer)
@@ -497,10 +517,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 b.setIcon("duplicate-glyph")
                     .setTooltip("Create Copy")
                     .onClick(async () => {
-                        this.plugin.settings.layouts.push({
-                            ...Layout5e,
-                            name: `${Layout5e.name} Copy`
-                        });
+                        this.plugin.settings.layouts.push(
+                            this.getDuplicate(Layout5e)
+                        );
                         await this.plugin.saveSettings();
                         this.buildCustomLayouts(layoutContainer);
                     });
@@ -512,10 +531,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     b.setIcon("duplicate-glyph")
                         .setTooltip("Create Copy")
                         .onClick(async () => {
-                            this.plugin.settings.layouts.push({
-                                ...Layout5e,
-                                name: `${layout.name} Copy`
-                            });
+                            this.plugin.settings.layouts.push(
+                                this.getDuplicate(layout)
+                            );
                             await this.plugin.saveSettings();
                             this.buildCustomLayouts(layoutContainer);
                         });
@@ -572,7 +590,7 @@ class CreateStatblockModal extends Modal {
         }
     ) {
         super(plugin.app);
-        this.layout = { ...layout };
+        this.layout = fastCopy(layout);
     }
 
     onOpen() {

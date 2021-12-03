@@ -57,6 +57,11 @@
         blocks = blocks.filter((b) => b.id != evt.detail.id);
         dispatch("sorted", blocks);
     };
+
+    const add = async (e: MouseEvent) => {
+        console.log("🚀 ~ file: Creator.svelte ~ line 63 ~ e", e);
+        dispatch("add", e);
+    };
 </script>
 
 <div class="creator">
@@ -84,7 +89,14 @@
                             : "cursor: grabbing"}
                     />
                     <div class="item">
-                        <Block {plugin} {block} on:edit on:trash={trash} />
+                        <Block
+                            {plugin}
+                            {block}
+                            on:add={(e) => {
+                                add(e.detail);
+                            }}
+                            on:trash={trash}
+                        />
                     </div>
                 </div>
             </div>
