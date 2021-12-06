@@ -1,0 +1,18 @@
+.statblock-edit-block
+    .statblock-additional-container
+    > .additional
+    > .setting-item
+    .setting-item-name {
+    font-size: small;
+    font-style: italic;
+}
+.statblock-edit-block
+    .statblock-additional-container
+    > .additional
+    > .setting-item {
+    padding-top: 0rem;
+    color: var(--text-muted);
+}
+.statblock-edit-block .statblock-additional-container > :not(.additional) {
+    padding-bottom: 0;
+}

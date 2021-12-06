@@ -19,7 +19,7 @@
 </script>
 
 <div class="group" class:inline-group={inline}>
-    <Creator {blocks} {plugin} {inline} on:sorted={handleSorted} />
+    <Creator {blocks} {plugin} {inline} on:sorted={handleSorted} on:added />
 </div>
 
 <style>

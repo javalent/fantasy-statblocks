@@ -19,6 +19,8 @@ import { MonsterSuggester } from "src/util/suggester";
 
 import fastCopy from "fast-copy";
 
+import "./settings.css";
+
 export default class StatblockSettingTab extends PluginSettingTab {
     constructor(app: App, private plugin: StatBlockPlugin) {
         super(app, plugin);
@@ -609,7 +611,6 @@ class CreateStatblockModal extends Modal {
 
         this.creator.$on("saved", () => {
             this.saved = true;
-            console.log(...this.layout.blocks);
             this.close();
         });
         this.creator.$on("cancel", () => {

@@ -7,21 +7,20 @@ import type {
     InlineItem,
     PropertyItem,
     SavesItem,
-    SectionItem,
+    TraitsItem,
     SpellsItem,
     TableItem,
     SubHeadingItem
 } from "src/data/constants";
 import type StatBlockPlugin from "src/main";
 import { Menu } from "obsidian";
-import { rejects } from "assert";
 
 function blockGenerator(type: "group"): GroupItem;
 function blockGenerator(type: "heading"): HeadingItem;
 function blockGenerator(type: "inline"): InlineItem;
 function blockGenerator(type: "property"): PropertyItem;
 function blockGenerator(type: "saves"): SavesItem;
-function blockGenerator(type: "section"): SectionItem;
+function blockGenerator(type: "traits"): TraitsItem;
 function blockGenerator(type: "spells"): SpellsItem;
 function blockGenerator(type: "subheading"): SubHeadingItem;
 function blockGenerator(type: "table"): TableItem;
@@ -58,9 +57,9 @@ function blockGenerator(type: string): StatblockItem {
                 properties: []
             };
         }
-        case "section": {
+        case "traits": {
             return {
-                type: "section",
+                type: "traits",
                 id: nanoid(),
                 properties: []
             };
@@ -99,7 +98,7 @@ const types: Array<[StatblockItemType, string]> = [
     ["spells", "Spells"],
     ["subheading", "Subheading"],
     ["table", "Table"],
-    ["section", "Traits"]
+    ["traits", "Traits"]
 ];
 
 export const generate = async (

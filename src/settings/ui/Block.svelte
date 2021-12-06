@@ -1,16 +1,17 @@
 <script lang="ts">
-    import type { PropertyItem, StatblockItem } from "src/data/constants";
+    import type { StatblockItem } from "src/data/constants";
 
     import Group from "./Blocks/GroupBlock.svelte";
-    import Heading from "./Blocks/HeadingBlock.svelte";
-    import Subheading from "./Blocks/SubheadingBlock.svelte";
+    import PropertyBlock from "./Blocks/PropertyBlock.svelte";
     import type StatBlockPlugin from "src/main";
-    import { ExtraButtonComponent, Menu, Modal, Setting } from "obsidian";
+    import { ExtraButtonComponent, Menu } from "obsidian";
     import { createEventDispatcher } from "svelte";
     import { generate } from "../add";
     import { BlockModal } from "./block";
+    import Rule from "src/view/ui/Rule.svelte";
+    import copy from "fast-copy";
+
     export let block: StatblockItem;
-    console.log("🚀 ~ file: Block.svelte ~ line 13 ~ block", block);
     export let plugin: StatBlockPlugin;
 
     const dispatch = createEventDispatcher();
@@ -18,52 +19,15 @@
     const group = block.type == "group";
     const inline = block.type == "inline";
 
-    export const blockBuilder = (node: HTMLElement) => {
-        switch (block.type) {
-            case "inline":
-            case "group": {
-                const group = new Group({
-                    target: node,
-                    props: {
-                        block,
-                        plugin,
-                        inline: block.type == "inline"
-                    },
-                    context: new Map([["plugin", plugin]])
-                });
-                group.$on("edit", (e: CustomEvent<StatblockItem>) =>
-                    dispatch("edit", e.detail)
-                );
+    const editBlock = () => {
+        const modal = new BlockModal(plugin, block);
 
-                break;
-            }
-            case "heading": {
-                new Heading({
-                    target: node,
-                    props: {
-                        block,
-                        plugin
-                    },
-                    context: new Map([["plugin", plugin]])
-                });
-                break;
-            }
-
-            case "subheading": {
-                new Subheading({
-                    target: node,
-                    props: {
-                        block,
-                        plugin
-                    },
-                    context: new Map([["plugin", plugin]])
-                });
-                break;
-            }
-            default: {
-                node.setText(block.type);
-            }
-        }
+        modal.onClose = () => {
+            if (!modal.saved) return;
+            dispatch("edited", modal.block);
+            /* block = copy(modal.block); */
+        };
+        modal.open();
     };
 
     const edit = (node: HTMLDivElement) => {
@@ -71,9 +35,7 @@
             .setIcon("pencil")
             .setTooltip("Edit Block")
             .onClick(() => {
-                console.log("click");
-                const modal = new BlockModal(plugin, block);
-                modal.open();
+                editBlock();
             });
     };
 
@@ -101,6 +63,7 @@
                                     block.nested = [...block.nested, gen];
                                     block = block;
                                 }
+                                dispatch("added");
                             }
                         });
                 })
@@ -109,8 +72,7 @@
                         .setTitle("Edit")
                         .setIcon("pencil")
                         .onClick(() => {
-                            const modal = new BlockModal(plugin, block);
-                            modal.open();
+                            editBlock();
                         })
                 )
                 .addItem((item) =>
@@ -126,7 +88,13 @@
 
 <div class="statblock-creator-container" class:group class:inline>
     {#key block}
-        <div class="statblock-creator-block" use:blockBuilder />
+        <div class="statblock-creator-block">
+            {#if block.type == "group" || block.type == "inline"}
+                <Group inline={block.type == "inline"} {block} {plugin} />
+            {:else}
+                <PropertyBlock {block} />
+            {/if}
+        </div>
     {/key}
     {#if group || inline}
         <div class="icons" use:dropdown />
@@ -137,6 +105,11 @@
         </div>
     {/if}
 </div>
+{#if block.hasRule}
+    <div aria-label="Block Has Rule">
+        <Rule />
+    </div>
+{/if}
 
 <style>
     .statblock-creator-container {

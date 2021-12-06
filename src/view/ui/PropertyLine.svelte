@@ -15,7 +15,12 @@
     let display = item.display ?? item.properties[0];
 
     if (item.callback) {
-        property = item.callback(monster) ?? property;
+        const func = new Function("monster", "plugin", item.callback);
+        try {
+            property = func.call(undefined, monster, plugin);
+        } catch (e) {
+            console.error(e);
+        }
     }
     let canDice = getContext<boolean>("dice");
 

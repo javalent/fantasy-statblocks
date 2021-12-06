@@ -2,7 +2,12 @@
     import type { StatblockItem } from "src/data/constants";
 
     import { flip } from "svelte/animate";
-    import { dndzone, SOURCES, TRIGGERS } from "svelte-dnd-action";
+    import {
+        dndzone,
+        SHADOW_PLACEHOLDER_ITEM_ID,
+        SOURCES,
+        TRIGGERS
+    } from "svelte-dnd-action";
     import Block from "./Block.svelte";
     import type StatBlockPlugin from "src/main";
     import { createEventDispatcher } from "svelte";
@@ -13,8 +18,6 @@
     export let blocks: StatblockItem[] = [];
     export let inline = false;
     export let plugin: StatBlockPlugin;
-
-    let dropFromOthersDisabled = false;
 
     /** Dropzone Functions */
 
@@ -59,9 +62,16 @@
     };
 
     const add = async (e: MouseEvent) => {
-        console.log("🚀 ~ file: Creator.svelte ~ line 63 ~ e", e);
         dispatch("add", e);
     };
+
+    const edited = (e: CustomEvent<StatblockItem>) => {
+        const original = blocks.findIndex((v) => v.id == e.detail.id);
+        blocks.splice(original, 1, e.detail);
+        blocks = blocks;
+    };
+
+    //reference https://svelte.dev/repl/fe8c9eca04f9417a94a8b6041df77139?version=3.42.1
 </script>
 
 <div class="creator">
@@ -69,14 +79,13 @@
         use:dndzone={{
             items: blocks,
             flipDurationMs,
-            dropFromOthersDisabled,
             dragDisabled
         }}
         on:consider={handleConsider}
         on:finalize={handleFinalize}
         class:inline
     >
-        {#each blocks as block (block.id)}
+        {#each blocks.filter((x) => x.id !== SHADOW_PLACEHOLDER_ITEM_ID) as block (block.id)}
             <div animate:flip={{ duration: flipDurationMs }}>
                 <div class="block">
                     <div
@@ -96,6 +105,8 @@
                                 add(e.detail);
                             }}
                             on:trash={trash}
+                            on:added
+                            on:edited={edited}
                         />
                     </div>
                 </div>

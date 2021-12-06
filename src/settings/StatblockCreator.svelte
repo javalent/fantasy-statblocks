@@ -1,6 +1,5 @@
 <script lang="ts">
     import {
-        addIcon,
         ButtonComponent,
         ExtraButtonComponent,
         TextComponent
@@ -8,7 +7,8 @@
 
     import type { Layout, StatblockItem } from "src/data/constants";
     import type StatBlockPlugin from "src/main";
-    import { createEventDispatcher } from "svelte";
+    import { createEventDispatcher, setContext } from "svelte";
+    import { writable } from "svelte/store";
     import { generate } from "./add";
     import AddButton from "./ui/AddButton.svelte";
     import Creator from "./ui/Creator.svelte";
@@ -17,17 +17,24 @@
     export let plugin: StatBlockPlugin;
 
     $: items = layout.blocks;
+    const getIds = (items: StatblockItem[]): string[] => {
+        return [
+            ...items
+                .map((item) => {
+                    if ("nested" in item) {
+                        return [item.id, getIds(item.nested)].flat();
+                    }
+                    return [item.id];
+                })
+                .flat()
+        ];
+    };
 
     const dispatch = createEventDispatcher();
 
     const handleSorted = (e: CustomEvent<StatblockItem[]>) => {
         layout.blocks = [...e.detail];
     };
-
-    addIcon(
-        "dropzone-grip",
-        `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="grip-vertical" class="svg-inline--fa fa-grip-vertical fa-w-10" role="img" viewBox="0 0 320 512"><path fill="currentColor" d="M96 32H32C14.33 32 0 46.33 0 64v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32V64c0-17.67-14.33-32-32-32zm0 160H32c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zm0 160H32c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zM288 32h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32V64c0-17.67-14.33-32-32-32zm0 160h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zm0 160h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32z"/></svg>`
-    );
 
     let editingName = false;
     const name = (node: HTMLElement) => {
@@ -106,7 +113,8 @@
 <style>
     :global(body:not(.is-mobile)) .creator-container {
         max-width: 75vw;
-        max-height: 75vh;
+        max-height: 65vh;
+        overflow: auto;
     }
     .top {
         display: flex;
@@ -127,5 +135,6 @@
         display: flex;
         justify-content: flex-end;
         align-items: center;
+        margin-top: 0.5rem;
     }
 </style>

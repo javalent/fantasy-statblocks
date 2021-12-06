@@ -15,7 +15,7 @@ export function nanoid() {
 }
 
 export type StatblockItemType =
-    | "section"
+    | "traits"
     | "heading"
     | "subheading"
     | "property"
@@ -54,16 +54,12 @@ type InlineProps = {
 };
 type PropertyProps = {
     type: "property";
-    callback?: (monster: Monster) => string;
+    callback?: string;
     display?: string;
 };
 type SavesProps = {
     type: "saves";
     display?: string;
-};
-type SectionProps = {
-    type: "section";
-    heading?: string;
 };
 type SpellsProps = {
     type: "spells";
@@ -75,13 +71,17 @@ type TableProps = {
     type: "table";
     headers: string[];
 };
+type TraitsProps = {
+    type: "traits";
+    heading?: string;
+};
 
 export type GroupItem = CommonProps & GroupProps;
 export type HeadingItem = CommonProps & HeadingProps;
 export type InlineItem = CommonProps & InlineProps;
 export type PropertyItem = CommonProps & PropertyProps;
 export type SavesItem = CommonProps & SavesProps;
-export type SectionItem = CommonProps & SectionProps;
+export type TraitsItem = CommonProps & TraitsProps;
 export type SpellsItem = CommonProps & SpellsProps;
 export type SubHeadingItem = CommonProps & SubHeadingProps;
 export type TableItem = CommonProps & TableProps;
@@ -91,13 +91,13 @@ export type StatblockItem =
     | InlineItem
     | PropertyItem
     | SavesItem
-    | SectionItem
+    | TraitsItem
     | SpellsItem
     | SubHeadingItem
     | TableItem;
 
 export interface StatblockRecord {
-    section: SectionItem;
+    traits: TraitsItem;
     heading: HeadingItem;
     subheading: SubHeadingItem;
     property: PropertyItem;
@@ -270,28 +270,25 @@ export const Statblock5e: StatblockItem[] = [
                         id: nanoid(),
                         display: "Challenge",
                         properties: ["cr"],
-                        callback: (monster) => {
-                            if ("cr" in monster && monster.cr in CR) {
-                                return `${monster.cr} (${CR[
+                        callback: `
+                        if ("cr" in monster && monster.cr in plugin.CR) {
+                                return \`\${monster.cr} (\${plugin.CR[
                                     monster.cr
-                                ].xp.toLocaleString()} XP)`;
+                                ].xp.toLocaleString()} XP)\`;
                             }
-                            return "";
-                        }
+                            return "";`
                     },
                     {
                         type: "property",
                         id: nanoid(),
                         display: "Proficiency Bonus",
                         properties: ["cr"],
-                        callback: (monster) => {
-                            if ("cr" in monster) {
-                                return `+${Math.floor(
-                                    2 + (CR[monster.cr].value - 1) / 4
-                                )}`;
+                        callback: `if ("cr" in monster) {
+                                return \`+\${Math.floor(
+                                    2 + (plugin.CR[monster.cr].value - 1) / 4
+                                )}\`;
                             }
-                            return "";
-                        }
+                            return "";`
                     }
                 ]
             }
@@ -301,7 +298,7 @@ export const Statblock5e: StatblockItem[] = [
     },
 
     {
-        type: "section",
+        type: "traits",
         id: nanoid(),
         properties: ["traits"],
         conditioned: true,
@@ -319,7 +316,7 @@ export const Statblock5e: StatblockItem[] = [
         }
     },
     {
-        type: "section",
+        type: "traits",
         id: nanoid(),
         properties: ["actions"],
         heading: "Actions",
@@ -329,7 +326,7 @@ export const Statblock5e: StatblockItem[] = [
         }
     },
     {
-        type: "section",
+        type: "traits",
         id: nanoid(),
         properties: ["legendary_actions"],
         heading: "Legendary Actions",
@@ -339,7 +336,7 @@ export const Statblock5e: StatblockItem[] = [
         }
     },
     {
-        type: "section",
+        type: "traits",
         id: nanoid(),
         properties: ["reactions"],
         heading: "Reactions",
