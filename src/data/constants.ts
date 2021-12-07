@@ -33,11 +33,8 @@ interface CommonProps {
     fallback?: string;
     hasRule?: boolean;
     dice?: {
-        default?: keyof Monster;
-        text?: keyof Monster;
-        conditioned?: boolean;
+        property?: keyof Monster;
         parse?: boolean;
-        regex?: RegExp;
     };
 }
 
@@ -154,10 +151,8 @@ export const Statblock5e: StatblockItem[] = [
                 properties: ["hp"],
                 display: "Hit Points",
                 dice: {
-                    default: "hp",
-                    text: "hit_dice",
-                    conditioned: true,
-                    parse: false
+                    property: "hit_dice",
+                    parse: true
                 },
                 conditioned: true
             },
@@ -270,13 +265,12 @@ export const Statblock5e: StatblockItem[] = [
                         id: nanoid(),
                         display: "Challenge",
                         properties: ["cr"],
-                        callback: `
-                        if ("cr" in monster && monster.cr in plugin.CR) {
-                                return \`\${monster.cr} (\${plugin.CR[
-                                    monster.cr
-                                ].xp.toLocaleString()} XP)\`;
-                            }
-                            return "";`
+                        callback: `if ("cr" in monster && monster.cr in plugin.CR) {
+    return \`\${monster.cr} (\${plugin.CR[
+        monster.cr
+    ].xp.toLocaleString()} XP)\`;
+}
+return "";`
                     },
                     {
                         type: "property",
@@ -284,11 +278,11 @@ export const Statblock5e: StatblockItem[] = [
                         display: "Proficiency Bonus",
                         properties: ["cr"],
                         callback: `if ("cr" in monster) {
-                                return \`+\${Math.floor(
-                                    2 + (plugin.CR[monster.cr].value - 1) / 4
-                                )}\`;
-                            }
-                            return "";`
+    return \`+\${Math.floor(
+        2 + (plugin.CR[monster.cr].value - 1) / 4
+    )}\`;
+}
+return "";`
                     }
                 ]
             }

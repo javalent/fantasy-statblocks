@@ -7,8 +7,8 @@
 
     import type { Layout, StatblockItem } from "src/data/constants";
     import type StatBlockPlugin from "src/main";
-    import { createEventDispatcher, setContext } from "svelte";
-    import { writable } from "svelte/store";
+    import { createEventDispatcher } from "svelte";
+
     import { generate } from "./add";
     import AddButton from "./ui/AddButton.svelte";
     import Creator from "./ui/Creator.svelte";
@@ -111,11 +111,6 @@
 </div>
 
 <style>
-    :global(body:not(.is-mobile)) .creator-container {
-        max-width: 75vw;
-        max-height: 65vh;
-        overflow: auto;
-    }
     .top {
         display: flex;
         align-items: center;

@@ -26,18 +26,14 @@
 
     let dice = false,
         parse = item.dice?.parse,
-        def: number,
         text: string;
     if (item.dice && canDice) {
         if (
-            item.dice.conditioned &&
-            item.dice.text &&
-            item.dice.text in monster &&
-            typeof monster[item.dice.text] == "string" &&
-            typeof monster[item.dice.default] == "number"
+            item.dice.property &&
+            item.dice.property in monster &&
+            typeof monster[item.dice.property] == "string"
         ) {
-            text = monster[item.dice.text] as string;
-            def = monster[item.dice.default] as number;
+            text = monster[item.dice.property] as string;
             dice = true;
         }
     }
@@ -46,7 +42,7 @@
 <div class="line">
     <span class="property-name">{display}</span>
     {#if dice}
-        <DiceRoll {text} defaultValue={def} />
+        <DiceRoll {text} />
     {:else if parse}
         <div class="property-text">
             <Trait trait={property} dice={dice && canDice} />

@@ -16,3 +16,13 @@
 .statblock-edit-block .statblock-additional-container > :not(.additional) {
     padding-bottom: 0;
 }
+
+.statblock-edit-block .setting-item {
+    border: 0;
+}
+
+.statblock-edit-block textarea {
+    width: 100%;
+    resize: vertical;
+    overflow: hidden;
+}

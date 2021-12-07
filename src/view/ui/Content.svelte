@@ -94,7 +94,7 @@
                 });
                 break;
             }
-            case "section": {
+            case "traits": {
                 const blocks: Trait[] = monster[item.properties[0]] as Trait[];
                 if (!Array.isArray(blocks) || !blocks.length) return [];
 

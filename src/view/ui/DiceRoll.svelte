@@ -5,7 +5,6 @@
     import type { Writable } from "svelte/store";
     import type { StackRoller } from "../../../../obsidian-dice-roller/src/roller/dice";
 
-    export let defaultValue: number;
     export let text: string | number;
 
     const plugin = getContext<StatBlockPlugin>("plugin");
@@ -27,8 +26,19 @@
         roller = plugin.getRoller(`${text}`) as StackRoller;
     }
 
+    let defaultValue = 0;
     onMount(async () => {
         await roller.roll();
+        defaultValue = roller.dice.reduce(
+            (a, dice) =>
+                a +
+                (dice.static
+                    ? dice.result
+                    : Math.ceil(
+                          ((dice.faces.min + dice.faces.max) / 2) * dice.rolls
+                      )),
+            0
+        );
 
         await roller.applyResult({
             type: "dice",

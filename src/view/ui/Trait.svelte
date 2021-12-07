@@ -24,7 +24,6 @@
     };
     const roller = (str: string) => {
         let roller: StackRoller;
-        let defaultValue: number;
         let text: string;
         if (/\w+ [\+\-]\d+/.test(str.trim())) {
             let [, save, sign, number] = str.match(/(\w+ )([\+\-])(\d+)/) ?? [];
@@ -36,7 +35,6 @@
                 roller = plugin.getRoller(
                     `1d20+${mult * Number(number)}`
                 ) as StackRoller;
-                defaultValue = Math.ceil(10.5 + mult * Number(number));
                 text = `${save} ${sign}${number}`;
             }
         } else if (/[\+\-]\d+ to hit/.test(str.trim())) {
@@ -50,7 +48,6 @@
                 roller = plugin.getRoller(
                     `1d20+${mult * Number(number)}`
                 ) as StackRoller;
-                defaultValue = Math.ceil(10.5 + mult * Number(number));
                 text = str;
             }
         } else if (/\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)/.test(str.trim())) {
@@ -58,11 +55,10 @@
                 str.match(/(\d+)\s\((\d+d\d+(?:\s*[+\-]\s*\d+)?)\)/) ?? [];
             if (!isNaN(Number(base)) && dice) {
                 roller = plugin.getRoller(dice) as StackRoller;
-                defaultValue = Number(base);
                 text = dice;
             }
         }
-        return { roller, defaultValue, text };
+        return { roller, text };
     };
 </script>
 
