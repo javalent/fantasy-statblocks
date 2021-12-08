@@ -27,8 +27,8 @@
     export let canSave: boolean;
 
     let canExport = monster.export ?? plugin.settings.export;
-    let canDice = monster.dice ?? plugin.settings.useDice;
-
+    let canDice =
+        plugin.canUseDiceRoller && (monster.dice ?? plugin.settings.useDice);
     let canRender = monster.render ?? plugin.settings.renderDice;
 
     setContext<StatBlockPlugin>("plugin", plugin);

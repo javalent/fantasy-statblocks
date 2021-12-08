@@ -8,6 +8,8 @@
     export let text: string;
     export let original: string | number = text;
 
+    const dice = getContext<boolean>("dice");
+
     const plugin = getContext<StatBlockPlugin>("plugin");
     const render = getContext<boolean>("render");
 
@@ -23,7 +25,7 @@
     });
 
     let roller: StackRoller = null;
-    if (!roller && plugin.canUseDiceRoller) {
+    if (!roller && dice) {
         roller = plugin.getRoller(`${text}`) as StackRoller;
     }
 
@@ -56,12 +58,16 @@
     });
 
     const rollerEl = (node: HTMLElement) => {
-        node.appendChild(roller.containerEl);
+        if (!roller || !roller.containerEl) {
+            node.setText(`${original}`);
+        } else {
+            node.appendChild(roller.containerEl);
+        }
     };
 </script>
 
 {#key error}
-    {#if error}
+    {#if error || !dice}
         {text}
     {:else}
         <span class="roller-result" use:rollerEl />
