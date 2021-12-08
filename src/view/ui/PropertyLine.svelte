@@ -1,10 +1,11 @@
 <script lang="ts">
     import type { Monster } from "@types";
+    import { Notice } from "obsidian";
     import type { PropertyItem } from "src/data/constants";
     import type StatBlockPlugin from "src/main";
     import { getContext } from "svelte";
-    import DiceRoll from "./DiceRoll.svelte";
-    import Trait from "./Trait.svelte";
+
+    import DiceHolder from "./DiceHolder.svelte";
 
     export let monster: Monster;
     export let item: PropertyItem;
@@ -17,39 +18,21 @@
     if (item.callback) {
         const func = new Function("monster", "plugin", item.callback);
         try {
-            property = func.call(undefined, monster, plugin);
+            property = func.call(undefined, monster, plugin) ?? property;
         } catch (e) {
+            new Notice(
+                `There was an error executing the provided callback for [${item.properties.join(
+                    ", "
+                )}]\n\n${e.message}`
+            );
             console.error(e);
-        }
-    }
-    let canDice = getContext<boolean>("dice");
-
-    let dice = false,
-        parse = item.dice?.parse,
-        text: string;
-    if (item.dice && canDice) {
-        if (
-            item.dice.property &&
-            item.dice.property in monster &&
-            typeof monster[item.dice.property] == "string"
-        ) {
-            text = monster[item.dice.property] as string;
-            dice = true;
         }
     }
 </script>
 
 <div class="line">
     <span class="property-name">{display}</span>
-    {#if dice}
-        <DiceRoll {text} />
-    {:else if parse}
-        <div class="property-text">
-            <Trait trait={property} dice={dice && canDice} />
-        </div>
-    {:else}
-        <span class="property-text">{property}</span>
-    {/if}
+    <DiceHolder {property} />
 </div>
 
 <style>
@@ -63,9 +46,5 @@
         margin-right: 0.25em;
         display: inline;
         font-weight: bold;
-    }
-    .property-text {
-        display: inline;
-        margin: 0;
     }
 </style>

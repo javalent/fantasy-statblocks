@@ -5,7 +5,6 @@
     import type { SpellsItem } from "src/data/constants";
 
     export let monster: Monster;
-    export let item: SpellsItem;
     let spells: string[] = monster.spells.map((s) => {
         if (typeof s == "string") return s;
 
@@ -20,11 +19,7 @@
 </script>
 
 <div class="spellcasting">
-    <PropertyBlock
-        name={"Spellcasting"}
-        desc={header}
-        dice={item.dice?.parse}
-    />
+    <PropertyBlock name={"Spellcasting"} desc={header} />
     <ul class="spell-list">
         {#each spells as spellItem, index}
             {#if index == spells.length - 1 && !spells.includes(":")}

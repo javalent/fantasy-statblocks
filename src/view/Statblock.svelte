@@ -32,6 +32,7 @@
     let canRender = monster.render ?? plugin.settings.renderDice;
 
     setContext<StatBlockPlugin>("plugin", plugin);
+    setContext<Monster>("monster", monster);
     setContext<boolean>("dice", canDice);
     setContext<boolean>("render", canRender);
 
@@ -106,14 +107,7 @@
                 <Bar />
                 <div class="icons" use:icons on:click={showMenu} />
                 {#key columns}
-                    <Content
-                        {monster}
-                        {columns}
-                        {statblock}
-                        {ready}
-                        on:save
-                        on:export
-                    />
+                    <Content {columns} {statblock} {ready} on:save on:export />
                 {/key}
                 <Bar />
             {:else}

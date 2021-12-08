@@ -28,6 +28,13 @@ import StatblockSettingTab from "./settings/settings";
 import "./main.css";
 import { sort } from "fast-sort";
 declare module "obsidian" {
+    interface App {
+        plugins: {
+            plugins: {
+                "obsidian-dice-roller": DiceRollerPlugin;
+            };
+        };
+    }
     interface Workspace {
         on(
             name: "dice-roller:rendered-result",
@@ -43,6 +50,7 @@ export interface StatblockData {
     useDice: boolean;
     renderDice: boolean;
     export: boolean;
+    showAdvanced: boolean;
     version: {
         major: number;
         minor: number;
@@ -57,22 +65,13 @@ const DEFAULT_DATA: StatblockData = {
     useDice: true,
     renderDice: false,
     export: true,
+    showAdvanced: false,
     version: {
         major: null,
         minor: null,
         patch: null
     }
 };
-
-declare module "obsidian" {
-    interface App {
-        plugins: {
-            plugins: {
-                "obsidian-dice-roller": DiceRollerPlugin;
-            };
-        };
-    }
-}
 
 export default class StatBlockPlugin extends Plugin {
     settings: StatblockData;
@@ -115,7 +114,7 @@ export default class StatBlockPlugin extends Plugin {
         );
         addIcon(
             "statblock-conditioned",
-            `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="question-circle" class="svg-inline--fa fa-question-circle fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M504 256c0 136.997-111.043 248-248 248S8 392.997 8 256C8 119.083 119.043 8 256 8s248 111.083 248 248zM262.655 90c-54.497 0-89.255 22.957-116.549 63.758-3.536 5.286-2.353 12.415 2.715 16.258l34.699 26.31c5.205 3.947 12.621 3.008 16.665-2.122 17.864-22.658 30.113-35.797 57.303-35.797 20.429 0 45.698 13.148 45.698 32.958 0 14.976-12.363 22.667-32.534 33.976C247.128 238.528 216 254.941 216 296v4c0 6.627 5.373 12 12 12h56c6.627 0 12-5.373 12-12v-1.333c0-28.462 83.186-29.647 83.186-106.667 0-58.002-60.165-102-116.531-102zM256 338c-25.365 0-46 20.635-46 46 0 25.364 20.635 46 46 46s46-20.636 46-46c0-25.365-20.635-46-46-46z"/></svg>`
+            `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="far" data-icon="question-circle" class="svg-inline--fa fa-question-circle fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"/></svg>`
         );
         addIcon(
             "dice-roller-dice",
@@ -276,6 +275,65 @@ export default class StatBlockPlugin extends Plugin {
                 );
                 console.error(e);
             });
+    }
+
+    parseForDice(property: string) {
+        const roller = (str: string) => {
+            let text: string;
+            let original: string;
+            if (/\w+ [\+\-]\d+/.test(str.trim())) {
+                let [, save, sign, number] =
+                    str.match(/(\w+ )([\+\-])(\d+)/) ?? [];
+                let mult = 1;
+                if (sign === "-") {
+                    mult = -1;
+                }
+                if (!isNaN(Number(number))) {
+                    text = `1d20+${mult * Number(number)}`;
+                    original = `${save} ${sign}${number}`;
+                }
+            } else if (/[\+\-]\d+ to hit/.test(str.trim())) {
+                let [, sign, number] = str.match(/([\+\-])(\d+)/) ?? [];
+
+                let mult = 1;
+                if (sign === "-") {
+                    mult = -1;
+                }
+                if (!isNaN(Number(number))) {
+                    text = `1d20+${mult * Number(number)}`;
+                    original = str;
+                }
+            } else if (/\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)/.test(str.trim())) {
+                let [, base, dice] =
+                    str.match(/(\d+)\s\((\d+d\d+(?:\s*[+\-]\s*\d+)?)\)/) ?? [];
+                if (!isNaN(Number(base)) && dice) {
+                    text = dice;
+                }
+            }
+            return { text, original };
+        };
+
+        const match = (str: string) => {
+            return (
+                /\w+ [\+\-]\d+/.test(str.trim()) ||
+                /[\+\-]\d+ to hit/.test(str.trim()) ||
+                /\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)/.test(str.trim())
+            );
+        };
+
+        return property
+            .split(
+                /([\+\-]\d+ to hit|\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)|\w+ [\+\-]\d+)/
+            )
+            .map((v) => (match(v) ? roller(v) : v));
+    }
+
+    get defaultLayout() {
+        return (
+            this.settings.layouts?.find(
+                (layout) => layout.name == this.settings.default
+            ) ?? Layout5e
+        );
     }
 
     async postprocessor(

@@ -24,7 +24,12 @@ export type StatblockItemType =
     | "spells"
     | "inline"
     | "group";
-
+export interface DiceProps {
+    callback?: string;
+    property?: keyof Monster;
+    text?: string;
+    parse?: boolean;
+}
 interface CommonProps {
     type: StatblockItemType;
     id: string;
@@ -32,10 +37,10 @@ interface CommonProps {
     conditioned?: boolean;
     fallback?: string;
     hasRule?: boolean;
-    dice?: {
-        property?: keyof Monster;
-        parse?: boolean;
-    };
+    dice?: boolean;
+    diceProperty?: keyof Monster;
+    diceText?: string;
+    diceCallback?: string;
 }
 
 type GroupProps = {
@@ -150,10 +155,9 @@ export const Statblock5e: StatblockItem[] = [
                 id: nanoid(),
                 properties: ["hp"],
                 display: "Hit Points",
-                dice: {
-                    property: "hit_dice",
-                    parse: true
-                },
+                dice: true,
+                diceProperty: "hit_dice",
+                diceCallback: `return [{ text: monster["hit_dice"] }]`,
                 conditioned: true
             },
             {
@@ -197,20 +201,15 @@ export const Statblock5e: StatblockItem[] = [
                 id: nanoid(),
                 display: "Saves",
                 properties: ["saves"],
-                conditioned: true,
-                dice: {
-                    parse: true
-                }
+                conditioned: true
+                /* dice: true */
             },
             {
                 type: "saves",
                 id: nanoid(),
                 display: "Skills",
                 properties: ["skillsaves"],
-                conditioned: true,
-                dice: {
-                    parse: true
-                }
+                conditioned: true
             },
             {
                 type: "property",
@@ -296,18 +295,17 @@ return "";`
         id: nanoid(),
         properties: ["traits"],
         conditioned: true,
-        dice: {
-            parse: true
-        }
+        dice: true,
+        diceCallback: `return plugin.parseForDice(property);`
     },
     {
         type: "spells",
         id: nanoid(),
         properties: ["spells"],
         conditioned: true,
-        dice: {
-            parse: true
-        }
+
+        dice: true,
+        diceCallback: `return plugin.parseForDice(property);`
     },
     {
         type: "traits",
@@ -315,9 +313,9 @@ return "";`
         properties: ["actions"],
         heading: "Actions",
         conditioned: true,
-        dice: {
-            parse: true
-        }
+
+        dice: true,
+        diceCallback: `return plugin.parseForDice(property);`
     },
     {
         type: "traits",
@@ -325,9 +323,9 @@ return "";`
         properties: ["legendary_actions"],
         heading: "Legendary Actions",
         conditioned: true,
-        dice: {
-            parse: true
-        }
+
+        dice: true,
+        diceCallback: `return plugin.parseForDice(property);`
     },
     {
         type: "traits",
@@ -335,9 +333,9 @@ return "";`
         properties: ["reactions"],
         heading: "Reactions",
         conditioned: true,
-        dice: {
-            parse: true
-        }
+
+        dice: true,
+        diceCallback: `return plugin.parseForDice(property);`
     }
 ];
 

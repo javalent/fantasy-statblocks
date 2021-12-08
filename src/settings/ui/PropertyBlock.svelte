@@ -15,7 +15,7 @@
     };
 
     const conditioned = (node: HTMLDivElement) => {
-        setIcon(node, "question-mark-glyph");
+        setIcon(node, "statblock-conditioned");
     };
     const dice = (node: HTMLDivElement) => {
         setIcon(node, "dice-roller-dice");
@@ -30,7 +30,15 @@
 
 <div class="property-block-container">
     <div class="info">
-        <span>{transform(block.type)}</span>
+        <div>
+            <span>{transform(block.type)}</span>
+            {#if block.type == "table" && block.headers?.length}
+                <strong>
+                    ({block.headers.join(" | ")})
+                </strong>
+            {/if}
+        </div>
+
         <small><em>{block.properties.join(", ")}</em></small>
     </div>
     <small class="context">
@@ -78,7 +86,11 @@
     .context {
         display: flex;
         align-items: center;
-        gap: 0.1rem;
+        gap: 0.25rem;
         color: var(--text-muted);
+    }
+    .context-item {
+        display: flex;
+        align-items: center;
     }
 </style>

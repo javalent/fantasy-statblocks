@@ -10,7 +10,6 @@
     .statblock-additional-container
     > .additional
     > .setting-item {
-    padding-top: 0rem;
     color: var(--text-muted);
 }
 .statblock-edit-block .statblock-additional-container > :not(.additional) {
@@ -19,6 +18,8 @@
 
 .statblock-edit-block .setting-item {
     border: 0;
+
+    padding-top: 0rem;
 }
 
 .statblock-edit-block textarea {

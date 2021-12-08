@@ -21,7 +21,7 @@
 </script>
 
 <div class="table">
-    {#each values as value, index}
+    {#each values.slice(0, headers.length) as value, index}
         <div class="table-item">
             <strong>{`${headers[index]}`.toUpperCase()}</strong>
             <span>{value} ({getMod(value)}) </span>

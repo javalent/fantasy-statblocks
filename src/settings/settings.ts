@@ -487,6 +487,17 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     await this.plugin.saveSettings();
                 });
             });
+        new Setting(statblockAdditional)
+            .setName("Show Advanced Options")
+            .setDesc("Show advanced options when editing layout blocks.")
+            .addToggle((t) =>
+                t
+                    .setValue(this.plugin.settings.showAdvanced)
+                    .onChange(async (v) => {
+                        this.plugin.settings.showAdvanced = v;
+                        await this.plugin.saveSettings();
+                    })
+            );
 
         const layoutContainer =
             statblockCreatorContainer.createDiv("additional");

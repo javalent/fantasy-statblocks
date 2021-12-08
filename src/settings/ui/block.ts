@@ -1,12 +1,25 @@
 import type { Monster } from "@types";
 import copy from "fast-copy";
-import { Modal, Notice, Setting, TextAreaComponent } from "obsidian";
-import type { StatblockItem, PropertyItem } from "src/data/constants";
+import {
+    ExtraButtonComponent,
+    Modal,
+    Notice,
+    Setting,
+    TextAreaComponent
+} from "obsidian";
+import type {
+    StatblockItem,
+    PropertyItem,
+    TableItem,
+    TraitsItem
+} from "src/data/constants";
 import type StatBlockPlugin from "src/main";
+import TableHeaders from "./TableHeaders.svelte";
 
 export class BlockModal extends Modal {
     block: StatblockItem;
     saved: boolean;
+    advanced: boolean = this.plugin.settings.showAdvanced;
     constructor(public plugin: StatBlockPlugin, block?: StatblockItem) {
         super(plugin.app);
         if (block) this.block = copy(block);
@@ -16,6 +29,7 @@ export class BlockModal extends Modal {
         return ["group", "inline"].contains(this.block.type);
     }
     onOpen() {
+        this.titleEl.setText("Edit Block");
         this.display();
     }
     buildProperties(el: HTMLDivElement) {
@@ -82,6 +96,96 @@ export class BlockModal extends Modal {
                         );
                     });
             }
+            if (this.block.type == "traits") {
+                new Setting(this.contentEl)
+                    .setName("Section Heading")
+                    .setDesc(
+                        "This text will be used for the section heading. Can be left blank."
+                    )
+                    .addText((t) => {
+                        t.setValue((this.block as TraitsItem).heading).onChange(
+                            (v) => ((this.block as TraitsItem).heading = v)
+                        );
+                    });
+            }
+            if (this.block.type == "table") {
+                const container = el.createDiv(
+                    "statblock-additional-container"
+                );
+                let tempProp = "";
+                new Setting(container)
+                    .setHeading()
+                    .setName("Table Headers")
+                    .addText((t) =>
+                        t
+                            .setPlaceholder("header")
+                            .setValue(tempProp)
+                            .onChange((v) => (tempProp = v))
+                    )
+                    .addExtraButton((b) =>
+                        b.setIcon("plus-with-circle").onClick(() => {
+                            if (!tempProp || !tempProp.length) {
+                                new Notice(
+                                    "A valid property must be supplied."
+                                );
+                                return;
+                            }
+                            (this.block as TableItem).headers.push(
+                                tempProp as keyof Monster
+                            );
+                            this.buildProperties(el);
+                        })
+                    );
+                const additional = container.createDiv("additional");
+                new TableHeaders({
+                    target: additional,
+                    props: {
+                        headers: this.block.headers
+                    }
+                }).$on("sorted", (e: CustomEvent<{ name: string }[]>) => {
+                    (this.block as TableItem).headers = [
+                        ...(e.detail?.map((v) => v.name) ?? [])
+                    ];
+                });
+                /* for (const property of this.block.headers) {
+                    const header = additional.createDiv("header-container");
+                    header.createSpan({ text: property });
+                    new ExtraButtonComponent(header.createDiv())
+                        .setIcon("cross-in-box")
+                        .onClick(() => {
+                            (this.block as TableItem).headers = (
+                                this.block as TableItem
+                            ).headers.filter((v) => v != property);
+                            this.buildProperties(el);
+                        });
+                } */
+            }
+            if (!this.advanced) return;
+            if (this.block.type == "property") {
+                new Setting(el)
+                    .setHeading()
+                    .setName("Callback")
+                    .setDesc(
+                        createFragment((e) => {
+                            e.createSpan({
+                                text: "The block will run the callback and use the returned string as the property."
+                            });
+                            e.createEl("br");
+                            e.createSpan({
+                                text: "The callback will receive the "
+                            });
+                            e.createEl("code", { text: "plugin" });
+                            e.createSpan({ text: " and " });
+                            e.createEl("code", { text: "monster" });
+                            e.createSpan({ text: "parameters." });
+                        })
+                    );
+                new TextAreaComponent(el)
+                    .setValue(this.block.callback)
+                    .onChange((v) => {
+                        (this.block as PropertyItem).callback = v;
+                    });
+            }
         }
     }
     buildConditions(el: HTMLDivElement) {
@@ -128,70 +232,72 @@ export class BlockModal extends Modal {
             new Setting(el)
                 .setName("Enable Dice")
                 .setDesc(
-                    "The plugin will attempt to parse out common dice roller strings and add dice rollers."
+                    "The plugin will attempt to add dice rollers as specified."
                 )
 
                 .addToggle((t) =>
-                    t.setValue(this.block.dice?.parse).onChange((v) => {
-                        if (!this.block.dice) {
-                            this.block.dice = {};
-                        }
-                        this.block.dice.parse = v;
+                    t.setValue(this.block.dice).onChange((v) => {
+                        this.block.dice = v;
                         this.buildDice(el);
                     })
                 );
-            if (this.block.type == "property" && this.block.dice?.parse) {
+            if (this.block.dice) {
                 new Setting(el.createDiv())
                     .setName("Link Dice to Property")
                     .setDesc(
                         "The dice roller will parse this property instead of the original."
                     )
                     .addText((t) => {
-                        t.setValue(this.block.dice?.property).onChange((v) => {
-                            if (!this.block.dice) {
-                                this.block.dice = {};
-                            }
-                            this.block.dice.property = v as keyof Monster;
+                        t.setValue(this.block.diceProperty).onChange((v) => {
+                            this.block.diceProperty = v as keyof Monster;
                         });
                     });
             }
         }
-    }
-    buildCallback(el: HTMLDivElement) {
-        el.empty();
-        if (this.block.type == "property") {
-            new Setting(el)
-                .setHeading()
-                .setName("Callback")
-                .setDesc(
-                    createFragment((e) => {
-                        e.createSpan({
-                            text: "The block will run the callback and use the returned string as the property."
-                        });
-                        e.createEl("br");
-                        e.createSpan({
-                            text: "The callback will receive the "
-                        });
-                        e.createEl("code", { text: "plugin" });
-                        e.createSpan({ text: " and " });
-                        e.createEl("code", { text: "monster" });
-                        e.createSpan({ text: "parameters." });
-                    })
-                );
-            new TextAreaComponent(el)
-                .setValue(this.block.callback)
-                .onChange((v) => {
-                    (this.block as PropertyItem).callback = v;
-                });
-        }
+
+        if (!this.advanced) return;
+        new Setting(el)
+            .setHeading()
+            .setName("Dice Callback")
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "The block will run the callback and use the returned values for the dice strings."
+                    });
+                    e.createEl("br");
+                    e.createSpan({
+                        text: "The callback will receive the "
+                    });
+                    e.createEl("code", { text: "plugin" });
+                    e.createSpan({ text: ", " });
+                    e.createEl("code", { text: "monster" });
+                    e.createSpan({ text: " and " });
+                    e.createEl("code", { text: "property" });
+                    e.createSpan({ text: "parameters." });
+                })
+            );
+        new TextAreaComponent(el)
+            .setValue(this.block.diceCallback)
+            .onChange((v) => {
+                this.block.diceCallback = v;
+            });
     }
     async display() {
-        this.titleEl.setText("Edit Block");
+        this.contentEl.empty();
+        new Setting(this.contentEl)
+            .setName("Show Advanced Options")
+            .addToggle((t) => {
+                t.setValue(
+                    this.advanced ?? this.plugin.settings.showAdvanced
+                ).onChange((v) => {
+                    this.advanced = v;
+                    this.display();
+                });
+            });
 
         this.buildProperties(this.contentEl.createDiv());
         this.buildConditions(this.contentEl.createDiv());
         this.buildDice(this.contentEl.createDiv());
-        this.buildCallback(this.contentEl.createDiv());
 
         this.buildButtons(this.contentEl.createDiv());
     }

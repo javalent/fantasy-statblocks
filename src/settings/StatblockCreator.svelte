@@ -10,7 +10,6 @@
     import { createEventDispatcher } from "svelte";
 
     import { generate } from "./add";
-    import AddButton from "./ui/AddButton.svelte";
     import Creator from "./ui/Creator.svelte";
 
     export let layout: Layout;
@@ -90,15 +89,20 @@
             });
     };
 
-    const add = async (e: CustomEvent<MouseEvent>) => {
-        const block = await generate(plugin, e.detail);
+    const add = async (e: MouseEvent) => {
+        const block = await generate(plugin, e);
         if (block) layout.blocks = [...layout.blocks, block];
+    };
+    const addButton = (node: HTMLDivElement) => {
+        new ExtraButtonComponent(node)
+            .setIcon("plus-with-circle")
+            .setTooltip("Add Block");
     };
 </script>
 
 <div class="top">
     <div class="name" use:name />
-    <AddButton {plugin} on:add={add} />
+    <div class="add" use:addButton on:click={(evt) => add(evt)} />
 </div>
 <div class="creator-container">
     {#key layout}

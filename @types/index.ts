@@ -62,18 +62,6 @@ export interface Monster {
     layout?: string;
 }
 
-/* export interface StatblockMonster
-    extends Omit<
-        Monster,
-        "traits" | "actions" | "legendary_actions" | "reactions"
-    > {
-    traits: Map<string, Trait>;
-    actions: Map<string, Trait>;
-    legendary_actions: Map<string, Trait>;
-    reactions: Map<string, Trait>;
-    monster?: string;
-} */
-
 export type Spell = string | { [key: string]: string };
 
 export interface Trait {

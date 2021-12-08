@@ -30,7 +30,7 @@ function blockGenerator(type: string): StatblockItem {
         case "inline":
         case "group": {
             return {
-                type: "group",
+                type: type,
                 id: nanoid(),
                 properties: [],
                 nested: []

@@ -11,14 +11,19 @@
     import SectionHeading from "./SectionHeading.svelte";
     import Subheading from "./Subheading.svelte";
     import Table from "./Table.svelte";
-    import { onMount, createEventDispatcher, getAllContexts } from "svelte";
+    import {
+        onMount,
+        createEventDispatcher,
+        getAllContexts,
+        getContext
+    } from "svelte";
 
     const dispatch = createEventDispatcher();
 
-    export let monster: Monster;
     export let statblock: StatblockItem[];
     export let columns: number = 1;
     export let ready: boolean;
+    const monster = getContext<Monster>("monster");
 
     const checkConditioned = (item: StatblockItem) => {
         if (!item.conditioned) return true;
@@ -53,7 +58,7 @@
     ): HTMLDivElement[] => {
         const targets: HTMLDivElement[] = [];
         const target = container ?? createDiv("statblock-item-container");
-
+        context.set("item", item);
         if (!checkConditioned(item)) {
             return [];
         }
@@ -116,8 +121,7 @@
                             target: prop,
                             props: {
                                 name: block.name,
-                                desc: block.desc,
-                                dice: item.dice?.parse
+                                desc: block.desc
                             },
                             context
                         });
@@ -135,8 +139,7 @@
                 new Spells({
                     target,
                     props: {
-                        monster,
-                        item
+                        monster
                     },
                     context
                 });

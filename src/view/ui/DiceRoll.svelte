@@ -5,7 +5,8 @@
     import type { Writable } from "svelte/store";
     import type { StackRoller } from "../../../../obsidian-dice-roller/src/roller/dice";
 
-    export let text: string | number;
+    export let text: string;
+    export let original: string | number = text;
 
     const plugin = getContext<StatBlockPlugin>("plugin");
     const render = getContext<boolean>("render");
@@ -21,31 +22,37 @@
             });
     });
 
-    export let roller: StackRoller = null;
+    let roller: StackRoller = null;
     if (!roller && plugin.canUseDiceRoller) {
         roller = plugin.getRoller(`${text}`) as StackRoller;
     }
 
     let defaultValue = 0;
+    let error = false;
     onMount(async () => {
-        await roller.roll();
-        defaultValue = roller.dice.reduce(
-            (a, dice) =>
-                a +
-                (dice.static
-                    ? dice.result
-                    : Math.ceil(
-                          ((dice.faces.min + dice.faces.max) / 2) * dice.rolls
-                      )),
-            0
-        );
+        try {
+            await roller.roll();
+            defaultValue = roller.dice.reduce(
+                (a, dice) =>
+                    a +
+                    (dice.static
+                        ? dice.result
+                        : Math.ceil(
+                              ((dice.faces.min + dice.faces.max) / 2) *
+                                  dice.rolls
+                          )),
+                0
+            );
 
-        await roller.applyResult({
-            type: "dice",
-            result: defaultValue,
-            tooltip: "Average"
-        });
-        roller.shouldRender = render;
+            await roller.applyResult({
+                type: "dice",
+                result: defaultValue,
+                tooltip: "Average"
+            });
+            roller.shouldRender = render;
+        } catch (e) {
+            error = true;
+        }
     });
 
     const rollerEl = (node: HTMLElement) => {
@@ -53,10 +60,16 @@
     };
 </script>
 
-<span class="roller-result" use:rollerEl />
-{#if typeof text == "number" || (text && text.length)}
-    <span class="dice-original">({text})</span>
-{/if}
+{#key error}
+    {#if error}
+        {text}
+    {:else}
+        <span class="roller-result" use:rollerEl />
+        {#if typeof original == "number" || (original && original.length)}
+            <span class="dice-original">({original})</span>
+        {/if}
+    {/if}
+{/key}
 
 <style>
     .roller-result {

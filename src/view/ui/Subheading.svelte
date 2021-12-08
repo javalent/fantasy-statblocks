@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Monster } from "@types";
-    import type { StatblockItem, SubHeadingItem } from "src/data/constants";
+    import type {  SubHeadingItem } from "src/data/constants";
 
     export let monster: Monster;
     export let item: SubHeadingItem;

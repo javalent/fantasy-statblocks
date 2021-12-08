@@ -1,10 +1,9 @@
 <script lang="ts">
     import type { Monster } from "@types";
     import type { SavesItem } from "src/data/constants";
-    import type StatBlockPlugin from "src/main";
     import { toTitleCase } from "src/util/util";
     import { getContext } from "svelte";
-    import Trait from "./Trait.svelte";
+    import DiceHolder from "./DiceHolder.svelte";
 
     export let monster: Monster;
     export let item: SavesItem;
@@ -39,7 +38,7 @@
             >{item.display ?? toTitleCase(item.properties[0])}</span
         >
         <div class="property-text">
-            <Trait trait={saves} dice={item.dice?.parse && canDice} />
+            <DiceHolder property={saves} />
         </div>
     </div>
 </div>

@@ -4,6 +4,7 @@ import {
     FuzzyMatch,
     FuzzySuggestModal,
     Modal,
+    Platform,
     Scope,
     Setting,
     SuggestModal,
@@ -304,21 +305,16 @@ class ViewMonsterModal extends Modal {
         super(plugin.app);
     }
     async display() {
-        const renderer = new StatBlockRenderer(
+        if (!Platform.isMobile) {
+            this.contentEl.style.maxWidth = "85vw";
+        }
+        new StatBlockRenderer(
             this.contentEl,
             this.monster,
             this.plugin,
             false,
-            false
+            this.plugin.defaultLayout
         );
-        renderer.loaded = true;
-        let columns =
-            this.contentEl.getBoundingClientRect().height > 500
-                ? Math.ceil(this.contentEl.getBoundingClientRect().height / 750)
-                : 1;
-        if (columns >= 1) renderer.setWidth(columns * 400, true);
-        if (columns === 0) renderer.setMaxWidth(400);
-        renderer.statblockEl.toggleVisibility(true);
     }
     onOpen() {
         this.display();
