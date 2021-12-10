@@ -185,7 +185,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
             attr: {
                 type: "file",
                 name: "dndappfile",
-                accept: ".xml"
+                accept: ".xml",
+                multiple: true
             }
         });
 
@@ -215,7 +216,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
         };
 
         importAppFile.addButton((b) => {
-            b.setButtonText("Choose File").setTooltip("Import DnDAppFile Data");
+            b.setButtonText("Choose File(s)").setTooltip("Import DnDAppFile Data");
             b.buttonEl.addClass("statblock-file-upload");
             b.buttonEl.appendChild(inputAppFile);
             b.onClick(() => inputAppFile.click());
@@ -228,7 +229,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
             attr: {
                 type: "file",
                 name: "improvedinitiative",
-                accept: ".json"
+                accept: ".json",
+                multiple: true
             }
         });
 
@@ -260,7 +262,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
         };
 
         importImprovedInitiative.addButton((b) => {
-            b.setButtonText("Choose File").setTooltip(
+            b.setButtonText("Choose File(s)").setTooltip(
                 "Import Improved Initiative Data"
             );
             b.buttonEl.addClass("statblock-file-upload");
@@ -275,7 +277,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
             attr: {
                 type: "file",
                 name: "critterdb",
-                accept: ".json"
+                accept: ".json",
+                multiple: true
             }
         });
 
@@ -306,7 +309,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
         };
 
         importCritterDB.addButton((b) => {
-            b.setButtonText("Choose File").setTooltip("Import CritterDB Data");
+            b.setButtonText("Choose File(s)").setTooltip("Import CritterDB Data");
             b.buttonEl.addClass("statblock-file-upload");
             b.buttonEl.appendChild(inputCritterDB);
             b.onClick(() => inputCritterDB.click());
@@ -319,7 +322,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
             attr: {
                 type: "file",
                 name: "fivetools",
-                accept: ".json"
+                accept: ".json",
+                multiple: true
             }
         });
 
@@ -350,7 +354,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
         };
 
         import5eTools.addButton((b) => {
-            b.setButtonText("Choose File").setTooltip("Import 5e.tools Data");
+            b.setButtonText("Choose File(s)").setTooltip("Import 5e.tools Data");
             b.buttonEl.addClass("statblock-file-upload");
             b.buttonEl.appendChild(input5eTools);
             b.onClick(() => input5eTools.click());
