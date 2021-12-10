@@ -27,12 +27,11 @@ import StatblockSettingTab from "./settings/settings";
 
 import "./main.css";
 import { sort } from "fast-sort";
+import type { Plugins } from "../../obsidian-overload";
 declare module "obsidian" {
     interface App {
         plugins: {
-            plugins: {
-                "obsidian-dice-roller": DiceRollerPlugin;
-            };
+            getPlugin<T extends keyof Plugins>(plugin: T): Plugins[T];
         };
     }
     interface Workspace {
@@ -80,13 +79,13 @@ export default class StatBlockPlugin extends Plugin {
     CR = CR;
     private _sorted: Monster[] = [];
     get canUseDiceRoller() {
-        return "obsidian-dice-roller" in this.app.plugins.plugins;
+        return this.app.plugins.getPlugin("obsidian-dice-roller") != null;
     }
     getRoller(str: string) {
         if (!this.canUseDiceRoller) return;
-        const roller = this.app.plugins.plugins[
-            "obsidian-dice-roller"
-        ].getRoller(str, "statblock", true);
+        const roller = this.app.plugins
+            .getPlugin("obsidian-dice-roller")
+            .getRoller(str, "statblock", true);
         return roller;
     }
     get sorted() {
