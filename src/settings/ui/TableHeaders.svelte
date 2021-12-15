@@ -112,8 +112,4 @@
         display: flex;
         align-items: center;
     }
-    .icon {
-        display: flex;
-        align-items: center;
-    }
 </style>

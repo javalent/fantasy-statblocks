@@ -28,6 +28,10 @@ import StatblockSettingTab from "./settings/settings";
 import "./main.css";
 import { sort } from "fast-sort";
 import type { Plugins } from "../../obsidian-overload";
+import type {
+    HomebrewCreature,
+    SRDMonster
+} from "../../obsidian-initiative-tracker/@types";
 declare module "obsidian" {
     interface App {
         plugins: {
@@ -424,7 +428,7 @@ export default class StatBlockPlugin extends Plugin {
                 });
             }
 
-            const toBuild = Object.assign(monster ?? {}, params ?? {});
+            const toBuild: Monster = Object.assign(monster ?? {}, params ?? {});
 
             let layout =
                 this.settings.layouts.find(
@@ -451,5 +455,19 @@ export default class StatBlockPlugin extends Plugin {
                     .join("\n")
             );
         }
+    }
+    render(creature: HomebrewCreature, el: HTMLElement) {
+        const monster: Monster = Object.assign<
+            Partial<Monster>,
+            HomebrewCreature
+        >(this.bestiary.get(creature.name) ?? {}, { ...creature }) as Monster;
+        if (!monster) return null;
+        return new StatBlockRenderer(
+            el,
+            monster,
+            this,
+            false,
+            this.defaultLayout
+        );
     }
 }
