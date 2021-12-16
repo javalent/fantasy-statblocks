@@ -15,24 +15,13 @@ const SAVES: Record<
     WIS: "wisdom",
     CHA: "charisma"
 };
-export const ImportEntitiesFromImprovedInitiative = async (
-    ...files: File[]
-): Promise<Map<string, Monster>> => {
-    let importedMonsters: Map<string, Monster> = new Map();
 
-    for (let file of files) {
-        try {
-            const monsters = await buildMonsterFromFile(file);
-            importedMonsters = new Map([...importedMonsters, ...monsters]);
-        } catch (e) {}
-    }
-    return importedMonsters;
-};
-
-async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
+export async function buildMonsterFromImprovedInitiativeFile(
+    file: File
+): Promise<Monster[]> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        const monsterMap = new Map();
+        const monsterMap: Monster[] = [];
         reader.onload = async (event: any) => {
             try {
                 let json = JSON.parse(event.target.result);
@@ -163,7 +152,7 @@ async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
                                     }
                                 ) ?? []
                         };
-                        monsterMap.set(importedMonster.name, importedMonster);
+                        monsterMap.push(importedMonster);
                     } catch (e) {
                         continue;
                     }

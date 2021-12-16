@@ -18,12 +18,27 @@ module.exports = {
     module: {
         rules: [
             {
+                test: /\.worker\.ts?$/,
+                loader: "worker-loader",
+                options: {
+                    inline: "no-fallback",
+                    worker: {
+                        type: "Worker",
+                        options: {
+                            name: "Statblock Importer",
+                            esModule: false
+                        }
+                    }
+                }
+            },
+            {
                 test: /\.tsx?$/,
                 loader: "ts-loader",
                 options: {
                     transpileOnly: true
                 }
             },
+
             {
                 test: /\.(svelte)$/,
                 use: [

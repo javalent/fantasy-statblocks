@@ -60,6 +60,9 @@
     margin: 0 6px;
 }
 
+.statblock-settings div {
+    background-color: inherit;
+}
 .statblock-settings .coffee {
     width: 60%;
     color: var(--text-faint);

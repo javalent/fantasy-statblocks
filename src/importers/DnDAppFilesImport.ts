@@ -1,26 +1,7 @@
-/* import { Spell } from "../../common/Spell";
-import { StatBlock } from "../../common/StatBlock"; */
-/* import { SpellImporter } from "./SpellImporter";
-import { StatBlockImporter } from "./StatBlockImporter"; */
-
 import type { Monster, Spell, Trait } from "@types";
-import { titleCase } from "title-case";
+import { DOMParser } from "xmldom";
 
-export const ImportEntitiesFromXml = async (
-    ...files: File[]
-): Promise<Map<string, Monster>> => {
-    let importedMonsters: Map<string, Monster> = new Map();
-
-    for (let file of files) {
-        try {
-            const monsters = await buildMonsterFromFile(file);
-            importedMonsters = new Map([...importedMonsters, ...monsters]);
-        } catch (e) {}
-    }
-    return importedMonsters;
-};
-
-async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
+export async function buildMonsterFromAppFile(file: File): Promise<Monster[]> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
 
@@ -29,7 +10,7 @@ async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
 
             const dom = new DOMParser().parseFromString(xml, "application/xml");
             const monsters = dom.getElementsByTagName("monster");
-            const importedMonsters: Map<string, Monster> = new Map();
+            const importedMonsters: Monster[] = [];
             if (!monsters.length) return;
             for (let monster of Array.from(monsters)) {
                 try {
@@ -73,7 +54,7 @@ async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
                         reactions: getTraits(monster, "reaction"),
                         source: getSource(monster)
                     };
-                    importedMonsters.set(importedMonster.name, importedMonster);
+                    importedMonsters.push(importedMonster);
                 } catch (e) {
                     console.error(e);
                     continue;

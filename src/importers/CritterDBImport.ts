@@ -1,24 +1,13 @@
 import type { Monster } from "@types";
 
-export const ImportFromCritterDB = async (
-    ...files: File[]
-): Promise<Map<string, Monster>> => {
-    let importedMonsters: Map<string, Monster> = new Map();
-    for (let file of files) {
-        try {
-            const monsters = await buildMonsterFromFile(file);
-            importedMonsters = new Map([...importedMonsters, ...monsters]);
-        } catch (e) {}
-    }
-    return importedMonsters;
-};
-
-async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
+export async function buildMonsterFromCritterFile(
+    file: File
+): Promise<Monster[]> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
 
         reader.onload = async (event: any) => {
-            const importedMonsters: Map<string, Monster> = new Map();
+            const importedMonsters: Monster[] = [];
             try {
                 const parsed = JSON.parse(event.target.result);
                 let monsters = [];
@@ -169,10 +158,7 @@ async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
                                     }
                                 ) ?? []
                         };
-                        importedMonsters.set(
-                            importedMonster.name,
-                            importedMonster
-                        );
+                        importedMonsters.push(importedMonster);
                     } catch (e) {
                         continue;
                     }

@@ -7,12 +7,6 @@ import {
     TextComponent
 } from "obsidian";
 import { Layout, Layout5e } from "src/data/constants";
-import {
-    ImportEntitiesFromXml,
-    ImportEntitiesFromImprovedInitiative,
-    ImportFrom5eTools,
-    ImportFromCritterDB
-} from "src/importers";
 import type StatBlockPlugin from "src/main";
 import StatblockCreator from "./StatblockCreator.svelte";
 import { MonsterSuggester } from "src/util/suggester";
@@ -20,6 +14,7 @@ import { MonsterSuggester } from "src/util/suggester";
 import fastCopy from "fast-copy";
 
 import "./settings.css";
+import Importer from "src/importers/importer";
 
 export default class StatblockSettingTab extends PluginSettingTab {
     constructor(app: App, private plugin: StatBlockPlugin) {
@@ -165,6 +160,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
         };
         suggester._onInputChanged();
     }
+    importer = new Importer();
     generateImports(containerEl: HTMLDivElement) {
         const importSettingsContainer = containerEl.createDiv(
             "statblock-additional-container"
@@ -194,29 +190,20 @@ export default class StatblockSettingTab extends PluginSettingTab {
             const { files } = inputAppFile;
             if (!files.length) return;
             try {
-                const importedMonsters = await ImportEntitiesFromXml(
-                    ...Array.from(files)
-                );
-                try {
-                    await this.plugin.saveMonsters(
-                        Array.from(importedMonsters.values())
-                    );
-                    new Notice(
-                        `Successfully imported ${importedMonsters.size} monsters.`
-                    );
-                } catch (e) {
-                    new Notice(
-                        `There was an issue importing the file${
-                            files.length > 1 ? "s" : ""
-                        }.`
-                    );
+                const { files } = inputAppFile;
+                if (!files.length) return;
+                const monsters = await this.importer.import(files, "appfile");
+                if (monsters && monsters.length) {
+                    await this.plugin.saveMonsters(monsters);
                 }
                 this.display();
             } catch (e) {}
         };
 
         importAppFile.addButton((b) => {
-            b.setButtonText("Choose File(s)").setTooltip("Import DnDAppFile Data");
+            b.setButtonText("Choose File(s)").setTooltip(
+                "Import DnDAppFile Data"
+            );
             b.buttonEl.addClass("statblock-file-upload");
             b.buttonEl.appendChild(inputAppFile);
             b.onClick(() => inputAppFile.click());
@@ -238,24 +225,11 @@ export default class StatblockSettingTab extends PluginSettingTab {
             const { files } = inputImprovedInitiative;
             if (!files.length) return;
             try {
-                const importedMonsters =
-                    await ImportEntitiesFromImprovedInitiative(
-                        ...Array.from(files)
-                    );
-
-                try {
-                    await this.plugin.saveMonsters(
-                        Array.from(importedMonsters.values())
-                    );
-                    new Notice(
-                        `Successfully imported ${importedMonsters.size} monsters.`
-                    );
-                } catch (e) {
-                    new Notice(
-                        `There was an issue importing the file${
-                            files.length > 1 ? "s" : ""
-                        }.`
-                    );
+                const { files } = inputImprovedInitiative;
+                if (!files.length) return;
+                const monsters = await this.importer.import(files, "improved");
+                if (monsters && monsters.length) {
+                    await this.plugin.saveMonsters(monsters);
                 }
                 this.display();
             } catch (e) {}
@@ -286,30 +260,20 @@ export default class StatblockSettingTab extends PluginSettingTab {
             const { files } = inputCritterDB;
             if (!files.length) return;
             try {
-                const importedMonsters = await ImportFromCritterDB(
-                    ...Array.from(files)
-                );
-
-                try {
-                    await this.plugin.saveMonsters(
-                        Array.from(importedMonsters.values())
-                    );
-                    new Notice(
-                        `Successfully imported ${importedMonsters.size} monsters.`
-                    );
-                } catch (e) {
-                    new Notice(
-                        `There was an issue importing the file${
-                            files.length > 1 ? "s" : ""
-                        }.`
-                    );
+                const { files } = inputCritterDB;
+                if (!files.length) return;
+                const monsters = await this.importer.import(files, "critter");
+                if (monsters && monsters.length) {
+                    await this.plugin.saveMonsters(monsters);
                 }
                 this.display();
             } catch (e) {}
         };
 
         importCritterDB.addButton((b) => {
-            b.setButtonText("Choose File(s)").setTooltip("Import CritterDB Data");
+            b.setButtonText("Choose File(s)").setTooltip(
+                "Import CritterDB Data"
+            );
             b.buttonEl.addClass("statblock-file-upload");
             b.buttonEl.appendChild(inputCritterDB);
             b.onClick(() => inputCritterDB.click());
@@ -330,31 +294,17 @@ export default class StatblockSettingTab extends PluginSettingTab {
         input5eTools.onchange = async () => {
             const { files } = input5eTools;
             if (!files.length) return;
-            try {
-                const importedMonsters = await ImportFrom5eTools(
-                    ...Array.from(files)
-                );
-
-                try {
-                    await this.plugin.saveMonsters(
-                        Array.from(importedMonsters.values())
-                    );
-                    new Notice(
-                        `Successfully imported ${importedMonsters.size} monsters.`
-                    );
-                } catch (e) {
-                    new Notice(
-                        `There was an issue importing the file${
-                            files.length > 1 ? "s" : ""
-                        }.`
-                    );
-                }
-                this.display();
-            } catch (e) {}
+            const monsters = await this.importer.import(files, "5e");
+            if (monsters && monsters.length) {
+                await this.plugin.saveMonsters(monsters);
+            }
+            this.display();
         };
 
         import5eTools.addButton((b) => {
-            b.setButtonText("Choose File(s)").setTooltip("Import 5e.tools Data");
+            b.setButtonText("Choose File(s)").setTooltip(
+                "Import 5e.tools Data"
+            );
             b.buttonEl.addClass("statblock-file-upload");
             b.buttonEl.appendChild(input5eTools);
             b.onClick(() => input5eTools.click());
