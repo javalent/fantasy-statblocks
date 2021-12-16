@@ -22,7 +22,8 @@
     <PropertyBlock name={"Spellcasting"} desc={header} />
     <ul class="spell-list">
         {#each spells as spellItem, index}
-            {#if index == spells.length - 1 && !spells.includes(":")}
+
+            {#if index == spells.length - 1 && !spellItem.includes(":")}
                 <span class="spell-line">{spellItem}</span>
             {:else}
                 <li class="spell-line">
