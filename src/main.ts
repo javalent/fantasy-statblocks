@@ -175,11 +175,11 @@ export default class StatBlockPlugin extends Plugin {
         if (!data) this.data = new Map();
 
         this.data = new Map(
-            data.map(([name, monster]) => {
+            data?.map(([name, monster]) => {
                 const statblock = Object.assign({}, monster);
 
                 return [name, statblock];
-            })
+            }) ?? []
         );
     }
 
