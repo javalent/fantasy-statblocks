@@ -1,33 +1,38 @@
 {
-	"name": "obsidian-5e-statblocks",
-	"version": "1.5.5",
-	"description": "Create 5e styled statblocks in Obsidian.md",
-	"main": "main.js",
-	"scripts": {
-		"dev": "rollup --config rollup.config-dev.js -w",
-		"build": "rollup --config rollup.config.js"
-	},
-	"keywords": [],
-	"author": "Jeremy Valentine",
-	"license": "MIT",
-	"devDependencies": {
-		"@rollup/plugin-commonjs": "^15.1.0",
-		"@rollup/plugin-node-resolve": "^9.0.0",
-		"@rollup/plugin-typescript": "^6.0.0",
-		"@tsconfig/svelte": "^2.0.1",
-		"@types/dom-to-image": "^2.6.2",
-		"@types/node": "^14.17.21",
-		"dom-to-image": "^2.6.0",
-		"fast-sort": "^3.0.2",
-		"obsidian": "^0.12.17",
-		"rollup": "^2.32.1",
-		"rollup-plugin-css-only": "^3.1.0",
-		"rollup-plugin-svelte": "^7.1.0",
-		"svelte": "^3.38.3",
-		"svelte-loader": "^3.1.2",
-		"svelte-preprocess": "^4.7.3",
-		"title-case": "^3.0.3",
-		"tslib": "^2.0.3",
-		"typescript": "^4.0.3"
-	}
+    "name": "obsidian-5e-statblocks",
+    "version": "1.5.8",
+    "description": "Create 5e styled statblocks in Obsidian.md",
+    "main": "main.js",
+    "scripts": {
+        "dev": "rollup --config rollup.config-dev.js -w",
+        "build": "rollup --config rollup.config.js",
+        "release": "standard-version"
+    },
+    "standard-version": {
+        "t": ""
+    },
+    "keywords": [],
+    "author": "Jeremy Valentine",
+    "license": "MIT",
+    "devDependencies": {
+        "@rollup/plugin-commonjs": "^15.1.0",
+        "@rollup/plugin-node-resolve": "^9.0.0",
+        "@rollup/plugin-typescript": "^6.0.0",
+        "@tsconfig/svelte": "^2.0.1",
+        "@types/dom-to-image": "^2.6.2",
+        "@types/node": "^14.17.21",
+        "dom-to-image": "^2.6.0",
+        "fast-sort": "^3.0.2",
+        "obsidian": "^0.12.17",
+        "rollup": "^2.32.1",
+        "rollup-plugin-css-only": "^3.1.0",
+        "rollup-plugin-svelte": "^7.1.0",
+        "standard-version": "^9.3.2",
+        "svelte": "^3.38.3",
+        "svelte-loader": "^3.1.2",
+        "svelte-preprocess": "^4.7.3",
+        "title-case": "^3.0.3",
+        "tslib": "^2.0.3",
+        "typescript": "^4.0.3"
+    }
 }
