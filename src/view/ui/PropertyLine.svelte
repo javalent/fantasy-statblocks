@@ -28,12 +28,17 @@
             console.error(e);
         }
     }
+    if (!item.conditioned && !property.length) {
+        property = "-";
+    }
 </script>
 
-<div class="line">
-    <span class="property-name">{display}</span>
-    <DiceHolder {property} />
-</div>
+{#if !item.conditioned || (item.conditioned && property.length)}
+    <div class="line">
+        <span class="property-name">{display}</span>
+        <DiceHolder {property} />
+    </div>
+{/if}
 
 <style>
     .line {

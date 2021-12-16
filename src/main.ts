@@ -1,14 +1,11 @@
 import {
     addIcon,
     MarkdownPostProcessorContext,
-    MarkdownView,
     Notice,
     Plugin,
-    TFile
 } from "obsidian";
 import domtoimage from "dom-to-image";
 
-import type DiceRollerPlugin from "../../obsidian-dice-roller/src/main";
 
 import { BESTIARY_BY_NAME } from "./data/srd-bestiary";
 import StatBlockRenderer from "./view/statblock";
@@ -30,7 +27,6 @@ import { sort } from "fast-sort";
 import type { Plugins } from "../../obsidian-overload";
 import type {
     HomebrewCreature,
-    SRDMonster
 } from "../../obsidian-initiative-tracker/@types";
 declare module "obsidian" {
     interface App {
