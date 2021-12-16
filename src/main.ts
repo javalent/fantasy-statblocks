@@ -62,11 +62,11 @@ export default class StatBlockPlugin
         const data = await this.loadData();
         if (!data) return new Map();
         return new Map(
-            data.map(([name, monster]: [name: string, monster: any]) => {
+            data?.map(([name, monster]: [name: string, monster: any]) => {
                 const statblock: Monster = Object.assign({}, monster);
 
                 return [name, statblock];
-            })
+            }) ?? []
         );
     }
 
