@@ -12,11 +12,6 @@ ctx.onmessage = async (event) => {
     if (!event.data) return;
 
     const { files, source } = event.data;
-    console.log(
-        "🚀 ~ file: importer.worker.ts ~ line 7 ~ files, source",
-        files,
-        source
-    );
     const monsters: Monster[] = [];
     for (const file of files) {
         switch (source) {

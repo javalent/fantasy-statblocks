@@ -160,7 +160,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
         };
         suggester._onInputChanged();
     }
-    importer = new Importer();
+    importer = new Importer(this.plugin);
     generateImports(containerEl: HTMLDivElement) {
         const importSettingsContainer = containerEl.createDiv(
             "statblock-additional-container"

@@ -1,9 +1,64 @@
 import { nanoid } from "src/data/constants";
 import ImportWorker from "./importer.worker";
 import type { Monster } from "@types";
-import { Notice } from "obsidian";
+import { App, Modal, Notice, Setting, TextComponent } from "obsidian";
+import type StatBlockPlugin from "src/main";
+
+class SourcePromptModal extends Modal {
+    source: string;
+    saved: boolean = false;
+    display() {
+        this.titleEl.createSpan({ text: "Set Sources" });
+        new Setting(this.contentEl)
+            .setName(
+                "A source could not be found for some imported monsters. Do you wish to manually add one?"
+            )
+            .addText((t) => {
+                t.setPlaceholder("Unknown").onChange((v) => {
+                    this.source = v;
+                });
+            });
+        this.buildButtons(this.contentEl);
+    }
+    buildButtons(el: HTMLElement) {
+        new Setting(el)
+            .addButton((b) =>
+                b
+                    .setCta()
+                    .setIcon("checkmark")
+                    .setTooltip("Save")
+                    .onClick(() => {
+                        this.saved = true;
+                        this.close();
+                    })
+            )
+            .addExtraButton((b) =>
+                b
+                    .setIcon("cross")
+                    .setTooltip("Cancel")
+                    .onClick(() => {
+                        this.close();
+                    })
+            );
+    }
+    onOpen() {
+        this.display();
+    }
+}
+
+const getSourceFromPrompt = async (app: App): Promise<string> => {
+    return new Promise((resolve) => {
+        const modal = new SourcePromptModal(app);
+        modal.onClose = () => {
+            if (!modal.saved) resolve(null);
+            resolve(modal.source);
+        };
+        modal.open();
+    });
+};
 
 export default class Importer {
+    constructor(public plugin: StatBlockPlugin) {}
     workers: Map<string, Worker> = new Map();
     async import(files: FileList, source: string): Promise<Monster[]> {
         return new Promise((resolve) => {
@@ -11,12 +66,28 @@ export default class Importer {
             const id = nanoid();
             this.workers.set(id, worker);
 
-            worker.onmessage = (event) => {
-                const { monsters } = event.data ?? {};
+            worker.onmessage = async (event) => {
+                const { monsters }: { monsters: Monster[] } = event.data ?? {
+                    monsters: []
+                };
                 if (monsters) {
-                    console.log(monsters);
+                    new Notice(
+                        `Successfully imported ${monsters.length} Monsters`
+                    );
+                    const sourceless = monsters.filter(
+                        (monster) =>
+                            monster.source == "Unknown" || !monster.source
+                    );
+                    let source: string;
+                    if (
+                        sourceless.length &&
+                        (source = await getSourceFromPrompt(this.plugin.app))
+                    ) {
+                        sourceless.forEach(
+                            (monster) => (monster.source = source)
+                        );
+                    }
                 }
-                new Notice(`Successfully imported ${monsters.length} Monsters`);
                 worker.terminate();
                 this.workers.delete(id);
                 resolve(monsters);

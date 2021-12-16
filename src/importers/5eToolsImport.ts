@@ -46,8 +46,7 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
                         const importedMonster: Monster = {
                             name: monster.name,
                             source: `${
-                                SOURCE_JSON_TO_FULL[monster.source] ??
-                                "5e.tools"
+                                SOURCE_JSON_TO_FULL[monster.source] ?? "Unknown"
                             }`,
                             type: monster.type,
                             subtype: "",

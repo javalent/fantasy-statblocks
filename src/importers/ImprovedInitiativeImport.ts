@@ -35,7 +35,7 @@ export async function buildMonsterFromImprovedInitiativeFile(
                             name: monster.Name,
                             source: monster.Source?.trim().length
                                 ? monster.Source.trim()
-                                : "Unknown - Improved Initiative File",
+                                : "Unknown",
                             type: monster.Type.split(/,\s?/)[0].trim(),
                             subtype: "",
                             size: "",
