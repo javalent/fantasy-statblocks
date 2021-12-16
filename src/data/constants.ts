@@ -265,7 +265,9 @@ export const Statblock5e: StatblockItem[] = [
                         display: "Challenge",
                         properties: ["cr"],
                         callback: `if ("cr" in monster && monster.cr in plugin.CR) {
-    return \`\${monster.cr} (\${plugin.CR[
+    return \`\${plugin.CR[
+        monster.cr
+    ].cr} (\${plugin.CR[
         monster.cr
     ].xp.toLocaleString()} XP)\`;
 }
@@ -276,9 +278,9 @@ return "";`
                         id: nanoid(),
                         display: "Proficiency Bonus",
                         properties: ["cr"],
-                        callback: `if ("cr" in monster) {
+                        callback: `if ("cr" in monster && monster.cr in plugin.CR) {
     return \`+\${Math.floor(
-        2 + (plugin.CR[monster.cr].value - 1) / 4
+        2 + ((plugin.CR[monster.cr]?.value ?? 0) - 1) / 4
     )}\`;
 }
 return "";`
@@ -362,6 +364,22 @@ export const CR: { [key: string]: CR } = {
         xp: 50
     },
     "1/2": {
+        cr: "1/2",
+        value: 0.5,
+        xp: 100
+    },
+    "0.125": {
+        cr: "1/8",
+        value: 0.125,
+        xp: 25
+    },
+    "0.25": {
+        cr: "1/4",
+
+        value: 0.25,
+        xp: 50
+    },
+    "0.5": {
         cr: "1/2",
         value: 0.5,
         xp: 100
