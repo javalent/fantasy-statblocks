@@ -86,9 +86,9 @@ function getTraits(
         if (name[0].textContent.includes("Spellcasting")) continue;
         const text = [];
         const traitTexts = trait.getElementsByTagName("text");
-        for (let index in traitTexts) {
-            /* if (!traitTexts[index]) break; */
-            text.push(traitTexts[index].textContent);
+
+        for (let texts of Array.from(traitTexts)) {
+            text.push(texts.textContent);
         }
         traitList.push({
             name: name[0].textContent,
