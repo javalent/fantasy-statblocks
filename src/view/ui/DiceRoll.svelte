@@ -25,35 +25,42 @@
     });
 
     let roller: StackRoller = null;
+    let error = false;
     if (!roller && dice) {
-        roller = plugin.getRoller(`${text}`) as StackRoller;
+        try {
+            roller = plugin.getRoller(`${text}`) as StackRoller;
+        } catch (e) {
+            console.error(e);
+            error = true;
+        }
     }
 
     let defaultValue = 0;
-    let error = false;
     onMount(async () => {
-        try {
-            await roller.roll();
-            defaultValue = roller.dice.reduce(
-                (a, dice) =>
-                    a +
-                    (dice.static
-                        ? dice.result
-                        : Math.ceil(
-                              ((dice.faces.min + dice.faces.max) / 2) *
-                                  dice.rolls
-                          )),
-                0
-            );
+        if (roller) {
+            try {
+                await roller.roll();
+                defaultValue = roller.dice.reduce(
+                    (a, dice) =>
+                        a +
+                        (dice.static
+                            ? dice.result
+                            : Math.ceil(
+                                  ((dice.faces.min + dice.faces.max) / 2) *
+                                      dice.rolls
+                              )),
+                    0
+                );
 
-            await roller.applyResult({
-                type: "dice",
-                result: defaultValue,
-                tooltip: "Average"
-            });
-            roller.shouldRender = render;
-        } catch (e) {
-            error = true;
+                await roller.applyResult({
+                    type: "dice",
+                    result: defaultValue,
+                    tooltip: "Average"
+                });
+                roller.shouldRender = render;
+            } catch (e) {
+                error = true;
+            }
         }
     });
 
