@@ -279,9 +279,10 @@ return "";`
                         display: "Proficiency Bonus",
                         properties: ["cr"],
                         callback: `if ("cr" in monster && monster.cr in plugin.CR) {
-    return \`+\${Math.floor(
-        2 + ((plugin.CR[monster.cr]?.value ?? 0) - 1) / 4
-    )}\`;
+    return \`+\${Math.max(
+            Math.floor(2 + ((plugin.CR[monster.cr]?.value ?? 0) - 1) / 4),
+            2
+        )}\`;
 }
 return "";`
                     }
