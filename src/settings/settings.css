@@ -1,3 +1,11 @@
+.statblock-filter-container .search-input-container {
+    margin-bottom: 0;
+}
+
+.no-border-top {
+    border-top: 0;
+}
+
 .statblock-edit-block
     .statblock-additional-container
     > .additional

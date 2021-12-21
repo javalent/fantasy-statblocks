@@ -54,6 +54,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
         }
     }
     generateMonsters(containerEl: HTMLDivElement) {
+        containerEl.empty();
         const additionalContainer = containerEl.createDiv(
             "statblock-additional-container statblock-monsters"
         );
@@ -62,10 +63,33 @@ export default class StatblockSettingTab extends PluginSettingTab {
             "statblock-monster-filter"
         );
         const searchMonsters = new Setting(filters)
+            .setClass("statblock-filter-container")
             .setName("Homebrew Monsters")
             .addSearch((t) => {
-                t.setPlaceholder("Filter Monsters");
+                t.setPlaceholder("Search Monsters");
                 monsterFilter = t;
+            })
+            .addButton((b) => {
+                b.setIcon("trash")
+                    .setCta()
+                    .setTooltip("Delete Filtered Monsters")
+                    .onClick(() => {
+                        const modal = new ConfirmModal(
+                            suggester.filteredItems.length,
+                            this.plugin.app
+                        );
+                        modal.onClose = async () => {
+                            if (modal.saved) {
+                                await this.plugin.deleteMonsters(
+                                    ...(suggester.filteredItems?.map(
+                                        (m) => m.item.name
+                                    ) ?? [])
+                                );
+                                this.generateMonsters(containerEl);
+                            }
+                        };
+                        modal.open();
+                    });
             });
 
         const additional = additionalContainer.createDiv("additional");
@@ -581,5 +605,34 @@ class CreateStatblockModal extends Modal {
         this.creator.$on("cancel", () => {
             this.close();
         });
+    }
+}
+
+class ConfirmModal extends Modal {
+    saved: boolean = false;
+    constructor(public filtered: number, app: App) {
+        super(app);
+    }
+    onOpen() {
+        this.titleEl.setText("Are you sure?");
+        this.contentEl.createEl("p", {
+            text: `This will delete ${this.filtered} creatures. This cannot be undone.`
+        });
+        new Setting(this.contentEl)
+            .setClass("no-border-top")
+            .addButton((b) => {
+                b.setIcon("checkmark")
+                    .setCta()
+                    .onClick(() => {
+                        this.saved = true;
+                        this.close();
+                    });
+            })
+            .addExtraButton((b) =>
+                b.setIcon("cross").onClick(() => {
+                    this.saved = true;
+                    this.close();
+                })
+            );
     }
 }

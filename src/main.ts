@@ -2,10 +2,9 @@ import {
     addIcon,
     MarkdownPostProcessorContext,
     Notice,
-    Plugin,
+    Plugin
 } from "obsidian";
 import domtoimage from "dom-to-image";
-
 
 import { BESTIARY_BY_NAME } from "./data/srd-bestiary";
 import StatBlockRenderer from "./view/statblock";
@@ -25,9 +24,7 @@ import StatblockSettingTab from "./settings/settings";
 import "./main.css";
 import { sort } from "fast-sort";
 import type { Plugins } from "../../obsidian-overload";
-import type {
-    HomebrewCreature,
-} from "../../obsidian-initiative-tracker/@types";
+import type { HomebrewCreature } from "../../obsidian-initiative-tracker/@types";
 declare module "obsidian" {
     interface App {
         plugins: {
@@ -216,6 +213,19 @@ export default class StatBlockPlugin extends Plugin {
     async updateMonster(oldMonster: Monster, newMonster: Monster) {
         this.data.delete(oldMonster.name);
         await this.saveMonster(newMonster);
+    }
+
+    async deleteMonsters(...monsters: string[]) {
+        for (const monster of monsters) {
+            if (!this.data.has(monster)) continue;
+            this.data.delete(monster);
+            this.bestiary.delete(monster);
+        }
+        await this.saveSettings();
+
+        this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
+            (m) => m.name
+        );
     }
 
     async deleteMonster(monster: string) {
