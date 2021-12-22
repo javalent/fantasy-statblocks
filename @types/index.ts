@@ -60,6 +60,7 @@ export interface Monster {
     dice?: boolean;
     render?: boolean;
     layout?: string;
+    statblock?: string;
 }
 
 export type Spell = string | { [key: string]: string };
