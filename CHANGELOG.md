@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.1.0...2.1.1) (2021-12-22)
+
+
+### Bug Fixes
+
+* default statblock now respected ([d517b02](https://github.com/valentine195/obsidian-5e-statblocks/commit/d517b026c036c3311ff177d8f6c38f4ab8b0be94))
+* statblock is now a valid parameter (same as layout) ([0d9da5d](https://github.com/valentine195/obsidian-5e-statblocks/commit/0d9da5d209e7a6552aaf980948e760c09f3f08cf))
+
 ## [2.1.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.0.12...2.1.0) (2021-12-21)
 
 
