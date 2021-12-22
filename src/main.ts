@@ -442,7 +442,6 @@ export default class StatBlockPlugin extends Plugin {
                         layout.name == params?.layout ||
                         layout.name == params?.statblock
                 ) ?? this.defaultLayout;
-            console.log("🚀 ~ file: main.ts ~ line 440 ~ layout", layout);
 
             let statblock = new StatBlockRenderer(
                 el,
