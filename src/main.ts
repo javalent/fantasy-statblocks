@@ -438,8 +438,11 @@ export default class StatBlockPlugin extends Plugin {
 
             let layout =
                 this.settings.layouts.find(
-                    (layout) => layout.name == params?.layout
-                ) ?? Layout5e;
+                    (layout) =>
+                        layout.name == params?.layout ||
+                        layout.name == params?.statblock
+                ) ?? this.defaultLayout;
+            console.log("🚀 ~ file: main.ts ~ line 440 ~ layout", layout);
 
             let statblock = new StatBlockRenderer(
                 el,
