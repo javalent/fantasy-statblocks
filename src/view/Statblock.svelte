@@ -137,9 +137,9 @@
         margin: 0 auto;
         position: relative;
     }
+
     .icons {
         position: absolute;
-        left: calc(400px - 1em);
-        top: 1em;
+        right: 0;
     }
 </style>
