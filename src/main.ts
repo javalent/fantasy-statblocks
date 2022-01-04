@@ -426,6 +426,11 @@ export default class StatBlockPlugin extends Plugin {
                         "There was an error parsing the provided reactions."
                     );
                 }
+                if ("image" in params) {
+                    if (Array.isArray(params.image)) {
+                        params.image = params.image.flat(2).join("");
+                    }
+                }
                 Object.assign(params, {
                     traits: traits,
                     actions: actions,
@@ -448,6 +453,7 @@ export default class StatBlockPlugin extends Plugin {
                 toBuild,
                 this,
                 canSave,
+                ctx.sourcePath,
                 layout
             );
 
@@ -475,6 +481,7 @@ export default class StatBlockPlugin extends Plugin {
             monster,
             this,
             false,
+            "",
             this.defaultLayout
         );
     }

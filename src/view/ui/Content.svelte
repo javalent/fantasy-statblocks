@@ -17,6 +17,7 @@
         getAllContexts,
         getContext
     } from "svelte";
+    import Image from "./Image.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -26,7 +27,7 @@
     const monster = getContext<Monster>("monster");
 
     const checkConditioned = (item: StatblockItem) => {
-        if (!item.conditioned) return true;
+        if (item.conditioned == null || !item.conditioned) return true;
         if (!item.properties.length) return true;
         return item.properties.some((prop) => {
             if (prop in monster) {
@@ -167,18 +168,32 @@
                 });
                 break;
             }
+            case "image": {
+                new Image({
+                    target,
+                    props: {
+                        monster,
+                        item
+                    },
+                    context
+                });
+                break;
+            }
             case "inline": {
-                const inline = target.createDiv("statblock-item-inline");
+                const inline = createDiv("statblock-item-inline");
                 for (const nested of item.nested ?? []) {
-                    getElementForStatblockItem(nested, inline);
+                    getElementForStatblockItem(
+                        nested,
+                        inline.createDiv("statblock-inline-item")
+                    );
                 }
+                targets.push(inline);
                 break;
             }
             case "group": {
                 for (const nested of item.nested ?? []) {
-                    targets.push(...getElementForStatblockItem(nested));
+                    targets.push(...getElementForStatblockItem(nested, target));
                 }
-
                 break;
             }
         }

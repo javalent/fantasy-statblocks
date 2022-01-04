@@ -21,7 +21,7 @@
     const dispatch = createEventDispatcher();
 
     export let monster: Monster;
-
+    export let context: string;
     export let plugin: StatBlockPlugin;
     export let statblock: StatblockItem[];
     export let canSave: boolean;
@@ -32,6 +32,7 @@
     let canRender = monster.render ?? plugin.settings.renderDice;
 
     setContext<StatBlockPlugin>("plugin", plugin);
+    setContext<string>("context", context);
     setContext<Monster>("monster", monster);
     setContext<boolean>("dice", canDice);
     setContext<boolean>("render", canRender);

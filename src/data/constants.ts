@@ -23,7 +23,8 @@ export type StatblockItemType =
     | "saves"
     | "spells"
     | "inline"
-    | "group";
+    | "group"
+    | "image";
 export interface DiceProps {
     callback?: string;
     property?: keyof Monster;
@@ -77,6 +78,10 @@ type TraitsProps = {
     type: "traits";
     heading?: string;
 };
+type ImageProps = {
+    type: "image";
+    heading?: string;
+};
 
 export type GroupItem = CommonProps & GroupProps;
 export type HeadingItem = CommonProps & HeadingProps;
@@ -87,6 +92,7 @@ export type TraitsItem = CommonProps & TraitsProps;
 export type SpellsItem = CommonProps & SpellsProps;
 export type SubHeadingItem = CommonProps & SubHeadingProps;
 export type TableItem = CommonProps & TableProps;
+export type ImageItem = CommonProps & ImageProps;
 export type StatblockItem =
     | GroupItem
     | HeadingItem
@@ -96,7 +102,8 @@ export type StatblockItem =
     | TraitsItem
     | SpellsItem
     | SubHeadingItem
-    | TableItem;
+    | TableItem
+    | ImageItem;
 
 export interface StatblockRecord {
     traits: TraitsItem;
@@ -117,25 +124,37 @@ export interface Layout {
 
 export const Statblock5e: StatblockItem[] = [
     {
-        type: "group",
+        type: "inline",
         id: nanoid(),
-        properties: ["name", "size", "type", "subtype", "alignment"],
+        properties: [],
+        hasRule: true,
         nested: [
             {
-                type: "heading",
+                type: "group",
                 id: nanoid(),
-                properties: ["name"],
+                properties: ["name", "size", "type", "subtype", "alignment"],
+                nested: [
+                    {
+                        type: "heading",
+                        id: nanoid(),
+                        properties: ["name"],
+                        conditioned: true
+                    },
+                    {
+                        type: "subheading",
+                        id: nanoid(),
+                        properties: ["size", "type", "subtype", "alignment"],
+                        conditioned: true
+                    }
+                ],
                 conditioned: true
             },
             {
-                type: "subheading",
+                type: "image",
                 id: nanoid(),
-                properties: ["size", "type", "subtype", "alignment"],
-                conditioned: true
+                properties: ["image"]
             }
-        ],
-        conditioned: true,
-        hasRule: true
+        ]
     },
 
     {

@@ -17,6 +17,7 @@ export type fage_ability =
     | "willpower";
 
 export interface Monster {
+    image: string;
     name: string;
     size: string;
     type: string;

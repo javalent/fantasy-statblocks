@@ -21,6 +21,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         public monster: Monster,
         private plugin: StatBlockPlugin,
         private canSave: boolean,
+        public context: string,
         public layout: Layout = Layout5e
     ) {
         super(container);
@@ -28,6 +29,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         const statblock = new Statblock({
             target: this.containerEl,
             props: {
+                context: this.context,
                 monster: this.monster,
                 statblock: this.layout.blocks,
                 plugin: this.plugin,
