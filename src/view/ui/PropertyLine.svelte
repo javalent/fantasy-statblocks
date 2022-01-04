@@ -29,7 +29,7 @@
         }
     }
     if (!item.conditioned && !`${property}`.length) {
-        property = "-";
+        property = item.fallback ?? "-";
     }
 </script>
 
