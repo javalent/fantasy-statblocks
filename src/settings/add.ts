@@ -1,4 +1,4 @@
-import { nanoid } from "src/data/constants";
+import { ImageItem, nanoid } from "src/data/constants";
 import type {
     StatblockItemType,
     GroupItem,
@@ -24,6 +24,7 @@ function blockGenerator(type: "traits"): TraitsItem;
 function blockGenerator(type: "spells"): SpellsItem;
 function blockGenerator(type: "subheading"): SubHeadingItem;
 function blockGenerator(type: "table"): TableItem;
+function blockGenerator(type: "image"): ImageItem;
 function blockGenerator(type: StatblockItemType): StatblockItem;
 function blockGenerator(type: string): StatblockItem {
     switch (type) {
@@ -78,6 +79,13 @@ function blockGenerator(type: string): StatblockItem {
                 properties: []
             };
         }
+        case "image": {
+            return {
+                type: "image",
+                id: nanoid(),
+                properties: []
+            };
+        }
         case "table": {
             return {
                 type: "table",
@@ -92,6 +100,7 @@ function blockGenerator(type: string): StatblockItem {
 const types: Array<[StatblockItemType, string]> = [
     ["group", "Group"],
     ["heading", "Heading"],
+    ["image", "Image"],
     ["inline", "Inline Group"],
     ["property", "Property Line"],
     ["saves", "Saves"],
