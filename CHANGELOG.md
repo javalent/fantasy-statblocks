@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.2.1...2.2.2) (2022-01-04)
+
+
+### Bug Fixes
+
+* added image type to statblock layout creator ([0d6b5ad](https://github.com/valentine195/obsidian-5e-statblocks/commit/0d6b5adccc6769d496d5cbab53ac8e08ca3033f8))
+* property block now recursively stringifies ([fef806f](https://github.com/valentine195/obsidian-5e-statblocks/commit/fef806f4992afa8f58880b19fc13ad5073143ea3))
+* Property block now uses fallback correctly ([036c262](https://github.com/valentine195/obsidian-5e-statblocks/commit/036c262032bb0b97046e42958164c8a53b713640))
+
 ### [2.2.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.2.0...2.2.1) (2022-01-04)
 
 
