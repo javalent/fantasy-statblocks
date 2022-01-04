@@ -26,7 +26,7 @@ export async function buildMonsterFromImprovedInitiativeFile(
             try {
                 let json = JSON.parse(event.target.result);
                 const monsters = Object.keys(json).filter((key) =>
-                    /^Creatures/.test(key)
+                    /^Creatures\./.test(key)
                 );
                 for (let key of monsters) {
                     try {
@@ -34,20 +34,20 @@ export async function buildMonsterFromImprovedInitiativeFile(
                         const importedMonster: Monster = {
                             name: monster.Name,
                             source: monster.Source?.trim().length
-                                ? monster.Source.trim()
+                                ? monster.Source?.trim()
                                 : "Unknown",
-                            type: monster.Type.split(/,\s?/)[0].trim(),
+                            type: monster.Type?.split(/,\s?/)?.[0]?.trim(),
                             subtype: "",
                             size: "",
-                            alignment: monster.Type.split(/,\s?/)[1].trim(),
-                            hp: monster.HP.Value,
-                            hit_dice: monster.HP.Notes.replace(
-                                /([()])/,
+                            alignment: monster.Type?.split(/,\s?/)?.[1]?.trim(),
+                            hp: monster.HP?.Value,
+                            hit_dice: monster.HP?.Notes?.replace(
+                                /([()])/g,
                                 ""
-                            ).trim(),
+                            )?.trim(),
                             ac: monster.AC.Value,
-                            speed: monster.Speed.join(", ").trim(),
-                            stats: Object.values(monster.Abilities) as [
+                            speed: monster.Speed?.join(", ")?.trim(),
+                            stats: Object.values(monster.Abilities ?? {}) as [
                                 number,
                                 number,
                                 number,
@@ -57,20 +57,20 @@ export async function buildMonsterFromImprovedInitiativeFile(
                             ],
                             damage_immunities:
                                 monster.DamageImmunities?.join("; ")
-                                    .toLowerCase()
-                                    .trim() ?? "",
+                                    ?.toLowerCase()
+                                    ?.trim() ?? "",
                             damage_resistances:
                                 monster.DamageResistances?.join(", ")
-                                    .toLowerCase()
-                                    .trim() ?? "",
+                                    ?.toLowerCase()
+                                    ?.trim() ?? "",
                             damage_vulnerabilities:
                                 monster.DamageVulnerabilities?.join(", ")
-                                    .toLowerCase()
-                                    .trim() ?? "",
+                                    ?.toLowerCase()
+                                    ?.trim() ?? "",
                             condition_immunities:
                                 monster.ConditionImmunities?.join(", ")
-                                    .toLowerCase()
-                                    .trim() ?? "",
+                                    ?.toLowerCase()
+                                    ?.trim() ?? "",
                             saves:
                                 monster.Saves?.map(
                                     ({
@@ -99,9 +99,9 @@ export async function buildMonsterFromImprovedInitiativeFile(
                                         };
                                     }
                                 ) ?? [],
-                            senses: monster.Senses?.join(", ").trim() ?? "",
+                            senses: monster.Senses?.join(", ")?.trim() ?? "",
                             languages:
-                                monster.Languages?.join(", ").trim() ?? "",
+                                monster.Languages?.join(", ")?.trim() ?? "",
                             cr: monster.Challenge?.trim() ?? "",
                             traits:
                                 monster.Traits?.map(

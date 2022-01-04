@@ -28,12 +28,12 @@
             console.error(e);
         }
     }
-    if (!item.conditioned && !property.length) {
+    if (!item.conditioned && !`${property}`.length) {
         property = "-";
     }
 </script>
 
-{#if !item.conditioned || (item.conditioned && property.length)}
+{#if !item.conditioned || (item.conditioned && `${property}`.length)}
     <div class="line">
         <span class="property-name">{display}</span>
         <DiceHolder {property} />

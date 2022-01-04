@@ -205,7 +205,7 @@
         targets.forEach((b) => {
             temp.appendChild(b.cloneNode(true));
         }, 0);
-        const splitHeight = Math.max(temp.clientHeight, 500);
+        const splitHeight = Math.max(temp.clientHeight, 600);
 
         temp.detach();
         if (columns == 1) {
