@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.1.1...2.2.0) (2022-01-04)
+
+
+### Features
+
+* added `image` parameter to statblocks ([0265dcc](https://github.com/valentine195/obsidian-5e-statblocks/commit/0265dcc7a10974244b32d8f74543b15192287bad))
+* statblocks now receive monster name as class ([9b11b80](https://github.com/valentine195/obsidian-5e-statblocks/commit/9b11b80cfa779fb953e8ebe1791d8cff75b297c9))
+
+
+### Bug Fixes
+
+* Menu dropdown icon is now placed outside of statblock element ([115792a](https://github.com/valentine195/obsidian-5e-statblocks/commit/115792a4f1d3f4129caceb4a97058a692b390838))
+* Subheading recursively stringifies properties ([34d291a](https://github.com/valentine195/obsidian-5e-statblocks/commit/34d291a0b3aa94894070828875d51d95832b63ad))
+* Table headers maintain coloring ([707709f](https://github.com/valentine195/obsidian-5e-statblocks/commit/707709fdc47e3d0f1ec66c890e1d344333581ef8))
+
 ### [2.1.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.1.0...2.1.1) (2021-12-22)
 
 
