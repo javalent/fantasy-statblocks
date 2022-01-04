@@ -98,14 +98,23 @@
     const showMenu = (evt: MouseEvent) => {
         menu.showAtMouseEvent(evt);
     };
+
+    const name =
+        monster?.name
+            ?.toLowerCase()
+            .replace(/[^A-Za-z0-9\s]/g, "")
+            .replace(/\s+/g, "-") ?? "no-name";
 </script>
 
 <div class="container" bind:this={container}>
     {#if ready}
-        <div class="obsidian-statblock-plugin statblock">
+        <div
+            class:obsidian-statblock-plugin={true}
+            class:statblock={true}
+            class={name}
+        >
             {#if monster}
                 <Bar />
-                <div class="icons" use:icons on:click={showMenu} />
                 {#key columns}
                     <Content {columns} {statblock} {ready} on:save on:export />
                 {/key}
@@ -114,6 +123,7 @@
                 <span>Invalid monster.</span>
             {/if}
         </div>
+        <div class="icons" use:icons on:click={showMenu} />
     {/if}
 </div>
 
