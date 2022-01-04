@@ -23,13 +23,18 @@
 <div class="table">
     {#each values.slice(0, headers.length) as value, index}
         <div class="table-item">
-            <strong>{`${headers[index]}`.toUpperCase()}</strong>
+            <span class="statblock-table-header"
+                >{`${headers[index]}`.toUpperCase()}</span
+            >
             <span>{value} ({getMod(value)}) </span>
         </div>
     {/each}
 </div>
 
 <style>
+    .statblock-table-header {
+        font-weight: bold;
+    }
     .table {
         display: flex;
         justify-content: space-evenly;
