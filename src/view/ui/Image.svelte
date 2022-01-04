@@ -109,8 +109,8 @@
 
 <style>
     .image {
-        width: 60px;
-        height: 60px;
+        width: 75px;
+        height: 75px;
     }
     img {
         object-fit: cover;
