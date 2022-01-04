@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.2.0...2.2.1) (2022-01-04)
+
+
+### Bug Fixes
+
+* made image bigger ([b52f92f](https://github.com/valentine195/obsidian-5e-statblocks/commit/b52f92f0467af3aa067fba328a7bbfdf8bb0fbf8))
+
 ## [2.2.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.1.1...2.2.0) (2022-01-04)
 
 
