@@ -4,6 +4,7 @@
     import type { PropertyItem } from "src/data/constants";
     import type StatBlockPlugin from "src/main";
     import { getContext } from "svelte";
+    import { stringify } from "../utils";
 
     import DiceHolder from "./DiceHolder.svelte";
 
@@ -12,7 +13,7 @@
 
     const plugin = getContext<StatBlockPlugin>("plugin");
 
-    let property = monster[item.properties[0]] as string;
+    let property = stringify(monster[item.properties[0]]);
     let display = item.display ?? item.properties[0];
 
     if (item.callback) {
