@@ -1,4 +1,4 @@
-# Obsidian 5e Statblocks
+# Obsidian TTRPG Statblocks
 
 Create 5e-styled statblocks in Obsidian.md notes.
 
@@ -24,6 +24,7 @@ OR
 
 ````
 ```statblock
+image: [[Wikilink To Image]]
 name: string
 size: string
 type: string
@@ -36,9 +37,9 @@ speed: string
 stats: [number, number, number, number, number, number]
 fage_stats: [number, number, number, number, number, number, number, number, number]
 saves:
-    - <ability-score>: number
+  - <ability-score>: number
 skillsaves:
-    - <skill-name>: number
+  - <skill-name>: number
 damage_vulnerabilities: string
 damage_resistances: string
 damage_immunities: string
@@ -47,20 +48,20 @@ senses: string
 languages: string
 cr: number
 spells:
-    - <description>
-    - <spell level>: <spell-list>
+  - <description>
+  - <spell level>: <spell-list>
 traits:
-    - [<trait-name>, <trait-description>]
-    - ...
+  - [<trait-name>, <trait-description>]
+  - ...
 actions:
-    - [<trait-name>, <trait-description>]
-    - ...
+  - [<trait-name>, <trait-description>]
+  - ...
 legendary_actions:
-    - [<legendary_actions-name>, <legendary_actions-description>]
-    - ...
+  - [<legendary_actions-name>, <legendary_actions-description>]
+  - ...
 reactions:
-    - [<reaction-name>, <reaction-description>]
-    - ...
+  - [<reaction-name>, <reaction-description>]
+  - ...
 ```
 ````
 
@@ -154,6 +155,143 @@ legendary_actions:
 ```
 ````
 
+# Layouts
+
+As of TTRPG Statblocks v2.0.0, custom layouts may be created in settings. The basic 5e layout will always exist, but the default layout used by the plugin may be changed.
+
+## Using a Layout
+
+A statblock will use the Default Layout specified in settings, unless a layout is specified in the statblock parameters:
+
+````
+```statblock
+monster: Ancient Black Dragon
+layout: My Custom Layout
+```
+````
+
+## Creating a Layout
+
+New layouts are created through settings, either by clicking the "New Layout" button or copying an existing layout and clicking the "Edit" button.
+
+This will open the layout creator, where [**layout blocks**](#blocks) can be added and managed to the layout.
+
+### Names
+
+Layouts must be given names, and the names **must be unique.**
+
+### Blocks
+
+Statblock layouts are made up of blocks. There are several types of blocks, and each block can be associated to a monster **property.**
+
+Blocks can be added to the layout by clicking the "Add Block" button, where the type of block may be selected. Once a block is added to the layout, it may be edited by clicking the "Edit Block" button that appears when the block is hovered or removed by clicking the "Delete Block" button.
+
+Additionally. blocks may be moved around by clicking the drag handle and dragging them around.
+
+### Creating Blocks
+
+A layout block has a **type**, and the type determines both how it renders and what options are available to the block. Once a block is created, its type cannot be changed.
+
+Blocks further have **properties** that will affect _how_ it renders.
+
+#### Block Properties
+
+All blocks (except [group](#group-blocks) and [inline](#inline-blocks)) will have the following property fields:
+
+| Property              | Description                                                                              |
+| --------------------- | ---------------------------------------------------------------------------------------- |
+| Link Monster Property | The "property" the block will try to access on the monster object (for example, "name"). |
+| Conditional           | If a block is set to conditional, it won't be rendered if the property does not exist.   |
+| Fallback              | Fallback to display if property does not exist but the block is not conditioned.         |
+| Has Rule              | A horizontal rule will be displayed after the property                                   |
+| Enable Dice\*         | The plugin will attempt to parse for common dice roll strings from the block             |
+| Dice Callback\*†      | JavaScript code may be provided to determine how the string is parsed for dice.          |
+
+<sup>\* Requires the Dice Roller plugin.</sup><br/>
+<sup>† Advanced option.</sup>
+
+A specific block type may have additional property fields.
+
+Additionally, there are "Advanced Options" for blocks. Advanced options allow you to provide JavaScript callbacks to parse monster properties, and should return strings.
+
+#### Group Blocks
+
+Group blocks allow several different types of blocks to be grouped together. Additional blocks can be added to the group block using the context menu (three dots), or by dragging blocks into the square.
+
+#### Inline Blocks
+
+Inline blocks are like group blocks, but blocks grouped inside them will render next to each other instead of on top. Additional blocks can be added to the group block using the context menu (three dots), or by dragging blocks into the square.
+
+#### Heading Blocks
+
+Heading blocks will render text larger (like the name of the basic 5e layout).
+
+**Property Type Required:** the Heading block should point to a monster property that will be a string.
+
+#### Subheading Blocks
+
+Subheading blocks are for smaller properties, such as the type of monsters in the basic 5e layout.
+
+The subheading block allows multiple monster properties to be linked to it.
+
+**Property Type Required:** the Subheading block should point to a monster property that can be turned into a string. The plugin will recursively stringify non-string items.
+
+#### Image Blocks
+
+Image blocks will display an image if the linked property is a link to an image. This link should be an Obsidian wikilink to an image in the vault. A link to an external website may also be used, but you may run into issues with privacy settings.
+
+**Property Type Required:** the Image block should point to a monster property will be a string.
+
+#### Property Block
+
+A property block is the standard block. It will display the property name and the value of the property for the monster - for example, `Armor Class: 16`.
+
+**Property Type Required:** the Property block should point to a monster property that can be turned into a string. The plugin will recursively stringify non-string items.
+
+Property blocks have an additional advanced option to provide a callback to parse the property and use that as the value of the field. The callback will receive the monster object and the plugin as parameters.
+
+For example, the basic 5e layout's Proficiency Bonus property uses this option to determine its property values:
+
+```js
+if ("cr" in monster && monster.cr in plugin.CR) {
+    return `+${Math.floor(2 + ((plugin.CR[monster.cr]?.value ?? 0) - 1) / 4)}`;
+}
+return "";
+```
+
+#### Saves Block
+
+The saves block is used to display saves and skill saves, for example: `Str: +3`.
+
+**Property Type Required:** the Saves block should point to a monster property that is an **object** of string number pairs, for example:
+````
+```statblock
+saves:
+  - strength: 3
+  - dexterity: 5
+```
+````
+
+#### Spells Block
+
+The spells block is how the plugin displays spells. See [the Spells section](#spellcasting) for how a spell's block property should be formatted.
+
+#### Table Block
+
+The table block will display a table of headers and values.
+
+The table block has an additional block property called "Table Headers". **The layout will only display a value that has a header.** This means if your monster property has 6 values, but you specify 5 headers, **only the first five values will be shown.**
+
+**Property Type Required:** the Table block should point to a monster property that is an **array of numbers**.
+
+#### Traits Block
+
+The traits block is how the plugin displays things like Actions, Reactions and Traits.
+
+The traits block has an additional optional block property called "Section Heading". This will be added to the statblock prior to the traits display.
+
+**Property Type Required:** the Traits block should point to a monster property that is an **array of [string, string] values**.
+
 # Installation
 
 ## From within Obsidian
@@ -192,6 +330,6 @@ If you're using Obsidian to run/plan a TTRPG, you may find my other plugin usefu
 
 -   [Obsidian Leaflet](https://github.com/valentine195/obsidian-leaflet-plugin) - Add interactive maps to Obsidian.md notes
 -   [Dice Roller](https://github.com/valentine195/obsidian-dice-roller) - Inline dice rolling for Obsidian.md
--   [Initiative Tracker](https://github.com/valentine195/obsidian-initiative-tracker) - Track TTRPG Initiative in Obsidian 
+-   [Initiative Tracker](https://github.com/valentine195/obsidian-initiative-tracker) - Track TTRPG Initiative in Obsidian
 
 <a href="https://www.buymeacoffee.com/valentine195"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=valentine195&button_colour=e3e7ef&font_colour=262626&font_family=Inter&outline_colour=262626&coffee_colour=ff0000"></a>
