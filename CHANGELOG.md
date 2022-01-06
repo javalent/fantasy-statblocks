@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.3.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.2.4...2.3.0) (2022-01-06)
+
+
+### Features
+
+* allow any monster to be saved (close [#27](https://github.com/valentine195/obsidian-5e-statblocks/issues/27)) ([861c8cb](https://github.com/valentine195/obsidian-5e-statblocks/commit/861c8cb3473f3cc8c57d9d7c86991144431a33e0))
+
+
+### Bug Fixes
+
+* dice enabled blocks now default to using plugin parse method if no property or callback is provided ([f6fa7eb](https://github.com/valentine195/obsidian-5e-statblocks/commit/f6fa7ebf3d139be72726f80506a7fce56135adea))
+
 ### [2.2.4](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.2.3...2.2.4) (2022-01-06)
 
 
