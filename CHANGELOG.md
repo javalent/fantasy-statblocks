@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.3.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.3.0...2.3.1) (2022-01-06)
+
+
+### Bug Fixes
+
+* fix column wrapping ([ea619c2](https://github.com/valentine195/obsidian-5e-statblocks/commit/ea619c2f9445caa0dfb2fa226c910d4b22b7334c))
+* fix column wrapping better ([7c3793d](https://github.com/valentine195/obsidian-5e-statblocks/commit/7c3793daabc2af20233219c8cd61459b04646173))
+* remove log from image component ([876abbc](https://github.com/valentine195/obsidian-5e-statblocks/commit/876abbc87745a431d18425d9c745942063f77c9b))
+* update plugin name in console messages ([9aa7b53](https://github.com/valentine195/obsidian-5e-statblocks/commit/9aa7b533fc2cc1519bcd12081f87636d888e4264))
+
 ## [2.3.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.2.4...2.3.0) (2022-01-06)
 
 
