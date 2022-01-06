@@ -45,7 +45,7 @@
     const onResize = debounce(
         () => {
             const width = container.clientWidth;
-            columns = Math.max(Math.floor(width / 400), 1);
+            columns = Math.min(Math.max(Math.floor(width / 400), 1), 2);
             if (!ready) ready = true;
         },
         100,

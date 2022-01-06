@@ -23,7 +23,6 @@
 
     export let statblock: StatblockItem[];
     export let columns: number = 1;
-    console.log("🚀 ~ file: Content.svelte ~ line 26 ~ columns", columns);
     export let ready: boolean;
     const monster = getContext<Monster>("monster");
 
@@ -219,7 +218,7 @@
         targets.forEach((b) => {
             temp.appendChild(b.cloneNode(true));
         }, 0);
-        const splitHeight = Math.max(temp.clientHeight / 2, 600);
+        const splitHeight = Math.min(temp.clientHeight / 2, 600);
 
         temp.detach();
         if (columns == 1) {
