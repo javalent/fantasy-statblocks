@@ -2,7 +2,7 @@
 
 Create 5e-styled statblocks in Obsidian.md notes.
 
-<img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/master/images/example.PNG">
+<img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/example.PNG">
 
 ## Usage
 
@@ -84,7 +84,7 @@ The plugin will then parse monster properties for common types of dice rolls. Th
 
 Dice rollers added to stat blocks can roll 3D dice on the screen if the [Render Dice Rolls](#render-dice-rolls) setting is turned on or the `render: true` parameter is added to a stat block.
 
-<img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/master/images/render.GIF">
+<img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/render.GIF">
 
 ### Overriding Fields
 
@@ -93,15 +93,15 @@ The `monster` field may be combined with other fields to override the field of t
 ````
 ```statblock
 monster: Ancient Black Dragon
-name: Paarthunax
+name: Paarthurnax
 ```
 ````
 
-<img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/master/images/override.PNG">
+<img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/override.PNG">
 
 ### Traits
 
-Traits, such as Actions, Reactions and Legendary Actions, 
+Traits, such as Actions, Reactions and Legendary Actions,
 
 ### Spellcasting
 
