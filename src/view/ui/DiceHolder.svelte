@@ -45,6 +45,13 @@
                 );
                 console.error(e);
             }
+        } else {
+            const parsed = plugin.parseForDice(property);
+            if (Array.isArray(parsed)) {
+                split = parsed;
+            } else {
+                split = [parsed];
+            }
         }
     }
 </script>

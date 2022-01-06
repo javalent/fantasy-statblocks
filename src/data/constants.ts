@@ -221,7 +221,6 @@ export const Statblock5e: StatblockItem[] = [
                 display: "Saves",
                 properties: ["saves"],
                 conditioned: true
-                /* dice: true */
             },
             {
                 type: "saves",
@@ -317,8 +316,7 @@ return "";`
         id: nanoid(),
         properties: ["traits"],
         conditioned: true,
-        dice: true,
-        diceCallback: `return plugin.parseForDice(property);`
+        dice: true
     },
     {
         type: "spells",
@@ -326,8 +324,7 @@ return "";`
         properties: ["spells"],
         conditioned: true,
 
-        dice: true,
-        diceCallback: `return plugin.parseForDice(property);`
+        dice: true
     },
     {
         type: "traits",
@@ -336,8 +333,7 @@ return "";`
         heading: "Actions",
         conditioned: true,
 
-        dice: true,
-        diceCallback: `return plugin.parseForDice(property);`
+        dice: true
     },
     {
         type: "traits",
@@ -346,8 +342,7 @@ return "";`
         heading: "Legendary Actions",
         conditioned: true,
 
-        dice: true,
-        diceCallback: `return plugin.parseForDice(property);`
+        dice: true
     },
     {
         type: "traits",
@@ -356,8 +351,7 @@ return "";`
         heading: "Reactions",
         conditioned: true,
 
-        dice: true,
-        diceCallback: `return plugin.parseForDice(property);`
+        dice: true
     }
 ];
 
