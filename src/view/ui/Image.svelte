@@ -6,7 +6,6 @@
     import type { App, TFile } from "obsidian";
 
     export let monster: Monster;
-    console.log("🚀 ~ file: Image.svelte ~ line 8 ~ monster", monster);
     export let item: ImageItem;
 
     const plugin = getContext<StatBlockPlugin>("plugin");
