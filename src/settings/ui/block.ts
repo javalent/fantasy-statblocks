@@ -230,7 +230,7 @@ export class BlockModal extends Modal {
         el.empty();
         if (!this.group && this.plugin.canUseDiceRoller) {
             new Setting(el)
-                .setName("Enable Dice")
+                .setName("Parse for Dice")
                 .setDesc(
                     "The plugin will attempt to add dice rollers as specified."
                 )

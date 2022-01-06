@@ -357,7 +357,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 })
             );
         new Setting(container)
-            .setName("Use Dice Roller")
+            .setName("Integrate Dice Roller")
             .setDesc(
                 createFragment((e) => {
                     if (this.plugin.canUseDiceRoller) {
