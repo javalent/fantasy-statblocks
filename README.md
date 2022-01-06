@@ -264,6 +264,7 @@ return "";
 The saves block is used to display saves and skill saves, for example: `Str: +3`.
 
 **Property Type Required:** the Saves block should point to a monster property that is an **object** of string number pairs, for example:
+
 ````
 ```statblock
 saves:
@@ -291,6 +292,40 @@ The traits block is how the plugin displays things like Actions, Reactions and T
 The traits block has an additional optional block property called "Section Heading". This will be added to the statblock prior to the traits display.
 
 **Property Type Required:** the Traits block should point to a monster property that is an **array of [string, string] values**.
+
+### Using Dice Rollers in Layouts
+
+> Note: The [Dice Roller](https://github.com/valentine195/obsidian-dice-roller) plugin must be installed and the [Use Dice Roller](#use-dice-roller) Setting must be turned on to use dice rollers in layouts.
+
+On any given block, if the Enable Dice property is turned on, the plugin will attempt to parse the property content for common dice roll strings. Currently, the plugin will parse for the following strings by default:
+
+1. Rolling to hit (`+15 to hit`)
+2. Damage / healing (`19 (2d10 + 8)`)
+3. A save (`Strength +5`) (note: the `saves` and `skillsaves` do not have dice enabled by default).
+
+Alternatively, you may specify a property of a monster to use as the dice string in the `Link Dice to Property` block property. This should be a dice string, such as `5d10 + 50`.
+
+#### Dice Callback
+
+If [Advanced Options](#show-advanced-options) is turned on, you also have the ability to provide a `Dice Callback` function to the block. This allows you to parse the property string for the *exact* dice roll you want.
+
+The callback function will receive the `plugin`, `monster` and `property` parameters.
+
+# Settings
+
+## Enable Export to PNG
+
+## Use Dice Roller
+
+## Render Dice Rolls
+
+## Layouts
+
+### Default Layouts
+
+### Show Advanced Options
+
+## Import Monsters
 
 # Installation
 
