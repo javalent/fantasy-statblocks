@@ -233,6 +233,13 @@ export const Statblock5e: StatblockItem[] = [
             {
                 type: "property",
                 id: nanoid(),
+                display: "Damage Resistances",
+                properties: ["damage_resistances"],
+                conditioned: true
+            },
+            {
+                type: "property",
+                id: nanoid(),
                 display: "Damage Immunities",
                 properties: ["damage_immunities"],
                 conditioned: true
@@ -242,13 +249,6 @@ export const Statblock5e: StatblockItem[] = [
                 id: nanoid(),
                 display: "Condition Immunities",
                 properties: ["condition_immunities"],
-                conditioned: true
-            },
-            {
-                type: "property",
-                id: nanoid(),
-                display: "Resistances",
-                properties: ["damage_resistances"],
                 conditioned: true
             },
             {
