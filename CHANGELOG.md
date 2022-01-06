@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.4](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.2.3...2.2.4) (2022-01-06)
+
+
+### Bug Fixes
+
+* fixed damage resistances display name and order (close [#26](https://github.com/valentine195/obsidian-5e-statblocks/issues/26)) ([6e91ac7](https://github.com/valentine195/obsidian-5e-statblocks/commit/6e91ac7d40e7ebf3d92587ec7faa3b64722a93cd))
+
 ### [2.2.3](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.2.2...2.2.3) (2022-01-04)
 
 ### [2.2.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.2.1...2.2.2) (2022-01-04)
