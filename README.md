@@ -65,6 +65,27 @@ reactions:
 ```
 ````
 
+### Using [Dice Roller](https://github.com/valentine195/obsidian-dice-roller)
+
+You can integrate the dice roller plugin in your statblocks, which will allow you to roll dice inside stat blocks. This integration requires the following:
+
+1. Install and enable the [Dice Roller](https://github.com/valentine195/obsidian-dice-roller) plugin.
+2. Enable [Integrate Dice Roller](#integrate-dice-roller) in settings or add the `dice: true` parameter to a statblock in a note.
+
+The plugin will then parse monster properties for common types of dice rolls. The plugin will create dice rollers for the following strings:
+
+1. Rolling to hit (`+15 to hit`)
+2. Damage / healing (`19 (2d10 + 8)`)
+3. A save (`Strength +5`)
+
+> Want to change how Dice Rollers are added? Create a [Custom Layout](#layouts) in settings.
+
+#### Rendered Dice
+
+Dice rollers added to stat blocks can roll 3D dice on the screen if the [Render Dice Rolls](#render-dice-rolls) setting is turned on or the `render: true` parameter is added to a stat block.
+
+<img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/master/images/render.GIF">
+
 ### Overriding Fields
 
 The `monster` field may be combined with other fields to override the field of the specified SRD monster. For example:
@@ -77,6 +98,10 @@ name: Paarthunax
 ````
 
 <img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/master/images/override.PNG">
+
+### Traits
+
+Traits, such as Actions, Reactions and Legendary Actions, 
 
 ### Spellcasting
 
@@ -204,10 +229,11 @@ All blocks (except [group](#group-blocks) and [inline](#inline-blocks)) will hav
 | Conditional           | If a block is set to conditional, it won't be rendered if the property does not exist.   |
 | Fallback              | Fallback to display if property does not exist but the block is not conditioned.         |
 | Has Rule              | A horizontal rule will be displayed after the property                                   |
-| Enable Dice\*         | The plugin will attempt to parse for common dice roll strings from the block             |
+| Parse for Dice\*      | The plugin will attempt to parse for common dice roll strings from the block             |
+| Link Dice to Property | The layout will use the property provided to generate the dice roller.                   |
 | Dice Callback\*†      | JavaScript code may be provided to determine how the string is parsed for dice.          |
 
-<sup>\* Requires the Dice Roller plugin.</sup><br/>
+<sup>\* Requires the <a href="https://github.com/valentine195/obsidian-dice-roller">Dice Roller</a> plugin.</sup><br/>
 <sup>† Advanced option.</sup>
 
 A specific block type may have additional property fields.
@@ -295,19 +321,23 @@ The traits block has an additional optional block property called "Section Headi
 
 ### Using Dice Rollers in Layouts
 
-> Note: The [Dice Roller](https://github.com/valentine195/obsidian-dice-roller) plugin must be installed and the [Use Dice Roller](#use-dice-roller) Setting must be turned on to use dice rollers in layouts.
+You can integrate the dice roller plugin in your statblocks, which will allow you to roll . This integration requires the following:
 
-On any given block, if the Enable Dice property is turned on, the plugin will attempt to parse the property content for common dice roll strings. Currently, the plugin will parse for the following strings by default:
+1. Install and enable the [Dice Roller](https://github.com/valentine195/obsidian-dice-roller) plugin.
+2. Enable [Integrate Dice Roller](#integrate-dice-roller) in settings.
+3. Toggle the [Parse for Dice](#block-properties) block property for the block you want to parse.
+
+The plugin will then attempt to parse the property content for common dice roll strings. The plugin will parse the following strings by default:
 
 1. Rolling to hit (`+15 to hit`)
 2. Damage / healing (`19 (2d10 + 8)`)
-3. A save (`Strength +5`) (note: the `saves` and `skillsaves` do not have dice enabled by default).
+3. A save (`Strength +5`)
 
-Alternatively, you may specify a property of a monster to use as the dice string in the `Link Dice to Property` block property. This should be a dice string, such as `5d10 + 50`.
+Alternatively, you may specify a property of a monster to use as the dice string in the [Link Dice to Property](#block-properties) block property. This should be a dice string, such as `5d10 + 50`.
 
 #### Dice Callback
 
-If [Advanced Options](#show-advanced-options) is turned on, you also have the ability to provide a `Dice Callback` function to the block. This allows you to parse the property string for the *exact* dice roll you want.
+If [Advanced Options](#show-advanced-options) is turned on, you also have the ability to provide a `Dice Callback` function to the block. This allows you to parse the property string for the _exact_ dice roll you want.
 
 The callback function will receive the `plugin`, `monster` and `property` parameters.
 
@@ -315,17 +345,29 @@ The callback function will receive the `plugin`, `monster` and `property` parame
 
 ## Enable Export to PNG
 
-## Use Dice Roller
+The plugin will add an option to export rendered stat blocks as PNG files.
+
+## Integrate Dice Roller
+
+The plugin will integrate with the Dice Roller plugin and add dice rolls to rendered stat blocks.
 
 ## Render Dice Rolls
 
+Dice rolls will roll with graphical dice by default.
+
 ## Layouts
 
-### Default Layouts
+### Default Layout
+
+The plugin will use this layout by default when rendering a stat block.
 
 ### Show Advanced Options
 
+Editing a layout block will show additional advanced options.
+
 ## Import Monsters
+
+Homebrew monsters can be imported from various sources here.
 
 # Installation
 
