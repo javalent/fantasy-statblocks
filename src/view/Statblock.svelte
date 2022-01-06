@@ -24,7 +24,6 @@
     export let context: string;
     export let plugin: StatBlockPlugin;
     export let statblock: StatblockItem[];
-    export let canSave: boolean;
 
     let canExport = monster.export ?? plugin.settings.export;
     let canDice =
@@ -65,20 +64,15 @@
     });
 
     const icons = (node: HTMLElement) => {
-        if (!canExport && !canSave && !canDice) {
-            node.detach();
-            return;
-        }
         new ExtraButtonComponent(node).setIcon("vertical-three-dots");
     };
     const menu = new Menu(plugin.app);
-    if (canSave)
-        menu.addItem((item) =>
-            item
-                .setIcon(SAVE_SYMBOL)
-                .setTitle("Save as Homebrew")
-                .onClick(() => dispatch("save"))
-        );
+    menu.addItem((item) =>
+        item
+            .setIcon(SAVE_SYMBOL)
+            .setTitle("Save as Homebrew")
+            .onClick(() => dispatch("save"))
+    );
     if (canExport)
         menu.addItem((item) =>
             item
