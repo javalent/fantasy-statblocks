@@ -96,7 +96,7 @@ export default class StatBlockPlugin extends Plugin {
         return new Set(Array.from(this.data.values()).map((m) => m.source));
     }
     async onload() {
-        console.log("5e StatBlocks loaded");
+        console.log("TTRPG StatBlocks loaded");
 
         await this.loadSettings();
         await this.loadMonsterData();
@@ -256,7 +256,7 @@ export default class StatBlockPlugin extends Plugin {
         });
     }
     onunload() {
-        console.log("5e StatBlocks unloaded");
+        console.log("TTRPG StatBlocks unloaded");
     }
 
     exportAsPng(name: string, containerEl: Element) {
