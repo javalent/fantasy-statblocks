@@ -432,6 +432,14 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     .setTooltip("Add New Statblock")
                     .onClick(() => {
                         const modal = new CreateStatblockModal(this.plugin);
+                        modal.onClose = async () => {
+                            if (!modal.saved) return;
+                            this.plugin.settings.layouts.push(
+                                this.getDuplicate(modal.layout)
+                            );
+                            await this.plugin.saveSettings();
+                            this.buildCustomLayouts(layoutContainer);
+                        };
                         modal.open();
                     })
             );
@@ -483,6 +491,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
         this.buildCustomLayouts(layoutContainer);
     }
     getDuplicate(layout: Layout) {
+        if (!this.plugin.settings.layouts.find((l) => l.name == layout.name))
+            return layout;
         const names = this.plugin.settings.layouts
             .filter((l) => l.name.contains(`${layout.name} Copy`))
             .map((l) => l.name);
