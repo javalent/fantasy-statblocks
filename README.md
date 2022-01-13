@@ -1,5 +1,7 @@
 # Obsidian 5e Statblocks
 
+**A much improved [beta](https://github.com/valentine195/obsidian-5e-statblocks/tree/beta) version of this plugin is installable via the [Obsidian Brat Plugin](https://github.com/TfTHacker/obsidian42-brat)**
+
 Create 5e-styled statblocks in Obsidian.md notes.
 
 <img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/master/images/example.PNG">
