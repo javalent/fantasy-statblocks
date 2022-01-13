@@ -101,7 +101,13 @@ name: Paarthurnax
 
 ### Traits
 
-Traits, such as Actions, Reactions and Legendary Actions,
+Traits, such as Actions, Reactions and Legendary Actions, should be added as a YAML array of arrays:
+
+```md
+traits:
+  - [Amphibious, The dragon can breathe air and water.]
+  - ...
+```
 
 ### Spellcasting
 
@@ -114,18 +120,18 @@ The spellcasting trait requires a special `spells` field using the following syn
 ````
 ```statblock
 spells:
-    - The archmage is an 18th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 17, +9 to hit with spell attacks). The archmage can cast disguise self and invisibility at will and has the following wizard spells prepared
-    - Cantrips (at will): fire bolt, light, mage hand, prestidigitation, shocking grasp
-    - 1st level (4 slots): detect magic, identify, mage armor*, magic missile
-    - 2nd level (3 slots): detect thoughts, mirror image, misty step
-    - 3rd level (3 slots): counterspell, fly, lightning bolt
-    - 4th level (3 slots): banishment, fire shield, stoneskin*
-    - 5th level (3 slots): cone of cold, scrying, wall of force
-    - 6th level (1 slot): globe of invulnerability
-    - 7th level (1 slot): teleport
-    - 8th level (1 slot): mind blank*
-    - 9th level (1 slot): time stop
-    - * The archmage casts these spells on itself before combat.
+  - The archmage is an 18th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 17, +9 to hit with spell attacks). The archmage can cast disguise self and invisibility at will and has the following wizard spells prepared
+  - Cantrips (at will): fire bolt, light, mage hand, prestidigitation, shocking grasp
+  - 1st level (4 slots): detect magic, identify, mage armor*, magic missile
+  - 2nd level (3 slots): detect thoughts, mirror image, misty step
+  - 3rd level (3 slots): counterspell, fly, lightning bolt
+  - 4th level (3 slots): banishment, fire shield, stoneskin*
+  - 5th level (3 slots): cone of cold, scrying, wall of force
+  - 6th level (1 slot): globe of invulnerability
+  - 7th level (1 slot): teleport
+  - 8th level (1 slot): mind blank*
+  - 9th level (1 slot): time stop
+  - * The archmage casts these spells on itself before combat.
 ```
 ````
 
@@ -148,13 +154,13 @@ hit_dice: 21d20
 speed: 40 ft., fly 80 ft., swim 40 ft.
 stats: [27, 14, 25, 16, 15, 19]
 saves:
-    - dexterity: 9
-    - constitution: 14
-    - wisdom: 9
-    - charisma: 11
+  - dexterity: 9
+  - constitution: 14
+  - wisdom: 9
+  - charisma: 11
 skillsaves:
-    - perception: 16
-    - stealth: 9
+  - perception: 16
+  - stealth: 9
 damage_vulnerabilities:
 damage_resistances:
 damage_immunities: acid
@@ -163,20 +169,20 @@ senses: blindsight 60 ft., darkvision 120 ft., passive Perception 26
 languages: Common, Draconic
 cr: 21
 traits:
-    - [Amphibious, The dragon can breathe air and water.]
-    - [Legendary Resistance (3/Day), If the dragon fails a saving throw, it can choose to succeed instead.]
+  - [Amphibious, The dragon can breathe air and water.]
+  - [Legendary Resistance (3/Day), If the dragon fails a saving throw, it can choose to succeed instead.]
 actions:
-    - [Multiattack, The dragon can use its Frightful Presence. It then makes three attacks: one with its bite and two with its claws.]
-    - [Bite, Melee Weapon Attack:+ 15 to hit, reach 15 ft., one target. Hit: 19 (2d10 + 8) piercing damage plus 9 (2d8) acid damage.]
-    - [Claw, Melee Weapon Attack: +15 to hit, reach 10 ft., one target. Hit: 15 (2d6 + 8) slashing damage.]
-    - [Tail, Melee Weapon Attack: +15 to hit, reach 20 ft ., one target. Hit: 17 (2d8 + 8) bludgeoning damage.]
-    - [Frightful Presence, Each creature of the dragon's choice that is within 120 feet of the dragon and aware of it must succeed on a DC 19 Wisdom saving throw or become frightened for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to the dragon's Frightful Presence for the next 24 hours.]
-    - [Acid Breath (Recharge 5-6), The dragon exhales acid in a 90-foot line that is 10 feet wide. Each creature in that line must make a DC 22 Dexterity saving throw, taking 67 (15d8) acid damage on a failed save, or half as much damage on a successful one.]
+  - [Multiattack, The dragon can use its Frightful Presence. It then makes three attacks: one with its bite and two with its claws.]
+  - [Bite, Melee Weapon Attack:+ 15 to hit, reach 15 ft., one target. Hit: 19 (2d10 + 8) piercing damage plus 9 (2d8) acid damage.]
+  - [Claw, Melee Weapon Attack: +15 to hit, reach 10 ft., one target. Hit: 15 (2d6 + 8) slashing damage.]
+  - [Tail, Melee Weapon Attack: +15 to hit, reach 20 ft ., one target. Hit: 17 (2d8 + 8) bludgeoning damage.]
+  - [Frightful Presence, Each creature of the dragon's choice that is within 120 feet of the dragon and aware of it must succeed on a DC 19 Wisdom saving throw or become frightened for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to the dragon's Frightful Presence for the next 24 hours.]
+  - [Acid Breath (Recharge 5-6), The dragon exhales acid in a 90-foot line that is 10 feet wide. Each creature in that line must make a DC 22 Dexterity saving throw, taking 67 (15d8) acid damage on a failed save, or half as much damage on a successful one.]
 reactions:
 legendary_actions:
-    - [Detect, The dragon makes a Wisdom (Perception) check.]
-    - [Tail Attack, The dragon makes a tail attack.]
-    - [Wing Attack (Costs 2 Actions), The dragon beats its wings. Each creature within 15 ft. of the dragon must succeed on a DC 23 Dexterity saving throw or take 15 (2d6 + 8) bludgeoning damage and be knocked prone. The dragon can then fly up to half its flying speed.]
+  - [Detect, The dragon makes a Wisdom (Perception) check.]
+  - [Tail Attack, The dragon makes a tail attack.]
+  - [Wing Attack (Costs 2 Actions), The dragon beats its wings. Each creature within 15 ft. of the dragon must succeed on a DC 23 Dexterity saving throw or take 15 (2d6 + 8) bludgeoning damage and be knocked prone. The dragon can then fly up to half its flying speed.]
 ```
 ````
 
