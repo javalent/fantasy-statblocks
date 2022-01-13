@@ -2,7 +2,7 @@
     import type { Monster, Trait } from "@types";
     import type { StatblockItem } from "src/data/constants";
 
-    import PropertyBlock from "./PropertyBlock.svelte";
+    import Traits from "./Traits.svelte";
     import Spells from "./Spells.svelte";
     import Heading from "./Heading.svelte";
     import PropertyLine from "./PropertyLine.svelte";
@@ -190,7 +190,7 @@
                 try {
                     for (const block of blocks) {
                         const prop = createDiv("statblock-item-container");
-                        new PropertyBlock({
+                        new Traits({
                             target: prop,
                             props: {
                                 name: block.name,
@@ -239,6 +239,7 @@
 
         for (let target of targets) {
             columnEl.appendChild(target);
+            console.log(target, target.clientHeight);
             if (
                 columnEl.clientHeight > splitHeight &&
                 node.childElementCount != columns

@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Monster } from "@types";
     import { stringifyYaml } from "obsidian";
-    import PropertyBlock from "./PropertyBlock.svelte";
+    import Traits from "./Traits.svelte";
     import type { SpellsItem } from "src/data/constants";
 
     export let monster: Monster;
@@ -19,7 +19,7 @@
 </script>
 
 <div class="spellcasting">
-    <PropertyBlock name={"Spellcasting"} desc={header} />
+    <Traits name={"Spellcasting"} desc={header} />
     <ul class="spell-list">
         {#each spells as spellItem, index}
 
