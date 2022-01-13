@@ -229,7 +229,7 @@
         targets.forEach((b) => {
             temp.appendChild(b.cloneNode(true));
         }, 0);
-        const splitHeight = Math.min(temp.clientHeight / 2, 600);
+        const splitHeight = Math.min(Math.max(temp.clientHeight / 2, 600), 600);
 
         temp.detach();
         if (columns == 1) {
@@ -240,7 +240,7 @@
         for (let target of targets) {
             columnEl.appendChild(target);
             if (
-                columnEl.clientHeight + target.clientHeight > splitHeight &&
+                columnEl.clientHeight > splitHeight &&
                 node.childElementCount != columns
             ) {
                 target.detach();
@@ -249,7 +249,6 @@
             }
         }
     };
-    const attachTarget = (column: HTMLElement, target: HTMLElement) => {};
 
     let content: HTMLElement;
 
