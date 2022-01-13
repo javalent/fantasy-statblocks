@@ -62,6 +62,7 @@ export interface Monster {
     render?: boolean;
     layout?: string;
     statblock?: string;
+    [property: string]: any;
 }
 
 export type Spell = string | { [key: string]: string };
