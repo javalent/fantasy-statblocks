@@ -186,6 +186,41 @@ legendary_actions:
 ```
 ````
 
+# Customizing the CSS
+
+The statblocks generated can be customized using [CSS snippets](https://help.obsidian.md/How+to/Add+custom+styles#Use+Themes+and+or+CSS+snippets).
+
+## Targeting a Statblock
+
+A rendered statblock can be targeted in CSS using the `.statblock` CSS class.
+
+### Targeting Specific Layouts
+
+Additionally, if you are using a [Layout](#layouts), the slugified layout name is added to the statblock element.
+
+For example, the "Basic 5e Layout" (default) will be added to the statblock container as `.basic-5e-layout`.
+
+### Targeting Specific Monsters
+
+Like layouts, Monster names are slugified and added to the statblock container as classes.
+
+For example, a statblock rendering an Ancient Black Dragon will receive the `.ancient-black-dragon` class.
+
+## Colors
+
+The plugin creates and uses 4 CSS variables to determine the color of the statblocks.
+
+```css
+:root {
+    --statblock-primary-color: #7a200d;
+    --statblock-rule-color: #922610;
+    --statblock-bar-color: #e69a28;
+    --statblock-background-color: #fdf1dc;
+}
+```
+
+These can be overridden globally (on the `:root` element) to change the default color *globally*, or to the statblock containers themselves to [target specific statblocks](#targeting-a-statblock).
+
 # Layouts
 
 As of TTRPG Statblocks v2.0.0, custom layouts may be created in settings. The basic 5e layout will always exist, but the default layout used by the plugin may be changed.
