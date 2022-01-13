@@ -23,10 +23,17 @@
 <div class="table">
     {#each values.slice(0, headers.length) as value, index}
         <div class="table-item">
-            <span class="statblock-table-header"
-                >{`${headers[index]}`.toUpperCase()}</span
-            >
-            <span>{value} ({getMod(value)}) </span>
+            <span class="statblock-table-header">
+                {`${headers[index]}`.toUpperCase()}
+            </span>
+            <span>
+                {value}
+                {#if item.calculate}
+                    <span>
+                        ({getMod(value)})
+                    </span>
+                {/if}
+            </span>
         </div>
     {/each}
 </div>

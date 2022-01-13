@@ -148,18 +148,18 @@ export class BlockModal extends Modal {
                         ...(e.detail?.map((v) => v.name) ?? [])
                     ];
                 });
-                /* for (const property of this.block.headers) {
-                    const header = additional.createDiv("header-container");
-                    header.createSpan({ text: property });
-                    new ExtraButtonComponent(header.createDiv())
-                        .setIcon("cross-in-box")
-                        .onClick(() => {
-                            (this.block as TableItem).headers = (
-                                this.block as TableItem
-                            ).headers.filter((v) => v != property);
-                            this.buildProperties(el);
+                new Setting(el)
+                    .setName("Calculate Modifiers")
+                    .setDesc(
+                        "The block will not attempt to calculate modifiers for table values."
+                    )
+                    .addToggle((t) => {
+                        t.setValue(
+                            (this.block as TableItem).calculate
+                        ).onChange((v) => {
+                            (this.block as TableItem).calculate = v;
                         });
-                } */
+                    });
             }
             if (!this.advanced) return;
             if (this.block.type == "text") {
@@ -314,7 +314,7 @@ export class BlockModal extends Modal {
                     this.display();
                 });
             });
-        
+
         this.buildProperties(this.contentEl.createDiv());
         this.buildConditions(this.contentEl.createDiv());
         this.buildDice(this.contentEl.createDiv());
