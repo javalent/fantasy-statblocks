@@ -14,6 +14,7 @@
         setContext
     } from "svelte";
     import { Writable, writable } from "svelte/store";
+    import type StatBlockRenderer from "./statblock";
 
     import Bar from "./ui/Bar.svelte";
     import Content from "./ui/Content.svelte";
@@ -24,6 +25,7 @@
     export let context: string;
     export let plugin: StatBlockPlugin;
     export let statblock: StatblockItem[];
+    export let renderer: StatBlockRenderer;
 
     let canExport = monster.export ?? plugin.settings.export;
     let canDice =
@@ -35,6 +37,7 @@
     setContext<Monster>("monster", monster);
     setContext<boolean>("dice", canDice);
     setContext<boolean>("render", canRender);
+    setContext<StatBlockRenderer>("renderer", renderer);
 
     const reset = writable<boolean>(false);
     setContext<Writable<boolean>>("reset", reset);
