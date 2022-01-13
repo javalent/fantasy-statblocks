@@ -20,6 +20,7 @@ import {
 } from "./data/constants";
 import type { /* StatblockMonster, */ Monster } from "@types";
 import StatblockSettingTab from "./settings/settings";
+import fastCopy from "fast-copy";
 
 import "./main.css";
 import { sort } from "fast-sort";
@@ -244,15 +245,7 @@ export default class StatBlockPlugin extends Plugin {
         data: Map<string, Monster>
     ): Array<[string, Monster]> {
         return [...(data ?? [])].map(([name, monster]) => {
-            let convMonster = {
-                ...monster,
-                traits: [...monster.traits],
-                actions: [...monster.actions],
-                legendary_actions: [...monster.legendary_actions],
-                reactions: [...monster.reactions]
-            };
-
-            return [name, convMonster];
+            return [name, fastCopy(monster)];
         });
     }
     onunload() {
