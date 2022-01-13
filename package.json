@@ -8,7 +8,8 @@
         "build": "webpack",
         "rollup:dev": "rollup --config rollup.config-dev.js -w",
         "rollup:build": "rollup --config rollup.config.js",
-        "release": "standard-version"
+        "release": "standard-version",
+        "push": "git push --follow-tags origin"
     },
     "standard-version": {
         "t": ""
