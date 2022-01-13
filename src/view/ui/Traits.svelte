@@ -1,14 +1,15 @@
 <script lang="ts">
-    import DiceHolder from "./DiceHolder.svelte";
+    import TextContentHolder from "./TextContentHolder.svelte";
 
     export let name: string;
     export let desc: string;
+    export let render: boolean;
 </script>
 
 <div class="property">
     <div class="property-name">{name}</div>
     <div class="property-text">
-        <DiceHolder property={desc} />
+        <TextContentHolder {render} property={desc} />
     </div>
 </div>
 

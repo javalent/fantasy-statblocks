@@ -3,7 +3,7 @@
     import type { SavesItem } from "src/data/constants";
     import { toTitleCase } from "src/util/util";
     import { getContext } from "svelte";
-    import DiceHolder from "./DiceHolder.svelte";
+    import TextContentHolder from "./TextContentHolder.svelte";
 
     export let monster: Monster;
     export let item: SavesItem;
@@ -38,7 +38,7 @@
             >{item.display ?? toTitleCase(item.properties[0])}</span
         >
         <div class="property-text">
-            <DiceHolder property={saves} />
+            <TextContentHolder render={item.markdown} property={saves} />
         </div>
     </div>
 </div>

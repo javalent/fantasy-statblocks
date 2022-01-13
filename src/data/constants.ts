@@ -44,13 +44,7 @@ export const TypeNames: Array<[typeof StatblockItemTypes[number], string]> = [
 
 export type StatblockItemType = typeof StatblockItemTypes[number];
 
-export interface DiceProps {
-    callback?: string;
-    property?: keyof Monster;
-    text?: string;
-    parse?: boolean;
-}
-interface CommonProps {
+type CommonProps = {
     type: StatblockItemType;
     id: string;
     properties: Array<keyof Monster>;
@@ -61,8 +55,19 @@ interface CommonProps {
     diceProperty?: keyof Monster;
     diceText?: string;
     diceCallback?: string;
+};
+
+export const MarkdownTypes = [
+    "property",
+    "traits",
+    "spells",
+    "text",
+    "saves"
+] as const;
+
+type GenericTextProp = {
     markdown?: boolean;
-}
+};
 
 type GroupProps = {
     type: "group";
@@ -112,14 +117,14 @@ type TextProps = {
 export type GroupItem = CommonProps & GroupProps;
 export type HeadingItem = CommonProps & HeadingProps;
 export type InlineItem = CommonProps & InlineProps;
-export type PropertyItem = CommonProps & PropertyProps;
-export type SavesItem = CommonProps & SavesProps;
-export type TraitsItem = CommonProps & TraitsProps;
-export type SpellsItem = CommonProps & SpellsProps;
+export type PropertyItem = CommonProps & PropertyProps & GenericTextProp;
+export type SavesItem = CommonProps & SavesProps & GenericTextProp;
+export type TraitsItem = CommonProps & TraitsProps & GenericTextProp;
+export type SpellsItem = CommonProps & SpellsProps & GenericTextProp;
 export type SubHeadingItem = CommonProps & SubHeadingProps;
 export type TableItem = CommonProps & TableProps;
 export type ImageItem = CommonProps & ImageProps;
-export type TextItem = CommonProps & TextProps;
+export type TextItem = CommonProps & TextProps & GenericTextProp;
 
 export type StatblockItem =
     | GroupItem

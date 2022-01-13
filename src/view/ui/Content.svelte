@@ -194,7 +194,8 @@
                             target: prop,
                             props: {
                                 name: block.name,
-                                desc: block.desc
+                                desc: block.desc,
+                                render: item.markdown
                             },
                             context
                         });
@@ -239,7 +240,6 @@
 
         for (let target of targets) {
             columnEl.appendChild(target);
-            console.log(target, target.clientHeight);
             if (
                 columnEl.clientHeight > splitHeight &&
                 node.childElementCount != columns

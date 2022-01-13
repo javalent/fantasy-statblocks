@@ -2,8 +2,8 @@
     import type { Monster } from "@types";
     import type { TextItem } from "src/data/constants";
     import { stringify } from "../utils";
-    import DiceHolder from "./DiceHolder.svelte";
     import SectionHeading from "./SectionHeading.svelte";
+import TextContentHolder from "./TextContentHolder.svelte";
 
     export let monster: Monster;
     export let item: TextItem;
@@ -23,7 +23,7 @@
         <SectionHeading header={item.heading} />
     {/if}
     <div class="line">
-        <DiceHolder {property} />
+        <TextContentHolder render={item.markdown} {property} />
     </div>
 {/if}
 

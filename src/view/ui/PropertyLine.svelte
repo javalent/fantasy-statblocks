@@ -5,8 +5,7 @@
     import type StatBlockPlugin from "src/main";
     import { getContext } from "svelte";
     import { stringify } from "../utils";
-
-    import DiceHolder from "./DiceHolder.svelte";
+    import TextContentHolder from "./TextContentHolder.svelte";
 
     export let monster: Monster;
     export let item: PropertyItem;
@@ -37,7 +36,7 @@
 {#if !item.conditioned || (item.conditioned && `${property}`.length)}
     <div class="line">
         <span class="property-name">{display}</span>
-        <DiceHolder {property} />
+        <TextContentHolder render={item.markdown} {property} />
     </div>
 {/if}
 

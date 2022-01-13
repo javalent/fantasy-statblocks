@@ -7,12 +7,13 @@ import {
     Setting,
     TextAreaComponent
 } from "obsidian";
-import type {
+import {
     StatblockItem,
     PropertyItem,
     TableItem,
     TraitsItem,
-    TextItem
+    TextItem,
+    MarkdownTypes
 } from "src/data/constants";
 import type StatBlockPlugin from "src/main";
 import TableHeaders from "./TableHeaders.svelte";
@@ -162,6 +163,32 @@ export class BlockModal extends Modal {
                     });
             }
             if (!this.advanced) return;
+            if (MarkdownTypes.includes(this.block.type as any)) {
+                new Setting(el)
+                    .setName("Render as Markdown")
+                    .setDesc(
+                        createFragment((e) => {
+                            e.createSpan({
+                                text: "The block will attempt to render as markdown."
+                            });
+                            e.createEl("br");
+                            e.createEl("strong", {
+                                text: "Cannot be used with the Dice option."
+                            });
+                        })
+                    )
+                    .addToggle((t) => {
+                        t.setValue((this.block as TextItem).markdown).onChange(
+                            (v) => {
+                                (this.block as TextItem).markdown = v;
+                                if (v) {
+                                    this.block.dice = false;
+                                    this.display();
+                                }
+                            }
+                        );
+                    });
+            }
             if (this.block.type == "text") {
                 new Setting(el)
                     .setHeading()
