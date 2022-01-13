@@ -1,4 +1,4 @@
-import { ImageItem, nanoid } from "src/data/constants";
+import { ImageItem, nanoid, TextItem, TypeNames } from "src/data/constants";
 import type {
     StatblockItemType,
     GroupItem,
@@ -10,22 +10,15 @@ import type {
     TraitsItem,
     SpellsItem,
     TableItem,
-    SubHeadingItem
+    SubHeadingItem,
+    StatblockItemMap
 } from "src/data/constants";
 import type StatBlockPlugin from "src/main";
 import { Menu } from "obsidian";
 
-function blockGenerator(type: "group"): GroupItem;
-function blockGenerator(type: "heading"): HeadingItem;
-function blockGenerator(type: "inline"): InlineItem;
-function blockGenerator(type: "property"): PropertyItem;
-function blockGenerator(type: "saves"): SavesItem;
-function blockGenerator(type: "traits"): TraitsItem;
-function blockGenerator(type: "spells"): SpellsItem;
-function blockGenerator(type: "subheading"): SubHeadingItem;
-function blockGenerator(type: "table"): TableItem;
-function blockGenerator(type: "image"): ImageItem;
-function blockGenerator(type: StatblockItemType): StatblockItem;
+function blockGenerator<T extends keyof StatblockItemMap>(
+    type: T
+): StatblockItemMap[T];
 function blockGenerator(type: string): StatblockItem {
     switch (type) {
         case "inline":
@@ -91,24 +84,12 @@ function blockGenerator(type: string): StatblockItem {
                 type: "table",
                 id: nanoid(),
                 properties: [],
-                headers: []
+                headers: [],
+                calculate: true
             };
         }
     }
 }
-
-const types: Array<[StatblockItemType, string]> = [
-    ["group", "Group"],
-    ["heading", "Heading"],
-    ["image", "Image"],
-    ["inline", "Inline Group"],
-    ["property", "Property Line"],
-    ["saves", "Saves"],
-    ["spells", "Spells"],
-    ["subheading", "Subheading"],
-    ["table", "Table"],
-    ["traits", "Traits"]
-];
 
 export const generate = async (
     plugin: StatBlockPlugin,
@@ -116,7 +97,7 @@ export const generate = async (
 ): Promise<StatblockItem | void> => {
     return new Promise((resolve, reject) => {
         const addMenu = new Menu(plugin.app).setNoIcon();
-        types.forEach((type) => {
+        TypeNames.forEach((type) => {
             addMenu.addItem((item) => {
                 item.setTitle(type[1]).onClick(() => {
                     const gen = blockGenerator(type[0]);

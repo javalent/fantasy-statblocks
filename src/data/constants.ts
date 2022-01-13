@@ -14,17 +14,36 @@ export function nanoid() {
     });
 }
 
-export type StatblockItemType =
-    | "traits"
-    | "heading"
-    | "subheading"
-    | "property"
-    | "table"
-    | "saves"
-    | "spells"
-    | "inline"
-    | "group"
-    | "image";
+export const StatblockItemTypes = [
+    "traits",
+    "heading",
+    "subheading",
+    "property",
+    "table",
+    "saves",
+    "spells",
+    "inline",
+    "group",
+    "image",
+    "text"
+] as const;
+
+export const TypeNames: Array<[typeof StatblockItemTypes[number], string]> = [
+    ["group", "Group"],
+    ["heading", "Heading"],
+    ["image", "Image"],
+    ["inline", "Inline Group"],
+    ["property", "Property Line"],
+    ["saves", "Saves"],
+    ["spells", "Spells"],
+    ["subheading", "Subheading"],
+    ["table", "Table"],
+    ["text", "Text"],
+    ["traits", "Traits"]
+];
+
+export type StatblockItemType = typeof StatblockItemTypes[number];
+
 export interface DiceProps {
     callback?: string;
     property?: keyof Monster;
@@ -42,6 +61,7 @@ interface CommonProps {
     diceProperty?: keyof Monster;
     diceText?: string;
     diceCallback?: string;
+    markdown?: boolean;
 }
 
 type GroupProps = {
@@ -73,6 +93,7 @@ type SubHeadingProps = {
 type TableProps = {
     type: "table";
     headers: string[];
+    calculate: boolean;
 };
 type TraitsProps = {
     type: "traits";
@@ -81,6 +102,11 @@ type TraitsProps = {
 type ImageProps = {
     type: "image";
     heading?: string;
+};
+type TextProps = {
+    type: "text";
+    heading?: string;
+    text: string;
 };
 
 export type GroupItem = CommonProps & GroupProps;
@@ -93,6 +119,8 @@ export type SpellsItem = CommonProps & SpellsProps;
 export type SubHeadingItem = CommonProps & SubHeadingProps;
 export type TableItem = CommonProps & TableProps;
 export type ImageItem = CommonProps & ImageProps;
+export type TextItem = CommonProps & TextProps;
+
 export type StatblockItem =
     | GroupItem
     | HeadingItem
@@ -103,18 +131,22 @@ export type StatblockItem =
     | SpellsItem
     | SubHeadingItem
     | TableItem
-    | ImageItem;
+    | ImageItem
+    | TextItem;
 
-export interface StatblockRecord {
-    traits: TraitsItem;
-    heading: HeadingItem;
-    subheading: SubHeadingItem;
-    property: PropertyItem;
-    table: TableItem;
-    saves: SavesItem;
-    spells: SpellsItem;
-    inline: InlineItem;
+export interface StatblockItemMap
+    extends Record<typeof StatblockItemTypes[number], StatblockItem> {
     group: GroupItem;
+    heading: HeadingItem;
+    inline: InlineItem;
+    property: PropertyItem;
+    saves: SavesItem;
+    traits: TraitsItem;
+    spells: SpellsItem;
+    subheading: SubHeadingItem;
+    table: TableItem;
+    image: ImageItem;
+    text: TextItem;
 }
 
 export interface Layout {
@@ -196,6 +228,7 @@ export const Statblock5e: StatblockItem[] = [
         id: nanoid(),
         properties: ["stats"],
         headers: ["Str", "Dex", "Con", "Wis", "Int", "Cha"],
+        calculate: true,
         hasRule: true,
         conditioned: true
     },
