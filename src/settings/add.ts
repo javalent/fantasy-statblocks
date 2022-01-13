@@ -88,6 +88,14 @@ function blockGenerator(type: string): StatblockItem {
                 calculate: true
             };
         }
+        case "text": {
+            return {
+                type: "text",
+                id: nanoid(),
+                properties: [],
+                text: null
+            };
+        }
     }
 }
 

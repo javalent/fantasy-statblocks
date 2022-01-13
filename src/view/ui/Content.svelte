@@ -11,6 +11,7 @@
     import SectionHeading from "./SectionHeading.svelte";
     import Subheading from "./Subheading.svelte";
     import Table from "./Table.svelte";
+    import Text from "./Text.svelte";
     import {
         onMount,
         createEventDispatcher,
@@ -65,6 +66,12 @@
         }
         targets.push(target);
         switch (item.type) {
+            case "group": {
+                for (const nested of item.nested ?? []) {
+                    targets.push(...getElementForStatblockItem(nested, target));
+                }
+                break;
+            }
             case "heading": {
                 const heading = new Heading({
                     target,
@@ -76,6 +83,28 @@
                 });
                 heading.$on("save", (e) => dispatch("save", e.detail));
                 heading.$on("export", (e) => dispatch("export", e.detail));
+                break;
+            }
+            case "inline": {
+                const inline = createDiv("statblock-item-inline");
+                for (const nested of item.nested ?? []) {
+                    getElementForStatblockItem(
+                        nested,
+                        inline.createDiv("statblock-inline-item")
+                    );
+                }
+                targets.push(inline);
+                break;
+            }
+            case "image": {
+                new Image({
+                    target,
+                    props: {
+                        monster,
+                        item
+                    },
+                    context
+                });
                 break;
             }
             case "property": {
@@ -98,37 +127,6 @@
                     },
                     context
                 });
-                break;
-            }
-            case "traits": {
-                const blocks: Trait[] = monster[item.properties[0]] as Trait[];
-                if (!Array.isArray(blocks) || !blocks.length) return [];
-
-                if (item.heading) {
-                    new SectionHeading({
-                        target,
-                        props: {
-                            header: item.heading
-                        },
-                        context
-                    });
-                }
-                try {
-                    for (const block of blocks) {
-                        const prop = createDiv("statblock-item-container");
-                        new PropertyBlock({
-                            target: prop,
-                            props: {
-                                name: block.name,
-                                desc: block.desc
-                            },
-                            context
-                        });
-                        targets.push(prop);
-                    }
-                } catch (e) {
-                    return [];
-                }
                 break;
             }
             case "spells": {
@@ -166,31 +164,44 @@
                 });
                 break;
             }
-            case "image": {
-                new Image({
+            case "text": {
+                new Text({
                     target,
                     props: {
                         monster,
                         item
-                    },
-                    context
+                    }
                 });
                 break;
             }
-            case "inline": {
-                const inline = createDiv("statblock-item-inline");
-                for (const nested of item.nested ?? []) {
-                    getElementForStatblockItem(
-                        nested,
-                        inline.createDiv("statblock-inline-item")
-                    );
+            case "traits": {
+                const blocks: Trait[] = monster[item.properties[0]] as Trait[];
+                if (!Array.isArray(blocks) || !blocks.length) return [];
+
+                if (item.heading) {
+                    new SectionHeading({
+                        target,
+                        props: {
+                            header: item.heading
+                        },
+                        context
+                    });
                 }
-                targets.push(inline);
-                break;
-            }
-            case "group": {
-                for (const nested of item.nested ?? []) {
-                    targets.push(...getElementForStatblockItem(nested, target));
+                try {
+                    for (const block of blocks) {
+                        const prop = createDiv("statblock-item-container");
+                        new PropertyBlock({
+                            target: prop,
+                            props: {
+                                name: block.name,
+                                desc: block.desc
+                            },
+                            context
+                        });
+                        targets.push(prop);
+                    }
+                } catch (e) {
+                    return [];
                 }
                 break;
             }

@@ -11,7 +11,8 @@ import type {
     StatblockItem,
     PropertyItem,
     TableItem,
-    TraitsItem
+    TraitsItem,
+    TextItem
 } from "src/data/constants";
 import type StatBlockPlugin from "src/main";
 import TableHeaders from "./TableHeaders.svelte";
@@ -96,7 +97,7 @@ export class BlockModal extends Modal {
                         );
                     });
             }
-            if (this.block.type == "traits") {
+            if (this.block.type == "traits" || this.block.type == "text") {
                 new Setting(this.contentEl)
                     .setName("Section Heading")
                     .setDesc(
@@ -161,6 +162,25 @@ export class BlockModal extends Modal {
                 } */
             }
             if (!this.advanced) return;
+            if (this.block.type == "text") {
+                new Setting(el)
+                    .setHeading()
+                    .setName("Text to Show")
+                    .setDesc(
+                        createFragment((e) => {
+                            e.createSpan({ text: "The block will " });
+                            e.createEl("strong", { text: "always" });
+                            e.createSpan({
+                                text: " display the text entered here."
+                            });
+                        })
+                    );
+                new TextAreaComponent(el)
+                    .setValue(this.block.text)
+                    .onChange((v) => {
+                        (this.block as TextItem).text = v;
+                    });
+            }
             if (this.block.type == "property") {
                 new Setting(el)
                     .setHeading()
@@ -294,7 +314,7 @@ export class BlockModal extends Modal {
                     this.display();
                 });
             });
-
+        
         this.buildProperties(this.contentEl.createDiv());
         this.buildConditions(this.contentEl.createDiv());
         this.buildDice(this.contentEl.createDiv());
