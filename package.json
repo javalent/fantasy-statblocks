@@ -12,7 +12,8 @@
         "push": "git push --follow-tags origin"
     },
     "standard-version": {
-        "t": ""
+        "t": "",
+        "releaseCommitMessageFormat": "TTRPG Statblocks Release: v{{currentTag}}"
     },
     "keywords": [],
     "author": "Jeremy Valentine",
