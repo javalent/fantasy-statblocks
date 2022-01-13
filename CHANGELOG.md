@@ -20,6 +20,24 @@ All notable changes to this project will be documented in this file. See [standa
 * Fixed issue with viewing monster in settings ([1f90976](https://github.com/valentine195/obsidian-5e-statblocks/commit/1f9097674380198aea1ee25dc609a6519f957307))
 * fixes issue with creating a new layout from scratch ([860aeac](https://github.com/valentine195/obsidian-5e-statblocks/commit/860aeac9c8c21f1c111f9377eca9672a1a9435ec))
 
+## [2.4.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.3.1...2.4.0) (2022-01-13)
+
+
+### Features
+
+* adds text block type to layouts ([#30](https://github.com/valentine195/obsidian-5e-statblocks/issues/30)) ([137566a](https://github.com/valentine195/obsidian-5e-statblocks/commit/137566a2a751cde8e12b0cdf2466130e4a7a43b8))
+* layout name is now added to statblocks ([8d73700](https://github.com/valentine195/obsidian-5e-statblocks/commit/8d73700a344bda22827e00c15d25945073e3a394))
+* Property, Saves, Spells, Text, and Traits block types can now render markdown ([#24](https://github.com/valentine195/obsidian-5e-statblocks/issues/24), [#5](https://github.com/valentine195/obsidian-5e-statblocks/issues/5), [#16](https://github.com/valentine195/obsidian-5e-statblocks/issues/16)) ([cb75afe](https://github.com/valentine195/obsidian-5e-statblocks/commit/cb75afe2c9e521d2a160420078efc457ca621412))
+* Table blocks have optional `calculate` property to turn off modifier calculation ([#30](https://github.com/valentine195/obsidian-5e-statblocks/issues/30)) ([fce05c6](https://github.com/valentine195/obsidian-5e-statblocks/commit/fce05c6b3296707c354a4f7ffec88a615f3482ab))
+
+
+### Bug Fixes
+
+* Fixed column wrapping algorithm ([6275eec](https://github.com/valentine195/obsidian-5e-statblocks/commit/6275eecab59ca36534e961b46a097fb06da8a62c))
+* Fixed issue with removing 5e-based properties from monsters ([#30](https://github.com/valentine195/obsidian-5e-statblocks/issues/30)) ([64c8b1c](https://github.com/valentine195/obsidian-5e-statblocks/commit/64c8b1cb757b10564035a7c5530267b6fe3a47bc))
+* Fixed issue with viewing monster in settings ([1f90976](https://github.com/valentine195/obsidian-5e-statblocks/commit/1f9097674380198aea1ee25dc609a6519f957307))
+* fixes issue with creating a new layout from scratch ([860aeac](https://github.com/valentine195/obsidian-5e-statblocks/commit/860aeac9c8c21f1c111f9377eca9672a1a9435ec))
+
 ### [2.3.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.3.0...2.3.1) (2022-01-06)
 
 
