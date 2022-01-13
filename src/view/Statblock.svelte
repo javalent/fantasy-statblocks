@@ -26,6 +26,7 @@
     export let plugin: StatBlockPlugin;
     export let statblock: StatblockItem[];
     export let renderer: StatBlockRenderer;
+    export let layout: string;
 
     let canExport = monster.export ?? plugin.settings.export;
     let canDice =
@@ -102,6 +103,12 @@
             ?.toLowerCase()
             .replace(/[^A-Za-z0-9\s]/g, "")
             .replace(/\s+/g, "-") ?? "no-name";
+    const layoutName =
+        layout
+            .toLowerCase()
+            .replace(/[^A-Za-z0-9\s]/g, "")
+            .replace(/\s+/g, "-") ?? "no-layout";
+    const classes = [name, layoutName].filter((n) => n?.length);
 </script>
 
 <div class="container" bind:this={container}>
@@ -109,7 +116,7 @@
         <div
             class:obsidian-statblock-plugin={true}
             class:statblock={true}
-            class={name}
+            class={classes.join(" ")}
         >
             {#if monster}
                 <Bar />

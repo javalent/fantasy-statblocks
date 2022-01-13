@@ -32,6 +32,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 context: this.context,
                 monster: this.monster,
                 statblock: this.layout.blocks,
+                layout: this.layout.name,
                 plugin: this.plugin,
                 renderer: this
             }
