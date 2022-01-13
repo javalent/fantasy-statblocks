@@ -10,6 +10,8 @@ import type { Monster } from "@types";
 import Statblock from "./Statblock.svelte";
 import type StatBlockPlugin from "src/main";
 
+import fastCopy from "fast-copy";
+
 export default class StatBlockRenderer extends MarkdownRenderChild {
     topBar: HTMLDivElement;
     bottomBar: HTMLDivElement;
@@ -20,7 +22,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         container: HTMLElement,
         public monster: Monster,
         private plugin: StatBlockPlugin,
-        private canSave: boolean,
+        private icons: boolean,
         public context: string,
         public layout: Layout = Layout5e
     ) {
@@ -34,12 +36,12 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 statblock: this.layout.blocks,
                 layout: this.layout.name,
                 plugin: this.plugin,
-                renderer: this
+                renderer: this,
+                icons: this.icons
             }
         });
         statblock.$on("save", async () => {
             if (
-                !this.canSave &&
                 !(await confirmWithModal(
                     this.plugin.app,
                     "This will overwrite an existing monster in settings. Are you sure?"
@@ -47,7 +49,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             )
                 return;
             this.plugin.saveMonster({
-                ...this.monster,
+                ...fastCopy(this.monster),
                 source: "Homebrew"
             });
         });

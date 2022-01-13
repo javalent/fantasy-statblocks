@@ -27,6 +27,7 @@
     export let statblock: StatblockItem[];
     export let renderer: StatBlockRenderer;
     export let layout: string;
+    export let icons: boolean = true;
 
     let canExport = monster.export ?? plugin.settings.export;
     let canDice =
@@ -67,7 +68,7 @@
         observer.disconnect();
     });
 
-    const icons = (node: HTMLElement) => {
+    const iconsEl = (node: HTMLElement) => {
         new ExtraButtonComponent(node).setIcon("vertical-three-dots");
     };
     const menu = new Menu(plugin.app);
@@ -128,7 +129,9 @@
                 <span>Invalid monster.</span>
             {/if}
         </div>
-        <div class="icons" use:icons on:click={showMenu} />
+        {#if icons}
+            <div class="icons" use:iconsEl on:click={showMenu} />
+        {/if}
     {/if}
 </div>
 

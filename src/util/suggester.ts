@@ -327,6 +327,7 @@ class ViewMonsterModal extends Modal {
             this.monster,
             this.plugin,
             false,
+            null,
             this.plugin.defaultLayout
         );
     }
