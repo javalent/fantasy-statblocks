@@ -150,7 +150,8 @@ export async function buildMonsterFromImprovedInitiativeFile(
                                             desc: trait.Content
                                         };
                                     }
-                                ) ?? []
+                                ) ?? [],
+                            image: null
                         };
                         monsterMap.push(importedMonster);
                     } catch (e) {

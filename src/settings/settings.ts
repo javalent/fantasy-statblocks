@@ -333,6 +333,36 @@ export default class StatblockSettingTab extends PluginSettingTab {
             b.buttonEl.appendChild(input5eTools);
             b.onClick(() => input5eTools.click());
         });
+        const importTetra = new Setting(importAdditional)
+            .setName("Import TetraCube Data")
+            .setDesc("Only import content that you own.");
+        const inputTetra = createEl("input", {
+            attr: {
+                type: "file",
+                name: "tetra",
+                accept: ".json, .monster",
+                multiple: true
+            }
+        });
+
+        inputTetra.onchange = async () => {
+            const { files } = inputTetra;
+            if (!files.length) return;
+            const monsters = await this.importer.import(files, "tetra");
+            if (monsters && monsters.length) {
+                await this.plugin.saveMonsters(monsters);
+            }
+            this.display();
+        };
+
+        importTetra.addButton((b) => {
+            b.setButtonText("Choose File(s)").setTooltip(
+                "Import TetraCube Data"
+            );
+            b.buttonEl.addClass("statblock-file-upload");
+            b.buttonEl.appendChild(inputTetra);
+            b.onClick(() => inputTetra.click());
+        });
     }
 
     generateTopSettings(container: HTMLDivElement) {

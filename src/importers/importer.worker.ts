@@ -5,6 +5,8 @@ import {
     buildMonsterFromImprovedInitiativeFile
 } from ".";
 import { build5eMonsterFromFile } from "./5eToolsImport";
+import { buildMonsterFromTetraCube } from "./TetraCubeImport";
+
 
 const ctx: Worker = self as any;
 
@@ -34,6 +36,11 @@ ctx.onmessage = async (event) => {
             }
             case "appfile": {
                 const imported = await buildMonsterFromAppFile(file);
+                monsters.push(...(imported ?? []));
+                break;
+            }
+            case "tetra": {
+                const imported = await buildMonsterFromTetraCube(file);
                 monsters.push(...(imported ?? []));
                 break;
             }

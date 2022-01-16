@@ -44,6 +44,7 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
                 for (const monster of monsters) {
                     try {
                         const importedMonster: Monster = {
+                            image: null,
                             name: monster.name,
                             source: `${
                                 SOURCE_JSON_TO_FULL[monster.source] ?? "Unknown"

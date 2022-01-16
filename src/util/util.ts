@@ -6,9 +6,14 @@ export function toTitleCase(str: string): string {
 }
 
 /** Get Modifier for Ability Score */
-export function getMod(arg0: any) {
+export function getMod(arg0: number) {
     let mod = Math.floor(((arg0 ?? 10) - 10) / 2);
     return `${mod >= 0 ? "+" : "-"}${Math.abs(mod)}`;
+}
+
+export function getModAsNumber(stat: number): number {
+    let mod = Math.floor(((stat ?? 10) - 10) / 2);
+    return mod;
 }
 
 type YamlTrait = [string, ...{ [key: string]: any }[]];

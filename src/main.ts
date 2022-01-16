@@ -85,6 +85,7 @@ export default class StatBlockPlugin extends Plugin {
             .getPlugin("obsidian-dice-roller")
             .getRoller(str, "statblock", true);
         return roller;
+        
     }
     get sorted() {
         if (!this._sorted.length)
