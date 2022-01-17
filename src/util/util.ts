@@ -11,7 +11,6 @@ export function getMod(arg0: number) {
     return `${mod >= 0 ? "+" : "-"}${Math.abs(mod)}`;
 }
 
-
 type YamlTrait = [string, ...{ [key: string]: any }[]];
 /** Parse Yaml-Defined Trait to Trait */
 export function parseTrait(arg: YamlTrait): Trait {
@@ -36,7 +35,7 @@ export function parseTrait(arg: YamlTrait): Trait {
 }
 
 export function getParamsFromSource(source: string): Monster {
-    const params = parseYaml(source);
+    let params = parseYaml(source);
 
     const traits: Trait[] = [];
     const actions: Trait[] = [];
@@ -80,6 +79,9 @@ export function getParamsFromSource(source: string): Monster {
             "There was an error parsing the provided legendary actions."
         );
     }
+
+    //replace escapes
+    params = JSON.parse(JSON.stringify(params).replace(/\\/g, ""));
 
     return { ...params, traits, actions, reactions, legendary_actions };
 }
