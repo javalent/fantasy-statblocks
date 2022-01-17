@@ -11,10 +11,6 @@ export function getMod(arg0: number) {
     return `${mod >= 0 ? "+" : "-"}${Math.abs(mod)}`;
 }
 
-export function getModAsNumber(stat: number): number {
-    let mod = Math.floor(((stat ?? 10) - 10) / 2);
-    return mod;
-}
 
 type YamlTrait = [string, ...{ [key: string]: any }[]];
 /** Parse Yaml-Defined Trait to Trait */

@@ -1,6 +1,205 @@
 import type { Monster, Spell, Trait } from "@types";
-import { CR, DiceBySize } from "src/data/constants";
-import { getModAsNumber } from "src/util/util";
+const CR: { [key: string]: any } = {
+    "0": {
+        cr: "0",
+        value: 0,
+        xp: 0
+    },
+    "1/8": {
+        cr: "1/8",
+        value: 0.125,
+        xp: 25
+    },
+    "1/4": {
+        cr: "1/4",
+
+        value: 0.25,
+        xp: 50
+    },
+    "1/2": {
+        cr: "1/2",
+        value: 0.5,
+        xp: 100
+    },
+    "0.125": {
+        cr: "1/8",
+        value: 0.125,
+        xp: 25
+    },
+    "0.25": {
+        cr: "1/4",
+
+        value: 0.25,
+        xp: 50
+    },
+    "0.5": {
+        cr: "1/2",
+        value: 0.5,
+        xp: 100
+    },
+    "1": {
+        cr: "1",
+        value: 1,
+        xp: 200
+    },
+    "2": {
+        cr: "2",
+        value: 2,
+        xp: 450
+    },
+    "3": {
+        cr: "3",
+        value: 3,
+        xp: 700
+    },
+    "4": {
+        cr: "4",
+        value: 4,
+        xp: 1100
+    },
+    "5": {
+        cr: "5",
+        value: 5,
+        xp: 1800
+    },
+    "6": {
+        cr: "6",
+        value: 6,
+        xp: 2300
+    },
+    "7": {
+        cr: "7",
+        value: 7,
+        xp: 2900
+    },
+    "8": {
+        cr: "8",
+        value: 8,
+        xp: 3900
+    },
+    "9": {
+        cr: "9",
+        value: 9,
+        xp: 5000
+    },
+    "10": {
+        cr: "10",
+        value: 10,
+        xp: 5900
+    },
+    "11": {
+        cr: "11",
+        value: 11,
+        xp: 7200
+    },
+    "12": {
+        cr: "12",
+        value: 12,
+        xp: 8400
+    },
+    "13": {
+        cr: "13",
+        value: 13,
+        xp: 10000
+    },
+    "14": {
+        cr: "14",
+        value: 14,
+        xp: 11500
+    },
+    "15": {
+        cr: "15",
+        value: 15,
+        xp: 13000
+    },
+    "16": {
+        cr: "16",
+        value: 16,
+        xp: 15000
+    },
+    "17": {
+        cr: "17",
+        value: 17,
+        xp: 18000
+    },
+    "18": {
+        cr: "18",
+        value: 18,
+        xp: 20000
+    },
+    "19": {
+        cr: "19",
+        value: 19,
+        xp: 22000
+    },
+    "20": {
+        cr: "20",
+        value: 20,
+        xp: 25000
+    },
+    "21": {
+        cr: "21",
+        value: 21,
+        xp: 33000
+    },
+    "22": {
+        cr: "22",
+        value: 22,
+        xp: 41000
+    },
+    "23": {
+        cr: "23",
+        value: 23,
+        xp: 50000
+    },
+    "24": {
+        cr: "24",
+        value: 24,
+        xp: 62000
+    },
+    "25": {
+        cr: "25",
+        value: 25,
+        xp: 75000
+    },
+    "26": {
+        cr: "26",
+        value: 26,
+        xp: 90000
+    },
+    "27": {
+        cr: "27",
+        value: 27,
+        xp: 105000
+    },
+    "28": {
+        cr: "28",
+        value: 28,
+        xp: 120000
+    },
+    "29": {
+        cr: "29",
+        value: 29,
+        xp: 135000
+    },
+    "30": {
+        cr: "30",
+        value: 30,
+        xp: 155000
+    }
+};
+function getModAsNumber(stat: number): number {
+    let mod = Math.floor(((stat ?? 10) - 10) / 2);
+    return mod;
+}
+const DiceBySize: { [key: string]: number } = {
+    tiny: 4,
+    small: 6,
+    medium: 8,
+    large: 10,
+    huge: 12,
+    gargantuan: 20
+};
 const SAVES: Record<
     string,
     | "strength"
@@ -77,6 +276,7 @@ export async function buildMonsterFromTetraCube(
                         };
                         imported.push(importedMonster);
                     } catch (e) {
+                        console.error(e);
                         continue;
                     }
                 }
@@ -134,18 +334,24 @@ function getSpeedString(monster: any): string {
 
 function parseImmune(monster: any, type: string): string {
     let damagetypes = [];
-    if ("damagetypes" in monster) {
+    if ("damagetypes" in monster && Array.isArray(monster.damagetypes)) {
         damagetypes.push(
-            ...monster.damagetypes.find((t: any) => t.type == type)
+            ...monster.damagetypes
+                .filter((t: any) => t.type == type)
+                .map((d: any) => d.name)
         );
     }
     let specialdamage = [];
-    if ("specialdamage" in monster) {
+    if ("specialdamage" in monster && Array.isArray(monster.specialdamage)) {
         specialdamage.push(
-            ...monster.damagetypes.find((t: any) => t.type == type)
+            ...monster.specialdamage
+                .filter((t: any) => t.type == type)
+                .map((d: any) => d.name)
         );
     }
-    return [damagetypes.join(", "), specialdamage.join(", ")].join("; ");
+    return [damagetypes.join(", "), specialdamage.join(", ")]
+        .filter((v) => v && v.length)
+        .join("; ");
 }
 function getLanguages(monster: any): string {
     const languages = [];
@@ -160,9 +366,14 @@ function getLanguages(monster: any): string {
     if (speaksLanguages.length > 0) {
         languages.push(
             [
-                speaksLanguages.slice(0, speaksLanguages.length - 2).join(", "),
-                speaksLanguages.slice(-1)
-            ].join(" and ")
+                speaksLanguages
+                    .slice(0, speaksLanguages.length - 2)
+                    .map((d: any) => d.name)
+                    .join(", "),
+                speaksLanguages.slice(-1).map((d: any) => d.name)
+            ]
+                .filter((v) => v)
+                .join(" and ")
         );
     }
 
@@ -171,9 +382,12 @@ function getLanguages(monster: any): string {
             [
                 understandsLanguages
                     .slice(0, understandsLanguages.length - 2)
+                    .map((d: any) => d.name)
                     .join(", "),
-                understandsLanguages.slice(-1)
-            ].join(" and ")
+                understandsLanguages.slice(-1).map((d: any) => d.name)
+            ]
+                .filter((v) => v)
+                .join(" and ")
         );
     }
 
@@ -268,7 +482,7 @@ function getSaves(monster: any): {
         const name = save.name;
         const mod = getModAsNumber(Number(monster[`${name}Points`]));
         if (isNaN(mod)) continue;
-        saves.push({ [SAVES[save]]: mod });
+        saves.push({ [SAVES[name]]: mod + prof });
     }
     return saves;
 }
@@ -305,7 +519,7 @@ function getProf(monster: any) {
     return 0;
 }
 function parseConditions(monster: any): string {
-    if ("conditions" in monster) {
+    if ("conditions" in monster && Array.isArray(monster.conditions)) {
         return monster.conditions.map((c: any) => c.name).join(", ");
     }
 }
