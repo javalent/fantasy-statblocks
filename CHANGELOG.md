@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.5.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.5.1...2.5.2) (2022-01-17)
+
+
+### Bug Fixes
+
+* escaped characters are parsed post-yaml (close [#32](https://github.com/valentine195/obsidian-5e-statblocks/issues/32)) ([f56f47f](https://github.com/valentine195/obsidian-5e-statblocks/commit/f56f47ff6fb0fca98764d3b7143b1fe419b5a850))
+
 ### [2.5.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.5.0...2.5.1) (2022-01-17)
 
 ## [2.5.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.4.0...2.5.0) (2022-01-17)
