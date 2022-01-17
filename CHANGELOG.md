@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.5.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.4.0...2.5.0) (2022-01-17)
+
+
+### Features
+
+* Add TetraCube importer (close [#32](https://github.com/valentine195/obsidian-5e-statblocks/issues/32)) ([6e371aa](https://github.com/valentine195/obsidian-5e-statblocks/commit/6e371aa7250443059622b4d202c0f1b755cd0c05))
+
+
+### Bug Fixes
+
+* layout is saved with "Save as Homebrew" (close [#31](https://github.com/valentine195/obsidian-5e-statblocks/issues/31)) ([16e150b](https://github.com/valentine195/obsidian-5e-statblocks/commit/16e150bc758e82deab7b3852f46a92de17d5b7e7))
+
 ## [2.4.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.3.1...2.4.0) (2022-01-13)
 
 
