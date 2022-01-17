@@ -85,7 +85,6 @@ export default class StatBlockPlugin extends Plugin {
             .getPlugin("obsidian-dice-roller")
             .getRoller(str, "statblock", true);
         return roller;
-        
     }
     get sorted() {
         if (!this._sorted.length)
@@ -438,8 +437,8 @@ export default class StatBlockPlugin extends Plugin {
             let layout =
                 this.settings.layouts.find(
                     (layout) =>
-                        layout.name == params?.layout ||
-                        layout.name == params?.statblock
+                        layout.name == toBuild?.layout ||
+                        layout.name == toBuild?.statblock
                 ) ?? this.defaultLayout;
 
             let statblock = new StatBlockRenderer(
