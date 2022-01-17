@@ -217,6 +217,347 @@ const SAVES: Record<
     cha: "charisma"
 };
 
+class TetraMonster {
+    proficiency: number = this.getProf(this.monster);
+    stats: Record<keyof typeof SAVES, number> = {
+        str: this.monster.strPoints,
+        dex: this.monster.dexPoints,
+        con: this.monster.conPoints,
+        int: this.monster.intPoints,
+        wis: this.monster.wisPoints,
+        cha: this.monster.chaPoints
+    };
+    modifiers: Record<keyof typeof SAVES, number> = {
+        str: getModAsNumber(this.stats.str),
+        dex: getModAsNumber(this.stats.dex),
+        con: getModAsNumber(this.stats.con),
+        int: getModAsNumber(this.stats.int),
+        wis: getModAsNumber(this.stats.wis),
+        cha: getModAsNumber(this.stats.cha)
+    };
+    constructor(public monster: any) {}
+    static parse(monster: any) {
+        const importer = new TetraMonster(monster);
+        const importedMonster: Monster = {
+            image: null,
+            name: monster.name,
+            source: "TetraCube",
+            type: monster.type,
+            subtype: "",
+            size: monster.size,
+            alignment: monster.alignment,
+            hp: importer.getHP(monster)?.hp,
+            hit_dice: importer.getHP(monster)?.dice,
+            ac: (monster.ac ?? [])[0]?.ac ?? "",
+            speed: importer.getSpeedString(monster),
+            stats: [
+                monster.strPoints,
+                monster.dexPoints,
+                monster.conPoints,
+                monster.intPoints,
+                monster.wisPoints,
+                monster.chaPoints
+            ],
+            damage_immunities: importer.parseImmune(monster, "i"),
+            damage_resistances: importer.parseImmune(monster, "r"),
+            damage_vulnerabilities: importer.parseImmune(monster, "v"),
+            condition_immunities: importer.parseConditions(monster),
+            saves: importer.getSaves(monster),
+            skillsaves: importer.getSkills(monster),
+            senses: importer.getSenses(monster),
+            languages: importer.getLanguages(monster),
+            cr: monster.cr ?? "",
+            traits: importer.getTraits(monster.abilities),
+            actions: importer.getTraits(monster.actions),
+            reactions: importer.getTraits(monster.reactions),
+            legendary_actions: importer.getTraits(monster.legendaries),
+            spells: importer.getSpells(monster.abilities)
+        };
+        return importedMonster;
+    }
+    getHP(monster: any): { hp?: number; dice?: string } {
+        if (
+            monster.customHP ||
+            (monster.hitDice && /(\d+) \((.+)\)/.test(monster.hpText))
+        ) {
+            const [_, hp, dice] = monster.hpText.match(/(\d+) \((.+)\)/) ?? [];
+            console.log(
+                "🚀 ~ file: TetraCubeImport.ts ~ line 284 ~ hp, dice",
+                hp,
+                dice
+            );
+            return { hp, dice };
+        }
+        if (monster.hitDice) {
+            const hitdice = Number(monster.hitDice);
+            const size = DiceBySize[monster.size] ?? DiceBySize["medium"];
+            const con = this.modifiers.con;
+
+            const hp = (hitdice * size) / (2 + 0.5) + con * hitdice;
+
+            const func = con > 0 ? "+" : "-";
+            const conString = con == 0 ? "" : ` ${func} ${con * hitdice}`;
+
+            return { hp, dice: `${hitdice}d${size}${conString}` };
+        }
+    }
+    getSpeedString(monster: any): string {
+        if (monster.customSpeed) return monster.speedDesc;
+        let speeds = [monster.speed + " ft."];
+        if (monster.burrowSpeed > 0)
+            speeds.push("burrow " + monster.burrowSpeed + " ft.");
+        if (monster.climbSpeed > 0)
+            speeds.push("climb " + monster.climbSpeed + " ft.");
+        if (monster.flySpeed > 0)
+            speeds.push(
+                "fly " +
+                    monster.flySpeed +
+                    " ft." +
+                    (monster.hover ? " (hover)" : "")
+            );
+        if (monster.swimSpeed > 0)
+            speeds.push("swim " + monster.swimSpeed + " ft.");
+        return speeds.join(", ");
+    }
+    parseImmune(monster: any, type: string): string {
+        let damagetypes = [];
+        if ("damagetypes" in monster && Array.isArray(monster.damagetypes)) {
+            damagetypes.push(
+                ...monster.damagetypes
+                    .filter((t: any) => t.type == type)
+                    .map((d: any) => d.name)
+            );
+        }
+        let specialdamage = [];
+        if (
+            "specialdamage" in monster &&
+            Array.isArray(monster.specialdamage)
+        ) {
+            specialdamage.push(
+                ...monster.specialdamage
+                    .filter((t: any) => t.type == type)
+                    .map((d: any) => d.name)
+            );
+        }
+        return [damagetypes.join(", "), specialdamage.join(", ")]
+            .filter((v) => v && v.length)
+            .join("; ");
+    }
+    getLanguages(monster: any): string {
+        const languages = [];
+        const speaksLanguages = [],
+            understandsLanguages = [];
+        for (let index = 0; index < monster.languages.length; index++) {
+            const language = monster.languages[index];
+            if (language.speaks || language.speaks == undefined)
+                speaksLanguages.push(language);
+            else understandsLanguages.push(language);
+        }
+        if (speaksLanguages.length > 0) {
+            languages.push(
+                [
+                    speaksLanguages
+                        .slice(0, speaksLanguages.length - 2)
+                        .map((d: any) => d.name)
+                        .join(", "),
+                    speaksLanguages.slice(-1).map((d: any) => d.name)
+                ]
+                    .filter((v) => v)
+                    .join(" and ")
+            );
+        }
+
+        if (understandsLanguages.length > 0) {
+            languages.push(
+                [
+                    understandsLanguages
+                        .slice(0, understandsLanguages.length - 2)
+                        .map((d: any) => d.name)
+                        .join(", "),
+                    understandsLanguages.slice(-1).map((d: any) => d.name)
+                ]
+                    .filter((v) => v)
+                    .join(" and ")
+            );
+        }
+
+        if (monster.telepathy > 0)
+            languages.push("telepathy " + monster.telepathy + " ft.");
+        if (languages.length == 0) languages.push("&mdash;");
+        return languages.join("; ");
+    }
+    getSenses(monster: any): string {
+        let senses = [];
+        if (monster.blindsight > 0)
+            senses.push(
+                "blindsight " +
+                    monster.blindsight +
+                    " ft." +
+                    (monster.blind ? " (blind beyond this radius)" : "")
+            );
+        if (monster.darkvision > 0)
+            senses.push("darkvision " + monster.darkvision + " ft.");
+        if (monster.tremorsense > 0)
+            senses.push("tremorsense " + monster.tremorsense + " ft.");
+        if (monster.truesight > 0)
+            senses.push("truesight " + monster.truesight + " ft.");
+
+        // Passive Perception
+        let ppData = monster.skills.find(
+                (skill: any) => skill.name == "perception"
+            ),
+            pp = 10 + getModAsNumber(monster.wisPoints);
+        if (ppData != null) pp += this.proficiency * ("note" in ppData ? 2 : 1);
+        senses.push("passive Perception " + pp);
+        return senses.join(", ");
+    }
+
+    transformString(string: string): string {
+        return string
+            .replace(/(_|\*|\s*>\s*)/g, "")
+            .replace(
+                /\[MON(S)?\]/g,
+                `${
+                    this.monster.shortName && this.monster.shortName.length
+                        ? this.monster.shortName
+                        : this.monster.name
+                }$1`
+            )
+            .replace(/\[(\w+)\]/g, (match, stat) => {
+                stat = stat.toLowerCase();
+                if (!(stat in this.modifiers)) return match;
+                const mod = this.modifiers[stat];
+                return `${mod >= 0 ? "+" : ""}${mod}`;
+            })
+            .replace(
+                /\[(\w+) (ATK|SAVE)\s?(?:([+-])\s?(\d+))?\]/g,
+                (match, stat, type = "ATK", sign = "+", bonus = 0) => {
+                    stat = stat.toLowerCase();
+                    if (!(stat in this.modifiers)) return match;
+
+                    bonus = sign == "+" ? Number(bonus) : -Number(bonus);
+                    const attack =
+                        (type == "ATK" ? 0 : 8) +
+                        this.modifiers[stat] +
+                        this.proficiency +
+                        bonus;
+                    return `${attack >= 0 ? "+" : ""}${attack}`;
+                }
+            )
+            .replace(
+                /\[(\w+)?\s?(\d*[dD]\d+)\s?(?:([+-])\s?(\d+))?\]/g,
+                (match, stat, roll, sign = "+", bonus = 0) => {
+                    stat = stat.toLowerCase();
+
+                    let [, rolls = 1, face] =
+                        roll.match(/(\d*)[dD](\d+)/) ?? [];
+                    if (!rolls) rolls = 1;
+                    if (!face) return match;
+                    bonus = sign == "+" ? Number(bonus) : -Number(bonus);
+                    if (stat in this.modifiers) {
+                        bonus += this.modifiers[stat];
+                    }
+                    const avg = Math.floor((face / 2 + 0.5) * rolls) + bonus;
+                    const dice = [`${rolls}d${face}`];
+                    if (bonus && bonus != 0) {
+                        dice.push(bonus >= 0 ? "+" : "-");
+                        dice.push(bonus);
+                    }
+                    return `${avg} (${dice.join(" ")})`;
+                }
+            );
+    }
+
+    getTraits(abilities: any): Trait[] {
+        if (!abilities || !abilities.length) return;
+        const traits = abilities
+            .filter((ability: Trait) => ability.name != "Spellcasting")
+            .map((ability: Trait) => {
+                return {
+                    name: ability.name,
+                    desc: this.transformString(ability.desc)
+                };
+            });
+        return traits;
+    }
+
+    getSpells(monster: any): Spell[] {
+        if (!monster.abilities || !monster.abilities.length) return;
+        let { desc } =
+            monster.abilities.find(
+                (ability: Trait) => ability.name == "Spellcasting"
+            ) ?? {};
+        if (!desc) return;
+        const spells = this.transformString(desc)
+            .trim()
+            .split("\n")
+            .filter((desc: string) => desc.length);
+        return spells;
+    }
+    getSaves(monster: any): {
+        strength?: number;
+        dexterity?: number;
+        constitution?: number;
+        intelligence?: number;
+        wisdom?: number;
+        charisma?: number;
+    }[] {
+        if (
+            !("sthrows" in monster) ||
+            !Array.isArray(monster.sthrows) ||
+            !monster.sthrows.length
+        )
+            return [];
+        const prof = this.proficiency;
+        const saves = [];
+        for (const save of monster.sthrows) {
+            const name = save.name;
+            const mod = getModAsNumber(Number(monster[`${name}Points`]));
+            if (isNaN(mod)) continue;
+            saves.push({ [SAVES[name]]: mod + prof });
+        }
+        return saves;
+    }
+
+    getSkills(monster: any): { [key: string]: number }[] {
+        if (
+            !("skills" in monster) ||
+            !Array.isArray(monster.skills) ||
+            !monster.skills.length
+        )
+            return [];
+        const skills = [];
+        const prof = this.proficiency;
+        for (const skill of monster.skills) {
+            const stat = skill.stat;
+            const mod = getModAsNumber(Number(monster[`${stat}Points`]));
+            if (isNaN(mod)) continue;
+
+            const exp = "note" in skill;
+
+            skills.push({ [skill.name]: prof + mod + mod * Number(exp) });
+        }
+        return skills;
+    }
+
+    getProf(monster: any) {
+        let prof = 0;
+        if (monster.cr == "*") prof = monster.customProf;
+        if ("cr" in monster && monster.cr in CR) {
+            prof = Math.max(
+                Math.floor(2 + ((CR[monster.cr]?.value ?? 0) - 1) / 4),
+                2
+            );
+        }
+        return isNaN(Number(prof)) ? 0 : Number(prof);
+    }
+    parseConditions(monster: any): string {
+        if ("conditions" in monster && Array.isArray(monster.conditions)) {
+            return monster.conditions.map((c: any) => c.name).join(", ");
+        }
+    }
+}
+
 export async function buildMonsterFromTetraCube(
     file: File
 ): Promise<Monster[]> {
@@ -239,41 +580,8 @@ export async function buildMonsterFromTetraCube(
                 const imported: Monster[] = [];
                 for (const monster of monsters) {
                     try {
-                        const importedMonster: Monster = {
-                            image: null,
-                            name: monster.name,
-                            source: "TetraCube",
-                            type: monster.type,
-                            subtype: "",
-                            size: monster.size,
-                            alignment: monster.alignment,
-                            hp: getHP(monster)?.hp,
-                            hit_dice: getHP(monster)?.dice,
-                            ac: (monster.ac ?? [])[0]?.ac ?? "",
-                            speed: getSpeedString(monster),
-                            stats: [
-                                monster.strPoints,
-                                monster.dexPoints,
-                                monster.conPoints,
-                                monster.intPoints,
-                                monster.wisPoints,
-                                monster.chaPoints
-                            ],
-                            damage_immunities: parseImmune(monster, "i"),
-                            damage_resistances: parseImmune(monster, "r"),
-                            damage_vulnerabilities: parseImmune(monster, "v"),
-                            condition_immunities: parseConditions(monster),
-                            saves: getSaves(monster),
-                            skillsaves: getSkills(monster),
-                            senses: getSenses(monster),
-                            languages: getLanguages(monster),
-                            cr: monster.cr ?? "",
-                            traits: getTraits(monster.abilities),
-                            actions: getTraits(monster.actions),
-                            reactions: getTraits(monster.reactions),
-                            legendary_actions: getTraits(monster.legendaries),
-                            spells: getSpells(monster.abilities)
-                        };
+                        const importedMonster: Monster =
+                            TetraMonster.parse(monster);
                         imported.push(importedMonster);
                     } catch (e) {
                         console.error(e);
@@ -291,7 +599,7 @@ export async function buildMonsterFromTetraCube(
         reader.readAsText(file);
     });
 }
-function getHP(monster: any): { hp?: number; dice?: string } {
+/* function getHP(monster: any): { hp?: number; dice?: string } {
     if (
         monster.customHP ||
         (monster.hitDice && /(\d+) \((.+)\)/.test(monster.hpText))
@@ -422,14 +730,22 @@ function getSenses(monster: any): string {
     return senses.join(", ");
 }
 
-function getTraits(abilities: any): Trait[] {
-    if (!abilities || !abilities.length) return;
-    const traits = abilities
+function transformString(string: string, monster: any): string {
+    return string
+        .replace(/_/g, "")
+        .replace(/\[MON(S)?\]/g, `${monster.name}$1`);
+}
+
+function getTraits(monster: any): Trait[] {
+    if (!monster.abilities || !monster.abilities.length) return;
+    const traits = monster.abilities
         .filter((ability: Trait) => ability.name != "Spellcasting")
         .map((ability: Trait) => {
             return {
                 name: ability.name,
-                desc: ability.desc.replace(/_/g, "")
+                desc: ability.desc
+                    .replace(/_/g, "")
+                    .replace(/\[MON(S)?\]/g, `${monster.name}$1`)
             };
         });
     return traits;
@@ -522,4 +838,4 @@ function parseConditions(monster: any): string {
     if ("conditions" in monster && Array.isArray(monster.conditions)) {
         return monster.conditions.map((c: any) => c.name).join(", ");
     }
-}
+} */
