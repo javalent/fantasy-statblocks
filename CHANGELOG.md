@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.8.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.7.1...2.8.0) (2022-01-20)
+
+
+### Features
+
+* adds export as json option to Layouts ([a2782f9](https://github.com/valentine195/obsidian-5e-statblocks/commit/a2782f92e13f874244c88a5e833a9b088dc08633))
+
+
+### Bug Fixes
+
+* removed console logs ([ce14ef3](https://github.com/valentine195/obsidian-5e-statblocks/commit/ce14ef3ee181830c3639f9ca18b0726c40518def))
+
 ### [2.7.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.7.0...2.7.1) (2022-01-20)
 
 
