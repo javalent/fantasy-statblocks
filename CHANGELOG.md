@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.6.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.5.2...2.6.0) (2022-01-20)
+
+
+### Features
+
+* adds `columns` and `columnWidth` properties (closes [#34](https://github.com/valentine195/obsidian-5e-statblocks/issues/34)) ([7c37d17](https://github.com/valentine195/obsidian-5e-statblocks/commit/7c37d17a4527865a39954e3b49e432998a445bff))
+
 ### [2.5.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.5.1...2.5.2) (2022-01-17)
 
 
