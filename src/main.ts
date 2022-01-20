@@ -174,9 +174,7 @@ export default class StatBlockPlugin extends Plugin {
 
         this.data = new Map(
             data?.map(([name, monster]) => {
-                const statblock = Object.assign({}, monster);
-
-                return [name, statblock];
+                return [name, fastCopy(monster)];
             }) ?? []
         );
     }
