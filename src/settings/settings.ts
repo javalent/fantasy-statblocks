@@ -521,11 +521,17 @@ export default class StatblockSettingTab extends PluginSettingTab {
         this.buildCustomLayouts(layoutContainer);
     }
     getDuplicate(layout: Layout) {
-        if (!this.plugin.settings.layouts.find((l) => l.name == layout.name))
+        if (
+            !this.plugin.settings.layouts.find((l) => l.name == layout.name) &&
+            layout.name != Layout5e.name
+        )
             return layout;
-        const names = this.plugin.settings.layouts
-            .filter((l) => l.name.contains(`${layout.name} Copy`))
-            .map((l) => l.name);
+        const names = [
+            Layout5e.name,
+            ...this.plugin.settings.layouts
+                .filter((l) => l.name.contains(`${layout.name} Copy`))
+                .map((l) => l.name)
+        ];
 
         let temp = `${layout.name} Copy`;
 
@@ -559,17 +565,6 @@ export default class StatblockSettingTab extends PluginSettingTab {
             new Setting(layoutContainer)
                 .setName(layout.name)
                 .addExtraButton((b) => {
-                    b.setIcon("duplicate-glyph")
-                        .setTooltip("Create Copy")
-                        .onClick(async () => {
-                            this.plugin.settings.layouts.push(
-                                this.getDuplicate(layout)
-                            );
-                            await this.plugin.saveSettings();
-                            this.buildCustomLayouts(layoutContainer);
-                        });
-                })
-                .addExtraButton((b) => {
                     b.setIcon("pencil")
                         .setTooltip("Edit")
                         .onClick(() => {
@@ -592,6 +587,33 @@ export default class StatblockSettingTab extends PluginSettingTab {
                             modal.open();
                         });
                 })
+                .addExtraButton((b) => {
+                    b.setIcon("duplicate-glyph")
+                        .setTooltip("Create Copy")
+                        .onClick(async () => {
+                            this.plugin.settings.layouts.push(
+                                this.getDuplicate(layout)
+                            );
+                            await this.plugin.saveSettings();
+                            this.buildCustomLayouts(layoutContainer);
+                        });
+                })
+                .addExtraButton((b) => {
+                    b.setIcon("import-glyph")
+                        .setTooltip("Export as JSON")
+                        .onClick(() => {
+                            const link = createEl("a");
+                            const file = new Blob([JSON.stringify(layout)], {
+                                type: "json"
+                            });
+                            const url = URL.createObjectURL(file);
+                            link.href = url;
+                            link.download = `${layout.name}.json`;
+                            link.click();
+                            URL.revokeObjectURL(url);
+                        });
+                })
+
                 .addExtraButton((b) => {
                     b.setIcon("trash")
                         .setTooltip("Delete")
