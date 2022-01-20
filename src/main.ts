@@ -2,7 +2,8 @@ import {
     addIcon,
     MarkdownPostProcessorContext,
     Notice,
-    Plugin
+    Plugin,
+    TFile
 } from "obsidian";
 import domtoimage from "dom-to-image";
 
@@ -350,10 +351,31 @@ export default class StatBlockPlugin extends Plugin {
                 "name"
             );
 
+            let additionalParams = {};
+            if (params.note) {
+                const note = Array.isArray(params.note)
+                    ? (<string[]>params.note).flat(Infinity).pop()
+                    : params.note;
+                const file = await this.app.metadataCache.getFirstLinkpathDest(
+                    `${note}`,
+                    ctx.sourcePath
+                );
+                if (file && file instanceof TFile) {
+                    const cache = await this.app.metadataCache.getFileCache(
+                        file
+                    );
+                    additionalParams = cache.frontmatter ?? {};
+                }
+            }
+            console.log(
+                "🚀 ~ file: main.ts ~ line 368 ~ additionalParams",
+                additionalParams
+            );
             const monster: Monster = Object.assign(
                 {},
                 this.bestiary.get(params.monster) ??
-                    this.bestiary.get(params.creature)
+                    this.bestiary.get(params.creature),
+                additionalParams
             );
             let traits, actions, legendary_actions, reactions;
             if (monster) {

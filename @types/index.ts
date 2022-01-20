@@ -66,6 +66,9 @@ export interface Monster {
     columnWidth?: number;
     columnHeight?: number;
     forceColumns?: boolean;
+
+    note?: string;
+    
     [property: string]: any;
 }
 
