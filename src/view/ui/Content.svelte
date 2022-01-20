@@ -25,6 +25,8 @@
     export let statblock: StatblockItem[];
     export let columns: number = 1;
     export let ready: boolean;
+    export let maxColumns: number = columns;
+
     const monster = getContext<Monster>("monster");
 
     const checkConditioned = (item: StatblockItem) => {
@@ -68,7 +70,8 @@
         switch (item.type) {
             case "group": {
                 for (const nested of item.nested ?? []) {
-                    targets.push(...getElementForStatblockItem(nested, target));
+                    const element = getElementForStatblockItem(nested, target);
+                    targets.push(...element);
                 }
                 break;
             }
@@ -216,32 +219,58 @@
         }
         return targets;
     };
+    $: maxHeight =
+        !isNaN(Number(monster.columnHeight)) && monster.columnHeight > 0
+            ? monster.columnHeight
+            : 600;
 
     const buildStatblock = (node: HTMLElement) => {
         node.empty();
-        let columnEl = node.createDiv("column");
         const targets: HTMLElement[] = [];
-
         for (let item of statblock) {
             targets.push(...getElementForStatblockItem(item));
         }
 
-        const temp = document.body.createDiv("statblock-detached");
-        targets.forEach((b) => {
-            temp.appendChild(b.cloneNode(true));
-        }, 0);
-        const splitHeight = Math.min(Math.max(temp.clientHeight / 2, 600), 600);
-
-        temp.detach();
+        let columnEl = node.createDiv("column");
         if (columns == 1) {
             targets.forEach((el) => columnEl.appendChild(el));
             return;
         }
 
+        const temp = document.body.createDiv("statblock-detached");
+        for (let target of targets) {
+            temp.appendChild(target);
+        }
+        temp.style.width = columnWidth;
+
+        let split: number;
+
+        if (monster.forceColumns) {
+            split = temp.clientHeight / maxColumns;
+            console.log(
+                "🚀 ~ file: Content.svelte ~ line 250 ~ maxColumns",
+                maxColumns,
+                split
+            );
+        } else if (monster.columns && monster.columns > 0) {
+            split = Math.max(
+                temp.clientHeight / monster.columns,
+                temp.clientHeight / columns
+            );
+        } else {
+            split = Math.min(
+                Math.max(temp.clientHeight / columns, maxHeight),
+                maxHeight
+            );
+        }
+
+        temp.empty();
+        temp.detach();
+
         for (let target of targets) {
             columnEl.appendChild(target);
             if (
-                columnEl.clientHeight > splitHeight &&
+                columnEl.clientHeight > split &&
                 node.childElementCount != columns
             ) {
                 target.detach();
@@ -263,9 +292,24 @@
             buildStatblock(content);
         }
     }
+    let columnWidth = "400px";
+
+    if (monster.columnWidth) {
+        if (typeof monster.columnWidth == "number") {
+            columnWidth = `${monster.columnWidth}px`;
+        }
+        if (typeof monster.columnWidth == "string") {
+            columnWidth = monster.columnWidth;
+        }
+    }
 </script>
 
-<div class="statblock-content" bind:this={content} />
+<div
+    class="statblock-content-container"
+    style="--statblock-column-width: {columnWidth};"
+>
+    <div class="statblock-content" bind:this={content} />
+</div>
 
 <style>
     .statblock-content {
@@ -283,7 +327,7 @@
         gap: 1rem;
     }
     .statblock-content > :global(.column) {
-        width: 400px;
+        width: var(--statblock-column-width);
     }
 
     @media screen and (max-width: 400px) {

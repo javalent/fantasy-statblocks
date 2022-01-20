@@ -1,10 +1,5 @@
 import { MarkdownRenderChild } from "obsidian";
-import {
-    Layout,
-    Layout5e,
-    Statblock5e,
-    StatblockItem
-} from "../data/constants";
+import { Layout, Layout5e } from "../data/constants";
 import type { Monster } from "@types";
 
 import Statblock from "./Statblock.svelte";

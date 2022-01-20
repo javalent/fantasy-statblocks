@@ -105,8 +105,9 @@ Traits, such as Actions, Reactions and Legendary Actions, should be added as a Y
 
 ```md
 traits:
-  - [Amphibious, The dragon can breathe air and water.]
-  - ...
+
+-   [Amphibious, The dragon can breathe air and water.]
+-   ...
 ```
 
 ### Spellcasting
@@ -186,6 +187,27 @@ legendary_actions:
 ```
 ````
 
+### Columns
+
+The plugin will intelligently create two columns if the stat block it is rendering is long and there is enough space for the second column.
+
+<img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/columns.PNG">
+
+You can customize the behavior of the columns with a few different parameters:
+
+| Parameter      | Behavior                                                           | Default |
+| -------------- | ------------------------------------------------------------------ | :-----: |
+| `columns`      | Customize the number of columns that will be rendered.             |         |
+| `columnWidth`  | Customize the width of the columns in **pixels**.                  |   400   |
+| `columnHeight` | Maximum height of a column before wrapping in **pixels**.          |   600   |
+| `forceColumns` | The plugin will create the columns regardless of note page sizing. |  false  |
+
+> **:pencil: Note!**
+>
+> If you set `columns`, the plugin will _always_ try to split the statblock into that many columns, regardless of height.
+>
+> It will still respect the width of the note, unless `forceColumns` is set.
+
 # Customizing the CSS
 
 The statblocks generated can be customized using [CSS snippets](https://help.obsidian.md/How+to/Add+custom+styles#Use+Themes+and+or+CSS+snippets).
@@ -219,7 +241,7 @@ The plugin creates and uses 4 CSS variables to determine the color of the statbl
 }
 ```
 
-These can be overridden globally (on the `:root` element) to change the default color *globally*, or to the statblock containers themselves to [target specific statblocks](#targeting-a-statblock).
+These can be overridden globally (on the `:root` element) to change the default color _globally_, or to the statblock containers themselves to [target specific statblocks](#targeting-a-statblock).
 
 # Layouts
 

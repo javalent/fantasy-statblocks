@@ -281,11 +281,6 @@ class TetraMonster {
             (monster.hitDice && /(\d+) \((.+)\)/.test(monster.hpText))
         ) {
             const [_, hp, dice] = monster.hpText.match(/(\d+) \((.+)\)/) ?? [];
-            console.log(
-                "🚀 ~ file: TetraCubeImport.ts ~ line 284 ~ hp, dice",
-                hp,
-                dice
-            );
             return { hp, dice };
         }
         if (monster.hitDice) {

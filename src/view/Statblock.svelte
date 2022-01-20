@@ -29,6 +29,17 @@
     export let layout: string;
     export let icons: boolean = true;
 
+    let maxColumns =
+        !isNaN(Number(monster.columns)) && Number(monster.columns) > 0
+            ? Number(monster.columns)
+            : 2;
+
+    $: monsterColumnWidth = Number(`${monster.columnWidth}`.replace(/\D/g, ""));
+    $: columnWidth =
+        !isNaN(monsterColumnWidth) && monsterColumnWidth > 0
+            ? monsterColumnWidth
+            : 400;
+
     let canExport = monster.export ?? plugin.settings.export;
     let canDice =
         plugin.canUseDiceRoller && (monster.dice ?? plugin.settings.useDice);
@@ -45,12 +56,24 @@
     setContext<Writable<boolean>>("reset", reset);
 
     let container: HTMLElement;
-    let columns: number = 1;
+    let columns: number = maxColumns;
     let ready = false;
+
+    const setColumns = () => {
+        if (monster.forceColumns) {
+            columns = maxColumns;
+            observer.disconnect();
+            return;
+        }
+        const width = container.clientWidth;
+        columns = Math.min(
+            Math.max(Math.floor(width / columnWidth), 1),
+            maxColumns
+        );
+    };
     const onResize = debounce(
         () => {
-            const width = container.clientWidth;
-            columns = Math.min(Math.max(Math.floor(width / 400), 1), 2);
+            setColumns();
             if (!ready) ready = true;
         },
         100,
@@ -59,8 +82,7 @@
     const observer = new ResizeObserver(onResize);
 
     onMount(() => {
-        const width = container.clientWidth;
-        columns = Math.max(Math.min(Math.floor(width / 400), 2), 1);
+        setColumns();
         observer.observe(container);
     });
 
@@ -122,7 +144,14 @@
             {#if monster}
                 <Bar />
                 {#key columns}
-                    <Content {columns} {statblock} {ready} on:save on:export />
+                    <Content
+                        {columns}
+                        {maxColumns}
+                        {statblock}
+                        {ready}
+                        on:save
+                        on:export
+                    />
                 {/key}
                 <Bar />
             {:else}
