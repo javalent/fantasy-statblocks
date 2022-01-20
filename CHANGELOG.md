@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.7.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.7.0...2.7.1) (2022-01-20)
+
+
+### Bug Fixes
+
+* update load monster to prevent reference collisions ([1690d5c](https://github.com/valentine195/obsidian-5e-statblocks/commit/1690d5c4ac54c04f5a64f0f617ed6e521ee5f777))
+
 ## [2.7.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.6.0...2.7.0) (2022-01-20)
 
 
