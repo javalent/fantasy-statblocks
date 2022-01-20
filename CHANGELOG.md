@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.7.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.6.0...2.7.0) (2022-01-20)
+
+
+### Features
+
+* adds classes to container and parent element in postprocessor ([1390e2e](https://github.com/valentine195/obsidian-5e-statblocks/commit/1390e2e13c961fa52ae53fc124dfe1ef492d5c23))
+
 ## [2.6.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.5.2...2.6.0) (2022-01-20)
 
 
