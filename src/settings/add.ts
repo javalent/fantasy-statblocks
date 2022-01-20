@@ -1,18 +1,5 @@
-import { ImageItem, nanoid, TextItem, TypeNames } from "src/data/constants";
-import type {
-    StatblockItemType,
-    GroupItem,
-    HeadingItem,
-    StatblockItem,
-    InlineItem,
-    PropertyItem,
-    SavesItem,
-    TraitsItem,
-    SpellsItem,
-    TableItem,
-    SubHeadingItem,
-    StatblockItemMap
-} from "src/data/constants";
+import { nanoid, TypeNames } from "src/data/constants";
+import type { StatblockItem, StatblockItemMap } from "src/data/constants";
 import type StatBlockPlugin from "src/main";
 import { Menu } from "obsidian";
 
