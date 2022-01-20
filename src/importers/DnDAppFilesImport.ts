@@ -15,6 +15,7 @@ export async function buildMonsterFromAppFile(file: File): Promise<Monster[]> {
             for (let monster of Array.from(monsters)) {
                 try {
                     const importedMonster: Monster = {
+                        image: null,
                         name: getParameter(monster, "name"),
                         size: getSize(monster),
                         type: getParameter(monster, "type"),

@@ -19,6 +19,7 @@ export async function buildMonsterFromCritterFile(
                 for (let monster of monsters) {
                     try {
                         const importedMonster: Monster = {
+                            image: null,
                             name: monster.name,
                             source: "CritterDB",
                             type: monster.stats.race,
