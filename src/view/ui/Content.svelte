@@ -247,11 +247,6 @@
 
         if (monster.forceColumns) {
             split = temp.clientHeight / maxColumns;
-            console.log(
-                "🚀 ~ file: Content.svelte ~ line 250 ~ maxColumns",
-                maxColumns,
-                split
-            );
         } else if (monster.columns && monster.columns > 0) {
             split = Math.max(
                 temp.clientHeight / monster.columns,
