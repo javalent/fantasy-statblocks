@@ -441,6 +441,9 @@ export default class StatBlockPlugin extends Plugin {
                         layout.name == toBuild?.statblock
                 ) ?? this.defaultLayout;
 
+            el.addClass("statblock-plugin-container");
+            el.parentElement?.addClass("statblock-plugin-parent");
+
             let statblock = new StatBlockRenderer(
                 el,
                 toBuild,
