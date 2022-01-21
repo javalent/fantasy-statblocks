@@ -366,11 +366,8 @@ export default class StatBlockPlugin extends Plugin {
                     );
                     additionalParams = cache.frontmatter ?? {};
                 }
+
             }
-            console.log(
-                "🚀 ~ file: main.ts ~ line 368 ~ additionalParams",
-                additionalParams
-            );
             const monster: Monster = Object.assign(
                 {},
                 this.bestiary.get(params.monster) ??
