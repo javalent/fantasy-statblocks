@@ -4,7 +4,7 @@
     import type { PropertyItem } from "src/data/constants";
     import type StatBlockPlugin from "src/main";
     import { getContext } from "svelte";
-    import { stringify } from "../utils";
+    import { stringify } from "src/util/util";
     import TextContentHolder from "./TextContentHolder.svelte";
 
     export let monster: Monster;

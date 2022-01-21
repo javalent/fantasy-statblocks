@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Monster } from "@types";
     import type { SubHeadingItem } from "src/data/constants";
-    import { stringify } from "../utils";
+    import { stringify } from "src/util/util";
 
     export let monster: Monster;
     export let item: SubHeadingItem;
