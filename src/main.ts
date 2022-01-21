@@ -9,7 +9,7 @@ import domtoimage from "dom-to-image";
 
 import { BESTIARY_BY_NAME } from "./data/srd-bestiary";
 import StatBlockRenderer from "./view/statblock";
-import { getParamsFromSource, renderError } from "./util/util";
+import { getParamsFromSource, stringifyWithKeys } from "./util/util";
 import {
     CR,
     EXPORT_ICON,
@@ -19,7 +19,7 @@ import {
     SAVE_ICON,
     SAVE_SYMBOL
 } from "./data/constants";
-import type { /* StatblockMonster, */ Monster } from "@types";
+import type { Monster, StatblockParameters, Trait } from "@types";
 import StatblockSettingTab from "./settings/settings";
 import fastCopy from "fast-copy";
 
@@ -41,6 +41,7 @@ declare module "obsidian" {
         on(name: "dice-roller:unload", callback: () => void): EventRef;
     }
 }
+
 export interface StatblockData {
     monsters: Array<[string, Monster]>;
     layouts: Layout[];
@@ -54,6 +55,8 @@ export interface StatblockData {
         minor: number;
         patch: number;
     };
+    path: string;
+    autoParse: boolean;
 }
 
 const DEFAULT_DATA: StatblockData = {
@@ -68,7 +71,9 @@ const DEFAULT_DATA: StatblockData = {
         major: null,
         minor: null,
         patch: null
-    }
+    },
+    path: "/",
+    autoParse: false
 };
 
 export default class StatBlockPlugin extends Plugin {
@@ -186,7 +191,6 @@ export default class StatBlockPlugin extends Plugin {
         save: boolean = true
     ) {
         if (!monster.name) return;
-        /* if (!this.data.has(monster.name)) { */
         this.data.set(monster.name, monster);
         this.bestiary.set(monster.name, monster);
 
@@ -198,7 +202,6 @@ export default class StatBlockPlugin extends Plugin {
             this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
                 (m) => m.name
             );
-        /* } */
     }
     async saveMonsters(monsters: Monster[]) {
         for (let monster of monsters) {
@@ -344,14 +347,13 @@ export default class StatBlockPlugin extends Plugin {
     ) {
         try {
             /** Get Parameters */
-            const params: Monster = getParamsFromSource(source);
+            const params: StatblockParameters = getParamsFromSource(source);
 
-            const canSave = Object.prototype.hasOwnProperty.call(
-                params,
-                "name"
-            );
+            const canSave = params && "name" in params;
 
-            let additionalParams = {};
+            if (!params || !Object.values(params ?? {}).length) {
+                params.note = ctx.sourcePath;
+            }
             if (params.note) {
                 const note = Array.isArray(params.note)
                     ? (<string[]>params.note).flat(Infinity).pop()
@@ -364,92 +366,51 @@ export default class StatBlockPlugin extends Plugin {
                     const cache = await this.app.metadataCache.getFileCache(
                         file
                     );
-                    additionalParams = cache.frontmatter ?? {};
+                    Object.assign(params, fastCopy(cache.frontmatter) ?? {});
                 }
             }
             const monster: Monster = Object.assign(
                 {},
                 this.bestiary.get(params.monster) ??
-                    this.bestiary.get(params.creature),
-                additionalParams
+                    this.bestiary.get(params.creature)
             );
             //TODO: The traits are breaking because it expects { name, desc }, not array.
-            let traits, actions, legendary_actions, reactions;
             if (monster) {
-                try {
-                    traits = [
-                        ...(monster?.traits?.filter(
-                            (trait) =>
-                                !params.reactions.find(
-                                    (param) => param[0] == trait[0]
-                                )
-                        ) ?? []),
-                        ...(params?.traits ?? [])
-                    ];
-                } catch (e) {
-                    throw new Error(
-                        "There was an error parsing the provided traits."
-                    );
-                }
-                try {
-                    actions = [
-                        ...(monster?.actions?.filter(
-                            (trait) =>
-                                !params.reactions.find(
-                                    (param) => param[0] == trait[0]
-                                )
-                        ) ?? []),
-                        ...(params?.actions ?? [])
-                    ];
-                } catch (e) {
-                    throw new Error(
-                        "There was an error parsing the provided actions."
-                    );
-                }
-                try {
-                    legendary_actions = [
-                        ...(monster?.legendary_actions?.filter(
-                            (trait) =>
-                                !params.reactions.find(
-                                    (param) => param[0] == trait[0]
-                                )
-                        ) ?? []),
-                        ...(params?.legendary_actions ?? [])
-                    ];
-                } catch (e) {
-                    throw new Error(
-                        "There was an error parsing the provided legendary actions."
-                    );
-                }
-                try {
-                    reactions = [
-                        ...(monster?.reactions?.filter(
-                            (trait) =>
-                                !params.reactions.find(
-                                    (param) => param[0] == trait[0]
-                                )
-                        ) ?? []),
-                        ...(params?.reactions ?? [])
-                    ];
-                } catch (e) {
-                    throw new Error(
-                        "There was an error parsing the provided reactions."
-                    );
-                }
-                if ("image" in params) {
-                    if (Array.isArray(params.image)) {
-                        params.image = params.image.flat(2).join("");
-                    }
-                }
+                let traits = this.transformTraits(
+                    monster.traits ?? [],
+                    params.traits ?? []
+                );
+                let actions = this.transformTraits(
+                    monster.actions ?? [],
+                    params.actions ?? []
+                );
+                let legendary_actions = this.transformTraits(
+                    monster.legendary_actions ?? [],
+                    params.legendary_actions ?? []
+                );
+                let reactions = this.transformTraits(
+                    monster.reactions ?? [],
+                    params.reactions ?? []
+                );
+
                 Object.assign(params, {
-                    traits: traits,
-                    actions: actions,
-                    reactions: reactions,
-                    legendary_actions: legendary_actions
+                    traits,
+                    actions,
+                    reactions,
+                    legendary_actions
                 });
             }
 
-            const toBuild: Monster = Object.assign(monster ?? {}, params ?? {});
+            if ("image" in params) {
+                if (Array.isArray(params.image)) {
+                    params.image = params.image.flat(2).join("");
+                }
+            }
+            const toBuild: Monster = Object.assign(
+                {},
+                monster ?? {},
+                params ?? {}
+            );
 
             let layout =
                 this.settings.layouts.find(
@@ -473,15 +434,45 @@ export default class StatBlockPlugin extends Plugin {
             ctx.addChild(statblock);
         } catch (e) {
             console.error(`Obsidian Statblock Error:\n${e}`);
-
-            renderError(
-                el,
-                e.stack
-                    .split("\n")
-                    .filter((line: string) => !/^at/.test(line?.trim()))
-                    .join("\n")
-            );
+            let pre = createEl("pre");
+            pre.setText(`\`\`\`statblock
+There was an error rendering the statblock:
+${e.stack
+    .split("\n")
+    .filter((line: string) => !/^at/.test(line?.trim()))
+    .join("\n")}
+\`\`\``);
         }
+    }
+    transformTraits(
+        monsterTraits: Trait[] = [],
+        paramsTraits: { desc: string; name: string }[] | [string, string][] = []
+    ) {
+        if (!monsterTraits) monsterTraits = [];
+        if (!paramsTraits) paramsTraits = [];
+        for (const trait of paramsTraits ?? []) {
+            if (!trait) continue;
+            if (Array.isArray(trait)) {
+                monsterTraits = monsterTraits.filter((t) => t.name != trait[0]);
+                monsterTraits.push({
+                    name: trait[0],
+                    desc: stringifyWithKeys(trait.slice(1))
+                });
+            } else if (
+                typeof trait == "object" &&
+                "name" in trait &&
+                "desc" in trait
+            ) {
+                monsterTraits = monsterTraits.filter(
+                    (t) => t.name != trait.name
+                );
+                monsterTraits.push({
+                    name: trait.name,
+                    desc: stringifyWithKeys(trait.desc)
+                });
+            }
+        }
+        return monsterTraits;
     }
     render(creature: HomebrewCreature, el: HTMLElement) {
         const monster: Monster = Object.assign<
