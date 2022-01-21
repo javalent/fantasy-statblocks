@@ -2,6 +2,7 @@ import {
     addIcon,
     MarkdownPostProcessorContext,
     Notice,
+    parseYaml,
     Plugin,
     TFile
 } from "obsidian";
@@ -9,9 +10,8 @@ import domtoimage from "dom-to-image";
 
 import { BESTIARY_BY_NAME } from "./data/srd-bestiary";
 import StatBlockRenderer from "./view/statblock";
-import { getParamsFromSource, stringifyWithKeys } from "./util/util";
+import { transformTraits } from "./util/util";
 import {
-    CR,
     EXPORT_ICON,
     EXPORT_SYMBOL,
     Layout,
@@ -27,6 +27,7 @@ import fastCopy from "fast-copy";
 import { sort } from "fast-sort";
 import type { Plugins } from "../../obsidian-overload";
 import type { HomebrewCreature } from "../../obsidian-initiative-tracker/@types";
+import { Watcher } from "./watcher/watcher";
 declare module "obsidian" {
     interface App {
         plugins: {
@@ -80,7 +81,7 @@ export default class StatBlockPlugin extends Plugin {
     settings: StatblockData;
     data: Map<string, Monster>;
     bestiary: Map<string, Monster>;
-    CR = CR;
+    watcher = new Watcher(this);
     private _sorted: Monster[] = [];
     get canUseDiceRoller() {
         return this.app.plugins.getPlugin("obsidian-dice-roller") != null;
@@ -109,6 +110,16 @@ export default class StatBlockPlugin extends Plugin {
         await this.loadMonsterData();
 
         await this.saveSettings();
+
+        this.watcher.load();
+
+        this.addCommand({
+            id: "parse-frontmatter",
+            name: "Parse Frontmatter for Creatures",
+            callback: () => {
+                this.watcher.start(true);
+            }
+        });
 
         addIcon(
             "dropzone-grip",
@@ -231,16 +242,21 @@ export default class StatBlockPlugin extends Plugin {
         );
     }
 
-    async deleteMonster(monster: string) {
+    async deleteMonster(monster: string, sortFields = true, save = true) {
         if (!this.data.has(monster)) return;
         this.data.delete(monster);
         this.bestiary.delete(monster);
 
-        await this.saveSettings();
+        if (BESTIARY_BY_NAME.has(monster)) {
+            this.bestiary.set(monster, BESTIARY_BY_NAME.get(monster));
+        }
 
-        this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
-            (m) => m.name
-        );
+        if (save) await this.saveSettings();
+
+        if (sortFields)
+            this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
+                (m) => m.name
+            );
     }
 
     private _transformData(
@@ -251,6 +267,7 @@ export default class StatBlockPlugin extends Plugin {
         });
     }
     onunload() {
+        this.watcher.unload();
         console.log("TTRPG StatBlocks unloaded");
     }
 
@@ -347,12 +364,15 @@ export default class StatBlockPlugin extends Plugin {
     ) {
         try {
             /** Get Parameters */
-            const params: StatblockParameters = getParamsFromSource(source);
+            let params: StatblockParameters = parseYaml(source);
+
+            //replace escapes
+            params = JSON.parse(JSON.stringify(params).replace(/\\/g, ""));
 
             const canSave = params && "name" in params;
 
             if (!params || !Object.values(params ?? {}).length) {
-                params.note = ctx.sourcePath;
+                params = Object.assign({}, params, { note: ctx.sourcePath });
             }
             if (params.note) {
                 const note = Array.isArray(params.note)
@@ -376,19 +396,19 @@ export default class StatBlockPlugin extends Plugin {
             );
             //TODO: The traits are breaking because it expects { name, desc }, not array.
             if (monster) {
-                let traits = this.transformTraits(
+                let traits = transformTraits(
                     monster.traits ?? [],
                     params.traits ?? []
                 );
-                let actions = this.transformTraits(
+                let actions = transformTraits(
                     monster.actions ?? [],
                     params.actions ?? []
                 );
-                let legendary_actions = this.transformTraits(
+                let legendary_actions = transformTraits(
                     monster.legendary_actions ?? [],
                     params.legendary_actions ?? []
                 );
-                let reactions = this.transformTraits(
+                let reactions = transformTraits(
                     monster.reactions ?? [],
                     params.reactions ?? []
                 );
@@ -444,36 +464,7 @@ ${e.stack
 \`\`\``);
         }
     }
-    transformTraits(
-        monsterTraits: Trait[] = [],
-        paramsTraits: { desc: string; name: string }[] | [string, string][] = []
-    ) {
-        if (!monsterTraits) monsterTraits = [];
-        if (!paramsTraits) paramsTraits = [];
-        for (const trait of paramsTraits ?? []) {
-            if (!trait) continue;
-            if (Array.isArray(trait)) {
-                monsterTraits = monsterTraits.filter((t) => t.name != trait[0]);
-                monsterTraits.push({
-                    name: trait[0],
-                    desc: stringifyWithKeys(trait.slice(1))
-                });
-            } else if (
-                typeof trait == "object" &&
-                "name" in trait &&
-                "desc" in trait
-            ) {
-                monsterTraits = monsterTraits.filter(
-                    (t) => t.name != trait.name
-                );
-                monsterTraits.push({
-                    name: trait.name,
-                    desc: stringifyWithKeys(trait.desc)
-                });
-            }
-        }
-        return monsterTraits;
-    }
+
     render(creature: HomebrewCreature, el: HTMLElement) {
         const monster: Monster = Object.assign<
             Partial<Monster>,

@@ -1,4 +1,4 @@
-import { Component, TAbstractFile, TFile, TFolder } from "obsidian";
+import { Component, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
 import type StatBlockPlugin from "src/main";
 //have to ignore until i fix typing issue
 //@ts-expect-error
@@ -18,6 +18,7 @@ declare global {
 }
 
 export class Watcher extends Component {
+    announce: boolean;
     get metadataCache() {
         return this.plugin.app.metadataCache;
     }
@@ -118,6 +119,12 @@ export class Watcher extends Component {
                         );
                         this.startTime = 0;
                     }
+                    if (this.announce) {
+                        new Notice(
+                            "TTRPG Statblocks: Frontmatter Parsing complete."
+                        );
+                        this.announce = false;
+                    }
                 }
             }
         );
@@ -129,7 +136,8 @@ export class Watcher extends Component {
         this.watchPaths.delete(path);
     }
     startTime: number;
-    start() {
+    start(announce = false) {
+        this.announce = announce;
         this.startTime = Date.now();
         console.info("TTRPG Statblocks: Starting Frontmatter Parsing.");
         const folder = this.vault.getAbstractFileByPath(
