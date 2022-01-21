@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.10.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.9.0...2.10.0) (2022-01-21)
+
+
+### Features
+
+* add support for statblocks defined in yaml ([de81930](https://github.com/valentine195/obsidian-5e-statblocks/commit/de8193046025f714c859b4e56e13253f34ba35ac))
+
+
+### Bug Fixes
+
+* fix column wrapping logic on large blocks ([7e6b3fc](https://github.com/valentine195/obsidian-5e-statblocks/commit/7e6b3fce272c9195f8de22e371b4e28dd6e08a1c))
+* fixed issue with settings when monster had no source ([299f5c7](https://github.com/valentine195/obsidian-5e-statblocks/commit/299f5c7d2f169e134782e0827cecf903763ff49b))
+
 ## [2.9.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.8.0...2.9.0) (2022-01-21)
 
 
