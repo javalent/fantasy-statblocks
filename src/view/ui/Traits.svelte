@@ -2,7 +2,6 @@
     import TextContentHolder from "./TextContentHolder.svelte";
 
     export let name: string;
-    console.log("🚀 ~ file: Traits.svelte ~ line 5 ~ name", name);
     export let desc: string;
     export let render: boolean;
 </script>

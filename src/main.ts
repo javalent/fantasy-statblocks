@@ -373,7 +373,6 @@ export default class StatBlockPlugin extends Plugin {
                     this.bestiary.get(params.creature),
                 additionalParams
             );
-            console.log("🚀 ~ file: main.ts ~ line 377 ~ monster", monster.traits);
             //TODO: The traits are breaking because it expects { name, desc }, not array.
             let traits, actions, legendary_actions, reactions;
             if (monster) {

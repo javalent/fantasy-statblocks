@@ -179,10 +179,6 @@
             }
             case "traits": {
                 const blocks: Trait[] = monster[item.properties[0]] as Trait[];
-                console.log(
-                    "🚀 ~ file: Content.svelte ~ line 182 ~ blocks",
-                    blocks
-                );
                 if (!Array.isArray(blocks) || !blocks.length) return [];
 
                 if (item.heading) {
