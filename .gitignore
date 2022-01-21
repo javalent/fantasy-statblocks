@@ -17,3 +17,5 @@ src/convert.js
 src/importers/*.xml
 src/importers/*.json
 *.dev.*
+
+.env
