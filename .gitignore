@@ -16,3 +16,5 @@ src/convert-spells.js
 src/convert.js
 src/importers/*.xml
 src/importers/*.json
+
+.env
