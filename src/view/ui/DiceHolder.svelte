@@ -24,14 +24,9 @@
         ) {
             split = [{ text: monster[item.diceProperty] as string }];
         } else if (item.diceCallback) {
-            const func = new Function(
-                "monster",
-                "plugin",
-                "property",
-                item.diceCallback
-            );
+            const func = new Function("monster", "property", item.diceCallback);
             try {
-                const parsed = func.call(undefined, monster, plugin, property);
+                const parsed = func.call(undefined, monster, property);
                 if (Array.isArray(parsed)) {
                     split = parsed;
                 } else {

@@ -10,15 +10,13 @@
     export let monster: Monster;
     export let item: PropertyItem;
 
-    const plugin = getContext<StatBlockPlugin>("plugin");
-
     let property = stringify(monster[item.properties[0]]);
     let display = item.display ?? item.properties[0];
 
     if (item.callback) {
-        const func = new Function("monster", "plugin", item.callback);
+        const func = new Function("monster", item.callback);
         try {
-            property = func.call(undefined, monster, plugin) ?? property;
+            property = func.call(undefined, monster) ?? property;
         } catch (e) {
             new Notice(
                 `There was an error executing the provided callback for [${item.properties.join(

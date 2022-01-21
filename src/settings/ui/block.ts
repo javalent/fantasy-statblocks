@@ -221,10 +221,8 @@ export class BlockModal extends Modal {
                             e.createSpan({
                                 text: "The callback will receive the "
                             });
-                            e.createEl("code", { text: "plugin" });
-                            e.createSpan({ text: " and " });
                             e.createEl("code", { text: "monster" });
-                            e.createSpan({ text: "parameters." });
+                            e.createSpan({ text: " parameter." });
                         })
                     );
                 new TextAreaComponent(el)
@@ -315,8 +313,6 @@ export class BlockModal extends Modal {
                     e.createSpan({
                         text: "The callback will receive the "
                     });
-                    e.createEl("code", { text: "plugin" });
-                    e.createSpan({ text: ", " });
                     e.createEl("code", { text: "monster" });
                     e.createSpan({ text: " and " });
                     e.createEl("code", { text: "property" });
