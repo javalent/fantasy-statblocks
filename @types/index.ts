@@ -17,7 +17,7 @@ export type fage_ability =
     | "willpower";
 
 export interface Monster {
-    image: string;
+    image?: string;
     name: string;
     size: string;
     type: string;
@@ -57,6 +57,7 @@ export interface Monster {
     creature?: string;
     source?: string;
 
+    /** Statblock Parameters */
     export?: boolean;
     dice?: boolean;
     render?: boolean;
@@ -68,8 +69,17 @@ export interface Monster {
     forceColumns?: boolean;
 
     note?: string;
-    
-    [property: string]: any;
+}
+
+export interface StatblockParameters
+    extends Omit<
+        Monster,
+        "traits" | "actions" | "legendary_actions" | "reactions"
+    > {
+    traits?: { desc: string; name: string }[] | [string, string][];
+    actions?: Trait[] | [string, string][];
+    legendary_actions?: Trait[] | [string, string][];
+    reactions?: Trait[] | [string, string][];
 }
 
 export type Spell = string | { [key: string]: string };
