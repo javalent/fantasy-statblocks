@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.9.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.8.0...2.9.0) (2022-01-21)
+
+
+### Features
+
+* switch to esbuild ([766bb45](https://github.com/valentine195/obsidian-5e-statblocks/commit/766bb455444928cc8d44e333d3ee11e30bfc9dcb))
+
+
+### Bug Fixes
+
+* fixes issue where providing an empty subtype would crash plugin ([b16bfd0](https://github.com/valentine195/obsidian-5e-statblocks/commit/b16bfd03d7a92f495b9fa230667c6e1e1bc5128f))
+* removed logs ([ac4789a](https://github.com/valentine195/obsidian-5e-statblocks/commit/ac4789ab87d321ae724515de96b7c215d04159ae))
+* removes extraneous logs ([da7f93a](https://github.com/valentine195/obsidian-5e-statblocks/commit/da7f93a849e493850ad04cc5323e524799dc3d71))
+
 ## [2.8.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.7.1...2.8.0) (2022-01-20)
 
 
