@@ -20,6 +20,7 @@
     "license": "MIT",
     "devDependencies": {
         "@babel/core": "^7.16.0",
+        "@popperjs/core": "^2.11.2",
         "@rollup/plugin-commonjs": "^15.1.0",
         "@rollup/plugin-node-resolve": "^9.0.0",
         "@rollup/plugin-typescript": "^6.0.0",
@@ -40,6 +41,7 @@
         "esbuild-svelte": "^0.5.7",
         "fast-copy": "^2.1.1",
         "fast-sort": "^3.0.2",
+        "jest": "^27.4.7",
         "mini-css-extract-plugin": "^2.4.5",
         "obsidian": "^0.12.17",
         "rollup": "^2.32.1",
