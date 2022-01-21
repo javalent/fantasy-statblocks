@@ -4,6 +4,14 @@ Create 5e-styled statblocks in Obsidian.md notes.
 
 <img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/example.PNG">
 
+> **:pencil: Homebrew**
+>
+> The plugin comes pre-loaded with the full SRD monster list.
+>
+> Additional creatures can be saved by defining them in a statblock or in a note's frontmatter (see [Homebrew Creatures](#homebrew-creatures)).
+>
+> You can also import homebrew creatures from various sources. See [Importing Creatures](#import-monsters)
+
 ## Usage
 
 A statblock may be defined in a note using the syntax below.
@@ -14,9 +22,17 @@ The `monster` field may be combined with other fields to override the field. See
 
 The spellcasting trait requires a special field (`spells`) - See [Spellcasting](#Spellcasting)
 
+> **:warning: YAML Syntax**
+>
+> Please note that the parameters provided in the statblock are parsed as [yaml](https://yaml.org/spec/1.2.2/).
+>
+> YAML is incredibly powerful, but you must pay attention to your syntax or you may get errors!
+>
+> Common errors include: not putting quotes around parameters with `:` or `*` (such as **Melee Weapon Attack:**) and not indenting properly.
+
 ````
 ```statblock
-monster: <SRD Monster Name>
+monster: <SRD/Homebrew Monster Name>
 ```
 ````
 
@@ -86,6 +102,12 @@ Dice rollers added to stat blocks can roll 3D dice on the screen if the [Render 
 
 <img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/render.gif">
 
+### Images
+
+Images can be added to the statblock using the `image` parameter. This should be a wikilink to an image located somewhere in your vault.
+
+The image will be placed next to the name, centered inside a 75px circle.
+
 ### Overriding Fields
 
 The `monster` field may be combined with other fields to override the field of the specified SRD monster. For example:
@@ -101,13 +123,15 @@ name: Paarthurnax
 
 ### Traits
 
-Traits, such as Actions, Reactions and Legendary Actions, should be added as a YAML array of arrays:
+Traits, as well as Actions, Reactions and Legendary Actions, should be added by specifying a name and description (desc):
 
 ```md
 traits:
 
--   [Amphibious, The dragon can breathe air and water.]
--   ...
+-   name: Amphibious
+    desc: The dragon can breathe air and water.
+-   name: Legendary Resistance (3/Day)
+    desc: If the dragon fails a saving throw, it can choose to succeed instead.
 ```
 
 ### Spellcasting
@@ -144,6 +168,7 @@ Those of you using the plugin for Fantasy AGE may use `fage_stats` to set the ni
 
 ````
 ```statblock
+image: [[Ancient Black Dragon.jpg]]
 name: Ancient Black Dragon
 size: Gargantuan
 type: dragon
@@ -162,28 +187,52 @@ saves:
 skillsaves:
   - perception: 16
   - stealth: 9
-damage_vulnerabilities:
-damage_resistances:
-damage_immunities: acid
-condition_immunities:
 senses: blindsight 60 ft., darkvision 120 ft., passive Perception 26
 languages: Common, Draconic
 cr: 21
 traits:
-  - [Amphibious, The dragon can breathe air and water.]
-  - [Legendary Resistance (3/Day), If the dragon fails a saving throw, it can choose to succeed instead.]
+  - name: Amphibious
+    desc: The dragon can breathe air and water
+  - name: Legendary Resistance (3/Day)
+    desc: If the dragon fails a saving throw, it can choose to succeed instead.
 actions:
-  - [Multiattack, The dragon can use its Frightful Presence. It then makes three attacks: one with its bite and two with its claws.]
-  - [Bite, Melee Weapon Attack:+ 15 to hit, reach 15 ft., one target. Hit: 19 (2d10 + 8) piercing damage plus 9 (2d8) acid damage.]
-  - [Claw, Melee Weapon Attack: +15 to hit, reach 10 ft., one target. Hit: 15 (2d6 + 8) slashing damage.]
-  - [Tail, Melee Weapon Attack: +15 to hit, reach 20 ft ., one target. Hit: 17 (2d8 + 8) bludgeoning damage.]
-  - [Frightful Presence, Each creature of the dragon's choice that is within 120 feet of the dragon and aware of it must succeed on a DC 19 Wisdom saving throw or become frightened for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to the dragon's Frightful Presence for the next 24 hours.]
-  - [Acid Breath (Recharge 5-6), The dragon exhales acid in a 90-foot line that is 10 feet wide. Each creature in that line must make a DC 22 Dexterity saving throw, taking 67 (15d8) acid damage on a failed save, or half as much damage on a successful one.]
+  - name: Multiattack
+    desc: "The dragon can use its Frightful Presence. It then makes three attacks: one with its bite and two with its claws."
+  - name: Bite
+    desc: "Melee Weapon Attack: +15 to hit, reach 15 ft., one target. Hit: 19 (2d10 + 8) piercing damage plus 9 (2d8) acid damage."
+  - name: Claw
+    desc: "Melee Weapon Attack: +15 to hit, reach 10 ft., one target. Hit: 15 (2d6 + 8) slashing damage."
+  - name: Tail
+    desc: "Melee Weapon Attack: +15 to hit, reach 20 ft ., one target. Hit: 17 (2d8 + 8) bludgeoning damage."
+  - name: Frightful Presence
+    desc: "Each creature of the dragon's choice that is within 120 feet of the dragon and aware of it must succeed on a DC 19 Wisdom saving throw or become frightened for 1 minute. A creature can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success. If a creature's saving throw is successful or the effect ends for it, the creature is immune to the dragon's Frightful Presence for the next 24 hours."
+  - name: Acid Breath (Recharge 5-6)
+    desc: The dragon exhales acid in a 90-foot line that is 10 feet wide. Each creature in that line must make a DC 22 Dexterity saving throw, taking 67 (15d8) acid damage on a failed save, or half as much damage on a successful one.
 reactions:
+  - name: Amphibious
+    desc: The dragon can breathe air and water.
+  - name: Legendary Resistance (3/Day)
+    desc: If the dragon fails a saving throw, it can choose to succeed instead.
 legendary_actions:
-  - [Detect, The dragon makes a Wisdom (Perception) check.]
-  - [Tail Attack, The dragon makes a tail attack.]
-  - [Wing Attack (Costs 2 Actions), The dragon beats its wings. Each creature within 15 ft. of the dragon must succeed on a DC 23 Dexterity saving throw or take 15 (2d6 + 8) bludgeoning damage and be knocked prone. The dragon can then fly up to half its flying speed.]
+  - name: Detect
+    desc: The dragon makes a Wisdom (Perception) check.
+  - name: Tail Attack
+    desc: The dragon makes a tail attack.
+  - name: Wing Attack (Costs 2 Actions),
+    desc: The dragon beats its wings. Each creature within 15 ft. of the dragon must succeed on a DC 23 Dexterity saving throw or take 15 (2d6 + 8) bludgeoning damage and be knocked prone. The dragon can then fly up to half its flying speed.
+spells:
+  - The archmage is an 18th-level spellcaster. Its spellcasting ability is Intelligence (spell save DC 17, +9 to hit with spell attacks). The archmage can cast disguise self and invisibility at will and has the following wizard spells prepared
+  - Cantrips (at will): fire bolt, light, mage hand, prestidigitation, shocking grasp
+  - 1st level (4 slots): detect magic, identify, mage armor*, magic missile
+  - 2nd level (3 slots): detect thoughts, mirror image, misty step
+  - 3rd level (3 slots): counterspell, fly, lightning bolt
+  - 4th level (3 slots): banishment, fire shield, stoneskin*
+  - 5th level (3 slots): cone of cold, scrying, wall of force
+  - 6th level (1 slot): globe of invulnerability
+  - 7th level (1 slot): teleport
+  - 8th level (1 slot): mind blank*
+  - 9th level (1 slot): time stop
+  - "* The archmage casts these spells on itself before combat."
 ```
 ````
 
@@ -207,6 +256,28 @@ You can customize the behavior of the columns with a few different parameters:
 > If you set `columns`, the plugin will _always_ try to split the statblock into that many columns, regardless of height.
 >
 > It will still respect the width of the note, unless `forceColumns` is set.
+
+# Homebrew Creatures
+
+Homebrew creatures can be saved by creating a custom monster in a statblock or a note's frontmatter.
+
+You can either fully define your own custom monster, or use an existing monster in your bestiary and [override fields](#overriding-fields).
+
+When a statblock has been rendered, you may save the creature by clicking the menu icon in the top right and selecting "Save as Homebrew".
+
+<img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/save.PNG">
+
+## Creating Creatures in Frontmatter
+
+Because the plugin uses YAML for its syntax, a statblock created using the statblock codeblock is valid note frontmatter.
+
+Any note given the `statblock: true` parameter in its frontmatter will have its frontmatter parsed for a custom monster if [Parse Frontmatter in Notes](#parse-frontmatter-for-creatures) is turned on in [Settings](#settings) or if the "Parse Frontmatter in Notes" command is used.
+
+**The note must also have a `name` parameter in the frontmatter to save the creature. All other fields are optional.**
+
+Once the creature has been found in a note, it will be added to the bestiary and synced with the note content.
+
+If the statblock field is removed or set to false, or the note is deleted, the creature will be removed from the bestiary.
 
 # Customizing the CSS
 
@@ -315,7 +386,7 @@ Inline blocks are like group blocks, but blocks grouped inside them will render 
 
 Heading blocks will render text larger (like the name of the basic 5e layout).
 
-**Property Type Required:** the Heading block should point to a monster property that will be a string.
+> Property Type Required: the Heading block should point to a monster property that will be a string.
 
 #### Subheading Blocks
 
@@ -323,19 +394,19 @@ Subheading blocks are for smaller properties, such as the type of monsters in th
 
 The subheading block allows multiple monster properties to be linked to it.
 
-**Property Type Required:** the Subheading block should point to a monster property that can be turned into a string. The plugin will recursively stringify non-string items.
+> Property Type Required: the Subheading block should point to a monster property that can be turned into a string. The plugin will recursively stringify non-string items.
 
 #### Image Blocks
 
 Image blocks will display an image if the linked property is a link to an image. This link should be an Obsidian wikilink to an image in the vault. A link to an external website may also be used, but you may run into issues with privacy settings.
 
-**Property Type Required:** the Image block should point to a monster property will be a string.
+> Property Type Required: the Image block should point to a monster property will be a string.
 
 #### Property Block
 
 A property block is the standard block. It will display the property name and the value of the property for the monster - for example, `Armor Class: 16`.
 
-**Property Type Required:** the Property block should point to a monster property that can be turned into a string. The plugin will recursively stringify non-string items.
+> Property Type Required: the Property block should point to a monster property that can be turned into a string. The plugin will recursively stringify non-string items.
 
 Property blocks have an additional advanced option to provide a callback to parse the property and use that as the value of the field. The callback will receive the monster object and the plugin as parameters.
 
@@ -352,7 +423,7 @@ return "";
 
 The saves block is used to display saves and skill saves, for example: `Str: +3`.
 
-**Property Type Required:** the Saves block should point to a monster property that is an **object** of string number pairs, for example:
+> Property Type Required: the Saves block should point to a monster property that is an **object** of string number pairs, for example:
 
 ````
 ```statblock
@@ -372,7 +443,7 @@ The table block will display a table of headers and values.
 
 The table block has an additional block property called "Table Headers". **The layout will only display a value that has a header.** This means if your monster property has 6 values, but you specify 5 headers, **only the first five values will be shown.**
 
-**Property Type Required:** the Table block should point to a monster property that is an **array of numbers**.
+> Property Type Required: the Table block should point to a monster property that is an **array of numbers**.
 
 #### Traits Block
 
@@ -380,7 +451,7 @@ The traits block is how the plugin displays things like Actions, Reactions and T
 
 The traits block has an additional optional block property called "Section Heading". This will be added to the statblock prior to the traits display.
 
-**Property Type Required:** the Traits block should point to a monster property that is an **array of [string, string] values**.
+> Property Type Required: the Traits block should point to a monster property that is an **array of [string, string] values**.
 
 ### Using Dice Rollers in Layouts
 
@@ -418,6 +489,18 @@ The plugin will integrate with the Dice Roller plugin and add dice rolls to rend
 
 Dice rolls will roll with graphical dice by default.
 
+## Note Parsing
+
+### Parse Frontmatter for Creatures
+
+The plugin will automatically parse the folder specified in [Bestiary Folder](#bestiary-folder) for creatures.
+
+If turned off, the plugin can be told to parse for creatures using the "Parse Frontmatter for Creatures" command.
+
+### Bestiary Folder
+
+The plugin will only parse files in this folder for creatures.
+
 ## Layouts
 
 ### Default Layout
@@ -428,9 +511,9 @@ The plugin will use this layout by default when rendering a stat block.
 
 Editing a layout block will show additional advanced options.
 
-## Import Monsters
+## Import Creatures
 
-Homebrew monsters can be imported from various sources here.
+Homebrew creatures can be imported from various sources here.
 
 # Installation
 
