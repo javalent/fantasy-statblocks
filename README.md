@@ -240,7 +240,7 @@ spells:
 
 The plugin will intelligently create two columns if the stat block it is rendering is long and there is enough space for the second column.
 
-<img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/columns.PNG">
+<img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/columns.png">
 
 You can customize the behavior of the columns with a few different parameters:
 
@@ -265,7 +265,7 @@ You can either fully define your own custom monster, or use an existing monster 
 
 When a statblock has been rendered, you may save the creature by clicking the menu icon in the top right and selecting "Save as Homebrew".
 
-<img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/save.PNG">
+<img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/save.png">
 
 ## Creating Creatures in Frontmatter
 
