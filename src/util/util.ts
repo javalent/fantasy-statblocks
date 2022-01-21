@@ -1,6 +1,4 @@
-import type { Monster, Trait } from "@types";
-import { parseYaml } from "obsidian";
-
+import type { Trait } from "@types";
 export function toTitleCase(str: string): string {
     return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
@@ -9,15 +7,6 @@ export function toTitleCase(str: string): string {
 export function getMod(arg0: number) {
     let mod = Math.floor(((arg0 ?? 10) - 10) / 2);
     return `${mod >= 0 ? "+" : "-"}${Math.abs(mod)}`;
-}
-
-export function getParamsFromSource(source: string): Monster {
-    let params = parseYaml(source);
-
-    //replace escapes
-    params = JSON.parse(JSON.stringify(params).replace(/\\/g, ""));
-
-    return params ?? {};
 }
 
 export function traitMapFrom(traits: Trait[] = []): Map<string, Trait> {
@@ -69,3 +58,32 @@ export const stringifyWithKeys = (
     }
     return ret.join(" ");
 };
+
+export function transformTraits(
+    monsterTraits: Trait[] = [],
+    paramsTraits: { desc: string; name: string }[] | [string, string][] = []
+) {
+    if (!monsterTraits) monsterTraits = [];
+    if (!paramsTraits) paramsTraits = [];
+    for (const trait of paramsTraits ?? []) {
+        if (!trait) continue;
+        if (Array.isArray(trait)) {
+            monsterTraits = monsterTraits.filter((t) => t.name != trait[0]);
+            monsterTraits.push({
+                name: trait[0],
+                desc: stringifyWithKeys(trait.slice(1))
+            });
+        } else if (
+            typeof trait == "object" &&
+            "name" in trait &&
+            "desc" in trait
+        ) {
+            monsterTraits = monsterTraits.filter((t) => t.name != trait.name);
+            monsterTraits.push({
+                name: trait.name,
+                desc: stringifyWithKeys(trait.desc)
+            });
+        }
+    }
+    return monsterTraits;
+}
