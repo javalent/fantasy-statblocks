@@ -256,26 +256,28 @@ export class MonsterSuggester extends SuggestionModal<Monster> {
 
             content.nameEl.appendText(item.name[i]);
         }
-        for (
-            let i = item.name.length;
-            i < item.name.length + item.source.length;
-            i++
-        ) {
-            let match = matches.matches.find((m) => m[0] === i);
-            if (match) {
-                content.descEl.createSpan({
-                    cls: "suggestion-highlight",
-                    text: item.source.substring(
-                        match[0] - item.name.length,
-                        match[1] - item.name.length
-                    )
-                });
+        if (item.source) {
+            for (
+                let i = item.name.length;
+                i < item.name.length + item.source?.length;
+                i++
+            ) {
+                let match = matches.matches.find((m) => m[0] === i);
+                if (match) {
+                    content.descEl.createSpan({
+                        cls: "suggestion-highlight",
+                        text: item.source.substring(
+                            match[0] - item.name.length,
+                            match[1] - item.name.length
+                        )
+                    });
 
-                i += match[1] - match[0] - 1;
-                continue;
+                    i += match[1] - match[0] - 1;
+                    continue;
+                }
+
+                content.descEl.appendText(item.source[i - item.name.length]);
             }
-
-            content.descEl.appendText(item.source[i - item.name.length]);
         }
 
         /* content.setDesc(item.source); */
