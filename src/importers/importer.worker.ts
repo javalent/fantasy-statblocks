@@ -50,7 +50,7 @@ ctx.onmessage = async (event) => {
     ctx.postMessage({ monsters });
 };
 
-export default {} as typeof Worker & (new () => Worker);
+/* export default {} as typeof Worker & (new () => Worker); */
 
 ctx.addEventListener(
     "unhandledrejection",

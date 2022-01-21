@@ -13,7 +13,7 @@ import { MonsterSuggester } from "src/util/suggester";
 
 import fastCopy from "fast-copy";
 
-import "./settings.css";
+/* import "./settings.css"; */
 import Importer from "src/importers/importer";
 
 export default class StatblockSettingTab extends PluginSettingTab {
