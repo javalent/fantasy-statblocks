@@ -14,9 +14,12 @@
     let display = item.display ?? item.properties[0];
 
     if (item.callback) {
-        const func = new Function("monster", item.callback);
         try {
+            const frame = document.body.createEl("iframe");
+            const funct = (frame.contentWindow as any).Function;
+            const func = new funct("monster", item.callback);
             property = func.call(undefined, monster) ?? property;
+            document.body.removeChild(frame);
         } catch (e) {
             new Notice(
                 `There was an error executing the provided callback for [${item.properties.join(

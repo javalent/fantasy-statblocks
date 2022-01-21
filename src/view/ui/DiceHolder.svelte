@@ -24,9 +24,17 @@
         ) {
             split = [{ text: monster[item.diceProperty] as string }];
         } else if (item.diceCallback) {
-            const func = new Function("monster", "property", item.diceCallback);
             try {
-                const parsed = func.call(undefined, monster, property);
+                const frame = document.body.createEl("iframe");
+                const funct = (frame.contentWindow as any).Function;
+                const func = new funct(
+                    "monster",
+                    "property",
+                    item.diceCallback
+                );
+                const parsed =
+                    func.call(undefined, monster, property) ?? property;
+                document.body.removeChild(frame);
                 if (Array.isArray(parsed)) {
                     split = parsed;
                 } else {
