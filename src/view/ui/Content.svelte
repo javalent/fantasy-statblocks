@@ -268,9 +268,9 @@
                 columnEl.clientHeight > split &&
                 node.childElementCount != columns
             ) {
-                target.detach();
                 columnEl = node.createDiv("column");
-                columnEl.appendChild(target);
+                /* target.detach();
+                columnEl.appendChild(target); */
             }
         }
     };
