@@ -18,7 +18,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.worker\.ts?$/,
+                test: /importer\.worker\.ts?$/,
                 loader: "worker-loader",
                 options: {
                     inline: "no-fallback",
@@ -26,6 +26,20 @@ module.exports = {
                         type: "Worker",
                         options: {
                             name: "Statblock Importer",
+                            esModule: false
+                        }
+                    }
+                }
+            },
+            {
+                test: /watcher\.worker\.ts?$/,
+                loader: "worker-loader",
+                options: {
+                    inline: "no-fallback",
+                    worker: {
+                        type: "Worker",
+                        options: {
+                            name: "Statblock Parser",
                             esModule: false
                         }
                     }
