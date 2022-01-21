@@ -132,7 +132,7 @@ spells:
   - 7th level (1 slot): teleport
   - 8th level (1 slot): mind blank*
   - 9th level (1 slot): time stop
-  - * The archmage casts these spells on itself before combat.
+  - "* The archmage casts these spells on itself before combat."
 ```
 ````
 
