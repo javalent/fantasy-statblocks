@@ -52,6 +52,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 }
             });
         } catch (e) {
+            console.error(e);
             new Notice(
                 "There was an error displaying the settings tab for 5e Statblocks."
             );
@@ -157,6 +158,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 t.setValue(this.plugin.settings.autoParse).onChange(
                     async (v) => {
                         this.plugin.settings.autoParse = v;
+                        if (v) {
+                            this.plugin.watcher.start();
+                        }
                         await this.plugin.saveSettings();
                     }
                 );
