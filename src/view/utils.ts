@@ -6,6 +6,7 @@ export const stringify = (
     if (depth == 5) {
         return "";
     }
+    if (!property || property == null) return ``;
     if (typeof property == "string") return property;
     if (typeof property == "number") return `${property}`;
     if (Array.isArray(property)) {
