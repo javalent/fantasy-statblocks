@@ -1,10 +1,12 @@
 import {
     App,
     Modal,
+    normalizePath,
     Notice,
     PluginSettingTab,
     Setting,
-    TextComponent
+    TextComponent,
+    TFolder
 } from "obsidian";
 import { Layout, Layout5e } from "src/data/constants";
 import type StatBlockPlugin from "src/main";
@@ -15,6 +17,7 @@ import fastCopy from "fast-copy";
 
 /* import "./settings.css"; */
 import Importer from "src/importers/importer";
+import { FolderSuggestionModal } from "src/util/folder";
 
 export default class StatblockSettingTab extends PluginSettingTab {
     constructor(app: App, private plugin: StatBlockPlugin) {
@@ -32,6 +35,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
             containerEl.createEl("h2", { text: "TTRPG Statblock Settings" });
 
             this.generateTopSettings(containerEl.createDiv());
+            this.generateParseSettings(containerEl.createDiv());
 
             this.generateLayouts(containerEl.createDiv());
 
@@ -53,319 +57,10 @@ export default class StatblockSettingTab extends PluginSettingTab {
             );
         }
     }
-    generateMonsters(containerEl: HTMLDivElement) {
-        containerEl.empty();
-        const additionalContainer = containerEl.createDiv(
-            "statblock-additional-container statblock-monsters"
-        );
-        let monsterFilter: TextComponent;
-        const filters = additionalContainer.createDiv(
-            "statblock-monster-filter"
-        );
-        const searchMonsters = new Setting(filters)
-            .setClass("statblock-filter-container")
-            .setName("Homebrew Monsters")
-            .addSearch((t) => {
-                t.setPlaceholder("Search Monsters");
-                monsterFilter = t;
-            })
-            .addButton((b) => {
-                b.setIcon("trash")
-                    .setCta()
-                    .setTooltip("Delete Filtered Monsters")
-                    .onClick(() => {
-                        const modal = new ConfirmModal(
-                            suggester.filteredItems.length,
-                            this.plugin.app
-                        );
-                        modal.onClose = async () => {
-                            if (modal.saved) {
-                                await this.plugin.deleteMonsters(
-                                    ...(suggester.filteredItems?.map(
-                                        (m) => m.item.name
-                                    ) ?? [])
-                                );
-                                this.generateMonsters(containerEl);
-                            }
-                        };
-                        modal.open();
-                    });
-            });
-
-        const additional = additionalContainer.createDiv("additional");
-        if (!this.plugin.data.size) {
-            additional
-                .createDiv({
-                    attr: {
-                        style: "display: flex; justify-content: center; padding-bottom: 18px;"
-                    }
-                })
-                .createSpan({
-                    text: "No saved monsters! Create one to see it here."
-                });
-            return;
-        }
-
-        let suggester = new MonsterSuggester(
-            this.plugin,
-            monsterFilter,
-            additional,
-            new Set(this.plugin.sources)
-        );
-
-        const sourcesSetting = filters.createEl("details");
-        sourcesSetting.createEl("summary", { text: "Filter Sources" });
-        const list = sourcesSetting.createEl(
-            "ul",
-            "contains-task-list task-list-inline markdown-preview-view"
-        );
-
-        for (let source of this.plugin.sources) {
-            const li = list.createEl("li", "task-list-item");
-            li.createEl("input", {
-                attr: {
-                    id: "input_" + source,
-                    checked: true
-                },
-                type: "checkbox",
-                cls: "task-list-item-checkbox"
-            }).onclick = (evt) => {
-                const target = evt.target as HTMLInputElement;
-                if (target.checked) {
-                    suggester.displayed.add(source);
-                } else {
-                    suggester.displayed.delete(source);
-                }
-                suggester._onInputChanged();
-            };
-            li.createEl("label", {
-                attr: {
-                    for: "input_" + source
-                },
-                text: source
-            });
-        }
-
-        suggester.onRemoveItem = async (monster) => {
-            try {
-                await this.plugin.deleteMonster(monster.name);
-            } catch (e) {
-                new Notice(
-                    `There was an error deleting the monster:${
-                        `\n\n` + e.message
-                    }`
-                );
-            }
-            suggester._onInputChanged();
-        };
-        let last = suggester.filteredItems;
-        suggester.onInputChanged = () => {
-            if (suggester.filteredItems == last) return;
-            searchMonsters.setDesc(
-                createFragment((e) => {
-                    e.createSpan({
-                        text: `Manage homebrew monsters. Currently: ${
-                            suggester.filteredItems.length
-                        } monster${
-                            suggester.filteredItems.length == 1 ? "" : "s"
-                        }.`
-                    });
-                    if (suggester.filteredItems.length > suggester.limit) {
-                        e.createEl("p", {
-                            attr: {
-                                style: "margin: 0;"
-                            }
-                        }).createEl("small", {
-                            text: `Displaying: ${suggester.limit}. Filter to see more.`
-                        });
-                    }
-                })
-            );
-        };
-        suggester._onInputChanged();
-    }
-    importer = new Importer(this.plugin);
-    generateImports(containerEl: HTMLDivElement) {
-        const importSettingsContainer = containerEl.createDiv(
-            "statblock-additional-container"
-        );
-
-        new Setting(importSettingsContainer)
-            .setName("Import Monsters")
-            .setDesc(
-                "Import monsters from monster files. Monsters are stored by name, so only the last monster by that name will be saved. This is destructive - any saved monster will be overwritten."
-            );
-
-        const importAdditional =
-            importSettingsContainer.createDiv("additional");
-        const importAppFile = new Setting(importAdditional)
-            .setName("Import DnDAppFile")
-            .setDesc("Only import content that you own.");
-        const inputAppFile = createEl("input", {
-            attr: {
-                type: "file",
-                name: "dndappfile",
-                accept: ".xml",
-                multiple: true
-            }
-        });
-
-        inputAppFile.onchange = async () => {
-            const { files } = inputAppFile;
-            if (!files.length) return;
-            try {
-                const { files } = inputAppFile;
-                if (!files.length) return;
-                const monsters = await this.importer.import(files, "appfile");
-                if (monsters && monsters.length) {
-                    await this.plugin.saveMonsters(monsters);
-                }
-                this.display();
-            } catch (e) {}
-        };
-
-        importAppFile.addButton((b) => {
-            b.setButtonText("Choose File(s)").setTooltip(
-                "Import DnDAppFile Data"
-            );
-            b.buttonEl.addClass("statblock-file-upload");
-            b.buttonEl.appendChild(inputAppFile);
-            b.onClick(() => inputAppFile.click());
-        });
-
-        const importImprovedInitiative = new Setting(importAdditional)
-            .setName("Import Improved Initiative Data")
-            .setDesc("Only import content that you own.");
-        const inputImprovedInitiative = createEl("input", {
-            attr: {
-                type: "file",
-                name: "improvedinitiative",
-                accept: ".json",
-                multiple: true
-            }
-        });
-
-        inputImprovedInitiative.onchange = async () => {
-            const { files } = inputImprovedInitiative;
-            if (!files.length) return;
-            try {
-                const { files } = inputImprovedInitiative;
-                if (!files.length) return;
-                const monsters = await this.importer.import(files, "improved");
-                if (monsters && monsters.length) {
-                    await this.plugin.saveMonsters(monsters);
-                }
-                this.display();
-            } catch (e) {}
-        };
-
-        importImprovedInitiative.addButton((b) => {
-            b.setButtonText("Choose File(s)").setTooltip(
-                "Import Improved Initiative Data"
-            );
-            b.buttonEl.addClass("statblock-file-upload");
-            b.buttonEl.appendChild(inputImprovedInitiative);
-            b.onClick(() => inputImprovedInitiative.click());
-        });
-
-        const importCritterDB = new Setting(importAdditional)
-            .setName("Import CritterDB Data")
-            .setDesc("Only import content that you own.");
-        const inputCritterDB = createEl("input", {
-            attr: {
-                type: "file",
-                name: "critterdb",
-                accept: ".json",
-                multiple: true
-            }
-        });
-
-        inputCritterDB.onchange = async () => {
-            const { files } = inputCritterDB;
-            if (!files.length) return;
-            try {
-                const { files } = inputCritterDB;
-                if (!files.length) return;
-                const monsters = await this.importer.import(files, "critter");
-                if (monsters && monsters.length) {
-                    await this.plugin.saveMonsters(monsters);
-                }
-                this.display();
-            } catch (e) {}
-        };
-
-        importCritterDB.addButton((b) => {
-            b.setButtonText("Choose File(s)").setTooltip(
-                "Import CritterDB Data"
-            );
-            b.buttonEl.addClass("statblock-file-upload");
-            b.buttonEl.appendChild(inputCritterDB);
-            b.onClick(() => inputCritterDB.click());
-        });
-
-        const import5eTools = new Setting(importAdditional)
-            .setName("Import 5e.tools Data")
-            .setDesc("Only import content that you own.");
-        const input5eTools = createEl("input", {
-            attr: {
-                type: "file",
-                name: "fivetools",
-                accept: ".json",
-                multiple: true
-            }
-        });
-
-        input5eTools.onchange = async () => {
-            const { files } = input5eTools;
-            if (!files.length) return;
-            const monsters = await this.importer.import(files, "5e");
-            if (monsters && monsters.length) {
-                await this.plugin.saveMonsters(monsters);
-            }
-            this.display();
-        };
-
-        import5eTools.addButton((b) => {
-            b.setButtonText("Choose File(s)").setTooltip(
-                "Import 5e.tools Data"
-            );
-            b.buttonEl.addClass("statblock-file-upload");
-            b.buttonEl.appendChild(input5eTools);
-            b.onClick(() => input5eTools.click());
-        });
-        const importTetra = new Setting(importAdditional)
-            .setName("Import TetraCube Data")
-            .setDesc("Only import content that you own.");
-        const inputTetra = createEl("input", {
-            attr: {
-                type: "file",
-                name: "tetra",
-                accept: ".json, .monster",
-                multiple: true
-            }
-        });
-
-        inputTetra.onchange = async () => {
-            const { files } = inputTetra;
-            if (!files.length) return;
-            const monsters = await this.importer.import(files, "tetra");
-            if (monsters && monsters.length) {
-                await this.plugin.saveMonsters(monsters);
-            }
-            this.display();
-        };
-
-        importTetra.addButton((b) => {
-            b.setButtonText("Choose File(s)").setTooltip(
-                "Import TetraCube Data"
-            );
-            b.buttonEl.addClass("statblock-file-upload");
-            b.buttonEl.appendChild(inputTetra);
-            b.onClick(() => inputTetra.click());
-        });
-    }
 
     generateTopSettings(container: HTMLDivElement) {
+        container.empty();
+        new Setting(container).setHeading().setName("General Settings");
         new Setting(container)
             .setName("Enable Export to PNG")
             .setDesc(
@@ -441,12 +136,70 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     })
             );
     }
+    generateParseSettings(containerEl: HTMLDivElement) {
+        containerEl.empty();
+        new Setting(containerEl).setHeading().setName("Note Parsing");
+        new Setting(containerEl)
+            .setName("Parse Frontmatter for Creatures")
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "The plugin will watch the vault for creatures defined in note frontmatter."
+                    });
+                    e.createEl("br");
+                    e.createEl("br");
+                    e.createSpan({
+                        text: `The "Parse Frontmatter for Creatures" command can also be used.`
+                    });
+                })
+            )
+            .addToggle((t) => {
+                t.setValue(this.plugin.settings.autoParse).onChange(
+                    async (v) => {
+                        this.plugin.settings.autoParse = v;
+                        await this.plugin.saveSettings();
+                    }
+                );
+            });
+        new Setting(containerEl)
+            .setName("Bestiary Folder")
+            .setDesc(
+                "The plugin will only parse notes inside this folder and its children."
+            )
+            .addText(async (text) => {
+                let folders = this.app.vault
+                    .getAllLoadedFiles()
+                    .filter((f) => f instanceof TFolder);
+
+                text.setPlaceholder(this.plugin.settings.path ?? "/");
+                const modal = new FolderSuggestionModal(this.app, text, [
+                    ...(folders as TFolder[])
+                ]);
+
+                modal.onClose = async () => {
+                    const v = text.inputEl.value?.trim()
+                        ? text.inputEl.value.trim()
+                        : "/";
+                    this.plugin.settings.path = normalizePath(v);
+                    await this.plugin.saveSettings();
+                };
+
+                text.inputEl.onblur = async () => {
+                    const v = text.inputEl.value?.trim()
+                        ? text.inputEl.value.trim()
+                        : "/";
+                    this.plugin.settings.path = normalizePath(v);
+                    await this.plugin.saveSettings();
+                };
+            });
+    }
     generateLayouts(containerEl: HTMLDivElement) {
+        containerEl.empty();
+        new Setting(containerEl).setHeading().setName("Layouts");
         const statblockCreatorContainer = containerEl.createDiv(
             "statblock-additional-container"
         );
         new Setting(statblockCreatorContainer)
-            .setName("Layouts")
             .setDesc(
                 createFragment((el) => {
                     el.createSpan({
@@ -628,6 +381,318 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         });
                 });
         }
+    }
+    importer = new Importer(this.plugin);
+    generateImports(containerEl: HTMLDivElement) {
+        containerEl.empty();
+        new Setting(containerEl)
+            .setHeading()
+            .setName("Import Homebrew Creatures");
+        const importSettingsContainer = containerEl.createDiv(
+            "statblock-additional-container"
+        );
+
+        new Setting(importSettingsContainer).setDesc(
+            "Import creatures from creature files. Monsters are stored by name, so only the last creature by that name will be saved. This is destructive - any saved creature will be overwritten."
+        );
+
+        const importAdditional =
+            importSettingsContainer.createDiv("additional");
+        const importAppFile = new Setting(importAdditional)
+            .setName("Import DnDAppFile")
+            .setDesc("Only import content that you own.");
+        const inputAppFile = createEl("input", {
+            attr: {
+                type: "file",
+                name: "dndappfile",
+                accept: ".xml",
+                multiple: true
+            }
+        });
+
+        inputAppFile.onchange = async () => {
+            const { files } = inputAppFile;
+            if (!files.length) return;
+            try {
+                const { files } = inputAppFile;
+                if (!files.length) return;
+                const monsters = await this.importer.import(files, "appfile");
+                if (monsters && monsters.length) {
+                    await this.plugin.saveMonsters(monsters);
+                }
+                this.display();
+            } catch (e) {}
+        };
+
+        importAppFile.addButton((b) => {
+            b.setButtonText("Choose File(s)").setTooltip(
+                "Import DnDAppFile Data"
+            );
+            b.buttonEl.addClass("statblock-file-upload");
+            b.buttonEl.appendChild(inputAppFile);
+            b.onClick(() => inputAppFile.click());
+        });
+
+        const importImprovedInitiative = new Setting(importAdditional)
+            .setName("Import Improved Initiative Data")
+            .setDesc("Only import content that you own.");
+        const inputImprovedInitiative = createEl("input", {
+            attr: {
+                type: "file",
+                name: "improvedinitiative",
+                accept: ".json",
+                multiple: true
+            }
+        });
+
+        inputImprovedInitiative.onchange = async () => {
+            const { files } = inputImprovedInitiative;
+            if (!files.length) return;
+            try {
+                const { files } = inputImprovedInitiative;
+                if (!files.length) return;
+                const monsters = await this.importer.import(files, "improved");
+                if (monsters && monsters.length) {
+                    await this.plugin.saveMonsters(monsters);
+                }
+                this.display();
+            } catch (e) {}
+        };
+
+        importImprovedInitiative.addButton((b) => {
+            b.setButtonText("Choose File(s)").setTooltip(
+                "Import Improved Initiative Data"
+            );
+            b.buttonEl.addClass("statblock-file-upload");
+            b.buttonEl.appendChild(inputImprovedInitiative);
+            b.onClick(() => inputImprovedInitiative.click());
+        });
+
+        const importCritterDB = new Setting(importAdditional)
+            .setName("Import CritterDB Data")
+            .setDesc("Only import content that you own.");
+        const inputCritterDB = createEl("input", {
+            attr: {
+                type: "file",
+                name: "critterdb",
+                accept: ".json",
+                multiple: true
+            }
+        });
+
+        inputCritterDB.onchange = async () => {
+            const { files } = inputCritterDB;
+            if (!files.length) return;
+            try {
+                const { files } = inputCritterDB;
+                if (!files.length) return;
+                const monsters = await this.importer.import(files, "critter");
+                if (monsters && monsters.length) {
+                    await this.plugin.saveMonsters(monsters);
+                }
+                this.display();
+            } catch (e) {}
+        };
+
+        importCritterDB.addButton((b) => {
+            b.setButtonText("Choose File(s)").setTooltip(
+                "Import CritterDB Data"
+            );
+            b.buttonEl.addClass("statblock-file-upload");
+            b.buttonEl.appendChild(inputCritterDB);
+            b.onClick(() => inputCritterDB.click());
+        });
+
+        const import5eTools = new Setting(importAdditional)
+            .setName("Import 5e.tools Data")
+            .setDesc("Only import content that you own.");
+        const input5eTools = createEl("input", {
+            attr: {
+                type: "file",
+                name: "fivetools",
+                accept: ".json",
+                multiple: true
+            }
+        });
+
+        input5eTools.onchange = async () => {
+            const { files } = input5eTools;
+            if (!files.length) return;
+            const monsters = await this.importer.import(files, "5e");
+            if (monsters && monsters.length) {
+                await this.plugin.saveMonsters(monsters);
+            }
+            this.display();
+        };
+
+        import5eTools.addButton((b) => {
+            b.setButtonText("Choose File(s)").setTooltip(
+                "Import 5e.tools Data"
+            );
+            b.buttonEl.addClass("statblock-file-upload");
+            b.buttonEl.appendChild(input5eTools);
+            b.onClick(() => input5eTools.click());
+        });
+        const importTetra = new Setting(importAdditional)
+            .setName("Import TetraCube Data")
+            .setDesc("Only import content that you own.");
+        const inputTetra = createEl("input", {
+            attr: {
+                type: "file",
+                name: "tetra",
+                accept: ".json, .monster",
+                multiple: true
+            }
+        });
+        inputTetra.onchange = async () => {
+            const { files } = inputTetra;
+            if (!files.length) return;
+            const monsters = await this.importer.import(files, "tetra");
+            if (monsters && monsters.length) {
+                await this.plugin.saveMonsters(monsters);
+            }
+            this.display();
+        };
+        importTetra.addButton((b) => {
+            b.setButtonText("Choose File(s)").setTooltip(
+                "Import TetraCube Data"
+            );
+            b.buttonEl.addClass("statblock-file-upload");
+            b.buttonEl.appendChild(inputTetra);
+            b.onClick(() => inputTetra.click());
+        });
+    }
+    generateMonsters(containerEl: HTMLDivElement) {
+        containerEl.empty();
+        new Setting(containerEl).setHeading().setName("Homebrew Creatures");
+
+        const additionalContainer = containerEl.createDiv(
+            "statblock-additional-container statblock-monsters"
+        );
+        let monsterFilter: TextComponent;
+        const filters = additionalContainer.createDiv(
+            "statblock-monster-filter"
+        );
+        const searchMonsters = new Setting(filters)
+            .setClass("statblock-filter-container")
+            .addSearch((t) => {
+                t.setPlaceholder("Search Monsters");
+                monsterFilter = t;
+            })
+            .addButton((b) => {
+                b.setIcon("trash")
+                    .setCta()
+                    .setTooltip("Delete Filtered Monsters")
+                    .onClick(() => {
+                        const modal = new ConfirmModal(
+                            suggester.filteredItems.length,
+                            this.plugin.app
+                        );
+                        modal.onClose = async () => {
+                            if (modal.saved) {
+                                await this.plugin.deleteMonsters(
+                                    ...(suggester.filteredItems?.map(
+                                        (m) => m.item.name
+                                    ) ?? [])
+                                );
+                                this.generateMonsters(containerEl);
+                            }
+                        };
+                        modal.open();
+                    });
+            });
+
+        const additional = additionalContainer.createDiv("additional");
+        if (!this.plugin.data.size) {
+            additional
+                .createDiv({
+                    attr: {
+                        style: "display: flex; justify-content: center; padding-bottom: 18px;"
+                    }
+                })
+                .createSpan({
+                    text: "No saved creatures! Create one to see it here."
+                });
+            return;
+        }
+
+        let suggester = new MonsterSuggester(
+            this.plugin,
+            monsterFilter,
+            additional,
+            new Set(this.plugin.sources)
+        );
+
+        const sourcesSetting = filters.createEl("details");
+        sourcesSetting.createEl("summary", { text: "Filter Sources" });
+        const list = sourcesSetting.createEl(
+            "ul",
+            "contains-task-list task-list-inline markdown-preview-view"
+        );
+
+        for (let source of this.plugin.sources) {
+            const li = list.createEl("li", "task-list-item");
+            li.createEl("input", {
+                attr: {
+                    id: "input_" + source,
+                    checked: true
+                },
+                type: "checkbox",
+                cls: "task-list-item-checkbox"
+            }).onclick = (evt) => {
+                const target = evt.target as HTMLInputElement;
+                if (target.checked) {
+                    suggester.displayed.add(source);
+                } else {
+                    suggester.displayed.delete(source);
+                }
+                suggester._onInputChanged();
+            };
+            li.createEl("label", {
+                attr: {
+                    for: "input_" + source
+                },
+                text: source
+            });
+        }
+
+        suggester.onRemoveItem = async (monster) => {
+            try {
+                await this.plugin.deleteMonster(monster.name);
+            } catch (e) {
+                new Notice(
+                    `There was an error deleting the creature:${
+                        `\n\n` + e.message
+                    }`
+                );
+            }
+            suggester._onInputChanged();
+        };
+        let last = suggester.filteredItems;
+        suggester.onInputChanged = () => {
+            if (suggester.filteredItems == last) return;
+            searchMonsters.setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: `Managing ${
+                            this.plugin.settings.monsters.length
+                        } homebrew creature${
+                            this.plugin.settings.monsters.length == 1 ? "" : "s"
+                        }.`
+                    });
+                    if (suggester.filteredItems.length > suggester.limit) {
+                        e.createEl("p", {
+                            attr: {
+                                style: "margin: 0;"
+                            }
+                        }).createEl("small", {
+                            text: `Displaying: ${suggester.limit}. Filter to see more.`
+                        });
+                    }
+                })
+            );
+        };
+        suggester._onInputChanged();
     }
 }
 
