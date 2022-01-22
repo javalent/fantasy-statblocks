@@ -164,55 +164,75 @@ const spellMap: { [key: string]: string } = {
     "8": "8th level",
     "9": "9th level"
 };
+
+type InnateSpellcasting = {
+  name: "Innate Spellcasting",
+  headerEntries: string[],
+  will: string[],
+  daily: Record<string, string[]>
+}
+
+type BasicSpellcasting = {
+  name: "Spellcasting",
+  headerEntries: string[],
+  spells: Record<string, string[]>,
+}
+
+type Spellcasting = InnateSpellcasting | BasicSpellcasting;
+
+type ExtractedSpells = Array<string | Record<string, string>>;
+
+function extractSpellsBlocks(spellBlock: Spellcasting): ExtractedSpells {
+  let ret: ExtractedSpells = [parseString((spellBlock.headerEntries ?? []).join("\n"))];
+
+  if (spellBlock.name === "Spellcasting") {
+    try {
+      ret.push(
+        ...Object.entries(spellBlock.spells).map(([level, { slots, spells }]) => {
+          let name = `${spellMap[level]}`;
+          name += slots != undefined ? ` (${slots} slots)` : "";
+
+          const sp = parseString(spells.join(", "));
+          return { [name]: sp };
+        })
+      );
+    } catch (e) {
+      throw new Error("There was an error parsing the spells.");
+    }
+  } else {
+    if (spellBlock.will.length > 0) {
+      try {
+        ret.push({
+          "At will": parseString(spellBlock.will.join(", "))
+        });
+      } catch (e) {
+        throw new Error("There was an error parsing the at-will spells.");
+      }
+    }
+
+    if (Object.keys(spellBlock.daily).length > 0) {
+      try {
+        ret.push(
+          ...Object.entries(spellBlock.daily).map(([num, spells]) => {
+            let name = `Daily (${num})`;
+
+            const sp = parseString(spells.join(", "));
+            return { [name]: sp };
+          })
+        );
+      } catch (e) {
+        throw new Error("There was an error parsing the daily spells.");
+      }
+    }
+  }
+
+  return ret;
+}
+
 function getSpells(monster: any): any[] {
     if (!monster.spellcasting || !monster.spellcasting.length) return [];
 
-    const spells = monster.spellcasting[0].spells ?? {};
-    const will = monster.spellcasting[0].will ?? [];
-    const daily = monster.spellcasting[0].daily ?? {};
-
-    const ret = [(monster.spellcasting[0].headerEntries ?? []).join("\n")];
-
-    if (spells) {
-        try {
-            ret.push(
-                ...Object.entries(spells).map(([level, { slots, spells }]) => {
-                    let name = `${spellMap[level]}`;
-                    name += slots != undefined ? ` (${slots} slots)` : "";
-
-                    const sp = parseString(spells.join(", "));
-                    return { [name]: sp };
-                })
-            );
-        } catch (e) {
-            throw new Error("There was an error parsing the spells.");
-        }
-    }
-    if (will) {
-        try {
-            ret.push({
-                "At will": parseString(will.join(", "))
-            });
-        } catch (e) {
-            throw new Error("There was an error parsing the at-will spells.");
-        }
-    }
-    if (daily) {
-        try {
-            ret.push(
-                ...Object.entries(daily).map(([num, spells]) => {
-                    let name = `Daily (${num})`;
-
-                    const sp = parseString(spells.join(", "));
-                    return { [name]: sp };
-                })
-            );
-        } catch (e) {
-            throw new Error("There was an error parsing the daily spells.");
-        }
-    }
-
-    return ret;
+    return monster.spellcasting.flatMap(extractSpellsBlocks);
 }
 
 function getAlignmentString(alignment: any) {
