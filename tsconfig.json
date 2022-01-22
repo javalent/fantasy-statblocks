@@ -4,14 +4,14 @@
         "baseUrl": ".",
         "inlineSources": true,
         "module": "ESNext",
-        "target": "es6",
+        "target": "esnext",
         "allowJs": true,
         "noImplicitAny": true,
         "moduleResolution": "node",
         "importHelpers": true,
         "experimentalDecorators": true,
         "types": ["svelte", "node"],
-        "lib": ["dom", "es5", "scripthost", "es2020"],
+        "lib": ["dom", "esnext", "scripthost", "es2020"],
         "isolatedModules": false
     },
     "include": ["**/*.ts"]

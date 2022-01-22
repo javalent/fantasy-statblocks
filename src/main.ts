@@ -77,12 +77,25 @@ const DEFAULT_DATA: StatblockData = {
     autoParse: false
 };
 
+class ReadOnlyMap extends Map {
+    constructor(map: ReadonlyMap<string, Monster>) {
+        super();
+        for (const [key, value] of map) {
+            super.set(key, value);
+        }
+    }
+    set(key: any, value: any) {
+        console.error("The statblock bestiary is read only.");
+        return this;
+    }
+}
+
 export default class StatBlockPlugin extends Plugin {
     settings: StatblockData;
     data: Map<string, Monster>;
     _bestiary: Map<string, Monster>;
     get bestiary() {
-        return new Map(this._bestiary);
+        return new ReadOnlyMap(this._bestiary);
     }
     watcher = new Watcher(this);
     private _sorted: Monster[] = [];
@@ -144,6 +157,12 @@ export default class StatBlockPlugin extends Plugin {
         addIcon(EXPORT_SYMBOL, EXPORT_ICON);
 
         this._bestiary = new Map([...BESTIARY_BY_NAME, ...this.data]);
+
+        Object.defineProperty(window, "bestiary", {
+            value: this.bestiary,
+            writable: false,
+            configurable: true
+        });
 
         this.registerMarkdownCodeBlockProcessor(
             "statblock",
@@ -270,6 +289,8 @@ export default class StatBlockPlugin extends Plugin {
         });
     }
     onunload() {
+        //@ts-ignore
+        delete window.bestiary;
         this.watcher.unload();
         console.log("TTRPG StatBlocks unloaded");
     }
