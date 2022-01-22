@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.11.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/1.5.8...2.11.0) (2022-01-22)
+
+
+### Features
+
+* TTRPG Statblocks 2.X Release! ([e5d2e79](https://github.com/valentine195/obsidian-5e-statblocks/commit/e5d2e79f1790d90a6d0ddcd3f1d1b09672b1b2ea))
+
 ## [2.10.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.9.0...2.10.0) (2022-01-21)
 
 
