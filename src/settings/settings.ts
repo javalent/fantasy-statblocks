@@ -11,13 +11,14 @@ import {
 import { Layout, Layout5e } from "src/data/constants";
 import type StatBlockPlugin from "src/main";
 import StatblockCreator from "./StatblockCreator.svelte";
-import { MonsterSuggester } from "src/util/suggester";
+import { MonsterSuggester } from "src/settings/suggester";
 
 import fastCopy from "fast-copy";
 
-/* import "./settings.css"; */
+import "./settings.css";
 import Importer from "src/importers/importer";
 import { FolderSuggestionModal } from "src/util/folder";
+import { EditMonsterModal } from "./modal";
 
 export default class StatblockSettingTab extends PluginSettingTab {
     constructor(app: App, private plugin: StatBlockPlugin) {
@@ -569,10 +570,20 @@ export default class StatblockSettingTab extends PluginSettingTab {
     generateMonsters(containerEl: HTMLDivElement) {
         containerEl.empty();
         new Setting(containerEl).setHeading().setName("Homebrew Creatures");
-
         const additionalContainer = containerEl.createDiv(
             "statblock-additional-container statblock-monsters"
         );
+        new Setting(additionalContainer)
+            .setName("Add Creature")
+            .addButton((b) => {
+                b.setIcon("plus-with-circle").onClick(() => {
+                    const modal = new EditMonsterModal(this.plugin);
+                    modal.onClose = () => {
+                        this.generateMonsters(containerEl);
+                    };
+                    modal.open();
+                });
+            });
         let monsterFilter: TextComponent;
         const filters = additionalContainer.createDiv(
             "statblock-monster-filter"
@@ -583,10 +594,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 t.setPlaceholder("Search Monsters");
                 monsterFilter = t;
             })
-            .addButton((b) => {
+            .addExtraButton((b) => {
                 b.setIcon("trash")
-                    .setCta()
-                    .setTooltip("Delete Filtered Monsters")
+                    .setTooltip("Delete All Filtered Monsters")
                     .onClick(() => {
                         const modal = new ConfirmModal(
                             suggester.filteredItems.length,

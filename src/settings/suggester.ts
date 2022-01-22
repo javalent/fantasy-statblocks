@@ -12,8 +12,7 @@ import {
 } from "obsidian";
 import type StatBlockPlugin from "src/main";
 import StatBlockRenderer from "src/view/statblock";
-
-import EditMonsterApp from "../svelte/EditMonster.svelte";
+import { EditMonsterModal } from "./modal";
 
 class Suggester<T> {
     owner: SuggestModal<T>;
@@ -337,30 +336,4 @@ class ViewMonsterModal extends Modal {
         this.display();
     }
 }
-class EditMonsterModal extends Modal {
-    private _instance: any;
-    constructor(private plugin: StatBlockPlugin, private monster: Monster) {
-        super(plugin.app);
-    }
 
-    onOpen() {
-        this._instance = new EditMonsterApp({
-            target: this.contentEl,
-            props: {
-                monster: this.monster
-            }
-        });
-        this._instance.$on("cancel", () => {
-            this.close();
-        });
-        this._instance.$on("save", async ({ detail }: { detail: Monster }) => {
-            await this.plugin.updateMonster(this.monster, detail);
-            this.close();
-        });
-    }
-    onClose() {}
-    close() {
-        if (this._instance) this._instance.$destroy();
-        super.close();
-    }
-}

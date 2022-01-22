@@ -35,3 +35,7 @@
     resize: vertical;
     overflow: hidden;
 }
+
+.statblock-additional-container.statblock-monsters button {
+    margin-right: 0;
+}
