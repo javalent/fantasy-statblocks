@@ -21,9 +21,10 @@ import TableHeaders from "./TableHeaders.svelte";
 export class BlockModal extends Modal {
     block: StatblockItem;
     saved: boolean;
-    advanced: boolean = this.plugin.settings.showAdvanced;
+    advanced: boolean;
     constructor(public plugin: StatBlockPlugin, block?: StatblockItem) {
         super(plugin.app);
+        this.advanced = this.plugin.settings.showAdvanced;
         if (block) this.block = copy(block);
         this.containerEl.addClass("statblock-edit-block");
     }

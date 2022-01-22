@@ -21,8 +21,10 @@ import { FolderSuggestionModal } from "src/util/folder";
 import { EditMonsterModal } from "./modal";
 
 export default class StatblockSettingTab extends PluginSettingTab {
+    importer: Importer;
     constructor(app: App, private plugin: StatBlockPlugin) {
         super(app, plugin);
+        this.importer = new Importer(this.plugin);
     }
 
     async display(): Promise<void> {
@@ -387,7 +389,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 });
         }
     }
-    importer = new Importer(this.plugin);
+
     generateImports(containerEl: HTMLDivElement) {
         containerEl.empty();
         new Setting(containerEl)
