@@ -283,6 +283,19 @@ Once the creature has been found in a note, it will be added to the bestiary and
 
 If the statblock field is removed or set to false, or the note is deleted, the creature will be removed from the bestiary.
 
+### Creating Creatures in Settings
+
+Creatures can be created directly in settings under the [Homebrew Creatures](#homebrew-creatures) section by clicking the "Add Creature" button.
+
+Creatures can be created using either the YAML syntax shown above or by JSON.
+### Importing Creatures
+
+Creatures can be imported into the bestiary in [settings](#import-creatures) from various common sources.
+
+**:warning: Please only import content that you own and have legal access to.**
+
+Additionally, creatures can be imported as straight JSON.
+
 ## Accessing the Bestiary
 
 Your bestiary lives on the plugin and can be accessed programmatically in plugins that can run JavaScript, such as [Dataview](https://github.com/blacksmithgu/obsidian-dataview), [Templater](https://github.com/SilentVoid13/Templater) or [CustomJS](https://github.com/samlewis0602/obsidian-custom-js).
@@ -544,6 +557,14 @@ Editing a layout block will show additional advanced options.
 ## Import Creatures
 
 Homebrew creatures can be imported from various sources here.
+
+## Homebrew Creatures
+
+A list of the current creatures in the bestiary.
+
+Additional creatures can be [created](#creating-creatures-in-settings) here using YAML or JSON.
+
+Creatures can be filtered, removed, edited and previewed in this section.
 
 # Installation
 
