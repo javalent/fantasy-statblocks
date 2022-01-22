@@ -232,7 +232,7 @@ export const Statblock5e: StatblockItem[] = [
         type: "table",
         id: nanoid(),
         properties: ["stats"],
-        headers: ["Str", "Dex", "Con", "Wis", "Int", "Cha"],
+        headers: ["Str", "Dex", "Con", "Int", "Wis", "Cha"],
         calculate: true,
         hasRule: true,
         conditioned: true
@@ -508,7 +508,7 @@ export const Statblock5e: StatblockItem[] = [
         value: 30,
         xp: 155000
     }
-};                        
+};
 if ("cr" in monster && monster.cr in CR) {
     return \`\${CR[
         monster.cr
@@ -711,7 +711,7 @@ return "";`
         value: 30,
         xp: 155000
     }
-};           
+};
 if ("cr" in monster && monster.cr in CR) {
     return \`+\${Math.max(
             Math.floor(2 + ((CR[monster.cr]?.value ?? 0) - 1) / 4),
