@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.11.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.0...2.11.1) (2022-01-22)
+
+
+### Bug Fixes
+
+* fixed issue with editing blocks in custom layouts ([83e2bd3](https://github.com/valentine195/obsidian-5e-statblocks/commit/83e2bd35fe3035651304271ba52799c9d98621ab))
+
 ## [2.11.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/1.5.8...2.11.0) (2022-01-22)
 
 
