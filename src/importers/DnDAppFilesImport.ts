@@ -1,26 +1,7 @@
-/* import { Spell } from "../../common/Spell";
-import { StatBlock } from "../../common/StatBlock"; */
-/* import { SpellImporter } from "./SpellImporter";
-import { StatBlockImporter } from "./StatBlockImporter"; */
-
 import type { Monster, Spell, Trait } from "@types";
-import { titleCase } from "title-case";
+import { DOMParser } from "xmldom";
 
-export const ImportEntitiesFromXml = async (
-    ...files: File[]
-): Promise<Map<string, Monster>> => {
-    let importedMonsters: Map<string, Monster> = new Map();
-
-    for (let file of files) {
-        try {
-            const monsters = await buildMonsterFromFile(file);
-            importedMonsters = new Map([...importedMonsters, ...monsters]);
-        } catch (e) {}
-    }
-    return importedMonsters;
-};
-
-async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
+export async function buildMonsterFromAppFile(file: File): Promise<Monster[]> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
 
@@ -29,11 +10,12 @@ async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
 
             const dom = new DOMParser().parseFromString(xml, "application/xml");
             const monsters = dom.getElementsByTagName("monster");
-            const importedMonsters: Map<string, Monster> = new Map();
+            const importedMonsters: Monster[] = [];
             if (!monsters.length) return;
             for (let monster of Array.from(monsters)) {
                 try {
                     const importedMonster: Monster = {
+                        image: null,
                         name: getParameter(monster, "name"),
                         size: getSize(monster),
                         type: getParameter(monster, "type"),
@@ -73,7 +55,7 @@ async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
                         reactions: getTraits(monster, "reaction"),
                         source: getSource(monster)
                     };
-                    importedMonsters.set(importedMonster.name, importedMonster);
+                    importedMonsters.push(importedMonster);
                 } catch (e) {
                     console.error(e);
                     continue;
@@ -105,8 +87,9 @@ function getTraits(
         if (name[0].textContent.includes("Spellcasting")) continue;
         const text = [];
         const traitTexts = trait.getElementsByTagName("text");
-        for (let index in traitTexts) {
-            if (!traitTexts[index]) text.push(traitTexts[index].textContent);
+
+        for (let texts of Array.from(traitTexts)) {
+            text.push(texts.textContent);
         }
         traitList.push({
             name: name[0].textContent,
@@ -233,11 +216,14 @@ function getSource(monster: Element): string {
     } else if (monster.getElementsByTagName("description")?.length) {
         const description = monster.getElementsByTagName("description");
         const searchString = "Source: ";
-        const sourcePos = description[0].textContent.lastIndexOf(searchString);
-        const sources = description[0].textContent
-            .substr(sourcePos + searchString.length)
-            .split(/, ?/);
-        source = sources[0];
+        if (description[0].textContent.includes(searchString)) {
+            const sourcePos =
+                description[0].textContent.lastIndexOf(searchString);
+            const sources = description[0].textContent
+                .slice(sourcePos + searchString.length)
+                .split(/, ?/);
+            source = sources[0];
+        }
     }
     return source;
 }

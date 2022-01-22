@@ -1,17 +1,18 @@
-import type { Monster, StatblockMonsterPlugin } from "@types";
+import type { Monster } from "@types";
 import {
     App,
     FuzzyMatch,
     FuzzySuggestModal,
     Modal,
+    Platform,
     Scope,
     Setting,
     SuggestModal,
     TextComponent
 } from "obsidian";
-import StatBlockRenderer from "src/renderer/statblock";
-
-import EditMonsterApp from "../svelte/EditMonster.svelte";
+import type StatBlockPlugin from "src/main";
+import StatBlockRenderer from "src/view/statblock";
+import { EditMonsterModal } from "./modal";
 
 class Suggester<T> {
     owner: SuggestModal<T>;
@@ -204,7 +205,7 @@ export class MonsterSuggester extends SuggestionModal<Monster> {
     monster: Monster;
     text: TextComponent;
     constructor(
-        public plugin: StatblockMonsterPlugin,
+        public plugin: StatBlockPlugin,
         input: TextComponent,
         el: HTMLDivElement,
         public displayed: Set<string>
@@ -221,39 +222,32 @@ export class MonsterSuggester extends SuggestionModal<Monster> {
     getItem() {
         const v = this.inputEl.value,
             monster = this.getItems().find(
-                (c) => c.name === v.trim() /* || c.source === v.trim() */
+                (c) => c.name === v.trim() || c.source === v.trim()
             );
         if (monster == this.monster) return;
         this.monster = monster;
-        if (this.monster)
-            /* this.cache = this.app.metadataCache.getFileCache(this.command); */
-            this._onInputChanged();
+        if (this.monster) this._onInputChanged();
     }
     getItemText(item: Monster) {
-        return item.name /* + item.source */;
+        return item.name + item.source;
     }
     onChooseItem() {}
     selectSuggestion() {}
     renderSuggestion(result: FuzzyMatch<Monster>, el: HTMLElement) {
         let { item, match: matches } = result || {};
-        let content = new Setting(el); /* el.createDiv({
-            cls: "suggestion-content"
-        }); */
+        let content = new Setting(el);
         if (!item) {
             content.nameEl.setText(this.emptyStateText);
-            /* content.parentElement.addClass("is-selected"); */
             return;
         }
 
-        const matchElements = matches.matches.map((m) => {
-            return createSpan("suggestion-highlight");
-        });
         for (let i = 0; i < item.name.length; i++) {
             let match = matches.matches.find((m) => m[0] === i);
             if (match) {
-                let element = matchElements[matches.matches.indexOf(match)];
-                content.nameEl.appendChild(element);
-                element.appendText(item.name.substring(match[0], match[1]));
+                content.nameEl.createSpan({
+                    cls: "suggestion-highlight",
+                    text: item.name.substring(match[0], match[1])
+                });
 
                 i += match[1] - match[0] - 1;
                 continue;
@@ -261,8 +255,31 @@ export class MonsterSuggester extends SuggestionModal<Monster> {
 
             content.nameEl.appendText(item.name[i]);
         }
+        if (item.source) {
+            for (
+                let i = item.name.length;
+                i < item.name.length + item.source?.length;
+                i++
+            ) {
+                let match = matches.matches.find((m) => m[0] === i);
+                if (match) {
+                    content.descEl.createSpan({
+                        cls: "suggestion-highlight",
+                        text: item.source.substring(
+                            match[0] - item.name.length,
+                            match[1] - item.name.length
+                        )
+                    });
 
-        content.setDesc(item.source);
+                    i += match[1] - match[0] - 1;
+                    continue;
+                }
+
+                content.descEl.appendText(item.source[i - item.name.length]);
+            }
+        }
+
+        /* content.setDesc(item.source); */
         content
             .addExtraButton((b) => {
                 b.setIcon("info")
@@ -299,60 +316,24 @@ export class MonsterSuggester extends SuggestionModal<Monster> {
 }
 
 class ViewMonsterModal extends Modal {
-    constructor(
-        private plugin: StatblockMonsterPlugin,
-        private monster: Monster
-    ) {
+    constructor(private plugin: StatBlockPlugin, private monster: Monster) {
         super(plugin.app);
     }
     async display() {
-        const renderer = new StatBlockRenderer(
+        if (!Platform.isMobile) {
+            this.contentEl.style.maxWidth = "85vw";
+        }
+        new StatBlockRenderer(
             this.contentEl,
             this.monster,
             this.plugin,
             false,
-            false
+            null,
+            this.plugin.defaultLayout
         );
-        renderer.loaded = true;
-        let columns =
-            this.contentEl.getBoundingClientRect().height > 500
-                ? Math.ceil(this.contentEl.getBoundingClientRect().height / 750)
-                : 1;
-        if (columns >= 1) renderer.setWidth(columns * 400, true);
-        if (columns === 0) renderer.setMaxWidth(400);
-        renderer.statblockEl.toggleVisibility(true);
     }
     onOpen() {
         this.display();
     }
 }
-class EditMonsterModal extends Modal {
-    private _instance: any;
-    constructor(
-        private plugin: StatblockMonsterPlugin,
-        private monster: Monster
-    ) {
-        super(plugin.app);
-    }
 
-    onOpen() {
-        this._instance = new EditMonsterApp({
-            target: this.contentEl,
-            props: {
-                monster: this.monster
-            }
-        });
-        this._instance.$on("cancel", () => {
-            this.close();
-        });
-        this._instance.$on("save", async ({ detail }: { detail: Monster }) => {
-            await this.plugin.updateMonster(this.monster, detail);
-            this.close();
-        });
-    }
-    onClose() {}
-    close() {
-        if (this._instance) this._instance.$destroy();
-        super.close();
-    }
-}

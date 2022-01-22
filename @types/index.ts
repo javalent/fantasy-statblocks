@@ -1,24 +1,3 @@
-import { MarkdownPostProcessorContext, Plugin } from "obsidian";
-
-export declare abstract class StatblockMonsterPlugin extends Plugin {
-    exportAsPng(name: string, containerEl: HTMLElement): void;
-    data: Map<string, Monster>;
-    abstract postprocessor(
-        source: string,
-        el: HTMLElement,
-        ctx: MarkdownPostProcessorContext
-    ): Promise<void>;
-    get sorted(): Monster[];
-    get sources(): Set<string>;
-    abstract saveMonster(monster: Monster): Promise<void>;
-    abstract saveMonsters(monsters: Monster[]): Promise<void>;
-    abstract deleteMonster(monster: string): Promise<void>;
-    abstract updateMonster(
-        oldMonster: Monster,
-        newMonster: Monster
-    ): Promise<void>;
-}
-
 export type ability =
     | "strength"
     | "dexterity"
@@ -38,6 +17,7 @@ export type fage_ability =
     | "willpower";
 
 export interface Monster {
+    image?: string;
     name: string;
     size: string;
     type: string;
@@ -74,20 +54,33 @@ export interface Monster {
     legendary_actions?: Trait[];
     reactions?: Trait[];
     monster?: string;
+    creature?: string;
     source?: string;
+
+    /** Statblock Parameters */
+    export?: boolean;
+    dice?: boolean;
+    render?: boolean;
+    layout?: string;
+    statblock?: string;
+    columns?: number;
+    columnWidth?: number;
+    columnHeight?: number;
+    forceColumns?: boolean;
+
+    note?: string;
 }
 
-/* export interface StatblockMonster
+export interface StatblockParameters
     extends Omit<
         Monster,
         "traits" | "actions" | "legendary_actions" | "reactions"
     > {
-    traits: Map<string, Trait>;
-    actions: Map<string, Trait>;
-    legendary_actions: Map<string, Trait>;
-    reactions: Map<string, Trait>;
-    monster?: string;
-} */
+    traits?: { desc: string; name: string }[] | [string, string][];
+    actions?: Trait[] | [string, string][];
+    legendary_actions?: Trait[] | [string, string][];
+    reactions?: Trait[] | [string, string][];
+}
 
 export type Spell = string | { [key: string]: string };
 

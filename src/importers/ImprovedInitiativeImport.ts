@@ -15,29 +15,18 @@ const SAVES: Record<
     WIS: "wisdom",
     CHA: "charisma"
 };
-export const ImportEntitiesFromImprovedInitiative = async (
-    ...files: File[]
-): Promise<Map<string, Monster>> => {
-    let importedMonsters: Map<string, Monster> = new Map();
 
-    for (let file of files) {
-        try {
-            const monsters = await buildMonsterFromFile(file);
-            importedMonsters = new Map([...importedMonsters, ...monsters]);
-        } catch (e) {}
-    }
-    return importedMonsters;
-};
-
-async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
+export async function buildMonsterFromImprovedInitiativeFile(
+    file: File
+): Promise<Monster[]> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        const monsterMap = new Map();
+        const monsterMap: Monster[] = [];
         reader.onload = async (event: any) => {
             try {
                 let json = JSON.parse(event.target.result);
                 const monsters = Object.keys(json).filter((key) =>
-                    /^Creatures/.test(key)
+                    /^Creatures\./.test(key)
                 );
                 for (let key of monsters) {
                     try {
@@ -45,20 +34,20 @@ async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
                         const importedMonster: Monster = {
                             name: monster.Name,
                             source: monster.Source?.trim().length
-                                ? monster.Source.trim()
-                                : "Unknown - Improved Initiative File",
-                            type: monster.Type.split(/,\s?/)[0].trim(),
+                                ? monster.Source?.trim()
+                                : "Unknown",
+                            type: monster.Type?.split(/,\s?/)?.[0]?.trim(),
                             subtype: "",
                             size: "",
-                            alignment: monster.Type.split(/,\s?/)[1].trim(),
-                            hp: monster.HP.Value,
-                            hit_dice: monster.HP.Notes.replace(
-                                /([()])/,
+                            alignment: monster.Type?.split(/,\s?/)?.[1]?.trim(),
+                            hp: monster.HP?.Value,
+                            hit_dice: monster.HP?.Notes?.replace(
+                                /([()])/g,
                                 ""
-                            ).trim(),
+                            )?.trim(),
                             ac: monster.AC.Value,
-                            speed: monster.Speed.join(", ").trim(),
-                            stats: Object.values(monster.Abilities) as [
+                            speed: monster.Speed?.join(", ")?.trim(),
+                            stats: Object.values(monster.Abilities ?? {}) as [
                                 number,
                                 number,
                                 number,
@@ -68,20 +57,20 @@ async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
                             ],
                             damage_immunities:
                                 monster.DamageImmunities?.join("; ")
-                                    .toLowerCase()
-                                    .trim() ?? "",
+                                    ?.toLowerCase()
+                                    ?.trim() ?? "",
                             damage_resistances:
                                 monster.DamageResistances?.join(", ")
-                                    .toLowerCase()
-                                    .trim() ?? "",
+                                    ?.toLowerCase()
+                                    ?.trim() ?? "",
                             damage_vulnerabilities:
                                 monster.DamageVulnerabilities?.join(", ")
-                                    .toLowerCase()
-                                    .trim() ?? "",
+                                    ?.toLowerCase()
+                                    ?.trim() ?? "",
                             condition_immunities:
                                 monster.ConditionImmunities?.join(", ")
-                                    .toLowerCase()
-                                    .trim() ?? "",
+                                    ?.toLowerCase()
+                                    ?.trim() ?? "",
                             saves:
                                 monster.Saves?.map(
                                     ({
@@ -110,9 +99,9 @@ async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
                                         };
                                     }
                                 ) ?? [],
-                            senses: monster.Senses?.join(", ").trim() ?? "",
+                            senses: monster.Senses?.join(", ")?.trim() ?? "",
                             languages:
-                                monster.Languages?.join(", ").trim() ?? "",
+                                monster.Languages?.join(", ")?.trim() ?? "",
                             cr: monster.Challenge?.trim() ?? "",
                             traits:
                                 monster.Traits?.map(
@@ -161,9 +150,10 @@ async function buildMonsterFromFile(file: File): Promise<Map<string, Monster>> {
                                             desc: trait.Content
                                         };
                                     }
-                                ) ?? []
+                                ) ?? [],
+                            image: null
                         };
-                        monsterMap.set(importedMonster.name, importedMonster);
+                        monsterMap.push(importedMonster);
                     } catch (e) {
                         continue;
                     }

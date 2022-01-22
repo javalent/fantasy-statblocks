@@ -1,0 +1,115 @@
+<script lang="ts">
+    import { nanoid, StatblockItem } from "src/data/constants";
+
+    import { flip } from "svelte/animate";
+    import {
+        dndzone,
+        SHADOW_PLACEHOLDER_ITEM_ID,
+        SOURCES,
+        TRIGGERS
+    } from "svelte-dnd-action";
+    import { createEventDispatcher } from "svelte";
+    import { ExtraButtonComponent, Menu, setIcon } from "obsidian";
+
+    const dispatch = createEventDispatcher();
+
+    interface Header {
+        name: string;
+        id: string;
+    }
+
+    export let headers: string[];
+    let items = headers.map((h) => {
+        return { name: h, id: nanoid() };
+    });
+
+    /** Dropzone Functions */
+
+    let flipDurationMs = 300;
+    let dragDisabled = false;
+    function handleConsider(e: CustomEvent<GenericDndEvent<Header>>) {
+        const {
+            items: newItems,
+            info: { source, trigger }
+        } = e.detail;
+        items = [...newItems];
+        // Ensure dragging is stopped on drag finish via keyboard
+        /* if (source === SOURCES.KEYBOARD && trigger === TRIGGERS.DRAG_STOPPED) {
+            dragDisabled = true;
+        } */
+    }
+    function handleFinalize(e: CustomEvent<GenericDndEvent<Header>>) {
+        const {
+            items: newItems,
+            info: { source }
+        } = e.detail;
+        items = [...newItems];
+        dispatch("sorted", items);
+        // Ensure dragging is stopped on drag finish via pointer (mouse, touch)
+        /* if (source === SOURCES.POINTER) {
+            dragDisabled = true;
+        } */
+    }
+    const grip = (node: HTMLElement) => {
+        setIcon(node, "dropzone-grip");
+    };
+
+    function startDrag(e: Event) {
+        // preventing default to prevent lag on touch devices (because of the browser checking for screen scrolling)
+        e.preventDefault();
+        dragDisabled = false;
+    }
+
+    const trash = (evt: Header) => {
+        items = items.filter((b) => b.id != evt.id);
+        dispatch("sorted", items);
+    };
+
+    const del = (node: HTMLDivElement) => {
+        new ExtraButtonComponent(node).setIcon("cross-in-box");
+    };
+</script>
+
+<div class="table-header-container">
+    <section
+        use:dndzone={{
+            items,
+            flipDurationMs,
+            dragDisabled,
+            type: "table_headers"
+        }}
+        on:consider={handleConsider}
+        on:finalize={handleFinalize}
+        class="creator-zone"
+    >
+        {#each items.filter((x) => x.id !== SHADOW_PLACEHOLDER_ITEM_ID) as header (header.id)}
+            <div
+                class="header-container"
+                animate:flip={{ duration: flipDurationMs }}
+            >
+                <!-- <div
+                    class="icon"
+                    use:grip
+                    on:mousedown={startDrag}
+                    on:touchstart={startDrag}
+                    style={dragDisabled ? "cursor: grab" : "cursor: grabbing"}
+                /> -->
+                <span class="table-header">{header.name}</span>
+                <div use:del on:click={() => trash(header)} />
+            </div>
+        {/each}
+    </section>
+</div>
+
+<style>
+    .creator-zone {
+        display: flex;
+        justify-content: space-evenly;
+        gap: 1rem;
+        flex-flow: row wrap;
+    }
+    .header-container {
+        display: flex;
+        align-items: center;
+    }
+</style>

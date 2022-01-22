@@ -1,21 +1,4 @@
 import type { Monster } from "@types";
-import { Notice } from "obsidian";
-
-export const ImportFrom5eTools = async (
-    ...files: File[]
-): Promise<Map<string, Monster>> => {
-    const importedMonsters: Map<string, Monster> = new Map();
-    for (let file of files) {
-        try {
-            const monster = await buildMonsterFromFile(file);
-            importedMonsters.set(monster.name, monster);
-        } catch (e) {
-            new Notice("There was an issue importing the monster.");
-            console.error(e);
-        }
-    }
-    return importedMonsters;
-};
 
 const abilityMap: { [key: string]: string } = {
     str: "strength",
@@ -26,103 +9,164 @@ const abilityMap: { [key: string]: string } = {
     cha: "charisma"
 };
 
-async function buildMonsterFromFile(file: File): Promise<Monster> {
+function parseString(str: string) {
+    return str
+        .replace(/\{\@condition (.+?)}/g, "$1")
+        .replace(/\{\@spell ([\s\S]+?)\}/g, `$1`)
+        .replace(/\{\@recharge (.+?)\}/g, `Recharge $1`)
+        .replace(/\{\@h\}/g, ``)
+        .replace(/\{\@damage (.+?)\}/g, `$1`)
+        .replace(/\{\@atk ms\}/g, `Melee Spell Attack`)
+        .replace(/\{\@atk mw\}/g, `Melee Weapon Attack`)
+        .replace(/\{\@atk rw\}/g, `Ranged Weapon Attack`)
+        .replace(/\{\@hit (\d+?)\}/g, `+$1`)
+        .replace(/\{\@dc (\d+?)\}/g, `$1`);
+}
+
+export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
 
         reader.onload = async (event: any) => {
             try {
-                const monster = JSON.parse(event.target.result);
+                let json = JSON.parse(event.target.result);
+                let monsters;
+                if ("monster" in json) {
+                    monsters = json.monster;
+                } else if (Array.isArray(json)) {
+                    monsters = json;
+                } else if (typeof json == "object") {
+                    monsters = [json];
+                } else {
+                    reject("Invalid monster JSON provided.");
+                }
+                const imported: Monster[] = [];
+                for (const monster of monsters) {
+                    try {
+                        const importedMonster: Monster = {
+                            image: null,
+                            name: monster.name,
+                            source: `${
+                                SOURCE_JSON_TO_FULL[monster.source] ?? "Unknown"
+                            }`,
+                            type: monster.type,
+                            subtype: "",
+                            size: SIZE_ABV_TO_FULL[monster.size],
+                            alignment: getAlignmentString(monster),
+                            hp: monster.hp?.average ?? "",
+                            hit_dice: monster.hp?.formula ?? "",
+                            ac: (monster.ac ?? [])[0]?.ac ?? "",
+                            speed: getSpeedString(monster),
+                            stats: [
+                                monster.str,
+                                monster.dex,
+                                monster.con,
+                                monster.int,
+                                monster.wis,
+                                monster.cha
+                            ],
+                            damage_immunities: parseString(
+                                parseImmune(monster.immune)
+                            ),
+                            damage_resistances: parseString(
+                                parseImmune(monster.resist)
+                            ),
+                            damage_vulnerabilities: parseString(
+                                parseImmune(monster.vulnerable)
+                            ),
+                            condition_immunities: parseString(
+                                parseImmune(monster.conditionImmune)
+                            ),
+                            saves: Object.entries(monster.save ?? {}).map(
+                                (
+                                    thr: [
+                                        ability: keyof typeof abilityMap,
+                                        value: string
+                                    ]
+                                ) => {
+                                    const [, v] = thr[1].match(/.*(\d+)/);
+                                    return { [abilityMap[thr[0]]]: v };
+                                }
+                            ),
+                            skillsaves: Object.fromEntries(
+                                Object.entries(monster.skill ?? {}).map(
+                                    ([name, value]) => {
+                                        const [, v] = value.match(/.*(\d+)/);
+                                        return [name, v];
+                                    }
+                                )
+                            ),
+                            senses: monster.senses?.join(", ").trim() ?? "",
+                            languages:
+                                monster.languages?.join(", ").trim() ?? "",
+                            cr: monster.cr ? monster.cr.cr || monster.cr : "",
+                            traits:
+                                monster.trait?.map(
+                                    (trait: {
+                                        name: string;
+                                        entries: string[];
+                                    }) => {
+                                        return {
+                                            name: trait.name,
+                                            desc: parseString(
+                                                trait.entries.join("\n")
+                                            )
+                                        };
+                                    }
+                                ) ?? [],
+                            actions:
+                                monster.action?.map(
+                                    (trait: {
+                                        name: string;
+                                        entries: string[];
+                                    }) => {
+                                        return {
+                                            name: trait.name,
+                                            desc: parseString(
+                                                trait.entries.join("\n")
+                                            )
+                                        };
+                                    }
+                                ) ?? [],
+                            reactions:
+                                monster.reaction?.map(
+                                    (trait: {
+                                        name: string;
+                                        entries: string[];
+                                    }) => {
+                                        return {
+                                            name: trait.name,
+                                            desc: parseString(
+                                                trait.entries.join("\n")
+                                            )
+                                        };
+                                    }
+                                ) ?? [],
+                            legendary_actions:
+                                monster.legendary?.map(
+                                    (trait: {
+                                        name: string;
+                                        entries: string[];
+                                    }) => {
+                                        return {
+                                            name: trait.name,
+                                            desc: parseString(
+                                                trait.entries.join("\n")
+                                            )
+                                        };
+                                    }
+                                ) ?? [],
+                            spells: getSpells(monster)
+                        };
+                        imported.push(importedMonster);
+                    } catch (e) {
+                        continue;
+                    }
+                }
 
-                const importedMonster: Monster = {
-                    name: monster.name,
-                    source: `${
-                        SOURCE_JSON_TO_FULL[monster.source] ?? "5e.tools"
-                    }`,
-                    type: monster.type,
-                    subtype: "",
-                    size: SIZE_ABV_TO_FULL[monster.size],
-                    alignment: getAlignmentString(monster),
-                    hp: monster.hp?.average ?? "",
-                    hit_dice: monster.hp?.formula ?? "",
-                    ac: (monster.ac ?? [])[0]?.ac ?? "",
-                    speed: getSpeedString(monster),
-                    stats: [
-                        monster.str,
-                        monster.dex,
-                        monster.con,
-                        monster.int,
-                        monster.wis,
-                        monster.cha
-                    ],
-                    damage_immunities: parseImmune(monster.immune),
-                    damage_resistances: parseImmune(monster.resist),
-                    damage_vulnerabilities: parseImmune(monster.vulnerable),
-                    condition_immunities: parseImmune(monster.conditionImmune),
-                    saves: Object.entries(monster.save ?? {}).map(
-                        (
-                            thr: [
-                                ability: keyof typeof abilityMap,
-                                value: string
-                            ]
-                        ) => {
-                            const [, v] = thr[1].match(/.*(\d+)/);
-                            return { [abilityMap[thr[0]]]: v };
-                        }
-                    ),
-                    skillsaves: Object.fromEntries(
-                        Object.entries(monster.skill ?? {}).map(
-                            ([name, value]) => {
-                                const [, v] = value.match(/.*(\d+)/);
-                                return [name, v];
-                            }
-                        )
-                    ),
-                    senses: monster.senses?.join(", ").trim() ?? "",
-                    languages: monster.languages?.join(", ").trim() ?? "",
-                    cr: monster.cr ? monster.cr.cr || monster.cr : "",
-                    traits:
-                        monster.trait?.map(
-                            (trait: { name: string; entries: string[] }) => {
-                                return {
-                                    name: trait.name,
-                                    desc: trait.entries.join("\n")
-                                };
-                            }
-                        ) ?? [],
-                    actions:
-                        monster.action?.map(
-                            (trait: { name: string; entries: string[] }) => {
-                                return {
-                                    name: trait.name,
-                                    desc: trait.entries.join("\n")
-                                };
-                            }
-                        ) ?? [],
-                    reactions:
-                        monster.reaction?.map(
-                            (trait: { name: string; entries: string[] }) => {
-                                return {
-                                    name: trait.name,
-                                    desc: trait.entries.join("\n")
-                                };
-                            }
-                        ) ?? [],
-                    legendary_actions:
-                        monster.legendary?.map(
-                            (trait: { name: string; entries: string[] }) => {
-                                return {
-                                    name: trait.name,
-                                    desc: trait.entries.join("\n")
-                                };
-                            }
-                        ) ?? [],
-                    spells: getSpells(monster)
-                };
-
-                resolve(importedMonster);
+                resolve(imported);
             } catch (e) {
-                console.error(e);
+                console.error(`reject!!!`, e);
                 reject(e);
             }
         };
@@ -166,17 +210,13 @@ function getSpells(monster: any): any[] {
     if (spells) {
         try {
             ret.push(
-                ...Object.entries(spells).map(
-                    ([level, { slots, spells }]) => {
-                        let name = `${spellMap[level]}`;
-                        name += slots != undefined ? ` (${slots} slots)` : "";
+                ...Object.entries(spells).map(([level, { slots, spells }]) => {
+                    let name = `${spellMap[level]}`;
+                    name += slots != undefined ? ` (${slots} slots)` : "";
 
-                        const sp = spells
-                            .join(", ")
-                            .replace(/\{@spell ([\s\S]+?)\}/g, `$1`);
-                        return { [name]: sp };
-                    }
-                )
+                    const sp = parseString(spells.join(", "));
+                    return { [name]: sp };
+                })
             );
         } catch (e) {
             throw new Error("There was an error parsing the spells.");
@@ -185,27 +225,21 @@ function getSpells(monster: any): any[] {
     if (will) {
         try {
             ret.push({
-                "At will": will
-                    .join(", ")
-                    .replace(/\{@spell ([\s\S]+?)\}/g, `$1`)
-            })
-        } catch(e) {
-            throw new Error("There was an error parsing the at-will spells.")
+                "At will": parseString(will.join(", "))
+            });
+        } catch (e) {
+            throw new Error("There was an error parsing the at-will spells.");
         }
     }
     if (daily) {
         try {
             ret.push(
-                ...Object.entries(daily).map(
-                    ([num, spells]) => {
-                        let name = `Daily (${num})`;
+                ...Object.entries(daily).map(([num, spells]) => {
+                    let name = `Daily (${num})`;
 
-                        const sp = spells
-                            .join(", ")
-                            .replace(/\{@spell ([\s\S]+?)\}/g, `$1`);
-                        return { [name]: sp };
-                    }
-                )
+                    const sp = parseString(spells.join(", "));
+                    return { [name]: sp };
+                })
             );
         } catch (e) {
             throw new Error("There was an error parsing the daily spells.");

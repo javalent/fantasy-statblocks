@@ -1,0 +1,41 @@
+.statblock-filter-container .search-input-container {
+    margin-bottom: 0;
+}
+
+.no-border-top {
+    border-top: 0;
+}
+
+.statblock-edit-block
+    .statblock-additional-container
+    > .additional
+    > .setting-item
+    .setting-item-name {
+    font-size: small;
+    font-style: italic;
+}
+.statblock-edit-block
+    .statblock-additional-container
+    > .additional
+    > .setting-item {
+    color: var(--text-muted);
+}
+.statblock-edit-block .statblock-additional-container > :not(.additional) {
+    padding-bottom: 0;
+}
+
+.statblock-edit-block .setting-item {
+    border: 0;
+
+    padding-top: 0rem;
+}
+
+.statblock-edit-block textarea {
+    width: 100%;
+    resize: vertical;
+    overflow: hidden;
+}
+
+.statblock-additional-container.statblock-monsters button {
+    margin-right: 0;
+}
