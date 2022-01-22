@@ -82,7 +82,7 @@ export default class StatBlockPlugin extends Plugin {
     data: Map<string, Monster>;
     _bestiary: Map<string, Monster>;
     get bestiary() {
-        return this._bestiary;
+        return new Map(this._bestiary);
     }
     watcher = new Watcher(this);
     private _sorted: Monster[] = [];
