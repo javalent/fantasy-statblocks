@@ -1,18 +1,14 @@
 # Obsidian TTRPG Statblocks
 
-Create 5e-styled statblocks in Obsidian.md notes.
+Create, manage, and view a TTRPG Bestiary in Obsidian.md.
 
 <img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/example.PNG">
 
 > **:pencil: Homebrew**
 >
-> The plugin comes pre-loaded with the full SRD monster list.
->
-> Additional creatures can be saved by defining them in a statblock or in a note's frontmatter (see [Homebrew Creatures](#homebrew-creatures)).
->
-> You can also import homebrew creatures from various sources. See [Importing Creatures](#import-monsters)
+> The plugin is used to manage
 
-## Usage
+# Usage
 
 A statblock may be defined in a note using the syntax below.
 
@@ -81,7 +77,7 @@ reactions:
 ```
 ````
 
-### Using [Dice Roller](https://github.com/valentine195/obsidian-dice-roller)
+## Using [Dice Roller](https://github.com/valentine195/obsidian-dice-roller)
 
 You can integrate the dice roller plugin in your statblocks, which will allow you to roll dice inside stat blocks. This integration requires the following:
 
@@ -96,19 +92,19 @@ The plugin will then parse monster properties for common types of dice rolls. Th
 
 > Want to change how Dice Rollers are added? Create a [Custom Layout](#layouts) in settings.
 
-#### Rendered Dice
+### Rendered Dice
 
 Dice rollers added to stat blocks can roll 3D dice on the screen if the [Render Dice Rolls](#render-dice-rolls) setting is turned on or the `render: true` parameter is added to a stat block.
 
 <img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/render.gif">
 
-### Images
+## Images
 
 Images can be added to the statblock using the `image` parameter. This should be a wikilink to an image located somewhere in your vault.
 
 The image will be placed next to the name, centered inside a 75px circle.
 
-### Overriding Fields
+## Overriding Fields
 
 The `monster` field may be combined with other fields to override the field of the specified SRD monster. For example:
 
@@ -121,7 +117,7 @@ name: Paarthurnax
 
 <img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/override.PNG">
 
-### Traits
+## Traits
 
 Traits, as well as Actions, Reactions and Legendary Actions, should be added by specifying a name and description (desc):
 
@@ -134,7 +130,7 @@ traits:
     desc: If the dragon fails a saving throw, it can choose to succeed instead.
 ```
 
-### Spellcasting
+## Spellcasting
 
 The spellcasting trait requires a special `spells` field using the following syntax:
 
@@ -160,11 +156,11 @@ spells:
 ```
 ````
 
-### Fantasy AGE
+## Fantasy AGE
 
 Those of you using the plugin for Fantasy AGE may use `fage_stats` to set the nine stats.
 
-### Full Example
+## Full Example
 
 ````
 ```statblock
@@ -236,7 +232,7 @@ spells:
 ```
 ````
 
-### Columns
+## Columns
 
 The plugin will intelligently create two columns if the stat block it is rendering is long and there is enough space for the second column.
 
@@ -257,17 +253,25 @@ You can customize the behavior of the columns with a few different parameters:
 >
 > It will still respect the width of the note, unless `forceColumns` is set.
 
-# Homebrew Creatures
+# The Bestiary
 
-Homebrew creatures can be saved by creating a custom monster in a statblock or a note's frontmatter.
+The statblock plugin maintains a collection of creatures that can be referenced in statblocks and used in other plugins, such as the [initiative tracker](https://github.com/valentine195/obsidian-initiative-tracker).
+
+## Adding Creatures to the Bestiary
+
+You can add your own custom monsters to this bestiary in a few ways.
+
+### Creating Creatures in Notes
+
+Homebrew creatures can be saved by creating a custom monster in a statblock codeblock in a note, as described in [the usage section](#usage).
 
 You can either fully define your own custom monster, or use an existing monster in your bestiary and [override fields](#overriding-fields).
 
-When a statblock has been rendered, you may save the creature by clicking the menu icon in the top right and selecting "Save as Homebrew".
+When a statblock has been rendered, you may save the creature by clicking the menu icon in the top right and selecting "Save to Bestiary".
 
 <img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/save.png">
 
-## Creating Creatures in Frontmatter
+### Creating Creatures in Frontmatter
 
 Because the plugin uses YAML for its syntax, a statblock created using the statblock codeblock is valid note frontmatter.
 
@@ -278,6 +282,30 @@ Any note given the `statblock: true` parameter in its frontmatter will have its 
 Once the creature has been found in a note, it will be added to the bestiary and synced with the note content.
 
 If the statblock field is removed or set to false, or the note is deleted, the creature will be removed from the bestiary.
+
+## Accessing the Bestiary
+
+Your bestiary lives on the plugin and can be accessed programmatically in plugins that can run JavaScript, such as [Dataview](https://github.com/blacksmithgu/obsidian-dataview), [Templater](https://github.com/SilentVoid13/Templater) or [CustomJS](https://github.com/samlewis0602/obsidian-custom-js).
+
+The easiest way to access the bestiary is:
+
+```js
+const bestiary = app.plugins.getPlugin("obsidian-5e-statblocks").bestiary;
+```
+
+This will give you a readonly JavaScript [`Map`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map).
+
+Creatures are stored on the Bestiary by name - you could retrieve a creature from the bestiary like this:
+
+```js
+const ancient_black_dragon = bestiary.get("Ancient Black Dragon");
+```
+
+Or, a list of all creatures:
+
+```js
+const creatures = bestiary.values();
+```
 
 # Customizing the CSS
 
