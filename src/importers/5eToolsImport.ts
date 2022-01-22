@@ -107,62 +107,10 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
                             languages:
                                 monster.languages?.join(", ").trim() ?? "",
                             cr: monster.cr ? monster.cr.cr || monster.cr : "",
-                            traits:
-                                monster.trait?.map(
-                                    (trait: {
-                                        name: string;
-                                        entries: string[];
-                                    }) => {
-                                        return {
-                                            name: trait.name,
-                                            desc: parseString(
-                                                trait.entries.join("\n")
-                                            )
-                                        };
-                                    }
-                                ) ?? [],
-                            actions:
-                                monster.action?.map(
-                                    (trait: {
-                                        name: string;
-                                        entries: string[];
-                                    }) => {
-                                        return {
-                                            name: trait.name,
-                                            desc: parseString(
-                                                trait.entries.join("\n")
-                                            )
-                                        };
-                                    }
-                                ) ?? [],
-                            reactions:
-                                monster.reaction?.map(
-                                    (trait: {
-                                        name: string;
-                                        entries: string[];
-                                    }) => {
-                                        return {
-                                            name: trait.name,
-                                            desc: parseString(
-                                                trait.entries.join("\n")
-                                            )
-                                        };
-                                    }
-                                ) ?? [],
-                            legendary_actions:
-                                monster.legendary?.map(
-                                    (trait: {
-                                        name: string;
-                                        entries: string[];
-                                    }) => {
-                                        return {
-                                            name: trait.name,
-                                            desc: parseString(
-                                                trait.entries.join("\n")
-                                            )
-                                        };
-                                    }
-                                ) ?? [],
+                            traits: monster.trait?.flatMap(normalizeEntries) ?? [],
+                            actions: monster.action?.flatMap(normalizeEntries) ?? [],
+                            reactions: monster.reaction?.flatMap(normalizeEntries) ?? [],
+                            legendary_actions: monster.legendary?.flatMap(normalizeEntries) ?? [],
                             spells: getSpells(monster)
                         };
                         imported.push(importedMonster);
@@ -355,6 +303,89 @@ function getSpeedString(it: any) {
         return it.speed + (it.speed === "Varies" ? "" : " ft. ");
     }
 }
+
+
+type Entry = string | { type: string, name: string, items: Array<{ name: string, entry: string } | { name: string, entries: string[] }> };
+type NormalizedEntry = { name: string, desc: string };
+
+
+/**
+ * in some cases 5e.tool data json has not only strings, but objects inside, such as items, or dragon attacks
+ * current code assumes that in mixed content simple stings go before list of items
+ *
+ * transforms complex traits into list of traits, e.g.
+ *
+ * ```
+ * const input = {
+ * 	"name": "Breath Weapons {@recharge 5}",
+ * 	"entries": [
+ * 		"The dragon uses one of the following breath weapons.",
+ * 		{
+ * 			"type": "list",
+ * 			"style": "list-hang-notitle",
+ * 			"items": [
+ * 				{
+ * 					"type": "item",
+ * 					"name": "Fire Breath.",
+ * 					"entry": "The dragon exhales fire in a 60-foot line that is 5 feet wide. Each creature in that line must make a {@dc 18} Dexterity saving throw, taking 45 ({@damage 13d6}) fire damage on a failed save, or half as much damage on a successful one."
+ * 				},
+ * 				{
+ * 					"type": "item",
+ * 					"name": "Sleep Breath.",
+ * 					"entry": "The dragon exhales sleep gas in a 60-foot cone. Each creature in that area must succeed on a {@dc 18} Constitution saving throw or fall {@condition unconscious} for 10 minutes. This effect ends for a creature if the creature takes damage or someone uses an action to wake it."
+ * 				}
+ * 			]
+ * 		}
+ * 	]
+ * };
+ *
+ * const output = [
+ * 		{
+ * 			"name": "Breath Weapons {@recharge 5}",
+ * 			"desc": "The dragon uses one of the following breath weapons."
+ * 		},
+ * 		{
+ * 			"name": "Fire Breath.",
+ * 			"desc": "The dragon exhales fire in a 60-foot line that is 5 feet wide. Each creature in that line must make a {@dc 18} Dexterity saving throw, taking 45 ({@damage 13d6}) fire damage on a failed save, or half as much damage on a successful one."
+ * 		},
+ * 		{
+ * 			"name": "Sleep Breath.",
+ * 			"desc": "The dragon exhales sleep gas in a 60-foot cone. Each creature in that area must succeed on a {@dc 18} Constitution saving throw or fall {@condition unconscious} for 10 minutes. This effect ends for a creature if the creature takes damage or someone uses an action to wake it."
+ * 		},
+ * 	]
+ *```
+ */
+function normalizeEntries(trait: { name: string; entries: Entry[] }): NormalizedEntry[] {
+  const flattenedEntries =  trait.entries.reduce((acc, current) => {
+
+    if (typeof current !== 'string') {
+      const items = current.items.map((item) => {
+        if ('entry' in item) {
+          return { name: item.name, entries: [item.entry] }
+        }
+
+        return { name: item.name, entries: item.entries }
+      });
+      return acc.concat(items)
+    }
+
+    const hasSubItems = acc.length > 1;
+    // skip? simple strings if entries already have sub items
+    if (!hasSubItems) {
+      acc[0].entries.push(current);
+    }
+
+    return acc;
+  }, [{ name: trait.name, entries: [] }])
+
+  return flattenedEntries.map(({ name, entries }) => {
+    return {
+      name: parseString(name),
+      desc: parseString(entries.join("\n"))
+    }
+  })
+}
+
 const SZ_FINE = "F";
 const SZ_DIMINUTIVE = "D";
 const SZ_TINY = "T";
