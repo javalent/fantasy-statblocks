@@ -7,7 +7,9 @@
 </script>
 
 <div class="property">
-    <div class="property-name">{name}</div>
+    {#if name}
+        <div class="property-name">{name}</div>
+    {/if}
     <div class="property-text">
         <TextContentHolder {render} property={desc} />
     </div>
