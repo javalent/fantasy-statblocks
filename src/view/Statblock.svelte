@@ -97,7 +97,7 @@
     menu.addItem((item) =>
         item
             .setIcon(SAVE_SYMBOL)
-            .setTitle("Save as Homebrew")
+            .setTitle("Save to Bestiary")
             .onClick(() => dispatch("save"))
     );
     if (canExport)
