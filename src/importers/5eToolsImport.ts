@@ -55,7 +55,7 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
                             alignment: getAlignmentString(monster),
                             hp: monster.hp?.average ?? "",
                             hit_dice: monster.hp?.formula ?? "",
-                            ac: (monster.ac ?? [])[0]?.ac ?? "",
+                            ac: getAc(monster.ac),
                             speed: getSpeedString(monster),
                             stats: [
                                 monster.str,
@@ -186,6 +186,17 @@ function parseImmune(immune: any[]): string {
     }
     return ret.join(", ");
 }
+
+function getAc(acField: Array<number | { ac: number }> = []) {
+  const [item] = acField;
+
+  if (typeof item === 'number') {
+    return item;
+  }
+
+  return item.ac;
+}
+
 const spellMap: { [key: string]: string } = {
     "0": "Cantrips (at will)",
     "1": "1st level",
