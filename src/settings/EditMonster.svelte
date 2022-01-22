@@ -4,6 +4,7 @@
     import {
         ButtonComponent,
         ExtraButtonComponent,
+        Notice,
         parseYaml,
         stringifyYaml
     } from "obsidian";
@@ -34,12 +35,12 @@
                         } else {
                             monster = parseYaml(textArea.value);
                         }
-                        console.log(
-                            "🚀 ~ file: EditMonster.svelte ~ line 36 ~ monster",
-                            monster
-                        );
                     } catch (e) {
                         console.error(e);
+                        new Notice(
+                            `There was an error saving the creaturen\n\n${e.message}`
+                        );
+                        return;
                     }
                 }
                 dispatch("save", monster);
@@ -67,10 +68,6 @@
             } else {
                 monster = parseYaml(textArea.value);
             }
-            console.log(
-                "🚀 ~ file: EditMonster.svelte ~ line 36 ~ monster",
-                monster
-            );
         } catch (e) {
             console.error(e);
         }
