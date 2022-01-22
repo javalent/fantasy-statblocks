@@ -287,10 +287,12 @@ If the statblock field is removed or set to false, or the note is deleted, the c
 
 Your bestiary lives on the plugin and can be accessed programmatically in plugins that can run JavaScript, such as [Dataview](https://github.com/blacksmithgu/obsidian-dataview), [Templater](https://github.com/SilentVoid13/Templater) or [CustomJS](https://github.com/samlewis0602/obsidian-custom-js).
 
-The easiest way to access the bestiary is:
+A readonly copy of the bestiary is available on the `window` object and can be accessed in your scripts like this:
 
 ```js
 const bestiary = app.plugins.getPlugin("obsidian-5e-statblocks").bestiary;
+//or
+const bestiary = window.bestiary;
 ```
 
 This will give you a readonly JavaScript [`Map`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map).
