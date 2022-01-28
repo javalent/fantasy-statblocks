@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.11.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.1...2.11.2) (2022-01-28)
+
+
+### Bug Fixes
+
+* 🐛 fixes issue with escaped characters in markdown ([ffce2b8](https://github.com/valentine195/obsidian-5e-statblocks/commit/ffce2b8203ce3d62228354212ee6faa0c9d7aae7))
+
 ### [2.11.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.0...2.11.1) (2022-01-22)
 
 
