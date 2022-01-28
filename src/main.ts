@@ -391,8 +391,8 @@ export default class StatBlockPlugin extends Plugin {
             let params: StatblockParameters = parseYaml(source);
 
             //replace escapes
-            params = JSON.parse(JSON.stringify(params).replace(/\\/g, ""));
-
+            params = JSON.parse(JSON.stringify(params).replace(/\\#/g, "#"));
+            console.log("🚀 ~ file: main.ts ~ line 396 ~ params", params);
             const canSave = params && "name" in params;
 
             if (!params || !Object.values(params ?? {}).length) {
