@@ -232,7 +232,7 @@ export const Statblock5e: StatblockItem[] = [
         type: "table",
         id: nanoid(),
         properties: ["stats"],
-        headers: ["Str", "Dex", "Con", "Wis", "Int", "Cha"],
+        headers: ["Str", "Dex", "Con", "Int", "Wis", "Cha"],
         calculate: true,
         hasRule: true,
         conditioned: true
