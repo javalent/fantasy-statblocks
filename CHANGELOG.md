@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.11.4](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.3...2.11.4) (2022-02-13)
+
+
+### Bug Fixes
+
+* fixes order of int and wis in basic 5e statblock (fix [#37](https://github.com/valentine195/obsidian-5e-statblocks/issues/37)) ([43b0bbd](https://github.com/valentine195/obsidian-5e-statblocks/commit/43b0bbd00f6e8ecaf6197fd6d06095119cac6806))
+
 ### [2.11.3](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.2...2.11.3) (2022-01-28)
 
 
