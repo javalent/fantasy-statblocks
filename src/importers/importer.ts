@@ -1,8 +1,8 @@
-import { nanoid } from "src/data/constants";
 import ImportWorker from "./importer.worker";
 import type { Monster } from "@types";
 import { App, Modal, Notice, Setting, TextComponent } from "obsidian";
 import type StatBlockPlugin from "src/main";
+import { nanoid } from "src/util/util";
 
 class SourcePromptModal extends Modal {
     source: string;

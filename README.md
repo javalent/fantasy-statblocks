@@ -288,6 +288,7 @@ If the statblock field is removed or set to false, or the note is deleted, the c
 Creatures can be created directly in settings under the [Homebrew Creatures](#homebrew-creatures) section by clicking the "Add Creature" button.
 
 Creatures can be created using either the YAML syntax shown above or by JSON.
+
 ### Importing Creatures
 
 Creatures can be imported into the bestiary in [settings](#import-creatures) from various common sources.
@@ -517,6 +518,12 @@ Alternatively, you may specify a property of a monster to use as the dice string
 If [Advanced Options](#show-advanced-options) is turned on, you also have the ability to provide a `Dice Callback` function to the block. This allows you to parse the property string for the _exact_ dice roll you want.
 
 The callback function will receive the `plugin`, `monster` and `property` parameters.
+
+## Adding a Layout to the Plugin
+
+Layouts can be added to the plugin by opening a pull request.
+
+You should add a new layouts file in the [layouts](src/layouts) folder and add the layout to the [layout index](src/layouts/index.ts) file's `DefaultLayout` export.
 
 # Settings
 

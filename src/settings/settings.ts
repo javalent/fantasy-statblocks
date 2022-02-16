@@ -21,6 +21,7 @@ import { FolderSuggestionModal } from "src/util/folder";
 import { EditMonsterModal } from "./modal";
 import { Layout5e } from "src/layouts/basic5e";
 import type { Layout } from "src/layouts/types";
+import { DefaultLayouts } from "src/layouts";
 
 export default class StatblockSettingTab extends PluginSettingTab {
     importer: Importer;
@@ -243,7 +244,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 "Change the default statblock layout used, if not specified."
             )
             .addDropdown(async (d) => {
-                d.addOption(Layout5e.name, Layout5e.name);
+                for (const layout of DefaultLayouts) {
+                    d.addOption(layout.name, layout.name);
+                }
                 for (const layout of this.plugin.settings.layouts) {
                     d.addOption(layout.name, layout.name);
                 }
@@ -310,19 +313,23 @@ export default class StatblockSettingTab extends PluginSettingTab {
     }
     buildCustomLayouts(layoutContainer: HTMLDivElement) {
         layoutContainer.empty();
-        new Setting(layoutContainer)
-            .setName(Layout5e.name)
-            .addExtraButton((b) => {
-                b.setIcon("duplicate-glyph")
-                    .setTooltip("Create Copy")
-                    .onClick(async () => {
-                        this.plugin.settings.layouts.push(
-                            this.getDuplicate(Layout5e)
-                        );
-                        await this.plugin.saveSettings();
-                        this.buildCustomLayouts(layoutContainer);
-                    });
-            });
+
+        for (const layout of DefaultLayouts) {
+            new Setting(layoutContainer)
+                .setName(layout.name)
+                .addExtraButton((b) => {
+                    b.setIcon("duplicate-glyph")
+                        .setTooltip("Create Copy")
+                        .onClick(async () => {
+                            this.plugin.settings.layouts.push(
+                                this.getDuplicate(layout)
+                            );
+                            await this.plugin.saveSettings();
+                            this.buildCustomLayouts(layoutContainer);
+                        });
+                });
+        }
+
         for (const layout of this.plugin.settings.layouts) {
             new Setting(layoutContainer)
                 .setName(layout.name)

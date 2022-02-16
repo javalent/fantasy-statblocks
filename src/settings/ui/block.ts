@@ -1,20 +1,14 @@
 import type { Monster } from "@types";
 import copy from "fast-copy";
+import { Modal, Notice, Setting, TextAreaComponent } from "obsidian";
 import {
-    ExtraButtonComponent,
-    Modal,
-    Notice,
-    Setting,
-    TextAreaComponent
-} from "obsidian";
-import {
-    StatblockItem,
-    PropertyItem,
-    TableItem,
-    TraitsItem,
-    TextItem,
-    MarkdownTypes
-} from "src/data/constants";
+    type StatblockItem,
+    type PropertyItem,
+    type TraitsItem,
+    type TableItem,
+    MarkdownTypes,
+    type TextItem
+} from "src/layouts/types";
 import type StatBlockPlugin from "src/main";
 import TableHeaders from "./TableHeaders.svelte";
 

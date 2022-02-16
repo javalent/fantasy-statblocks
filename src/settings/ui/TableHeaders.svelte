@@ -1,15 +1,9 @@
 <script lang="ts">
-    import { nanoid, StatblockItem } from "src/data/constants";
-
     import { flip } from "svelte/animate";
-    import {
-        dndzone,
-        SHADOW_PLACEHOLDER_ITEM_ID,
-        SOURCES,
-        TRIGGERS
-    } from "svelte-dnd-action";
+    import { dndzone, SHADOW_PLACEHOLDER_ITEM_ID } from "svelte-dnd-action";
     import { createEventDispatcher } from "svelte";
-    import { ExtraButtonComponent, Menu, setIcon } from "obsidian";
+    import { ExtraButtonComponent, setIcon } from "obsidian";
+    import { nanoid } from "src/util/util";
 
     const dispatch = createEventDispatcher();
 
