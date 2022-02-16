@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.11.5](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.4...2.11.5) (2022-02-16)
+
+
+### Bug Fixes
+
+* greatly improved image loading ([ca94352](https://github.com/valentine195/obsidian-5e-statblocks/commit/ca943528b9c0b4b4f17caf97b85dafa64da9f9a5))
+
 ### [2.11.4](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.3...2.11.4) (2022-02-13)
 
 
