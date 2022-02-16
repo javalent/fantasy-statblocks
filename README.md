@@ -71,6 +71,9 @@ actions:
 legendary_actions:
   - [<legendary_actions-name>, <legendary_actions-description>]
   - ...
+bonus_actions:
+  - [<trait-name>, <trait-description>]
+  - ... 
 reactions:
   - [<reaction-name>, <reaction-description>]
   - ...

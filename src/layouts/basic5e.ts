@@ -596,6 +596,15 @@ return "";`
     {
         type: "traits",
         id: nanoid(),
+        properties: ["bonus_actions"],
+        heading: "Bonus Actions",
+        conditioned: true,
+
+        dice: true
+    },
+    {
+        type: "traits",
+        id: nanoid(),
         properties: ["legendary_actions"],
         heading: "Legendary Actions",
         conditioned: true,

@@ -89,6 +89,9 @@ class Parser {
         if (monster.actions) {
             monster.actions = transformTraits([], monster.actions);
         }
+        if (monster.bonus_actions) {
+            monster.bonus_actions = transformTraits([], monster.bonus_actions);
+        }
         if (monster.reactions) {
             monster.reactions = transformTraits([], monster.reactions);
         }

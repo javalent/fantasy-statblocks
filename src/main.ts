@@ -428,6 +428,10 @@ export default class StatBlockPlugin extends Plugin {
                     monster.actions ?? [],
                     params.actions ?? []
                 );
+                let bonus_actions = transformTraits(
+                    monster.bonus_actions ?? [],
+                    params.bonus_actions ?? []
+                );
                 let legendary_actions = transformTraits(
                     monster.legendary_actions ?? [],
                     params.legendary_actions ?? []
@@ -440,6 +444,7 @@ export default class StatBlockPlugin extends Plugin {
                 Object.assign(params, {
                     traits,
                     actions,
+                    bonus_actions,
                     reactions,
                     legendary_actions
                 });
