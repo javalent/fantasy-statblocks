@@ -8,7 +8,7 @@ import {
     TextComponent,
     TFolder
 } from "obsidian";
-import { Layout, Layout5e } from "src/data/constants";
+
 import type StatBlockPlugin from "src/main";
 import StatblockCreator from "./StatblockCreator.svelte";
 import { MonsterSuggester } from "src/settings/suggester";
@@ -19,6 +19,8 @@ import "./settings.css";
 import Importer from "src/importers/importer";
 import { FolderSuggestionModal } from "src/util/folder";
 import { EditMonsterModal } from "./modal";
+import { Layout5e } from "src/layouts/basic5e";
+import type { Layout } from "src/layouts/types";
 
 export default class StatblockSettingTab extends PluginSettingTab {
     importer: Importer;

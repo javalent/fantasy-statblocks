@@ -14,12 +14,10 @@ import { transformTraits } from "./util/util";
 import {
     EXPORT_ICON,
     EXPORT_SYMBOL,
-    Layout,
-    Layout5e,
     SAVE_ICON,
     SAVE_SYMBOL
 } from "./data/constants";
-import type { Monster, StatblockParameters, Trait } from "@types";
+import type { Monster, StatblockParameters } from "@types";
 import StatblockSettingTab from "./settings/settings";
 import fastCopy from "fast-copy";
 
@@ -28,6 +26,9 @@ import { sort } from "fast-sort";
 import type { Plugins } from "../../obsidian-overload";
 import type { HomebrewCreature } from "../../obsidian-initiative-tracker/@types";
 import { Watcher } from "./watcher/watcher";
+import type { Layout } from "./layouts/types";
+import { Layout5e } from "./layouts/basic5e";
+
 declare module "obsidian" {
     interface App {
         plugins: {
@@ -392,7 +393,7 @@ export default class StatBlockPlugin extends Plugin {
 
             //replace escapes
             params = JSON.parse(JSON.stringify(params).replace(/\\#/g, "#"));
-            const canSave = params && "name" in params; 
+            const canSave = params && "name" in params;
 
             if (!params || !Object.values(params ?? {}).length) {
                 params = Object.assign({}, params, { note: ctx.sourcePath });
