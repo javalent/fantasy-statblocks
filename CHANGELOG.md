@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.11.7](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.6...2.11.7) (2022-02-17)
+
+
+### Bug Fixes
+
+* re-added fantasy age stat table ([4335167](https://github.com/valentine195/obsidian-5e-statblocks/commit/43351672c00040f6c6eae43a2b8eb1ec2adccc3e))
+
 ### [2.11.6](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.5...2.11.6) (2022-02-17)
 
 ### Bug Fixes
