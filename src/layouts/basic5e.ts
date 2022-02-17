@@ -79,6 +79,15 @@ export const Statblock5e: StatblockItem[] = [
         hasRule: true,
         conditioned: true
     },
+    {
+        type: "table",
+        id: nanoid(),
+        properties: ["fage_stats"],
+        headers: ["Accuracy", "Communication", "Constitution", "Dexterity", "Fighting", "Intelligence", "Perception", "Strength", "Willpower"],
+        calculate: false,
+        hasRule: true,
+        conditioned: true
+    },
 
     {
         type: "group",

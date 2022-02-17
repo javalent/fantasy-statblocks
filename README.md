@@ -522,6 +522,10 @@ If [Advanced Options](#show-advanced-options) is turned on, you also have the ab
 
 The callback function will receive the `plugin`, `monster` and `property` parameters.
 
+## Sharing Layouts
+
+Layouts can be shared in [this discussion](https://github.com/valentine195/obsidian-5e-statblocks/discussions/41).
+
 ## Adding a Layout to the Plugin
 
 Layouts can be added to the plugin by opening a pull request.
