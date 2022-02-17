@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [2.11.6](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.5...2.11.6) (2022-02-17)
 
+### Bug Fixes
+
+* Basic 5e Statblock now supports Bonus Actions (thank you @kgar) (PR [#40](https://github.com/valentine195/obsidian-5e-statblocks/pull/40))
+
 ### [2.11.5](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.4...2.11.5) (2022-02-16)
 
 
