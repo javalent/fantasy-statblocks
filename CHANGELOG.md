@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### Features
 
-* Adds basic fate core layout option ([cc35a20](https://github.com/valentine195/obsidian-5e-statblocks/commit/cc35a2049eff26de9f26a16bf04e906bc8b640aa))
+* Adds basic fate core layout option ([0aed05e](https://github.com/valentine195/obsidian-5e-statblocks/commit/0aed05ed7021cb5e48c9509063c790e6a0e01dad))
 
 ### [2.11.7](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.6...2.11.7) (2022-02-17)
 
