@@ -58,6 +58,17 @@ export interface Monster {
     creature?: string;
     source?: string;
 
+    /** Fate Core */
+    description?: string;
+    aspects?: string;
+    temporaryAspects?: string;
+    stress?: number[];
+    consequences?: Trait[];
+    skills?: Trait[];
+    stunts?: Trait[];
+    items?: Trait[];
+    extras?: Trait[];
+
     /** Statblock Parameters */
     export?: boolean;
     dice?: boolean;
