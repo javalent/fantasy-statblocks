@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.12.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.7...2.12.0) (2022-02-20)
+
+
+### Features
+
+* Adds basic fate core layout option ([cc35a20](https://github.com/valentine195/obsidian-5e-statblocks/commit/cc35a2049eff26de9f26a16bf04e906bc8b640aa))
+
 ### [2.11.7](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.6...2.11.7) (2022-02-17)
 
 
