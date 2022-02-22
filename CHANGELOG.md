@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.12.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.12.0...2.12.1) (2022-02-22)
+
+
+### Bug Fixes
+
+* add ability to set monster display name when rendering from initiative tracker ([6c6b750](https://github.com/valentine195/obsidian-5e-statblocks/commit/6c6b750d3c5ca7b98f2eafa224e1adcbfa42fce1))
+
 ## [2.12.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.7...2.12.0) (2022-02-20)
 
 
