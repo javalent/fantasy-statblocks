@@ -494,12 +494,15 @@ ${e.stack
         }
     }
 
-    render(creature: HomebrewCreature, el: HTMLElement) {
+    render(creature: HomebrewCreature, el: HTMLElement, display?: string) {
         const monster: Monster = Object.assign<
             Partial<Monster>,
             HomebrewCreature
         >(this._bestiary.get(creature.name) ?? {}, { ...creature }) as Monster;
         if (!monster) return null;
+        if (display) {
+            monster.name = display;
+        }
         return new StatBlockRenderer(
             el,
             monster,
