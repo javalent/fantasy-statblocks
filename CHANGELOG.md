@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.12.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.12.1...2.12.2) (2022-03-01)
+
+
+### Bug Fixes
+
+* Significantly improved settings page performance ([4df1591](https://github.com/valentine195/obsidian-5e-statblocks/commit/4df159117498f9a2b524be1796de45ddea551e33))
+
 ### [2.12.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.12.0...2.12.1) (2022-02-22)
 
 
