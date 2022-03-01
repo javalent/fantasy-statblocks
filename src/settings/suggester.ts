@@ -201,14 +201,14 @@ abstract class SuggestionModal<T> extends FuzzySuggestModal<T> {
 }
 
 export class MonsterSuggester extends SuggestionModal<Monster> {
-    monsters: Monster[];
     monster: Monster;
     text: TextComponent;
     constructor(
         public plugin: StatBlockPlugin,
         input: TextComponent,
         el: HTMLDivElement,
-        public displayed: Set<string>
+        public displayed: Set<string>,
+        public monsters: Monster[]
     ) {
         super(plugin.app, input.inputEl, el);
         this.text = input;
@@ -307,15 +307,13 @@ export class MonsterSuggester extends SuggestionModal<Monster> {
             });
     }
     getItems() {
-        return this.plugin.sorted.filter(({ source }) =>
-            this.displayed.has(source)
-        );
+        return this.monsters;
     }
     onClose(item?: Monster) {}
     onRemoveItem(item: Monster) {}
 }
 
-class ViewMonsterModal extends Modal {
+export class ViewMonsterModal extends Modal {
     constructor(private plugin: StatBlockPlugin, private monster: Monster) {
         super(plugin.app);
     }
@@ -336,4 +334,3 @@ class ViewMonsterModal extends Modal {
         this.display();
     }
 }
-
