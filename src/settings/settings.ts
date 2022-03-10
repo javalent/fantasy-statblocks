@@ -212,11 +212,14 @@ export default class StatblockSettingTab extends PluginSettingTab {
     generateLayouts(containerEl: HTMLDivElement) {
         containerEl.empty();
         new Setting(containerEl).setHeading().setName("Layouts");
+
         const statblockCreatorContainer = containerEl.createDiv(
             "statblock-additional-container"
         );
-        new Setting(statblockCreatorContainer)
-            .setDesc(
+        statblockCreatorContainer
+            .createDiv("setting-item")
+            .createDiv()
+            .appendChild(
                 createFragment((el) => {
                     el.createSpan({
                         text: "New statblock layouts can be created and managed here. A specific statblock can be used for a creature using the "
@@ -224,7 +227,85 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     el.createEl("code", { text: "statblock" });
                     el.createSpan({ text: " parameter." });
                 })
-            )
+            );
+        const importFile = new Setting(statblockCreatorContainer)
+            .setName("Import From JSON")
+            .setDesc("Import a custom layout from a JSON file.");
+        const inputFile = createEl("input", {
+            attr: {
+                type: "file",
+                name: "layout",
+                accept: ".json",
+                multiple: true
+            }
+        });
+        inputFile.onchange = async () => {
+            const { files } = inputFile;
+            if (!files.length) return;
+            try {
+                const { files } = inputFile;
+                if (!files.length) return;
+                for (const file of Array.from(files)) {
+                    await new Promise<void>((resolve, reject) => {
+                        const reader = new FileReader();
+
+                        reader.onload = (event) => {
+                            try {
+                                const layout = JSON.parse(
+                                    event.target.result as string
+                                );
+                                if (!layout) {
+                                    reject(
+                                        new Error("Invalid layout imported")
+                                    );
+                                    return;
+                                }
+                                if (!layout?.name) {
+                                    reject(
+                                        new Error(
+                                            "Invalid layout imported: layout does not have a name"
+                                        )
+                                    );
+                                    return;
+                                }
+                                if (!layout?.blocks) {
+                                    reject(
+                                        new Error(
+                                            "Invalid layout imported: no blocks defined in layout."
+                                        )
+                                    );
+                                    return;
+                                }
+                                this.plugin.settings.layouts.push(
+                                    this.getDuplicate(layout)
+                                );
+                                resolve();
+                            } catch (e) {
+                                reject(e);
+                            }
+                        };
+                        reader.readAsText(file);
+                    }).catch((e) => {
+                        console.log("🚀 ~ file: settings.ts ~ line 275 ~ e", e);
+                        new Notice(
+                            `There was an error importing the layout: \n\n${e}`
+                        );
+                        console.error(e);
+                    });
+                }
+                await this.plugin.saveSettings();
+                this.buildCustomLayouts(layoutContainer);
+            } catch (e) {}
+        };
+
+        importFile.addButton((b) => {
+            b.setIcon("upload");
+            b.buttonEl.addClass("statblock-file-upload");
+            b.buttonEl.appendChild(inputFile);
+            b.onClick(() => inputFile.click());
+        });
+        new Setting(statblockCreatorContainer)
+            .setName("Add New Layout")
             .addButton((b) =>
                 b
                     .setIcon("plus-with-circle")
@@ -242,6 +323,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         modal.open();
                     })
             );
+
         const statblockAdditional =
             statblockCreatorContainer.createDiv("additional");
         new Setting(statblockAdditional)
@@ -786,9 +868,6 @@ class CreateStatblockModal extends Modal {
 
     display() {
         this.titleEl.createSpan({ text: "Create Layout" });
-        new Setting(this.contentEl)
-            .setName("Import from JSON File")
-            .addButton((b) => b.setIcon("upload").onClick(() => {}));
         this.creator = new StatblockCreator({
             target: this.contentEl,
             props: {

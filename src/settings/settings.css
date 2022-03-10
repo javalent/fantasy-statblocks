@@ -82,8 +82,10 @@
 .statblock-additional-container > .additional {
     margin: 6px 12px;
 }
-.statblock-additional-container > .additional > .setting-item {
+.statblock-additional-container .setting-item {
     border-top: 0;
+}
+.statblock-additional-container > .additional > .setting-item {
     padding-top: 9px;
 }
 .statblock-additional-container
