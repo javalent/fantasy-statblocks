@@ -1,6 +1,5 @@
 <script lang="ts">
     import type { Monster, Trait } from "@types";
-    import type { StatblockItem } from "src/data/constants";
 
     import Traits from "./Traits.svelte";
     import Spells from "./Spells.svelte";
@@ -19,6 +18,7 @@
         getContext
     } from "svelte";
     import Image from "./Image.svelte";
+    import type { StatblockItem } from "src/layouts/types";
 
     const dispatch = createEventDispatcher();
 
@@ -264,23 +264,13 @@
 
         for (let target of targets) {
             columnEl.appendChild(target);
-            if (
-                columnEl.clientHeight > split &&
-                node.childElementCount != columns
-            ) {
-                columnEl = node.createDiv("column");
-                /* target.detach();
-                columnEl.appendChild(target); */
-            }
+            if (node.childElementCount >= columns) continue;
+            if (columnEl.clientHeight < split) continue;
+            columnEl = node.createDiv("column");
         }
     };
 
     let content: HTMLElement;
-
-    onMount(async () => {
-        if (!ready) return;
-        buildStatblock(content);
-    });
 
     $: {
         if (ready && content) {
