@@ -286,7 +286,6 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         };
                         reader.readAsText(file);
                     }).catch((e) => {
-                        console.log("🚀 ~ file: settings.ts ~ line 275 ~ e", e);
                         new Notice(
                             `There was an error importing the layout: \n\n${e}`
                         );
