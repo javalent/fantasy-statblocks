@@ -1,5 +1,3 @@
-import type { Monster } from "@types";
-
 interface CR {
     cr: string;
     value: number;
