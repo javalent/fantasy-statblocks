@@ -78,26 +78,12 @@ const DEFAULT_DATA: StatblockData = {
     autoParse: false
 };
 
-class ReadOnlyMap extends Map {
-    constructor(map: ReadonlyMap<string, Monster>) {
-        super();
-        for (const [key, value] of map) {
-            super.set(key, value);
-        }
-    }
-    set(key: any, value: any) {
-        console.error("The statblock bestiary is read only.");
-        return this;
-    }
-}
 
 export default class StatBlockPlugin extends Plugin {
     settings: StatblockData;
     data: Map<string, Monster>;
-    _bestiary: Map<string, Monster>;
-    get bestiary() {
-        return new ReadOnlyMap(this._bestiary);
-    }
+    bestiary: Map<string, Monster>;
+    
     watcher = new Watcher(this);
     private _sorted: Monster[] = [];
     get canUseDiceRoller() {
@@ -157,7 +143,7 @@ export default class StatBlockPlugin extends Plugin {
         addIcon(SAVE_SYMBOL, SAVE_ICON);
         addIcon(EXPORT_SYMBOL, EXPORT_ICON);
 
-        this._bestiary = new Map([...BESTIARY_BY_NAME, ...this.data]);
+        this.bestiary = new Map([...BESTIARY_BY_NAME, ...this.data]);
 
         Object.defineProperty(window, "bestiary", {
             value: this.bestiary,
@@ -226,7 +212,7 @@ export default class StatBlockPlugin extends Plugin {
     ) {
         if (!monster.name) return;
         this.data.set(monster.name, monster);
-        this._bestiary.set(monster.name, monster);
+        this.bestiary.set(monster.name, monster);
 
         if (save) {
             await this.saveSettings();
@@ -256,7 +242,7 @@ export default class StatBlockPlugin extends Plugin {
         for (const monster of monsters) {
             if (!this.data.has(monster)) continue;
             this.data.delete(monster);
-            this._bestiary.delete(monster);
+            this.bestiary.delete(monster);
         }
         await this.saveSettings();
 
@@ -268,10 +254,10 @@ export default class StatBlockPlugin extends Plugin {
     async deleteMonster(monster: string, sortFields = true, save = true) {
         if (!this.data.has(monster)) return;
         this.data.delete(monster);
-        this._bestiary.delete(monster);
+        this.bestiary.delete(monster);
 
         if (BESTIARY_BY_NAME.has(monster)) {
-            this._bestiary.set(monster, BESTIARY_BY_NAME.get(monster));
+            this.bestiary.set(monster, BESTIARY_BY_NAME.get(monster));
         }
 
         if (save) await this.saveSettings();
@@ -415,8 +401,8 @@ export default class StatBlockPlugin extends Plugin {
             }
             const monster: Monster = Object.assign(
                 {},
-                this._bestiary.get(params.monster) ??
-                    this._bestiary.get(params.creature)
+                this.bestiary.get(params.monster) ??
+                    this.bestiary.get(params.creature)
             );
             //TODO: The traits are breaking because it expects { name, desc }, not array.
             if (monster) {
@@ -498,7 +484,7 @@ ${e.stack
         const monster: Monster = Object.assign<
             Partial<Monster>,
             HomebrewCreature
-        >(this._bestiary.get(creature.name) ?? {}, { ...creature }) as Monster;
+        >(this.bestiary.get(creature.name) ?? {}, { ...creature }) as Monster;
         if (!monster) return null;
         if (display) {
             monster.name = display;
