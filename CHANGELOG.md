@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.13.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.12.2...2.13.0) (2022-03-10)
+
+
+### Features
+
+* Adds Lair Actions to Basic 5e Layout (close [#38](https://github.com/valentine195/obsidian-5e-statblocks/issues/38)) ([4a66ce9](https://github.com/valentine195/obsidian-5e-statblocks/commit/4a66ce91f6f9a8d69af1f3cb2b24c3ec81d3d224))
+
+
+### Bug Fixes
+
+* Fixes dropping into inline groups (close [#45](https://github.com/valentine195/obsidian-5e-statblocks/issues/45)) ([dfa0ec7](https://github.com/valentine195/obsidian-5e-statblocks/commit/dfa0ec7770f12e3fbb654f8bbcca2b6f1dc7121b))
+* Improves file parsing for statblocks defined in frontmatter (close [#44](https://github.com/valentine195/obsidian-5e-statblocks/issues/44)) ([52b4990](https://github.com/valentine195/obsidian-5e-statblocks/commit/52b4990e4c62c8353551d6893c73ef72436eacc5))
+
 ### [2.12.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.12.1...2.12.2) (2022-03-01)
 
 
