@@ -222,7 +222,7 @@
     $: maxHeight =
         !isNaN(Number(monster.columnHeight)) && monster.columnHeight > 0
             ? monster.columnHeight
-            : 600;
+            : Infinity;
 
     const buildStatblock = (node: HTMLElement) => {
         node.empty();
@@ -238,8 +238,10 @@
         }
 
         const temp = document.body.createDiv("statblock-detached");
+        const heightmap: Map<HTMLElement, number> = new Map();
         for (let target of targets) {
             temp.appendChild(target);
+            heightmap.set(target, target.clientHeight);
         }
         temp.style.width = columnWidth;
 
@@ -253,20 +255,20 @@
                 temp.clientHeight / columns
             );
         } else {
-            split = Math.min(
-                Math.max(temp.clientHeight / columns, maxHeight),
-                maxHeight
-            );
+            split = Math.min(temp.clientHeight / columns, maxHeight);
         }
 
         temp.empty();
         temp.detach();
 
         for (let target of targets) {
+            if (
+                node.childElementCount < columns &&
+                columnEl.clientHeight + heightmap.get(target) > split
+            ) {
+                columnEl = node.createDiv("column");
+            }
             columnEl.appendChild(target);
-            if (node.childElementCount >= columns) continue;
-            if (columnEl.clientHeight < split) continue;
-            columnEl = node.createDiv("column");
         }
     };
 
