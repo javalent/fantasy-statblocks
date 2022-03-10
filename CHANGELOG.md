@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.14.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.14.0...2.14.1) (2022-03-10)
+
+
+### Bug Fixes
+
+* improved column splitting ([908850b](https://github.com/valentine195/obsidian-5e-statblocks/commit/908850b7c79dd078539cbf381279a5655d66352f))
+* Integrates PR [#35](https://github.com/valentine195/obsidian-5e-statblocks/issues/35) ([7284fb8](https://github.com/valentine195/obsidian-5e-statblocks/commit/7284fb80f8df5cf605fc2c85cf452276391d9aca))
+* Statblock Columns were being built too aggressively ([117b9ec](https://github.com/valentine195/obsidian-5e-statblocks/commit/117b9ec16a448a024aafb02ef39930c105a7d366))
+
 ## [2.14.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.13.0...2.14.0) (2022-03-10)
 
 
