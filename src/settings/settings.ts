@@ -786,6 +786,9 @@ class CreateStatblockModal extends Modal {
 
     display() {
         this.titleEl.createSpan({ text: "Create Layout" });
+        new Setting(this.contentEl)
+            .setName("Import from JSON File")
+            .addButton((b) => b.setIcon("upload").onClick(() => {}));
         this.creator = new StatblockCreator({
             target: this.contentEl,
             props: {
