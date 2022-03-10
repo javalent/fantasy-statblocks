@@ -11,16 +11,23 @@ const abilityMap: { [key: string]: string } = {
 
 function parseString(str: string) {
     return str
-        .replace(/\{\@condition (.+?)}/g, "$1")
-        .replace(/\{\@spell ([\s\S]+?)\}/g, `$1`)
-        .replace(/\{\@recharge (.+?)\}/g, `Recharge $1`)
-        .replace(/\{\@h\}/g, ``)
-        .replace(/\{\@damage (.+?)\}/g, `$1`)
-        .replace(/\{\@atk ms\}/g, `Melee Spell Attack`)
-        .replace(/\{\@atk mw\}/g, `Melee Weapon Attack`)
-        .replace(/\{\@atk rw\}/g, `Ranged Weapon Attack`)
-        .replace(/\{\@hit (\d+?)\}/g, `+$1`)
-        .replace(/\{\@dc (\d+?)\}/g, `$1`);
+        .replace(/{@condition (.+?)}/g, "$1")
+        .replace(/{@item (.+?)}/g, "$1")
+        .replace(/{@spell ([\s\S]+?)}/g, `$1`)
+        .replace(/{@recharge (.+?)}/g, `(Recharge $1-6)`)
+        .replace(/{@recharge}/g, `(Recharge 6)`)
+        .replace(/{@h}/g, ``)
+        .replace(/{@damage (.+?)}/g, `$1`)
+        .replace(/{@atk ms}/g, `Melee Spell Attack`)
+        .replace(/{@atk rs}/g, `Ranged Spell Attack`)
+        .replace(/{@atk mw}/g, `Melee Weapon Attack`)
+        .replace(/{@atk rw}/g, `Ranged Weapon Attack`)
+        .replace(/{@atk mw,rw}/g, `Melee / Ranged Weapon Attack`)
+        .replace(/{@creature (.+?)}/g, `$1`)
+        .replace(/{@skill (.+?)}/g, `$1`)
+        .replace(/{@dice (.+?)}/g, `$1`)
+        .replace(/{@hit (\d+?)}/g, `+$1`)
+        .replace(/{@dc (\d+?)}/g, `$1`);
 }
 
 export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
@@ -55,7 +62,7 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
                             alignment: getAlignmentString(monster),
                             hp: monster.hp?.average ?? "",
                             hit_dice: monster.hp?.formula ?? "",
-                            ac: (monster.ac ?? [])[0]?.ac ?? "",
+                            ac: getAc(monster.ac),
                             speed: getSpeedString(monster),
                             stats: [
                                 monster.str,
@@ -100,62 +107,10 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
                             languages:
                                 monster.languages?.join(", ").trim() ?? "",
                             cr: monster.cr ? monster.cr.cr || monster.cr : "",
-                            traits:
-                                monster.trait?.map(
-                                    (trait: {
-                                        name: string;
-                                        entries: string[];
-                                    }) => {
-                                        return {
-                                            name: trait.name,
-                                            desc: parseString(
-                                                trait.entries.join("\n")
-                                            )
-                                        };
-                                    }
-                                ) ?? [],
-                            actions:
-                                monster.action?.map(
-                                    (trait: {
-                                        name: string;
-                                        entries: string[];
-                                    }) => {
-                                        return {
-                                            name: trait.name,
-                                            desc: parseString(
-                                                trait.entries.join("\n")
-                                            )
-                                        };
-                                    }
-                                ) ?? [],
-                            reactions:
-                                monster.reaction?.map(
-                                    (trait: {
-                                        name: string;
-                                        entries: string[];
-                                    }) => {
-                                        return {
-                                            name: trait.name,
-                                            desc: parseString(
-                                                trait.entries.join("\n")
-                                            )
-                                        };
-                                    }
-                                ) ?? [],
-                            legendary_actions:
-                                monster.legendary?.map(
-                                    (trait: {
-                                        name: string;
-                                        entries: string[];
-                                    }) => {
-                                        return {
-                                            name: trait.name,
-                                            desc: parseString(
-                                                trait.entries.join("\n")
-                                            )
-                                        };
-                                    }
-                                ) ?? [],
+                            traits: monster.trait?.flatMap(normalizeEntries) ?? [],
+                            actions: monster.action?.flatMap(normalizeEntries) ?? [],
+                            reactions: monster.reaction?.flatMap(normalizeEntries) ?? [],
+                            legendary_actions: monster.legendary?.flatMap(normalizeEntries) ?? [],
                             spells: getSpells(monster)
                         };
                         imported.push(importedMonster);
@@ -186,6 +141,17 @@ function parseImmune(immune: any[]): string {
     }
     return ret.join(", ");
 }
+
+function getAc(acField: Array<number | { ac: number }> = []) {
+  const [item] = acField;
+
+  if (typeof item === 'number') {
+    return item;
+  }
+
+  return item.ac;
+}
+
 const spellMap: { [key: string]: string } = {
     "0": "Cantrips (at will)",
     "1": "1st level",
@@ -198,55 +164,75 @@ const spellMap: { [key: string]: string } = {
     "8": "8th level",
     "9": "9th level"
 };
+
+type InnateSpellcasting = {
+  name: "Innate Spellcasting",
+  headerEntries: string[],
+  will: string[],
+  daily: Record<string, string[]>
+}
+
+type BasicSpellcasting = {
+  name: "Spellcasting",
+  headerEntries: string[],
+  spells: Record<string, string[]>,
+}
+
+type Spellcasting = InnateSpellcasting | BasicSpellcasting;
+
+type ExtractedSpells = Array<string | Record<string, string>>;
+
+function extractSpellsBlocks(spellBlock: Spellcasting): ExtractedSpells {
+  let ret: ExtractedSpells = [parseString((spellBlock.headerEntries ?? []).join("\n"))];
+
+  if (spellBlock.name === "Spellcasting") {
+    try {
+      ret.push(
+        ...Object.entries(spellBlock.spells).map(([level, { slots, spells }]) => {
+          let name = `${spellMap[level]}`;
+          name += slots != undefined ? ` (${slots} slots)` : "";
+
+          const sp = parseString(spells.join(", "));
+          return { [name]: sp };
+        })
+      );
+    } catch (e) {
+      throw new Error("There was an error parsing the spells.");
+    }
+  } else {
+    if (spellBlock.will.length > 0) {
+      try {
+        ret.push({
+          "At will": parseString(spellBlock.will.join(", "))
+        });
+      } catch (e) {
+        throw new Error("There was an error parsing the at-will spells.");
+      }
+    }
+
+    if (Object.keys(spellBlock.daily).length > 0) {
+      try {
+        ret.push(
+          ...Object.entries(spellBlock.daily).map(([num, spells]) => {
+            let name = `Daily (${num})`;
+
+            const sp = parseString(spells.join(", "));
+            return { [name]: sp };
+          })
+        );
+      } catch (e) {
+        throw new Error("There was an error parsing the daily spells.");
+      }
+    }
+  }
+
+  return ret;
+}
+
 function getSpells(monster: any): any[] {
     if (!monster.spellcasting || !monster.spellcasting.length) return [];
 
-    const spells = monster.spellcasting[0].spells ?? {};
-    const will = monster.spellcasting[0].will ?? [];
-    const daily = monster.spellcasting[0].daily ?? {};
-
-    const ret = [(monster.spellcasting[0].headerEntries ?? []).join("\n")];
-
-    if (spells) {
-        try {
-            ret.push(
-                ...Object.entries(spells).map(([level, { slots, spells }]) => {
-                    let name = `${spellMap[level]}`;
-                    name += slots != undefined ? ` (${slots} slots)` : "";
-
-                    const sp = parseString(spells.join(", "));
-                    return { [name]: sp };
-                })
-            );
-        } catch (e) {
-            throw new Error("There was an error parsing the spells.");
-        }
-    }
-    if (will) {
-        try {
-            ret.push({
-                "At will": parseString(will.join(", "))
-            });
-        } catch (e) {
-            throw new Error("There was an error parsing the at-will spells.");
-        }
-    }
-    if (daily) {
-        try {
-            ret.push(
-                ...Object.entries(daily).map(([num, spells]) => {
-                    let name = `Daily (${num})`;
-
-                    const sp = parseString(spells.join(", "));
-                    return { [name]: sp };
-                })
-            );
-        } catch (e) {
-            throw new Error("There was an error parsing the daily spells.");
-        }
-    }
-
-    return ret;
+    return monster.spellcasting.flatMap(extractSpellsBlocks);
 }
 
 function getAlignmentString(alignment: any) {
@@ -337,6 +323,89 @@ function getSpeedString(it: any) {
         return it.speed + (it.speed === "Varies" ? "" : " ft. ");
     }
 }
+
+
+type Entry = string | { type: string, name: string, items: Array<{ name: string, entry: string } | { name: string, entries: string[] }> };
+type NormalizedEntry = { name: string, desc: string };
+
+
+/**
+ * in some cases 5e.tool data json has not only strings, but objects inside, such as items, or dragon attacks
+ * current code assumes that in mixed content simple stings go before list of items
+ *
+ * transforms complex traits into list of traits, e.g.
+ *
+ * ```
+ * const input = {
+ * 	"name": "Breath Weapons {@recharge 5}",
+ * 	"entries": [
+ * 		"The dragon uses one of the following breath weapons.",
+ * 		{
+ * 			"type": "list",
+ * 			"style": "list-hang-notitle",
+ * 			"items": [
+ * 				{
+ * 					"type": "item",
+ * 					"name": "Fire Breath.",
+ * 					"entry": "The dragon exhales fire in a 60-foot line that is 5 feet wide. Each creature in that line must make a {@dc 18} Dexterity saving throw, taking 45 ({@damage 13d6}) fire damage on a failed save, or half as much damage on a successful one."
+ * 				},
+ * 				{
+ * 					"type": "item",
+ * 					"name": "Sleep Breath.",
+ * 					"entry": "The dragon exhales sleep gas in a 60-foot cone. Each creature in that area must succeed on a {@dc 18} Constitution saving throw or fall {@condition unconscious} for 10 minutes. This effect ends for a creature if the creature takes damage or someone uses an action to wake it."
+ * 				}
+ * 			]
+ * 		}
+ * 	]
+ * };
+ *
+ * const output = [
+ * 		{
+ * 			"name": "Breath Weapons {@recharge 5}",
+ * 			"desc": "The dragon uses one of the following breath weapons."
+ * 		},
+ * 		{
+ * 			"name": "Fire Breath.",
+ * 			"desc": "The dragon exhales fire in a 60-foot line that is 5 feet wide. Each creature in that line must make a {@dc 18} Dexterity saving throw, taking 45 ({@damage 13d6}) fire damage on a failed save, or half as much damage on a successful one."
+ * 		},
+ * 		{
+ * 			"name": "Sleep Breath.",
+ * 			"desc": "The dragon exhales sleep gas in a 60-foot cone. Each creature in that area must succeed on a {@dc 18} Constitution saving throw or fall {@condition unconscious} for 10 minutes. This effect ends for a creature if the creature takes damage or someone uses an action to wake it."
+ * 		},
+ * 	]
+ *```
+ */
+function normalizeEntries(trait: { name: string; entries: Entry[] }): NormalizedEntry[] {
+  const flattenedEntries =  trait.entries.reduce((acc, current) => {
+
+    if (typeof current !== 'string') {
+      const items = current.items.map((item) => {
+        if ('entry' in item) {
+          return { name: item.name, entries: [item.entry] }
+        }
+
+        return { name: item.name, entries: item.entries }
+      });
+      return acc.concat(items)
+    }
+
+    const hasSubItems = acc.length > 1;
+    // skip? simple strings if entries already have sub items
+    if (!hasSubItems) {
+      acc[0].entries.push(current);
+    }
+
+    return acc;
+  }, [{ name: trait.name, entries: [] }])
+
+  return flattenedEntries.map(({ name, entries }) => {
+    return {
+      name: parseString(name),
+      desc: parseString(entries.join("\n"))
+    }
+  })
+}
+
 const SZ_FINE = "F";
 const SZ_DIMINUTIVE = "D";
 const SZ_TINY = "T";
