@@ -13,11 +13,11 @@ import {
 
 import type StatBlockPlugin from "src/main";
 import StatblockCreator from "./StatblockCreator.svelte";
+
 import { ViewMonsterModal } from "src/settings/suggester";
 
 import fastCopy from "fast-copy";
 
-import "./settings.css";
 import Importer from "src/importers/importer";
 import { FolderSuggestionModal } from "src/util/folder";
 import { EditMonsterModal } from "./modal";

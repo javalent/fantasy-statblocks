@@ -21,7 +21,6 @@ import type { Monster, StatblockParameters } from "@types";
 import StatblockSettingTab from "./settings/settings";
 import fastCopy from "fast-copy";
 
-import "./main.css";
 import { sort } from "fast-sort";
 import type { Plugins } from "../../obsidian-overload";
 import type { HomebrewCreature } from "../../obsidian-initiative-tracker/@types";
