@@ -2,7 +2,6 @@
     import type { Monster } from "@types";
     import { stringifyYaml } from "obsidian";
     import Traits from "./Traits.svelte";
-    import type { SpellsItem } from "src/data/constants";
 
     export let monster: Monster;
     let spells: string[] = monster.spells.map((s) => {

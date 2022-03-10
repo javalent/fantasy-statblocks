@@ -3,7 +3,7 @@
 
     export let name: string;
     export let desc: string;
-    export let render: boolean;
+    export let render: boolean = false;
 </script>
 
 <div class="property">
