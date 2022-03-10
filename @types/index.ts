@@ -54,6 +54,7 @@ export interface Monster {
     bonus_actions?: Trait[];
     legendary_actions?: Trait[];
     reactions?: Trait[];
+    lair_actions?: Trait[];
     monster?: string;
     creature?: string;
     source?: string;

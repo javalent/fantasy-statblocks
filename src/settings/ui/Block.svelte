@@ -1,11 +1,10 @@
 <script lang="ts">
-    import type { StatblockItem } from "src/data/constants";
-
     import PropertyBlock from "./PropertyBlock.svelte";
     import type StatBlockPlugin from "src/main";
     import { ExtraButtonComponent } from "obsidian";
     import { createEventDispatcher } from "svelte";
     import { BlockModal } from "./block";
+    import type { StatblockItem } from "src/layouts/types";
 
     export let block: StatblockItem;
     export let plugin: StatBlockPlugin;
