@@ -1,8 +1,9 @@
-import { nanoid } from "src/data/constants";
+//@ts-ignore
 import ImportWorker from "./importer.worker";
 import type { Monster } from "@types";
 import { App, Modal, Notice, Setting, TextComponent } from "obsidian";
 import type StatBlockPlugin from "src/main";
+import { nanoid } from "src/util/util";
 
 class SourcePromptModal extends Modal {
     source: string;
@@ -65,7 +66,7 @@ export default class Importer {
             const worker = new ImportWorker();
             const id = nanoid();
             this.workers.set(id, worker);
-
+            //@ts-ignore
             worker.onmessage = async (event) => {
                 const { monsters }: { monsters: Monster[] } = event.data ?? {
                     monsters: []
@@ -91,7 +92,7 @@ export default class Importer {
                 worker.terminate();
                 this.workers.delete(id);
                 resolve(monsters);
-            };
+            }; //@ts-ignore
             worker.onerror = (e) => {
                 new Notice(
                     `There was an error importing the file.\n\n${e.message}`

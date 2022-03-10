@@ -11,7 +11,7 @@ export interface FileCacheMessage {
     type: "file";
     path: string;
     cache: CachedMetadata;
-    file: { path: string; basename: string };
+    file: { path: string; basename: string; mtime: number };
 }
 export interface GetFileCacheMessage {
     type: "get";
@@ -72,7 +72,7 @@ class Parser {
         });
     }
     parseFileForCreatures(
-        file: { path: string; basename: string },
+        file: { path: string; basename: string; mtime: number },
         cache: CachedMetadata
     ) {
         if (!cache) return;
@@ -80,7 +80,8 @@ class Parser {
         if (!cache.frontmatter.statblock) return;
         if (!cache.frontmatter.name) return;
         const monster: Monster = Object.assign({}, copy(cache.frontmatter), {
-            note: file.path
+            note: file.path,
+            mtime: file.mtime
         });
 
         if (monster.traits) {
@@ -88,6 +89,9 @@ class Parser {
         }
         if (monster.actions) {
             monster.actions = transformTraits([], monster.actions);
+        }
+        if (monster.bonus_actions) {
+            monster.bonus_actions = transformTraits([], monster.bonus_actions);
         }
         if (monster.reactions) {
             monster.reactions = transformTraits([], monster.reactions);

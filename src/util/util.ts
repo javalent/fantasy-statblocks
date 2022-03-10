@@ -3,6 +3,14 @@ export function toTitleCase(str: string): string {
     return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
 
+export function nanoid() {
+    return "xyxyxyxyxyxy".replace(/[xy]/g, function (c) {
+        var r = (Math.random() * 16) | 0,
+            v = c == "x" ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+    });
+}
+
 /** Get Modifier for Ability Score */
 export function getMod(arg0: number) {
     let mod = Math.floor(((arg0 ?? 10) - 10) / 2);

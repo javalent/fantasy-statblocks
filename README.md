@@ -71,6 +71,9 @@ actions:
 legendary_actions:
   - [<legendary_actions-name>, <legendary_actions-description>]
   - ...
+bonus_actions:
+  - [<trait-name>, <trait-description>]
+  - ... 
 reactions:
   - [<reaction-name>, <reaction-description>]
   - ...
@@ -288,6 +291,7 @@ If the statblock field is removed or set to false, or the note is deleted, the c
 Creatures can be created directly in settings under the [Homebrew Creatures](#homebrew-creatures) section by clicking the "Add Creature" button.
 
 Creatures can be created using either the YAML syntax shown above or by JSON.
+
 ### Importing Creatures
 
 Creatures can be imported into the bestiary in [settings](#import-creatures) from various common sources.
@@ -371,6 +375,210 @@ monster: Ancient Black Dragon
 layout: My Custom Layout
 ```
 ````
+
+## Creating a Layout
+
+New layouts are created through settings, either by clicking the "New Layout" button or copying an existing layout and clicking the "Edit" button.
+
+This will open the layout creator, where [**layout blocks**](#blocks) can be added and managed to the layout.
+
+### Names
+
+Layouts must be given names, and the names **must be unique.**
+
+### Blocks
+
+Statblock layouts are made up of blocks. There are several types of blocks, and each block can be associated to a monster **property.**
+
+Blocks can be added to the layout by clicking the "Add Block" button, where the type of block may be selected. Once a block is added to the layout, it may be edited by clicking the "Edit Block" button that appears when the block is hovered or removed by clicking the "Delete Block" button.
+
+Additionally. blocks may be moved around by clicking the drag handle and dragging them around.
+
+### Creating Blocks
+
+A layout block has a **type**, and the type determines both how it renders and what options are available to the block. Once a block is created, its type cannot be changed.
+
+Blocks further have **properties** that will affect _how_ it renders.
+
+#### Block Properties
+
+All blocks (except [group](#group-blocks) and [inline](#inline-blocks)) will have the following property fields:
+
+| Property              | Description                                                                              |
+| --------------------- | ---------------------------------------------------------------------------------------- |
+| Link Monster Property | The "property" the block will try to access on the monster object (for example, "name"). |
+| Conditional           | If a block is set to conditional, it won't be rendered if the property does not exist.   |
+| Fallback              | Fallback to display if property does not exist but the block is not conditioned.         |
+| Has Rule              | A horizontal rule will be displayed after the property                                   |
+| Parse for Dice\*      | The plugin will attempt to parse for common dice roll strings from the block             |
+| Link Dice to Property | The layout will use the property provided to generate the dice roller.                   |
+| Dice Callback\*†      | JavaScript code may be provided to determine how the string is parsed for dice.          |
+
+<sup>\* Requires the <a href="https://github.com/valentine195/obsidian-dice-roller">Dice Roller</a> plugin.</sup><br/>
+<sup>† Advanced option.</sup>
+
+A specific block type may have additional property fields.
+
+Additionally, there are "Advanced Options" for blocks. Advanced options allow you to provide JavaScript callbacks to parse monster properties, and should return strings.
+
+#### Group Blocks
+
+Group blocks allow several different types of blocks to be grouped together. Additional blocks can be added to the group block using the context menu (three dots), or by dragging blocks into the square.
+
+#### Inline Blocks
+
+Inline blocks are like group blocks, but blocks grouped inside them will render next to each other instead of on top. Additional blocks can be added to the group block using the context menu (three dots), or by dragging blocks into the square.
+
+#### Heading Blocks
+
+Heading blocks will render text larger (like the name of the basic 5e layout).
+
+> Property Type Required: the Heading block should point to a monster property that will be a string.
+
+#### Subheading Blocks
+
+Subheading blocks are for smaller properties, such as the type of monsters in the basic 5e layout.
+
+The subheading block allows multiple monster properties to be linked to it.
+
+> Property Type Required: the Subheading block should point to a monster property that can be turned into a string. The plugin will recursively stringify non-string items.
+
+#### Image Blocks
+
+Image blocks will display an image if the linked property is a link to an image. This link should be an Obsidian wikilink to an image in the vault. A link to an external website may also be used, but you may run into issues with privacy settings.
+
+> Property Type Required: the Image block should point to a monster property will be a string.
+
+#### Property Block
+
+A property block is the standard block. It will display the property name and the value of the property for the monster - for example, `Armor Class: 16`.
+
+> Property Type Required: the Property block should point to a monster property that can be turned into a string. The plugin will recursively stringify non-string items.
+
+Property blocks have an additional advanced option to provide a callback to parse the property and use that as the value of the field. The callback will receive the monster object and the plugin as parameters.
+
+For example, the basic 5e layout's Proficiency Bonus property uses this option to determine its property values:
+
+```js
+if ("cr" in monster && monster.cr in plugin.CR) {
+    return `+${Math.floor(2 + ((plugin.CR[monster.cr]?.value ?? 0) - 1) / 4)}`;
+}
+return "";
+```
+
+#### Saves Block
+
+The saves block is used to display saves and skill saves, for example: `Str: +3`.
+
+> Property Type Required: the Saves block should point to a monster property that is an **object** of string number pairs, for example:
+
+````
+```statblock
+saves:
+  - strength: 3
+  - dexterity: 5
+```
+````
+
+#### Spells Block
+
+The spells block is how the plugin displays spells. See [the Spells section](#spellcasting) for how a spell's block property should be formatted.
+
+#### Table Block
+
+The table block will display a table of headers and values.
+
+The table block has an additional block property called "Table Headers". **The layout will only display a value that has a header.** This means if your monster property has 6 values, but you specify 5 headers, **only the first five values will be shown.**
+
+> Property Type Required: the Table block should point to a monster property that is an **array of numbers**.
+
+#### Traits Block
+
+The traits block is how the plugin displays things like Actions, Reactions and Traits.
+
+The traits block has an additional optional block property called "Section Heading". This will be added to the statblock prior to the traits display.
+
+> Property Type Required: the Traits block should point to a monster property that is an **array of [string, string] values**.
+
+### Using Dice Rollers in Layouts
+
+You can integrate the dice roller plugin in your statblocks, which will allow you to roll . This integration requires the following:
+
+1. Install and enable the [Dice Roller](https://github.com/valentine195/obsidian-dice-roller) plugin.
+2. Enable [Integrate Dice Roller](#integrate-dice-roller) in settings.
+3. Toggle the [Parse for Dice](#block-properties) block property for the block you want to parse.
+
+The plugin will then attempt to parse the property content for common dice roll strings. The plugin will parse the following strings by default:
+
+1. Rolling to hit (`+15 to hit`)
+2. Damage / healing (`19 (2d10 + 8)`)
+3. A save (`Strength +5`)
+
+Alternatively, you may specify a property of a monster to use as the dice string in the [Link Dice to Property](#block-properties) block property. This should be a dice string, such as `5d10 + 50`.
+
+#### Dice Callback
+
+If [Advanced Options](#show-advanced-options) is turned on, you also have the ability to provide a `Dice Callback` function to the block. This allows you to parse the property string for the _exact_ dice roll you want.
+
+The callback function will receive the `plugin`, `monster` and `property` parameters.
+
+## Sharing Layouts
+
+Layouts can be shared in [this discussion](https://github.com/valentine195/obsidian-5e-statblocks/discussions/41).
+
+## Adding a Layout to the Plugin
+
+Layouts can be added to the plugin by opening a pull request.
+
+You should add a new layouts file in the [layouts](src/layouts) folder and add the layout to the [layout index](src/layouts/index.ts) file's `DefaultLayout` export.
+
+# Settings
+
+## Enable Export to PNG
+
+The plugin will add an option to export rendered stat blocks as PNG files.
+
+## Integrate Dice Roller
+
+The plugin will integrate with the Dice Roller plugin and add dice rolls to rendered stat blocks.
+
+## Render Dice Rolls
+
+Dice rolls will roll with graphical dice by default.
+
+## Note Parsing
+
+### Parse Frontmatter for Creatures
+
+The plugin will automatically parse the folder specified in [Bestiary Folder](#bestiary-folder) for creatures.
+
+If turned off, the plugin can be told to parse for creatures using the "Parse Frontmatter for Creatures" command.
+
+### Bestiary Folder
+
+The plugin will only parse files in this folder for creatures.
+
+## Layouts
+
+### Default Layout
+
+The plugin will use this layout by default when rendering a stat block.
+
+### Show Advanced Options
+
+Editing a layout block will show additional advanced options.
+
+## Import Creatures
+
+Homebrew creatures can be imported from various sources here.
+
+## Homebrew Creatures
+
+A list of the current creatures in the bestiary.
+
+Additional creatures can be [created](#creating-creatures-in-settings) here using YAML or JSON.
+
+Creatures can be filtered, removed, edited and previewed in this section.
 
 ## Creating a Layout
 

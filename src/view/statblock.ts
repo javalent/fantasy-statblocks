@@ -1,11 +1,13 @@
+import { App, ButtonComponent, Modal } from "obsidian";
+import { Layout5e } from "src/layouts/basic5e";
 import { MarkdownRenderChild } from "obsidian";
-import { Layout, Layout5e } from "../data/constants";
 import type { Monster } from "@types";
 
 import Statblock from "./Statblock.svelte";
 import type StatBlockPlugin from "src/main";
 
 import fastCopy from "fast-copy";
+import type { Layout } from "src/layouts/types";
 
 export default class StatBlockRenderer extends MarkdownRenderChild {
     topBar: HTMLDivElement;
@@ -58,8 +60,6 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         });
     }
 }
-
-import { App, ButtonComponent, Modal } from "obsidian";
 
 export async function confirmWithModal(
     app: App,

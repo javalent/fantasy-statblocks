@@ -1,17 +1,19 @@
 import {
     App,
+    debounce,
     Modal,
     normalizePath,
     Notice,
     PluginSettingTab,
+    prepareSimpleSearch,
     Setting,
     TextComponent,
     TFolder
 } from "obsidian";
-import { Layout, Layout5e } from "src/data/constants";
+
 import type StatBlockPlugin from "src/main";
 import StatblockCreator from "./StatblockCreator.svelte";
-import { MonsterSuggester } from "src/settings/suggester";
+import { ViewMonsterModal } from "src/settings/suggester";
 
 import fastCopy from "fast-copy";
 
@@ -19,10 +21,19 @@ import "./settings.css";
 import Importer from "src/importers/importer";
 import { FolderSuggestionModal } from "src/util/folder";
 import { EditMonsterModal } from "./modal";
+import { Layout5e } from "src/layouts/basic5e";
+import type { Layout } from "src/layouts/types";
+import { DefaultLayouts } from "src/layouts";
+import copy from "fast-copy";
+import type { Monster } from "@types";
 
 export default class StatblockSettingTab extends PluginSettingTab {
+    importer: Importer;
+    results: Monster[] = [];
+    filter: Setting;
     constructor(app: App, private plugin: StatBlockPlugin) {
         super(app, plugin);
+        this.importer = new Importer(this.plugin);
     }
 
     async display(): Promise<void> {
@@ -201,11 +212,14 @@ export default class StatblockSettingTab extends PluginSettingTab {
     generateLayouts(containerEl: HTMLDivElement) {
         containerEl.empty();
         new Setting(containerEl).setHeading().setName("Layouts");
+
         const statblockCreatorContainer = containerEl.createDiv(
             "statblock-additional-container"
         );
-        new Setting(statblockCreatorContainer)
-            .setDesc(
+        statblockCreatorContainer
+            .createDiv("setting-item")
+            .createDiv()
+            .appendChild(
                 createFragment((el) => {
                     el.createSpan({
                         text: "New statblock layouts can be created and managed here. A specific statblock can be used for a creature using the "
@@ -213,7 +227,85 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     el.createEl("code", { text: "statblock" });
                     el.createSpan({ text: " parameter." });
                 })
-            )
+            );
+        const importFile = new Setting(statblockCreatorContainer)
+            .setName("Import From JSON")
+            .setDesc("Import a custom layout from a JSON file.");
+        const inputFile = createEl("input", {
+            attr: {
+                type: "file",
+                name: "layout",
+                accept: ".json",
+                multiple: true
+            }
+        });
+        inputFile.onchange = async () => {
+            const { files } = inputFile;
+            if (!files.length) return;
+            try {
+                const { files } = inputFile;
+                if (!files.length) return;
+                for (const file of Array.from(files)) {
+                    await new Promise<void>((resolve, reject) => {
+                        const reader = new FileReader();
+
+                        reader.onload = (event) => {
+                            try {
+                                const layout = JSON.parse(
+                                    event.target.result as string
+                                );
+                                if (!layout) {
+                                    reject(
+                                        new Error("Invalid layout imported")
+                                    );
+                                    return;
+                                }
+                                if (!layout?.name) {
+                                    reject(
+                                        new Error(
+                                            "Invalid layout imported: layout does not have a name"
+                                        )
+                                    );
+                                    return;
+                                }
+                                if (!layout?.blocks) {
+                                    reject(
+                                        new Error(
+                                            "Invalid layout imported: no blocks defined in layout."
+                                        )
+                                    );
+                                    return;
+                                }
+                                this.plugin.settings.layouts.push(
+                                    this.getDuplicate(layout)
+                                );
+                                resolve();
+                            } catch (e) {
+                                reject(e);
+                            }
+                        };
+                        reader.readAsText(file);
+                    }).catch((e) => {
+                        console.log("🚀 ~ file: settings.ts ~ line 275 ~ e", e);
+                        new Notice(
+                            `There was an error importing the layout: \n\n${e}`
+                        );
+                        console.error(e);
+                    });
+                }
+                await this.plugin.saveSettings();
+                this.buildCustomLayouts(layoutContainer);
+            } catch (e) {}
+        };
+
+        importFile.addButton((b) => {
+            b.setIcon("upload");
+            b.buttonEl.addClass("statblock-file-upload");
+            b.buttonEl.appendChild(inputFile);
+            b.onClick(() => inputFile.click());
+        });
+        new Setting(statblockCreatorContainer)
+            .setName("Add New Layout")
             .addButton((b) =>
                 b
                     .setIcon("plus-with-circle")
@@ -231,6 +323,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         modal.open();
                     })
             );
+
         const statblockAdditional =
             statblockCreatorContainer.createDiv("additional");
         new Setting(statblockAdditional)
@@ -239,7 +332,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 "Change the default statblock layout used, if not specified."
             )
             .addDropdown(async (d) => {
-                d.addOption(Layout5e.name, Layout5e.name);
+                for (const layout of DefaultLayouts) {
+                    d.addOption(layout.name, layout.name);
+                }
                 for (const layout of this.plugin.settings.layouts) {
                     d.addOption(layout.name, layout.name);
                 }
@@ -306,19 +401,23 @@ export default class StatblockSettingTab extends PluginSettingTab {
     }
     buildCustomLayouts(layoutContainer: HTMLDivElement) {
         layoutContainer.empty();
-        new Setting(layoutContainer)
-            .setName(Layout5e.name)
-            .addExtraButton((b) => {
-                b.setIcon("duplicate-glyph")
-                    .setTooltip("Create Copy")
-                    .onClick(async () => {
-                        this.plugin.settings.layouts.push(
-                            this.getDuplicate(Layout5e)
-                        );
-                        await this.plugin.saveSettings();
-                        this.buildCustomLayouts(layoutContainer);
-                    });
-            });
+
+        for (const layout of DefaultLayouts) {
+            new Setting(layoutContainer)
+                .setName(layout.name)
+                .addExtraButton((b) => {
+                    b.setIcon("duplicate-glyph")
+                        .setTooltip("Create Copy")
+                        .onClick(async () => {
+                            this.plugin.settings.layouts.push(
+                                this.getDuplicate(layout)
+                            );
+                            await this.plugin.saveSettings();
+                            this.buildCustomLayouts(layoutContainer);
+                        });
+                });
+        }
+
         for (const layout of this.plugin.settings.layouts) {
             new Setting(layoutContainer)
                 .setName(layout.name)
@@ -387,7 +486,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 });
         }
     }
-    importer = new Importer(this.plugin);
+
     generateImports(containerEl: HTMLDivElement) {
         containerEl.empty();
         new Setting(containerEl)
@@ -585,29 +684,38 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 });
             });
         let monsterFilter: TextComponent;
-        const filters = additionalContainer.createDiv(
-            "statblock-monster-filter"
-        );
-        const searchMonsters = new Setting(filters)
+
+        const ancestor = this.containerEl.closest(".statblock-settings");
+        const { backgroundColor, paddingTop } = getComputedStyle(ancestor);
+
+        const filters = additionalContainer.createDiv({
+            cls: "statblock-monster-filter",
+            attr: {
+                style: `--statblock-filter-offset: ${paddingTop}; --statblock-filter-bg: ${backgroundColor}`
+            }
+        });
+        this.filter = new Setting(filters)
             .setClass("statblock-filter-container")
+
             .addSearch((t) => {
-                t.setPlaceholder("Search Monsters");
-                monsterFilter = t;
+                t.setPlaceholder("Search Monsters").onChange(
+                    debounce((v) => {
+                        this.showSearchResults(additional, v);
+                    }, 100)
+                );
             })
             .addExtraButton((b) => {
                 b.setIcon("trash")
                     .setTooltip("Delete All Filtered Monsters")
                     .onClick(() => {
                         const modal = new ConfirmModal(
-                            suggester.filteredItems.length,
+                            this.results.length,
                             this.plugin.app
                         );
                         modal.onClose = async () => {
                             if (modal.saved) {
                                 await this.plugin.deleteMonsters(
-                                    ...(suggester.filteredItems?.map(
-                                        (m) => m.item.name
-                                    ) ?? [])
+                                    ...(this.results?.map((m) => m.name) ?? [])
                                 );
                                 this.generateMonsters(containerEl);
                             }
@@ -615,28 +723,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         modal.open();
                     });
             });
-
-        const additional = additionalContainer.createDiv("additional");
-        if (!this.plugin.data.size) {
-            additional
-                .createDiv({
-                    attr: {
-                        style: "display: flex; justify-content: center; padding-bottom: 18px;"
-                    }
-                })
-                .createSpan({
-                    text: "No saved creatures! Create one to see it here."
-                });
-            return;
-        }
-
-        let suggester = new MonsterSuggester(
-            this.plugin,
-            monsterFilter,
-            additional,
-            new Set(this.plugin.sources)
-        );
-
+        this.setFilterDesc();
         const sourcesSetting = filters.createEl("details");
         sourcesSetting.createEl("summary", { text: "Filter Sources" });
         const list = sourcesSetting.createEl(
@@ -656,11 +743,11 @@ export default class StatblockSettingTab extends PluginSettingTab {
             }).onclick = (evt) => {
                 const target = evt.target as HTMLInputElement;
                 if (target.checked) {
-                    suggester.displayed.add(source);
+                    this.displayed.add(source);
                 } else {
-                    suggester.displayed.delete(source);
+                    this.displayed.delete(source);
                 }
-                suggester._onInputChanged();
+                this.showSearchResults(additional, "");
             };
             li.createEl("label", {
                 attr: {
@@ -669,44 +756,94 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 text: source
             });
         }
-
-        suggester.onRemoveItem = async (monster) => {
-            try {
-                await this.plugin.deleteMonster(monster.name);
-            } catch (e) {
-                new Notice(
-                    `There was an error deleting the creature:${
-                        `\n\n` + e.message
-                    }`
-                );
-            }
-            suggester._onInputChanged();
-        };
-        let last = suggester.filteredItems;
-        suggester.onInputChanged = () => {
-            if (suggester.filteredItems == last) return;
-            searchMonsters.setDesc(
-                createFragment((e) => {
-                    e.createSpan({
-                        text: `Managing ${
-                            this.plugin.settings.monsters.length
-                        } homebrew creature${
-                            this.plugin.settings.monsters.length == 1 ? "" : "s"
-                        }.`
-                    });
-                    if (suggester.filteredItems.length > suggester.limit) {
-                        e.createEl("p", {
-                            attr: {
-                                style: "margin: 0;"
-                            }
-                        }).createEl("small", {
-                            text: `Displaying: ${suggester.limit}. Filter to see more.`
-                        });
+        const additional = additionalContainer.createDiv("additional");
+        if (!this.plugin.data.size) {
+            additional
+                .createDiv({
+                    attr: {
+                        style: "display: flex; justify-content: center; padding-bottom: 18px;"
                     }
                 })
-            );
-        };
-        suggester._onInputChanged();
+                .createSpan({
+                    text: "No saved creatures! Create one to see it here."
+                });
+            return;
+        }
+        setImmediate(() => this.showSearchResults(additional, ""));
+    }
+    setFilterDesc() {
+        this.filter.setDesc(
+            createFragment((e) => {
+                e.createSpan({
+                    text: `Managing ${
+                        this.plugin.settings.monsters.length
+                    } homebrew creature${
+                        this.plugin.settings.monsters.length == 1 ? "" : "s"
+                    }.`
+                });
+                e.createEl("p", {
+                    attr: {
+                        style: "margin: 0;"
+                    }
+                }).createEl("small", {
+                    text: `Displaying: ${this.results.length} homebrew creatures.`
+                });
+            })
+        );
+    }
+    showSearchResults(additional: HTMLDivElement, search: string) {
+        additional.empty();
+        for (const item of this.performFuzzySearch(search)) {
+            const content = new Setting(additional)
+                .setName(item.name)
+                .setDesc(item.source);
+            content
+                .addExtraButton((b) => {
+                    b.setIcon("info")
+                        .setTooltip("View")
+                        .onClick(() => {
+                            const modal = new ViewMonsterModal(
+                                this.plugin,
+                                item
+                            );
+                            modal.open();
+                        });
+                })
+                .addExtraButton((b) => {
+                    b.setIcon("pencil")
+                        .setTooltip("Edit")
+                        .onClick(() => {
+                            const modal = new EditMonsterModal(
+                                this.plugin,
+                                item
+                            );
+                            modal.open();
+                            modal.onClose = () => {};
+                        });
+                })
+                .addExtraButton((b) => {
+                    b.setIcon("trash")
+                        .setTooltip("Delete")
+                        .onClick(() => this.plugin.deleteMonster(item.name));
+                });
+        }
+        this.setFilterDesc();
+    }
+    resources: Monster[] = copy(this.plugin.sorted);
+    displayed: Set<string> = new Set(this.plugin.sources);
+    performFuzzySearch(input: string) {
+        const results: Monster[] = [];
+        for (const resource of this.resources) {
+            if (!this.displayed.has(resource.source)) continue;
+            let result =
+                prepareSimpleSearch(input)(resource.name) ??
+                prepareSimpleSearch(input)(resource.source);
+            if (result) {
+                results.push(resource);
+            }
+        }
+        this.results = results.slice(0, 100);
+        return this.results;
     }
 }
 

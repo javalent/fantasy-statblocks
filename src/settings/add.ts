@@ -1,7 +1,11 @@
-import { nanoid, TypeNames } from "src/data/constants";
-import type { StatblockItem, StatblockItemMap } from "src/data/constants";
 import type StatBlockPlugin from "src/main";
 import { Menu } from "obsidian";
+import {
+    type StatblockItemMap,
+    type StatblockItem,
+    TypeNames
+} from "src/layouts/types";
+import { nanoid } from "src/util/util";
 
 function blockGenerator<T extends keyof StatblockItemMap>(
     type: T

@@ -1,6 +1,4 @@
 <script lang="ts">
-    import type { StatblockItem } from "src/data/constants";
-
     import { flip } from "svelte/animate";
     import {
         dndzone,
@@ -15,6 +13,7 @@
     import { generate } from "../add";
     import { BlockModal } from "./block";
     import Rule from "src/view/ui/Rule.svelte";
+    import type { StatblockItem } from "src/layouts/types";
 
     const dispatch = createEventDispatcher();
 
@@ -217,6 +216,8 @@
     }
     .inline {
         display: inline-flex;
+        width: 100%;
+        height: 100%;
     }
     .icon {
         display: flex;

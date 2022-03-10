@@ -2,6 +2,102 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.14.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.13.0...2.14.0) (2022-03-10)
+
+
+### Features
+
+* Adds Custom Layout importer ([0ec8175](https://github.com/valentine195/obsidian-5e-statblocks/commit/0ec8175128a2f30963a30625a54f0f19014e52da))
+
+## [2.13.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.12.2...2.13.0) (2022-03-10)
+
+
+### Features
+
+* Adds Lair Actions to Basic 5e Layout (close [#38](https://github.com/valentine195/obsidian-5e-statblocks/issues/38)) ([4a66ce9](https://github.com/valentine195/obsidian-5e-statblocks/commit/4a66ce91f6f9a8d69af1f3cb2b24c3ec81d3d224))
+
+
+### Bug Fixes
+
+* Fixes dropping into inline groups (close [#45](https://github.com/valentine195/obsidian-5e-statblocks/issues/45)) ([dfa0ec7](https://github.com/valentine195/obsidian-5e-statblocks/commit/dfa0ec7770f12e3fbb654f8bbcca2b6f1dc7121b))
+* Improves file parsing for statblocks defined in frontmatter (close [#44](https://github.com/valentine195/obsidian-5e-statblocks/issues/44)) ([52b4990](https://github.com/valentine195/obsidian-5e-statblocks/commit/52b4990e4c62c8353551d6893c73ef72436eacc5))
+
+### [2.12.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.12.1...2.12.2) (2022-03-01)
+
+
+### Bug Fixes
+
+* Significantly improved settings page performance ([4df1591](https://github.com/valentine195/obsidian-5e-statblocks/commit/4df159117498f9a2b524be1796de45ddea551e33))
+
+### [2.12.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.12.0...2.12.1) (2022-02-22)
+
+
+### Bug Fixes
+
+* add ability to set monster display name when rendering from initiative tracker ([6c6b750](https://github.com/valentine195/obsidian-5e-statblocks/commit/6c6b750d3c5ca7b98f2eafa224e1adcbfa42fce1))
+
+## [2.12.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.7...2.12.0) (2022-02-20)
+
+
+### Features
+
+* Adds basic fate core layout option ([0aed05e](https://github.com/valentine195/obsidian-5e-statblocks/commit/0aed05ed7021cb5e48c9509063c790e6a0e01dad))
+
+### [2.11.7](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.6...2.11.7) (2022-02-17)
+
+
+### Bug Fixes
+
+* re-added fantasy age stat table ([4335167](https://github.com/valentine195/obsidian-5e-statblocks/commit/43351672c00040f6c6eae43a2b8eb1ec2adccc3e))
+
+### [2.11.6](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.5...2.11.6) (2022-02-17)
+
+### Bug Fixes
+
+* Basic 5e Statblock now supports Bonus Actions (thank you @kgar) (PR [#40](https://github.com/valentine195/obsidian-5e-statblocks/pull/40))
+
+### [2.11.5](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.4...2.11.5) (2022-02-16)
+
+
+### Bug Fixes
+
+* greatly improved image loading ([ca94352](https://github.com/valentine195/obsidian-5e-statblocks/commit/ca943528b9c0b4b4f17caf97b85dafa64da9f9a5))
+
+### [2.11.4](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.3...2.11.4) (2022-02-13)
+
+
+### Bug Fixes
+
+* fixes order of int and wis in basic 5e statblock (fix [#37](https://github.com/valentine195/obsidian-5e-statblocks/issues/37)) ([43b0bbd](https://github.com/valentine195/obsidian-5e-statblocks/commit/43b0bbd00f6e8ecaf6197fd6d06095119cac6806))
+
+### [2.11.3](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.2...2.11.3) (2022-01-28)
+
+
+### Bug Fixes
+
+* 🐛 removes log ([05f342a](https://github.com/valentine195/obsidian-5e-statblocks/commit/05f342ab606b669b62008e8e7aa71901a50117a0))
+
+### [2.11.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.1...2.11.2) (2022-01-28)
+
+
+### Bug Fixes
+
+* 🐛 fixes issue with escaped characters in markdown ([ffce2b8](https://github.com/valentine195/obsidian-5e-statblocks/commit/ffce2b8203ce3d62228354212ee6faa0c9d7aae7))
+
+### [2.11.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.11.0...2.11.1) (2022-01-22)
+
+
+### Bug Fixes
+
+* fixed issue with editing blocks in custom layouts ([83e2bd3](https://github.com/valentine195/obsidian-5e-statblocks/commit/83e2bd35fe3035651304271ba52799c9d98621ab))
+
+## [2.11.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/1.5.8...2.11.0) (2022-01-22)
+
+
+### Features
+
+* TTRPG Statblocks 2.X Release! ([e5d2e79](https://github.com/valentine195/obsidian-5e-statblocks/commit/e5d2e79f1790d90a6d0ddcd3f1d1b09672b1b2ea))
+
 ## [2.10.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.9.0...2.10.0) (2022-01-21)
 
 

@@ -1,29 +1,24 @@
 import type { Monster } from "@types";
 import copy from "fast-copy";
+import { Modal, Notice, Setting, TextAreaComponent } from "obsidian";
 import {
-    ExtraButtonComponent,
-    Modal,
-    Notice,
-    Setting,
-    TextAreaComponent
-} from "obsidian";
-import {
-    StatblockItem,
-    PropertyItem,
-    TableItem,
-    TraitsItem,
-    TextItem,
-    MarkdownTypes
-} from "src/data/constants";
+    type StatblockItem,
+    type PropertyItem,
+    type TraitsItem,
+    type TableItem,
+    MarkdownTypes,
+    type TextItem
+} from "src/layouts/types";
 import type StatBlockPlugin from "src/main";
 import TableHeaders from "./TableHeaders.svelte";
 
 export class BlockModal extends Modal {
     block: StatblockItem;
     saved: boolean;
-    advanced: boolean = this.plugin.settings.showAdvanced;
+    advanced: boolean;
     constructor(public plugin: StatBlockPlugin, block?: StatblockItem) {
         super(plugin.app);
+        this.advanced = this.plugin.settings.showAdvanced;
         if (block) this.block = copy(block);
         this.containerEl.addClass("statblock-edit-block");
     }

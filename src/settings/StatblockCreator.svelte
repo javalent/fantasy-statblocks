@@ -4,8 +4,8 @@
         ExtraButtonComponent,
         TextComponent
     } from "obsidian";
+    import type { Layout, StatblockItem } from "src/layouts/types";
 
-    import type { Layout, StatblockItem } from "src/data/constants";
     import type StatBlockPlugin from "src/main";
     import { createEventDispatcher } from "svelte";
 

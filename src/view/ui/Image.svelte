@@ -10,59 +10,31 @@
 
     const plugin = getContext<StatBlockPlugin>("plugin");
     const context = getContext<string>("context");
+
     function parseLink(link: string) {
         return link?.replace(/(\[|\])/g, "");
     }
-    async function getBlob(url: string, app: App) {
-        let response, blob: Blob;
+    async function getLink(url: string) {
         url = decodeURIComponent(url);
+        let link: string;
         try {
             if (/https?:/.test(url)) {
                 //url
-                response = await fetch(url);
-                blob = await response.blob();
-            } else if (/obsidian:\/\/open/.test(url)) {
-                //obsidian link
-                let [, filePath] = url.match(/\?vault=[\s\S]+?&file=([\s\S]+)/);
-
-                filePath = decodeURIComponent(filePath);
-                let file = app.vault.getAbstractFileByPath(filePath);
-                if (!file) throw new Error();
-                let buffer = await app.vault.readBinary(file as TFile);
-                blob = new Blob([new Uint8Array(buffer)]);
+                const [linkpath] = parseLink(url).split("|");
+                link = linkpath;
             } else {
-                //file exists on disk;
-                let file = app.metadataCache.getFirstLinkpathDest(
-                    parseLink(url).split("|").shift(),
-                    context
+                const [linkpath] = parseLink(url).split("|");
+                let file = plugin.app.metadataCache.getFirstLinkpathDest(
+                    linkpath,
+                    ""
                 );
                 if (!file) throw new Error();
-
-                let buffer = await app.vault.readBinary(file);
-                blob = new Blob([new Uint8Array(buffer)]);
+                link = plugin.app.vault.getResourcePath(file);
             }
         } catch (e) {
             console.error(e);
         }
-        return { blob, id: encodeURIComponent(url) };
-    }
-    function toDataURL(blob: Blob): Promise<string> {
-        //determine link type
-        return new Promise(async (resolve, reject) => {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                if (typeof reader.result === "string") {
-                    let data = reader.result.slice(
-                        reader.result.indexOf(";base64,")
-                    );
-                    resolve(data);
-                } else {
-                    reject();
-                }
-            };
-            reader.onerror = reject;
-            reader.readAsDataURL(blob);
-        });
+        return link;
     }
     const getImage = async (): Promise<string> => {
         if (
@@ -81,14 +53,7 @@
             }
             const path = monster[props[0]] as string;
 
-            const { blob } = await getBlob(path, plugin.app);
-            if (!blob) return;
-
-            const data = await toDataURL(blob);
-
-            if (!data) return;
-
-            return `data:image/png${data}`;
+            return getLink(path);
         }
     };
     let promise = getImage();

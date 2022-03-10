@@ -51,11 +51,24 @@ export interface Monster {
     traits?: Trait[];
     spells?: Spell[];
     actions?: Trait[];
+    bonus_actions?: Trait[];
     legendary_actions?: Trait[];
     reactions?: Trait[];
+    lair_actions?: Trait[];
     monster?: string;
     creature?: string;
     source?: string;
+
+    /** Fate Core */
+    description?: string;
+    aspects?: string;
+    temporaryAspects?: string;
+    stress?: number[];
+    consequences?: Trait[];
+    skills?: Trait[];
+    stunts?: Trait[];
+    items?: Trait[];
+    extras?: Trait[];
 
     /** Statblock Parameters */
     export?: boolean;
@@ -69,15 +82,21 @@ export interface Monster {
     forceColumns?: boolean;
 
     note?: string;
+    mtime?: number;
 }
 
 export interface StatblockParameters
     extends Omit<
         Monster,
-        "traits" | "actions" | "legendary_actions" | "reactions"
+        | "traits"
+        | "actions"
+        | "bonus_actions"
+        | "legendary_actions"
+        | "reactions"
     > {
     traits?: { desc: string; name: string }[] | [string, string][];
     actions?: Trait[] | [string, string][];
+    bonus_actions?: Trait[] | [string, string][];
     legendary_actions?: Trait[] | [string, string][];
     reactions?: Trait[] | [string, string][];
 }
