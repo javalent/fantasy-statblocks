@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.14.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.13.0...2.14.0) (2022-03-10)
+
+
+### Features
+
+* Adds Custom Layout importer ([0ec8175](https://github.com/valentine195/obsidian-5e-statblocks/commit/0ec8175128a2f30963a30625a54f0f19014e52da))
+
 ## [2.13.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.12.2...2.13.0) (2022-03-10)
 
 
