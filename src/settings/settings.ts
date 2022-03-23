@@ -768,7 +768,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 });
             return;
         }
-        setImmediate(() => this.showSearchResults(additional, ""));
+        setTimeout(() => this.showSearchResults(additional, ""));
     }
     setFilterDesc() {
         this.filter.setDesc(
