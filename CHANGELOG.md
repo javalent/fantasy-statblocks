@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.14.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.14.1...2.14.2) (2022-03-23)
+
+
+### Bug Fixes
+
+* Fixes issue with settings tab on mobile ([9cb29b6](https://github.com/valentine195/obsidian-5e-statblocks/commit/9cb29b615cb8ccab48a7ed47f0c47fc95ae32142))
+
 ### [2.14.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.14.0...2.14.1) (2022-03-10)
 
 
