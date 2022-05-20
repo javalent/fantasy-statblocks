@@ -7,6 +7,7 @@ node_modules
 
 # build
 main.js
+styles.css
 *.js.map
 .DS_Store
 *build.js

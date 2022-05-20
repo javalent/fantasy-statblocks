@@ -14,4 +14,13 @@
     };
 </script>
 
-<div use:markdown />
+<div class="statblock-markdown" use:markdown />
+
+<style>
+    .statblock-markdown {
+        display: inline;
+    }
+    .statblock-markdown :global(p) {
+        display: inline;
+    }
+</style>
