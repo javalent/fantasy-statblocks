@@ -4526,7 +4526,7 @@ export const BESTIARY: Monster[] = [
         alignment: "unaligned",
         ac: 11,
         hp: 2,
-        hit_dice: "1d4 + -1",
+        hit_dice: "1d4",
         speed: "20 ft., swim 20 ft.",
         stats: [2, 11, 10, 1, 8, 2],
         skillsaves: [{ stealth: 2 }],
