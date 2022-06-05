@@ -85,16 +85,25 @@ export default class StatBlockPlugin extends Plugin {
     
     watcher = new Watcher(this);
     private _sorted: Monster[] = [];
-    get canUseDiceRoller() {
-        return this.app.plugins.getPlugin("obsidian-dice-roller") != null;
-    }
+
     getRoller(str: string) {
         if (!this.canUseDiceRoller) return;
         const roller = this.app.plugins
             .getPlugin("obsidian-dice-roller")
-            .getRoller(str, "statblock", true);
+            .getRollerSync(str, "statblock", true);
         return roller;
     }
+    get canUseDiceRoller() {
+        if (this.app.plugins.getPlugin("obsidian-dice-roller") != null) {
+            if (!this.app.plugins.getPlugin("obsidian-dice-roller").getRollerSync) {
+                new Notice("Please update Dice Roller to the latest version to use with Initiative Tracker.");
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
     get sorted() {
         if (!this._sorted.length)
             this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
