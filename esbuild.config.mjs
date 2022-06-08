@@ -57,6 +57,7 @@ esbuild
         target: "es2020",
         logLevel: "info",
         sourcemap: prod ? false : "inline",
+        minify: prod,
         treeShaking: true,
         outdir: dir,
         plugins: [
@@ -64,7 +65,9 @@ esbuild
                 compilerOptions: { css: true },
                 preprocess: sveltePreprocess()
             }),
-            inlineWorkerPlugin(/* { format: "cjs" } */)
+            inlineWorkerPlugin()
         ]
     })
-    .catch(() => process.exit(1));
+    .catch(() => {
+        process.exit(1);
+    });

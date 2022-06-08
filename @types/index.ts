@@ -54,6 +54,7 @@ export interface Monster {
     bonus_actions?: Trait[];
     legendary_actions?: Trait[];
     reactions?: Trait[];
+    lair_actions?: Trait[];
     monster?: string;
     creature?: string;
     source?: string;
@@ -81,12 +82,17 @@ export interface Monster {
     forceColumns?: boolean;
 
     note?: string;
+    mtime?: number;
 }
 
 export interface StatblockParameters
     extends Omit<
         Monster,
-        "traits" | "actions" | "bonus_actions" | "legendary_actions" | "reactions"
+        | "traits"
+        | "actions"
+        | "bonus_actions"
+        | "legendary_actions"
+        | "reactions"
     > {
     traits?: { desc: string; name: string }[] | [string, string][];
     actions?: Trait[] | [string, string][];

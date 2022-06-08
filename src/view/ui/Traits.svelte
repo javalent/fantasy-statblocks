@@ -3,11 +3,13 @@
 
     export let name: string;
     export let desc: string;
-    export let render: boolean;
+    export let render: boolean = false;
 </script>
 
 <div class="property">
-    <div class="property-name">{name}</div>
+    {#if name}
+        <div class="property-name">{name}</div>
+    {/if}
     <div class="property-text">
         <TextContentHolder {render} property={desc} />
     </div>

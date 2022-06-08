@@ -1,11 +1,8 @@
 <script lang="ts">
     import type { Monster } from "@types";
     import { debounce, ExtraButtonComponent, Menu } from "obsidian";
-    import {
-        EXPORT_SYMBOL,
-        SAVE_SYMBOL,
-        StatblockItem
-    } from "src/data/constants";
+    import { EXPORT_SYMBOL, SAVE_SYMBOL } from "src/data/constants";
+    import type { StatblockItem } from "src/layouts/types";
     import type StatBlockPlugin from "src/main";
     import {
         createEventDispatcher,

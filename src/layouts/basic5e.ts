@@ -628,6 +628,15 @@ return "";`
         conditioned: true,
 
         dice: true
+    },
+    {
+        type: "traits",
+        id: nanoid(),
+        properties: ["lair_actions"],
+        heading: "Lair Actions",
+        conditioned: true,
+
+        dice: true
     }
 ];
 

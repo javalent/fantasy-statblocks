@@ -39,3 +39,68 @@
 .statblock-additional-container.statblock-monsters button {
     margin-right: 0;
 }
+
+/** Settings */
+.statblock-file-upload > input[type="file"] {
+    display: none;
+}
+
+.statblock-additional-container {
+    border-top: 1px solid var(--background-modifier-border);
+    border-bottom: 0px solid var(--background-modifier-border);
+    padding: 18px 0 0 0;
+    background-color: inherit;
+}
+
+.statblock-additional-container details {
+    padding: 18px 0 18px 0;
+}
+
+.statblock-additional-container .clickable-icon {
+    margin: 0 6px;
+}
+
+.statblock-additional-container .task-list-inline {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 3em;
+    padding-bottom: 0px;
+    margin: 0px;
+}
+
+.statblock-monster-filter {
+    position: sticky;
+    top: calc(-1 * var(--statblock-filter-offset));
+    background-color: var(--statblock-filter-bg);
+    z-index: 99999;
+}
+
+.statblock-additional-container > .setting-item-heading:only-child {
+    padding-bottom: 18px;
+}
+
+.statblock-additional-container > .additional {
+    margin: 6px 12px;
+}
+.statblock-additional-container .setting-item {
+    border-top: 0;
+}
+.statblock-additional-container > .additional > .setting-item {
+    padding-top: 9px;
+}
+.statblock-additional-container
+    > .additional
+    > .setting-item
+    > .setting-item-control
+    > *:first-child {
+    margin: 0 6px;
+}
+.statblock-settings .coffee {
+    width: 60%;
+    color: var(--text-faint);
+    margin: 1rem auto;
+    text-align: center;
+}
+.statblock-settings .coffee img {
+    height: 30px;
+}

@@ -98,6 +98,10 @@ export class Watcher extends Component {
             async (evt: MessageEvent<UpdateEventMessage>) => {
                 if (evt.data.type == "update") {
                     const { monster, path } = evt.data;
+                    if (this.watchPaths.has(path)) {
+                        const existing = this.watchPaths.get(path);
+                        this.plugin.deleteMonster(existing);
+                    }
                     this.watchPaths.set(path, monster.name);
                     this.plugin.saveMonster(monster, false, false);
                 }
@@ -128,8 +132,20 @@ export class Watcher extends Component {
                 }
             }
         );
-        if (!this.plugin.settings.autoParse) return;
-        this.plugin.app.workspace.onLayoutReady(() => this.start());
+        this.plugin.app.workspace.onLayoutReady(() => {
+            for (const [_, monster] of this.plugin.settings.monsters.filter(
+                ([_, monster]) => monster.note
+            )) {
+                if (this.watchPaths.has(monster.note)) {
+                    //multiple defined for this note... delete them all
+                    this.plugin.deleteMonster(monster.name);
+                }
+                this.watchPaths.set(monster.note, monster.name);
+            }
+
+            if (!this.plugin.settings.autoParse) return;
+            this.start();
+        });
     }
     async delete(path: string) {
         await this.plugin.deleteMonster(this.watchPaths.get(path));
@@ -170,11 +186,23 @@ export class Watcher extends Component {
     getFileInformation(path: string) {
         const file = this.plugin.app.vault.getAbstractFileByPath(path);
         if (!(file instanceof TFile)) return;
+        if (this.watchPaths.has(file.path)) {
+            const monster = this.plugin.bestiary.get(
+                this.watchPaths.get(file.path)
+            );
+
+            if (monster && monster.mtime && monster.mtime == file.stat.mtime)
+                return;
+        }
 
         const cache = this.metadataCache.getFileCache(file);
         return {
             cache,
-            file: { path: file.path, basename: file.basename }
+            file: {
+                path: file.path,
+                basename: file.basename,
+                mtime: file.stat.mtime
+            }
         };
     }
     getFiles(folder: TAbstractFile): string[] {

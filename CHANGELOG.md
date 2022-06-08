@@ -2,6 +2,49 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.14.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.14.1...2.14.2) (2022-03-23)
+
+
+### Bug Fixes
+
+* Fixes issue with settings tab on mobile ([9cb29b6](https://github.com/valentine195/obsidian-5e-statblocks/commit/9cb29b615cb8ccab48a7ed47f0c47fc95ae32142))
+
+### [2.14.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.14.0...2.14.1) (2022-03-10)
+
+
+### Bug Fixes
+
+* improved column splitting ([908850b](https://github.com/valentine195/obsidian-5e-statblocks/commit/908850b7c79dd078539cbf381279a5655d66352f))
+* Integrates PR [#35](https://github.com/valentine195/obsidian-5e-statblocks/issues/35) ([7284fb8](https://github.com/valentine195/obsidian-5e-statblocks/commit/7284fb80f8df5cf605fc2c85cf452276391d9aca))
+* Statblock Columns were being built too aggressively ([117b9ec](https://github.com/valentine195/obsidian-5e-statblocks/commit/117b9ec16a448a024aafb02ef39930c105a7d366))
+
+## [2.14.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.13.0...2.14.0) (2022-03-10)
+
+
+### Features
+
+* Adds Custom Layout importer ([0ec8175](https://github.com/valentine195/obsidian-5e-statblocks/commit/0ec8175128a2f30963a30625a54f0f19014e52da))
+
+## [2.13.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.12.2...2.13.0) (2022-03-10)
+
+
+### Features
+
+* Adds Lair Actions to Basic 5e Layout (close [#38](https://github.com/valentine195/obsidian-5e-statblocks/issues/38)) ([4a66ce9](https://github.com/valentine195/obsidian-5e-statblocks/commit/4a66ce91f6f9a8d69af1f3cb2b24c3ec81d3d224))
+
+
+### Bug Fixes
+
+* Fixes dropping into inline groups (close [#45](https://github.com/valentine195/obsidian-5e-statblocks/issues/45)) ([dfa0ec7](https://github.com/valentine195/obsidian-5e-statblocks/commit/dfa0ec7770f12e3fbb654f8bbcca2b6f1dc7121b))
+* Improves file parsing for statblocks defined in frontmatter (close [#44](https://github.com/valentine195/obsidian-5e-statblocks/issues/44)) ([52b4990](https://github.com/valentine195/obsidian-5e-statblocks/commit/52b4990e4c62c8353551d6893c73ef72436eacc5))
+
+### [2.12.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.12.1...2.12.2) (2022-03-01)
+
+
+### Bug Fixes
+
+* Significantly improved settings page performance ([4df1591](https://github.com/valentine195/obsidian-5e-statblocks/commit/4df159117498f9a2b524be1796de45ddea551e33))
+
 ### [2.12.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.12.0...2.12.1) (2022-02-22)
 
 

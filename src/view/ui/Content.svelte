@@ -1,6 +1,5 @@
 <script lang="ts">
     import type { Monster, Trait } from "@types";
-    import type { StatblockItem } from "src/data/constants";
 
     import Traits from "./Traits.svelte";
     import Spells from "./Spells.svelte";
@@ -19,6 +18,7 @@
         getContext
     } from "svelte";
     import Image from "./Image.svelte";
+    import type { StatblockItem } from "src/layouts/types";
 
     const dispatch = createEventDispatcher();
 
@@ -222,7 +222,7 @@
     $: maxHeight =
         !isNaN(Number(monster.columnHeight)) && monster.columnHeight > 0
             ? monster.columnHeight
-            : 600;
+            : Infinity;
 
     const buildStatblock = (node: HTMLElement) => {
         node.empty();
@@ -238,8 +238,10 @@
         }
 
         const temp = document.body.createDiv("statblock-detached");
+        const heightmap: Map<HTMLElement, number> = new Map();
         for (let target of targets) {
             temp.appendChild(target);
+            heightmap.set(target, target.clientHeight);
         }
         temp.style.width = columnWidth;
 
@@ -253,34 +255,24 @@
                 temp.clientHeight / columns
             );
         } else {
-            split = Math.min(
-                Math.max(temp.clientHeight / columns, maxHeight),
-                maxHeight
-            );
+            split = Math.min(temp.clientHeight / columns, maxHeight);
         }
 
         temp.empty();
         temp.detach();
 
         for (let target of targets) {
-            columnEl.appendChild(target);
             if (
-                columnEl.clientHeight > split &&
-                node.childElementCount != columns
+                node.childElementCount < columns &&
+                columnEl.clientHeight + heightmap.get(target) > split
             ) {
                 columnEl = node.createDiv("column");
-                /* target.detach();
-                columnEl.appendChild(target); */
             }
+            columnEl.appendChild(target);
         }
     };
 
     let content: HTMLElement;
-
-    onMount(async () => {
-        if (!ready) return;
-        buildStatblock(content);
-    });
 
     $: {
         if (ready && content) {
