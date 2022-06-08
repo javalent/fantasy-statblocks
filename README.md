@@ -63,19 +63,24 @@ spells:
   - <description>
   - <spell level>: <spell-list>
 traits:
-  - [<trait-name>, <trait-description>]
+  - name: <trait-name>
+    desc: <trait-description>
   - ...
 actions:
-  - [<trait-name>, <trait-description>]
+  - name: <trait-name>
+    desc: <trait-description>
   - ...
 legendary_actions:
-  - [<legendary_actions-name>, <legendary_actions-description>]
+  - name: <legendary_actions-name>
+    desc: <legendary_actions-description>
   - ...
 bonus_actions:
-  - [<trait-name>, <trait-description>]
-  - ... 
+  - name: <trait-name>
+    desc: <trait-description>
+  - ...
 reactions:
-  - [<reaction-name>, <reaction-description>]
+  - name: <reaction-name>
+    desc: <reaction-description>
   - ...
 ```
 ````
@@ -124,12 +129,11 @@ name: Paarthurnax
 
 Traits, as well as Actions, Reactions and Legendary Actions, should be added by specifying a name and description (desc):
 
-```md
+```yaml
 traits:
-
--   name: Amphibious
+  - name: Amphibious
     desc: The dragon can breathe air and water.
--   name: Legendary Resistance (3/Day)
+  - name: Legendary Resistance (3/Day)
     desc: If the dragon fails a saving throw, it can choose to succeed instead.
 ```
 
