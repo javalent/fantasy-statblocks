@@ -77,12 +77,11 @@ const DEFAULT_DATA: StatblockData = {
     autoParse: false
 };
 
-
 export default class StatBlockPlugin extends Plugin {
     settings: StatblockData;
     data: Map<string, Monster>;
     bestiary: Map<string, Monster>;
-    
+
     watcher = new Watcher(this);
     private _sorted: Monster[] = [];
 
@@ -95,8 +94,13 @@ export default class StatBlockPlugin extends Plugin {
     }
     get canUseDiceRoller() {
         if (this.app.plugins.getPlugin("obsidian-dice-roller") != null) {
-            if (!this.app.plugins.getPlugin("obsidian-dice-roller").getRollerSync) {
-                new Notice("Please update Dice Roller to the latest version to use with Initiative Tracker.");
+            if (
+                !this.app.plugins.getPlugin("obsidian-dice-roller")
+                    .getRollerSync
+            ) {
+                new Notice(
+                    "Please update Dice Roller to the latest version to use with Initiative Tracker."
+                );
             } else {
                 return true;
             }
@@ -261,7 +265,12 @@ export default class StatBlockPlugin extends Plugin {
 
     async deleteMonster(monster: string, sortFields = true, save = true) {
         if (!this.data.has(monster)) return;
+        console.log("🚀 ~ file: main.ts ~ line 251 ~ monster", monster);
         this.data.delete(monster);
+        console.log(
+            "🚀 ~ file: main.ts ~ line 270 ~  this.data",
+            this.data.has(monster)
+        );
         this.bestiary.delete(monster);
 
         if (BESTIARY_BY_NAME.has(monster)) {

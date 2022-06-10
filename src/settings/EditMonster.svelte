@@ -94,102 +94,6 @@
                 >{getMonsterText()}</textarea
             >
         {/key}
-        <!--         {:else}
-            <div class="info">
-                <div>
-                    <label for="name">Name</label>
-                    <input id="name" type="text" bind:value={monster.name} />
-                </div>
-                <div>
-                    <label for="source">Source</label>
-                    <input
-                        id="source"
-                        type="text"
-                        bind:value={monster.source}
-                    />
-                </div>
-                <div>
-                    <label for="type">Type</label>
-                    <input id="type" type="text" bind:value={monster.type} />
-                </div>
-                <div>
-                    <label for="size">Size</label>
-                    <input id="size" type="text" bind:value={monster.size} />
-                </div>
-                <div>
-                    <label for="alignment">Alignment</label>
-                    <input
-                        id="alignment"
-                        type="text"
-                        bind:value={monster.alignment}
-                    />
-                </div>
-            </div>
-            <div class="basic-stats">
-                <div>
-                    <label for="hp">Hit Points</label>
-                    <input id="hp" type="text" bind:value={monster.hp} />
-                </div>
-                <div>
-                    <label for="ac">Armor Class</label>
-                    <input id="ac" type="text" bind:value={monster.ac} />
-                </div>
-                <div>
-                    <label for="speed">Speed</label>
-                    <input id="speed" type="text" bind:value={monster.speed} />
-                </div>
-                <div>
-                    <label for="senses">Senses</label>
-                    <input
-                        id="senses"
-                        type="text"
-                        bind:value={monster.senses}
-                    />
-                </div>
-                <div>
-                    <label for="languages">Languages</label>
-                    <input
-                        id="languages"
-                        type="text"
-                        bind:value={monster.languages}
-                    />
-                </div>
-                <div>
-                    <label for="cr">Challenge</label>
-                    <input id="cr" type="text" bind:value={monster.cr} />
-                </div>
-            </div>
-            <div class="attributes">
-                <div>
-                    <label for="str">Str.</label>
-                    <input id="str" type="text" bind:value={monster.stats[0]} />
-                </div>
-                <div>
-                    <label for="dex">Dex.</label>
-                    <input id="dex" type="text" bind:value={monster.stats[1]} />
-                </div>
-                <div>
-                    <label for="con">Con.</label>
-                    <input id="con" type="text" bind:value={monster.stats[2]} />
-                </div>
-                <div>
-                    <label for="int">Int.</label>
-                    <input id="int" type="text" bind:value={monster.stats[3]} />
-                </div>
-                <div>
-                    <label for="wis">Wis.</label>
-                    <input id="wis" type="text" bind:value={monster.stats[4]} />
-                </div>
-                <div>
-                    <label for="cha">Cha.</label>
-                    <input id="cha" type="text" bind:value={monster.stats[5]} />
-                </div>
-            </div>
-            <div class="damages">
-                <p>Damage Vulnerabilities</p>
-                <p>Damage Resistances</p>
-                <p>Damage Immunities</p>
-            </div> -->
     </div>
     <div class="buttons">
         <div use:save />
@@ -197,7 +101,7 @@
     </div>
 </div>
 
-<style>
+<style scoped>
     .top-level {
         display: flex;
         flex-flow: column nowrap;

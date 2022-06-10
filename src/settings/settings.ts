@@ -24,7 +24,6 @@ import { EditMonsterModal } from "./modal";
 import { Layout5e } from "src/layouts/basic5e";
 import type { Layout } from "src/layouts/types";
 import { DefaultLayouts } from "src/layouts";
-import copy from "fast-copy";
 import type { Monster } from "@types";
 
 export default class StatblockSettingTab extends PluginSettingTab {
@@ -682,7 +681,6 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     modal.open();
                 });
             });
-        let monsterFilter: TextComponent;
 
         const ancestor = this.containerEl.closest(".statblock-settings");
         const { backgroundColor, paddingTop } = getComputedStyle(ancestor);
@@ -817,22 +815,26 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                 item
                             );
                             modal.open();
-                            modal.onClose = () => {};
+                            modal.onClose = () => {
+                                this.showSearchResults(additional, search);
+                            };
                         });
                 })
                 .addExtraButton((b) => {
                     b.setIcon("trash")
                         .setTooltip("Delete")
-                        .onClick(() => this.plugin.deleteMonster(item.name));
+                        .onClick(async () => {
+                            await this.plugin.deleteMonster(item.name);
+                            this.showSearchResults(additional, search);
+                        });
                 });
         }
         this.setFilterDesc();
     }
-    resources: Monster[] = copy(this.plugin.sorted);
     displayed: Set<string> = new Set(this.plugin.sources);
     performFuzzySearch(input: string) {
         const results: Monster[] = [];
-        for (const resource of this.resources) {
+        for (const resource of this.plugin.sorted) {
             if (!this.displayed.has(resource.source)) continue;
             let result =
                 prepareSimpleSearch(input)(resource.name) ??
