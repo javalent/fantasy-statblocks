@@ -27,7 +27,8 @@ function parseString(str: string) {
         .replace(/{@skill (.+?)}/g, `$1`)
         .replace(/{@dice (.+?)}/g, `$1`)
         .replace(/{@hit (\d+?)}/g, `+$1`)
-        .replace(/{@dc (\d+?)}/g, `$1`);
+        .replace(/{@dc (\d+?)}/g, `$1`)
+        .replace(/{@quickref (.+?)\|\|.+?}/, `$1`);
 }
 
 export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
@@ -95,15 +96,13 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
                                     return { [abilityMap[thr[0]]]: v };
                                 }
                             ),
-                            skillsaves: Object.fromEntries(
-                                Object.entries(monster.skill ?? {}).map(
-                                    ([name, value]) => {
-                                        const [, v] = value.match(/.*(\d+)/);
-                                        return [name, v];
-                                    }
-                                )
+                            skillsaves: Object.entries(monster.skill ?? {}).map(
+                                ([name, value]) => {
+                                    const [, v] = value.match(/.*(\d+)/);
+                                    return { [name]: v };
+                                }
                             ),
-                            senses: monster.senses?.join(", ").trim() ?? "",
+                            senses: getSenses(monster),
                             languages:
                                 monster.languages?.join(", ").trim() ?? "",
                             cr: monster.cr ? monster.cr.cr || monster.cr : "",
@@ -142,7 +141,18 @@ function parseImmune(immune: any[]): string {
     for (let imm of immune) {
         if (typeof imm == "string") ret.push(imm);
         if (imm.immune) {
-            ret.push(imm.immune.join(", ") + imm.note ? ` ${imm.note}` : "");
+            ret.push(
+                `${imm.immune.join(", ")}${imm.note ? " " : ""}${
+                    imm.note ? imm.note : ""
+                }`
+            );
+        }
+        if (imm.resist) {
+            ret.push(
+                `${imm.resist.join(", ")}${imm.note ? " " : ""}${
+                    imm.note ? imm.note : ""
+                }`
+            );
         }
     }
     return ret.join(", ");
@@ -296,7 +306,7 @@ function getSpeedString(it: any) {
             stack.push(
                 `${propName === "walk" ? "" : `${propName} `}${getVal(
                     s
-                )} ft.${getCond(s)}`
+                )} ft. ${getCond(s)}`.trim()
             );
         }
 
@@ -311,7 +321,7 @@ function getSpeedString(it: any) {
     }
 
     function getCond(speedProp: any) {
-        return "";
+        return speedProp?.condition ?? "";
     }
 
     const stack = [];
@@ -335,7 +345,13 @@ function getSpeedString(it: any) {
         return it.speed + (it.speed === "Varies" ? "" : " ft. ");
     }
 }
-
+function getSenses(monster: any): string {
+    const senses = [monster.senses?.join(", ").trim() ?? ""];
+    if (monster.passive) {
+        senses.push(`passive Perception ${monster.passive}`);
+    }
+    return senses.join(", ");
+}
 type Entry =
     | string
     | {

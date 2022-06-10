@@ -265,12 +265,7 @@ export default class StatBlockPlugin extends Plugin {
 
     async deleteMonster(monster: string, sortFields = true, save = true) {
         if (!this.data.has(monster)) return;
-        console.log("🚀 ~ file: main.ts ~ line 251 ~ monster", monster);
         this.data.delete(monster);
-        console.log(
-            "🚀 ~ file: main.ts ~ line 270 ~  this.data",
-            this.data.has(monster)
-        );
         this.bestiary.delete(monster);
 
         if (BESTIARY_BY_NAME.has(monster)) {
