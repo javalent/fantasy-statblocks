@@ -192,6 +192,9 @@ skillsaves:
   - stealth: 9
 senses: blindsight 60 ft., darkvision 120 ft., passive Perception 26
 languages: Common, Draconic
+damage_resistances: bludgeoning, piercing, and slashing from nonmagical attacks
+damage_immunities: fire, poison
+condition_immunities: charmed, frightened, grappled, paralyzed, petrified, poisoned, prone, restrained
 cr: 21
 traits:
   - name: Amphibious
