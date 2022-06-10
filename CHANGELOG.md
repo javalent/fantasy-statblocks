@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.14.5](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.14.4...2.14.5) (2022-06-10)
+
+
+### Bug Fixes
+
+* Fixes caching issue preventing homebrew from updating (closes [#63](https://github.com/valentine195/obsidian-5e-statblocks/issues/63)) ([2e5565b](https://github.com/valentine195/obsidian-5e-statblocks/commit/2e5565be4bc26030edc7e36e4797a78ca2507fce))
+* Several 5e.tools-related import bugs fixed (ref [#58](https://github.com/valentine195/obsidian-5e-statblocks/issues/58)) ([c3652e4](https://github.com/valentine195/obsidian-5e-statblocks/commit/c3652e450d232cce68950568e37f4977a13a3e1f))
+* Update full example to include resistances (close [#64](https://github.com/valentine195/obsidian-5e-statblocks/issues/64)) ([027510b](https://github.com/valentine195/obsidian-5e-statblocks/commit/027510ba4569d02440aacfb7aa162201c01e5ce4))
+
 ### [2.14.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.14.1...2.14.2) (2022-03-23)
 
 
