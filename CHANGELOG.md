@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.14.6](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.14.5...2.14.6) (2022-06-10)
+
+
+### Bug Fixes
+
+* bump esbuild ([3e08167](https://github.com/valentine195/obsidian-5e-statblocks/commit/3e08167d197bfc28b7b78c43be3e6a8deeae3a21))
+
 ### [2.14.5](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.14.4...2.14.5) (2022-06-10)
 
 
