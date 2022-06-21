@@ -5,7 +5,7 @@
 
     export let monster: Monster;
     const ensureColon = (header: string) => {
-        if (header[header.length - 1] === ":") return header;
+        if (/[^a-zA-Z0-9]$/.test(header)) return header;
         return `${header}:`;
     };
     type SpellBlock = { header: string; spells: Array<string> };
@@ -13,7 +13,8 @@
         (acc, current) => {
             if (
                 typeof current === "string" &&
-                current.charAt(current.length - 1) == ":"
+                (current.charAt(current.length - 1) == ":" ||
+                    !(current.includes(":")))
             ) {
                 const newBlock: SpellBlock = {
                     header: ensureColon(current),
@@ -49,7 +50,7 @@
         {/if}
         <ul class="spell-list">
             {#each block.spells as spellItem, index}
-                {#if index === block.spells.length - 1 && !spellItem.includes(":")}
+                {#if !spellItem.includes(":")}
                     <span class="spell-line">{spellItem}</span>
                 {:else}
                     <li class="spell-line">
