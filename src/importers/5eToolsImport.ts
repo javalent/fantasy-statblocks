@@ -120,6 +120,7 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
                         };
                         imported.push(importedMonster);
                     } catch (e) {
+                        console.error(e);
                         continue;
                     }
                 }
@@ -203,7 +204,7 @@ function extractSpellsBlocks(spellBlock: Spellcasting): ExtractedSpells {
         parseString((spellBlock.headerEntries ?? []).join("\n"))
     ];
 
-    if (spellBlock.name === "Spellcasting") {
+    if ("spells" in spellBlock) {
         try {
             ret.push(
                 ...Object.entries(spellBlock.spells).map(
@@ -219,7 +220,8 @@ function extractSpellsBlocks(spellBlock: Spellcasting): ExtractedSpells {
         } catch (e) {
             throw new Error("There was an error parsing the spells.");
         }
-    } else {
+    }
+    if ("will" in spellBlock) {
         if (spellBlock.will.length > 0) {
             try {
                 ret.push({
@@ -232,7 +234,7 @@ function extractSpellsBlocks(spellBlock: Spellcasting): ExtractedSpells {
             }
         }
 
-        if (Object.keys(spellBlock.daily).length > 0) {
+        if (Object.keys(spellBlock.daily ?? {})?.length > 0) {
             try {
                 ret.push(
                     ...Object.entries(spellBlock.daily).map(([num, spells]) => {
