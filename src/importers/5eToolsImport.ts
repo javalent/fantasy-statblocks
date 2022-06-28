@@ -92,13 +92,13 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
                                         value: string
                                     ]
                                 ) => {
-                                    const [, v] = thr[1].match(/.*(\d+)/);
+                                    const [, v] = thr[1].match(/.*?(\d+)/);
                                     return { [abilityMap[thr[0]]]: v };
                                 }
                             ),
                             skillsaves: Object.entries(monster.skill ?? {}).map(
                                 ([name, value]) => {
-                                    const [, v] = value.match(/.*(\d+)/);
+                                    const [, v] = value.match(/.*?(\d+)/);
                                     return { [name]: v };
                                 }
                             ),
