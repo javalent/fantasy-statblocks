@@ -127,6 +127,17 @@ export async function buildMonsterFromImprovedInitiativeFile(
                                         };
                                     }
                                 ) ?? [],
+                                monster.BonusActions.map(
+                                (trait: {
+                                    Name: string;
+                                    Content: string;
+                                }) => {
+                                    return {
+                                        name: trait.Name,
+                                        desc: trait.Content
+                                    };
+                                }
+                            ) ?? [],
                             reactions:
                                 monster.Reactions?.map(
                                     (trait: {
