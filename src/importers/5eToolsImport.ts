@@ -110,6 +110,8 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
                                 monster.trait?.flatMap(normalizeEntries) ?? [],
                             actions:
                                 monster.action?.flatMap(normalizeEntries) ?? [],
+                            bonus_actions:
+                                monster.bonus?.flatMap(normalizeEntries) ?? [],
                             reactions:
                                 monster.reaction?.flatMap(normalizeEntries) ??
                                 [],
