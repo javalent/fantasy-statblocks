@@ -46,7 +46,7 @@
         "rollup-plugin-css-only": "^3.1.0",
         "rollup-plugin-svelte": "^7.1.0",
         "standard-version": "^9.3.2",
-        "svelte": "^3.44.2",
+        "svelte": "^3.49.0",
         "svelte-dnd-action": "^0.9.12",
         "svelte-loader": "^3.1.2",
         "svelte-preprocess": "^4.10.2",
