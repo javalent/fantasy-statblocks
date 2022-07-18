@@ -6,7 +6,7 @@ import {
 } from ".";
 import { build5eMonsterFromFile } from "./5eToolsImport";
 import { buildMonsterFromTetraCube } from "./TetraCubeImport";
-
+import { buildMonsterFromDDBFile } from "./DDBImport";
 
 const ctx: Worker = self as any;
 
@@ -41,6 +41,11 @@ ctx.onmessage = async (event) => {
             }
             case "tetra": {
                 const imported = await buildMonsterFromTetraCube(file);
+                monsters.push(...(imported ?? []));
+                break;
+            }
+            case "ddb": {
+                const imported = await buildMonsterFromDDBFile(file);
                 monsters.push(...(imported ?? []));
                 break;
             }

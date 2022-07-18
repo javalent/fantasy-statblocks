@@ -19,4 +19,6 @@ src/importers/*.xml
 src/importers/*.json
 *.dev.*
 
+data.json
+
 .env
