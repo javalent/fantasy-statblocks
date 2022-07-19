@@ -61,37 +61,36 @@ export async function buildMonsterFromDDBFile(
         reader.onload = async (event: any) => {
             const importedMonsters: Monster[] = [];
             try {
-                const character = JSON.parse(event.target.result);
-                /*
+                const parsed = JSON.parse(event.target.result);
                 let monsters = [];
                 if (parsed.creatures) {
                     monsters = parsed.creatures;
                 } else {
                     monsters = [parsed];
-                } 
-                for (let monster of monsters) { */
+                }
+                for (let monster of monsters) {
 
                     try {
                         console.log("trying");
                         const importedMonster: Monster = {
                             image: null,
-                            name: character.data.name,
+                            name: monster.data.name,
                             source: "D&D Beyond",
-                            type: character.data.race.fullName,
-                            subtype: "",
+                            type: monster.data.race.fullName,
+                            subtype: "subtype ig",
                             size: "size",
-                            alignment: alignmentMap[character.data.alignmentId],
-                            hp: character.data.baseHitPoints,
+                            alignment: alignmentMap[monster.data.alignmentId],
+                            hp: monster.data.baseHitPoints,
                             
-                            ac: ArmorClass(character),
-                            speed: character.data.race.weightSpeeds.normal.walk, //only gettting walk speed atm
+                            ac: ArmorClass(monster),
+                            speed: monster.data.race.weightSpeeds.normal.walk, //only gettting walk speed atm
                             stats: [
-                                character.data.stats[0].value,
-                                character.data.stats[1].value,
-                                character.data.stats[2].value,
-                                character.data.stats[3].value,
-                                character.data.stats[4].value,
-                                character.data.stats[5].value,
+                                monster.data.stats[0].value,
+                                monster.data.stats[1].value,
+                                monster.data.stats[2].value,
+                                monster.data.stats[3].value,
+                                monster.data.stats[4].value,
+                                monster.data.stats[5].value,
                             ],
                             damage_immunities: "",
                             damage_resistances: "",
@@ -107,12 +106,13 @@ export async function buildMonsterFromDDBFile(
                             actions: []
                             
                         };
-                        console.log("ddb data = " + importedMonster.toString());
+                        console.log("ddb data = " + importedMonster);
                         importedMonsters.push(importedMonster);
                     } catch (e) {
                         console.log("caught" + e);
+                        continue;
                     }
-               // }
+                }
 
                 resolve(importedMonsters);
                 console.log("resolved importedMonsters");
