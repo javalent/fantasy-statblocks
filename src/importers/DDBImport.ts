@@ -57,69 +57,51 @@ export async function buildMonsterFromDDBFile(
 ): Promise<Monster[]> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        console.log("dfasmfjlkasdjl;kjf;klasjkl;d");
         reader.onload = async (event: any) => {
             const importedMonsters: Monster[] = [];
             try {
-                const parsed = JSON.parse(event.target.result);
-                let monsters = [];
-                if (parsed.creatures) {
-                    monsters = parsed.creatures;
-                } else {
-                    monsters = [parsed];
-                }
-                for (let monster of monsters) {
-
-                    try {
-                        console.log("trying");
-                        const importedMonster: Monster = {
-                            image: null,
-                            name: monster.data.name,
-                            source: "D&D Beyond",
-                            type: monster.data.race.fullName,
-                            subtype: "subtype ig",
-                            size: "size",
-                            alignment: alignmentMap[monster.data.alignmentId],
-                            hp: monster.data.baseHitPoints,
-                            
-                            ac: ArmorClass(monster),
-                            speed: monster.data.race.weightSpeeds.normal.walk, //only gettting walk speed atm
-                            stats: [
-                                monster.data.stats[0].value,
-                                monster.data.stats[1].value,
-                                monster.data.stats[2].value,
-                                monster.data.stats[3].value,
-                                monster.data.stats[4].value,
-                                monster.data.stats[5].value,
-                            ],
-                            damage_immunities: "",
-                            damage_resistances: "",
-                            damage_vulnerabilities: "",
-                            condition_immunities: "",
-                            senses: "senses",
-                            languages: "algn",
-                            cr: "cr",
-                            bonus_actions: [],
-                            reactions: [],
-                            legendary_actions: [],
-                            spells: [],
-                            actions: []
-                            
-                        };
-                        console.log("ddb data = " + importedMonster);
-                        importedMonsters.push(importedMonster);
-                    } catch (e) {
-                        console.log("caught" + e);
-                        continue;
-                    }
-                }
-
+                const character = JSON.parse(event.target.result);
+                   
+                    const importedMonster: Monster = {
+                        image: character.data.avatarUrl,
+                        name: character.data.name,
+                        source: "D&D Beyond",
+                        type: character.data.race.fullName,
+                        subtype: null,
+                        size: null,
+                        alignment: alignmentMap[character.data.alignmentId],
+                        hp: character.data.baseHitPoints,
+                        
+                        ac: ArmorClass(character),
+                        speed: character.data.race.weightSpeeds.normal.walk, //only gettting walk speed atm
+                        stats: [
+                            character.data.stats[0].value,
+                            character.data.stats[1].value,
+                            character.data.stats[2].value,
+                            character.data.stats[3].value,
+                            character.data.stats[4].value,
+                            character.data.stats[5].value,
+                        ],
+                        damage_immunities: "",
+                        damage_resistances: "",
+                        damage_vulnerabilities: "",
+                        condition_immunities: "",
+                        senses: "senses",
+                        languages: "algn",
+                        cr: "cr",
+                        bonus_actions: [],
+                        reactions: [],
+                        legendary_actions: [],
+                        spells: [],
+                        actions: []                        
+                    };
+                importedMonsters.push(importedMonster);
+                   
                 resolve(importedMonsters);
-                console.log("resolved importedMonsters");
             } catch (e) {
                 reject();
             }
-        };
+        }
 
         reader.readAsText(file);
     });
