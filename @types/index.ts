@@ -16,6 +16,26 @@ export type fage_ability =
     | "strength"
     | "willpower";
 
+export type skillsType = 
+    | "acrobatics"
+    | "animal handling"
+    | "arcana"
+    | "athletics"
+    | "deception"
+    | "history"
+    | "insight"
+    | "intimidation"
+    | "investigation"
+    | "medicine"
+    | "nature"
+    | "perception"
+    | "performance"
+    | "persuasion"
+    | "religion"
+    | "slight of hand"
+    | "stealth"
+    | "survival";
+
 export interface Monster {
     image?: string;
     name: string;
@@ -85,6 +105,68 @@ export interface Monster {
     mtime?: number;
 }
 
+export interface Character {
+    image?: string;
+    name: string;
+    gender: string;
+    race: string;
+    class: string;
+    level: string;
+    stats: [number, number, number, number, number, number];
+    proficiency_bonus?: number;
+    speed: string;
+    inspiration?: boolean;
+    hp: number;
+    max_hp: number;
+    hit_dice?: string;
+    saves?: { [K in ability]?: number }[];
+    skills?: { [K in skillsType]?: number }[];
+    initiative?: number;
+    ac: number;
+    damage_vulnerabilities?: string;
+    damage_resistances?: string;
+    damage_immunities?: string;
+    condition_immunities?: string;
+    senses?: string;
+    proficiencies?: string;
+    languages?: string;
+    actions?: Trait[];
+    bonus_actions?: Trait[];
+    reactions?: Trait[];
+    inventory?: InventoryItem[];
+    traits?: Trait[];
+    background?: Background;
+    alignment?: string;
+    eyes?: string;
+    size?: string;
+    height?: string;
+    faith?: string;
+    hair?: string;
+    skin?: string;
+    age?: string;
+    weight?: string;
+    personality_traits?: string;
+    ideals?: string;
+    bonds?: string;
+    flaws?: string;
+    appearance?: string;
+    spells?: Spell[];
+    
+    /** Statblock Parameters */
+    export?: boolean;
+    dice?: boolean;
+    render?: boolean;
+    layout?: string;
+    statblock?: string;
+    columns?: number;
+    columnWidth?: number;
+    columnHeight?: number;
+    forceColumns?: boolean;
+
+    note?: string;
+    mtime?: number;
+}
+
 export interface StatblockParameters
     extends Omit<
         Monster,
@@ -107,4 +189,16 @@ export interface Trait {
     name: string;
     desc: string;
     [key: string]: any;
+}
+
+export interface InventoryItem {
+    name: string;
+    notes: string;
+    weight?: number;
+    desc?: string;
+}
+
+export interface Background {
+    name: string;
+    desc: string;
 }
