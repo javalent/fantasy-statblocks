@@ -26,6 +26,8 @@ import type { Layout } from "src/layouts/types";
 import { DefaultLayouts } from "src/layouts";
 import type { Monster } from "@types";
 
+import { UrlModal } from "./ddbUrlModal"
+
 export default class StatblockSettingTab extends PluginSettingTab {
     importer: Importer;
     results: Monster[] = [];
@@ -487,19 +489,56 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
     generateImports(containerEl: HTMLDivElement) {
         containerEl.empty();
-        new Setting(containerEl)
-            .setHeading()
-            .setName("Import Homebrew Creatures");
+
         const importSettingsContainer = containerEl.createDiv(
             "statblock-additional-container"
         );
+        const importAdditional =
+            importSettingsContainer.createDiv("additional");
+ 
+        new Setting(containerEl)
+            .setHeading()
+            .setName("Import Characters");
+        const importDDB = new Setting(importAdditional)
+            .setName("Import from D&D Beyond")
+            .setDesc("Import a character from D&D Beyond.");
+        
+        importDDB.addButton((b) => {
+            b.setButtonText("Import").setTooltip(
+                "Import DDB Data"
+            );
+            b.buttonEl.addClass("statblock-file-upload");
+            b.onClick(() => {
+                new UrlModal(this.app, (result) => {
+                    const jsonUrl = "https://character-service.dndbeyond.com/character/v4/character/" + result.substring(result.length - 8, result.length); 
+                    obj = await fetch(jsonUrl).json();
+
+                    const { files } = 
+                    
+                    if (!files.length) return;
+                    try {
+                        const { files } = inputAppFile;
+                        if (!files.length) return;
+                        const monsters = await this.importer.import(files, "appfile");
+                        if (monsters && monsters.length) {
+                            await this.plugin.saveMonsters(monsters);
+                        }
+                        this.display();
+                    } catch (e) {}
+                    this.display();
+                }).open();
+            });
+        });
+        
+        new Setting(containerEl)
+            .setHeading()
+            .setName("Import Homebrew Creatures");
 
         new Setting(importSettingsContainer).setDesc(
             "Import creatures from creature files. Monsters are stored by name, so only the last creature by that name will be saved. This is destructive - any saved creature will be overwritten."
         );
 
-        const importAdditional =
-            importSettingsContainer.createDiv("additional");
+        
         const importAppFile = new Setting(importAdditional)
             .setName("Import DnDAppFile")
             .setDesc("Only import content that you own.");
@@ -664,35 +703,6 @@ export default class StatblockSettingTab extends PluginSettingTab {
             b.onClick(() => inputTetra.click());
         });
 
-        const importDDB = new Setting(importAdditional)
-            .setName("Import DnD Beyomd")
-            .setDesc("Only import content that you own.");
-        const inputDDB = createEl("input", {
-            attr: {
-                type: "file",
-                name: "ddb",
-                accept: ".json",
-                multiple: true
-            }
-        });
-        inputDDB.onchange = async () => {
-            console.log("ddb import requested");
-            const { files } = inputDDB;
-            if (!files.length) return;
-            const monsters = await this.importer.import(files, "ddb");
-            if (monsters && monsters.length) {
-                await this.plugin.saveMonsters(monsters);
-            }
-            this.display();
-        };
-        importDDB.addButton((b) => {
-            b.setButtonText("Choose File(s)").setTooltip(
-                "Import DDB Data"
-            );
-            b.buttonEl.addClass("statblock-file-upload");
-            b.buttonEl.appendChild(inputDDB);
-            b.onClick(() => inputDDB.click());
-        });
     }
     generateMonsters(containerEl: HTMLDivElement) {
         containerEl.empty();
@@ -945,3 +955,13 @@ class ConfirmModal extends Modal {
             );
     }
 }
+
+var getJSON = function(url, callback) {
+    var request = new XMLHttpRequest();
+    request.open('GET', url);
+    request.responseType = 'json';
+    request.onload = function() {
+        callback(request.response);
+    };
+    request.send();
+};
