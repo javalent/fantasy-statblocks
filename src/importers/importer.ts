@@ -1,6 +1,8 @@
 //@ts-ignore
 import ImportWorker from "./importer.worker";
-import type { Monster } from "@types";
+import type { 
+    Monster
+ } from "@types";
 import { App, Modal, Notice, Setting, TextComponent } from "obsidian";
 import type StatBlockPlugin from "src/main";
 import { nanoid } from "src/util/util";

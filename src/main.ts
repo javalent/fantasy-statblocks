@@ -17,7 +17,7 @@ import {
     SAVE_ICON,
     SAVE_SYMBOL
 } from "./data/constants";
-import type { Monster, StatblockParameters } from "@types";
+import type { Character, Monster, StatblockParameters } from "@types";
 import StatblockSettingTab from "./settings/settings";
 import fastCopy from "fast-copy";
 
@@ -79,8 +79,8 @@ const DEFAULT_DATA: StatblockData = {
 
 export default class StatBlockPlugin extends Plugin {
     settings: StatblockData;
-    data: Map<string, Monster>;
-    bestiary: Map<string, Monster>;
+    data: Map<string, Monster | Character>;
+    bestiary: Map<string, Monster | Character>;
 
     watcher = new Watcher(this);
     private _sorted: Monster[] = [];
@@ -218,7 +218,7 @@ export default class StatBlockPlugin extends Plugin {
     }
 
     async saveMonster(
-        monster: Monster,
+        monster: Monster | Character,
         sortFields: boolean = true,
         save: boolean = true
     ) {
@@ -235,6 +235,26 @@ export default class StatBlockPlugin extends Plugin {
                 (m) => m.name
             );
     }
+
+    /*async saveCharacter(
+        character: Character,
+        sortFields: boolean = true,
+        save: boolean = true
+    ) {
+        if (!character.name) return;
+        this.data.set(character.name, character);
+        this.bestiary.set(character.name, character);
+
+        if (save) {
+            await this.saveSettings();
+        }
+
+        if (sortFields)
+            this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
+                (m) => m.name
+            );
+    }
+    */
     async saveMonsters(monsters: Monster[]) {
         for (let monster of monsters) {
             await this.saveMonster(monster, false, false);

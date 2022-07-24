@@ -46,7 +46,7 @@ export interface Monster {
     ac: number;
     hp: number;
     hit_dice?: string;
-    speed: string;
+    speed?: string;
     stats: [number, number, number, number, number, number];
     fage_stats?: [
         number,
@@ -61,12 +61,12 @@ export interface Monster {
     ];
     saves?: { [K in ability]?: number }[];
     skillsaves?: { [key: string]: number }[];
-    damage_vulnerabilities: string;
-    damage_resistances: string;
-    damage_immunities: string;
-    condition_immunities: string;
-    senses: string;
-    languages: string;
+    damage_vulnerabilities?: string;
+    damage_resistances?: string;
+    damage_immunities?: string;
+    condition_immunities?: string;
+    senses?: string;
+    languages?: string;
     cr: string | number;
     traits?: Trait[];
     spells?: Spell[];
@@ -108,25 +108,24 @@ export interface Monster {
 export interface Character {
     image?: string;
     name: string;
-    gender: string;
-    race: string;
-    class: string;
-    level: string;
+    gender?: string;
+    race?: string;
+    class?: string;
+    level?: number;
     stats: [number, number, number, number, number, number];
     proficiency_bonus?: number;
-    speed: string;
-    inspiration?: boolean;
-    hp: number;
-    max_hp: number;
-    hit_dice?: string;
-    saves?: { [K in ability]?: number }[];
-    skills?: { [K in skillsType]?: number }[];
+    speed?: string;
+    inspiration?: string;
+    hp?: number;
+    max_hp?: number;
+    hit_dice?: number;
+    saves?: [number, number, number, number, number, number];
+    skills?: number[];
     initiative?: number;
-    ac: number;
-    damage_vulnerabilities?: string;
-    damage_resistances?: string;
-    damage_immunities?: string;
-    condition_immunities?: string;
+    ac?: number;
+    vulnerabilities?: string;
+    resistances?: string;
+    immunities?: string;
     senses?: string;
     proficiencies?: string;
     languages?: string;
@@ -151,7 +150,7 @@ export interface Character {
     flaws?: string;
     appearance?: string;
     spells?: Spell[];
-    
+    source?: string;
     /** Statblock Parameters */
     export?: boolean;
     dice?: boolean;
@@ -193,7 +192,7 @@ export interface Trait {
 
 export interface InventoryItem {
     name: string;
-    notes: string;
+    notes?: string;
     weight?: number;
     desc?: string;
 }

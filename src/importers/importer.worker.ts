@@ -1,4 +1,7 @@
-import type { Monster } from "@types";
+import type { 
+    Monster,
+    Character
+} from "@types";
 import {
     buildMonsterFromAppFile,
     buildMonsterFromCritterFile,
@@ -14,7 +17,7 @@ ctx.onmessage = async (event) => {
     if (!event.data) return;
 
     const { files, source } = event.data;
-    const monsters: Monster[] = [];
+    const monsters = [];
     for (const file of files) {
         switch (source) {
             case "5e": {

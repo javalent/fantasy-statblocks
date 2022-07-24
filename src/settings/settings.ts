@@ -678,9 +678,10 @@ export default class StatblockSettingTab extends PluginSettingTab {
         inputDDB.onchange = async () => {
             const { files } = inputDDB;
             if (!files.length) return;
-            const monsters = await this.importer.import(files, "ddb");
-            if (monsters && monsters.length) {
-                await this.plugin.saveMonsters(monsters);
+            console.log("started import");
+            const characters = await this.importer.import(files, "ddb");
+            if (characters && characters.length) {
+                await this.plugin.saveMonsters(characters);
             }
             this.display();
         };
