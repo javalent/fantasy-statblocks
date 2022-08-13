@@ -20,3 +20,4 @@ src/importers/*.json
 *.dev.*
 
 .env
+data.json
