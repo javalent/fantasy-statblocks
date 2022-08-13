@@ -7,7 +7,8 @@ import {
     type TraitsItem,
     type TableItem,
     MarkdownTypes,
-    type TextItem
+    type TextItem,
+    type SubHeadingItem
 } from "src/layouts/types";
 import type StatBlockPlugin from "src/main";
 import TableHeaders from "./TableHeaders.svelte";
@@ -60,6 +61,7 @@ export class BlockModal extends Modal {
                             this.buildProperties(el);
                         })
                     );
+
                 const additional = container.createDiv("additional");
                 for (const property of this.block.properties) {
                     new Setting(additional)
@@ -228,6 +230,23 @@ export class BlockModal extends Modal {
             }
         }
     }
+    buildSeparator(el: HTMLDivElement) {
+        el.empty();
+        
+        if (this.block.type == "subheading") {
+            new Setting(el)
+                .setName("Separator")
+                .setDesc("Text separating properties")
+                .addText((t) => {
+                    if (!this.block.separator) {
+                        this.block.separator = " ";
+                    }
+                    t.setValue(this.block.separator).onChange((v) => {
+                        this.block.separator = v;
+                    });
+                });
+        }
+    }
     buildConditions(el: HTMLDivElement) {
         el.empty();
         new Setting(el)
@@ -334,6 +353,7 @@ export class BlockModal extends Modal {
             });
 
         this.buildProperties(this.contentEl.createDiv());
+        this.buildSeparator(this.contentEl.createDiv());
         this.buildConditions(this.contentEl.createDiv());
         this.buildDice(this.contentEl.createDiv());
 
