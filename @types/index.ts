@@ -119,8 +119,8 @@ export interface Character {
     hp?: number;
     max_hp?: number;
     hit_dice?: number;
-    saves?: [number, number, number, number, number, number];
-    skills?: number[];
+    saving_throws?: number[];
+    skills?: any[];
     initiative?: number;
     ac?: number;
     vulnerabilities?: string;
@@ -130,11 +130,9 @@ export interface Character {
     proficiencies?: string;
     languages?: string;
     actions?: Trait[];
-    bonus_actions?: Trait[];
-    reactions?: Trait[];
-    inventory?: InventoryItem[];
+    inventory?: string;
     traits?: Trait[];
-    background?: Background;
+    background?: string;
     alignment?: string;
     eyes?: string;
     size?: string;
@@ -195,9 +193,4 @@ export interface InventoryItem {
     notes?: string;
     weight?: number;
     desc?: string;
-}
-
-export interface Background {
-    name: string;
-    desc: string;
 }
