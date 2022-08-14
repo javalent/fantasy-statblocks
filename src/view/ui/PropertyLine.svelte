@@ -10,7 +10,7 @@
     export let monster: Monster;
     export let item: PropertyItem;
 
-    let property = monster[item.properties[0]];
+    let property = monster[item.properties[0]] ?? "";
     property = property.toString();
     let display = item.display ?? item.properties[0];
 
