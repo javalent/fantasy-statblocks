@@ -1,4 +1,5 @@
 import type { Monster } from "@types";
+import { element } from "svelte/internal";
 
 const abilityMap: { [key: string]: string } = {
     str: "strength",
@@ -118,7 +119,8 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
                             legendary_actions:
                                 monster.legendary?.flatMap(normalizeEntries) ??
                                 [],
-                            spells: getSpells(monster)
+                            spells: getSpells(monster),
+                            spellsNotes: getSpellNotes(monster).join(" ")
                         };
                         imported.push(importedMonster);
                     } catch (e) {
@@ -136,6 +138,18 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
 
         reader.readAsText(file);
     });
+}
+
+function getSpellNotes (monster: any) {
+    let spellNotes: string[] = []
+
+    for (const element in monster.spellcasting) {
+        for (const key in monster.spellcasting[element].footerEntries) {
+            spellNotes.push(monster.spellcasting[element].footerEntries[key]);
+        }
+    }
+
+    return spellNotes;
 }
 
 function parseImmune(immune: any[]): string {

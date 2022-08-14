@@ -271,8 +271,8 @@ export default class StatBlockPlugin extends Plugin {
         this.data.delete(monster);
         this.bestiary.delete(monster);
 
-        if (BESTIARY_BY_NAME.has(monster)) {
-            this.bestiary.set(monster, BESTIARY_BY_NAME.get(monster));
+        if (getBestiaryByName(this.settings.disableSRD).has(monster)) {
+            this.bestiary.set(monster, getBestiaryByName(this.settings.disableSRD).get(monster));
         }
 
         if (save) await this.saveSettings();
