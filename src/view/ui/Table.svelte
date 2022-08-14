@@ -5,8 +5,12 @@
     export let monster: Monster;
     export let item: TableItem;
 
-    function getMod(stat: number) {
-        let mod = Math.floor(((stat ?? 10) - 10) / 2);
+    const customMod = new Function('stat', `return ${item.modifier}`);
+
+    function getMod(stat: number) {        
+        let mod = item.modifier == null || !item.modifier.length || item.modifier == ""? 
+            Math.floor(((stat ?? 10) - 10) / 2) : 
+            customMod(stat);
         return `${mod >= 0 ? "+" : "-"}${Math.abs(mod)}`;
     }
 

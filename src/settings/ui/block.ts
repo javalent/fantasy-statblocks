@@ -228,6 +228,27 @@ export class BlockModal extends Modal {
                         (this.block as PropertyItem).callback = v;
                     });
             }
+            if (this.block.type == "table") {
+                new Setting(el)
+                    .setHeading()
+                    .setName("Ability Modifier Calculation")
+                    .setDesc(
+                        createFragment((e) => {
+                            e.createSpan({
+                                text: "Allows a custom modifier for the stat."
+                            });
+                            e.createEl("br");
+                            e.createSpan({ text: "Variable " });
+                            e.createEl("code", { text: "stat" });
+                            e.createSpan({ text: "is accessible, use this to calculate the modifier." });
+                        })
+                    );
+                new TextAreaComponent(el)
+                    .setValue(this.block.modifier)
+                    .onChange((v) => {                        
+                        (this.block as TableItem).modifier = v;
+                    });
+            }
         }
     }
     buildSeparator(el: HTMLDivElement) {
