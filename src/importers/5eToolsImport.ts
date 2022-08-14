@@ -1,5 +1,4 @@
 import type { Monster } from "@types";
-import { element } from "svelte/internal";
 
 const abilityMap: { [key: string]: string } = {
     str: "strength",
