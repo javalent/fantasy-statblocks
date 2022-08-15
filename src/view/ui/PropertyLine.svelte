@@ -34,7 +34,7 @@
     }
 </script>
 
-{#if !item.conditioned || (item.conditioned && `${property}` !== null)}
+{#if !item.conditioned || (item.conditioned && `${property}` != null)}
     <div class="line">
         <span class="property-name">{display}</span>
         <TextContentHolder render={item.markdown} {property} />
