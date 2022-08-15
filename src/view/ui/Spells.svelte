@@ -1,8 +1,10 @@
 <script lang="ts">
     import type { Monster } from "@types";
     import { stringifyYaml } from "obsidian";
+import TextContentHolder from "./TextContentHolder.svelte";
     import Traits from "./Traits.svelte";
 
+    export let render = false;
     export let monster: Monster;
     const ensureColon = (header: string) => {
         if (/[^a-zA-Z0-9]$/.test(header)) return header;
@@ -55,10 +57,12 @@
                 {:else}
                     <li class="spell-line">
                         <span class="spell-level">
-                            {spellItem.split(":").shift()}:
+                            <TextContentHolder {render} property={`${spellItem.split(":").shift()}:`} />
+                            <!-- {spellItem.split(":").shift()}: -->
                         </span>
                         <span class="spells">
-                            {spellItem.split(":").pop()}
+                            <TextContentHolder {render} property={spellItem.split(":").pop()} />
+                            <!-- {spellItem.split(":").pop()} -->
                         </span>
                     </li>
                 {/if}

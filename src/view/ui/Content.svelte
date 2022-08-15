@@ -139,7 +139,8 @@
                 new Spells({
                     target,
                     props: {
-                        monster
+                        monster,
+                        render: item.markdown
                     },
                     context
                 });
