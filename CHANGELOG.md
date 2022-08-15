@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.15.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.14.11...2.15.0) (2022-08-15)
+
+
+### Features
+
+* Spells blocks now respect the Render Markdown option ([c5cffe5](https://github.com/valentine195/obsidian-5e-statblocks/commit/c5cffe59852641258251a4569058c62736d85180))
+
 ### [2.14.8](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.14.7...2.14.8) (2022-06-26)
 
 
