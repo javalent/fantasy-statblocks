@@ -16,7 +16,7 @@
 
 {#if subheading.length}
     <div class="subheading">
-        {subheading.join(" ")}
+        {subheading.join(item.separator ?? " ")}
     </div>
 {/if}
 
