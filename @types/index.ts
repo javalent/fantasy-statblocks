@@ -112,13 +112,16 @@ export interface Character {
     race?: string;
     class?: string;
     level?: number;
+    xp?: number;
     stats: [number, number, number, number, number, number];
     proficiency_bonus?: number;
     speed?: string;
     inspiration?: string;
     hp?: number;
     max_hp?: number;
-    hit_dice?: number;
+    temp_hp?: number;
+    hit_dice?: string;
+    hit_dice_total?: string;
     saving_throws?: number[];
     skills?: any[];
     initiative?: number;
@@ -131,6 +134,7 @@ export interface Character {
     languages?: string;
     actions?: Trait[];
     inventory?: string;
+    currencies?: string;
     traits?: Trait[];
     background?: string;
     alignment?: string;
@@ -149,6 +153,7 @@ export interface Character {
     appearance?: string;
     spells?: Spell[];
     source?: string;
+    backstory?: string;
     /** Statblock Parameters */
     export?: boolean;
     dice?: boolean;

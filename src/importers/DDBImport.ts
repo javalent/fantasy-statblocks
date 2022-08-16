@@ -2,8 +2,7 @@ import type {
     Character,
     Trait 
 } from "@types";
-import { element } from "svelte/internal";
-
+import { getMod } from "src/util/util"
 const alignmentMap = [
     "Lawful-Good",
     "Neutral-Good", 
@@ -57,6 +56,13 @@ const skillsAbilityMap: number[] = [
     1,
     4
 ];
+const currencyMap: string[] = [
+    "cp",
+    "sp",
+    "gp",
+    "ep",
+    "pp"
+];
 
 function GetModifiers(character, type: string) {
     let modifiers: any[] = [];
@@ -75,7 +81,7 @@ function GetModifiers(character, type: string) {
 }
 
 function GetAbilityMod(value: number) {
-    return (value - 10) / 2;
+    return Math.floor((value - 10) / 2);
 }
 
 
@@ -271,28 +277,29 @@ function GetTraits (character) {
     let traits: Trait[] = [];
     let traitLocations = [character.data.race.racialTraits];
 
-    for (let element in character.data.classes) {
+    for (const element in character.data.classes) {
         traitLocations.push(character.data.classes[element].classFeatures);
     }    
 
     const actions = GetActions(character, Math.floor(2 + (GetLevel(character) - 1) / 4));
-    for (let element in traitLocations) {
+    for (const element in traitLocations) {
         const traitLocation = traitLocations[element];
-        for (let key in traitLocation) {       
-            let trait = traitLocation[key].definition;
-                        
+        for (const key in traitLocation) {
+            const trait = traitLocation[key].definition;
+            console.log(trait.name);
+            
             if (
-                !trait.hideInSheet && 
-                trait.name != "Ability Score Improvement" &&
-                !actions.includes(trait.name)
+                    !trait.hideInSheet && 
+                    trait.name != "Ability Score Improvement" &&
+                    !actions.includes(trait.name) &&
+                    trait.snippet != null &&
+                    trait.snippet != ""
                 ) 
             {
-                let desc = trait.snippet;
-                desc.replace("<p>", "");
-                
+                                
                 const traitObj: Trait = {
                     name: trait.name,
-                    desc: desc
+                    desc: trait.snippet
                 };
 
                 traits.push(traitObj);
@@ -309,12 +316,14 @@ function GetTraits (character) {
     return traits;
 }
 
-function GetActions (character, proficiency_bonus) {
+function GetActions (character, proficiency_bonus): Trait[] {
     console.log("actions");
     
     var actions: Trait[] = [];
     const inventory = character.data.inventory;
     const actionsLocations = [character.data.actions.class, character.data.actions.race, character.data.actions.background, character.data.actions.item, character.data.actions.feat];
+
+    actions.push(GetUnarmedStrike(character, proficiency_bonus));
     for (const element in inventory) {
         console.log("in first for loop");
         
@@ -365,22 +374,44 @@ function GetActions (character, proficiency_bonus) {
             
         }
     }
+
+    console.log("middle of actio");
     
     for (const element in actionsLocations) {
         const actionsLocationsElement = actionsLocations[element];
         
         for (const key in actionsLocationsElement) {   
-            
+                        
             const action: Trait = {
                 name: actionsLocationsElement[key].name,
-                desc: actionsLocationsElement[key].snippet.replace("{{scalevalue}}", actionsLocationsElement[key].dice.diceString   )
+                desc: actionsLocationsElement[key].snippet
             };
 
             actions.push(action);
         }
-    }
+        
+    }    
 
     return actions;
+}
+
+function GetUnarmedStrike (character: any, proficiency_bonus: number) {
+    let desc: string;
+    let bonus: number = 0;
+    
+    bonus += GetAbilityMod(character.data.stats[0].value);
+    
+    desc = "+" + (bonus + proficiency_bonus).toString() + " to hit, "
+    + "reach 5 ft."
+    + " Hit: " + (1 + bonus)
+    + " Bludeoning damage";
+    
+    const action: Trait = {
+        name: "Unarmed Strike",
+        desc: desc.toString()
+    };
+    
+    return action;
 }
 
 function GetInventory (character) {
@@ -400,7 +431,7 @@ function GetInventory (character) {
           //  inventory[element].definition.name.split(", ")[1] + " " + inventory[element].definition.name.split(",")[0] :
            // inventory[element].definition.name;
         item += inventory[element].definition.name;
-        item += inventory[element].quantity > 1 ? "s" : "";
+       // item += inventory[element].quantity > 1 ? "s" : "";
 
         items.push(item);
     }
@@ -428,6 +459,94 @@ function GetClasses (character) {
     return classes;
 }
 
+function getHitDice (character, total: boolean) {
+    console.log("getting hit dice");
+    let hitDice: string[] = [];
+
+    for (const element in character.data.classes) {
+        const _class = character.data.classes[element];
+
+        const hitDie = total ? 
+            _class.level + "d" + _class.definition.hitDice :
+            (_class.level - _class.hitDiceUsed) + "d" + _class.definition.hitDice;
+        
+        let dieMerged: boolean = false;
+        for (const key in hitDice) {
+            if (hitDice[key] == hitDie) {
+                const split = hitDice[key].split("d")
+                hitDice[key] = (+split[0] + +hitDie.split("d")[0]).toString() + "d" + split[1];
+                dieMerged = true;
+                break;
+            }
+        }
+        if (!dieMerged) {
+            hitDice.push(hitDie);
+        }
+    }
+
+    return hitDice;
+}
+
+function GetCurrency(character): string[] {
+    let currency: string[] = [];
+    const currencies = [
+        character.data.currencies.cp, 
+        character.data.currencies.sp, 
+        character.data.currencies.gp, 
+        character.data.currencies.ep, 
+        character.data.currencies.pp
+    ];
+
+    for (const element in currencies) {
+        if (currencies[element]) {
+            currency.push(currencies[element] + " " + currencyMap[element]);
+        }
+    }
+    return currency;
+}
+
+/*
+function ProcessSnippet(trait: any, character: any): Trait {
+    trait.snippet = trait.snippet.replaceAll("scalevalue", trait.dice.diceString);
+    trait.snippet = trait.snippet.replaceAll("(classlevel/2)", TraitClassLevel(trait, character)/2); trait = trait.snippet.replaceAll("classlevel/2", TraitClassLevel(trait, character)/2); trait = trait.snippet.replaceAll("(classlevel", TraitClassLevel(trait, character)); trait = trait.snippet.replaceAll("classlevel", TraitClassLevel(trait, character)); trait = trait.snippet.replaceAll("classlevel", TraitClassLevel(trait, character));
+    trait.snippet = trait.snippet.replaceAll("@roundup", TraitRoundup)
+    trait.snippet = trait.snippet.replaceAll("{{", ""); trait = trait.snippet.replaceAll("}}", "");
+
+    const _trait: Trait = {
+        name: trait.name,
+        desc: trait.snippet
+    }
+    return _trait;
+}
+
+function TraitRoundup (trait: any) {
+    const roundupIndex: number = trait.name.indexOf("@roundup");
+    const name: string = trait.name;
+    let number = "";
+
+    for (let i = roundupIndex; i < 0; i--) {
+        const element = name.charAt(i);
+        if (isNaN(parseInt(element))) {
+            break;
+        }
+        element.toString() + number;
+    }
+
+    return Math.ceil(+number);
+}
+function TraitClassLevel (trait: any, character: any) {
+    for (const element in character.classes) {
+        const characterClass = character.classes[element];
+        for (const key in characterClass.classFeatures) {
+            if (characterClass.classFeatures[key].definition.name == trait.name) {
+                return characterClass.level;
+            }
+        }
+    }
+}
+*/
+
+
 export async function buildMonsterFromDDBFile(
     file: File
 ): Promise<Character[]> {
@@ -441,13 +560,15 @@ export async function buildMonsterFromDDBFile(
                     
                     const level = GetLevel(character);
                     const proficiency_bonus = Math.floor(2 + (level - 1) / 4);
+
                     const importedMonster: Character = {
-                        image: character.data.avatarUrl,
+                        image: character.data.decorations.avatarUrl,
                         name: character.data.name,
                         gender: character.data.gender,
                         race: character.data.race.fullName,
                         class: GetClasses(character).join("/"),
                         level: GetLevel(character),
+                        xp: character.data.currentXp,
                         stats: [
                             character.data.stats[0].value,
                             character.data.stats[1].value,
@@ -457,11 +578,13 @@ export async function buildMonsterFromDDBFile(
                             character.data.stats[5].value,
                         ],
                         proficiency_bonus: proficiency_bonus,
-                        speed: character.data.race.weightSpeeds.normal.walk, //only gettting walk speed atm
-                        inspiration: character.data.inspiration ? "[x]" : "[ ]",
+                        speed: character.data.race.weightSpeeds.normal.walk,
+                        inspiration: character.data.inspiration ? "- [x] **Inspiration**" : "- [ ] **Inspiration**",
                         hp: character.data.baseHitPoints - character.data.removedHitPoints,
                         max_hp: character.data.baseHitPoints,
-                        hit_dice: GetLevel(character),
+                        temp_hp: character.data.temporaryHitPoints,
+                        hit_dice: getHitDice(character, false).join(" + "),
+                        hit_dice_total: getHitDice(character, true).join(" + "),
                         saving_throws: GetSavingThrows(character, proficiency_bonus),
                         skills: GetSkills(character),
                         initiative: Math.floor((character.data.stats[1] - 10) / 2),
@@ -474,6 +597,7 @@ export async function buildMonsterFromDDBFile(
                         languages: GetLanguages(character).join(", "),
                         actions: GetActions(character, proficiency_bonus),
                         inventory: GetInventory(character).join (" | "),
+                        currencies: GetCurrency(character).join (" + "),
                         traits: GetTraits(character),
                         background: GetBackground(character).name,
                         alignment: alignmentMap[character.data.alignmentId],
@@ -494,7 +618,7 @@ export async function buildMonsterFromDDBFile(
                         source: "D&D Beyond"                
                     };
                 console.log("ended character import, about to push and resolve");
-                
+                                
                 importedMonsters.push(importedMonster);
                 
                 resolve(importedMonsters);

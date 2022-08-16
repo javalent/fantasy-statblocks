@@ -500,6 +500,37 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
         const importAdditional =
             importSettingsContainer.createDiv("additional");
+
+        const importDDB = new Setting(importAdditional)
+            .setName("Import DnD Beyond")
+            .setDesc("Import public DnD characters.");
+        const inputDDB = createEl("input", {
+            attr: {
+                type: "file",
+                name: "ddb",
+                accept: ".json",
+                multiple: true
+            }
+        });
+        inputDDB.onchange = async () => {
+            const { files } = inputDDB;
+            if (!files.length) return;
+            console.log("started import");
+            const characters = await this.importer.import(files, "ddb");
+            if (characters && characters.length) {
+                await this.plugin.saveMonsters(characters);
+            }
+            this.display();
+        };
+        importDDB.addButton((b) => {
+            b.setButtonText("Choose File(s)").setTooltip(
+                "Import DDB Data"
+            );
+            b.buttonEl.addClass("statblock-file-upload");
+            b.buttonEl.appendChild(inputDDB);
+            b.onClick(() => inputDDB.click());
+        });
+
         const importAppFile = new Setting(importAdditional)
             .setName("Import DnDAppFile")
             .setDesc("Only import content that you own.");
@@ -511,7 +542,6 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 multiple: true
             }
         });
-
         inputAppFile.onchange = async () => {
             const { files } = inputAppFile;
             if (!files.length) return;
@@ -662,36 +692,6 @@ export default class StatblockSettingTab extends PluginSettingTab {
             b.buttonEl.addClass("statblock-file-upload");
             b.buttonEl.appendChild(inputTetra);
             b.onClick(() => inputTetra.click());
-        });
-
-        const importDDB = new Setting(importAdditional)
-            .setName("Import DnD Beyomd")
-            .setDesc("Only import content that you own.");
-        const inputDDB = createEl("input", {
-            attr: {
-                type: "file",
-                name: "ddb",
-                accept: ".json",
-                multiple: true
-            }
-        });
-        inputDDB.onchange = async () => {
-            const { files } = inputDDB;
-            if (!files.length) return;
-            console.log("started import");
-            const characters = await this.importer.import(files, "ddb");
-            if (characters && characters.length) {
-                await this.plugin.saveMonsters(characters);
-            }
-            this.display();
-        };
-        importDDB.addButton((b) => {
-            b.setButtonText("Choose File(s)").setTooltip(
-                "Import DDB Data"
-            );
-            b.buttonEl.addClass("statblock-file-upload");
-            b.buttonEl.appendChild(inputDDB);
-            b.onClick(() => inputDDB.click());
         });
     }
     generateMonsters(containerEl: HTMLDivElement) {
