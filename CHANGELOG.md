@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.15.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.15.0...2.15.1) (2022-08-17)
+
+
+### Bug Fixes
+
+* fixed issue where a null source could crash bestiary searches ([cf26e7d](https://github.com/valentine195/obsidian-5e-statblocks/commit/cf26e7d97cfe70316b370f2d69aec05646f30d1c))
+
 ## [2.15.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.14.11...2.15.0) (2022-08-15)
 
 
