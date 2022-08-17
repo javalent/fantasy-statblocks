@@ -835,10 +835,14 @@ export default class StatblockSettingTab extends PluginSettingTab {
     performFuzzySearch(input: string) {
         const results: Monster[] = [];
         for (const resource of this.plugin.sorted) {
+            if (!resource.name && !resource.source) continue;
             if (!this.displayed.has(resource.source)) continue;
-            let result =
-                prepareSimpleSearch(input)(resource.name) ??
-                prepareSimpleSearch(input)(resource.source);
+
+            const search = prepareSimpleSearch(input);
+            let result = search(resource.name);
+            if (!result && resource.source != null) {
+                result = search(resource.source);
+            }
             if (result) {
                 results.push(resource);
             }
