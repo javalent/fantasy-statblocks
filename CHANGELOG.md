@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.16.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.15.1...2.16.0) (2022-08-21)
+
+
+### Features
+
+* Editor suggeter for monster names (close [#85](https://github.com/valentine195/obsidian-5e-statblocks/issues/85)) ([391b399](https://github.com/valentine195/obsidian-5e-statblocks/commit/391b399cddec759587be6a32255eb8aed137ea4e))
+
 ### [2.15.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.15.0...2.15.1) (2022-08-17)
 
 
