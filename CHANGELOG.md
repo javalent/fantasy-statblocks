@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.16.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.16.0...2.16.1) (2022-08-21)
+
+
+### Bug Fixes
+
+* Adds brat release to workflow ([d52f0cb](https://github.com/valentine195/obsidian-5e-statblocks/commit/d52f0cb75615b1f9b0b50a4fbdc3f61bf6fac950))
+
 ## [2.16.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.15.1...2.16.0) (2022-08-21)
 
 
