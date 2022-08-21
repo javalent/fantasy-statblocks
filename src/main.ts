@@ -27,6 +27,7 @@ import type { HomebrewCreature } from "../../obsidian-initiative-tracker/@types"
 import { Watcher } from "./watcher/watcher";
 import type { Layout } from "./layouts/types";
 import { Layout5e } from "./layouts/basic5e";
+import { StatblockSuggester } from "./suggest";
 
 declare module "obsidian" {
     interface App {
@@ -81,6 +82,16 @@ export default class StatBlockPlugin extends Plugin {
     settings: StatblockData;
     data: Map<string, Monster>;
     bestiary: Map<string, Monster>;
+
+    private namesHaveChanged = true;
+    private names: string[];
+
+    getBestiaryNames() {
+        if (this.namesHaveChanged) {
+            this.names = [...this.bestiary.keys()];
+        }
+        return this.names;
+    }
 
     watcher = new Watcher(this);
     private _sorted: Monster[] = [];
@@ -168,6 +179,8 @@ export default class StatBlockPlugin extends Plugin {
             this.postprocessor.bind(this)
         );
 
+        this.registerEditorSuggest(new StatblockSuggester(this));
+
         this.registerEvent(
             this.app.workspace.on("dice-roller:unload", () => {
                 this.settings.useDice = false;
@@ -225,6 +238,7 @@ export default class StatBlockPlugin extends Plugin {
         if (!monster.name) return;
         this.data.set(monster.name, monster);
         this.bestiary.set(monster.name, monster);
+        this.namesHaveChanged = true;
 
         if (save) {
             await this.saveSettings();
@@ -255,6 +269,7 @@ export default class StatBlockPlugin extends Plugin {
             if (!this.data.has(monster)) continue;
             this.data.delete(monster);
             this.bestiary.delete(monster);
+            this.namesHaveChanged = true;
         }
         await this.saveSettings();
 
@@ -271,6 +286,7 @@ export default class StatBlockPlugin extends Plugin {
         if (BESTIARY_BY_NAME.has(monster)) {
             this.bestiary.set(monster, BESTIARY_BY_NAME.get(monster));
         }
+        this.namesHaveChanged = true;
 
         if (save) await this.saveSettings();
 
