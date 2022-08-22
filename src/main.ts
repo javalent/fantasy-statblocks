@@ -8,7 +8,7 @@ import {
 } from "obsidian";
 import domtoimage from "dom-to-image";
 
-import { BESTIARY_BY_NAME } from "./data/srd-bestiary";
+import { getBestiaryByName } from "./data/srd-bestiary";
 import StatBlockRenderer from "./view/statblock";
 import { transformTraits } from "./util/util";
 import {
@@ -59,6 +59,7 @@ export interface StatblockData {
     };
     path: string;
     autoParse: boolean;
+    disableSRD: boolean;
 }
 
 const DEFAULT_DATA: StatblockData = {
@@ -75,7 +76,8 @@ const DEFAULT_DATA: StatblockData = {
         patch: null
     },
     path: "/",
-    autoParse: false
+    autoParse: false,
+    disableSRD: false
 };
 
 export default class StatBlockPlugin extends Plugin {
@@ -166,7 +168,7 @@ export default class StatBlockPlugin extends Plugin {
         addIcon(SAVE_SYMBOL, SAVE_ICON);
         addIcon(EXPORT_SYMBOL, EXPORT_ICON);
 
-        this.bestiary = new Map([...BESTIARY_BY_NAME, ...this.data]);
+        this.bestiary = new Map([...getBestiaryByName(this.settings.disableSRD), ...this.data]);
 
         Object.defineProperty(window, "bestiary", {
             value: this.bestiary,
@@ -215,6 +217,7 @@ export default class StatBlockPlugin extends Plugin {
     }
     async saveSettings() {
         this.settings.monsters = this._transformData(this.data);
+        this.bestiary = new Map([...getBestiaryByName(this.settings.disableSRD), ...this.data]);
 
         await this.saveData(this.settings);
     }
@@ -283,8 +286,8 @@ export default class StatBlockPlugin extends Plugin {
         this.data.delete(monster);
         this.bestiary.delete(monster);
 
-        if (BESTIARY_BY_NAME.has(monster)) {
-            this.bestiary.set(monster, BESTIARY_BY_NAME.get(monster));
+        if (getBestiaryByName(this.settings.disableSRD).has(monster)) {
+            this.bestiary.set(monster, getBestiaryByName(this.settings.disableSRD).get(monster));
         }
         this.namesHaveChanged = true;
 

@@ -147,6 +147,21 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         await this.plugin.saveSettings();
                     })
             );
+        new Setting(container)
+            .setName("Disable 5e SRD")
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "Disable the Dungeons & Dragons 5th Edition System Reference Document monsters."
+                    });     
+                })
+            )
+            .addToggle((t) =>
+                t.setValue(this.plugin.settings.disableSRD).onChange(async (v) => {
+                    this.plugin.settings.disableSRD = v;
+                    await this.plugin.saveSettings();
+                })
+            );
     }
     generateParseSettings(containerEl: HTMLDivElement) {
         containerEl.empty();

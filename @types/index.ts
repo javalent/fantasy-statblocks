@@ -58,6 +58,7 @@ export interface Monster {
     monster?: string;
     creature?: string;
     source?: string;
+    spellsNotes?: string;
 
     /** Fate Core */
     description?: string;

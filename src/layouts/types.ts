@@ -86,6 +86,7 @@ type TableProps = {
     type: "table";
     headers: string[];
     calculate: boolean;
+    modifier?: string;
 };
 type TraitsProps = {
     type: "traits";

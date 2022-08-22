@@ -16819,7 +16819,11 @@ export const BESTIARY: Monster[] = [
     BESTIARY.map((monster) => [monster.name, monster])
 ); */
 
-export const BESTIARY_BY_NAME: Map<string, Monster> = new Map(
+export function getBestiaryByName (disableSRD: boolean) {
+    return !disableSRD ? BESTIARY_BY_NAME : new Map();
+}
+
+const BESTIARY_BY_NAME: Map<string, Monster> = new Map(
     BESTIARY.map((monster) => {
         /*         const statblock: StatblockMonster = Object.assign({}, monster, {
             traits: new Map(),

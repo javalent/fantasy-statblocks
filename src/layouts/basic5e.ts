@@ -594,6 +594,14 @@ return "";`
         dice: true
     },
     {
+        type: "text",
+        id: nanoid(),
+        properties: ["spellsNotes"],
+        conditioned: true,
+
+        text: null
+    },
+    {
         type: "traits",
         id: nanoid(),
         properties: ["actions"],
