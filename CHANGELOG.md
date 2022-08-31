@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.17.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.17.0...2.17.1) (2022-08-31)
+
+
+### Bug Fixes
+
+* fixes rendering wikilinks from saved monsters ([3fa88f1](https://github.com/valentine195/obsidian-5e-statblocks/commit/3fa88f11da69ab5f419b9df25654bda5f2e4729e))
+
 ## [2.17.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.16.2...2.17.0) (2022-08-31)
 
 
