@@ -421,7 +421,6 @@ export default class StatBlockPlugin extends Plugin {
                 /\[\[(.+?)\]\]/g,
                 `<STATBLOCK-LINK>$1</STATBLOCK-LINK>`
             );
-            console.log("🚀 ~ file: main.ts ~ line 424 ~ source", source);
 
             /** Get Parameters */
             let params: StatblockParameters = parseYaml(source);
@@ -506,9 +505,16 @@ export default class StatBlockPlugin extends Plugin {
             el.addClass("statblock-plugin-container");
             el.parentElement?.addClass("statblock-plugin-parent");
 
+            const toBuildWithLinksReplaced = JSON.parse(
+                JSON.stringify(toBuild).replaceAll(
+                    /\[\[(.+?)\]\]/g,
+                    `<STATBLOCK-LINK>$1</STATBLOCK-LINK>`
+                )
+            );
+
             let statblock = new StatBlockRenderer(
                 el,
-                toBuild,
+                toBuildWithLinksReplaced,
                 this,
                 canSave,
                 ctx.sourcePath,
