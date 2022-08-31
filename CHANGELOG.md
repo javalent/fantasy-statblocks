@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.17.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.16.2...2.17.0) (2022-08-31)
+
+
+### Features
+
+* Statblocks will now try to detect & render links ([109f278](https://github.com/valentine195/obsidian-5e-statblocks/commit/109f278029b6f4d4691ed97894208615fe4a83a2))
+
 ### [2.16.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.16.1...2.16.2) (2022-08-22)
 
 ### [2.16.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.16.0...2.16.1) (2022-08-21)
