@@ -1,7 +1,7 @@
 <script lang="ts">
     import { setIcon } from "obsidian";
 
-    import type { StatblockItem } from "src/data/constants";
+    import type { StatblockItem } from "src/layouts/types";
 
     export let block: StatblockItem;
 

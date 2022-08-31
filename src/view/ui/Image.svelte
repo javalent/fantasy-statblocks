@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Monster } from "@types";
-    import type { ImageItem } from "src/data/constants";
+    import type { ImageItem } from "src/layouts/types";
     import type StatBlockPlugin from "src/main";
     import { getContext } from "svelte";
     import type { App, TFile } from "obsidian";

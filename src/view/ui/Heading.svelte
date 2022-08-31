@@ -1,6 +1,8 @@
 <script lang="ts">
     import type { Monster } from "@types";
-    import type { HeadingItem } from "src/data/constants";
+    import type { HeadingItem } from "src/layouts/types";
+    import { stringify } from "src/util/util";
+    import TextContent from "./TextContent.svelte";
 
     export let monster: Monster;
     export let item: HeadingItem;
@@ -9,7 +11,12 @@
 <div class="flex-container">
     {#each item.properties as property}
         {#if property in monster}
-            <div class="heading">{monster[property]}</div>
+            <div class="heading">
+                <TextContent
+                    inline={false}
+                    textToRender={stringify(monster[property])}
+                />
+            </div>
         {/if}
     {/each}
 </div>

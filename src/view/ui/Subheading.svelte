@@ -1,7 +1,8 @@
 <script lang="ts">
     import type { Monster } from "@types";
-    import type { SubHeadingItem } from "src/data/constants";
+    import type { SubHeadingItem } from "src/layouts/types";
     import { stringify } from "src/util/util";
+    import TextContent from "./TextContent.svelte";
 
     export let monster: Monster;
     export let item: SubHeadingItem;
@@ -16,7 +17,10 @@
 
 {#if subheading.length}
     <div class="subheading">
-        {subheading.join(item.separator ?? " ")}
+        <TextContent
+            inline={false}
+            textToRender={subheading.join(item.separator ?? " ")}
+        />
     </div>
 {/if}
 

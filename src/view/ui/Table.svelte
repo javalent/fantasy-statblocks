@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Monster } from "@types";
-    import type { TableItem } from "src/data/constants";
+    import type { TableItem } from "src/layouts/types";
 
     export let monster: Monster;
     export let item: TableItem;

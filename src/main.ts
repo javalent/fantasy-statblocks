@@ -60,6 +60,7 @@ export interface StatblockData {
     path: string;
     autoParse: boolean;
     disableSRD: boolean;
+    tryToRenderLinks: boolean;
 }
 
 const DEFAULT_DATA: StatblockData = {
@@ -77,7 +78,8 @@ const DEFAULT_DATA: StatblockData = {
     },
     path: "/",
     autoParse: false,
-    disableSRD: false
+    disableSRD: false,
+    tryToRenderLinks: true
 };
 
 export default class StatBlockPlugin extends Plugin {
@@ -168,7 +170,10 @@ export default class StatBlockPlugin extends Plugin {
         addIcon(SAVE_SYMBOL, SAVE_ICON);
         addIcon(EXPORT_SYMBOL, EXPORT_ICON);
 
-        this.bestiary = new Map([...getBestiaryByName(this.settings.disableSRD), ...this.data]);
+        this.bestiary = new Map([
+            ...getBestiaryByName(this.settings.disableSRD),
+            ...this.data
+        ]);
 
         Object.defineProperty(window, "bestiary", {
             value: this.bestiary,
@@ -217,7 +222,10 @@ export default class StatBlockPlugin extends Plugin {
     }
     async saveSettings() {
         this.settings.monsters = this._transformData(this.data);
-        this.bestiary = new Map([...getBestiaryByName(this.settings.disableSRD), ...this.data]);
+        this.bestiary = new Map([
+            ...getBestiaryByName(this.settings.disableSRD),
+            ...this.data
+        ]);
 
         await this.saveData(this.settings);
     }
@@ -287,7 +295,10 @@ export default class StatBlockPlugin extends Plugin {
         this.bestiary.delete(monster);
 
         if (getBestiaryByName(this.settings.disableSRD).has(monster)) {
-            this.bestiary.set(monster, getBestiaryByName(this.settings.disableSRD).get(monster));
+            this.bestiary.set(
+                monster,
+                getBestiaryByName(this.settings.disableSRD).get(monster)
+            );
         }
         this.namesHaveChanged = true;
 
@@ -405,6 +416,13 @@ export default class StatBlockPlugin extends Plugin {
         ctx: MarkdownPostProcessorContext
     ) {
         try {
+            /** Replace Links */
+            source = source.replaceAll(
+                /\[\[(.+?)\]\]/g,
+                `<STATBLOCK-LINK>$1</STATBLOCK-LINK>`
+            );
+            console.log("🚀 ~ file: main.ts ~ line 424 ~ source", source);
+
             /** Get Parameters */
             let params: StatblockParameters = parseYaml(source);
 

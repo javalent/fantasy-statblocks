@@ -148,19 +148,42 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     })
             );
         new Setting(container)
+            .setName("Try to Render Wikilinks")
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "The plugin will attempt to detect wikilinks inside Statblocks."
+                    });
+                    e.createEl("br");
+                    e.createEl("strong", {
+                        text: "Please note: these links will not be added to the graph."
+                    });
+                })
+            )
+            .addToggle((t) =>
+                t
+                    .setValue(this.plugin.settings.tryToRenderLinks)
+                    .onChange(async (v) => {
+                        this.plugin.settings.tryToRenderLinks = v;
+                        await this.plugin.saveSettings();
+                    })
+            );
+        new Setting(container)
             .setName("Disable 5e SRD")
             .setDesc(
                 createFragment((e) => {
                     e.createSpan({
                         text: "Disable the Dungeons & Dragons 5th Edition System Reference Document monsters."
-                    });     
+                    });
                 })
             )
             .addToggle((t) =>
-                t.setValue(this.plugin.settings.disableSRD).onChange(async (v) => {
-                    this.plugin.settings.disableSRD = v;
-                    await this.plugin.saveSettings();
-                })
+                t
+                    .setValue(this.plugin.settings.disableSRD)
+                    .onChange(async (v) => {
+                        this.plugin.settings.disableSRD = v;
+                        await this.plugin.saveSettings();
+                    })
             );
     }
     generateParseSettings(containerEl: HTMLDivElement) {

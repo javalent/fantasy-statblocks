@@ -1,9 +1,11 @@
 <script lang="ts">
+    import TextContent from "./TextContent.svelte";
+
     export let header: string;
 </script>
 
 <h3 class="section-header">
-    {header}
+    <TextContent inline={false} textToRender={header} />
 </h3>
 
 <style>

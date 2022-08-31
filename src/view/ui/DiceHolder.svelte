@@ -1,12 +1,13 @@
 <script lang="ts">
     import type { Monster } from "@types";
     import { Notice } from "obsidian";
-    import type { StatblockItem } from "src/data/constants";
+    import type { StatblockItem } from "src/layouts/types";
     import type StatBlockPlugin from "src/main";
 
     import { getContext } from "svelte";
 
     import DiceRoll from "./DiceRoll.svelte";
+    import TextContent from "./TextContent.svelte";
     export let property: string;
 
     let item = getContext<StatblockItem>("item");
@@ -60,7 +61,9 @@
 </script>
 
 {#if !dice}
-    <span class="property-text">{property}</span>
+    <span class="property-text">
+        <TextContent inline={true} textToRender={property} />
+    </span>
 {:else}
     {#each split as test}
         {#if typeof test != "string" && typeof test == "object" && "text" in test}
@@ -69,12 +72,19 @@
                 original={test?.original ?? test?.text ?? property}
             />
         {:else}
-            <span class="property-text">{test}</span>
+            <span class="property-text">
+                <TextContent inline={true} textToRender={property} />
+            </span>
         {/if}
     {/each}
 {/if}
 
 <style>
+    .property-text {
+        display: inline;
+        white-space: pre-line;
+        text-indent: 0;
+    }
     .property-text {
         display: inline;
         margin: 0;

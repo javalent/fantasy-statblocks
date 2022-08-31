@@ -43,6 +43,7 @@
     let canRender = monster.render ?? plugin.settings.renderDice;
 
     setContext<StatBlockPlugin>("plugin", plugin);
+    setContext<boolean>("tryToRenderLinks", plugin.settings.tryToRenderLinks);
     setContext<string>("context", context);
     setContext<Monster>("monster", monster);
     setContext<boolean>("dice", canDice);
