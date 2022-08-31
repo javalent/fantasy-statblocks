@@ -612,6 +612,12 @@ The plugin will integrate with the Dice Roller plugin and add dice rolls to rend
 
 Dice rolls will roll with graphical dice by default.
 
+## Try to Render Wikilinks
+
+The plugin will parse all text within the statblock and try to render any wikilinks as Obsidian links.
+
+**Please note: These links will not appear on the graph!**
+
 ## Note Parsing
 
 ### Parse Frontmatter for Creatures
