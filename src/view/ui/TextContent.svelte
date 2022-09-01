@@ -3,7 +3,7 @@
     import { getContext } from "svelte";
 
     export let textToRender: String;
-    export let inline: boolean;
+    /* export let inline: boolean; */
 
     const tryToRenderLinks = getContext<boolean>("tryToRenderLinks");
     const context = getContext<string>("context");
@@ -70,7 +70,7 @@
     };
 </script>
 
-<div class="statblock-rendered-text-content" class:inline>
+<div class="statblock-rendered-text-content inline">
     {#if !tryToRenderLinks}
         {textToRender}
     {:else}
