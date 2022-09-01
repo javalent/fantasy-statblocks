@@ -24,8 +24,10 @@
 
     export let statblock: StatblockItem[];
     export let columns: number = 1;
+    console.log("🚀 ~ file: Content.svelte ~ line 27 ~ columns", columns);
     export let ready: boolean;
     export let maxColumns: number = columns;
+    console.log("🚀 ~ file: Content.svelte ~ line 30 ~ maxColumns", maxColumns);
 
     const monster = getContext<Monster>("monster");
 
@@ -225,12 +227,12 @@
             ? monster.columnHeight
             : Infinity;
 
+    const targets: HTMLElement[] = [];
+    for (let item of statblock) {
+        targets.push(...getElementForStatblockItem(item));
+    }
     const buildStatblock = (node: HTMLElement) => {
         node.empty();
-        const targets: HTMLElement[] = [];
-        for (let item of statblock) {
-            targets.push(...getElementForStatblockItem(item));
-        }
 
         let columnEl = node.createDiv("column");
         if (columns == 1) {
@@ -242,7 +244,7 @@
         const heightmap: Map<HTMLElement, number> = new Map();
         for (let target of targets) {
             temp.appendChild(target);
-            heightmap.set(target, target.clientHeight);
+            heightmap.set(target, Math.floor(target.clientHeight));
         }
         temp.style.width = columnWidth;
 
@@ -256,7 +258,10 @@
                 temp.clientHeight / columns
             );
         } else {
-            split = Math.min(temp.clientHeight / columns, maxHeight);
+            split = Math.max(
+                600,
+                Math.min(temp.clientHeight / columns, maxHeight)
+            );
         }
 
         temp.empty();
