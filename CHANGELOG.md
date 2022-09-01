@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.17.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.17.1...2.17.2) (2022-09-01)
+
+
+### Bug Fixes
+
+* fixes text duplication with dice roller turned on ([2cfbabd](https://github.com/valentine195/obsidian-5e-statblocks/commit/2cfbabd6bafa2233abc73d5cbf8b54a60ef75751))
+* improves column logic ([fa78fd8](https://github.com/valentine195/obsidian-5e-statblocks/commit/fa78fd881b6ad0b7e7e13e5cedc5783032f95235))
+* improves rendering of text content holder ([6812371](https://github.com/valentine195/obsidian-5e-statblocks/commit/6812371750a87c4d0ea3b5ef692f0ee930610c57))
+
 ### [2.17.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.17.0...2.17.1) (2022-08-31)
 
 
