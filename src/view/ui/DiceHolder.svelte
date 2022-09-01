@@ -62,7 +62,7 @@
 
 {#if !dice}
     <span class="property-text">
-        <TextContent inline={true} textToRender={property} />
+        <TextContent textToRender={property} />
     </span>
 {:else}
     {#each split as test}
@@ -73,7 +73,7 @@
             />
         {:else}
             <span class="property-text">
-                <TextContent inline={true} textToRender={property} />
+                <TextContent textToRender={test} />
             </span>
         {/if}
     {/each}
