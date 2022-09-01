@@ -13,7 +13,6 @@
         {#if property in monster}
             <div class="heading">
                 <TextContent
-                    inline={false}
                     textToRender={stringify(monster[property])}
                 />
             </div>

@@ -5,7 +5,7 @@
 </script>
 
 <h3 class="section-header">
-    <TextContent inline={false} textToRender={header} />
+    <TextContent textToRender={header} />
 </h3>
 
 <style>

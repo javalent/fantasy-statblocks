@@ -11,7 +11,7 @@
 <div class="property">
     {#if name}
         <div class="property-name">
-            <TextContent inline={true} textToRender={name} />
+            <TextContent textToRender={name} />
         </div>
     {/if}
 

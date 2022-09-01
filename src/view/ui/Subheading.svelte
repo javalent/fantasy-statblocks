@@ -18,7 +18,6 @@
 {#if subheading.length}
     <div class="subheading">
         <TextContent
-            inline={false}
             textToRender={subheading.join(item.separator ?? " ")}
         />
     </div>
