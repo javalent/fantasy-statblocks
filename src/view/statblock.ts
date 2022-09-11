@@ -34,7 +34,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 layout: this.layout.name,
                 plugin: this.plugin,
                 renderer: this,
-                icons: this.icons
+                canSave: this.icons
             }
         });
         statblock.$on("save", async () => {

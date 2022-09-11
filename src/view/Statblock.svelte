@@ -1,6 +1,13 @@
 <script lang="ts">
     import type { Monster } from "@types";
-    import { debounce, ExtraButtonComponent, Menu } from "obsidian";
+    import {
+        debounce,
+        ExtraButtonComponent,
+        Menu,
+        Notice,
+        stringifyYaml
+    } from "obsidian";
+    import { stringify } from "querystring";
     import { EXPORT_SYMBOL, SAVE_SYMBOL } from "src/data/constants";
     import type { StatblockItem } from "src/layouts/types";
     import type StatBlockPlugin from "src/main";
@@ -24,7 +31,7 @@
     export let statblock: StatblockItem[];
     export let renderer: StatBlockRenderer;
     export let layout: string;
-    export let icons: boolean = true;
+    export let canSave: boolean = true;
 
     let maxColumns =
         !isNaN(Number(monster.columns)) && Number(monster.columns) > 0
@@ -96,8 +103,23 @@
         item
             .setIcon(SAVE_SYMBOL)
             .setTitle("Save to Bestiary")
+            .setDisabled(canSave)
             .onClick(() => dispatch("save"))
     );
+    menu.addItem((item) => {
+        item.setTitle("Copy YAML")
+            .setIcon("code")
+            .onClick(async () => {
+                try {
+                    await navigator.clipboard.writeText(stringifyYaml(monster));
+                    new Notice("Creature YAML copied to clipboard");
+                } catch (e) {
+                    new Notice(
+                        `There was an issue copying the yaml:\n\n${e.message}`
+                    );
+                }
+            });
+    });
     if (canExport)
         menu.addItem((item) =>
             item
@@ -156,9 +178,9 @@
                 <span>Invalid monster.</span>
             {/if}
         </div>
-        {#if icons}
-            <div class="icons" use:iconsEl on:click={showMenu} />
-        {/if}
+        <!-- {#if icons} -->
+        <div class="icons" use:iconsEl on:click={showMenu} />
+        <!-- {/if} -->
     {/if}
 </div>
 
