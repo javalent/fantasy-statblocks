@@ -17,44 +17,45 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
     contentEl: HTMLDivElement;
     constructor(
         container: HTMLElement,
-        public monster: Monster,
-        private plugin: StatBlockPlugin,
-        private icons: boolean,
-        public context: string,
-        public layout: Layout = Layout5e
+        monster: Monster,
+        plugin: StatBlockPlugin,
+        canSave: boolean,
+        context: string,
+        layout: Layout = Layout5e
     ) {
         super(container);
 
         const statblock = new Statblock({
             target: this.containerEl,
             props: {
-                context: this.context,
-                monster: this.monster,
-                statblock: this.layout.blocks,
-                layout: this.layout.name,
-                plugin: this.plugin,
+                context,
+                monster,
+                statblock: layout.blocks,
+                layout: layout.name,
+                plugin,
                 renderer: this,
-                canSave: this.icons
+                canSave
             }
         });
         statblock.$on("save", async () => {
             if (
+                plugin.bestiary.has(monster.name) &&
                 !(await confirmWithModal(
-                    this.plugin.app,
+                    plugin.app,
                     "This will overwrite an existing monster in settings. Are you sure?"
                 ))
             )
                 return;
-            this.plugin.saveMonster({
-                ...fastCopy(this.monster),
+            plugin.saveMonster({
+                ...fastCopy(monster),
                 source: "Homebrew",
-                layout: this.layout.name
+                layout: layout.name
             });
         });
 
         statblock.$on("export", () => {
-            this.plugin.exportAsPng(
-                this.monster.name,
+            plugin.exportAsPng(
+                monster.name,
                 this.containerEl.firstElementChild
             );
         });

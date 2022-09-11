@@ -103,7 +103,7 @@
         item
             .setIcon(SAVE_SYMBOL)
             .setTitle("Save to Bestiary")
-            .setDisabled(canSave)
+            .setDisabled(!canSave)
             .onClick(() => dispatch("save"))
     );
     menu.addItem((item) => {
