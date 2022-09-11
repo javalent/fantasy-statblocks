@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.18.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.18.0...2.18.1) (2022-09-11)
+
+
+### Bug Fixes
+
+* accidentally disabled save button ([c7166aa](https://github.com/valentine195/obsidian-5e-statblocks/commit/c7166aa56017d1bf7e8803869817e3e2b565f4d0))
+
 ## [2.18.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.17.2...2.18.0) (2022-09-11)
 
 
