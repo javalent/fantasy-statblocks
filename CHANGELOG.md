@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.18.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.17.2...2.18.0) (2022-09-11)
+
+
+### Features
+
+* Adds "Copy YAML" option to statblock menus ([ef70977](https://github.com/valentine195/obsidian-5e-statblocks/commit/ef709775dc2e6cb72aa95a7fa6733cff0b761c48))
+
 ### [2.17.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.17.1...2.17.2) (2022-09-01)
 
 
