@@ -185,22 +185,6 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         await this.plugin.saveSettings();
                     })
             );
-        new Setting(container)
-            .setName("Enable Debug Messages")
-            .setDesc(
-                createFragment((e) => {
-                    e.createSpan({
-                        text: "Debug messages will be displayed by the file parser."
-                    });
-                })
-            )
-            .addToggle((t) =>
-                t.setValue(this.plugin.settings.debug).onChange(async (v) => {
-                    this.plugin.settings.debug = v;
-                    this.plugin.watcher.setDebug();
-                    await this.plugin.saveSettings();
-                })
-            );
     }
     generateParseSettings(containerEl: HTMLDivElement) {
         containerEl.empty();
@@ -261,6 +245,23 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     await this.plugin.saveSettings();
                 };
             });
+
+        new Setting(containerEl)
+            .setName("Enable Debug Messages")
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "Debug messages will be displayed by the file parser."
+                    });
+                })
+            )
+            .addToggle((t) =>
+                t.setValue(this.plugin.settings.debug).onChange(async (v) => {
+                    this.plugin.settings.debug = v;
+                    this.plugin.watcher.setDebug();
+                    await this.plugin.saveSettings();
+                })
+            );
     }
     generateLayouts(containerEl: HTMLDivElement) {
         containerEl.empty();

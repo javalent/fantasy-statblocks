@@ -186,13 +186,14 @@ export class Watcher extends Component {
         const folder = this.vault.getAbstractFileByPath(
             this.plugin.settings.path
         );
+        console.log("🚀 ~ file: watcher.ts ~ line 189 ~ folder", folder);
         this.parsePath(folder);
     }
     pathContainsFile(file: TAbstractFile) {
         if (!this.plugin.settings.path || this.plugin.settings.path == "/")
             return true;
 
-        return file.path.includes(this.plugin.settings.path, 1);
+        return file.path.includes(this.plugin.settings.path);
     }
     parsePath(folder: TAbstractFile) {
         if (!this.pathContainsFile(folder)) return;
