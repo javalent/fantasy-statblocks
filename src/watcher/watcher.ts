@@ -183,17 +183,22 @@ export class Watcher extends Component {
         this.announce = announce;
         this.startTime = Date.now();
         console.info("TTRPG Statblocks: Starting Frontmatter Parsing.");
-        const folder = this.vault.getAbstractFileByPath(
-            this.plugin.settings.path
-        );
-        console.log("🚀 ~ file: watcher.ts ~ line 189 ~ folder", folder);
-        this.parsePath(folder);
+        for (const path of this.plugin.settings.paths) {
+            const folder = this.vault.getAbstractFileByPath(path);
+            this.parsePath(folder);
+        }
     }
     pathContainsFile(file: TAbstractFile) {
-        if (!this.plugin.settings.path || this.plugin.settings.path == "/")
+        if (
+            !this.plugin.settings.paths.length ||
+            this.plugin.settings.paths.contains("/")
+        )
             return true;
 
-        return file.path.includes(this.plugin.settings.path);
+        for (const path of this.plugin.settings.paths) {
+            if (file.path.includes(path)) return true;
+        }
+        return false;
     }
     parsePath(folder: TAbstractFile) {
         if (!this.pathContainsFile(folder)) return;
@@ -250,10 +255,10 @@ export class Watcher extends Component {
             this.plugin.deleteMonster(monster, false, false);
         }
 
-        const folder = this.vault.getAbstractFileByPath(
-            this.plugin.settings.path
-        );
-        this.parsePath(folder);
+        for (const path of this.plugin.settings.paths) {
+            const folder = this.vault.getAbstractFileByPath(path);
+            this.parsePath(folder);
+        }
     }
     onunload() {
         this.worker.terminate();

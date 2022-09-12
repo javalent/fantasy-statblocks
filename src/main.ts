@@ -57,7 +57,7 @@ export interface StatblockData {
         minor: number;
         patch: number;
     };
-    path: string;
+    paths: string[];
     autoParse: boolean;
     disableSRD: boolean;
     tryToRenderLinks: boolean;
@@ -77,7 +77,7 @@ const DEFAULT_DATA: StatblockData = {
         minor: null,
         patch: null
     },
-    path: "/",
+    paths: ["/"],
     autoParse: false,
     disableSRD: false,
     tryToRenderLinks: true,

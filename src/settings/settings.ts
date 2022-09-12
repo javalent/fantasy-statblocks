@@ -188,8 +188,11 @@ export default class StatblockSettingTab extends PluginSettingTab {
     }
     generateParseSettings(containerEl: HTMLDivElement) {
         containerEl.empty();
-        new Setting(containerEl).setHeading().setName("Note Parsing");
-        new Setting(containerEl)
+        const additionalContainer = containerEl.createDiv(
+            "statblock-additional-container"
+        );
+        new Setting(additionalContainer).setHeading().setName("Note Parsing");
+        new Setting(additionalContainer)
             .setName("Parse Frontmatter for Creatures")
             .setDesc(
                 createFragment((e) => {
@@ -214,39 +217,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     }
                 );
             });
-        new Setting(containerEl)
-            .setName("Bestiary Folder")
-            .setDesc(
-                "The plugin will only parse notes inside this folder and its children."
-            )
-            .addText(async (text) => {
-                let folders = this.app.vault
-                    .getAllLoadedFiles()
-                    .filter((f) => f instanceof TFolder);
-
-                text.setPlaceholder(this.plugin.settings.path ?? "/");
-                const modal = new FolderSuggestionModal(this.app, text, [
-                    ...(folders as TFolder[])
-                ]);
-
-                modal.onClose = async () => {
-                    const v = text.inputEl.value?.trim()
-                        ? text.inputEl.value.trim()
-                        : "/";
-                    this.plugin.settings.path = normalizePath(v);
-                    await this.plugin.saveSettings();
-                };
-
-                text.inputEl.onblur = async () => {
-                    const v = text.inputEl.value?.trim()
-                        ? text.inputEl.value.trim()
-                        : "/";
-                    this.plugin.settings.path = normalizePath(v);
-                    await this.plugin.saveSettings();
-                };
-            });
-
-        new Setting(containerEl)
+        new Setting(additionalContainer)
             .setName("Enable Debug Messages")
             .setDesc(
                 createFragment((e) => {
@@ -262,6 +233,63 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     await this.plugin.saveSettings();
                 })
             );
+        let path: string;
+        new Setting(additionalContainer)
+            .setName("Bestiary Folder")
+            .setDesc(
+                "The plugin will only parse notes inside these folders and their children."
+            )
+            .addText(async (text) => {
+                let folders = this.app.vault
+                    .getAllLoadedFiles()
+                    .filter(
+                        (f) =>
+                            f instanceof TFolder &&
+                            !this.plugin.settings.paths.includes(f.path)
+                    );
+
+                text.setPlaceholder("/");
+                const modal = new FolderSuggestionModal(this.app, text, [
+                    ...(folders as TFolder[])
+                ]);
+
+                modal.onClose = async () => {
+                    const v = text.inputEl.value?.trim()
+                        ? text.inputEl.value.trim()
+                        : "/";
+                    path = normalizePath(v);
+                };
+
+                text.inputEl.onblur = async () => {
+                    const v = text.inputEl.value?.trim()
+                        ? text.inputEl.value.trim()
+                        : "/";
+                    path = normalizePath(v);
+                };
+            })
+            .addExtraButton((b) => {
+                b.setIcon("plus-with-circle").onClick(async () => {
+                    if (!path || !path.length) return;
+                    this.plugin.settings.paths.push(normalizePath(path));
+                    await this.plugin.saveSettings();
+                    await this.plugin.watcher.reparseVault();
+                    await this.generateParseSettings(containerEl);
+                });
+            });
+
+        const paths = additionalContainer.createDiv("additional");
+        for (const path of this.plugin.settings.paths) {
+            new Setting(paths).setName(path).addExtraButton((b) =>
+                b.setIcon("trash").onClick(async () => {
+                    this.plugin.settings.paths =
+                        this.plugin.settings.paths.filter((p) => p != path);
+
+                    await this.plugin.saveSettings();
+                    await this.plugin.watcher.reparseVault();
+                    await this.generateParseSettings(containerEl);
+                })
+            );
+        }
     }
     generateLayouts(containerEl: HTMLDivElement) {
         containerEl.empty();
