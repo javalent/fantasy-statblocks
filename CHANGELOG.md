@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.20.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.19.1...2.20.0) (2022-09-12)
+
+
+### Features
+
+* added ability to set multiple bestiary folders ([2b95ffa](https://github.com/valentine195/obsidian-5e-statblocks/commit/2b95ffa54b7dc30e868d4aa579c38e5c312c4945))
+
 ### [2.19.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.19.0...2.19.1) (2022-09-12)
 
 
