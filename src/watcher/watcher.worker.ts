@@ -3,6 +3,11 @@ import copy from "fast-copy";
 import type { CachedMetadata } from "obsidian";
 import { transformTraits } from "src/util/util";
 
+export interface DebugMessage {
+    type: "debug";
+    debug: boolean;
+}
+
 export interface QueueMessage {
     type: "queue";
     paths: string[];
@@ -34,16 +39,31 @@ const ctx: Worker = self as any;
 class Parser {
     queue: string[] = [];
     parsing: boolean = false;
+    debug: boolean;
 
     constructor() {
         //Add Files to Queue
         ctx.addEventListener("message", (event: MessageEvent<QueueMessage>) => {
             if (event.data.type == "queue") {
                 this.add(...event.data.paths);
+
+                if (this.debug) {
+                    console.debug(
+                        `TTRPG: Received queue message for ${event.data.paths.length} paths`
+                    );
+                }
+            }
+        });
+        ctx.addEventListener("message", (event: MessageEvent<DebugMessage>) => {
+            if (event.data.type == "debug") {
+                this.debug = event.data.debug;
             }
         });
     }
     add(...paths: string[]) {
+        if (this.debug) {
+            console.debug(`TTRPG: Adding ${paths.length} paths to queue`);
+        }
         this.queue.push(...paths);
         if (!this.parsing) this.parse();
     }
@@ -51,6 +71,11 @@ class Parser {
         this.parsing = true;
         while (this.queue.length) {
             const path = this.queue.shift();
+            if (this.debug) {
+                console.debug(
+                    `TTRPG: Parsing ${path} for statblocks (${this.queue.length} to go)`
+                );
+            }
             const { file, cache } = await this.getFileData(path);
             this.parseFileForCreatures(file, cache);
             ctx.postMessage<FinishFileMessage>({ type: "done", path });
@@ -102,6 +127,11 @@ class Parser {
                 monster.legendary_actions
             );
         }
+
+        if (this.debug)
+            console.debug(
+                `TTRPG: Adding ${monster.name} to bestiary from ${file.basename}`
+            );
 
         ctx.postMessage<UpdateEventMessage>({
             type: "update",

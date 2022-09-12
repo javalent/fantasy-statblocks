@@ -61,6 +61,7 @@ export interface StatblockData {
     autoParse: boolean;
     disableSRD: boolean;
     tryToRenderLinks: boolean;
+    debug: boolean;
 }
 
 const DEFAULT_DATA: StatblockData = {
@@ -79,7 +80,8 @@ const DEFAULT_DATA: StatblockData = {
     path: "/",
     autoParse: false,
     disableSRD: false,
-    tryToRenderLinks: true
+    tryToRenderLinks: true,
+    debug: false
 };
 
 export default class StatBlockPlugin extends Plugin {

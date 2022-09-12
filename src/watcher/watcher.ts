@@ -8,7 +8,8 @@ import Worker, {
     QueueMessage,
     UpdateEventMessage,
     SaveMessage,
-    FinishFileMessage
+    FinishFileMessage,
+    DebugMessage
 } from "./watcher.worker";
 
 declare global {
@@ -32,7 +33,14 @@ export class Watcher extends Component {
     watchPaths: Map<string, string> = new Map();
 
     worker = new Worker();
+    setDebug() {
+        this.worker.postMessage<DebugMessage>({
+            type: "debug",
+            debug: this.plugin.settings.debug
+        });
+    }
     onload() {
+        this.setDebug();
         /** Metadata for a file has changed and the file should be checked. */
         this.registerEvent(
             this.metadataCache.on("changed", async (file) => {
@@ -45,6 +53,8 @@ export class Watcher extends Component {
                     }
                     return;
                 }
+                if (this.plugin.settings.debug)
+                    console.debug(`TTRPG: Reparsing ${file.name}`);
                 this.parsePath(file);
             })
         );
@@ -58,6 +68,10 @@ export class Watcher extends Component {
                 if (!(abstractFile instanceof TFile)) return;
                 if (!this.watchPaths.has(oldPath)) return;
 
+                if (this.plugin.settings.debug)
+                    console.debug(
+                        `TTRPG: Handling rename of ${oldPath} to ${abstractFile.path}`
+                    );
                 await this.delete(oldPath);
                 this.parsePath(abstractFile);
             })
@@ -98,12 +112,23 @@ export class Watcher extends Component {
             async (evt: MessageEvent<UpdateEventMessage>) => {
                 if (evt.data.type == "update") {
                     const { monster, path } = evt.data;
+                    let update = false;
                     if (this.watchPaths.has(path)) {
                         const existing = this.watchPaths.get(path);
                         this.plugin.deleteMonster(existing);
+                        update = true;
+                        if (this.plugin.settings.debug)
+                            console.debug(`TTRPG: Updating ${monster.name}`);
                     }
                     this.watchPaths.set(path, monster.name);
                     this.plugin.saveMonster(monster, false, false);
+
+                    if (this.plugin.settings.debug)
+                        console.debug(
+                            `TTRPG: ${update ? "Updated" : "Added"} ${
+                                monster.name
+                            }`
+                        );
                 }
             }
         );
@@ -150,6 +175,8 @@ export class Watcher extends Component {
     async delete(path: string) {
         await this.plugin.deleteMonster(this.watchPaths.get(path));
         this.watchPaths.delete(path);
+        if (this.plugin.settings.debug)
+            console.debug(`TTRPG: Removing '${path}' from bestiary`);
     }
     startTime: number;
     start(announce = false) {
@@ -185,14 +212,14 @@ export class Watcher extends Component {
     }
     getFileInformation(path: string) {
         const file = this.plugin.app.vault.getAbstractFileByPath(path);
-        if (!(file instanceof TFile)) return;
+        if (!(file instanceof TFile)) return {};
         if (this.watchPaths.has(file.path)) {
             const monster = this.plugin.bestiary.get(
                 this.watchPaths.get(file.path)
             );
 
             if (monster && monster.mtime && monster.mtime == file.stat.mtime)
-                return;
+                return {};
         }
 
         const cache = this.metadataCache.getFileCache(file);
