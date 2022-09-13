@@ -1,4 +1,5 @@
 import type { Monster } from "@types";
+import type { Creature5eTools, Size, Speed, _SpeedVal } from "./bestiary";
 
 const abilityMap: { [key: string]: string } = {
     str: "strength",
@@ -10,6 +11,7 @@ const abilityMap: { [key: string]: string } = {
 };
 
 function parseString(str: string) {
+    if (!str) return "";
     return str
         .replace(/{@condition (.+?)}/g, "$1")
         .replace(/{@item (.+?)}/g, "$1")
@@ -38,7 +40,7 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
         reader.onload = async (event: any) => {
             try {
                 let json = JSON.parse(event.target.result);
-                let monsters;
+                let monsters: Creature5eTools[];
                 if ("monster" in json) {
                     monsters = json.monster;
                 } else if (Array.isArray(json)) {
@@ -54,15 +56,19 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
                         const importedMonster: Monster = {
                             image: null,
                             name: monster.name,
-                            source: `${
-                                SOURCE_JSON_TO_FULL[monster.source] ?? "Unknown"
-                            }`,
-                            type: monster.type,
+                            source: getSource(monster),
+                            type: getType(monster.type),
                             subtype: "",
-                            size: SIZE_ABV_TO_FULL[monster.size],
+                            size: SIZE_ABV_TO_FULL[monster.size?.[0]],
                             alignment: getAlignmentString(monster),
-                            hp: monster.hp?.average ?? "",
-                            hit_dice: monster.hp?.formula ?? "",
+                            hp:
+                                monster.hp && "average" in monster.hp
+                                    ? monster.hp?.average
+                                    : null,
+                            hit_dice:
+                                monster.hp && "formula" in monster.hp
+                                    ? monster.hp?.formula
+                                    : "",
                             ac: getAc(monster.ac),
                             speed: getSpeedString(monster),
                             stats: [
@@ -85,27 +91,27 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
                             condition_immunities: parseString(
                                 parseImmune(monster.conditionImmune)
                             ),
-                            saves: Object.entries(monster.save ?? {}).map(
-                                (
-                                    thr: [
-                                        ability: keyof typeof abilityMap,
-                                        value: string
-                                    ]
-                                ) => {
-                                    const [, v] = thr[1].match(/.*?(\d+)/);
-                                    return { [abilityMap[thr[0]]]: v };
-                                }
-                            ),
-                            skillsaves: Object.entries(monster.skill ?? {}).map(
-                                ([name, value]) => {
-                                    const [, v] = value.match(/.*?(\d+)/);
-                                    return { [name]: v };
-                                }
-                            ),
+                            saves: Object.entries(monster.save ?? {})
+                                .map(
+                                    (
+                                        thr: [
+                                            ability: keyof typeof abilityMap,
+                                            value: string
+                                        ]
+                                    ) => {
+                                        if (!thr || !thr[1]) return;
+                                        const [, v] =
+                                            thr[1]?.match(/.*?(\d+)/) ?? [];
+                                        if (!v) return;
+                                        return { [abilityMap[thr[0]]]: v };
+                                    }
+                                )
+                                .filter((v) => v),
+                            skillsaves: getSkillsaves(monster),
                             senses: getSenses(monster),
                             languages:
                                 monster.languages?.join(", ").trim() ?? "",
-                            cr: monster.cr ? monster.cr.cr || monster.cr : "",
+                            cr: getCR(monster.cr),
                             traits:
                                 monster.trait?.flatMap(normalizeEntries) ?? [],
                             actions:
@@ -139,8 +145,23 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
     });
 }
 
-function getSpellNotes (monster: any) {
-    let spellNotes: string[] = []
+function getType(type: Creature5eTools["type"]) {
+    if (!type) return;
+    if (typeof type == "string") {
+        return type;
+    }
+    return type.type;
+}
+function getCR(type: Creature5eTools["cr"]) {
+    if (!type) return;
+    if (typeof type == "string") {
+        return type;
+    }
+    return type.cr;
+}
+
+function getSpellNotes(monster: any) {
+    let spellNotes: string[] = [];
 
     for (const element in monster.spellcasting) {
         for (const key in monster.spellcasting[element].footerEntries) {
@@ -174,13 +195,15 @@ function parseImmune(immune: any[]): string {
     return ret.join(", ");
 }
 
-function getAc(acField: Array<number | { ac: number }> = []) {
+function getAc(acField: Creature5eTools["ac"] = []) {
     const [item] = acField;
-
+    if (!item) return;
     if (typeof item === "number") {
         return item;
     }
-
+    if ("special" in item) {
+        return null;
+    }
     return item.ac;
 }
 
@@ -315,59 +338,88 @@ function getAlignmentString(alignment: any) {
     }
 }
 
-function getSpeedString(it: any) {
-    if (it.speed == null) return "\u2014";
+function getSpeedString(monster: Creature5eTools): string {
+    const speed = monster.speed;
+    if (!speed) return "\u2014";
+    if (typeof speed == "number") return `${speed}`;
 
-    function procSpeed(propName: string) {
-        function addSpeed(s: number) {
-            stack.push(
-                `${propName === "walk" ? "" : `${propName} `}${getVal(
-                    s
-                )} ft. ${getCond(s)}`.trim()
-            );
-        }
-
-        if (it.speed[propName] || propName === "walk")
-            addSpeed(it.speed[propName] || 0);
-        if (it.speed.alternate && it.speed.alternate[propName])
-            it.speed.alternate[propName].forEach(addSpeed);
-    }
-
-    function getVal(speedProp: any) {
+    function getVal(speedProp: _SpeedVal) {
+        if (typeof speedProp == "number") return speedProp;
         return speedProp.number != null ? speedProp.number : speedProp;
     }
 
-    function getCond(speedProp: any) {
+    function getCond(speedProp: _SpeedVal) {
+        if (typeof speedProp == "number") return "";
         return speedProp?.condition ?? "";
     }
 
-    const stack = [];
-    if (typeof it.speed === "object") {
-        let joiner = ", ";
-        procSpeed("walk");
-        procSpeed("burrow");
-        procSpeed("climb");
-        procSpeed("fly");
-        procSpeed("swim");
-        if (it.speed.choose) {
-            joiner = "; ";
+    const stack: string[] = [];
+    const types = ["walk", "burrow", "climb", "fly", "swim"] as const;
+    for (const type of types) {
+        if (
+            type != "walk" &&
+            !(type in speed) &&
+            !(type in (speed.alternate ?? {}))
+        )
+            continue;
+        const typeStack = [];
+        stack.push(
+            `${type === "walk" ? "" : `${type} `}${getVal(
+                speed[type] ?? 0
+            )} ft. ${getCond(speed[type])}`.trim()
+        );
+
+        if (speed.alternate && speed.alternate[type])
+            speed.alternate[type].forEach((s) => {
+                stack.push(
+                    `${type === "walk" ? "" : `${type} `}${getVal(
+                        s ?? 0
+                    )} ft. ${getCond(s)}`.trim()
+                );
+            });
+    }
+    let joiner = ", ";
+    if (speed.choose) {
+        joiner = "; ";
+        const from = speed.choose.from.sort();
+        if (from.length > 1) {
+            `${from.slice(0, from.length - 1).join(", ")} or ${
+                from[from.length - 1]
+            } ${speed.choose.amount} ft.${
+                speed.choose.note ? ` ${speed.choose.note}` : ""
+            }`;
+        } else {
             stack.push(
-                `${it.speed.choose.from.sort().joinConjunct(", ", " or ")} ${
-                    it.speed.choose.amount
-                } ft.${it.speed.choose.note ? ` ${it.speed.choose.note}` : ""}`
+                `${from} ${speed.choose.amount} ft.${
+                    speed.choose.note ? ` ${speed.choose.note}` : ""
+                }`
             );
         }
-        return stack.join(joiner) + (it.speed.note ? ` ${it.speed.note}` : "");
-    } else {
-        return it.speed + (it.speed === "Varies" ? "" : " ft. ");
     }
+    return stack.join(joiner);
 }
+
 function getSenses(monster: any): string {
     const senses = [monster.senses?.join(", ").trim() ?? ""];
     if (monster.passive) {
         senses.push(`passive Perception ${monster.passive}`);
     }
     return senses.join(", ");
+}
+
+function getSource(monster: Creature5eTools) {
+    let sources: string[] = [];
+    if (monster.source?.length) {
+        sources.push(SOURCE_JSON_TO_FULL[monster.source] ?? monster.source);
+    }
+    if (monster.otherSources?.length) {
+        sources.push(
+            ...monster.otherSources.map(
+                (s) => SOURCE_JSON_TO_FULL[s.source] ?? s.source
+            )
+        );
+    }
+    return sources;
 }
 type Entry =
     | string
@@ -434,14 +486,17 @@ function normalizeEntries(trait: {
     const flattenedEntries = trait.entries.reduce(
         (acc, current) => {
             if (typeof current !== "string") {
-                const items = current.items.map((item) => {
+                const items = current.items?.map((item) => {
+                    if (typeof item == "string") {
+                        return { name: item, entries: [] };
+                    }
                     if ("entry" in item) {
                         return { name: item.name, entries: [item.entry] };
                     }
 
                     return { name: item.name, entries: item.entries };
                 });
-                return acc.concat(items);
+                return acc.concat(items ?? []);
             }
 
             const hasSubItems = acc.length > 1;
@@ -474,17 +529,18 @@ const SZ_GARGANTUAN = "G";
 const SZ_COLOSSAL = "C";
 const SZ_VARIES = "V";
 
-const SIZE_ABV_TO_FULL: { [abbreviation: string]: string } = {};
-SIZE_ABV_TO_FULL[SZ_FINE] = "Fine";
-SIZE_ABV_TO_FULL[SZ_DIMINUTIVE] = "Diminutive";
-SIZE_ABV_TO_FULL[SZ_TINY] = "Tiny";
-SIZE_ABV_TO_FULL[SZ_SMALL] = "Small";
-SIZE_ABV_TO_FULL[SZ_MEDIUM] = "Medium";
-SIZE_ABV_TO_FULL[SZ_LARGE] = "Large";
-SIZE_ABV_TO_FULL[SZ_HUGE] = "Huge";
-SIZE_ABV_TO_FULL[SZ_GARGANTUAN] = "Gargantuan";
-SIZE_ABV_TO_FULL[SZ_COLOSSAL] = "Colossal";
-SIZE_ABV_TO_FULL[SZ_VARIES] = "Varies";
+const SIZE_ABV_TO_FULL: { [K in Size]: string } = {
+    [SZ_FINE]: "Fine",
+    [SZ_DIMINUTIVE]: "Diminutive",
+    [SZ_TINY]: "Tiny",
+    [SZ_SMALL]: "Small",
+    [SZ_MEDIUM]: "Medium",
+    [SZ_LARGE]: "Large",
+    [SZ_HUGE]: "Huge",
+    [SZ_GARGANTUAN]: "Gargantuan",
+    [SZ_COLOSSAL]: "Colossal",
+    [SZ_VARIES]: "Varies"
+};
 
 const SRC_CoS = "CoS";
 const SRC_DMG = "DMG";
@@ -556,6 +612,8 @@ const SRC_SCREEN = "Screen";
 const SRC_SCREEN_WILDERNESS_KIT = "ScreenWildernessKit";
 const SRC_HEROES_FEAST = "HF";
 const SRC_CM = "CM";
+const SRC_WBtW = "WBtW";
+const SRC_CRCotN = "CRCotN";
 
 const SRC_AL_PREFIX = "AL";
 
@@ -807,3 +865,47 @@ SOURCE_JSON_TO_FULL[SRC_UA2021GL] = `${UA_PREFIX}2021 Gothic Lineages`;
 SOURCE_JSON_TO_FULL[SRC_UA2021FF] = `${UA_PREFIX}2021 Folk of the Feywild`;
 SOURCE_JSON_TO_FULL[SRC_UA2021DO] = `${UA_PREFIX}2021 Draconic Options`;
 SOURCE_JSON_TO_FULL[SRC_UA2021MoS] = `${UA_PREFIX}2021 Mages of Strixhaven`;
+SOURCE_JSON_TO_FULL[SRC_WBtW] = "The Wild Beyond the Witchlight";
+SOURCE_JSON_TO_FULL[SRC_CRCotN] = "Critical Role: Call of the Netherdeep";
+function getSkillsaves(
+    monster: Creature5eTools
+): { [K in keyof Creature5eTools["skill"]]: number }[] {
+    const skills = monster.skill;
+    if (!skills) return [];
+    const stack = [],
+        plus = [];
+    for (const name of Object.keys(skills) as Array<keyof typeof skills>) {
+        if (name == "other") {
+            const other = skills[name];
+            for (const entry of other) {
+                const oneOf = entry.oneOf;
+                if (!oneOf) continue;
+                const keys = (
+                    Object.keys(oneOf) as Array<keyof typeof oneOf>
+                ).sort();
+                const firstKey = keys.shift(),
+                    first = oneOf[firstKey];
+                const [, v] = first?.match(/.*?(\d+)/) ?? [];
+                plus.push({
+                    [`plus one of the following: ${
+                        firstKey.charAt(0).toUpperCase() + firstKey.slice(1)
+                    }`]: v
+                });
+                for (const name of keys.slice(1)) {
+                    const skill = oneOf[name];
+                    const [, v] = skill?.match(/.*?(\d+)/) ?? [];
+
+                    if (!v) continue;
+                    plus.push({ [name]: v });
+                }
+            }
+            continue;
+        }
+        const skill = skills[name];
+        const [, v] = skill?.match(/.*?(\d+)/) ?? [];
+
+        if (!v) continue;
+        stack.push({ [name]: v });
+    }
+    return [...stack.filter((v) => v), ...plus.filter((v) => v)];
+}
