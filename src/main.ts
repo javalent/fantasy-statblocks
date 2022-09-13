@@ -133,7 +133,7 @@ export default class StatBlockPlugin extends Plugin {
         return this._sorted;
     }
     get sources() {
-        return new Set(Array.from(this.data.values()).map((m) => m.source));
+        return new Set(Array.from(this.data.values()).map((m) => m.source).flat());
     }
     async onload() {
         console.log("TTRPG StatBlocks loaded");

@@ -25,6 +25,7 @@ import { Layout5e } from "src/layouts/basic5e";
 import type { Layout } from "src/layouts/types";
 import { DefaultLayouts } from "src/layouts";
 import type { Monster } from "@types";
+import { stringify } from "src/util/util";
 
 export default class StatblockSettingTab extends PluginSettingTab {
     importer: Importer;
@@ -874,9 +875,26 @@ export default class StatblockSettingTab extends PluginSettingTab {
     showSearchResults(additional: HTMLDivElement, search: string) {
         additional.empty();
         for (const item of this.performFuzzySearch(search)) {
-            const content = new Setting(additional)
-                .setName(item.name)
-                .setDesc(item.source);
+            const content = new Setting(additional).setName(item.name);
+            let desc: string,
+                needTooltip = false;
+            if (Array.isArray(item.source)) {
+                let source = item.source.slice(0, 4);
+                if (item.source.length > 4) {
+                    source.push(`and ${item.source.length - 4} more`);
+                }
+                desc = stringify(source, 0, ", ", false);
+                needTooltip = true;
+            } else {
+                desc = item.source;
+            }
+            content.setDesc(desc);
+            if (needTooltip) {
+                content.descEl.setAttr(
+                    "aria-label",
+                    stringify(item.source, 0, ", ", false)
+                );
+            }
             content
                 .addExtraButton((b) => {
                     b.setIcon("info")
@@ -919,12 +937,21 @@ export default class StatblockSettingTab extends PluginSettingTab {
         const results: Monster[] = [];
         for (const resource of this.plugin.sorted) {
             if (!resource.name && !resource.source) continue;
-            if (!this.displayed.has(resource.source)) continue;
+            if (
+                typeof resource.source == "string" &&
+                !this.displayed.has(resource.source)
+            )
+                continue;
+            if (
+                Array.isArray(resource.source) &&
+                !resource.source.find((s) => this.displayed.has(s))
+            )
+                continue;
 
             const search = prepareSimpleSearch(input);
             let result = search(resource.name);
             if (!result && resource.source != null) {
-                result = search(resource.source);
+                result = search(stringify(resource.source));
             }
             if (result) {
                 results.push(resource);

@@ -57,7 +57,7 @@ export interface Monster {
     lair_actions?: Trait[];
     monster?: string;
     creature?: string;
-    source?: string;
+    source?: string | string[];
     spellsNotes?: string;
 
     /** Fate Core */
