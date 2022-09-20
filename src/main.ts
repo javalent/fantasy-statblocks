@@ -133,7 +133,11 @@ export default class StatBlockPlugin extends Plugin {
         return this._sorted;
     }
     get sources() {
-        return new Set(Array.from(this.data.values()).map((m) => m.source).flat());
+        return new Set(
+            Array.from(this.data.values())
+                .map((m) => m.source)
+                .flat()
+        );
     }
     async onload() {
         console.log("TTRPG StatBlocks loaded");
@@ -419,10 +423,20 @@ export default class StatBlockPlugin extends Plugin {
     ) {
         try {
             /** Replace Links */
-            source = source.replaceAll(
-                /\[\[(.+?)\]\]/g,
-                `<STATBLOCK-LINK>$1</STATBLOCK-LINK>`
-            );
+            source = source
+                .replace(
+                    /\[\[([\s\S]+?)\]\]/g,
+                    `<STATBLOCK-LINK>$1</STATBLOCK-LINK>`
+                )
+                .replace(
+                    /\[([\s\S]*?)\]\(([\s\S]+?)\)/g,
+                    (_, alias: string, path: string) => {
+                        if (alias.length) {
+                            return `<STATBLOCK-LINK>${path}|${alias}</STATBLOCK-LINK>`;
+                        }
+                        return `<STATBLOCK-LINK>${path}</STATBLOCK-LINK>`;
+                    }
+                );
 
             /** Get Parameters */
             let params: StatblockParameters = parseYaml(source);
