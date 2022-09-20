@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.21.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.21.0...2.21.1) (2022-09-20)
+
+
+### Bug Fixes
+
+* read & parse markdown links (you're welcome [@ebullient](https://github.com/ebullient) :) ) ([7791e66](https://github.com/valentine195/obsidian-5e-statblocks/commit/7791e660cc3e76468dafd3632bcbbb17d53428e5))
+* saves and skillsaves can now be supplied as an object or array of objects ([0deca41](https://github.com/valentine195/obsidian-5e-statblocks/commit/0deca419a45031939baa7b901e1f19a859164541))
+
 ## [2.21.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.20.0...2.21.0) (2022-09-13)
 
 
