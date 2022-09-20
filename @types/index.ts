@@ -39,8 +39,8 @@ export interface Monster {
         number,
         number
     ];
-    saves?: { [K in ability]?: number }[];
-    skillsaves?: { [key: string]: number }[];
+    saves?: { [K in ability]?: number } | { [K in ability]?: number }[];
+    skillsaves?: { [key: string]: number } | { [key: string]: number }[];
     damage_vulnerabilities: string;
     damage_resistances: string;
     damage_immunities: string;

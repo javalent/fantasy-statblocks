@@ -505,6 +505,25 @@ export default class StatBlockPlugin extends Plugin {
                     params.image = params.image.flat(2).join("");
                 }
             }
+
+            if (
+                "saves" in params &&
+                typeof params.saves == "object" &&
+                !Array.isArray(params.saves)
+            ) {
+                params.saves = Object.entries(params.saves).map((a) =>
+                    Object.fromEntries([a])
+                );
+            }
+            if (
+                "skillsaves" in params &&
+                typeof params.skillsaves == "object" &&
+                !Array.isArray(params.skillsaves)
+            ) {
+                params.skillsaves = Object.entries(params.skillsaves).map((a) =>
+                    Object.fromEntries([a])
+                );
+            }
             const toBuild: Monster = Object.assign(
                 {},
                 monster ?? {},

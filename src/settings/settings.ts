@@ -882,9 +882,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 let source = item.source.slice(0, 4);
                 if (item.source.length > 4) {
                     source.push(`and ${item.source.length - 4} more`);
+                    needTooltip = true;
                 }
                 desc = stringify(source, 0, ", ", false);
-                needTooltip = true;
             } else {
                 desc = item.source;
             }
