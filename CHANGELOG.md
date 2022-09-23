@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.21.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.21.1...2.21.2) (2022-09-23)
+
+
+### Bug Fixes
+
+* greatly improved 5e.tools importer ([5e5df99](https://github.com/valentine195/obsidian-5e-statblocks/commit/5e5df99bd1fae0e77644d0bdceb34fc7b84be76f))
+
 ### [2.21.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.21.0...2.21.1) (2022-09-20)
 
 
