@@ -3388,7 +3388,7 @@ export interface EntrySpellcasting {
         | "ritual"
         | "spells"
     )[];
-    footerEntries?: BestiarySchema[];
+    footerEntries?: string[];
     ability?: "str" | "dex" | "con" | "int" | "wis" | "cha";
     /**
      * Implicitly "trait"
