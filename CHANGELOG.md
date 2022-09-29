@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.21.4](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.21.3...2.21.4) (2022-09-29)
+
+
+### Bug Fixes
+
+* fixes issue where spell links wouldn't parse correctly (close [#94](https://github.com/valentine195/obsidian-5e-statblocks/issues/94)) ([d8a3ca5](https://github.com/valentine195/obsidian-5e-statblocks/commit/d8a3ca508c5eca39ab843391dd05b9e9bbd1453b))
+
 ### [2.21.3](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.21.2...2.21.3) (2022-09-29)
 
 
