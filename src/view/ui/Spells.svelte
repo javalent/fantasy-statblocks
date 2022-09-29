@@ -1,7 +1,8 @@
 <script lang="ts">
     import type { Monster } from "@types";
     import { stringifyYaml } from "obsidian";
-import TextContentHolder from "./TextContentHolder.svelte";
+    import { stringify } from "src/util/util";
+    import TextContentHolder from "./TextContentHolder.svelte";
     import Traits from "./Traits.svelte";
 
     export let render = false;
@@ -10,13 +11,14 @@ import TextContentHolder from "./TextContentHolder.svelte";
         if (/[^a-zA-Z0-9]$/.test(header)) return header;
         return `${header}:`;
     };
-    type SpellBlock = { header: string; spells: Array<string> };
+    type Spell = { level?: string; spells: string };
+    type SpellBlock = { header: string; spells: Array<Spell> };
     let spellBlocks: Array<SpellBlock> = monster.spells.reduce(
         (acc, current) => {
             if (
                 typeof current === "string" &&
                 (current.charAt(current.length - 1) == ":" ||
-                    !(current.includes(":")))
+                    !current.includes(":"))
             ) {
                 const newBlock: SpellBlock = {
                     header: ensureColon(current),
@@ -26,8 +28,19 @@ import TextContentHolder from "./TextContentHolder.svelte";
                 return acc;
             }
             const lastBlock: SpellBlock = acc[acc.length - 1];
-            const spell =
-                typeof current == "string" ? current : stringifyYaml(current);
+            let spell: Spell;
+            if (typeof current == "string") {
+                spell = { spells: current };
+            } else {
+                try {
+                    spell = {
+                        level: Object.keys(current).shift(),
+                        spells: stringify(Object.values(current).shift())
+                    };
+                } catch (e) {
+                    return acc;
+                }
+            }
             if (lastBlock) {
                 lastBlock.spells.push(spell);
             } else {
@@ -52,16 +65,27 @@ import TextContentHolder from "./TextContentHolder.svelte";
         {/if}
         <ul class="spell-list">
             {#each block.spells as spellItem, index}
-                {#if !spellItem.includes(":")}
-                    <span class="spell-line">{spellItem}</span>
+                {#if !spellItem.level}
+                    <span class="spell-line">
+                        <TextContentHolder
+                            {render}
+                            property={spellItem.spells}
+                        />
+                    </span>
                 {:else}
                     <li class="spell-line">
                         <span class="spell-level">
-                            <TextContentHolder {render} property={`${spellItem.split(":").shift()}:`} />
+                            <TextContentHolder
+                                {render}
+                                property={`${spellItem.level}:`}
+                            />
                             <!-- {spellItem.split(":").shift()}: -->
                         </span>
                         <span class="spells">
-                            <TextContentHolder {render} property={spellItem.split(":").pop()} />
+                            <TextContentHolder
+                                {render}
+                                property={spellItem.spells}
+                            />
                             <!-- {spellItem.split(":").pop()} -->
                         </span>
                     </li>

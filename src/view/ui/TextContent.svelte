@@ -2,7 +2,7 @@
     //Note: All final rendered text should be wrapped in this element.
     import { getContext } from "svelte";
 
-    export let textToRender: String;
+    export let textToRender: string;
     /* export let inline: boolean; */
 
     const tryToRenderLinks = getContext<boolean>("tryToRenderLinks");
@@ -48,12 +48,12 @@
     const splitByLinks = (text: String): SplitLink[] => {
         return text
             .trim()
-            .split(/(<STATBLOCK-LINK>.+?<\/STATBLOCK-LINK>)/)
+            .split(/(<STATBLOCK-LINK>[\s\S]+?<\/STATBLOCK-LINK>)/)
             .filter((s) => s && s.length)
             .map((str) => {
-                if (/<STATBLOCK-LINK>(.+?)<\/STATBLOCK-LINK>/.test(str)) {
+                if (/<STATBLOCK-LINK>([\s\S]+?)<\/STATBLOCK-LINK>/.test(str)) {
                     let link = str.match(
-                        /<STATBLOCK-LINK>(.+?)<\/STATBLOCK-LINK>/
+                        /<STATBLOCK-LINK>([\s\S]+?)<\/STATBLOCK-LINK>/
                     )[1];
                     const { href, title, isAlias } = generateLink(link);
 
