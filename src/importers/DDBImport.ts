@@ -2,7 +2,7 @@ import type {
     Character,
     Trait 
 } from "@types";
-import { getMod } from "src/util/util"
+
 const alignmentMap = [
     "Lawful-Good",
     "Neutral-Good", 
@@ -85,9 +85,7 @@ function GetAbilityMod(value: number) {
 }
 
 
-function GetArmorClass(character) {
-    console.log("getting armor");
-    
+function GetArmorClass(character) {    
     let ac;
     const inventory = character.data.inventory;
     //highest ac of equipped armor
@@ -127,9 +125,7 @@ function GetArmorClass(character) {
     return ac;
 }
 
-function GetLevel(character) {
-    console.log("getting level");
-    
+function GetLevel(character) {    
     var level: number = 0;
 
     for (let key in character.data.classes) {        
@@ -139,9 +135,7 @@ function GetLevel(character) {
     return level;
 }
 
-function GetLanguages(character) {
-    console.log("languages");
-    
+function GetLanguages(character) {    
     const modifiers = GetModifiers(character, "language");
     let languages = [];
 
@@ -151,9 +145,7 @@ function GetLanguages(character) {
     return languages;
 }
 
-function GetImmunities(character) {
-    console.log("immunities");
-    
+function GetImmunities(character) {    
     const modifiers = GetModifiers(character, "immunity");
     let immunities = [];
 
@@ -163,26 +155,19 @@ function GetImmunities(character) {
     return immunities;
 }
 
-function GetResistances(character) {
-    console.log("getting resistances");
-    
+function GetResistances(character) {    
     const modifiers = GetModifiers(character, "resistance");
     let resistances = [];
 
     for (const element in modifiers) {
         resistances.push(modifiers[element].friendlySubtypeName);
-        console.log(modifiers[element].friendlySubtypeName);
     }
     return resistances;
 }
 
-function GetVulnerabilities(character) {
-    console.log("getting vulnerabiilties");
-    
+function GetVulnerabilities(character) {    
     const modifiers = GetModifiers(character, "vulnerability");
     let vulnerabilities = [];
-
-    console.log("after get modifiers");
     
     for (const key in modifiers) {
         vulnerabilities.push(modifiers[key].friendlySubtypeName);
@@ -233,9 +218,7 @@ function GetSkills (character) {
     return _skills;
 }
 
-function GetSenses(character) {
-    console.log("senses");
-    
+function GetSenses(character) {    
     const modifiers = GetModifiers(character, "set-base");
     let senses = [];
     let passivePerceptionNum;
@@ -253,9 +236,7 @@ function GetSenses(character) {
     return senses;
 }
 
-function GetProficiencies (character) {
-    console.log("proficiencies");
-    
+function GetProficiencies (character) {    
     const modifiers = GetModifiers(character, "proficiency");
     let proficiencies = [];
 
@@ -285,9 +266,7 @@ function GetTraits (character) {
     for (const element in traitLocations) {
         const traitLocation = traitLocations[element];
         for (const key in traitLocation) {
-            const trait = traitLocation[key].definition;
-            console.log(trait.name);
-            
+            const trait = traitLocation[key].definition;            
             if (
                     !trait.hideInSheet && 
                     trait.name != "Ability Score Improvement" &&
@@ -316,20 +295,14 @@ function GetTraits (character) {
     return traits;
 }
 
-function GetActions (character, proficiency_bonus): Trait[] {
-    console.log("actions");
-    
+function GetActions (character, proficiency_bonus): Trait[] {    
     var actions: Trait[] = [];
     const inventory = character.data.inventory;
     const actionsLocations = [character.data.actions.class, character.data.actions.race, character.data.actions.background, character.data.actions.item, character.data.actions.feat];
 
     actions.push(GetUnarmedStrike(character, proficiency_bonus));
-    for (const element in inventory) {
-        console.log("in first for loop");
-        
+    for (const element in inventory) {        
         const inventoryItem = inventory[element].definition;
-
-        console.log(inventoryItem.name);
         
         if (inventory[element].definition.filterType == "Weapon")
         {
@@ -365,17 +338,10 @@ function GetActions (character, proficiency_bonus): Trait[] {
             const action: Trait = {
                 name: inventoryItem.name,
                 desc: desc.toString()
-            };
-            console.log(action.name + " " + action.desc);
-            
-            
-            actions.push(action);
-            console.log("pushed action to actions");
-            
+            };            
+            actions.push(action);            
         }
     }
-
-    console.log("middle of actio");
     
     for (const element in actionsLocations) {
         const actionsLocationsElement = actionsLocations[element];
@@ -414,9 +380,7 @@ function GetUnarmedStrike (character: any, proficiency_bonus: number) {
     return action;
 }
 
-function GetInventory (character) {
-    console.log("inventory");
-    
+function GetInventory (character) {    
     let items: string[] = [];
     const inventory = character.data.inventory;
 
@@ -425,14 +389,7 @@ function GetInventory (character) {
         item = inventory[element].quantity > 1 ? 
             inventory[element].quantity.toString() + " " :
             "";
-
-      //  const name = 
-        //    inventory[element].definition.name.includes(",") ? 
-          //  inventory[element].definition.name.split(", ")[1] + " " + inventory[element].definition.name.split(",")[0] :
-           // inventory[element].definition.name;
         item += inventory[element].definition.name;
-       // item += inventory[element].quantity > 1 ? "s" : "";
-
         items.push(item);
     }
 
@@ -460,7 +417,6 @@ function GetClasses (character) {
 }
 
 function getHitDice (character, total: boolean) {
-    console.log("getting hit dice");
     let hitDice: string[] = [];
 
     for (const element in character.data.classes) {
@@ -505,48 +461,6 @@ function GetCurrency(character): string[] {
     return currency;
 }
 
-/*
-function ProcessSnippet(trait: any, character: any): Trait {
-    trait.snippet = trait.snippet.replaceAll("scalevalue", trait.dice.diceString);
-    trait.snippet = trait.snippet.replaceAll("(classlevel/2)", TraitClassLevel(trait, character)/2); trait = trait.snippet.replaceAll("classlevel/2", TraitClassLevel(trait, character)/2); trait = trait.snippet.replaceAll("(classlevel", TraitClassLevel(trait, character)); trait = trait.snippet.replaceAll("classlevel", TraitClassLevel(trait, character)); trait = trait.snippet.replaceAll("classlevel", TraitClassLevel(trait, character));
-    trait.snippet = trait.snippet.replaceAll("@roundup", TraitRoundup)
-    trait.snippet = trait.snippet.replaceAll("{{", ""); trait = trait.snippet.replaceAll("}}", "");
-
-    const _trait: Trait = {
-        name: trait.name,
-        desc: trait.snippet
-    }
-    return _trait;
-}
-
-function TraitRoundup (trait: any) {
-    const roundupIndex: number = trait.name.indexOf("@roundup");
-    const name: string = trait.name;
-    let number = "";
-
-    for (let i = roundupIndex; i < 0; i--) {
-        const element = name.charAt(i);
-        if (isNaN(parseInt(element))) {
-            break;
-        }
-        element.toString() + number;
-    }
-
-    return Math.ceil(+number);
-}
-function TraitClassLevel (trait: any, character: any) {
-    for (const element in character.classes) {
-        const characterClass = character.classes[element];
-        for (const key in characterClass.classFeatures) {
-            if (characterClass.classFeatures[key].definition.name == trait.name) {
-                return characterClass.level;
-            }
-        }
-    }
-}
-*/
-
-
 export async function buildMonsterFromDDBFile(
     file: File
 ): Promise<Character[]> {
@@ -555,9 +469,7 @@ export async function buildMonsterFromDDBFile(
         reader.onload = async (event: any) => {
             const importedMonsters: Character[] = [];
             try {
-                const character = JSON.parse(event.target.result);
-                    console.log("Importing " + character.data.name);
-                    
+                const character = JSON.parse(event.target.result);                    
                     const level = GetLevel(character);
                     const proficiency_bonus = Math.floor(2 + (level - 1) / 4);
 
@@ -616,9 +528,7 @@ export async function buildMonsterFromDDBFile(
                         appearance: character.data.traits.appearance,
                         spells: [],
                         source: "D&D Beyond"                
-                    };
-                console.log("ended character import, about to push and resolve");
-                                
+                    };                                
                 importedMonsters.push(importedMonster);
                 
                 resolve(importedMonsters);
@@ -630,3 +540,44 @@ export async function buildMonsterFromDDBFile(
         reader.readAsText(file);
     });
 }
+
+/*
+function ProcessSnippet(trait: any, character: any): Trait {
+    trait.snippet = trait.snippet.replaceAll("scalevalue", trait.dice.diceString);
+    trait.snippet = trait.snippet.replaceAll("(classlevel/2)", TraitClassLevel(trait, character)/2); trait = trait.snippet.replaceAll("classlevel/2", TraitClassLevel(trait, character)/2); trait = trait.snippet.replaceAll("(classlevel", TraitClassLevel(trait, character)); trait = trait.snippet.replaceAll("classlevel", TraitClassLevel(trait, character)); trait = trait.snippet.replaceAll("classlevel", TraitClassLevel(trait, character));
+    trait.snippet = trait.snippet.replaceAll("@roundup", TraitRoundup)
+    trait.snippet = trait.snippet.replaceAll("{{", ""); trait = trait.snippet.replaceAll("}}", "");
+
+    const _trait: Trait = {
+        name: trait.name,
+        desc: trait.snippet
+    }
+    return _trait;
+}
+
+function TraitRoundup (trait: any) {
+    const roundupIndex: number = trait.name.indexOf("@roundup");
+    const name: string = trait.name;
+    let number = "";
+
+    for (let i = roundupIndex; i < 0; i--) {
+        const element = name.charAt(i);
+        if (isNaN(parseInt(element))) {
+            break;
+        }
+        element.toString() + number;
+    }
+
+    return Math.ceil(+number);
+}
+function TraitClassLevel (trait: any, character: any) {
+    for (const element in character.classes) {
+        const characterClass = character.classes[element];
+        for (const key in characterClass.classFeatures) {
+            if (characterClass.classFeatures[key].definition.name == trait.name) {
+                return characterClass.level;
+            }
+        }
+    }
+}
+*/
