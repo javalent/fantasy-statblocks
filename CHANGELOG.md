@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.21.7](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.21.6...2.21.7) (2022-09-30)
+
+
+### Bug Fixes
+
+* removed console logs ([c0b5031](https://github.com/valentine195/obsidian-5e-statblocks/commit/c0b5031700d97f98e13f64cce0801ff73ab9aef9))
+
 ### [2.21.6](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.21.5...2.21.6) (2022-09-30)
 
 
