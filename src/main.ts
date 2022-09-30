@@ -555,7 +555,6 @@ export default class StatBlockPlugin extends Plugin {
                         `"<STATBLOCK-LINK>$1</STATBLOCK-LINK>"`
                     )
                     .replace(/\[\[([^"]+?)\]\]/g, (match, p1) => {
-                        console.log(match, p1);
                         return `<STATBLOCK-LINK>${p1}</STATBLOCK-LINK>`;
                     })
             );
