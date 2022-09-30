@@ -5,6 +5,9 @@
     import type StatBlockRenderer from "../statblock";
 
     export let property: string;
+    property = property
+        .replace(/<STATBLOCK-LINK>/g, "[[")
+        .replace(/<\/STATBLOCK-LINK>/g, "]]");
 
     const context = getContext<string>("context");
     const renderer = getContext<StatBlockRenderer>("renderer");

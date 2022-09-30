@@ -2,9 +2,9 @@
     import type { Monster } from "@types";
     import type { TextItem } from "src/layouts/types";
     import { stringify } from "src/util/util";
-    
+
     import SectionHeading from "./SectionHeading.svelte";
-import TextContentHolder from "./TextContentHolder.svelte";
+    import TextContentHolder from "./TextContentHolder.svelte";
 
     export let monster: Monster;
     export let item: TextItem;
