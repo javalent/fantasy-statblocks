@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.21.5](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.21.4...2.21.5) (2022-09-30)
+
+
+### Bug Fixes
+
+* fixes images in frontmatter (close [#97](https://github.com/valentine195/obsidian-5e-statblocks/issues/97)) ([e19b4e3](https://github.com/valentine195/obsidian-5e-statblocks/commit/e19b4e308953dab49e8af4064ce2e599fe0b6eeb))
+* fixes rendering links in markdown blocks (close [#96](https://github.com/valentine195/obsidian-5e-statblocks/issues/96)) ([2154f2d](https://github.com/valentine195/obsidian-5e-statblocks/commit/2154f2d7f8397e3f01348fde2ea8c81881c43701))
+* images now hover preview, open on click (meta modifier for new window) (close [#93](https://github.com/valentine195/obsidian-5e-statblocks/issues/93)) ([9ede1de](https://github.com/valentine195/obsidian-5e-statblocks/commit/9ede1dedbec01026ff156a364a4d6e88febfc4c7))
+
 ### [2.21.4](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.21.3...2.21.4) (2022-09-29)
 
 
