@@ -3,7 +3,15 @@
     import type { ImageItem } from "src/layouts/types";
     import type StatBlockPlugin from "src/main";
     import { getContext } from "svelte";
-    import type { App, TFile } from "obsidian";
+    import {
+        App,
+        HoverPopover,
+        MarkdownPreviewView,
+        MarkdownView,
+        Platform,
+        TFile,
+        WorkspaceLeaf
+    } from "obsidian";
 
     export let monster: Monster;
     export let item: ImageItem;
@@ -14,6 +22,7 @@
     function parseLink(link: string) {
         return link?.replace(/(\[|\])/g, "");
     }
+    let file: TFile;
     async function getLink(url: string) {
         url = decodeURIComponent(url);
         let link: string;
@@ -24,7 +33,7 @@
                 link = linkpath;
             } else {
                 const [linkpath] = parseLink(url).split("|");
-                let file = plugin.app.metadataCache.getFirstLinkpathDest(
+                file = plugin.app.metadataCache.getFirstLinkpathDest(
                     linkpath,
                     ""
                 );
@@ -57,13 +66,36 @@
         }
     };
     let promise = getImage();
+
+    const modifier = Platform.isMacOS ? "Meta" : "Control";
+    function open(evt: MouseEvent) {
+        if (!file) return;
+        const leaf = plugin.app.workspace.getLeaf(
+            evt.getModifierState(modifier) ? "window" : "split"
+        );
+        leaf.openFile(file);
+    }
+    function popover(evt: MouseEvent & { currentTarget: HTMLDivElement }) {
+        plugin.app.workspace.trigger(
+            "link-hover",
+            {},
+            evt.currentTarget,
+            file.path,
+            context
+        );
+    }
 </script>
 
 {#each item.properties as property}
     {#if property in monster}
         {#await promise then image}
             {#if image}
-                <div class="image">
+                <div
+                    class="image"
+                    class:pointer={file != null}
+                    on:click={(evt) => open(evt)}
+                    on:mouseenter={(evt) => popover(evt)}
+                >
                     <img src={image} alt={monster.name} />
                 </div>
             {/if}
@@ -75,6 +107,9 @@
     .image {
         width: 75px;
         height: 75px;
+    }
+    .image.pointer {
+        cursor: pointer;
     }
     img {
         object-fit: cover;
