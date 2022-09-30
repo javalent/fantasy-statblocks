@@ -550,9 +550,9 @@ export default class StatBlockPlugin extends Plugin {
             el.parentElement?.addClass("statblock-plugin-parent");
 
             const toBuildWithLinksReplaced = JSON.parse(
-                JSON.stringify(toBuild).replaceAll(
-                    /\[\[(.+?)\]\]/g,
-                    `<STATBLOCK-LINK>$1</STATBLOCK-LINK>`
+                JSON.stringify(toBuild).replace(
+                    /\[\["?(.+?)"?\]\]/g,
+                    `"<STATBLOCK-LINK>$1</STATBLOCK-LINK>"`
                 )
             );
 

@@ -26,23 +26,24 @@
     async function getLink(url: string) {
         url = decodeURIComponent(url);
         let link: string;
-        try {
-            if (/https?:/.test(url)) {
-                //url
-                const [linkpath] = parseLink(url).split("|");
-                link = linkpath;
-            } else {
-                const [linkpath] = parseLink(url).split("|");
-                file = plugin.app.metadataCache.getFirstLinkpathDest(
-                    linkpath,
-                    ""
-                );
-                if (!file) throw new Error();
-                link = plugin.app.vault.getResourcePath(file);
-            }
-        } catch (e) {
-            console.error(e);
+        /* try { */
+        if (/https?:/.test(url)) {
+            //url
+            const [linkpath] = parseLink(url).split("|");
+            link = linkpath;
+        } else {
+            const [linkpath] = parseLink(url).split("|");
+
+            file = plugin.app.metadataCache.getFirstLinkpathDest(
+                linkpath.replace(/<\/?STATBLOCK-LINK>/g, ""),
+                context
+            );
+            if (!file) throw new Error();
+            link = plugin.app.vault.getResourcePath(file);
         }
+        /*  } catch (e) {
+            console.error(e);
+        } */
         return link;
     }
     const getImage = async (): Promise<string> => {
