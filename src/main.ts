@@ -548,12 +548,16 @@ export default class StatBlockPlugin extends Plugin {
 
             el.addClass("statblock-plugin-container");
             el.parentElement?.addClass("statblock-plugin-parent");
-
             const toBuildWithLinksReplaced = JSON.parse(
-                JSON.stringify(toBuild).replace(
-                    /\[\["?(.+?)"?\]\]/g,
-                    `"<STATBLOCK-LINK>$1</STATBLOCK-LINK>"`
-                )
+                JSON.stringify(toBuild)
+                    .replace(
+                        /\[\["(.+?)"\]\]/g,
+                        `"<STATBLOCK-LINK>$1</STATBLOCK-LINK>"`
+                    )
+                    .replace(/\[\[([^"]+?)\]\]/g, (match, p1) => {
+                        console.log(match, p1);
+                        return `<STATBLOCK-LINK>${p1}</STATBLOCK-LINK>`;
+                    })
             );
 
             let statblock = new StatBlockRenderer(
