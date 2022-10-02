@@ -82,17 +82,21 @@ export function transformTraits(
     for (const trait of paramsTraits ?? []) {
         if (!trait) continue;
         if (Array.isArray(trait)) {
-            monsterTraits = monsterTraits.filter((t) => t.name != trait[0]);
+            let desc = stringifyWithKeys(trait.slice(1));
+            monsterTraits = monsterTraits.filter(
+                (t) => t.name != trait[0] && t.desc != desc
+            );
             monsterTraits.push({
                 name: trait[0],
-                desc: stringifyWithKeys(trait.slice(1))
+                desc
             });
         } else if (
             typeof trait == "object" &&
-            "name" in trait &&
-            "desc" in trait
+            ("name" in trait || "desc" in trait)
         ) {
-            monsterTraits = monsterTraits.filter((t) => t.name != trait.name);
+            monsterTraits = monsterTraits.filter(
+                (t) => t.name != trait.name || t.desc != trait.desc
+            );
             monsterTraits.push({
                 name: trait.name,
                 desc: stringifyWithKeys(trait.desc)
