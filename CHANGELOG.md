@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.21.8](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.21.7...2.21.8) (2022-10-02)
+
+
+### Bug Fixes
+
+* fixes issue where traits were incorrectly being filtered out ([8a0823d](https://github.com/valentine195/obsidian-5e-statblocks/commit/8a0823d383520a6d870007bb2711e1270b228495))
+
 ### [2.21.7](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.21.6...2.21.7) (2022-09-30)
 
 
