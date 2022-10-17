@@ -557,6 +557,12 @@ export default class StatBlockPlugin extends Plugin {
                     .replace(/\[\[([^"]+?)\]\]/g, (match, p1) => {
                         return `<STATBLOCK-LINK>${p1}</STATBLOCK-LINK>`;
                     })
+                    .replace(/\[([^"]*?)\]\(([^"]+?)\)/g, (s, alias: string, path: string) => {
+                        if (alias.length) {
+                            return `<STATBLOCK-LINK>${path}|${alias}</STATBLOCK-LINK>`;
+                        }
+                        return `<STATBLOCK-LINK>${path}</STATBLOCK-LINK>`;
+                    })
             );
 
             let statblock = new StatBlockRenderer(
