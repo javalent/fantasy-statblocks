@@ -186,7 +186,8 @@
                     new SectionHeading({
                         target,
                         props: {
-                            header: item.heading
+                            monster,
+                            item
                         },
                         context
                     });

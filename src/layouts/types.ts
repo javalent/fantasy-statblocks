@@ -91,6 +91,7 @@ type TableProps = {
 type TraitsProps = {
     type: "traits";
     heading?: string;
+    headingProp?: boolean;
 };
 type ImageProps = {
     type: "image";
@@ -99,6 +100,7 @@ type ImageProps = {
 type TextProps = {
     type: "text";
     heading?: string;
+    headingProp?: boolean;
     text: string;
 };
 

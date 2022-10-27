@@ -97,9 +97,24 @@ export class BlockModal extends Modal {
             }
             if (this.block.type == "traits" || this.block.type == "text") {
                 new Setting(this.contentEl)
+                    .setName("Use Monster Property for Heading")
+                    .setDesc(
+                        "The Section heading will be set to the value of the specified property."
+                    )
+                    .addToggle((t) => {
+                        t.setValue(
+                            (this.block as TraitsItem).headingProp
+                        ).onChange((v) => {
+                            (this.block as TraitsItem).headingProp = v;
+                            this.display();
+                        });
+                    });
+                new Setting(this.contentEl)
                     .setName("Section Heading")
                     .setDesc(
-                        "This text will be used for the section heading. Can be left blank."
+                        this.block.headingProp
+                            ? "The section will use this property for the section heading. If the property does not exist or is blank, the section heading will not appear."
+                            : "This text will be used for the section heading. Can be left blank."
                     )
                     .addText((t) => {
                         t.setValue((this.block as TraitsItem).heading).onChange(
@@ -240,12 +255,14 @@ export class BlockModal extends Modal {
                             e.createEl("br");
                             e.createSpan({ text: "Variable " });
                             e.createEl("code", { text: "stat" });
-                            e.createSpan({ text: "is accessible, use this to calculate the modifier." });
+                            e.createSpan({
+                                text: "is accessible, use this to calculate the modifier."
+                            });
                         })
                     );
                 new TextAreaComponent(el)
                     .setValue(this.block.modifier)
-                    .onChange((v) => {                        
+                    .onChange((v) => {
                         (this.block as TableItem).modifier = v;
                     });
             }
@@ -253,18 +270,22 @@ export class BlockModal extends Modal {
     }
     buildSeparator(el: HTMLDivElement) {
         el.empty();
-        
+
         if (this.block.type == "subheading") {
             new Setting(el)
                 .setName("Separator")
                 .setDesc("Text separating properties")
                 .addText((t) => {
-                    if (!this.block.separator) {
-                        this.block.separator = " ";
+                    if (this.block.type == "subheading") {
+                        if (!this.block.separator) {
+                            this.block.separator = " ";
+                        }
+                        t.setValue(this.block.separator).onChange((v) => {
+                            if (this.block.type == "subheading") {
+                                this.block.separator = v;
+                            }
+                        });
                     }
-                    t.setValue(this.block.separator).onChange((v) => {
-                        this.block.separator = v;
-                    });
                 });
         }
     }

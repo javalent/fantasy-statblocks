@@ -1,12 +1,29 @@
 <script lang="ts">
+    import type { Monster } from "@types";
+    import type { TextItem, TraitsItem } from "src/layouts/types";
+    import { stringify } from "src/util/util";
     import TextContent from "./TextContent.svelte";
 
-    export let header: string;
+    export let monster: Monster;
+    export let item: TraitsItem | TextItem;
+
+    let header: string;
+
+    if (item.headingProp) {
+        if (item.heading in monster) {
+            let monsterProp = stringify(monster[item.heading as keyof Monster]);
+            if (monsterProp.length) header = monsterProp;
+        }
+    } else if (item.heading?.length) {
+        header = item.heading;
+    }
 </script>
 
-<h3 class="section-header">
-    <TextContent textToRender={header} />
-</h3>
+{#if header && header.length}
+    <h3 class="section-header">
+        <TextContent textToRender={header} />
+    </h3>
+{/if}
 
 <style>
     .section-header {

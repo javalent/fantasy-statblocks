@@ -21,7 +21,7 @@
 
 {#if !item.conditioned || (item.conditioned && `${property}`.length)}
     {#if item.heading}
-        <SectionHeading header={item.heading} />
+        <SectionHeading {item} {monster} />
     {/if}
     <div class="line">
         <TextContentHolder render={item.markdown} {property} />
