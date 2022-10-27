@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.22.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.21.9...2.22.0) (2022-10-27)
+
+
+### Features
+
+* can now link trait & text block headers to properties ([3c427dc](https://github.com/valentine195/obsidian-5e-statblocks/commit/3c427dc1c97dac08dcebbd6710fe21c0001bf125))
+
 ### [2.21.9](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.21.8...2.21.9) (2022-10-20)
 
 ### [2.21.8](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.21.7...2.21.8) (2022-10-02)
