@@ -184,6 +184,9 @@ export class Watcher extends Component {
         this.announce = announce;
         this.startTime = Date.now();
         console.info("TTRPG Statblocks: Starting Frontmatter Parsing.");
+        if (!this.plugin.settings.paths?.length) {
+            this.plugin.settings.paths = ["/"];
+        }
         let isParsing = false;
         for (const path of this.plugin.settings.paths) {
             const folder = this.vault.getAbstractFileByPath(path);
@@ -262,16 +265,7 @@ export class Watcher extends Component {
             this.plugin.deleteMonster(monster, false, false);
         }
 
-        let isParsing = false;
-        for (const path of this.plugin.settings.paths) {
-            const folder = this.vault.getAbstractFileByPath(path);
-            if (!folder) continue;
-            isParsing = true;
-            this.parsePath(folder);
-        }
-        if (!isParsing) {
-            this.save();
-        }
+        this.start(false);
     }
     onunload() {
         this.worker.terminate();
