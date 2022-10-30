@@ -115,7 +115,7 @@ class Suggester<T> {
 
         this.selectedItem = nIndex;
 
-        if (scroll) {
+        if (scroll && next) {
             next.scrollIntoView(false);
         }
     }

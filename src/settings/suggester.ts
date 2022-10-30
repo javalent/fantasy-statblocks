@@ -11,6 +11,7 @@ import {
     TextComponent
 } from "obsidian";
 import type StatBlockPlugin from "src/main";
+import { stringify } from "src/util/util";
 import StatBlockRenderer from "src/view/statblock";
 import { EditMonsterModal } from "./modal";
 
@@ -116,7 +117,7 @@ class Suggester<T> {
 
         this.selectedItem = nIndex;
 
-        if (scroll) {
+        if (scroll && next) {
             next.scrollIntoView(false);
         }
     }
@@ -263,9 +264,19 @@ export class MonsterSuggester extends SuggestionModal<Monster> {
             ) {
                 let match = matches.matches.find((m) => m[0] === i);
                 if (match) {
+                    let desc: string;
+                    if (Array.isArray(item.source)) {
+                        let source = item.source.slice(0, 4);
+                        if (item.source.length > 4) {
+                            source.push(`and ${item.source.length - 4} more`);
+                        }
+                        desc = stringify(source, 0, ", ", false);
+                    } else {
+                        desc = item.source;
+                    }
                     content.descEl.createSpan({
                         cls: "suggestion-highlight",
-                        text: item.source.substring(
+                        text: desc.substring(
                             match[0] - item.name.length,
                             match[1] - item.name.length
                         )
