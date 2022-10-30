@@ -138,22 +138,7 @@ export class Watcher extends Component {
             "message",
             async (evt: MessageEvent<SaveMessage>) => {
                 if (evt.data.type == "save") {
-                    await this.plugin.saveSettings();
-                    if (this.startTime) {
-                        console.info(
-                            `TTRPG Statblocks: Frontmatter Parsing Complete in ${(
-                                (Date.now() - this.startTime) /
-                                1000
-                            ).toLocaleString()} seconds.`
-                        );
-                        this.startTime = 0;
-                    }
-                    if (this.announce) {
-                        new Notice(
-                            "TTRPG Statblocks: Frontmatter Parsing complete."
-                        );
-                        this.announce = false;
-                    }
+                    await this.save();
                 }
             }
         );
@@ -172,6 +157,22 @@ export class Watcher extends Component {
             this.start();
         });
     }
+    async save() {
+        await this.plugin.saveSettings();
+        if (this.startTime) {
+            console.info(
+                `TTRPG Statblocks: Frontmatter Parsing Complete in ${(
+                    (Date.now() - this.startTime) /
+                    1000
+                ).toLocaleString()} seconds.`
+            );
+            this.startTime = 0;
+        }
+        if (this.announce) {
+            new Notice("TTRPG Statblocks: Frontmatter Parsing complete.");
+            this.announce = false;
+        }
+    }
     async delete(path: string) {
         await this.plugin.deleteMonster(this.watchPaths.get(path));
         this.watchPaths.delete(path);
@@ -183,9 +184,15 @@ export class Watcher extends Component {
         this.announce = announce;
         this.startTime = Date.now();
         console.info("TTRPG Statblocks: Starting Frontmatter Parsing.");
+        let isParsing = false;
         for (const path of this.plugin.settings.paths) {
             const folder = this.vault.getAbstractFileByPath(path);
+            if (!folder) continue;
+            isParsing = true;
             this.parsePath(folder);
+        }
+        if (!isParsing) {
+            this.save();
         }
     }
     pathContainsFile(file: TAbstractFile) {
@@ -255,9 +262,15 @@ export class Watcher extends Component {
             this.plugin.deleteMonster(monster, false, false);
         }
 
+        let isParsing = false;
         for (const path of this.plugin.settings.paths) {
             const folder = this.vault.getAbstractFileByPath(path);
+            if (!folder) continue;
+            isParsing = true;
             this.parsePath(folder);
+        }
+        if (!isParsing) {
+            this.save();
         }
     }
     onunload() {
