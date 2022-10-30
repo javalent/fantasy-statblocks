@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.22.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.22.0...2.22.1) (2022-10-30)
+
+
+### Bug Fixes
+
+* checks to make sure next exists before trying to scroll in suggesters ([49820f1](https://github.com/valentine195/obsidian-5e-statblocks/commit/49820f1adfeaefe510084fa9b23d4a7df60b4d19))
+* improves vault path parsing logic ([f1f8aa5](https://github.com/valentine195/obsidian-5e-statblocks/commit/f1f8aa58d789b5abb08582b131136cd0f9b0106e))
+* skip invalid parse folders ([fe55bb4](https://github.com/valentine195/obsidian-5e-statblocks/commit/fe55bb4b096987a675787f34416532fcc3d8bfc9))
+
 ## [2.22.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.21.9...2.22.0) (2022-10-27)
 
 
