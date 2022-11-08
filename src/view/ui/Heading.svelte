@@ -12,9 +12,7 @@
     {#each item.properties as property}
         {#if property in monster}
             <div class="heading">
-                <TextContent
-                    textToRender={stringify(monster[property])}
-                />
+                <TextContent textToRender={stringify(monster[property])} />
             </div>
         {/if}
     {/each}
@@ -27,15 +25,13 @@
         align-items: center;
     }
     .heading {
-        font-family: "Libre Baskerville", "Lora", "Calisto MT",
-            "Bookman Old Style", Bookman, "Goudy Old Style", Garamond,
-            "Hoefler Text", "Bitstream Charter", Georgia, serif;
+        font-family: var(--statblock-heading-font);
         color: var(--statblock-primary-color);
-        font-weight: 700;
+        font-weight: var(--statblock-heading-font-weight);
         margin: 0px;
-        font-size: 23px;
+        font-size: var(--statblock-heading-font-size);
         letter-spacing: 1px;
-        font-variant: small-caps;
+        font-variant: var(--statblock-heading-font-variant);
         display: flex;
         justify-content: space-between;
         align-items: center;

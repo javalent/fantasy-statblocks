@@ -97,6 +97,6 @@
 
 <style>
     .spell-line .spells {
-        font-style: italic;
+        font-style: var(--statblock-spells-font-style);
     }
 </style>

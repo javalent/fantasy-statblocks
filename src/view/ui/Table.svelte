@@ -44,7 +44,7 @@
 
 <style>
     .statblock-table-header {
-        font-weight: bold;
+        font-weight: var(--statblock-table-header-font-weight);
     }
     .table {
         display: flex;

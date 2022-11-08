@@ -23,7 +23,7 @@
         margin: 0;
         margin-right: 0.25em;
         display: inline;
-        font-weight: bold;
-        font-style: italic;
+        font-weight: var(--statblock-traits-font-weight);
+        font-style: var(--statblock-traits-font-style);
     }
 </style>

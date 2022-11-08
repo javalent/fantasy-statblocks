@@ -47,7 +47,7 @@
     .line {
         line-height: 1.4;
         display: block;
-        color: var(--statblock-primary-color);
+        color: var(--statblock-font-color);
     }
     .property-name {
         margin: 0;

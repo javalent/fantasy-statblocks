@@ -106,8 +106,8 @@
 
 <style>
     .image {
-        width: 75px;
-        height: 75px;
+        width: var(--statblock-image-width);
+        height: var(--statblock-image-height);
     }
     .image.pointer {
         cursor: pointer;
@@ -117,7 +117,7 @@
         width: 100%;
         height: 100%;
         border-radius: 100%;
-        border: 2px solid var(--statblock-primary-color);
+        border: var(--statblock-image-border-size) solid var(--statblock-image-border-color);
         object-position: center;
     }
 </style>

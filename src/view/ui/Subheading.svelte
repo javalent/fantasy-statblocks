@@ -17,17 +17,15 @@
 
 {#if subheading.length}
     <div class="subheading">
-        <TextContent
-            textToRender={subheading.join(item.separator ?? " ")}
-        />
+        <TextContent textToRender={subheading.join(item.separator ?? " ")} />
     </div>
 {/if}
 
 <style>
     .subheading {
-        font-weight: normal;
-        font-style: italic;
-        font-size: 12px;
+        font-weight: var(--statblock-subheading-font-weight);
+        font-style: var(--statblock-subheading-font-style);
+        font-size: var(--statblock-subheading-font-size);
         margin: 0;
     }
 </style>

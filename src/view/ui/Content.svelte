@@ -305,14 +305,15 @@
 
 <style>
     .statblock-content {
-        font-family: "Noto Sans", "Myriad Pro", Calibri, Helvetica, Arial,
-            sans-serif;
-        font-size: 14px;
-        color: var(--statblock-primary-color);
+        font-family: var(--statblock-content-font);
+        font-size: var(--statblock-content-font-size);
+        color: var(--statblock-font-color);
         background-color: var(--statblock-background-color);
         padding: 0.5em;
-        border: 1px #ddd solid;
-        box-shadow: 0 0 1.5em #ddd;
+        border: var(--statblock-border-size) var(--statblock-border-color) solid;
+        box-shadow: var(--statblock-box-shadow-x-offset)
+            var(--statblock-box-shadow-y-offset)
+            var(--statblock-box-shadow-blur) var(--statblock-box-shadow-color);
         margin-left: 2px;
         margin-right: 2px;
         display: flex;
