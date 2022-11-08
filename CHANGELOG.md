@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.22.3](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.22.2...2.22.3) (2022-11-08)
+
+
+### Bug Fixes
+
+* adds several css variables ([477cfdb](https://github.com/valentine195/obsidian-5e-statblocks/commit/477cfdb18850dfed2d7ee2de692b9f2db4516b4c))
+
 ### [2.22.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.22.0...2.22.1) (2022-10-30)
 
 
