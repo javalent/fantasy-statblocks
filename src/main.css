@@ -27,6 +27,7 @@
     --statblock-heading-font: "Libre Baskerville", "Lora", "Calisto MT",
         "Bookman Old Style", Bookman, "Goudy Old Style", Garamond,
         "Hoefler Text", "Bitstream Charter", Georgia, serif;
+    --statblock-heading-font-color: var(--statblock-font-color);
     --statblock-heading-font-size: 23px;
     --statblock-heading-font-variant: small-caps;
     --statblock-heading-font-weight: var(--statblock-font-weight);

@@ -26,7 +26,7 @@
     }
     .heading {
         font-family: var(--statblock-heading-font);
-        color: var(--statblock-primary-color);
+        color: var(--statblock-heading-font-color);
         font-weight: var(--statblock-heading-font-weight);
         margin: 0px;
         font-size: var(--statblock-heading-font-size);
