@@ -98,7 +98,7 @@
     const iconsEl = (node: HTMLElement) => {
         new ExtraButtonComponent(node).setIcon("vertical-three-dots");
     };
-    const menu = new Menu(plugin.app);
+    const menu = new Menu();
     menu.addItem((item) =>
         item
             .setIcon(SAVE_SYMBOL)
