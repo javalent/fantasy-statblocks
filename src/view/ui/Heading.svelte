@@ -35,5 +35,6 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        line-height: var(--statblock-heading-line-height);
     }
 </style>

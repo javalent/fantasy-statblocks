@@ -1,8 +1,11 @@
 :root {
     --statblock-primary-color: #7a200d;
     --statblock-rule-color: #922610;
-    --statblock-bar-color: #e69a28;
     --statblock-background-color: #fdf1dc;
+
+    --statblock-bar-color: #e69a28;
+    --statblock-bar-border-size: 1px;
+    --statblock-bar-border-color: #000;
 
     --statblock-image-width: 75px;
     --statblock-image-height: 75px;
@@ -31,6 +34,12 @@
     --statblock-heading-font-size: 23px;
     --statblock-heading-font-variant: small-caps;
     --statblock-heading-font-weight: var(--statblock-font-weight);
+    --statblock-heading-line-height: inherit;
+
+    --statblock-property-line-height: 1.4;
+    --statblock-property-font-color: var(--statblock-font-color);
+    --statblock-property-name-font-color: var(--statblock-font-color);
+    --statblock-property-name-font-weight: bold;
 
     --statblock-section-heading-border-size: 1px;
     --statblock-section-heading-border-color: var(--statblock-primary-color);
@@ -38,6 +47,8 @@
     --statblock-section-heading-font-size: 21px;
     --statblock-section-heading-font-variant: small-caps;
     --statblock-section-heading-font-weight: normal;
+
+    --statblock-saves-line-height: 1.4;
 
     --statblock-spells-font-style: italic;
 

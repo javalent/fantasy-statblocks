@@ -43,14 +43,15 @@
 
 <style>
     .line {
-        line-height: 1.4;
+        line-height: var(--statblock-property-line-height);
         display: block;
-        color: var(--statblock-font-color);
+        color: var(--statblock-property-font-color);
     }
     .property-name {
         margin: 0;
         margin-right: 0.25em;
         display: inline;
-        font-weight: bold;
+        color: var(--statblock-property-name-font-color);
+        font-weight: var(--statblock-property-name-font-weight);
     }
 </style>

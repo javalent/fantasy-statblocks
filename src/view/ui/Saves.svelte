@@ -45,7 +45,7 @@
 
 <style>
     .line {
-        line-height: 1.4;
+        line-height: var(--statblock-saves-line-height);
         display: block;
         color: var(--statblock-font-color);
     }
