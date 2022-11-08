@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.22.4](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.22.3...2.22.4) (2022-11-08)
+
+
+### Bug Fixes
+
+* adds heading font color variable ([35965f7](https://github.com/valentine195/obsidian-5e-statblocks/commit/35965f77eea65a5606af92fdc3b845849ce77bf8))
+
 ### [2.22.3](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.22.2...2.22.3) (2022-11-08)
 
 
