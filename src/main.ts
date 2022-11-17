@@ -557,12 +557,15 @@ export default class StatBlockPlugin extends Plugin {
                     .replace(/\[\[([^"]+?)\]\]/g, (match, p1) => {
                         return `<STATBLOCK-LINK>${p1}</STATBLOCK-LINK>`;
                     })
-                    .replace(/\[([^"]*?)\]\(([^"]+?)\)/g, (s, alias: string, path: string) => {
-                        if (alias.length) {
-                            return `<STATBLOCK-LINK>${path}|${alias}</STATBLOCK-LINK>`;
+                    .replace(
+                        /\[([^"]*?)\]\(([^"]+?)\)/g,
+                        (s, alias: string, path: string) => {
+                            if (alias.length) {
+                                return `<STATBLOCK-LINK>${path}|${alias}</STATBLOCK-LINK>`;
+                            }
+                            return `<STATBLOCK-LINK>${path}</STATBLOCK-LINK>`;
                         }
-                        return `<STATBLOCK-LINK>${path}</STATBLOCK-LINK>`;
-                    })
+                    )
             );
 
             let statblock = new StatBlockRenderer(
@@ -597,12 +600,37 @@ ${e.stack
         if (display) {
             monster.name = display;
         }
+        const toBuildWithLinksReplaced = JSON.parse(
+            JSON.stringify(monster)
+                .replace(
+                    /\[\["(.+?)"\]\]/g,
+                    `"<STATBLOCK-LINK>$1</STATBLOCK-LINK>"`
+                )
+                .replace(/\[\[([^"]+?)\]\]/g, (match, p1) => {
+                    return `<STATBLOCK-LINK>${p1}</STATBLOCK-LINK>`;
+                })
+                .replace(
+                    /\[([^"]*?)\]\(([^"]+?)\)/g,
+                    (s, alias: string, path: string) => {
+                        if (alias.length) {
+                            return `<STATBLOCK-LINK>${path}|${alias}</STATBLOCK-LINK>`;
+                        }
+                        return `<STATBLOCK-LINK>${path}</STATBLOCK-LINK>`;
+                    }
+                )
+        );
         return new StatBlockRenderer(
             el,
-            monster,
+            toBuildWithLinksReplaced,
             this,
             false,
             "",
+            this.getLayoutOrDefault(monster)
+        );
+    }
+    getLayoutOrDefault(monster: Monster): Layout {
+        return (
+            this.settings.layouts.find((l) => l.name == monster?.layout) ??
             this.defaultLayout
         );
     }
