@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.23.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.22.6...2.23.0) (2022-11-23)
+
+
+### Features
+
+* adds `extends` parameter (close [#111](https://github.com/valentine195/obsidian-5e-statblocks/issues/111)) ([8e8c63e](https://github.com/valentine195/obsidian-5e-statblocks/commit/8e8c63e6d57b4a182fd2123100cdb42331e1aa48))
+
 ### [2.22.6](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.22.5...2.22.6) (2022-11-17)
 
 
