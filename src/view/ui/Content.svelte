@@ -134,6 +134,7 @@
             }
             case "spells": {
                 const blocks: Trait[] = monster[item.properties[0]] as Trait[];
+
                 if (!Array.isArray(blocks) || !blocks.length) return;
 
                 new Spells({

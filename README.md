@@ -125,6 +125,30 @@ name: Paarthurnax
 
 <img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/override.PNG">
 
+## Extending
+
+The `extends` key can be used to extend *extend* an existing creature, similar to the `monster` key shown in Overriding Fields. The difference is the resulting monster is not combined; it maintains a link to the base creature. This allows you to, for example, create a named version of a Goblin; any changes to the base Goblin will propagate to the extension.
+
+This key supports a single creature name or an array of creatures. Fields from creatures specified later will take precedence, with any fields directly defined in the statblock taking final precedence.
+
+This field is also fully recursive; extending a creature that extends another creature will cascade these extensions all the way through.
+
+````
+```statblock
+name: Paarthurnax
+extends: Ancient Black Dragon
+```
+````
+
+````
+```statblock
+name: Extended Paarthurnax
+extends:
+- Paarthurnax
+- Goblin
+```
+````
+
 ## Traits
 
 Traits, as well as Actions, Reactions and Legendary Actions, should be added by specifying a name and description (desc):

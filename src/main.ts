@@ -17,7 +17,7 @@ import {
     SAVE_ICON,
     SAVE_SYMBOL
 } from "./data/constants";
-import type { Monster, StatblockParameters } from "@types";
+import type { Monster, StatblockParameters, Trait } from "@types";
 import StatblockSettingTab from "./settings/settings";
 import fastCopy from "fast-copy";
 
@@ -477,35 +477,24 @@ export default class StatBlockPlugin extends Plugin {
                 this.bestiary.get(params.monster) ??
                     this.bestiary.get(params.creature)
             );
-            //TODO: The traits are breaking because it expects { name, desc }, not array.
-            if (monster) {
-                let traits = transformTraits(
-                    monster.traits ?? [],
-                    params.traits ?? []
-                );
-                let actions = transformTraits(
-                    monster.actions ?? [],
-                    params.actions ?? []
-                );
-                let bonus_actions = transformTraits(
-                    monster.bonus_actions ?? [],
-                    params.bonus_actions ?? []
-                );
-                let legendary_actions = transformTraits(
-                    monster.legendary_actions ?? [],
-                    params.legendary_actions ?? []
-                );
-                let reactions = transformTraits(
-                    monster.reactions ?? [],
-                    params.reactions ?? []
-                );
 
+            let layout =
+                this.settings.layouts.find(
+                    (layout) =>
+                        layout.name == (params.layout ?? monster.layout) ||
+                        layout.name == (params.statblock ?? monster.statblock)
+                ) ?? this.defaultLayout;
+
+            let TraitBlocks = layout.blocks
+                .filter((b) => b.type == "traits")
+                .flatMap((p) => p.properties);
+            for (const trait of TraitBlocks) {
+                let traits = transformTraits(
+                    (monster[trait] as Trait[]) ?? [],
+                    (params[trait] as Trait[]) ?? []
+                );
                 Object.assign(params, {
-                    traits,
-                    actions,
-                    bonus_actions,
-                    reactions,
-                    legendary_actions
+                    [trait]: traits
                 });
             }
 
@@ -533,18 +522,23 @@ export default class StatBlockPlugin extends Plugin {
                     Object.fromEntries([a])
                 );
             }
+
+            //combine extensions
+
+            if (
+                params.extends &&
+                params.extends.length &&
+                monster.extends &&
+                monster.extends.length
+            ) {
+                params.extends = [monster.extends, params.extends].flat();
+            }
+
             const toBuild: Monster = Object.assign(
                 {},
                 monster ?? {},
                 params ?? {}
             );
-
-            let layout =
-                this.settings.layouts.find(
-                    (layout) =>
-                        layout.name == toBuild?.layout ||
-                        layout.name == toBuild?.statblock
-                ) ?? this.defaultLayout;
 
             el.addClass("statblock-plugin-container");
             el.parentElement?.addClass("statblock-plugin-parent");

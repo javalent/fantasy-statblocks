@@ -78,7 +78,9 @@ export function transformTraits(
     paramsTraits: { desc: string; name: string }[] | [string, string][] = []
 ) {
     if (!monsterTraits) monsterTraits = [];
+    if (!Array.isArray(monsterTraits)) monsterTraits = [monsterTraits];
     if (!paramsTraits) paramsTraits = [];
+    if (!Array.isArray(paramsTraits)) paramsTraits = [paramsTraits];
     for (const trait of paramsTraits ?? []) {
         if (!trait) continue;
         if (Array.isArray(trait)) {

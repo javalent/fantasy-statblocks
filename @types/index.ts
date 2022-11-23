@@ -55,8 +55,6 @@ export interface Monster {
     legendary_actions?: Trait[];
     reactions?: Trait[];
     lair_actions?: Trait[];
-    monster?: string;
-    creature?: string;
     source?: string | string[];
     spellsNotes?: string;
 
@@ -84,6 +82,12 @@ export interface Monster {
 
     note?: string;
     mtime?: number;
+
+    /* Extensions */
+
+    monster?: string;
+    creature?: string;
+    extends?: string | string[];
 }
 
 export interface StatblockParameters

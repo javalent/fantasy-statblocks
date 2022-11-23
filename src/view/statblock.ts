@@ -1,13 +1,14 @@
 import { App, ButtonComponent, Modal } from "obsidian";
 import { Layout5e } from "src/layouts/basic5e";
 import { MarkdownRenderChild } from "obsidian";
-import type { Monster } from "@types";
+import type { Monster, Trait } from "@types";
 
 import Statblock from "./Statblock.svelte";
 import type StatBlockPlugin from "src/main";
 
 import fastCopy from "fast-copy";
 import type { Layout } from "src/layouts/types";
+import { transformTraits } from "src/util/util";
 
 export default class StatBlockRenderer extends MarkdownRenderChild {
     topBar: HTMLDivElement;
@@ -18,10 +19,10 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
     constructor(
         container: HTMLElement,
         monster: Monster,
-        plugin: StatBlockPlugin,
+        public plugin: StatBlockPlugin,
         canSave: boolean,
         context: string,
-        layout: Layout = Layout5e
+        public layout: Layout = Layout5e
     ) {
         super(container);
 
@@ -29,7 +30,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             target: this.containerEl,
             props: {
                 context,
-                monster,
+                monster: this.transform(monster),
                 statblock: layout.blocks,
                 layout: layout.name,
                 plugin,
@@ -59,6 +60,52 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 this.containerEl.firstElementChild
             );
         });
+    }
+    transform(monster: Monster): Monster {
+        if (
+            !("extends" in monster) ||
+            !(
+                Array.isArray(monster.extends) ||
+                typeof monster.extends == "string"
+            ) ||
+            !monster.extends.length
+        ) {
+            return monster;
+        }
+
+        const extensions = this.getExtensions(monster);
+
+        let TraitBlocks = this.layout.blocks
+            .filter((b) => b.type == "traits")
+            .flatMap((p) => p.properties);
+        const traitsHolder = {};
+        for (const trait of TraitBlocks) {
+            let traitArray: Trait[] = [];
+            for (const m of [...extensions]) {
+                traitArray = transformTraits(
+                    traitArray,
+                    (m[trait] as Trait[]) ?? []
+                );
+            }
+            Object.assign(traitsHolder, {
+                [trait]: traitArray
+            });
+        }
+        const ret = Object.assign({}, ...extensions, monster, traitsHolder);
+
+        return ret;
+    }
+    getExtensions(monster: Monster): Monster[] {
+        let extensions: Monster[] = [fastCopy(monster)];
+        if (monster.extends && monster.extends.length) {
+            for (const extension of [monster.extends].flat()) {
+                const extensionMonster = this.plugin.bestiary.get(extension);
+                if (!extensionMonster) continue;
+                extensions.push(...this.getExtensions(extensionMonster));
+            }
+        }
+
+        return extensions;
     }
 }
 

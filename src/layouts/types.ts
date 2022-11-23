@@ -80,7 +80,7 @@ type SpellsProps = {
 };
 type SubHeadingProps = {
     type: "subheading";
-    separator: string;
+    separator?: string;
 };
 type TableProps = {
     type: "table";
