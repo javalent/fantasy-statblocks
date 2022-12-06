@@ -97,9 +97,8 @@
                     getElementForStatblockItem(
                         nested,
                         inline.createDiv("statblock-inline-item")
-                        );
-                    }
-                    console.log("🚀 ~ file: Content.svelte:100 ~ inline", inline.outerHTML);
+                    );
+                }
                 targets.push(inline);
                 break;
             }
