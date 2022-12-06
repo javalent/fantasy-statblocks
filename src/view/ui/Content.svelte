@@ -92,13 +92,14 @@
                 break;
             }
             case "inline": {
-                const inline = createDiv("statblock-item-inline");
+                const inline = target.createDiv("statblock-item-inline");
                 for (const nested of item.nested ?? []) {
                     getElementForStatblockItem(
                         nested,
                         inline.createDiv("statblock-inline-item")
-                    );
-                }
+                        );
+                    }
+                    console.log("🚀 ~ file: Content.svelte:100 ~ inline", inline.outerHTML);
                 targets.push(inline);
                 break;
             }
