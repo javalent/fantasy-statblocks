@@ -92,7 +92,7 @@
     const dropdown = (node: HTMLDivElement, block: StatblockItem) => {
         new ExtraButtonComponent(node).setIcon("vertical-three-dots");
         node.onclick = (evt) => {
-            new Menu(plugin.app)
+            new Menu()
                 .addItem((item) => {
                     item.setTitle("Add")
                         .setIcon("plus-with-circle")
@@ -218,6 +218,7 @@
         display: inline-flex;
         width: 100%;
         height: 100%;
+        min-width: 2rem;
     }
     .icon {
         display: flex;
