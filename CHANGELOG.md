@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.23.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.23.1...2.23.2) (2022-12-06)
+
+
+### Bug Fixes
+
+* improves subheading editing experience ([7764e51](https://github.com/valentine195/obsidian-5e-statblocks/commit/7764e5107c71edf1217b0eb814c1494594917dda))
+* removes logs ([6b0d7ea](https://github.com/valentine195/obsidian-5e-statblocks/commit/6b0d7ea14aa3a540346d034500219b2cd7a9a063))
+
 ### [2.23.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.23.0...2.23.1) (2022-12-06)
 
 
