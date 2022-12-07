@@ -87,7 +87,8 @@
     use:dndzone={{
         items,
         flipDurationMs,
-        dragDisabled
+        dragDisabled,
+        type: "subheading"
     }}
     on:consider={handleConsider}
     on:finalize={handleFinalize}

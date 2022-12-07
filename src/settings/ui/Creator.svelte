@@ -122,7 +122,8 @@
         use:dndzone={{
             items: blocks,
             flipDurationMs,
-            dragDisabled
+            dragDisabled,
+            type: "creator"
         }}
         on:consider={handleConsider}
         on:finalize={handleFinalize}
