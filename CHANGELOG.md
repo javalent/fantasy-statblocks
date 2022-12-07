@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.23.3](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.23.2...2.23.3) (2022-12-07)
+
+
+### Bug Fixes
+
+* fixes dropzone inheritance issue ([8e10905](https://github.com/valentine195/obsidian-5e-statblocks/commit/8e1090511e02cb21067cee26a321430d2ed2f5db))
+
 ### [2.23.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.23.1...2.23.2) (2022-12-06)
 
 
