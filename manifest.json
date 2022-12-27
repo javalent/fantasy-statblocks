@@ -1,7 +1,7 @@
 {
     "id": "obsidian-5e-statblocks",
     "name": "TTRPG Statblocks",
-    "version": "2.23.3",
+    "version": "2.23.4",
     "description": "Create 5e styled statblocks in Obsidian.md",
     "minAppVersion": "0.12.0",
     "author": "Jeremy Valentine",
