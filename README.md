@@ -356,29 +356,42 @@ You can add your own custom monsters to this bestiary in a few ways.
 
 ### Creating Creatures in Notes
 
-Homebrew creatures can be saved by creating a custom monster in a statblock codeblock in a note, as described in [the usage section](#usage).
+#### Manually Saving a Creature
+Homebrew creatures can be saved by creating a custom monster in a statblock codeblock 
+in a note, as described in [the usage section](#usage).
 
-You can either fully define your own custom monster, or use an existing monster in your bestiary and [override fields](#overriding-fields).
+You can either fully define your own custom monster, or use an existing monster in 
+your bestiary and [override fields](#overriding-fields).
 
-When a statblock has been rendered, you may save the creature by clicking the menu icon in the top right and selecting "Save to Bestiary".
+When a statblock has been rendered, you may save the creature by clicking the menu 
+icon in the top right and selecting "Save to Bestiary".
 
 <img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/save.png">
 
-### Creating Creatures in Frontmatter
+#### Creating Creatures in Frontmatter
+Because the plugin uses YAML for its syntax, a statblock created using the statblock codeblock is valid note 
+frontmatter.
 
-Because the plugin uses YAML for its syntax, a statblock created using the statblock codeblock is valid note frontmatter.
-
-Any note given the `statblock: true` parameter in its frontmatter will have its frontmatter parsed for a custom monster if [Parse Frontmatter in Notes](#parse-frontmatter-for-creatures) is turned on in [Settings](#settings) or if the "Parse Frontmatter in Notes" command is used.
-
+Any note given the `statblock: true` parameter in its frontmatter will have its frontmatter parsed 
+for a custom monster if [Parse Frontmatter in Notes](#parse-frontmatter-for-creatures) is turned 
+on in [Settings](#settings) or if the "Parse Frontmatter in Notes" command is used.
+ 
 **The note must also have a `name` parameter in the frontmatter to save the creature. All other fields are optional.**
 
 Once the creature has been found in a note, it will be added to the bestiary and synced with the note content.
 
-If the statblock field is removed or set to false, or the note is deleted, the creature will be removed from the bestiary.
+If the statblock field is removed or set to false, or the note is deleted, the creature will be removed from the 
+bestiary.
+
+#### Automating Inline Creature registration
+If the frontmatter specifies `statblock: inline` and [Parse Frontmatter in Notes](#parse-frontmatter-for-creatures) then
+the first statblock in the note will automatically be registered in the pblugin, the same as if you had copied it's YAML 
+into the frontmatter.
 
 ### Creating Creatures in Settings
 
-Creatures can be created directly in settings under the [Homebrew Creatures](#homebrew-creatures) section by clicking the "Add Creature" button.
+Creatures can be created directly in settings under the [Homebrew Creatures](#homebrew-creatures) section by clicking 
+the "Add Creature" button.
 
 Creatures can be created using either the YAML syntax shown above or by JSON.
 
@@ -392,7 +405,10 @@ Additionally, creatures can be imported as straight JSON.
 
 ## Accessing the Bestiary
 
-Your bestiary lives on the plugin and can be accessed programmatically in plugins that can run JavaScript, such as [Dataview](https://github.com/blacksmithgu/obsidian-dataview), [Templater](https://github.com/SilentVoid13/Templater) or [CustomJS](https://github.com/samlewis0602/obsidian-custom-js).
+Your bestiary lives on the plugin and can be accessed programmatically in plugins that can run JavaScript, 
+such as [Dataview](https://github.com/blacksmithgu/obsidian-dataview), 
+[Templater](https://github.com/SilentVoid13/Templater) or 
+[CustomJS](https://github.com/samlewis0602/obsidian-custom-js).
 
 A readonly copy of the bestiary is available on the `window` object and can be accessed in your scripts like this:
 

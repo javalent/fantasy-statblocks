@@ -1,7 +1,14 @@
-import type { Monster } from "@types";
+import type {Monster} from "@types";
 import copy from "fast-copy";
-import type { CachedMetadata } from "obsidian";
-import { transformTraits } from "src/util/util";
+import type {CachedMetadata} from "obsidian";
+import {transformTraits} from "src/util/util";
+import YAML from "yaml";
+
+interface FileDetails {
+    path: string;
+    basename: string;
+    mtime: number;
+}
 
 export interface DebugMessage {
     type: "debug";
@@ -16,7 +23,7 @@ export interface FileCacheMessage {
     type: "file";
     path: string;
     cache: CachedMetadata;
-    file: { path: string; basename: string; mtime: number };
+    file: FileDetails;
 }
 export interface GetFileCacheMessage {
     type: "get";
@@ -34,10 +41,20 @@ export interface UpdateEventMessage {
 export interface SaveMessage {
     type: "save";
 }
+export interface ReadMessage {
+    type: "read";
+    path: string;
+}
+export interface ContentMessage {
+    type: "content";
+    path: string;
+    content: string;
+}
 
 const ctx: Worker = self as any;
 class Parser {
     queue: string[] = [];
+    pendingContentProcessing: Map<string, FileDetails> = new Map<string, FileDetails>()
     parsing: boolean = false;
     debug: boolean;
 
@@ -59,6 +76,11 @@ class Parser {
                 this.debug = event.data.debug;
             }
         });
+        ctx.addEventListener("message", (event: MessageEvent<ContentMessage>) => {
+            if (event.data.type == "content") {
+                this.processContent(event.data.path, event.data.content);
+            }
+        });
     }
     add(...paths: string[]) {
         if (this.debug) {
@@ -66,6 +88,34 @@ class Parser {
         }
         this.queue.push(...paths);
         if (!this.parsing) this.parse();
+    }
+    processContent(path: string, content: string) {
+        if (this.debug)
+            console.debug(`TTRPG: Process Content: ${path}`)
+        let fileDetails = this.pendingContentProcessing.get(path)
+        let statBlock = this.findFirstStatBlock(content);
+        if (statBlock) {
+            if (this.debug)
+                console.debug(`TTRPG: found Statblock: ${JSON.stringify(statBlock)}`)
+            const monster: Monster = Object.assign({}, YAML.parse(statBlock), {
+                note: path,
+                mtime: fileDetails.mtime
+            });
+            if (this.debug)
+                console.debug(`TTRPG: ${JSON.stringify(monster)}`)
+            this.processMonster(monster, fileDetails)
+        }
+
+        this.pendingContentProcessing.delete(path)
+        this.checkForWorkComplete();
+    }
+
+    findFirstStatBlock(content: string) : string {
+        let matches = content.match(/^```[^\S\r\n]*statblock\s?\n([\s\S]+?)^```/m)
+        if (matches) {
+            return matches[1];
+        }
+        return null;
     }
     async parse() {
         this.parsing = true;
@@ -83,8 +133,14 @@ class Parser {
             this.parseFileForCreatures(file, cache);
             ctx.postMessage<FinishFileMessage>({ type: "done", path });
         }
-        this.parsing = false;
-        ctx.postMessage<SaveMessage>({ type: "save" });
+        this.checkForWorkComplete();
+    }
+
+    private checkForWorkComplete() {
+        if (this.pendingContentProcessing.size == 0) {
+            this.parsing = false;
+            ctx.postMessage<SaveMessage>({type: "save"});
+        }
     }
     async getFileData(path: string): Promise<FileCacheMessage> {
         return new Promise((resolve) => {
@@ -100,14 +156,21 @@ class Parser {
         });
     }
     parseFileForCreatures(
-        file: { path: string; basename: string; mtime: number },
+        file: FileDetails,
         cache: CachedMetadata
     ) {
         if (!cache) return;
         if (!cache.frontmatter) return;
         if (!cache.frontmatter.statblock) return;
+        if (cache.frontmatter.statblock === "inline") {
+            ctx.postMessage<ReadMessage>({
+                type: "read",
+                path: file.path
+            })
+            this.pendingContentProcessing.set(file.path, file)
+            return
+        }
         if (!cache.frontmatter.name) return;
-        
         const monster: Monster = this.validate(Object.assign({}, copy(cache.frontmatter), {
             note: file.path,
             mtime: file.mtime
@@ -116,6 +179,10 @@ class Parser {
         if (monster.traits) {
             monster.traits = transformTraits([], monster.traits);
         }
+        this.processMonster(monster, file);
+    }
+
+    private processMonster(monster: Monster, file: FileDetails) {
         if (monster.actions) {
             monster.actions = transformTraits([], monster.actions);
         }

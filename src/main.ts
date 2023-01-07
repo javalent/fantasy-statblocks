@@ -126,10 +126,9 @@ export default class StatBlockPlugin extends Plugin {
     }
 
     get sorted() {
-        if (!this._sorted.length)
-            this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
-                (m) => m.name
-            );
+        const valArray = Array.from(this.data.values());
+        if (this._sorted.length != valArray.length)
+            this._sorted = sort<Monster>(valArray).asc((m) => m.name);
         return this._sorted;
     }
     get sources() {

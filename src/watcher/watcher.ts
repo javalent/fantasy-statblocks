@@ -9,7 +9,9 @@ import Worker, {
     UpdateEventMessage,
     SaveMessage,
     FinishFileMessage,
-    DebugMessage
+    DebugMessage,
+    ReadMessage,
+    ContentMessage
 } from "./watcher.worker";
 
 declare global {
@@ -139,6 +141,22 @@ export class Watcher extends Component {
             async (evt: MessageEvent<SaveMessage>) => {
                 if (evt.data.type == "save") {
                     await this.save();
+                }
+            }
+        );
+        this.worker.addEventListener(
+            "message",
+            async (evt: MessageEvent<ReadMessage>) => {
+                if (evt.data.type == "read") {
+                    const file = this.plugin.app.vault.getAbstractFileByPath(evt.data.path);
+                    if (!(file instanceof TFile)) return "";
+                    await this.plugin.app.vault.read(file).then((fileContent) => {
+                        this.worker.postMessage<ContentMessage>({
+                            type: "content",
+                            path: evt.data.path,
+                            content: fileContent
+                        });
+                    })
                 }
             }
         );
