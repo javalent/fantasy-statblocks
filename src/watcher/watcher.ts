@@ -117,13 +117,13 @@ export class Watcher extends Component {
                     let update = false;
                     if (this.watchPaths.has(path)) {
                         const existing = this.watchPaths.get(path);
-                        this.plugin.deleteMonster(existing);
+                        await this.plugin.deleteMonster(existing);
                         update = true;
                         if (this.plugin.settings.debug)
                             console.debug(`TTRPG: Updating ${monster.name}`);
                     }
                     this.watchPaths.set(path, monster.name);
-                    this.plugin.saveMonster(monster, false, false);
+                    await this.plugin.saveMonster(monster, false, false);
 
                     if (this.plugin.settings.debug)
                         console.debug(

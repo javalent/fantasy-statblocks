@@ -121,6 +121,9 @@ class Parser {
         this.parsing = true;
         while (this.queue.length) {
             const path = this.queue.shift();
+            if (!path.endsWith(".md")) {
+                continue;
+            }
             if (this.debug) {
                 console.debug(
                     `TTRPG: Parsing ${path} for statblocks (${this.queue.length} to go)`
@@ -168,11 +171,10 @@ class Parser {
             return
         }
         if (!cache.frontmatter.name) return;
-
-        const monster: Monster = Object.assign({}, copy(cache.frontmatter), {
+        const monster: Monster = this.validate(Object.assign({}, copy(cache.frontmatter), {
             note: file.path,
             mtime: file.mtime
-        });
+        }));
 
         if (monster.traits) {
             monster.traits = transformTraits([], monster.traits);
@@ -196,6 +198,9 @@ class Parser {
                 monster.legendary_actions
             );
         }
+        if (monster["statblock-link"] && monster["statblock-link"].startsWith("#")) {
+            monster["statblock-link"] = `[${monster.name}](${file.path}${monster["statblock-link"]})`;
+        }
 
         if (this.debug)
             console.debug(
@@ -207,6 +212,9 @@ class Parser {
             monster,
             path: file.path
         });
+    }
+    validate(draft: Partial<Monster>): Monster {
+        return draft as Monster;
     }
 }
 new Parser();

@@ -17,10 +17,15 @@
     } else if (item.heading?.length) {
         header = item.heading;
     }
+const slugify = (header: string) =>
+        header
+            .toLowerCase()
+            .replace(/[^A-Za-z0-9\s]/g, "")
+            .replace(/\s+/g, "-")
 </script>
 
 {#if header && header.length}
-    <h3 class="section-header">
+    <h3 class="section-header {slugify(header)}">
         <TextContent textToRender={header} />
     </h3>
 {/if}

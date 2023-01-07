@@ -29,8 +29,11 @@
 
     const monster = getContext<Monster>("monster");
 
-    const checkConditioned = (item: StatblockItem) => {
+    const checkConditioned = (item: StatblockItem): boolean => {
         if (item.conditioned == null || !item.conditioned) return true;
+        if ("nested" in item) {
+            return item.nested.some((prop) => checkConditioned(prop));
+        }
         if (!item.properties.length) return true;
         return item.properties.some((prop) => {
             if (prop in monster) {
@@ -89,7 +92,7 @@
                 break;
             }
             case "inline": {
-                const inline = createDiv("statblock-item-inline");
+                const inline = target.createDiv("statblock-item-inline");
                 for (const nested of item.nested ?? []) {
                     getElementForStatblockItem(
                         nested,

@@ -12,6 +12,8 @@ import {
 } from "src/layouts/types";
 import type StatBlockPlugin from "src/main";
 import TableHeaders from "./TableHeaders.svelte";
+import SubheadingProperty from "./SubheadingProperty.svelte";
+import { nanoid } from "src/util/util";
 
 export class BlockModal extends Modal {
     block: StatblockItem;
@@ -63,19 +65,17 @@ export class BlockModal extends Modal {
                     );
 
                 const additional = container.createDiv("additional");
-                for (const property of this.block.properties) {
-                    new Setting(additional)
-                        .setName(property)
-                        .addExtraButton((b) =>
-                            b.setIcon("trash").onClick(() => {
-                                this.block.properties =
-                                    this.block.properties.filter(
-                                        (p) => p != property
-                                    );
-                                this.buildProperties(el);
-                            })
-                        );
-                }
+                const sub = new SubheadingProperty({
+                    target: additional,
+                    props: {
+                        properties: this.block.properties.map((prop) => {
+                            return { prop, id: nanoid() };
+                        })
+                    }
+                });
+                sub.$on("sorted", (e: CustomEvent<(keyof Monster)[]>) => {
+                    this.block.properties = [...e.detail];
+                });
             } else {
                 new Setting(el).setName("Link Monster Property").addText((t) =>
                     t.setValue(this.block.properties[0]).onChange((v) => {
