@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [2.23.6](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.23.5...2.23.6) (2023-01-07)
 
+### Features
+
+* Adds support for automatically parsing inline statblocks (thanks dcorbin) ([PR 112](https://github.com/valentine195/obsidian-5e-statblocks/commit/611886db58287ee6050093a5643d1550bc9e4989))
 
 ### Bug Fixes
 
