@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.23.6](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.23.5...2.23.6) (2023-01-07)
+
+
+### Bug Fixes
+
+* fixes monsters not showing up immediately in settings ([4cc8e93](https://github.com/valentine195/obsidian-5e-statblocks/commit/4cc8e93cd4d7d5dbcbcdf582572343582d48e490))
+
 ### [2.23.3](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.23.2...2.23.3) (2022-12-07)
 
 
