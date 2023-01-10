@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.24.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.23.6...2.24.0) (2023-01-10)
+
+
+### Features
+
+* Adds header size property to Heading blocks in custom layouts ([9f95492](https://github.com/valentine195/obsidian-5e-statblocks/commit/9f95492400777ac76500f7f57c1578a4367bcc70))
+
 ### [2.23.6](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.23.5...2.23.6) (2023-01-07)
 
 ### Features
