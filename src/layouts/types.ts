@@ -61,6 +61,7 @@ type GroupProps = {
 };
 type HeadingProps = {
     type: "heading";
+    size: number;
 };
 type InlineProps = {
     type: "inline";

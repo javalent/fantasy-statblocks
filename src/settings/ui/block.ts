@@ -8,7 +8,8 @@ import {
     type TableItem,
     MarkdownTypes,
     type TextItem,
-    type SubHeadingItem
+    type SubHeadingItem,
+    HeadingItem
 } from "src/layouts/types";
 import type StatBlockPlugin from "src/main";
 import TableHeaders from "./TableHeaders.svelte";
@@ -172,6 +173,30 @@ export class BlockModal extends Modal {
                         ).onChange((v) => {
                             (this.block as TableItem).calculate = v;
                         });
+                    });
+            }
+            if (this.block.type == "heading") {
+                new Setting(this.contentEl)
+                    .setName("Header Size")
+                    .setDesc("The heading will use this size.")
+                    .addDropdown((d) => {
+                        if (!(this.block as HeadingItem).size) {
+                            (this.block as HeadingItem).size == 1;
+                        }
+                        d.addOptions({
+                            "1": "H1",
+                            "2": "H2",
+                            "3": "H3",
+                            "4": "H4",
+                            "5": "H5",
+                            "6": "H6"
+                        })
+                            .setValue(`${(this.block as HeadingItem).size}`)
+                            .onChange(
+                                (v) =>
+                                    ((this.block as HeadingItem).size =
+                                        Number(v))
+                            );
                     });
             }
             if (!this.advanced) return;

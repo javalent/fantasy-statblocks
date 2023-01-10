@@ -25,7 +25,8 @@ function blockGenerator(type: string): StatblockItem {
             return {
                 type: "heading",
                 id: nanoid(),
-                properties: []
+                properties: [],
+                size: 1
             };
         }
         case "property": {
@@ -95,7 +96,7 @@ export const generate = async (
     evt: MouseEvent
 ): Promise<StatblockItem | void> => {
     return new Promise((resolve, reject) => {
-        const addMenu = new Menu(plugin.app).setNoIcon();
+        const addMenu = new Menu().setNoIcon();
         TypeNames.forEach((type) => {
             addMenu.addItem((item) => {
                 item.setTitle(type[1]).onClick(() => {

@@ -5,6 +5,10 @@
 
     export let block: StatblockItem;
 
+    if (block.type == "heading" && !block.size) {
+        block.size = 1;
+    }
+
     const transform = (text: string) => {
         if ("display" in block) {
             return `${block.display} (${
@@ -32,6 +36,11 @@
     <div class="info">
         <div>
             <span>{transform(block.type)}</span>
+            {#if block.type == "heading"}
+                <span>
+                    (H{block.size})
+                </span>
+            {/if}
             {#if block.type == "table" && block.headers?.length}
                 <strong>
                     ({block.headers.join(" | ")})
