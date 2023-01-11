@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.24.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.0...2.24.1) (2023-01-11)
+
+
+### Bug Fixes
+
+* fixes issue rendering dice rollers in initiative tracker view ([1d1274d](https://github.com/valentine195/obsidian-5e-statblocks/commit/1d1274dbce36f69a8cadb670d9f3107c2c7ee7a0))
+
 ## [2.24.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.23.6...2.24.0) (2023-01-10)
 
 
