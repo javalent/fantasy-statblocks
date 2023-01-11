@@ -617,7 +617,7 @@ ${e.stack
             toBuildWithLinksReplaced,
             this,
             false,
-            "",
+            "STATBLOCK_RENDERER",
             this.getLayoutOrDefault(monster)
         );
     }
