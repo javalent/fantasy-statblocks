@@ -2,8 +2,6 @@
     import type { Monster } from "@types";
     import { Notice } from "obsidian";
     import type { PropertyItem } from "src/layouts/types";
-    import type StatBlockPlugin from "src/main";
-    import { getContext } from "svelte";
     import { stringify } from "src/util/util";
     import TextContentHolder from "./TextContentHolder.svelte";
 

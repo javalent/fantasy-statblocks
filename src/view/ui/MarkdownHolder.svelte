@@ -1,5 +1,8 @@
 <script lang="ts">
-    import { MarkdownRenderer } from "obsidian";
+    import type { Monster } from "@types";
+    import { MarkdownRenderer, Notice } from "obsidian";
+    import type { StatblockItem } from "src/layouts/types";
+    import type StatBlockPlugin from "src/main";
 
     import { getContext } from "svelte";
     import type StatBlockRenderer from "../statblock";
@@ -11,6 +14,58 @@
 
     const context = getContext<string>("context");
     const renderer = getContext<StatBlockRenderer>("renderer");
+    let item = getContext<StatblockItem>("item");
+    let dice = getContext<boolean>("dice") && item.dice;
+    let monster = getContext<Monster>("monster");
+    let plugin = getContext<StatBlockPlugin>("plugin");
+
+    let split: Array<{ text: string; original?: string } | string> = [property];
+    if (dice) {
+        if (
+            item.diceProperty &&
+            item.diceProperty in monster &&
+            typeof monster[item.diceProperty] == "string"
+        ) {
+            split = [{ text: monster[item.diceProperty] as string }];
+        } else if (item.diceCallback) {
+            try {
+                const frame = document.body.createEl("iframe");
+                const funct = (frame.contentWindow as any).Function;
+                const func = new funct(
+                    "monster",
+                    "property",
+                    item.diceCallback
+                );
+                const parsed =
+                    func.call(undefined, monster, property) ?? property;
+                document.body.removeChild(frame);
+                if (Array.isArray(parsed)) {
+                    split = parsed;
+                } else {
+                    split = [parsed];
+                }
+            } catch (e) {
+                new Notice(
+                    `There was an error executing the provided dice callback for [${item.properties.join(
+                        ", "
+                    )}]\n\n${e.message}`
+                );
+                console.error(e);
+            }
+        } else {
+            const parsed = plugin.parseForDice(property);
+            if (Array.isArray(parsed)) {
+                split = parsed;
+            } else {
+                split = [parsed];
+            }
+        }
+    }
+    for (const dice of split) {
+        if (typeof dice != "string") {
+            property = property.replace(dice.text, `\`dice: ${dice.text}\``);
+        }
+    }
 
     const markdown = (node: HTMLElement) => {
         MarkdownRenderer.renderMarkdown(property, node, context, renderer);
