@@ -24,6 +24,9 @@
     const dice = (node: HTMLDivElement) => {
         setIcon(node, "dice-roller-dice");
     };
+    const markdown = (node: HTMLDivElement) => {
+        setIcon(node, "markdown-icon");
+    };
     const heading = (node: HTMLDivElement) => {
         setIcon(node, "heading-glyph");
     };
@@ -72,11 +75,18 @@
                 aria-label="Has Callback"
             />
         {/if}
-        {#if "dice" in block}
+        {#if "dice" in block && block.dice}
             <div
                 class="context-item dice"
                 use:dice
                 aria-label="Will Parse for Dice Rolls"
+            />
+        {/if}
+        {#if "markdown" in block && block.markdown}
+            <div
+                class="context-item dice"
+                use:markdown
+                aria-label="Render markdown enabled"
             />
         {/if}
     </small>
