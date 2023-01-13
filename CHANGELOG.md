@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.24.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.1...2.24.2) (2023-01-13)
+
+
+### Bug Fixes
+
+* layout blocks now show if they're markdown enabled ([8670ee1](https://github.com/valentine195/obsidian-5e-statblocks/commit/8670ee14fbe1364a0451dabd7f09b2c5c093513f))
+* markdown enabled blocks can now scan for dice rolls ([a871269](https://github.com/valentine195/obsidian-5e-statblocks/commit/a871269ab0637c70d270fcdeeece30dbabe17776))
+
 ### [2.24.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.0...2.24.1) (2023-01-11)
 
 
