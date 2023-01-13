@@ -61,9 +61,17 @@
             }
         }
     }
+    let start = 0;
     for (const dice of split) {
         if (typeof dice != "string") {
-            property = property.replace(dice.text, `\`dice: ${dice.text}\``);
+            property =
+                property.slice(0, start) +
+                property
+                    .slice(start)
+                    .replace(dice.text, `\`dice: ${dice.text}\``);
+            start += `\`dice: ${dice.text}\``.length + 1;
+        } else {
+            start += dice.length + 1;
         }
     }
 
