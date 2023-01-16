@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.24.4](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.3...2.24.4) (2023-01-16)
+
+
+### Bug Fixes
+
+* fixes for dice roller markdown parsing ([6bcd12b](https://github.com/valentine195/obsidian-5e-statblocks/commit/6bcd12b145339967b6c9266c1806764062d0eece))
+
 ### [2.24.3](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.2...2.24.3) (2023-01-13)
 
 
