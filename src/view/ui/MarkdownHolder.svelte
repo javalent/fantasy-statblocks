@@ -62,16 +62,23 @@
         }
     }
     let start = 0;
+
     for (const dice of split) {
         if (typeof dice != "string") {
+            const replacer = dice.original ?? dice.text;
+            let diceString;
+            if (dice.original) {
+                diceString = `${dice.original} (\`dice: ${dice.text}\`)`;
+            } else {
+                diceString = `\`dice: ${dice.text}\``;
+            }
             property =
                 property.slice(0, start) +
-                property
-                    .slice(start)
-                    .replace(dice.text, `\`dice: ${dice.text}\``);
-            start += `\`dice: ${dice.text}\``.length + 1;
+                property.slice(start).replace(replacer, diceString);
+
+            start += diceString.length + 1;
         } else {
-            start += dice.length + 1;
+            start += dice.length;
         }
     }
 

@@ -367,14 +367,14 @@ export default class StatBlockPlugin extends Plugin {
             let original: string;
             if (/\w+ [\+\-]\d+/.test(str.trim())) {
                 let [, save, sign, number] =
-                    str.match(/(\w+ )([\+\-])(\d+)/) ?? [];
+                    str.match(/(\w+) ([\+\-])(\d+)/) ?? [];
                 let mult = 1;
                 if (sign === "-") {
                     mult = -1;
                 }
                 if (!isNaN(Number(number))) {
                     text = `1d20+${mult * Number(number)}`;
-                    original = `${save} ${sign}${number}`;
+                    original = `${save.trim()} ${sign.trim()}${number.trim()}`;
                 }
             } else if (/[\+\-]\d+ to hit/.test(str.trim())) {
                 let [, sign, number] = str.match(/([\+\-])(\d+)/) ?? [];
