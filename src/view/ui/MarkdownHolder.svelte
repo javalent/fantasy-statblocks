@@ -72,11 +72,13 @@
             } else {
                 diceString = `\`dice: ${dice.text}\``;
             }
+            const index = property.slice(start).indexOf(replacer);
             property =
                 property.slice(0, start) +
                 property.slice(start).replace(replacer, diceString);
 
-            start += diceString.length + 1;
+            start =
+                property.slice(0, start).length + index + diceString.length + 1;
         } else {
             start += dice.length;
         }
