@@ -1,6 +1,6 @@
 {
     "name": "obsidian-5e-statblocks",
-    "version": "2.24.4",
+    "version": "2.24.5",
     "description": "Create 5e styled statblocks in Obsidian.md",
     "main": "main.js",
     "scripts": {
