@@ -208,20 +208,12 @@ export class BlockModal extends Modal {
                             e.createSpan({
                                 text: "The block will attempt to render as markdown."
                             });
-                            e.createEl("br");
-                            e.createEl("strong", {
-                                text: "Cannot be used with the Dice option."
-                            });
                         })
                     )
                     .addToggle((t) => {
                         t.setValue((this.block as TextItem).markdown).onChange(
                             (v) => {
                                 (this.block as TextItem).markdown = v;
-                                if (v) {
-                                    this.block.dice = false;
-                                    this.display();
-                                }
                             }
                         );
                     });
