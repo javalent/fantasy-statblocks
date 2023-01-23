@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.24.7](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.6...2.24.7) (2023-01-23)
+
+
+### Bug Fixes
+
+* fixes issue with default fate core aspects header ([1e768b0](https://github.com/valentine195/obsidian-5e-statblocks/commit/1e768b0025020b05d9038d55177bf5ea4217d802))
+* removes layouts getter modifications ([22fc116](https://github.com/valentine195/obsidian-5e-statblocks/commit/22fc1161bac16c8b6992a7129dd042665ea70e30))
+
 ### [2.24.6](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.5...2.24.6) (2023-01-23)
 
 
