@@ -359,7 +359,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                     );
                                     return;
                                 }
-                                this.plugin.layouts.push(
+                                this.plugin.settings.layouts.push(
                                     this.getDuplicate(layout)
                                 );
                                 resolve();
@@ -396,7 +396,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         const modal = new CreateStatblockModal(this.plugin);
                         modal.onClose = async () => {
                             if (!modal.saved) return;
-                            this.plugin.layouts.push(
+                            this.plugin.settings.layouts.push(
                                 this.getDuplicate(modal.layout)
                             );
                             await this.plugin.saveSettings();
@@ -458,12 +458,11 @@ export default class StatblockSettingTab extends PluginSettingTab {
             layout.name != Layout5e.name
         )
             return layout;
-        const names = [
-            Layout5e.name,
-            ...this.plugin.layouts
+        const names = 
+            this.plugin.layouts
                 .filter((l) => l.name.contains(`${layout.name} Copy`))
                 .map((l) => l.name)
-        ];
+        
 
         let temp = `${layout.name} Copy`;
 
@@ -488,7 +487,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     b.setIcon("duplicate-glyph")
                         .setTooltip("Create Copy")
                         .onClick(async () => {
-                            this.plugin.layouts.push(this.getDuplicate(layout));
+                            this.plugin.settings.layouts.push(this.getDuplicate(layout));
                             await this.plugin.saveSettings();
                             this.buildCustomLayouts(layoutContainer);
                         });
@@ -508,8 +507,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
                             );
                             modal.onClose = async () => {
                                 if (!modal.saved) return;
-                                this.plugin.layouts.splice(
-                                    this.plugin.layouts.indexOf(layout),
+                                this.plugin.settings.layouts.splice(
+                                    this.plugin.settings.layouts.indexOf(layout),
                                     1,
                                     modal.layout
                                 );
@@ -523,7 +522,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     b.setIcon("duplicate-glyph")
                         .setTooltip("Create Copy")
                         .onClick(async () => {
-                            this.plugin.layouts.push(this.getDuplicate(layout));
+                            this.plugin.settings.layouts.push(this.getDuplicate(layout));
                             await this.plugin.saveSettings();
                             this.buildCustomLayouts(layoutContainer);
                         });
