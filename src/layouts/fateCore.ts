@@ -41,7 +41,8 @@ export const StatblockFateCore: StatblockItem[] = [
                         markdown: true,
                         text: null,
                         dice: false,
-                        conditioned: true
+                        conditioned: true,
+                        heading: "Aspects"
                     },
                     {
                         type: "text",
@@ -50,7 +51,8 @@ export const StatblockFateCore: StatblockItem[] = [
                         markdown: true,
                         text: null,
                         dice: false,
-                        conditioned: true
+                        conditioned: true,
+                        heading: "Temporary Aspects"
                     }
                 ],
                 conditioned: true
