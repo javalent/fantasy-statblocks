@@ -17,7 +17,8 @@ export const Statblock5e: StatblockItem[] = [
                         type: "heading",
                         id: nanoid(),
                         properties: ["name"],
-                        conditioned: true
+                        conditioned: true,
+                        size: 1
                     },
                     {
                         type: "subheading",

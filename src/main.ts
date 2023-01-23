@@ -28,6 +28,7 @@ import { Watcher } from "./watcher/watcher";
 import type { Layout } from "./layouts/types";
 import { Layout5e } from "./layouts/basic5e";
 import { StatblockSuggester } from "./suggest";
+import { DefaultLayouts } from "./layouts";
 
 declare module "obsidian" {
     interface App {
@@ -412,9 +413,13 @@ export default class StatBlockPlugin extends Plugin {
             .map((v) => (match(v) ? roller(v) : v));
     }
 
+    get layouts() {
+        return [...DefaultLayouts, ...this.settings.layouts];
+    }
+
     get defaultLayout() {
         return (
-            this.settings.layouts?.find(
+            this.layouts?.find(
                 (layout) => layout.name == this.settings.default
             ) ?? Layout5e
         );
@@ -483,7 +488,7 @@ export default class StatBlockPlugin extends Plugin {
             );
 
             let layout =
-                this.settings.layouts.find(
+                this.layouts.find(
                     (layout) =>
                         layout.name == (params.layout ?? monster.layout) ||
                         layout.name == (params.statblock ?? monster.statblock)
@@ -628,7 +633,7 @@ ${e.stack
     }
     getLayoutOrDefault(monster: Monster): Layout {
         return (
-            this.settings.layouts.find((l) => l.name == monster?.layout) ??
+            this.layouts.find((l) => l.name == monster?.layout) ??
             this.defaultLayout
         );
     }

@@ -359,7 +359,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                     );
                                     return;
                                 }
-                                this.plugin.settings.layouts.push(
+                                this.plugin.layouts.push(
                                     this.getDuplicate(layout)
                                 );
                                 resolve();
@@ -396,7 +396,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         const modal = new CreateStatblockModal(this.plugin);
                         modal.onClose = async () => {
                             if (!modal.saved) return;
-                            this.plugin.settings.layouts.push(
+                            this.plugin.layouts.push(
                                 this.getDuplicate(modal.layout)
                             );
                             await this.plugin.saveSettings();
@@ -414,16 +414,13 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 "Change the default statblock layout used, if not specified."
             )
             .addDropdown(async (d) => {
-                for (const layout of DefaultLayouts) {
-                    d.addOption(layout.name, layout.name);
-                }
-                for (const layout of this.plugin.settings.layouts) {
+                for (const layout of this.plugin.layouts) {
                     d.addOption(layout.name, layout.name);
                 }
 
                 if (
                     !this.plugin.settings.default ||
-                    !this.plugin.settings.layouts.find(
+                    !this.plugin.layouts.find(
                         ({ name }) => name == this.plugin.settings.default
                     )
                 ) {
@@ -457,13 +454,13 @@ export default class StatblockSettingTab extends PluginSettingTab {
     }
     getDuplicate(layout: Layout) {
         if (
-            !this.plugin.settings.layouts.find((l) => l.name == layout.name) &&
+            !this.plugin.layouts.find((l) => l.name == layout.name) &&
             layout.name != Layout5e.name
         )
             return layout;
         const names = [
             Layout5e.name,
-            ...this.plugin.settings.layouts
+            ...this.plugin.layouts
                 .filter((l) => l.name.contains(`${layout.name} Copy`))
                 .map((l) => l.name)
         ];
@@ -491,9 +488,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     b.setIcon("duplicate-glyph")
                         .setTooltip("Create Copy")
                         .onClick(async () => {
-                            this.plugin.settings.layouts.push(
-                                this.getDuplicate(layout)
-                            );
+                            this.plugin.layouts.push(this.getDuplicate(layout));
                             await this.plugin.saveSettings();
                             this.buildCustomLayouts(layoutContainer);
                         });
@@ -513,10 +508,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
                             );
                             modal.onClose = async () => {
                                 if (!modal.saved) return;
-                                this.plugin.settings.layouts.splice(
-                                    this.plugin.settings.layouts.indexOf(
-                                        layout
-                                    ),
+                                this.plugin.layouts.splice(
+                                    this.plugin.layouts.indexOf(layout),
                                     1,
                                     modal.layout
                                 );
@@ -530,9 +523,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     b.setIcon("duplicate-glyph")
                         .setTooltip("Create Copy")
                         .onClick(async () => {
-                            this.plugin.settings.layouts.push(
-                                this.getDuplicate(layout)
-                            );
+                            this.plugin.layouts.push(this.getDuplicate(layout));
                             await this.plugin.saveSettings();
                             this.buildCustomLayouts(layoutContainer);
                         });
