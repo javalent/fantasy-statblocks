@@ -102,13 +102,13 @@ export const generate = async (
             addMenu.addItem((item) => {
                 item.setTitle(type[1]).onClick(() => {
                     gen = blockGenerator(type[0]);
-                    addMenu.unload();
+                    addMenu.close();
                 });
             });
         });
-        addMenu.onunload = () => {
+        addMenu.register(() => {
             resolve(gen);
-        };
+        });
 
         addMenu.showAtMouseEvent(evt);
     });
