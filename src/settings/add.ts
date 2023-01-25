@@ -97,16 +97,17 @@ export const generate = async (
 ): Promise<StatblockItem | void> => {
     return new Promise((resolve, reject) => {
         const addMenu = new Menu().setNoIcon();
+        let gen;
         TypeNames.forEach((type) => {
             addMenu.addItem((item) => {
                 item.setTitle(type[1]).onClick(() => {
-                    const gen = blockGenerator(type[0]);
-                    resolve(gen);
+                    gen = blockGenerator(type[0]);
+                    addMenu.unload();
                 });
             });
         });
         addMenu.onunload = () => {
-            resolve();
+            resolve(gen);
         };
 
         addMenu.showAtMouseEvent(evt);
