@@ -1,4 +1,11 @@
 import type { Trait } from "@types";
+export function slugify(str: string) {
+    return str
+        .toLowerCase()
+        .replace(/[^A-Za-z0-9\s]/g, "")
+        .replace(/\s+/g, "-");
+}
+
 export function toTitleCase(str: string): string {
     return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
