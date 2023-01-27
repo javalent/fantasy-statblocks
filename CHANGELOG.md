@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.24.11](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.10...2.24.11) (2023-01-27)
+
+
+### Bug Fixes
+
+* adds trait property to Traits block class ([d91bccc](https://github.com/valentine195/obsidian-5e-statblocks/commit/d91bcccfea31f4f36beb23face1171006cefe173))
+
 ### [2.24.10](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.9...2.24.10) (2023-01-27)
 
 
