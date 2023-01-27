@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.24.10](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.9...2.24.10) (2023-01-27)
+
+
+### Bug Fixes
+
+* fixes group container duplication ([01e03b0](https://github.com/valentine195/obsidian-5e-statblocks/commit/01e03b06ad1467ed3071df5ed96c9feda4ec21ae))
+* traits now get their slugified name as a class ([3dd1649](https://github.com/valentine195/obsidian-5e-statblocks/commit/3dd1649c76afa3203776aa59648db227e3f063ef))
+
 ### [2.24.7](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.6...2.24.7) (2023-01-23)
 
 
