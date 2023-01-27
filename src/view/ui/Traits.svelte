@@ -6,10 +6,11 @@
 
     export let name: string;
     export let desc: string;
+    export let property: string = "";
     export let render: boolean = false;
 </script>
 
-<div class="property {slugify(name)}">
+<div class="property {slugify(name)} {slugify(property)}">
     {#if name}
         <div class="property-name">
             <TextContent textToRender={name} />

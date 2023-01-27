@@ -7,6 +7,7 @@
 
     export let render = false;
     export let monster: Monster;
+    export let property: string;
     const ensureColon = (header: string) => {
         if (/[^a-zA-Z0-9]$/.test(header)) return header;
         return `${header}:`;
@@ -59,9 +60,9 @@
 <div class="spellcasting">
     {#each spellBlocks as block, blockIndex}
         {#if blockIndex === 0}
-            <Traits name={"Spellcasting"} desc={block.header} />
+            <Traits name={"Spellcasting"} desc={block.header} {property} />
         {:else}
-            <Traits name={""} desc={block.header} />
+            <Traits name={""} desc={block.header} {property} />
         {/if}
         <ul class="spell-list">
             {#each block.spells as spellItem, index}

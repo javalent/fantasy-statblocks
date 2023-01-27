@@ -142,6 +142,7 @@
                 new Spells({
                     target,
                     props: {
+                        property: item.properties[0],
                         monster,
                         render: item.markdown
                     },
@@ -198,13 +199,14 @@
                 try {
                     for (const block of blocks) {
                         const prop = createDiv(
-                            "statblock-item-container statblock-trait-prop"
+                            `statblock-item-container statblock-trait-prop`
                         );
                         new Traits({
                             target: prop,
                             props: {
                                 name: block.name,
                                 desc: block.desc,
+                                property: item.properties[0],
                                 render: item.markdown
                             },
                             context
