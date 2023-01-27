@@ -5,9 +5,7 @@
     import TextContentHolder from "./TextContentHolder.svelte";
 
     export let name: string;
-    console.log("🚀 ~ file: Traits.svelte:7 ~ name", name);
     export let desc: string;
-    console.log("🚀 ~ file: Traits.svelte:9 ~ desc", desc);
     export let render: boolean = false;
 </script>
 

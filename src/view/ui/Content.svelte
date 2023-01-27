@@ -11,12 +11,7 @@
     import Subheading from "./Subheading.svelte";
     import Table from "./Table.svelte";
     import Text from "./Text.svelte";
-    import {
-        onMount,
-        createEventDispatcher,
-        getAllContexts,
-        getContext
-    } from "svelte";
+    import { createEventDispatcher, getAllContexts, getContext } from "svelte";
     import Image from "./Image.svelte";
     import type { StatblockItem } from "src/layouts/types";
 
@@ -63,8 +58,11 @@
         item: StatblockItem,
         container?: HTMLDivElement
     ): HTMLDivElement[] => {
+        //@ts-ignore
         const targets: HTMLDivElement[] = [];
-        const target = container ?? createDiv("statblock-item-container");
+        const target = container
+            ? container.createDiv("statblock-item-container")
+            : createDiv("statblock-item-container");
         context.set("item", item);
         if (!checkConditioned(item)) {
             return [];
@@ -74,6 +72,7 @@
             case "group": {
                 for (const nested of item.nested ?? []) {
                     const element = getElementForStatblockItem(nested, target);
+
                     targets.push(...element);
                 }
                 break;
@@ -198,7 +197,9 @@
                 }
                 try {
                     for (const block of blocks) {
-                        const prop = createDiv("statblock-item-container");
+                        const prop = createDiv(
+                            "statblock-item-container statblock-trait-prop"
+                        );
                         new Traits({
                             target: prop,
                             props: {
@@ -232,8 +233,10 @@
 
     const targets: HTMLElement[] = [];
     for (let item of statblock) {
-        targets.push(...getElementForStatblockItem(item));
+        const elements = getElementForStatblockItem(item);
+        targets.push(...elements);
     }
+
     const buildStatblock = (node: HTMLElement) => {
         node.empty();
 
