@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.24.12](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.11...2.24.12) (2023-01-28)
+
+
+### Bug Fixes
+
+* adds block type to container class ([dee0653](https://github.com/valentine195/obsidian-5e-statblocks/commit/dee0653079305f8ab40ed9274b9952f2835ba991))
+
 ### [2.24.11](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.10...2.24.11) (2023-01-27)
 
 
