@@ -14,6 +14,7 @@
     import { createEventDispatcher, getAllContexts, getContext } from "svelte";
     import Image from "./Image.svelte";
     import type { StatblockItem } from "src/layouts/types";
+    import { slugify } from "src/util/util";
 
     const dispatch = createEventDispatcher();
 
@@ -58,15 +59,18 @@
         item: StatblockItem,
         container?: HTMLDivElement
     ): HTMLDivElement[] => {
-        //@ts-ignore
-        const targets: HTMLDivElement[] = [];
-        const target = container
-            ? container.createDiv("statblock-item-container")
-            : createDiv("statblock-item-container");
-        context.set("item", item);
         if (!checkConditioned(item)) {
             return [];
         }
+        const targets: HTMLDivElement[] = [];
+        const target = container
+            ? container.createDiv(
+                  `statblock-item-container ${slugify(item.type)}-container`
+              )
+            : createDiv(
+                  `statblock-item-container ${slugify(item.type)}-container`
+              );
+        context.set("item", item);
         targets.push(target);
         switch (item.type) {
             case "group": {
@@ -95,7 +99,11 @@
                 for (const nested of item.nested ?? []) {
                     getElementForStatblockItem(
                         nested,
-                        inline.createDiv("statblock-inline-item")
+                        inline.createDiv(
+                            `statblock-inline-item ${slugify(
+                                nested.type
+                            )}-container`
+                        )
                     );
                 }
                 targets.push(inline);
@@ -220,7 +228,7 @@
             }
         }
         if (item.hasRule) {
-            const rule = createDiv("statblock-item-container");
+            const rule = createDiv("statblock-item-container rule-container");
             new Rule({
                 target: rule
             });
