@@ -13,7 +13,11 @@
     }
 
     let arr: any[] = monster[item.properties[0]] as any[];
-    if (!Array.isArray(arr)) {
+    if (!Array.isArray(arr) && typeof arr == "object") {
+        arr = Object.entries(arr).map(([key, value]) => {
+            return { [key]: value };
+        });
+    } else if (!Array.isArray(arr)) {
         arr = [];
     }
 
