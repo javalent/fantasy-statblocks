@@ -1,17 +1,22 @@
 <script lang="ts">
     import type { Monster } from "@types";
     import type { TableItem } from "src/layouts/types";
+    import { stringify } from "src/util/util";
 
     export let monster: Monster;
     export let item: TableItem;
 
-    const customMod = new Function('stat', `return ${item.modifier}`);
+    const customMod = new Function("stat", `return ${item.modifier}`);
 
-    function getMod(stat: number) {        
-        let mod = item.modifier == null || !item.modifier.length || item.modifier == ""? 
-            Math.floor(((stat ?? 10) - 10) / 2) : 
-            customMod(stat);
-        return `${mod >= 0 ? "+" : "-"}${Math.abs(mod)}`;
+    function getMod(stat: number) {
+        if (typeof stat != "number") return ``;
+        let mod =
+            item.modifier == null ||
+            !item.modifier.length ||
+            item.modifier == ""
+                ? Math.floor(((stat ?? 10) - 10) / 2)
+                : customMod(stat);
+        return `(${mod >= 0 ? "+" : "-"}${Math.abs(mod)})`;
     }
 
     let values: any[] = monster[item.properties[0]] as any[];
@@ -31,10 +36,10 @@
                 {`${headers[index]}`.toUpperCase()}
             </span>
             <span>
-                {value}
+                {stringify(value)}
                 {#if item.calculate}
                     <span>
-                        ({getMod(value)})
+                        {getMod(value)}
                     </span>
                 {/if}
             </span>
