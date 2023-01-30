@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.24.13](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.12...2.24.13) (2023-01-30)
+
+
+### Bug Fixes
+
+* saves now takes an object or array ([39f5c9d](https://github.com/valentine195/obsidian-5e-statblocks/commit/39f5c9d1560a016f88d2fe10dc7529723a9f26c3))
+* stats now takes any value (no modifier will be calculated for non-number values) ([f10c95d](https://github.com/valentine195/obsidian-5e-statblocks/commit/f10c95dc09912ce434fc3d1c5fb22b21d36d4fca))
+
 ### [2.24.12](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.11...2.24.12) (2023-01-28)
 
 
