@@ -332,14 +332,11 @@ export class ViewMonsterModal extends Modal {
         if (!Platform.isMobile) {
             this.contentEl.style.maxWidth = "85vw";
         }
-        new StatBlockRenderer(
-            this.contentEl,
-            this.monster,
-            this.plugin,
-            false,
-            null,
-            this.plugin.defaultLayout
-        );
+        new StatBlockRenderer({
+            container: this.contentEl,
+            monster: this.monster,
+            plugin: this.plugin
+        });
     }
     onOpen() {
         this.display();

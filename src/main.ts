@@ -459,126 +459,15 @@ export default class StatBlockPlugin extends Plugin {
             /** Get Parameters */
             let params: StatblockParameters = parseYaml(source);
 
-            //replace escapes
-            params = JSON.parse(JSON.stringify(params).replace(/\\#/g, "#"));
-            const canSave = params && "name" in params;
-
-            if (!params || !Object.values(params ?? {}).length) {
-                params = Object.assign({}, params, { note: ctx.sourcePath });
-            }
-            if (params.note) {
-                const note = Array.isArray(params.note)
-                    ? (<string[]>params.note).flat(Infinity).pop()
-                    : params.note;
-                const file = await this.app.metadataCache.getFirstLinkpathDest(
-                    `${note}`,
-                    ctx.sourcePath
-                );
-                if (file && file instanceof TFile) {
-                    const cache = await this.app.metadataCache.getFileCache(
-                        file
-                    );
-                    Object.assign(params, fastCopy(cache.frontmatter) ?? {});
-                }
-            }
-            const monster: Monster = Object.assign(
-                {},
-                this.bestiary.get(params.monster) ??
-                    this.bestiary.get(params.creature)
-            );
-
-            let layout =
-                this.layouts.find(
-                    (layout) =>
-                        layout.name == (params.layout ?? monster.layout) ||
-                        layout.name == (params.statblock ?? monster.statblock)
-                ) ?? this.defaultLayout;
-
-            let TraitBlocks = layout.blocks
-                .filter((b) => b.type == "traits")
-                .flatMap((p) => p.properties);
-            for (const trait of TraitBlocks) {
-                let traits = transformTraits(
-                    (monster[trait] as Trait[]) ?? [],
-                    (params[trait] as Trait[]) ?? []
-                );
-                Object.assign(params, {
-                    [trait]: traits
-                });
-            }
-
-            if ("image" in params) {
-                if (Array.isArray(params.image)) {
-                    params.image = params.image.flat(2).join("");
-                }
-            }
-
-            if (
-                "saves" in params &&
-                typeof params.saves == "object" &&
-                !Array.isArray(params.saves)
-            ) {
-                params.saves = Object.entries(params.saves).map((a) =>
-                    Object.fromEntries([a])
-                );
-            }
-            if (
-                "skillsaves" in params &&
-                typeof params.skillsaves == "object" &&
-                !Array.isArray(params.skillsaves)
-            ) {
-                params.skillsaves = Object.entries(params.skillsaves).map((a) =>
-                    Object.fromEntries([a])
-                );
-            }
-
-            //combine extensions
-
-            if (
-                params.extends &&
-                params.extends.length &&
-                monster.extends &&
-                monster.extends.length
-            ) {
-                params.extends = [monster.extends, params.extends].flat();
-            }
-
-            const toBuild: Monster = Object.assign(
-                {},
-                monster ?? {},
-                params ?? {}
-            );
-
             el.addClass("statblock-plugin-container");
             el.parentElement?.addClass("statblock-plugin-parent");
-            const toBuildWithLinksReplaced = JSON.parse(
-                JSON.stringify(toBuild)
-                    .replace(
-                        /\[\["(.+?)"\]\]/g,
-                        `"<STATBLOCK-LINK>$1</STATBLOCK-LINK>"`
-                    )
-                    .replace(/\[\[([^"]+?)\]\]/g, (match, p1) => {
-                        return `<STATBLOCK-LINK>${p1}</STATBLOCK-LINK>`;
-                    })
-                    .replace(
-                        /\[([^"]*?)\]\(([^"]+?)\)/g,
-                        (s, alias: string, path: string) => {
-                            if (alias.length) {
-                                return `<STATBLOCK-LINK>${path}|${alias}</STATBLOCK-LINK>`;
-                            }
-                            return `<STATBLOCK-LINK>${path}</STATBLOCK-LINK>`;
-                        }
-                    )
-            );
 
-            let statblock = new StatBlockRenderer(
-                el,
-                toBuildWithLinksReplaced,
-                this,
-                canSave,
-                ctx.sourcePath,
-                layout
-            );
+            let statblock = new StatBlockRenderer({
+                container: el,
+                plugin: this,
+                params,
+                context: ctx.sourcePath
+            });
 
             ctx.addChild(statblock);
         } catch (e) {
@@ -603,33 +492,12 @@ ${e.stack
         if (display) {
             monster.name = display;
         }
-        const toBuildWithLinksReplaced = JSON.parse(
-            JSON.stringify(monster)
-                .replace(
-                    /\[\["(.+?)"\]\]/g,
-                    `"<STATBLOCK-LINK>$1</STATBLOCK-LINK>"`
-                )
-                .replace(/\[\[([^"]+?)\]\]/g, (match, p1) => {
-                    return `<STATBLOCK-LINK>${p1}</STATBLOCK-LINK>`;
-                })
-                .replace(
-                    /\[([^"]*?)\]\(([^"]+?)\)/g,
-                    (s, alias: string, path: string) => {
-                        if (alias.length) {
-                            return `<STATBLOCK-LINK>${path}|${alias}</STATBLOCK-LINK>`;
-                        }
-                        return `<STATBLOCK-LINK>${path}</STATBLOCK-LINK>`;
-                    }
-                )
-        );
-        return new StatBlockRenderer(
-            el,
-            toBuildWithLinksReplaced,
-            this,
-            false,
-            "STATBLOCK_RENDERER",
-            this.getLayoutOrDefault(monster)
-        );
+        return new StatBlockRenderer({
+            container: el,
+            monster,
+            plugin: this,
+            context: "STATBLOCK_RENDERER"
+        });
     }
     getLayoutOrDefault(monster: Monster): Layout {
         return (

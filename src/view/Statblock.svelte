@@ -25,7 +25,7 @@
 
     const dispatch = createEventDispatcher();
 
-    export let monster: Monster;
+    export let monster: Partial<Monster>;
     export let context: string;
     export let plugin: StatBlockPlugin;
     export let statblock: StatblockItem[];
@@ -52,7 +52,7 @@
     setContext<StatBlockPlugin>("plugin", plugin);
     setContext<boolean>("tryToRenderLinks", plugin.settings.tryToRenderLinks);
     setContext<string>("context", context);
-    setContext<Monster>("monster", monster);
+    setContext<Partial<Monster>>("monster", monster);
     setContext<boolean>("dice", canDice);
     setContext<boolean>("render", canRender);
     setContext<StatBlockRenderer>("renderer", renderer);

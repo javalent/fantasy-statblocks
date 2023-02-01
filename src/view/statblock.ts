@@ -1,14 +1,28 @@
-import { App, ButtonComponent, Modal } from "obsidian";
+import { App, ButtonComponent, Modal, TFile } from "obsidian";
 import { Layout5e } from "src/layouts/basic5e";
 import { MarkdownRenderChild } from "obsidian";
-import type { Monster, Trait } from "@types";
+import type { Monster, StatblockParameters, Trait } from "@types";
 
 import Statblock from "./Statblock.svelte";
 import type StatBlockPlugin from "src/main";
 
 import fastCopy from "fast-copy";
-import type { Layout } from "src/layouts/types";
+import type { Layout, StatblockItem } from "src/layouts/types";
 import { transformTraits } from "src/util/util";
+
+type RendererParameters = {
+    container: HTMLElement;
+    plugin: StatBlockPlugin;
+    context?: string;
+    layout?: Layout;
+} & (
+    | {
+          monster: Monster;
+      }
+    | {
+          params: Partial<StatblockParameters>;
+      }
+);
 
 export default class StatBlockRenderer extends MarkdownRenderChild {
     topBar: HTMLDivElement;
@@ -16,82 +30,194 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
     loaded: boolean = false;
     statblockEl: HTMLDivElement;
     contentEl: HTMLDivElement;
-    constructor(
-        container: HTMLElement,
-        monster: Monster,
-        public plugin: StatBlockPlugin,
-        canSave: boolean,
-        context: string,
-        public layout: Layout = Layout5e
-    ) {
-        super(container);
+    container: HTMLElement;
+    monster: Monster;
+    plugin: StatBlockPlugin;
+    params: Partial<StatblockParameters>;
+    context: string;
+    layout: Layout;
+    constructor(public rendererParameters: RendererParameters) {
+        super(rendererParameters.container);
 
+        this.container = rendererParameters.container;
+        this.plugin = rendererParameters.plugin;
+        this.context = rendererParameters.context ?? "";
+        if ("params" in rendererParameters) {
+            this.params = rendererParameters.params;
+            this.monster = Object.assign(
+                {},
+                this.plugin.bestiary.get(this.params.monster) ??
+                    this.plugin.bestiary.get(this.params.creature)
+            );
+        } else {
+            this.params = {};
+            this.monster = rendererParameters.monster;
+        }
+        this.setLayout();
+
+        this.init();
+    }
+    setLayout() {
+        this.layout =
+            this.plugin.layouts.find(
+                (layout) =>
+                    layout.name ==
+                        (this.params.layout ?? this.monster.layout) ||
+                    layout.name ==
+                        (this.params.statblock ?? this.monster.statblock)
+            ) ?? this.plugin.defaultLayout;
+    }
+    get canSave() {
+        return "name" in this.params;
+    }
+
+    async build(): Promise<Partial<Monster>> {
+        let built: Partial<Monster> = Object.assign(
+            {},
+            this.monster ?? {},
+            this.params ?? {}
+        );
+
+        if (!Object.values(built).length) {
+            built = Object.assign({}, built, {
+                note: this.context
+            });
+        }
+        if (built.note) {
+            const note = Array.isArray(built.note)
+                ? (<string[]>built.note).flat(Infinity).pop()
+                : built.note;
+            const file = await app.metadataCache.getFirstLinkpathDest(
+                `${note}`,
+                this.context ?? ""
+            );
+            if (file && file instanceof TFile) {
+                const cache = await app.metadataCache.getFileCache(file);
+                Object.assign(built, fastCopy(cache.frontmatter) ?? {});
+            }
+        }
+        if ("image" in built) {
+            if (Array.isArray(built.image)) {
+                built.image = built.image.flat(2).join("");
+            }
+        }
+        built = JSON.parse(
+            JSON.stringify(built)
+                .replace(/\\#/g, "#")
+                .replace(
+                    /\[\["(.+?)"\]\]/g,
+                    `"<STATBLOCK-LINK>$1</STATBLOCK-LINK>"`
+                )
+                .replace(/\[\[([^"]+?)\]\]/g, (match, p1) => {
+                    return `<STATBLOCK-LINK>${p1}</STATBLOCK-LINK>`;
+                })
+                .replace(
+                    /\[([^"]*?)\]\(([^"]+?)\)/g,
+                    (s, alias: string, path: string) => {
+                        if (alias.length) {
+                            return `<STATBLOCK-LINK>${path}|${alias}</STATBLOCK-LINK>`;
+                        }
+                        return `<STATBLOCK-LINK>${path}</STATBLOCK-LINK>`;
+                    }
+                )
+        );
+
+        for (const block of this.getBlocksToTransform(this.layout.blocks)) {
+            for (const property of block.properties) {
+                let transformedProperty;
+                if (block.type == "traits") {
+                    transformedProperty = transformTraits(
+                        (built[property] as Trait[]) ?? []
+                    );
+                } else if (block.type == "saves") {
+                    transformedProperty = Object.entries(
+                        built[property] ?? {}
+                    ).map(([key, value]) => {
+                        return { [key]: value };
+                    });
+                }
+
+                Object.assign(built, {
+                    [property]: transformedProperty
+                });
+            }
+        }
+
+        return built;
+    }
+
+    getBlocksToTransform(blocks: StatblockItem[]): StatblockItem[] {
+        let ret: StatblockItem[] = [];
+        for (const block of blocks) {
+            switch (block.type) {
+                case "group":
+                case "inline": {
+                    ret.push(...this.getBlocksToTransform(block.nested));
+                    break;
+                }
+                case "saves":
+                case "traits": {
+                    ret.push(block);
+                    break;
+                }
+                default:
+                    continue;
+            }
+        }
+        return ret;
+    }
+
+    async init() {
         const statblock = new Statblock({
             target: this.containerEl,
             props: {
-                context,
-                monster: this.transform(monster),
-                statblock: layout.blocks,
-                layout: layout.name,
-                plugin,
+                context: this.context,
+                monster: await this.build(),
+                statblock: this.layout.blocks,
+                layout: this.layout.name,
+                plugin: this.plugin,
                 renderer: this,
-                canSave
+                canSave: this.canSave
             }
         });
         statblock.$on("save", async () => {
             if (
-                plugin.bestiary.has(monster.name) &&
+                this.plugin.bestiary.has(this.monster.name) &&
                 !(await confirmWithModal(
-                    plugin.app,
+                    this.plugin.app,
                     "This will overwrite an existing monster in settings. Are you sure?"
                 ))
             )
                 return;
-            plugin.saveMonster({
-                ...fastCopy(monster),
+            this.plugin.saveMonster({
+                ...fastCopy(this.monster),
                 source: "Homebrew",
-                layout: layout.name
+                layout: this.layout.name
             });
         });
 
         statblock.$on("export", () => {
-            plugin.exportAsPng(
-                monster.name,
+            this.plugin.exportAsPng(
+                this.monster.name,
                 this.containerEl.firstElementChild
             );
         });
     }
-    transform(monster: Monster): Monster {
+    transform(): Monster {
         if (
-            !("extends" in monster) ||
+            !("extends" in this.monster) ||
             !(
-                Array.isArray(monster.extends) ||
-                typeof monster.extends == "string"
+                Array.isArray(this.monster.extends) ||
+                typeof this.monster.extends == "string"
             ) ||
-            !monster.extends.length
+            !this.monster.extends.length
         ) {
-            return monster;
+            return this.monster;
         }
 
-        const extensions = this.getExtensions(monster);
+        const extensions = this.getExtensions(this.monster);
 
-        let TraitBlocks = this.layout.blocks
-            .filter((b) => b.type == "traits")
-            .flatMap((p) => p.properties);
-        const traitsHolder = {};
-        for (const trait of TraitBlocks) {
-            let traitArray: Trait[] = [];
-            for (const m of [...extensions]) {
-                traitArray = transformTraits(
-                    traitArray,
-                    (m[trait] as Trait[]) ?? []
-                );
-            }
-            Object.assign(traitsHolder, {
-                [trait]: traitArray
-            });
-        }
-        const ret = Object.assign({}, ...extensions, monster, traitsHolder);
+        const ret = Object.assign({}, ...extensions, this.monster);
 
         return ret;
     }
