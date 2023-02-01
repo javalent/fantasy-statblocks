@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.24.14](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.13...2.24.14) (2023-02-01)
+
+
+### Bug Fixes
+
+* fixes issue with yaml parsing & transforming saves blocks ([584256f](https://github.com/valentine195/obsidian-5e-statblocks/commit/584256f458cefb64ffb1adff314632ac9924d5a4))
+
 ### [2.24.13](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.12...2.24.13) (2023-01-30)
 
 
