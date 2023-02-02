@@ -101,6 +101,33 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 built.image = built.image.flat(2).join("");
             }
         }
+
+        for (const block of this.getBlocksToTransform(this.layout.blocks)) {
+            for (const property of block.properties) {
+                if (!(property in built)) continue;
+                let transformedProperty = built[property];
+                if (block.type == "traits") {
+                    transformedProperty = transformTraits(
+                        [],
+                        (built[property] as Trait[]) ?? []
+                    );
+                } else if (
+                    block.type == "saves" &&
+                    !Array.isArray(built[property]) &&
+                    typeof built[property] == "object"
+                ) {
+                    transformedProperty = Object.entries(
+                        built[property] ?? {}
+                    ).map(([key, value]) => {
+                        return { [key]: value };
+                    });
+                }
+
+                Object.assign(built, {
+                    [property]: transformedProperty
+                });
+            }
+        }
         built = JSON.parse(
             JSON.stringify(built)
                 .replace(/\\#/g, "#")
@@ -121,32 +148,6 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                     }
                 )
         );
-
-        for (const block of this.getBlocksToTransform(this.layout.blocks)) {
-            for (const property of block.properties) {
-                if (!(property in built)) continue;
-                let transformedProperty = built[property];
-                if (block.type == "traits") {
-                    transformedProperty = transformTraits(
-                        (built[property] as Trait[]) ?? []
-                    );
-                } else if (
-                    block.type == "saves" &&
-                    !Array.isArray(built[property]) &&
-                    typeof built[property] == "object"
-                ) {
-                    transformedProperty = Object.entries(
-                        built[property] ?? {}
-                    ).map(([key, value]) => {
-                        return { [key]: value };
-                    });
-                }
-
-                Object.assign(built, {
-                    [property]: transformedProperty
-                });
-            }
-        }
 
         return built;
     }
