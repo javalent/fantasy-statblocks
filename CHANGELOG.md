@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.24.16](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.15...2.24.16) (2023-02-02)
+
+
+### Bug Fixes
+
+* fixes backwards compat with trait array syntax ([5580d6a](https://github.com/valentine195/obsidian-5e-statblocks/commit/5580d6ae626e08b7dd1a5f3189c070f30d3ed8f9))
+
 ### [2.24.15](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.14...2.24.15) (2023-02-02)
 
 
