@@ -124,12 +124,17 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
 
         for (const block of this.getBlocksToTransform(this.layout.blocks)) {
             for (const property of block.properties) {
-                let transformedProperty;
+                if (!(property in built)) continue;
+                let transformedProperty = built[property];
                 if (block.type == "traits") {
                     transformedProperty = transformTraits(
                         (built[property] as Trait[]) ?? []
                     );
-                } else if (block.type == "saves") {
+                } else if (
+                    block.type == "saves" &&
+                    !Array.isArray(built[property]) &&
+                    typeof built[property] == "object"
+                ) {
                     transformedProperty = Object.entries(
                         built[property] ?? {}
                     ).map(([key, value]) => {
