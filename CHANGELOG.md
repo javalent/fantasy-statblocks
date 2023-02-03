@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.24.17](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.16...2.24.17) (2023-02-03)
+
+
+### Bug Fixes
+
+* fixes layout creator straight up not working ([2e80267](https://github.com/valentine195/obsidian-5e-statblocks/commit/2e80267d4088c8f42094bc84348263571db96a4d))
+
 ### [2.24.16](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.15...2.24.16) (2023-02-02)
 
 
