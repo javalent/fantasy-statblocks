@@ -83,7 +83,7 @@
                         href={split.href}
                         class="internal-link"
                         target="_blank"
-                        rel="noopener"
+                        rel="noreferrer"
                         aria-label={split.href}
                         aria-label-position="top"
                     >

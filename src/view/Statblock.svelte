@@ -179,7 +179,12 @@
             {/if}
         </div>
         <!-- {#if icons} -->
-        <div class="icons" use:iconsEl on:click={showMenu} />
+        <div
+            class="icons"
+            use:iconsEl
+            on:keypress={showMenu}
+            on:click={showMenu}
+        />
         <!-- {/if} -->
     {/if}
 </div>

@@ -2,14 +2,15 @@
     import {
         ButtonComponent,
         ExtraButtonComponent,
+        Menu,
         TextComponent
     } from "obsidian";
-    import type { Layout, StatblockItem } from "src/layouts/types";
+    import { Layout, StatblockItem, TypeNames } from "src/layouts/types";
 
     import type StatBlockPlugin from "src/main";
     import { createEventDispatcher } from "svelte";
 
-    import { generate } from "./add";
+    import { blockGenerator, generate } from "./add";
     import Creator from "./ui/Creator.svelte";
 
     export let layout: Layout;
@@ -90,8 +91,17 @@
     };
 
     const add = async (e: MouseEvent) => {
-        const block = await generate(plugin, e);
-        if (block) layout.blocks = [...layout.blocks, block];
+        const addMenu = new Menu().setNoIcon();
+        TypeNames.forEach((type) => {
+            addMenu.addItem((item) => {
+                item.setTitle(type[1]).onClick(() => {
+                    const block = blockGenerator(type[0]);
+                    addMenu.unload();
+                    if (block) layout.blocks = [...layout.blocks, block];
+                });
+            });
+        });
+        addMenu.showAtMouseEvent(e);
     };
     const addButton = (node: HTMLDivElement) => {
         new ExtraButtonComponent(node)

@@ -7,10 +7,10 @@ import {
 } from "src/layouts/types";
 import { nanoid } from "src/util/util";
 
-function blockGenerator<T extends keyof StatblockItemMap>(
+export function blockGenerator<T extends keyof StatblockItemMap>(
     type: T
 ): StatblockItemMap[T];
-function blockGenerator(type: string): StatblockItem {
+export function blockGenerator(type: string): StatblockItem {
     switch (type) {
         case "inline":
         case "group": {
@@ -92,17 +92,16 @@ function blockGenerator(type: string): StatblockItem {
 }
 
 export const generate = async (
-    plugin: StatBlockPlugin,
     evt: MouseEvent
 ): Promise<StatblockItem | void> => {
     return new Promise((resolve, reject) => {
         const addMenu = new Menu().setNoIcon();
-        let gen;
+        let gen: StatblockItem;
         TypeNames.forEach((type) => {
             addMenu.addItem((item) => {
                 item.setTitle(type[1]).onClick(() => {
                     gen = blockGenerator(type[0]);
-                    addMenu.close();
+                    addMenu.unload();
                 });
             });
         });

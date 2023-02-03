@@ -10,10 +10,10 @@
     import type StatBlockPlugin from "src/main";
     import { createEventDispatcher } from "svelte";
     import { ExtraButtonComponent, Menu, setIcon } from "obsidian";
-    import { generate } from "../add";
+    import { blockGenerator, generate } from "../add";
     import { BlockModal } from "./block";
     import Rule from "src/view/ui/Rule.svelte";
-    import type { StatblockItem } from "src/layouts/types";
+    import { StatblockItem, TypeNames } from "src/layouts/types";
 
     const dispatch = createEventDispatcher();
 
@@ -81,12 +81,21 @@
 
     const add = async (block: StatblockItem, evt: MouseEvent) => {
         if (!("nested" in block)) return;
-        const gen = await generate(plugin, evt);
-        if (gen) {
-            block.nested = [...block.nested, gen];
-            blocks = blocks;
-            dispatch("sorted", blocks);
-        }
+        const addMenu = new Menu().setNoIcon();
+        TypeNames.forEach((type) => {
+            addMenu.addItem((item) => {
+                item.setTitle(type[1]).onClick(() => {
+                    const generated = blockGenerator(type[0]);
+                    addMenu.unload();
+                    if (generated) {
+                        block.nested = [...block.nested, generated];
+                        blocks = blocks;
+                        dispatch("sorted", blocks);
+                    }
+                });
+            });
+        });
+        addMenu.showAtMouseEvent(evt);
     };
 
     const dropdown = (node: HTMLDivElement, block: StatblockItem) => {
@@ -96,7 +105,9 @@
                 .addItem((item) => {
                     item.setTitle("Add")
                         .setIcon("plus-with-circle")
-                        .onClick((e: MouseEvent) => add(block, e));
+                        .onClick((e: MouseEvent) => {
+                            add(block, evt);
+                        });
                 })
                 .addItem((item) =>
                     item
