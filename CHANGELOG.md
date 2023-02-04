@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.24.19](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.18...2.24.19) (2023-02-04)
+
+
+### Bug Fixes
+
+* fixes spacing issue related to dice (close [#135](https://github.com/valentine195/obsidian-5e-statblocks/issues/135)) ([5d478b9](https://github.com/valentine195/obsidian-5e-statblocks/commit/5d478b94368a7b56460cbac12bea781737d40ea0))
+* switch to round down (close [#134](https://github.com/valentine195/obsidian-5e-statblocks/issues/134)) ([51b5f4f](https://github.com/valentine195/obsidian-5e-statblocks/commit/51b5f4f033a54b8864c6955187691c34a288144b))
+
 ### [2.24.18](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.17...2.24.18) (2023-02-04)
 
 
