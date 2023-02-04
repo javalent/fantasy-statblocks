@@ -149,6 +149,8 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 )
         );
 
+        this.monster = built as Monster;
+
         return built;
     }
 
