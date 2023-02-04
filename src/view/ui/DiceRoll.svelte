@@ -45,7 +45,7 @@
                         a +
                         (dice.static
                             ? dice.result
-                            : Math.ceil(
+                            : Math.floor(
                                   ((dice.faces.min + dice.faces.max) / 2) *
                                       dice.rolls
                               )),
