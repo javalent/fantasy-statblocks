@@ -23,23 +23,22 @@
         let aliasIndex = link.indexOf("|");
 
         if (aliasIndex > 0) {
-            title = link.slice(aliasIndex + 1).trim();
-            link = link.slice(0, aliasIndex).trim();
+            title = link.slice(aliasIndex + 1);
+            link = link.slice(0, aliasIndex);
         } else {
             title = link
-                .trim()
+
                 .split("#")
                 .filter(function (e) {
                     return !!e;
                 })
-                .join(" > ")
-                .trim();
+                .join(" > ");
         }
         if (link.endsWith("\\")) {
             link = link.slice(0, link.length - 1);
         }
         return {
-            href: (link = link.replace(/\u00A0/g, " ").trim()),
+            href: (link = link.replace(/\u00A0/g, " ")),
             title,
             isAlias: aliasIndex > 0
         };
@@ -47,7 +46,7 @@
 
     const splitByLinks = (text: String): SplitLink[] => {
         return text
-            .trim()
+
             .split(/(<STATBLOCK-LINK>[\s\S]+?<\/STATBLOCK-LINK>)/)
             .filter((s) => s && s.length)
             .map((str) => {

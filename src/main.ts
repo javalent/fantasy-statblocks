@@ -366,7 +366,7 @@ export default class StatBlockPlugin extends Plugin {
         const roller = (str: string) => {
             let text: string;
             let original: string;
-            if (/\w+ [\+\-]\d+/.test(str.trim())) {
+            if (/\w+ [\+\-]\d+/.test(str)) {
                 let [, save, sign, number] =
                     str.match(/(\w+) ([\+\-])(\d+)/) ?? [];
                 let mult = 1;
@@ -375,9 +375,9 @@ export default class StatBlockPlugin extends Plugin {
                 }
                 if (!isNaN(Number(number))) {
                     text = `1d20+${mult * Number(number)}`;
-                    original = `${save.trim()} ${sign.trim()}${number.trim()}`;
+                    original = `${save} ${sign}${number}`;
                 }
-            } else if (/[\+\-]\d+ to hit/.test(str.trim())) {
+            } else if (/[\+\-]\d+ to hit/.test(str)) {
                 let [, sign, number] = str.match(/([\+\-])(\d+)/) ?? [];
 
                 let mult = 1;
@@ -388,7 +388,7 @@ export default class StatBlockPlugin extends Plugin {
                     text = `1d20+${mult * Number(number)}`;
                     original = str;
                 }
-            } else if (/\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)/.test(str.trim())) {
+            } else if (/\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)/.test(str)) {
                 let [, base, dice] =
                     str.match(/(\d+)\s\((\d+d\d+(?:\s*[+\-]\s*\d+)?)\)/) ?? [];
                 if (!isNaN(Number(base)) && dice) {
@@ -400,9 +400,9 @@ export default class StatBlockPlugin extends Plugin {
 
         const match = (str: string) => {
             return (
-                /\w+ [\+\-]\d+/.test(str.trim()) ||
-                /[\+\-]\d+ to hit/.test(str.trim()) ||
-                /\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)/.test(str.trim())
+                /\w+ [\+\-]\d+/.test(str) ||
+                /[\+\-]\d+ to hit/.test(str) ||
+                /\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)/.test(str)
             );
         };
 
