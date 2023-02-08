@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.24.20](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.19...2.24.20) (2023-02-08)
+
+
+### Bug Fixes
+
+* fixes issue where blank named traits won't display ([e4c26da](https://github.com/valentine195/obsidian-5e-statblocks/commit/e4c26daa2317bebe36302e21e7354e6dbd028849))
+
 ### [2.24.19](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.18...2.24.19) (2023-02-04)
 
 
