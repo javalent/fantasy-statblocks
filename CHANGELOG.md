@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.24.22](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.21...2.24.22) (2023-02-12)
+
+
+### Bug Fixes
+
+* remove menu unload... ([4ca990c](https://github.com/valentine195/obsidian-5e-statblocks/commit/4ca990c664fc07a593de02f74ca4211f527267e5))
+
 ### [2.24.21](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.20...2.24.21) (2023-02-12)
 
 
