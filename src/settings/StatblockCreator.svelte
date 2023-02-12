@@ -96,7 +96,6 @@
             addMenu.addItem((item) => {
                 item.setTitle(type[1]).onClick(() => {
                     const block = blockGenerator(type[0]);
-                    addMenu.unload();
                     if (block) layout.blocks = [...layout.blocks, block];
                 });
             });

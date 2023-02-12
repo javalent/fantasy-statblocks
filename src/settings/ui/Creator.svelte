@@ -86,7 +86,6 @@
             addMenu.addItem((item) => {
                 item.setTitle(type[1]).onClick(() => {
                     const generated = blockGenerator(type[0]);
-                    addMenu.unload();
                     if (generated) {
                         block.nested = [...block.nested, generated];
                         blocks = blocks;
