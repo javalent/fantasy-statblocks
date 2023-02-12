@@ -180,7 +180,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             target: this.containerEl,
             props: {
                 context: this.context,
-                monster: await this.build(),
+                monster: this.transform(await this.build()),
                 statblock: this.layout.blocks,
                 layout: this.layout.name,
                 plugin: this.plugin,
@@ -211,26 +211,26 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             );
         });
     }
-    transform(): Monster {
+    transform(monster: Partial<Monster>): Partial<Monster> {
         if (
-            !("extends" in this.monster) ||
+            !("extends" in monster) ||
             !(
-                Array.isArray(this.monster.extends) ||
-                typeof this.monster.extends == "string"
+                Array.isArray(monster.extends) ||
+                typeof monster.extends == "string"
             ) ||
-            !this.monster.extends.length
+            !monster.extends.length
         ) {
-            return this.monster;
+            return monster;
         }
 
-        const extensions = this.getExtensions(this.monster);
+        const extensions = this.getExtensions(monster);
 
-        const ret = Object.assign({}, ...extensions, this.monster);
+        const ret = Object.assign({}, ...extensions, monster);
 
         return ret;
     }
-    getExtensions(monster: Monster): Monster[] {
-        let extensions: Monster[] = [fastCopy(monster)];
+    getExtensions(monster: Partial<Monster>): Partial<Monster>[] {
+        let extensions: Partial<Monster>[] = [fastCopy(monster)];
         if (monster.extends && monster.extends.length) {
             for (const extension of [monster.extends].flat()) {
                 const extensionMonster = this.plugin.bestiary.get(extension);
