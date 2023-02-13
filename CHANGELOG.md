@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.25.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.22...2.25.0) (2023-02-13)
+
+
+### Features
+
+* Rename to Fantasy Statblocks ([e624b37](https://github.com/valentine195/obsidian-5e-statblocks/commit/e624b37ad5058ad55f104c2644ce5dcbef2e2980))
+
 ### [2.24.22](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.24.21...2.24.22) (2023-02-12)
 
 
