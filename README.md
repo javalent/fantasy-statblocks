@@ -1,4 +1,4 @@
-# Obsidian TTRPG Statblocks
+# Fantasy Statblocks
 
 Create, manage, and view a TTRPG Bestiary in Obsidian.md.
 
