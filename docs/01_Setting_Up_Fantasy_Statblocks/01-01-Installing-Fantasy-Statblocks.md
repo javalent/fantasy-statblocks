@@ -41,11 +41,7 @@ the [Statblock Plugin Settings](docs/01_Setting_Up_Fantasy_Statblocks/01-04-00-S
 If you do not wish to, or are unable, to use the Community Plugins Menu from within Obsidian, you are also able to
 install Fantasy Statblocks manually.
 
-The latest release is always available at the Fantasy
-Statblocks [Releases](https://github.com/valentine195/obsidian-5e-statblocks/releases) page.
-
-***Step 1***. Navigate to the Fantasy
-Statblocks [Releases](https://github.com/valentine195/obsidian-5e-statblocks/releases) page.
+***Step 1***. Navigate to the Fantasy Statblocks [Releases](https://github.com/valentine195/fantasy-statblocks/releases) page.
 
 ***Step 2***. Download the most recent release.
 
@@ -54,7 +50,7 @@ Statblocks [Releases](https://github.com/valentine195/obsidian-5e-statblocks/rel
 
 ***
 
-> On some machines, the`.obsidian`folder may be hidden.
+> On some machines, the`.obsidian` folder may be hidden.
 >
 > **MacOS**:
 >
@@ -79,7 +75,7 @@ Statblocks [Releases](https://github.com/valentine195/obsidian-5e-statblocks/rel
 
 ***Step 3-B***. *I downloaded the files individually.*
 
-> Create a folder within `<vault>/.obsidian/plugins/` named Fantasy-Statblocks.
+> Create a folder within `<vault>/.obsidian/plugins/` named **Fantasy-Statblocks**.
 >
 > Place the files you downloaded within this new folder.
 
@@ -132,5 +128,5 @@ that you may need to enable the plugin from Community Plugins.
 
 ***Step 6***. Check the Community Plugins page to ensure that Fantasy Statblocks is enabled.
 
-> Congratulations, you now have the Beta version of Fantasy Statblocks. Please report any Beta Issues at the [Repository](https://github.com/valentine195/obsidian-5e-statblocks/issues/new).
+> Congratulations, you now have the Beta version of Fantasy Statblocks. Please report any Beta Issues at the [Repository](https://github.com/valentine195/Fantasy-Statblocks/issues/new).
 {: .highlight }

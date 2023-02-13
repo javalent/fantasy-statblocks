@@ -8,7 +8,7 @@ plugins:
   - jekyll-seo-tag
   - jekyll-relative-links
 
-url: plugins.javalent.com/obsidian-5e-statblocks/
+url: plugins.javalent.com/fantasy-statblocks/
 
 # Color scheme supports "light" (default) and "dark"
 color_scheme: light
@@ -20,7 +20,7 @@ back_to_top_text: "Back to top"
 # Aux links for the upper right navigation
 aux_links:
   "Fantasy Statblocks at Github":
-    - "//github.com/valentine195/obsidian-5e-statblocks"
+    - "github.com/valentine195/fantasy-statblocks"
   "Javalent's Plugins":
     - "//plugins.javalent.com"
 
@@ -63,8 +63,8 @@ heading_anchors: true
 
 # External navigation links
 nav_external_links:
-  - title: I am an external Linku!
-    url: https://github.com/just-the-docs/just-the-docs
+  - title: Fantasy Statblocks Changelog
+    url: https://github.com/valentine195/fantasy-statblocks/blob/master/CHANGELOG.md
     hide_icon: false # set to true to hide the external link icon - defaults to false
 
 # Callouts 
