@@ -1,7 +1,7 @@
 {
     "name": "obsidian-5e-statblocks",
     "version": "2.24.22",
-    "description": "Create 5e styled statblocks in Obsidian.md",
+    "description": "Create Fantasy statblocks in Obsidian.md",
     "main": "main.js",
     "scripts": {
         "dev": "node ./esbuild.config.mjs",
@@ -11,7 +11,7 @@
     },
     "standard-version": {
         "t": "",
-        "releaseCommitMessageFormat": "TTRPG Statblocks Release: v{{currentTag}}"
+        "releaseCommitMessageFormat": "Fantasy Statblocks Release: v{{currentTag}}"
     },
     "keywords": [],
     "author": "Jeremy Valentine",

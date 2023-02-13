@@ -66,7 +66,7 @@ class Parser {
 
                 if (this.debug) {
                     console.debug(
-                        `TTRPG: Received queue message for ${event.data.paths.length} paths`
+                        `Fantasy Statblocks: Received queue message for ${event.data.paths.length} paths`
                     );
                 }
             }
@@ -84,25 +84,25 @@ class Parser {
     }
     add(...paths: string[]) {
         if (this.debug) {
-            console.debug(`TTRPG: Adding ${paths.length} paths to queue`);
+            console.debug(`Fantasy Statblocks: Adding ${paths.length} paths to queue`);
         }
         this.queue.push(...paths);
         if (!this.parsing) this.parse();
     }
     processContent(path: string, content: string) {
         if (this.debug)
-            console.debug(`TTRPG: Process Content: ${path}`)
+            console.debug(`Fantasy Statblocks: Process Content: ${path}`)
         let fileDetails = this.pendingContentProcessing.get(path)
         let statBlock = this.findFirstStatBlock(content);
         if (statBlock) {
             if (this.debug)
-                console.debug(`TTRPG: found Statblock: ${JSON.stringify(statBlock)}`)
+                console.debug(`Fantasy Statblocks: found Statblock: ${JSON.stringify(statBlock)}`)
             const monster: Monster = Object.assign({}, YAML.parse(statBlock), {
                 note: path,
                 mtime: fileDetails.mtime
             });
             if (this.debug)
-                console.debug(`TTRPG: ${JSON.stringify(monster)}`)
+                console.debug(`Fantasy Statblocks: ${JSON.stringify(monster)}`)
             this.processMonster(monster, fileDetails)
         }
 
@@ -126,7 +126,7 @@ class Parser {
             }
             if (this.debug) {
                 console.debug(
-                    `TTRPG: Parsing ${path} for statblocks (${this.queue.length} to go)`
+                    `Fantasy Statblocks: Parsing ${path} for statblocks (${this.queue.length} to go)`
                 );
             }
             const { file, cache } = await this.getFileData(path);
@@ -204,7 +204,7 @@ class Parser {
 
         if (this.debug)
             console.debug(
-                `TTRPG: Adding ${monster.name} to bestiary from ${file.basename}`
+                `Fantasy Statblocks: Adding ${monster.name} to bestiary from ${file.basename}`
             );
 
         ctx.postMessage<UpdateEventMessage>({

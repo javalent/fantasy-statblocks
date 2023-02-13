@@ -63,6 +63,7 @@ export interface StatblockData {
     disableSRD: boolean;
     tryToRenderLinks: boolean;
     debug: boolean;
+    notifiedOfFantasy: boolean;
 }
 
 const DEFAULT_DATA: StatblockData = {
@@ -82,7 +83,8 @@ const DEFAULT_DATA: StatblockData = {
     autoParse: false,
     disableSRD: false,
     tryToRenderLinks: true,
-    debug: false
+    debug: false,
+    notifiedOfFantasy: false
 };
 
 export default class StatBlockPlugin extends Plugin {
@@ -140,7 +142,7 @@ export default class StatBlockPlugin extends Plugin {
         );
     }
     async onload() {
-        console.log("TTRPG StatBlocks loaded");
+        console.log("Fantasy StatBlocks loaded");
 
         await this.loadSettings();
         await this.loadMonsterData();
@@ -206,7 +208,7 @@ export default class StatBlockPlugin extends Plugin {
         );
     }
     async loadSettings() {
-        const settings = await this.loadData();
+        const settings: StatblockData = await this.loadData();
 
         if (settings != undefined && !("version" in settings)) {
             //1.X settings;
@@ -219,11 +221,20 @@ export default class StatBlockPlugin extends Plugin {
                 "5e Statblocks is now TTRPG Statblocks. Check out the ReadMe for more information!"
             );
         } else {
+            if (
+                settings.version.major >= 2 &&
+                settings.version.minor >= 25 &&
+                !settings.notifiedOfFantasy
+            ) {
+                new Notice("TTRPG Statblocks is now Fantasy Statblocks!");
+                settings.notifiedOfFantasy = true;
+            }
             this.settings = {
                 ...DEFAULT_DATA,
                 ...settings
             };
         }
+
         const version = this.manifest.version.split(".");
         this.settings.version = {
             major: Number(version[0]),
@@ -332,7 +343,7 @@ export default class StatBlockPlugin extends Plugin {
         //@ts-ignore
         delete window.bestiary;
         this.watcher.unload();
-        console.log("TTRPG StatBlocks unloaded");
+        console.log("Fantasy StatBlocks unloaded");
     }
 
     exportAsPng(name: string, containerEl: Element) {

@@ -44,7 +44,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
             containerEl.addClass("statblock-settings");
 
-            containerEl.createEl("h2", { text: "TTRPG Statblock Settings" });
+            containerEl.createEl("h2", { text: "Fantasy Statblocks Settings" });
 
             this.generateTopSettings(containerEl.createDiv());
             this.generateParseSettings(containerEl.createDiv());

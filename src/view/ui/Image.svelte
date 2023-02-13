@@ -58,7 +58,7 @@
             );
             if (props.length > 1) {
                 console.log(
-                    "TTRPG Statblocks: Multiple image properties provided, using first."
+                    "Fantasy Statblocks: Multiple image properties provided, using first."
                 );
             }
             const path = monster[props[0]] as string;

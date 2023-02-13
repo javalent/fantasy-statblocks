@@ -1,6 +1,6 @@
 # Fantasy Statblocks
 
-Create, manage, and view a TTRPG Bestiary in Obsidian.md.
+Create, manage, and view a Fantasy Bestiary in Obsidian.md.
 
 <img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/example.PNG">
 
@@ -469,7 +469,7 @@ These can be overridden globally (on the `:root` element) to change the default 
 
 # Layouts
 
-As of TTRPG Statblocks v2.0.0, custom layouts may be created in settings. The basic 5e layout will always exist, but the default layout used by the plugin may be changed.
+As of Fantasy Statblocks v2.0.0, custom layouts may be created in settings. The basic 5e layout will always exist, but the default layout used by the plugin may be changed.
 
 ## Using a Layout
 

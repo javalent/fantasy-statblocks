@@ -56,7 +56,7 @@ export class Watcher extends Component {
                     return;
                 }
                 if (this.plugin.settings.debug)
-                    console.debug(`TTRPG: Reparsing ${file.name}`);
+                    console.debug(`Fantasy Statblocks: Reparsing ${file.name}`);
                 this.parsePath(file);
             })
         );
@@ -72,7 +72,7 @@ export class Watcher extends Component {
 
                 if (this.plugin.settings.debug)
                     console.debug(
-                        `TTRPG: Handling rename of ${oldPath} to ${abstractFile.path}`
+                        `Fantasy Statblocks: Handling rename of ${oldPath} to ${abstractFile.path}`
                     );
                 await this.delete(oldPath);
                 this.parsePath(abstractFile);
@@ -120,14 +120,14 @@ export class Watcher extends Component {
                         await this.plugin.deleteMonster(existing);
                         update = true;
                         if (this.plugin.settings.debug)
-                            console.debug(`TTRPG: Updating ${monster.name}`);
+                            console.debug(`Fantasy Statblocks: Updating ${monster.name}`);
                     }
                     this.watchPaths.set(path, monster.name);
                     await this.plugin.saveMonster(monster, false, false);
 
                     if (this.plugin.settings.debug)
                         console.debug(
-                            `TTRPG: ${update ? "Updated" : "Added"} ${
+                            `Fantasy Statblocks: ${update ? "Updated" : "Added"} ${
                                 monster.name
                             }`
                         );
@@ -179,7 +179,7 @@ export class Watcher extends Component {
         await this.plugin.saveSettings();
         if (this.startTime) {
             console.info(
-                `TTRPG Statblocks: Frontmatter Parsing Complete in ${(
+                `Fantasy Statblocks: Frontmatter Parsing Complete in ${(
                     (Date.now() - this.startTime) /
                     1000
                 ).toLocaleString()} seconds.`
@@ -187,7 +187,7 @@ export class Watcher extends Component {
             this.startTime = 0;
         }
         if (this.announce) {
-            new Notice("TTRPG Statblocks: Frontmatter Parsing complete.");
+            new Notice("Fantasy Statblocks: Frontmatter Parsing complete.");
             this.announce = false;
         }
     }
@@ -195,13 +195,13 @@ export class Watcher extends Component {
         await this.plugin.deleteMonster(this.watchPaths.get(path));
         this.watchPaths.delete(path);
         if (this.plugin.settings.debug)
-            console.debug(`TTRPG: Removing '${path}' from bestiary`);
+            console.debug(`Fantasy Statblocks: Removing '${path}' from bestiary`);
     }
     startTime: number;
     start(announce = false) {
         this.announce = announce;
         this.startTime = Date.now();
-        console.info("TTRPG Statblocks: Starting Frontmatter Parsing.");
+        console.info("Fantasy Statblocks: Starting Frontmatter Parsing.");
         if (!this.plugin.settings.paths?.length) {
             this.plugin.settings.paths = ["/"];
         }
