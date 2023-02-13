@@ -222,9 +222,10 @@ export default class StatBlockPlugin extends Plugin {
             );
         } else {
             if (
-                settings.version.major >= 2 &&
-                settings.version.minor >= 25 &&
-                !settings.notifiedOfFantasy
+                settings &&
+                settings?.version?.major >= 2 &&
+                settings?.version?.minor >= 25 &&
+                !settings?.notifiedOfFantasy
             ) {
                 new Notice("TTRPG Statblocks is now Fantasy Statblocks!");
                 settings.notifiedOfFantasy = true;
