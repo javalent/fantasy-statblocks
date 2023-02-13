@@ -1,0 +1,146 @@
+title: Fantasy Statblocks
+description: A Table Top Roleplaying Plugin to Access the Create and Manage your Statblock Layouts within Obsidian.
+# Build settings
+remote_theme: just-the-docs/just-the-docs@v0.4.0
+markdown: Kramdown
+plugins:
+  - jekyll-default-layout
+  - jekyll-seo-tag
+  - jekyll-relative-links
+
+url: plugins.javalent.com/obsidian-5e-statblocks/
+
+# Color scheme supports "light" (default) and "dark"
+color_scheme: light
+
+# Back to top link
+back_to_top: true
+back_to_top_text: "Back to top"
+
+# Aux links for the upper right navigation
+aux_links:
+  "Fantasy Statblocks at Github":
+    - "//github.com/valentine195/obsidian-5e-statblocks"
+  "Javalent's Plugins":
+    - "//plugins.javalent.com"
+
+# Makes Aux links open in a new tab. Default is false
+aux_links_new_tab: false
+
+# Enable or disable the site search
+# Supports true (default) or false
+search_enabled: true
+
+search:
+  # Split pages into sections that can be searched individually
+  # Supports 1 - 6, default: 2
+  heading_level: 2
+  # Maximum amount of previews per search result
+  # Default: 3
+  previews: 3
+  # Maximum amount of words to display before a matched word in the preview
+  # Default: 5
+  preview_words_before: 5
+  # Maximum amount of words to display after a matched word in the preview
+  # Default: 10
+  preview_words_after: 10
+  # Set the search token separator
+  # Default: /[\s\-/]+/
+  # Example: enable support for hyphenated search words
+  tokenizer_separator: /[\s/]+/
+  # Display the relative url in search results
+  # Supports true (default) or false
+  rel_url: true
+  # Enable or disable the search button that appears in the bottom right corner of every page
+  # Supports true or false (default)
+  button: false
+
+# Heading anchor links appear on hover over h1-h6 tags in page content
+# allowing users to deep link to a particular heading on a page.
+#
+# Supports true (default) or false
+heading_anchors: true
+
+# External navigation links
+nav_external_links:
+  - title: I am an external Linku!
+    url: https://github.com/just-the-docs/just-the-docs
+    hide_icon: false # set to true to hide the external link icon - defaults to false
+
+# Callouts 
+callouts_level: quiet # or loud
+callouts:
+  highlight:
+    color: yellow
+  important:
+    title: Important
+    color: blue
+  new:
+    title: New
+    color: green
+  note:
+    title: Note
+    color: purple
+  warning:
+    title: Warning
+    color: red
+  coming:
+    title: Coming Soon
+    color: pink
+    opacity: 0.3
+
+mermaid:
+  # Version of mermaid library
+  # Pick an available version from https://cdn.jsdelivr.net/npm/mermaid/
+  version: "9.1.3"
+
+# Define Jekyll collections
+collections:
+  # Define a collection named "tests", its documents reside in the "_tests" directory
+  api:
+    permalink: "/:collection/:path/"
+    output: true
+
+Fantasy_Statblocks:
+  # Define which collections are used in Fantasy Statblocks
+  collections:
+    # Reference the "tests" collection
+    api:
+      # Give the collection a name
+      name: api
+      # Exclude the collection from the navigation
+      # Supports true or false (default)
+      # nav_exclude: true
+      # Fold the collection in the navigation
+      # Supports true or false (default)
+      nav_fold: true  # note: this option is new in v0.4
+      # Exclude the collection from the search
+      # Supports true or false (default)
+      # search_exclude: true
+  callbacks:
+      # Javascript Callbacks
+      name: Callbacks
+      nav_fold: true
+
+exclude:
+  # from https://github.com/jekyll/jekyll/blob/master/lib/site_template/_config.yml:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  # specific to the theme website:
+  - bin/
+  - lib/
+  - "*.gemspec"
+  - "*.gem"
+  - LICENSE.txt
+  - package.json
+  - package-lock.json
+  - Rakefile
+  - README.md
