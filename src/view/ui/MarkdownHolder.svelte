@@ -68,9 +68,9 @@
             const replacer = dice.original ?? dice.text;
             let diceString;
             if (dice.original) {
-                diceString = `${dice.original} (\`dice: ${dice.text}\`)`;
+                diceString = `${dice.original} (\`dice: ${dice.text}|noparen\`)`;
             } else {
-                diceString = `\`dice: ${dice.text}\``;
+                diceString = `\`dice: ${dice.text}|noparen\``;
             }
             const index = property.slice(start).indexOf(replacer);
             property =

@@ -107,9 +107,10 @@ export default class StatBlockPlugin extends Plugin {
 
     getRoller(str: string) {
         if (!this.canUseDiceRoller) return;
+        const displayFormulaAfter = false;
         const roller = this.app.plugins
             .getPlugin("obsidian-dice-roller")
-            .getRollerSync(str, "statblock", true);
+            .getRollerSync(str, "statblock", true, displayFormulaAfter);
         return roller;
     }
     get canUseDiceRoller() {
