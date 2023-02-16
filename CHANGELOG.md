@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.25.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.25.1...2.25.2) (2023-02-16)
+
+
+### Bug Fixes
+
+* removes parens after dice roll for new dice roller setting ([fdbf30a](https://github.com/valentine195/obsidian-5e-statblocks/commit/fdbf30aad1b5acd5d072ce8f4e08d2186caa0592))
+
 ### [2.25.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.25.0...2.25.1) (2023-02-13)
 
 
