@@ -194,14 +194,13 @@
 </div>
 
 <style>
-    :global(body:not(.is-mobile)) .creator-zone:not(.nested) {
+    /* :global(body:not(.is-mobile)) .creator-zone:not(.nested) {
         max-width: 75vw;
         max-height: 65vh;
         overflow: auto;
-    }
-    .inline {
-        display: flex;
-        justify-content: space-between;
+    } */
+    :global(.min-height) {
+        min-height: 2rem;
     }
     .block {
         display: flex;
@@ -210,8 +209,8 @@
     }
 
     .item {
-        display: flex;
-        flex-flow: column;
+        display: grid;
+        grid-template-columns: auto 1fr auto;
         width: 100%;
         padding: 2px;
         margin: 2px;
@@ -226,7 +225,9 @@
         align-self: flex-start;
     }
     .inline {
-        display: inline-flex;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
         width: 100%;
         height: 100%;
         min-width: 2rem;
