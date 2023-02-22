@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.25.3](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.25.2...2.25.3) (2023-02-22)
+
+
+### Bug Fixes
+
+* fixes inline overflow in layout creator ([0285716](https://github.com/valentine195/obsidian-5e-statblocks/commit/02857160f28af2d65176a48817b5ec9ab71eb89e))
+
 ### [2.25.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.25.1...2.25.2) (2023-02-16)
 
 
