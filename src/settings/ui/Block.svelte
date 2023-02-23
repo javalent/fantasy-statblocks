@@ -3,7 +3,7 @@
     import type StatBlockPlugin from "src/main";
     import { ExtraButtonComponent } from "obsidian";
     import { createEventDispatcher } from "svelte";
-    import { BlockModal } from "./block";
+    import { getModalForBlock } from "./block";
     import type { StatblockItem } from "src/layouts/types";
 
     export let block: StatblockItem;
@@ -12,7 +12,7 @@
     const dispatch = createEventDispatcher();
 
     const editBlock = () => {
-        const modal = new BlockModal(plugin, block);
+        const modal = getModalForBlock(plugin, block);
 
         modal.onClose = () => {
             if (!modal.saved) return;
@@ -29,6 +29,14 @@
                 editBlock();
             });
     };
+    const add = (node: HTMLDivElement) => {
+        new ExtraButtonComponent(node)
+            .setIcon("plus")
+            .setTooltip("Add Condition")
+            .onClick(() => {
+                /* editBlock(); */
+            });
+    };
 
     const trash = (node: HTMLDivElement) => {
         new ExtraButtonComponent(node)
@@ -41,7 +49,9 @@
 <div class="statblock-creator-container">
     {#key block}
         <div class="statblock-creator-block">
-            <PropertyBlock {block} />
+            {#if block.type != "ifelse"}
+                <PropertyBlock {block} />
+            {/if}
         </div>
     {/key}
     <div class="icons">
@@ -57,6 +67,7 @@
         /* align-items: center; */
         width: 100%;
         height: 100%;
+        gap: 0.25rem;
     }
 
     :global(body:not(.is-mobile))

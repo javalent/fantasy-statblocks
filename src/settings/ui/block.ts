@@ -1,423 +1,97 @@
 import type { Monster } from "@types";
 import copy from "fast-copy";
 import { Modal, Notice, Setting, TextAreaComponent } from "obsidian";
-import {
-    type StatblockItem,
-    type PropertyItem,
-    type TraitsItem,
-    type TableItem,
-    MarkdownTypes,
-    type TextItem,
-    type SubHeadingItem,
-    HeadingItem
+import type {
+    StatblockItem,
+    PropertyItem,
+    TraitsItem,
+    TableItem,
+    TextItem,
+    SubHeadingItem,
+    HeadingItem,
+    GroupItem,
+    InlineItem,
+    IfElseItem,
+    SavesItem,
+    SpellsItem,
+    IfElseCondition
 } from "src/layouts/types";
 import type StatBlockPlugin from "src/main";
 import TableHeaders from "./TableHeaders.svelte";
 import SubheadingProperty from "./SubheadingProperty.svelte";
+import IfElseProperties from "./IfElseProperties.svelte";
 import { nanoid } from "src/util/util";
+import { blockGenerator } from "../add";
 
-export class BlockModal extends Modal {
-    block: StatblockItem;
+export function getModalForBlock(
+    plugin: StatBlockPlugin,
+    block: IfElseItem
+): IfElseModal;
+export function getModalForBlock(
+    plugin: StatBlockPlugin,
+    block: GroupItem | InlineItem
+): GroupModal;
+export function getModalForBlock(
+    plugin: StatBlockPlugin,
+    block: StatblockItem
+): BlockModal<StatblockItem>;
+export function getModalForBlock(
+    plugin: StatBlockPlugin,
+    block: StatblockItem
+): BlockModal<StatblockItem> {
+    switch (block.type) {
+        case "group":
+        case "inline": {
+            return new GroupModal(plugin, block);
+        }
+        case "ifelse": {
+            return new IfElseModal(plugin, block);
+        }
+        case "heading": {
+            return new HeadingModal(plugin, block);
+        }
+        case "property": {
+            return new PropertyModal(plugin, block);
+        }
+        case "saves": {
+            return new SavesModal(plugin, block);
+        }
+        case "spells": {
+            return new SpellsModal(plugin, block);
+        }
+        case "subheading": {
+            return new SubheadingModal(plugin, block);
+        }
+        case "table": {
+            return new TableModal(plugin, block);
+        }
+        case "traits": {
+            return new TraitsModal(plugin, block);
+        }
+        case "text": {
+            return new TextModal(plugin, block);
+        }
+    }
+    return new GenericModal(plugin, block);
+}
+
+abstract class BlockModal<T extends StatblockItem> extends Modal {
+    block: T;
     saved: boolean;
     advanced: boolean;
-    constructor(public plugin: StatBlockPlugin, block?: StatblockItem) {
+
+    constructor(public plugin: StatBlockPlugin, block?: T) {
         super(plugin.app);
         this.advanced = this.plugin.settings.showAdvanced;
         if (block) this.block = copy(block);
         this.containerEl.addClass("statblock-edit-block");
     }
-    get group() {
-        return ["group", "inline"].contains(this.block.type);
-    }
     onOpen() {
         this.titleEl.setText("Edit Block");
         this.display();
     }
-    buildProperties(el: HTMLDivElement) {
-        el.empty();
-        if (!this.group) {
-            if (this.block.type == "subheading") {
-                const container = el.createDiv(
-                    "statblock-additional-container"
-                );
-                let tempProp = "";
-                new Setting(container)
-                    .setHeading()
-                    .setName("Link Monster Properties")
-                    .addText((t) =>
-                        t
-                            .setPlaceholder("property")
-                            .setValue(tempProp)
-                            .onChange((v) => (tempProp = v))
-                    )
-                    .addExtraButton((b) =>
-                        b.setIcon("plus-with-circle").onClick(() => {
-                            if (!tempProp || !tempProp.length) {
-                                new Notice(
-                                    "A valid property must be supplied."
-                                );
-                                return;
-                            }
-                            this.block.properties.push(
-                                tempProp as keyof Monster
-                            );
-                            this.buildProperties(el);
-                        })
-                    );
 
-                const additional = container.createDiv("additional");
-                const sub = new SubheadingProperty({
-                    target: additional,
-                    props: {
-                        properties: this.block.properties.map((prop) => {
-                            return { prop, id: nanoid() };
-                        })
-                    }
-                });
-                sub.$on("sorted", (e: CustomEvent<(keyof Monster)[]>) => {
-                    this.block.properties = [...e.detail];
-                });
-            } else {
-                new Setting(el).setName("Link Monster Property").addText((t) =>
-                    t.setValue(this.block.properties[0]).onChange((v) => {
-                        this.block.properties[0] = v as keyof Monster;
-                    })
-                );
-            }
-            if (this.block.type == "property" || this.block.type == "saves") {
-                new Setting(this.contentEl)
-                    .setName("Display Text")
-                    .setDesc("This text will be used for the property name.")
-                    .addText((t) => {
-                        t.setValue(
-                            (this.block as PropertyItem).display
-                        ).onChange(
-                            (v) => ((this.block as PropertyItem).display = v)
-                        );
-                    });
-            }
-            if (this.block.type == "traits" || this.block.type == "text") {
-                new Setting(this.contentEl)
-                    .setName("Use Monster Property for Heading")
-                    .setDesc(
-                        "The Section heading will be set to the value of the specified property."
-                    )
-                    .addToggle((t) => {
-                        t.setValue(
-                            (this.block as TraitsItem).headingProp
-                        ).onChange((v) => {
-                            (this.block as TraitsItem).headingProp = v;
-                            this.display();
-                        });
-                    });
-                new Setting(this.contentEl)
-                    .setName("Section Heading")
-                    .setDesc(
-                        this.block.headingProp
-                            ? "The section will use this property for the section heading. If the property does not exist or is blank, the section heading will not appear."
-                            : "This text will be used for the section heading. Can be left blank."
-                    )
-                    .addText((t) => {
-                        t.setValue((this.block as TraitsItem).heading).onChange(
-                            (v) => ((this.block as TraitsItem).heading = v)
-                        );
-                    });
-            }
-            if (this.block.type == "table") {
-                const container = el.createDiv(
-                    "statblock-additional-container"
-                );
-                let tempProp = "";
-                new Setting(container)
-                    .setHeading()
-                    .setName("Table Headers")
-                    .addText((t) =>
-                        t
-                            .setPlaceholder("header")
-                            .setValue(tempProp)
-                            .onChange((v) => (tempProp = v))
-                    )
-                    .addExtraButton((b) =>
-                        b.setIcon("plus-with-circle").onClick(() => {
-                            if (!tempProp || !tempProp.length) {
-                                new Notice(
-                                    "A valid property must be supplied."
-                                );
-                                return;
-                            }
-                            (this.block as TableItem).headers.push(
-                                tempProp as keyof Monster
-                            );
-                            this.buildProperties(el);
-                        })
-                    );
-                const additional = container.createDiv("additional");
-                new TableHeaders({
-                    target: additional,
-                    props: {
-                        headers: this.block.headers
-                    }
-                }).$on("sorted", (e: CustomEvent<{ name: string }[]>) => {
-                    (this.block as TableItem).headers = [
-                        ...(e.detail?.map((v) => v.name) ?? [])
-                    ];
-                });
-                new Setting(el)
-                    .setName("Calculate Modifiers")
-                    .setDesc(
-                        "The block will not attempt to calculate modifiers for table values."
-                    )
-                    .addToggle((t) => {
-                        t.setValue(
-                            (this.block as TableItem).calculate
-                        ).onChange((v) => {
-                            (this.block as TableItem).calculate = v;
-                        });
-                    });
-            }
-            if (this.block.type == "heading") {
-                new Setting(this.contentEl)
-                    .setName("Header Size")
-                    .setDesc("The heading will use this size.")
-                    .addDropdown((d) => {
-                        if (!(this.block as HeadingItem).size) {
-                            (this.block as HeadingItem).size == 1;
-                        }
-                        d.addOptions({
-                            "1": "H1",
-                            "2": "H2",
-                            "3": "H3",
-                            "4": "H4",
-                            "5": "H5",
-                            "6": "H6"
-                        })
-                            .setValue(`${(this.block as HeadingItem).size}`)
-                            .onChange(
-                                (v) =>
-                                    ((this.block as HeadingItem).size =
-                                        Number(v))
-                            );
-                    });
-            }
-            if (!this.advanced) return;
-            if (MarkdownTypes.includes(this.block.type as any)) {
-                new Setting(el)
-                    .setName("Render as Markdown")
-                    .setDesc(
-                        createFragment((e) => {
-                            e.createSpan({
-                                text: "The block will attempt to render as markdown."
-                            });
-                        })
-                    )
-                    .addToggle((t) => {
-                        t.setValue((this.block as TextItem).markdown).onChange(
-                            (v) => {
-                                (this.block as TextItem).markdown = v;
-                            }
-                        );
-                    });
-            }
-            if (this.block.type == "text") {
-                new Setting(el)
-                    .setHeading()
-                    .setName("Text to Show")
-                    .setDesc(
-                        createFragment((e) => {
-                            e.createSpan({ text: "The block will " });
-                            e.createEl("strong", { text: "always" });
-                            e.createSpan({
-                                text: " display the text entered here."
-                            });
-                        })
-                    );
-                new TextAreaComponent(el)
-                    .setValue(this.block.text)
-                    .onChange((v) => {
-                        (this.block as TextItem).text = v;
-                    });
-            }
-            if (this.block.type == "property") {
-                new Setting(el)
-                    .setHeading()
-                    .setName("Callback")
-                    .setDesc(
-                        createFragment((e) => {
-                            e.createSpan({
-                                text: "The block will run the callback and use the returned string as the property."
-                            });
-                            e.createEl("br");
-                            e.createSpan({
-                                text: "The callback will receive the "
-                            });
-                            e.createEl("code", { text: "monster" });
-                            e.createSpan({ text: " parameter." });
-                        })
-                    );
-                new TextAreaComponent(el)
-                    .setValue(this.block.callback)
-                    .onChange((v) => {
-                        (this.block as PropertyItem).callback = v;
-                    });
-            }
-            if (this.block.type == "table") {
-                new Setting(el)
-                    .setHeading()
-                    .setName("Ability Modifier Calculation")
-                    .setDesc(
-                        createFragment((e) => {
-                            e.createSpan({
-                                text: "Allows a custom modifier for the stat."
-                            });
-                            e.createEl("br");
-                            e.createSpan({ text: "Variable " });
-                            e.createEl("code", { text: "stat" });
-                            e.createSpan({
-                                text: "is accessible, use this to calculate the modifier."
-                            });
-                        })
-                    );
-                new TextAreaComponent(el)
-                    .setValue(this.block.modifier)
-                    .onChange((v) => {
-                        (this.block as TableItem).modifier = v;
-                    });
-            }
-        }
-    }
-    buildSeparator(el: HTMLDivElement) {
-        el.empty();
-
-        if (this.block.type == "subheading") {
-            new Setting(el)
-                .setName("Separator")
-                .setDesc("Text separating properties")
-                .addText((t) => {
-                    if (this.block.type == "subheading") {
-                        if (!this.block.separator) {
-                            this.block.separator = " ";
-                        }
-                        t.setValue(this.block.separator).onChange((v) => {
-                            if (this.block.type == "subheading") {
-                                this.block.separator = v;
-                            }
-                        });
-                    }
-                });
-        }
-    }
-    buildConditions(el: HTMLDivElement) {
-        el.empty();
-        new Setting(el)
-            .setName("Conditional")
-            .setDesc(
-                "The block will not be added if the associated properties are not present."
-            )
-            .addToggle((t) => {
-                t.setValue(this.block.conditioned).onChange((v) => {
-                    this.block.conditioned = v;
-
-                    this.buildConditions(el);
-                });
-            });
-        if (!this.block.conditioned && !this.group) {
-            new Setting(el)
-                .setName("Fallback")
-                .setDesc("If not present, this text will be displayed.")
-                .addText((t) => {
-                    if (!this.block.fallback) {
-                        this.block.fallback = "-";
-                    }
-                    t.setValue(this.block.fallback).onChange((v) => {
-                        this.block.fallback = v;
-                    });
-                });
-        }
-        new Setting(el)
-            .setName("Has Rule")
-            .setDesc(
-                "If present, the block will have a horizontal rule placed after it."
-            )
-            .addToggle((t) => {
-                t.setValue(this.block.hasRule).onChange(
-                    (v) => (this.block.hasRule = v)
-                );
-            });
-    }
-    buildDice(el: HTMLDivElement) {
-        el.empty();
-        if (!this.group && this.plugin.canUseDiceRoller) {
-            new Setting(el)
-                .setName("Parse for Dice")
-                .setDesc(
-                    "The plugin will attempt to add dice rollers as specified."
-                )
-
-                .addToggle((t) =>
-                    t.setValue(this.block.dice).onChange((v) => {
-                        this.block.dice = v;
-                        this.buildDice(el);
-                    })
-                );
-            if (this.block.dice) {
-                new Setting(el.createDiv())
-                    .setName("Link Dice to Property")
-                    .setDesc(
-                        "The dice roller will parse this property instead of the original."
-                    )
-                    .addText((t) => {
-                        t.setValue(this.block.diceProperty).onChange((v) => {
-                            this.block.diceProperty = v as keyof Monster;
-                        });
-                    });
-            }
-        }
-
-        if (!this.advanced) return;
-        new Setting(el)
-            .setHeading()
-            .setName("Dice Callback")
-            .setDesc(
-                createFragment((e) => {
-                    e.createSpan({
-                        text: "The block will run the callback and use the returned values for the dice strings."
-                    });
-                    e.createEl("br");
-                    e.createSpan({
-                        text: "The callback will receive the "
-                    });
-                    e.createEl("code", { text: "monster" });
-                    e.createSpan({ text: " and " });
-                    e.createEl("code", { text: "property" });
-                    e.createSpan({ text: "parameters." });
-                })
-            );
-        new TextAreaComponent(el)
-            .setValue(this.block.diceCallback)
-            .onChange((v) => {
-                this.block.diceCallback = v;
-            });
-    }
-    async display() {
-        this.contentEl.empty();
-        new Setting(this.contentEl)
-            .setName("Show Advanced Options")
-            .addToggle((t) => {
-                t.setValue(
-                    this.advanced ?? this.plugin.settings.showAdvanced
-                ).onChange((v) => {
-                    this.advanced = v;
-                    this.display();
-                });
-            });
-
-        this.buildProperties(this.contentEl.createDiv());
-        this.buildSeparator(this.contentEl.createDiv());
-        this.buildConditions(this.contentEl.createDiv());
-        this.buildDice(this.contentEl.createDiv());
-
-        this.buildButtons(this.contentEl.createDiv());
-    }
+    abstract display(): Promise<void>;
 
     buildButtons(el: HTMLDivElement) {
         el.empty();
@@ -443,4 +117,534 @@ export class BlockModal extends Modal {
     }
 
     buildProperty(el: HTMLElement) {}
+}
+
+class GroupModal extends BlockModal<GroupItem | InlineItem> {
+    async display() {
+        this.contentEl.empty();
+
+        new Setting(this.contentEl)
+            .setName("Has Rule")
+            .setDesc(
+                "If present, the block will have a horizontal rule placed after it."
+            )
+            .addToggle((t) => {
+                t.setValue(this.block.hasRule).onChange(
+                    (v) => (this.block.hasRule = v)
+                );
+            });
+        this.buildButtons(this.contentEl.createDiv());
+    }
+}
+class IfElseModal extends BlockModal<IfElseItem> {
+    async display() {
+        this.contentEl.empty();
+
+        this.buildConditions(this.contentEl.createDiv());
+
+        this.buildButtons(this.contentEl.createDiv());
+    }
+    buildConditions(el: HTMLElement) {
+        el.empty();
+        new Setting(el).setDesc(
+            createFragment((e) => {
+                e.createSpan({
+                    text: "Conditions are used to determine what block is rendered. Each condition is evaluated in order - the first to evaluate to "
+                });
+                e.createEl("code", {
+                    text: "true"
+                });
+                e.createSpan({
+                    text: " is the condition that will be used."
+                });
+                e.createEl("br");
+                e.createEl("br");
+                e.createSpan({ text: "The expression receives the " });
+                e.createEl("code", {
+                    text: "monster"
+                });
+                e.createSpan({
+                    text: " parameter, which can be used to access properties of the monster being rendered."
+                });
+
+                e.createEl("br");
+                e.createEl("br");
+                e.createEl("strong", {text: "All conditions must return a value."})
+            })
+        );
+        new Setting(el).setName("Add new condition").addButton((b) =>
+            b.setIcon("plus").onClick(() => {
+                this.block.conditions.push({
+                    blocks: [blockGenerator("group")],
+                    condition: null
+                });
+                const id = nanoid();
+                sub.$set({
+                    conditions: [
+                        ...this.block.conditions.slice(0, -1).map((prop) => {
+                            return { prop, id: nanoid() };
+                        }),
+                        {
+                            prop: this.block.conditions[
+                                this.block.conditions.length - 1
+                            ],
+                            id
+                        }
+                    ],
+                    editing: id
+                });
+            })
+        );
+        const additional = el.createDiv("additional");
+        const sub = new IfElseProperties({
+            target: additional,
+            props: {
+                conditions: this.block.conditions.map((prop) => {
+                    return { prop, id: nanoid() };
+                })
+            }
+        });
+        sub.$on("sorted", (e: CustomEvent<IfElseCondition[]>) => {
+            this.block.conditions = [...e.detail];
+        });
+    }
+}
+
+class GenericModal<
+    I extends Exclude<StatblockItem, GroupItem | InlineItem | IfElseItem>
+> extends BlockModal<I> {
+    async display() {
+        this.contentEl.empty();
+        new Setting(this.contentEl)
+            .setName("Show Advanced Options")
+            .addToggle((t) => {
+                t.setValue(
+                    this.advanced ?? this.plugin.settings.showAdvanced
+                ).onChange((v) => {
+                    this.advanced = v;
+                    this.display();
+                });
+            });
+
+        this.buildProperties(this.contentEl.createDiv());
+        this.buildSeparator(this.contentEl.createDiv());
+        this.buildAdvanced(this.contentEl.createDiv());
+        this.buildConditions(this.contentEl.createDiv());
+        this.buildDice(this.contentEl.createDiv());
+
+        this.buildButtons(this.contentEl.createDiv());
+    }
+    buildAdvanced(el: HTMLDivElement) {
+        if (!this.advanced) return;
+        el.empty();
+        if (this.plugin.canUseDiceRoller) {
+            if (!this.advanced) return;
+            new Setting(el)
+                .setHeading()
+                .setName("Dice Callback")
+                .setDesc(
+                    createFragment((e) => {
+                        e.createSpan({
+                            text: "The block will run the callback and use the returned values for the dice strings."
+                        });
+                        e.createEl("br");
+                        e.createSpan({
+                            text: "The callback will receive the "
+                        });
+                        e.createEl("code", { text: "monster" });
+                        e.createSpan({ text: " and " });
+                        e.createEl("code", { text: "property" });
+                        e.createSpan({ text: "parameters." });
+                    })
+                );
+            new TextAreaComponent(el)
+                .setValue(this.block.diceCallback)
+                .onChange((v) => {
+                    this.block.diceCallback = v;
+                });
+        }
+    }
+    buildProperties(el: HTMLDivElement) {
+        el.empty();
+        const block = this.block;
+        new Setting(el).setName("Link Monster Property").addText((t) =>
+            t.setValue(block.properties[0]).onChange((v) => {
+                block.properties[0] = v as keyof Monster;
+            })
+        );
+    }
+    buildSeparator(el: HTMLDivElement) {
+        return;
+    }
+    buildConditions(el: HTMLDivElement) {
+        el.empty();
+        const block = this.block;
+        new Setting(el)
+            .setName("Conditional")
+            .setDesc(
+                "The block will not be added if the associated properties are not present."
+            )
+            .addToggle((t) => {
+                t.setValue(block.conditioned).onChange((v) => {
+                    block.conditioned = v;
+
+                    this.buildConditions(el);
+                });
+            });
+        if (!this.block.conditioned) {
+            new Setting(el)
+                .setName("Fallback")
+                .setDesc("If not present, this text will be displayed.")
+                .addText((t) => {
+                    if (!block.fallback) {
+                        block.fallback = "-";
+                    }
+                    t.setValue(block.fallback).onChange((v) => {
+                        block.fallback = v;
+                    });
+                });
+        }
+        new Setting(el)
+            .setName("Has Rule")
+            .setDesc(
+                "If present, the block will have a horizontal rule placed after it."
+            )
+            .addToggle((t) => {
+                t.setValue(block.hasRule).onChange((v) => (block.hasRule = v));
+            });
+    }
+    buildDice(el: HTMLDivElement) {
+        el.empty();
+        const block = this.block;
+        if (this.plugin.canUseDiceRoller) {
+            new Setting(el)
+                .setName("Parse for Dice")
+                .setDesc(
+                    "The plugin will attempt to add dice rollers as specified."
+                )
+
+                .addToggle((t) =>
+                    t.setValue(block.dice).onChange((v) => {
+                        block.dice = v;
+                        this.buildDice(el);
+                    })
+                );
+            if (block.dice) {
+                new Setting(el.createDiv())
+                    .setName("Link Dice to Property")
+                    .setDesc(
+                        "The dice roller will parse this property instead of the original."
+                    )
+                    .addText((t) => {
+                        t.setValue(block.diceProperty).onChange((v) => {
+                            block.diceProperty = v as keyof Monster;
+                        });
+                    });
+            }
+        }
+    }
+}
+
+class MarkdownEnabledModal<
+    M extends PropertyItem | TraitsItem | SpellsItem | TextItem | SavesItem
+> extends GenericModal<M> {
+    buildAdvanced(el: HTMLDivElement): void {
+        if (!this.advanced) return;
+        super.buildAdvanced(el);
+        new Setting(el)
+            .setName("Render as Markdown")
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "The block will attempt to render as markdown."
+                    });
+                })
+            )
+            .addToggle((t) => {
+                t.setValue(this.block.markdown).onChange((v) => {
+                    this.block.markdown = v;
+                });
+            });
+    }
+}
+
+class HeadingModal extends GenericModal<HeadingItem> {
+    buildProperties(el: HTMLDivElement): void {
+        super.buildProperties(el);
+        new Setting(this.contentEl)
+            .setName("Header Size")
+            .setDesc("The heading will use this size.")
+            .addDropdown((d) => {
+                if (!this.block.size) {
+                    this.block.size == 1;
+                }
+                d.addOptions({
+                    "1": "H1",
+                    "2": "H2",
+                    "3": "H3",
+                    "4": "H4",
+                    "5": "H5",
+                    "6": "H6"
+                })
+                    .setValue(`${this.block.size}`)
+                    .onChange((v) => (this.block.size = Number(v)));
+            });
+    }
+}
+
+class PropertyModal extends MarkdownEnabledModal<PropertyItem> {
+    buildAdvanced(el: HTMLDivElement): void {
+        if (!this.advanced) return;
+        super.buildAdvanced(el);
+        new Setting(el)
+            .setHeading()
+            .setName("Callback")
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "The block will run the callback and use the returned string as the property."
+                    });
+                    e.createEl("br");
+                    e.createSpan({
+                        text: "The callback will receive the "
+                    });
+                    e.createEl("code", { text: "monster" });
+                    e.createSpan({ text: " parameter." });
+                })
+            );
+        new TextAreaComponent(el)
+            .setValue(this.block.callback)
+            .onChange((v) => {
+                this.block.callback = v;
+            });
+    }
+    buildProperties(el: HTMLDivElement): void {
+        super.buildProperties(el);
+        new Setting(this.contentEl)
+            .setName("Display Text")
+            .setDesc("This text will be used for the property name.")
+            .addText((t) => {
+                t.setValue(this.block.display).onChange(
+                    (v) => (this.block.display = v)
+                );
+            });
+    }
+}
+class SavesModal extends MarkdownEnabledModal<SavesItem> {
+    buildProperties(el: HTMLDivElement): void {
+        super.buildProperties(el);
+        new Setting(this.contentEl)
+            .setName("Display Text")
+            .setDesc("This text will be used for the property name.")
+            .addText((t) => {
+                t.setValue(this.block.display).onChange(
+                    (v) => (this.block.display = v)
+                );
+            });
+    }
+}
+
+class SpellsModal extends MarkdownEnabledModal<SpellsItem> {}
+
+class SubheadingModal extends GenericModal<SubHeadingItem> {
+    buildProperties(el: HTMLDivElement): void {
+        el.empty();
+        const block = this.block;
+        const container = el.createDiv("statblock-additional-container");
+        let tempProp = "";
+        new Setting(container)
+            .setHeading()
+            .setName("Link Monster Properties")
+            .addText((t) =>
+                t
+                    .setPlaceholder("property")
+                    .setValue(tempProp)
+                    .onChange((v) => (tempProp = v))
+            )
+            .addExtraButton((b) =>
+                b.setIcon("plus-with-circle").onClick(() => {
+                    if (!tempProp || !tempProp.length) {
+                        new Notice("A valid property must be supplied.");
+                        return;
+                    }
+                    block.properties.push(tempProp as keyof Monster);
+                    this.buildProperties(el);
+                })
+            );
+
+        const additional = container.createDiv("additional");
+        const sub = new SubheadingProperty({
+            target: additional,
+            props: {
+                properties: this.block.properties.map((prop) => {
+                    return { prop, id: nanoid() };
+                })
+            }
+        });
+        sub.$on("sorted", (e: CustomEvent<(keyof Monster)[]>) => {
+            block.properties = [...e.detail];
+        });
+    }
+    buildSeparator(el: HTMLDivElement) {
+        el.empty();
+
+        new Setting(el)
+            .setName("Separator")
+            .setDesc("Text separating properties")
+            .addText((t) => {
+                if (!this.block.separator) {
+                    this.block.separator = " ";
+
+                    t.setValue(this.block.separator).onChange((v) => {
+                        this.block.separator = v;
+                    });
+                }
+            });
+    }
+}
+class TableModal extends GenericModal<TableItem> {
+    buildAdvanced(el: HTMLDivElement): void {
+        if (!this.advanced) return;
+        super.buildAdvanced(el);
+        new Setting(el)
+            .setHeading()
+            .setName("Ability Modifier Calculation")
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "Allows a custom modifier for the stat."
+                    });
+                    e.createEl("br");
+                    e.createSpan({ text: "Variable " });
+                    e.createEl("code", { text: "stat" });
+                    e.createSpan({
+                        text: "is accessible, use this to calculate the modifier."
+                    });
+                })
+            );
+        new TextAreaComponent(el)
+            .setValue(this.block.modifier)
+            .onChange((v) => {
+                (this.block as TableItem).modifier = v;
+            });
+    }
+    buildProperties(el: HTMLDivElement): void {
+        super.buildProperties(el);
+        const container = el.createDiv("statblock-additional-container");
+        let tempProp = "";
+        new Setting(container)
+            .setHeading()
+            .setName("Table Headers")
+            .addText((t) =>
+                t
+                    .setPlaceholder("header")
+                    .setValue(tempProp)
+                    .onChange((v) => (tempProp = v))
+            )
+            .addExtraButton((b) =>
+                b.setIcon("plus-with-circle").onClick(() => {
+                    if (!tempProp || !tempProp.length) {
+                        new Notice("A valid property must be supplied.");
+                        return;
+                    }
+                    this.block.headers.push(tempProp as keyof Monster);
+                    this.buildProperties(el);
+                })
+            );
+        const additional = container.createDiv("additional");
+        new TableHeaders({
+            target: additional,
+            props: {
+                headers: this.block.headers
+            }
+        }).$on("sorted", (e: CustomEvent<{ name: string }[]>) => {
+            this.block.headers = [...(e.detail?.map((v) => v.name) ?? [])];
+        });
+        new Setting(el)
+            .setName("Calculate Modifiers")
+            .setDesc(
+                "The block will not attempt to calculate modifiers for table values."
+            )
+            .addToggle((t) => {
+                t.setValue(this.block.calculate).onChange((v) => {
+                    this.block.calculate = v;
+                });
+            });
+    }
+}
+
+class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
+    buildProperties(el: HTMLDivElement): void {
+        super.buildProperties(el);
+        new Setting(this.contentEl)
+            .setName("Use Monster Property for Heading")
+            .setDesc(
+                "The Section heading will be set to the value of the specified property."
+            )
+            .addToggle((t) => {
+                t.setValue(this.block.headingProp).onChange((v) => {
+                    this.block.headingProp = v;
+                    this.display();
+                });
+            });
+        new Setting(this.contentEl)
+            .setName("Section Heading")
+            .setDesc(
+                this.block.headingProp
+                    ? "The section will use this property for the section heading. If the property does not exist or is blank, the section heading will not appear."
+                    : "This text will be used for the section heading. Can be left blank."
+            )
+            .addText((t) => {
+                t.setValue(this.block.heading).onChange(
+                    (v) => (this.block.heading = v)
+                );
+            });
+    }
+}
+class TextModal extends MarkdownEnabledModal<TextItem> {
+    buildAdvanced(el: HTMLDivElement): void {
+        if (!this.advanced) return;
+        super.buildAdvanced(el);
+        new Setting(el)
+            .setHeading()
+            .setName("Text to Show")
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({ text: "The block will " });
+                    e.createEl("strong", { text: "always" });
+                    e.createSpan({
+                        text: " display the text entered here."
+                    });
+                })
+            );
+        new TextAreaComponent(el).setValue(this.block.text).onChange((v) => {
+            this.block.text = v;
+        });
+    }
+    buildProperties(el: HTMLDivElement): void {
+        super.buildProperties(el);
+        new Setting(this.contentEl)
+            .setName("Use Monster Property for Heading")
+            .setDesc(
+                "The Section heading will be set to the value of the specified property."
+            )
+            .addToggle((t) => {
+                t.setValue(this.block.headingProp).onChange((v) => {
+                    this.block.headingProp = v;
+                    this.display();
+                });
+            });
+        new Setting(this.contentEl)
+            .setName("Section Heading")
+            .setDesc(
+                this.block.headingProp
+                    ? "The section will use this property for the section heading. If the property does not exist or is blank, the section heading will not appear."
+                    : "This text will be used for the section heading. Can be left blank."
+            )
+            .addText((t) => {
+                t.setValue(this.block.heading).onChange(
+                    (v) => (this.block.heading = v)
+                );
+            });
+    }
 }

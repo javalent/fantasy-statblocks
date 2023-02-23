@@ -88,6 +88,13 @@ export function blockGenerator(type: string): StatblockItem {
                 text: null
             };
         }
+        case "ifelse": {
+            return {
+                type: "ifelse",
+                id: nanoid(),
+                conditions: []
+            };
+        }
     }
 }
 

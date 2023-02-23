@@ -1,9 +1,9 @@
 <script lang="ts">
     import { setIcon } from "obsidian";
 
-    import type { StatblockItem } from "src/layouts/types";
+    import type { IfElseItem, StatblockItem } from "src/layouts/types";
 
-    export let block: StatblockItem;
+    export let block: Exclude<StatblockItem, IfElseItem>;
 
     if (block.type == "heading" && !block.size) {
         block.size = 1;

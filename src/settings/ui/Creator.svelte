@@ -10,14 +10,15 @@
     import type StatBlockPlugin from "src/main";
     import { createEventDispatcher } from "svelte";
     import { ExtraButtonComponent, Menu, setIcon } from "obsidian";
-    import { blockGenerator, generate } from "../add";
-    import { BlockModal } from "./block";
+    import { blockGenerator } from "../add";
+    import { getModalForBlock } from "./block";
     import Rule from "src/view/ui/Rule.svelte";
     import { StatblockItem, TypeNames } from "src/layouts/types";
 
     const dispatch = createEventDispatcher();
 
     export let blocks: StatblockItem[] = [];
+    export let draggable = true;
     export let inline = false;
     export let plugin: StatBlockPlugin;
 
@@ -69,7 +70,7 @@
         blocks = blocks;
     };
     const editBlock = (block: StatblockItem) => {
-        const modal = new BlockModal(plugin, block);
+        const modal = getModalForBlock(plugin, block);
 
         modal.onClose = () => {
             if (!modal.saved) return;
@@ -125,6 +126,17 @@
                 .showAtMouseEvent(evt);
         };
     };
+    const editIcon = (node: HTMLDivElement) => {
+        new ExtraButtonComponent(node)
+            .setIcon("pencil")
+            .setTooltip("Edit Block");
+    };
+
+    const trashIcon = (node: HTMLDivElement) => {
+        new ExtraButtonComponent(node)
+            .setIcon("trash")
+            .setTooltip("Delete Block");
+    };
 </script>
 
 <div class="creator">
@@ -132,8 +144,10 @@
         use:dndzone={{
             items: blocks,
             flipDurationMs,
-            dragDisabled,
-            type: "creator"
+            dragDisabled: dragDisabled,
+            dropFromOthersDisabled: !draggable,
+            type: "creator",
+            dropTargetClasses: ["min-height"]
         }}
         on:consider={handleConsider}
         on:finalize={handleFinalize}
@@ -144,25 +158,18 @@
             <div animate:flip={{ duration: flipDurationMs }}>
                 <div class="block-container">
                     <div class="block">
-                        <div
-                            class="icon"
-                            use:grip
-                            on:mousedown={startDrag}
-                            on:touchstart={startDrag}
-                            style={dragDisabled
-                                ? "cursor: grab"
-                                : "cursor: grabbing"}
-                        />
-                        {#if block.type != "group" && block.type != "inline"}
-                            <div class="item">
-                                <Block
-                                    {plugin}
-                                    {block}
-                                    on:trash={(e) => trash(e.detail)}
-                                    on:edited={(e) => edited(e.detail)}
-                                />
-                            </div>
-                        {:else}
+                        {#if draggable}
+                            <div
+                                class="icon"
+                                use:grip
+                                on:mousedown={startDrag}
+                                on:touchstart={startDrag}
+                                style={dragDisabled
+                                    ? "cursor: grab"
+                                    : "cursor: grabbing"}
+                            />
+                        {/if}
+                        {#if block.type == "group" || block.type == "inline"}
                             <div
                                 class="item"
                                 class:group={block.type == "group" ||
@@ -180,9 +187,57 @@
                                     use:dropdown={block}
                                 />
                             {/key}
+                        {:else if block.type == "ifelse"}
+                            <div class="item">
+                                <div class="statblock-creator-container">
+                                    <div class="statblock-creator-block">
+                                        <div class="if-else-block-container">
+                                            {#each block.conditions as { condition, blocks: ifElseBlocks } (condition)}
+                                                <div
+                                                    class="condition-container"
+                                                >
+                                                    <div class="condition">
+                                                        <small
+                                                            ><code
+                                                                >{condition}</code
+                                                            ></small
+                                                        >
+                                                        <svelte:self
+                                                            bind:blocks={ifElseBlocks}
+                                                            bind:plugin
+                                                            draggable={false}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            {/each}
+                                        </div>
+                                    </div>
+                                    <div class="icons">
+                                        <div
+                                            class="icon"
+                                            use:editIcon
+                                            on:click={() => editBlock(block)}
+                                        />
+                                        <div
+                                            class="icon"
+                                            use:trashIcon
+                                            on:click={() => trash(block)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        {:else}
+                            <div class="item">
+                                <Block
+                                    {plugin}
+                                    {block}
+                                    on:trash={(e) => trash(e.detail)}
+                                    on:edited={(e) => edited(e.detail)}
+                                />
+                            </div>
                         {/if}
                     </div>
-                    {#if block.hasRule}
+                    {#if block.type !== "ifelse" && block.hasRule}
                         <div aria-label="Block Has Rule">
                             <Rule />
                         </div>
@@ -194,11 +249,6 @@
 </div>
 
 <style>
-    /* :global(body:not(.is-mobile)) .creator-zone:not(.nested) {
-        max-width: 75vw;
-        max-height: 65vh;
-        overflow: auto;
-    } */
     :global(.min-height) {
         min-height: 2rem;
     }
@@ -210,10 +260,13 @@
 
     .item {
         display: grid;
-        grid-template-columns: auto 1fr auto;
+        grid-template-columns: 1fr;
         width: 100%;
         padding: 2px;
         margin: 2px;
+    }
+    :global(body:not(.is-mobile)) .ifelse:not(:hover) > .icons {
+        visibility: hidden;
     }
     .group {
         display: grid;
@@ -234,5 +287,41 @@
     }
     .icon {
         display: flex;
+    }
+
+    /* Goddamn If Else */
+    .statblock-creator-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        height: 100%;
+        gap: 0.25rem;
+    }
+
+    :global(body:not(.is-mobile))
+        .statblock-creator-container:not(:hover)
+        > .icons {
+        visibility: hidden;
+    }
+    .statblock-creator-block {
+        width: 100%;
+    }
+    .icons {
+        display: flex;
+        justify-content: flex-end;
+    }
+    .statblock-creator-container .icons {
+        align-items: center;
+    }
+    .icon:not(:first-child) :global(.clickable-icon) {
+        margin-left: 0;
+    }
+    .if-else-block-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        border: 2px solid grey;
+        border-radius: 0.25rem;
+        min-height: 2rem;
+        padding: 0.25rem;
     }
 </style>

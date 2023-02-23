@@ -26,6 +26,7 @@
     const monster = getContext<Monster>("monster");
 
     const checkConditioned = (item: StatblockItem): boolean => {
+        if (item.type == "ifelse") return true;
         if (item.conditioned == null || !item.conditioned) return true;
         if ("nested" in item) {
             return item.nested.some((prop) => checkConditioned(prop));
@@ -92,6 +93,28 @@
                 });
                 heading.$on("save", (e) => dispatch("save", e.detail));
                 heading.$on("export", (e) => dispatch("export", e.detail));
+                break;
+            }
+            case "ifelse": {
+                for (let i = 0; i < item.conditions.length; i++) {
+                    const { condition, blocks } = item.conditions[i];
+                    const frame = document.body.createEl("iframe");
+                    const funct = (frame.contentWindow as any).Function;
+                    const func = new funct("monster", condition);
+                    const parsed = func.call(undefined, monster) ?? false;
+                    document.body.removeChild(frame);
+                    if (parsed == true || i == item.conditions.length - 1) {
+                        for (const block of blocks) {
+                            const element = getElementForStatblockItem(
+                                block,
+                                target
+                            );
+                            targets.push(...element);
+                        }
+                        break;
+                    }
+                }
+
                 break;
             }
             case "inline": {
@@ -227,7 +250,7 @@
                 break;
             }
         }
-        if (item.hasRule) {
+        if (item.type != "ifelse" && item.hasRule) {
             const rule = createDiv("statblock-item-container rule-container");
             new Rule({
                 target: rule

@@ -11,7 +11,8 @@ export const StatblockItemTypes = [
     "inline",
     "group",
     "image",
-    "text"
+    "text",
+    "ifelse"
 ] as const;
 
 export const TypeNames: Array<[typeof StatblockItemTypes[number], string]> = [
@@ -25,14 +26,18 @@ export const TypeNames: Array<[typeof StatblockItemTypes[number], string]> = [
     ["subheading", "Subheading"],
     ["table", "Table"],
     ["text", "Text"],
-    ["traits", "Traits"]
+    ["traits", "Traits"],
+    ["ifelse", "If/Else"]
 ];
 
 export type StatblockItemType = typeof StatblockItemTypes[number];
 
-export type CommonProps = {
+type RequiredProps = {
     type: StatblockItemType;
     id: string;
+};
+
+export type CommonProps = RequiredProps & {
     properties: Array<keyof Monster>;
     conditioned?: boolean;
     fallback?: string;
@@ -104,6 +109,14 @@ type TextProps = {
     headingProp?: boolean;
     text: string;
 };
+export type IfElseCondition = {
+    condition: string;
+    blocks: [GroupItem];
+};
+type IfElseProps = {
+    type: "ifelse";
+    conditions: IfElseCondition[];
+};
 
 export type GroupItem = CommonProps & GroupProps;
 export type HeadingItem = CommonProps & HeadingProps;
@@ -116,6 +129,7 @@ export type SubHeadingItem = CommonProps & SubHeadingProps;
 export type TableItem = CommonProps & TableProps;
 export type ImageItem = CommonProps & ImageProps;
 export type TextItem = CommonProps & TextProps & GenericTextProp;
+export type IfElseItem = RequiredProps & IfElseProps;
 
 export type StatblockItem =
     | GroupItem
@@ -128,7 +142,8 @@ export type StatblockItem =
     | SubHeadingItem
     | TableItem
     | ImageItem
-    | TextItem;
+    | TextItem
+    | IfElseItem;
 
 export interface StatblockItemMap
     extends Record<typeof StatblockItemTypes[number], StatblockItem> {
@@ -143,6 +158,7 @@ export interface StatblockItemMap
     table: TableItem;
     image: ImageItem;
     text: TextItem;
+    ifelse: IfElseItem;
 }
 
 export interface Layout {
