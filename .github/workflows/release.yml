@@ -57,7 +57,7 @@ jobs:
               with:
                   upload_url: ${{ steps.create_release.outputs.upload_url }}
                   asset_path: ./${{ env.PLUGIN_NAME }}.zip
-                  asset_name: ${{ env.PLUGIN_NAME }}-${{ steps.build.outputs.tag_name }}.zip
+                  asset_name: ${{ env.PLUGIN_NAME }}-${{ steps.build.outputs.tag }}.zip
                   asset_content_type: application/zip
             - name: Upload main.js
               id: upload-main
@@ -101,7 +101,7 @@ jobs:
                   VERSION: ${{needs.build.outputs.version}}
               run: |
                   echo $VERSION
-                  mversion=$(grep 'version' manifest-beta.json | cut -d'"' -f4)
+                  mversion=$(grep '"version":' manifest-beta.json | cut -d'"' -f4)
                   echo $mversion
                   if [ "$VERSION" != "$mversion" ]; then
                     sed -i 's|\(version":\) "[0-9\.]*"|\1 "'$VERSION'"|' manifest-beta.json
