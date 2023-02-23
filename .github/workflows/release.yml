@@ -13,6 +13,9 @@ jobs:
     build:
         runs-on: ubuntu-latest
 
+        outputs:
+          tag_name: ${{ steps.build.outputs.tag_name }}
+          version: ${{ steps.build.outputs.version }}
         steps:
             - uses: actions/checkout@v2
             - name: Use Node.js
@@ -29,11 +32,11 @@ jobs:
                   zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
                   ls
                   npx rexreplace "^.*?#(#+\s\[.*?\n.*?)(?=\s*#+\s\[)" "_" -s -M -G -m -o "CHANGELOG.md" > release_notes.md
-                  echo "::set-output name=tag_name::$(git tag --sort version:refname | tail -n 1)"
+                  echo "{tag_name}::{$(git tag --sort version:refname | tail -n 1)}" >> "$GITHUB_OUTPUT"
 
                   VERSION=$(grep '"version":' package.json | cut -d'"' -f4)
                   echo $VERSION
-                  echo "{version}={VERSION}" >> $GITHUB_OUTPUT
+                  echo "{version}={VERSION}" >> "$GITHUB_OUTPUT"
             - name: Create Release
               id: create_release
               uses: actions/create-release@v1
