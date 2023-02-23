@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.26.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.25.3...2.26.0) (2023-02-23)
+
+
+### Features
+
+* adds if/else block ([06590d4](https://github.com/valentine195/obsidian-5e-statblocks/commit/06590d4a8b7ac01c8881c467259c84ea6f2e862e))
+
 ### [2.25.3](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.25.2...2.25.3) (2023-02-22)
 
 
