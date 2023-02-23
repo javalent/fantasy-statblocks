@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.26.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.26.0...2.26.1) (2023-02-23)
+
+
+### Bug Fixes
+
+* can no longer remove if/else group ([117764c](https://github.com/valentine195/obsidian-5e-statblocks/commit/117764c9d9d2584a2ec05c0e35ecec7553858d94))
+
 ## [2.26.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.25.3...2.26.0) (2023-02-23)
 
 
