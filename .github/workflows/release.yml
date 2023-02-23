@@ -14,7 +14,7 @@ jobs:
         runs-on: ubuntu-latest
 
         outputs:
-          tag_name: ${{ steps.build.outputs.tag_name }}
+          tag: ${{ steps.build.outputs.tag }}
           version: ${{ steps.build.outputs.version }}
         steps:
             - uses: actions/checkout@v2
@@ -32,7 +32,7 @@ jobs:
                   zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
                   ls
                   npx rexreplace "^.*?#(#+\s\[.*?\n.*?)(?=\s*#+\s\[)" "_" -s -M -G -m -o "CHANGELOG.md" > release_notes.md
-                  echo "tag_name::'$(git tag --sort version:refname | tail -n 1)'" >> "$GITHUB_OUTPUT"
+                  echo "tag::'$(git tag --sort version:refname | tail -n 1)'" >> "$GITHUB_OUTPUT"
 
                   VERSION=$(grep '"version":' package.json | cut -d'"' -f4)
                   echo $VERSION
