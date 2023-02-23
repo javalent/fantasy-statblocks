@@ -13,15 +13,12 @@ jobs:
     build:
         runs-on: ubuntu-latest
 
-        outputs:
-          tag: ${{ steps.build.outputs.tag }}
-          version: ${{ steps.build.outputs.version }}
         steps:
             - uses: actions/checkout@v2
             - name: Use Node.js
               uses: actions/setup-node@v3
               with:
-                node-version: 18
+                  node-version: 18
             - name: Build
               id: build
               run: |
@@ -32,11 +29,11 @@ jobs:
                   zip -r ${{ env.PLUGIN_NAME }}.zip ${{ env.PLUGIN_NAME }}
                   ls
                   npx rexreplace "^.*?#(#+\s\[.*?\n.*?)(?=\s*#+\s\[)" "_" -s -M -G -m -o "CHANGELOG.md" > release_notes.md
-                  echo tag::"$(git tag --sort version:refname | tail -n 1)" >> "$GITHUB_OUTPUT"
+                  echo "::set-output name=tag_name::$(git tag --sort version:refname | tail -n 1)"
 
                   VERSION=$(grep '"version":' package.json | cut -d'"' -f4)
                   echo $VERSION
-                  echo "version='$(grep '"version":' package.json | cut -d'"' -f4)'" >> "$GITHUB_OUTPUT"
+                  echo "{version}={VERSION}" >> $GITHUB_OUTPUT
             - name: Create Release
               id: create_release
               uses: actions/create-release@v1
@@ -57,7 +54,7 @@ jobs:
               with:
                   upload_url: ${{ steps.create_release.outputs.upload_url }}
                   asset_path: ./${{ env.PLUGIN_NAME }}.zip
-                  asset_name: ${{ env.PLUGIN_NAME }}-${{ steps.build.outputs.tag }}.zip
+                  asset_name: ${{ env.PLUGIN_NAME }}-${{ steps.build.outputs.tag_name }}.zip
                   asset_content_type: application/zip
             - name: Upload main.js
               id: upload-main
@@ -89,25 +86,23 @@ jobs:
                   asset_path: ./styles.css
                   asset_name: styles.css
                   asset_content_type: text/css
-
-    brat:
-        needs: build
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v2
-              with:
-                  ref: master
-            - env:
-                  VERSION: ${{needs.build.outputs.version}}
-              run: |
-                  echo $VERSION
-                  mversion=$(grep '"version":' manifest-beta.json | cut -d'"' -f4)
-                  echo $mversion
-                  if [ "$VERSION" != "$mversion" ]; then
-                    sed -i 's|\(version":\) "[0-9\.]*"|\1 "'$VERSION'"|' manifest-beta.json
-                    git config user.name github-actions
-                    git config user.email github-actions@github.com
-                    git add .
-                    git commit -m "🔨 brat release $VERSION"
-                    git push
-                  fi
+#    brat:
+#        needs: build
+#        runs-on: ubuntu-latest
+#       steps:
+#           - uses: actions/checkout@v2
+#             with:
+#                 ref: master
+#           - env:
+#                 VERSION: ${{needs.build.outputs.version}}
+#             run: |
+#                 echo $VERSION
+#                 mversion=$(grep 'version' manifest-beta.json | cut -d'"' -f4)
+#                 echo $mversion
+#                 if [ "$VERSION" != "$mversion" ]; then
+#                   sed -i 's|\(version":\) "[0-9\.]*"|\1 "'$VERSION'"|' manifest-beta.json
+#                   git config user.name github-actions
+#                  git config user.email github-actions@github.com
+#                  git add .
+#                  git push
+#               fi

@@ -99,31 +99,35 @@
     };
 
     const dropdown = (node: HTMLDivElement, block: StatblockItem) => {
-        new ExtraButtonComponent(node).setIcon("vertical-three-dots");
+        new ExtraButtonComponent(node).setIcon(draggable ? "vertical-three-dots" : "plus-circle");
         node.onclick = (evt) => {
-            new Menu()
-                .addItem((item) => {
-                    item.setTitle("Add")
-                        .setIcon("plus-with-circle")
-                        .onClick((e: MouseEvent) => {
-                            add(block, evt);
-                        });
-                })
-                .addItem((item) =>
-                    item
-                        .setTitle("Edit")
-                        .setIcon("pencil")
-                        .onClick(() => {
-                            editBlock(block);
-                        })
-                )
-                .addItem((item) =>
-                    item
-                        .setTitle("Delete")
-                        .setIcon("trash")
-                        .onClick(() => trash(block))
-                )
-                .showAtMouseEvent(evt);
+            if (!draggable) {
+                add(block, evt);
+            } else {
+                new Menu()
+                    .addItem((item) => {
+                        item.setTitle("Add")
+                            .setIcon("plus-with-circle")
+                            .onClick((e: MouseEvent) => {
+                                add(block, evt);
+                            });
+                    })
+                    .addItem((item) =>
+                        item
+                            .setTitle("Edit")
+                            .setIcon("pencil")
+                            .onClick(() => {
+                                editBlock(block);
+                            })
+                    )
+                    .addItem((item) =>
+                        item
+                            .setTitle("Delete")
+                            .setIcon("trash")
+                            .onClick(() => trash(block))
+                    )
+                    .showAtMouseEvent(evt);
+            }
         };
     };
     const editIcon = (node: HTMLDivElement) => {
