@@ -31,7 +31,7 @@ If **Restricted Mode** is enabled, you may be prompted to Turn on Community Plug
 ***Step 6***. Once the plugin has installed, the installation button will change to **Enable**.
 
 ***Step 7***. When ready, select **Enable** and either view
-the [Statblock Plugin Settings](docs/01_Setting_Up_Fantasy_Statblocks/01-04-00-Statblock-Plugin-Settings.md) or **Close the Settings Menu**.
+the [Statblock Plugin Settings](01-04-00-Statblock-Plugin-Settings.md) or **Close the Settings Menu**.
 
 > Congratulations! You have succeeded in installing Fantasy Statblocks through the Obsidian Community Plugins Menu.
 {: .highlight }
@@ -105,13 +105,13 @@ plugin.
 
 ***Step 5***. Select the "Obsidian42 - BRAT" search result, and select **Install**.
 
-***Step 6***. Once the plugin has installed, the install button will change to **Enable**.
+***Step 6***. Once the plugin has installed, the installation button will change to **Enable**.
 
 ***Step 7***. Enable the Plugin.
 
 ### Adding Fantasy Statblocks to BRAT
 
-***Step 1***. Copy this link.  `https://github.com/valentine195/obsidian-5e-statblocks`
+***Step 1***. Copy this link.  `https://github.com/valentine195/Fantasy-Statblocks/`
 
 ***Step 2***. Open **Obsidian42 - Brat** Settings.
 

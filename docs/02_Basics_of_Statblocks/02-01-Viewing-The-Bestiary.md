@@ -1,4 +1,5 @@
 ---
+aliases: [Viewing the Bestiary]
 has_children: false
 has_toc: true
 layout: default
@@ -10,10 +11,10 @@ title: Viewing the Bestiary
 
 # Viewing the Bestiary
 
-To use Fantasy Statblocks to render the bestiary data, the statblock is accessed in one of two ways. 
+To use Fantasy Statblocks to render the bestiary data, the statblock is accessed in one of two ways.
 
 1. It is recalled from the Fantasy Bestiary, Fantasy Statblocks, or Obsidian by name, or another search function.
-2. It is created manually within the Fantasy Statblock via code block. 
+2. It is created manually within the Fantasy Statblock via code block.
 
 On this page we will cover the first option. The second will be covered in [Creating a New Entity](docs/02_Basics_of_Statblocks/01-02-Creating-A-New-Entity.md).
 

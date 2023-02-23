@@ -9,4 +9,10 @@ title: Uninstalling Fantasy Statblocks
 
 # Uninstalling Fantasy Statblocks
 
+## Option 1: Uninstalling from the Community Plugins Page
+
+Placeholder
+
+## Options 2: Uninstalling From Filesystem
+
 Placeholder

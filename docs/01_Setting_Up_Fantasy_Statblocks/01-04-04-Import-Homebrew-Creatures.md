@@ -1,4 +1,5 @@
 ---
+aliases: [Import Homebrew Creatures]
 grand_parent: Getting Started
 has_children: false
 has_toc: false
