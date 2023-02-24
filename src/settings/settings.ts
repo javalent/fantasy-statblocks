@@ -386,12 +386,12 @@ export default class StatblockSettingTab extends PluginSettingTab {
             b.buttonEl.appendChild(inputFile);
             b.onClick(() => inputFile.click());
         });
-        new Setting(statblockCreatorContainer)
+        const setting = new Setting(statblockCreatorContainer)
             .setName("Add New Layout")
             .addButton((b) =>
                 b
                     .setIcon("plus-with-circle")
-                    .setTooltip("Add New Statblock")
+                    .setTooltip("Add New Layout")
                     .onClick(() => {
                         const modal = new CreateStatblockModal(this.plugin);
                         modal.onClose = async () => {

@@ -17,17 +17,18 @@ export const StatblockItemTypes = [
 
 export const TypeNames: Array<[typeof StatblockItemTypes[number], string]> = [
     ["group", "Group"],
+    ["inline", "Inline Group"],
+    ["ifelse", "If/Else"],
+    [null, "separator"],
     ["heading", "Heading"],
     ["image", "Image"],
-    ["inline", "Inline Group"],
     ["property", "Property Line"],
     ["saves", "Saves"],
     ["spells", "Spells"],
     ["subheading", "Subheading"],
     ["table", "Table"],
     ["text", "Text"],
-    ["traits", "Traits"],
-    ["ifelse", "If/Else"]
+    ["traits", "Traits"]
 ];
 
 export type StatblockItemType = typeof StatblockItemTypes[number];

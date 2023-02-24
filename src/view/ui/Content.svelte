@@ -100,10 +100,19 @@
                     const { condition, blocks } = item.conditions[i];
                     const frame = document.body.createEl("iframe");
                     const funct = (frame.contentWindow as any).Function;
-                    const func = new funct("monster", condition);
-                    const parsed = func.call(undefined, monster) ?? false;
+                    let parsed: boolean = false;
+                    try {
+                        const func = new funct("monster", condition);
+                        parsed = func.call(undefined, monster) ?? false;
+                    } catch (e) {
+                        console.error(e);
+                        continue;
+                    }
                     document.body.removeChild(frame);
-                    if (parsed == true || i == item.conditions.length - 1) {
+                    if (
+                        parsed == true ||
+                        (i == item.conditions.length - 1 && !condition?.length)
+                    ) {
                         for (const block of blocks) {
                             const element = getElementForStatblockItem(
                                 block,

@@ -64,6 +64,7 @@ export interface StatblockData {
     tryToRenderLinks: boolean;
     debug: boolean;
     notifiedOfFantasy: boolean;
+    hideConditionHelp: boolean;
 }
 
 const DEFAULT_DATA: StatblockData = {
@@ -84,7 +85,8 @@ const DEFAULT_DATA: StatblockData = {
     disableSRD: false,
     tryToRenderLinks: true,
     debug: false,
-    notifiedOfFantasy: false
+    notifiedOfFantasy: false,
+    hideConditionHelp: false
 };
 
 export default class StatBlockPlugin extends Plugin {
@@ -471,6 +473,7 @@ export default class StatBlockPlugin extends Plugin {
 
             /** Get Parameters */
             let params: StatblockParameters = parseYaml(source);
+            console.log("🚀 ~ file: main.ts:476 ~ params:", params);
 
             el.addClass("statblock-plugin-container");
             el.parentElement?.addClass("statblock-plugin-parent");

@@ -93,6 +93,10 @@
     const add = async (e: MouseEvent) => {
         const addMenu = new Menu().setNoIcon();
         TypeNames.forEach((type) => {
+            if (type[1] == "separator") {
+                addMenu.addSeparator();
+                return;
+            }
             addMenu.addItem((item) => {
                 item.setTitle(type[1]).onClick(() => {
                     const block = blockGenerator(type[0]);

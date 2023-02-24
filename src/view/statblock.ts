@@ -7,7 +7,14 @@ import Statblock from "./Statblock.svelte";
 import type StatBlockPlugin from "src/main";
 
 import fastCopy from "fast-copy";
-import type { Layout, StatblockItem } from "src/layouts/types";
+import type {
+    GroupItem,
+    InlineItem,
+    Layout,
+    SavesItem,
+    StatblockItem,
+    TraitsItem
+} from "src/layouts/types";
 import { transformTraits } from "src/util/util";
 
 type RendererParameters = {
@@ -154,8 +161,10 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         return built;
     }
 
-    getBlocksToTransform(blocks: StatblockItem[]): StatblockItem[] {
-        let ret: StatblockItem[] = [];
+    getBlocksToTransform(
+        blocks: StatblockItem[]
+    ): (GroupItem | InlineItem | SavesItem | TraitsItem)[] {
+        let ret: (GroupItem | InlineItem | SavesItem | TraitsItem)[] = [];
         for (const block of blocks) {
             switch (block.type) {
                 case "group":

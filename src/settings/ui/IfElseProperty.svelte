@@ -1,12 +1,9 @@
 <script lang="ts">
-    import { EditorView } from "@codemirror/view";
-    import { EditorState } from "@codemirror/state";
     import type { IfElseCondition } from "src/layouts/types";
-    import { basicSetup } from "../editor/extensions";
-    import { materialPalenight } from "../editor/theme-dark";
-    import { basicLightTheme } from "../editor/theme-light";
     import { ExtraButtonComponent, setIcon, TextAreaComponent } from "obsidian";
     import { createEventDispatcher, onDestroy } from "svelte";
+    import { EditorView } from "@codemirror/view";
+    import { editorFromTextArea } from "src/util/util";
 
     const dispatch = createEventDispatcher();
     export let condition: IfElseCondition;
@@ -19,31 +16,18 @@
         }
         dispatch("done");
     }
-    function editorFromTextArea(textarea: HTMLTextAreaElement) {
-        if (document.body.hasClass("theme-dark")) {
-            basicSetup.push(materialPalenight);
-        } else {
-            basicSetup.push(basicLightTheme);
-        }
-        let view = new EditorView({
-            state: EditorState.create({
-                doc: textarea.value,
-                extensions: basicSetup
-            })
-        });
-        textarea.parentNode!.insertBefore(view.dom, textarea);
-        textarea.style.display = "none";
-        if (textarea.form)
-            textarea.form.addEventListener("submit", () => {
-                textarea.value = view.state.doc.toString();
-            });
-        return view;
-    }
     const textarea = (node: HTMLElement) => {
         const textarea = new TextAreaComponent(node).setValue(
             condition?.condition ? condition.condition : ""
         );
-        editor = editorFromTextArea(textarea.inputEl);
+        editor = editorFromTextArea(
+            textarea.inputEl,
+            EditorView.updateListener.of((update) => {
+                if (update.docChanged) {
+                    condition.condition = update.state.doc.toString();
+                }
+            })
+        );
     };
     const warning = (node: HTMLElement) => {
         setIcon(node, "alert-triangle");

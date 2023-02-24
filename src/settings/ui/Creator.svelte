@@ -84,6 +84,10 @@
         if (!("nested" in block)) return;
         const addMenu = new Menu().setNoIcon();
         TypeNames.forEach((type) => {
+            if (type[1] == "separator") {
+                addMenu.addSeparator();
+                return;
+            }
             addMenu.addItem((item) => {
                 item.setTitle(type[1]).onClick(() => {
                     const generated = blockGenerator(type[0]);
@@ -99,7 +103,9 @@
     };
 
     const dropdown = (node: HTMLDivElement, block: StatblockItem) => {
-        new ExtraButtonComponent(node).setIcon(draggable ? "vertical-three-dots" : "plus-circle");
+        new ExtraButtonComponent(node).setIcon(
+            draggable ? "vertical-three-dots" : "plus-circle"
+        );
         node.onclick = (evt) => {
             if (!draggable) {
                 add(block, evt);

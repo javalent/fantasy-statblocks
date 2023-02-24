@@ -1,13 +1,24 @@
 <script lang="ts">
-    import { ExtraButtonComponent, setIcon } from "obsidian";
+    import { setIcon, Setting } from "obsidian";
     import type { IfElseCondition } from "src/layouts/types";
+    import { nanoid } from "src/util/util";
     import { createEventDispatcher } from "svelte";
     import { dndzone, SOURCES, TRIGGERS } from "svelte-dnd-action";
+    import type { Writable } from "svelte/store";
+    import { blockGenerator } from "../add";
     import IfElseProperty from "./IfElseProperty.svelte";
 
     type PropItem = { prop: IfElseCondition; id: string };
-    export let conditions: PropItem[] = [];
-    export let editing: string = null;
+    /* export let conditions: IfElseCondition[] = []; */
+    export let conditions: Writable<IfElseCondition[]>;
+    let editing: string = null;
+
+    $: items = $conditions.map((prop) => {
+        return {
+            prop,
+            id: nanoid()
+        };
+    });
 
     const dispatch = createEventDispatcher();
 
@@ -66,42 +77,67 @@
             items.map(({ prop }) => prop)
         );
     };
-
-    $: items = [...conditions];
+    const add = (node: HTMLDivElement) => {
+        new Setting(node).setName("Add new condition").addButton((b) =>
+            b.setIcon("plus").onClick(() => {
+                const id = nanoid();
+                editing = id;
+                items = [
+                    ...items,
+                    {
+                        prop: {
+                            blocks: [blockGenerator("group")],
+                            condition: null
+                        },
+                        id
+                    }
+                ];
+                dispatch(
+                    "sorted",
+                    items.map(({ prop }) => prop)
+                );
+            })
+        );
+    };
 </script>
 
-<section
-    use:dndzone={{
-        items,
-        flipDurationMs,
-        dragDisabled,
-        type: "subheading"
-    }}
-    on:consider={handleConsider}
-    on:finalize={handleFinalize}
-    class="subheading-zone"
->
-    {#each items as property (property.id)}
-        {#key editing}
-            <div class="setting-item">
-                <div
-                    class="icon"
-                    use:grip
-                    on:mousedown={startDrag}
-                    on:touchstart={startDrag}
-                    style={dragDisabled ? "cursor: grab" : "cursor: grabbing"}
-                />
-                <IfElseProperty
-                    condition={property.prop}
-                    editing={editing == property.id}
-                    on:delete={() => trash(property)}
-                    on:edit={() => (editing = property.id)}
-                    on:done={() => finishEditing(property)}
-                />
-            </div>
-        {/key}
-    {/each}
-</section>
+<div use:add />
+<div class="additional">
+    <section
+        use:dndzone={{
+            items,
+            flipDurationMs,
+            dragDisabled,
+            type: "subheading"
+        }}
+        on:consider={handleConsider}
+        on:finalize={handleFinalize}
+        class="subheading-zone"
+    >
+        {#each items as property (property.id)}
+            {#key editing}
+                <div class="setting-item">
+                    <div
+                        class="icon"
+                        use:grip
+                        on:mousedown={startDrag}
+                        on:touchstart={startDrag}
+                        style={dragDisabled
+                            ? "cursor: grab"
+                            : "cursor: grabbing"}
+                    />
+                    <IfElseProperty
+                        condition={property.prop}
+                        editing={editing == property.id}
+                        on:delete={() => trash(property)}
+                        on:edit={() => (editing = property.id)}
+                        on:done={() => finishEditing(property)}
+                    />
+                </div>
+            {/key}
+        {/each}
+    </section>
+</div>
 
 <style scoped>
     .setting-item {

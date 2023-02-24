@@ -1,4 +1,34 @@
+import { EditorState, type Extension } from "@codemirror/state";
+import { EditorView } from "@codemirror/view";
 import type { Trait } from "@types";
+import { basicSetup } from "src/util/editor/extensions";
+import { materialPalenight } from "src/util/editor/theme-dark";
+import { basicLightTheme } from "src/util/editor/theme-light";
+export function editorFromTextArea(
+    textarea: HTMLTextAreaElement,
+    facet?: Extension
+) {
+    if (document.body.hasClass("theme-dark")) {
+        basicSetup.push(materialPalenight);
+    } else {
+        basicSetup.push(basicLightTheme);
+    }
+    const extensions = [...basicSetup];
+    if (facet) extensions.push(facet);
+    let view = new EditorView({
+        state: EditorState.create({
+            doc: textarea.value,
+            extensions
+        })
+    });
+    textarea.parentNode!.appendChild(view.dom);
+    textarea.style.display = "none";
+    if (textarea.form)
+        textarea.form.addEventListener("submit", () => {
+            textarea.value = view.state.doc.toString();
+        });
+    return view;
+}
 export function slugify(str: string) {
     if (!str) return "";
     return str

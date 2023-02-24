@@ -13,15 +13,14 @@ import type {
     InlineItem,
     IfElseItem,
     SavesItem,
-    SpellsItem,
-    IfElseCondition
+    SpellsItem
 } from "src/layouts/types";
 import type StatBlockPlugin from "src/main";
 import TableHeaders from "./TableHeaders.svelte";
 import SubheadingProperty from "./SubheadingProperty.svelte";
-import IfElseProperties from "./IfElseProperties.svelte";
-import { nanoid } from "src/util/util";
-import { blockGenerator } from "../add";
+import IfElseConditions from "./IfElseConditions.svelte";
+import { editorFromTextArea, nanoid } from "src/util/util";
+import { EditorView } from "@codemirror/view";
 
 export function getModalForBlock(
     plugin: StatBlockPlugin,
@@ -78,11 +77,9 @@ export function getModalForBlock(
 abstract class BlockModal<T extends StatblockItem> extends Modal {
     block: T;
     saved: boolean;
-    advanced: boolean;
 
     constructor(public plugin: StatBlockPlugin, block?: T) {
         super(plugin.app);
-        this.advanced = this.plugin.settings.showAdvanced;
         if (block) this.block = copy(block);
         this.containerEl.addClass("statblock-edit-block");
     }
@@ -145,67 +142,12 @@ class IfElseModal extends BlockModal<IfElseItem> {
         this.buildButtons(this.contentEl.createDiv());
     }
     buildConditions(el: HTMLElement) {
-        el.empty();
-        new Setting(el).setDesc(
-            createFragment((e) => {
-                e.createSpan({
-                    text: "Conditions are used to determine what block is rendered. Each condition is evaluated in order - the first to evaluate to "
-                });
-                e.createEl("code", {
-                    text: "true"
-                });
-                e.createSpan({
-                    text: " is the condition that will be used."
-                });
-                e.createEl("br");
-                e.createEl("br");
-                e.createSpan({ text: "The expression receives the " });
-                e.createEl("code", {
-                    text: "monster"
-                });
-                e.createSpan({
-                    text: " parameter, which can be used to access properties of the monster being rendered."
-                });
-
-                e.createEl("br");
-                e.createEl("br");
-                e.createEl("strong", {text: "All conditions must return a value."})
-            })
-        );
-        new Setting(el).setName("Add new condition").addButton((b) =>
-            b.setIcon("plus").onClick(() => {
-                this.block.conditions.push({
-                    blocks: [blockGenerator("group")],
-                    condition: null
-                });
-                const id = nanoid();
-                sub.$set({
-                    conditions: [
-                        ...this.block.conditions.slice(0, -1).map((prop) => {
-                            return { prop, id: nanoid() };
-                        }),
-                        {
-                            prop: this.block.conditions[
-                                this.block.conditions.length - 1
-                            ],
-                            id
-                        }
-                    ],
-                    editing: id
-                });
-            })
-        );
-        const additional = el.createDiv("additional");
-        const sub = new IfElseProperties({
-            target: additional,
+        new IfElseConditions({
+            target: el,
             props: {
-                conditions: this.block.conditions.map((prop) => {
-                    return { prop, id: nanoid() };
-                })
+                plugin: this.plugin,
+                block: this.block
             }
-        });
-        sub.$on("sorted", (e: CustomEvent<IfElseCondition[]>) => {
-            this.block.conditions = [...e.detail];
         });
     }
 }
@@ -214,31 +156,35 @@ class GenericModal<
     I extends Exclude<StatblockItem, GroupItem | InlineItem | IfElseItem>
 > extends BlockModal<I> {
     async display() {
+        this.containerEl.addClass("statblock-block-editor");
         this.contentEl.empty();
-        new Setting(this.contentEl)
-            .setName("Show Advanced Options")
-            .addToggle((t) => {
-                t.setValue(
-                    this.advanced ?? this.plugin.settings.showAdvanced
-                ).onChange((v) => {
-                    this.advanced = v;
-                    this.display();
-                });
-            });
 
         this.buildProperties(this.contentEl.createDiv());
         this.buildSeparator(this.contentEl.createDiv());
-        this.buildAdvanced(this.contentEl.createDiv());
         this.buildConditions(this.contentEl.createDiv());
         this.buildDice(this.contentEl.createDiv());
 
+        this.buildAdvanced(
+            this.contentEl.createEl("details", {
+                cls: "statblock-nested-settings",
+                attr: {
+                    ...(this.plugin.settings.showAdvanced ? { open: true } : {})
+                }
+            })
+        );
+
         this.buildButtons(this.contentEl.createDiv());
     }
-    buildAdvanced(el: HTMLDivElement) {
-        if (!this.advanced) return;
+    buildAdvanced(el: HTMLDetailsElement) {
         el.empty();
+        el.ontoggle = () => {
+            this.plugin.settings.showAdvanced = el.open;
+            this.plugin.saveSettings();
+        };
+        const summary = el.createEl("summary");
+        new Setting(summary).setHeading().setName("Advanced Settings");
+        summary.createDiv("collapser").createDiv("handle");
         if (this.plugin.canUseDiceRoller) {
-            if (!this.advanced) return;
             new Setting(el)
                 .setHeading()
                 .setName("Dice Callback")
@@ -254,16 +200,36 @@ class GenericModal<
                         e.createEl("code", { text: "monster" });
                         e.createSpan({ text: " and " });
                         e.createEl("code", { text: "property" });
-                        e.createSpan({ text: "parameters." });
+                        e.createSpan({
+                            text: "parameters and should return a string. For example: "
+                        });
+
+                        e.createEl("code", {
+                            text: "return 2d6 + monster.stats[2];"
+                        });
                     })
                 );
-            new TextAreaComponent(el)
-                .setValue(this.block.diceCallback)
-                .onChange((v) => {
-                    this.block.diceCallback = v;
-                });
+
+            const component = new TextAreaComponent(el).setValue(
+                this.block.diceCallback
+            );
+            this.editor = editorFromTextArea(
+                component.inputEl,
+                EditorView.updateListener.of((update) => {
+                    if (update.docChanged) {
+                        this.block.diceCallback = update.state.doc.toString();
+                    }
+                })
+            );
         }
     }
+
+    onClose(): void {
+        this.editor?.destroy();
+    }
+
+    editor: EditorView;
+
     buildProperties(el: HTMLDivElement) {
         el.empty();
         const block = this.block;
@@ -348,8 +314,7 @@ class GenericModal<
 class MarkdownEnabledModal<
     M extends PropertyItem | TraitsItem | SpellsItem | TextItem | SavesItem
 > extends GenericModal<M> {
-    buildAdvanced(el: HTMLDivElement): void {
-        if (!this.advanced) return;
+    buildAdvanced(el: HTMLDetailsElement): void {
         super.buildAdvanced(el);
         new Setting(el)
             .setName("Render as Markdown")
@@ -393,8 +358,7 @@ class HeadingModal extends GenericModal<HeadingItem> {
 }
 
 class PropertyModal extends MarkdownEnabledModal<PropertyItem> {
-    buildAdvanced(el: HTMLDivElement): void {
-        if (!this.advanced) return;
+    buildAdvanced(el: HTMLDetailsElement): void {
         super.buildAdvanced(el);
         new Setting(el)
             .setHeading()
@@ -409,14 +373,29 @@ class PropertyModal extends MarkdownEnabledModal<PropertyItem> {
                         text: "The callback will receive the "
                     });
                     e.createEl("code", { text: "monster" });
-                    e.createSpan({ text: " parameter." });
+                    e.createSpan({
+                        text: " parameter. The callback should return a string. For example: "
+                    });
+
+                    e.createEl("code", { text: "return monster.name" });
                 })
             );
-        new TextAreaComponent(el)
-            .setValue(this.block.callback)
-            .onChange((v) => {
-                this.block.callback = v;
-            });
+
+        const component = new TextAreaComponent(el).setValue(
+            this.block.callback
+        );
+        this.editor = editorFromTextArea(
+            component.inputEl,
+            EditorView.updateListener.of((update) => {
+                if (update.docChanged) {
+                    this.block.callback = update.state.doc.toString();
+                }
+            })
+        );
+    }
+    editor: EditorView;
+    onClose() {
+        this.editor?.destroy();
     }
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
@@ -503,8 +482,7 @@ class SubheadingModal extends GenericModal<SubHeadingItem> {
     }
 }
 class TableModal extends GenericModal<TableItem> {
-    buildAdvanced(el: HTMLDivElement): void {
-        if (!this.advanced) return;
+    buildAdvanced(el: HTMLDetailsElement): void {
         super.buildAdvanced(el);
         new Setting(el)
             .setHeading()
@@ -602,8 +580,7 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
     }
 }
 class TextModal extends MarkdownEnabledModal<TextItem> {
-    buildAdvanced(el: HTMLDivElement): void {
-        if (!this.advanced) return;
+    buildAdvanced(el: HTMLDetailsElement): void {
         super.buildAdvanced(el);
         new Setting(el)
             .setHeading()
