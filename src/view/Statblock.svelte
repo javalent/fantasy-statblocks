@@ -87,7 +87,7 @@
     const observer = new ResizeObserver(onResize);
 
     onMount(() => {
-        setColumns();
+        onResize();
         observer.observe(container);
     });
 
