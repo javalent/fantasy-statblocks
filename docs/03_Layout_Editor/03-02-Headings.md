@@ -17,9 +17,11 @@ Heading blocks will render text in one of the Obsidian H1-H6 text styles. By def
 ## Details
 
 **+** Type: *Heading*
+
 **+** Link: `monster.key`
+
 **+** Encoding: *String*
 
-{: .note }
+### {: .note } The Header Options
 >![](zz-attachment/Heading-Block.png)
->{: .d-flex }
+>{: .d-flex }{: .float-right }
