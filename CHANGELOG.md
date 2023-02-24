@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.25.4](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.26.0...2.25.4) (2023-02-24)
+
+
+### Bug Fixes
+
+* calls onResize immediately instead of setColumns to prevent not displaying if a width can't be found ([e6b163d](https://github.com/valentine195/obsidian-5e-statblocks/commit/e6b163d42cfab861947f6934e26e225a1a5e2a49))
+* can no longer remove if/else group ([117764c](https://github.com/valentine195/obsidian-5e-statblocks/commit/117764c9d9d2584a2ec05c0e35ecec7553858d94))
+
 ### [2.26.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.26.0...2.26.1) (2023-02-23)
 
 
