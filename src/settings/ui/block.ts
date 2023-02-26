@@ -13,7 +13,8 @@ import type {
     InlineItem,
     IfElseItem,
     SavesItem,
-    SpellsItem
+    SpellsItem,
+    CollapseItem
 } from "src/layouts/types";
 import type StatBlockPlugin from "src/main";
 import TableHeaders from "./TableHeaders.svelte";
@@ -26,6 +27,10 @@ export function getModalForBlock(
     plugin: StatBlockPlugin,
     block: IfElseItem
 ): IfElseModal;
+export function getModalForBlock(
+    plugin: StatBlockPlugin,
+    block: CollapseItem
+): CollapseModal;
 export function getModalForBlock(
     plugin: StatBlockPlugin,
     block: GroupItem | InlineItem
@@ -42,6 +47,9 @@ export function getModalForBlock(
         case "group":
         case "inline": {
             return new GroupModal(plugin, block);
+        }
+        case "collapse": {
+            return new CollapseModal(plugin, block);
         }
         case "ifelse": {
             return new IfElseModal(plugin, block);
@@ -133,6 +141,32 @@ class GroupModal extends BlockModal<GroupItem | InlineItem> {
         this.buildButtons(this.contentEl.createDiv());
     }
 }
+class CollapseModal extends BlockModal<CollapseItem> {
+    async display() {
+        this.contentEl.empty();
+        new Setting(this.contentEl)
+            .setName("Section Heading")
+            .setDesc(
+                "This text will be used for the section heading. Can be left blank."
+            )
+            .addText((t) => {
+                t.setValue(this.block.heading).onChange(
+                    (v) => (this.block.heading = v)
+                );
+            });
+        new Setting(this.contentEl)
+            .setName("Has Rule")
+            .setDesc(
+                "If present, the block will have a horizontal rule placed after it."
+            )
+            .addToggle((t) => {
+                t.setValue(this.block.hasRule).onChange(
+                    (v) => (this.block.hasRule = v)
+                );
+            });
+        this.buildButtons(this.contentEl.createDiv());
+    }
+}
 class IfElseModal extends BlockModal<IfElseItem> {
     async display() {
         this.contentEl.empty();
@@ -153,7 +187,10 @@ class IfElseModal extends BlockModal<IfElseItem> {
 }
 
 class GenericModal<
-    I extends Exclude<StatblockItem, GroupItem | InlineItem | IfElseItem>
+    I extends Exclude<
+        StatblockItem,
+        GroupItem | InlineItem | IfElseItem | CollapseItem
+    >
 > extends BlockModal<I> {
     async display() {
         this.containerEl.addClass("statblock-block-editor");

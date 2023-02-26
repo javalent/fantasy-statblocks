@@ -15,6 +15,7 @@
     import Image from "./Image.svelte";
     import type { StatblockItem } from "src/layouts/types";
     import { slugify } from "src/util/util";
+    import Collapse from "./Collapse.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -26,7 +27,7 @@
     const monster = getContext<Monster>("monster");
 
     const checkConditioned = (item: StatblockItem): boolean => {
-        if (item.type == "ifelse") return true;
+        if (item.type == "ifelse" || item.type == "collapse") return true;
         if (item.conditioned == null || !item.conditioned) return true;
         if ("nested" in item) {
             return item.nested.some((prop) => checkConditioned(prop));
@@ -56,14 +57,14 @@
 
     const context = getAllContexts();
 
-    const getElementForStatblockItem = (
+    export const getElementForStatblockItem = (
         item: StatblockItem,
-        container?: HTMLDivElement
-    ): HTMLDivElement[] => {
+        container?: HTMLElement
+    ): HTMLElement[] => {
         if (!checkConditioned(item)) {
             return [];
         }
-        const targets: HTMLDivElement[] = [];
+        const targets: HTMLElement[] = [];
         const target = container
             ? container.createDiv(
                   `statblock-item-container ${slugify(item.type)}-container`
@@ -80,6 +81,33 @@
 
                     targets.push(...element);
                 }
+                break;
+            }
+            case "collapse": {
+                const elements = [];
+                for (const nested of item.blocks) {
+                    const element = getElementForStatblockItem(nested);
+                    elements.push(...element);
+                }
+                new Collapse({
+                    target,
+                    props: {
+                        block: item,
+                        elements
+                    }
+                });
+                /* const details = target.createEl("details");
+                const summary = details.createEl("summary", {
+                    text: item.heading ?? null
+                });
+                summary.createDiv("collapser").createDiv("handle");
+                for (const nested of item.blocks) {
+                    const element = getElementForStatblockItem(nested, details);
+                    for (const el of element) {
+                        details.appendChild(el);
+                    }
+                }
+                targets.push(details); */
                 break;
             }
             case "heading": {

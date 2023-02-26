@@ -95,6 +95,15 @@ export function blockGenerator(type: string): StatblockItem {
                 conditions: []
             };
         }
+        case "collapse": {
+            return {
+                type: "collapse",
+                id: nanoid(),
+                heading: null,
+                hasRule: false,
+                blocks: [blockGenerator("group")]
+            };
+        }
     }
 }
 

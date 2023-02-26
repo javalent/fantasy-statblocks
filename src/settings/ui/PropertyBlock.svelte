@@ -1,9 +1,13 @@
 <script lang="ts">
     import { setIcon } from "obsidian";
 
-    import type { IfElseItem, StatblockItem } from "src/layouts/types";
+    import type {
+        CollapseItem,
+        IfElseItem,
+        StatblockItem
+    } from "src/layouts/types";
 
-    export let block: Exclude<StatblockItem, IfElseItem>;
+    export let block: Exclude<StatblockItem, IfElseItem | CollapseItem>;
 
     if (block.type == "heading" && !block.size) {
         block.size = 1;

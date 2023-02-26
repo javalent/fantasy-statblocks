@@ -12,13 +12,15 @@ export const StatblockItemTypes = [
     "group",
     "image",
     "text",
-    "ifelse"
+    "ifelse",
+    "collapse"
 ] as const;
 
 export const TypeNames: Array<[typeof StatblockItemTypes[number], string]> = [
     ["group", "Group"],
     ["inline", "Inline Group"],
     ["ifelse", "If/Else"],
+    ["collapse", "Collapsible"],
     [null, "separator"],
     ["heading", "Heading"],
     ["image", "Image"],
@@ -118,6 +120,12 @@ type IfElseProps = {
     type: "ifelse";
     conditions: IfElseCondition[];
 };
+type CollapseProps = {
+    type: "collapse";
+    blocks: [GroupItem];
+    heading?: string;
+    hasRule?: boolean;
+};
 
 export type GroupItem = CommonProps & GroupProps;
 export type HeadingItem = CommonProps & HeadingProps;
@@ -131,6 +139,7 @@ export type TableItem = CommonProps & TableProps;
 export type ImageItem = CommonProps & ImageProps;
 export type TextItem = CommonProps & TextProps & GenericTextProp;
 export type IfElseItem = RequiredProps & IfElseProps;
+export type CollapseItem = RequiredProps & CollapseProps;
 
 export type StatblockItem =
     | GroupItem
@@ -144,7 +153,8 @@ export type StatblockItem =
     | TableItem
     | ImageItem
     | TextItem
-    | IfElseItem;
+    | IfElseItem
+    | CollapseItem;
 
 export interface StatblockItemMap
     extends Record<typeof StatblockItemTypes[number], StatblockItem> {

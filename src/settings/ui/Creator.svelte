@@ -147,6 +147,9 @@
             .setIcon("trash")
             .setTooltip("Delete Block");
     };
+    const collapseIcon = (node: HTMLDivElement) => {
+        setIcon(node, "chevrons-down-up");
+    };
 </script>
 
 <div class="creator">
@@ -197,6 +200,40 @@
                                     use:dropdown={block}
                                 />
                             {/key}
+                        {:else if block.type == "collapse"}
+                            <div class="item">
+                                <div class="statblock-creator-container">
+                                    <div
+                                        class="statblock-creator-block collapse-container"
+                                    >
+                                        <div use:collapseIcon />
+                                        <div class="collapsible">
+                                            {#if block.heading}
+                                                <span>{block.heading}</span>
+                                            {:else}
+                                                <span>Collapse</span>
+                                            {/if}
+                                            <svelte:self
+                                                bind:blocks={block.blocks}
+                                                bind:plugin
+                                                draggable={false}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="icons">
+                                        <div
+                                            class="icon"
+                                            use:editIcon
+                                            on:click={() => editBlock(block)}
+                                        />
+                                        <div
+                                            class="icon"
+                                            use:trashIcon
+                                            on:click={() => trash(block)}
+                                        />
+                                    </div>
+                                </div>
+                            </div>
                         {:else if block.type == "ifelse"}
                             <div class="item">
                                 <div class="statblock-creator-container">
@@ -333,5 +370,15 @@
         border-radius: 0.25rem;
         min-height: 2rem;
         padding: 0.25rem;
+    }
+    .collapse-container {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    .collapsible {
+        border-left: 2px solid grey;
+        padding-left: 0.25rem;
     }
 </style>
