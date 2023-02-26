@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.26.3](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.25.4...2.26.3) (2023-02-26)
+
+
+### Bug Fixes
+
+* adds collapsible block ([ea6b8d5](https://github.com/valentine195/obsidian-5e-statblocks/commit/ea6b8d5d20794a7e214c08e6ad9eabda74e97406))
+* usability fixes ([e4918af](https://github.com/valentine195/obsidian-5e-statblocks/commit/e4918af179d6ab11a2859807891d7930a09f362a))
+
 ### [2.26.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.25.4...2.26.2) (2023-02-24)
 
 
