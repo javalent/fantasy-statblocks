@@ -135,7 +135,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 });
             }
         }
-        built = JSON.parse(
+        /* built = JSON.parse(
             JSON.stringify(built)
                 .replace(/\\#/g, "#")
                 .replace(
@@ -154,7 +154,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                         return `<STATBLOCK-LINK>${path}</STATBLOCK-LINK>`;
                     }
                 )
-        );
+        ); */
 
         this.monster = built as Monster;
 
@@ -235,8 +235,28 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         const extensions = this.getExtensions(monster);
 
         const ret = Object.assign({}, ...extensions, monster);
+        const built = JSON.parse(
+            JSON.stringify(ret)
+                .replace(/\\#/g, "#")
+                .replace(
+                    /\[\["(.+?)"\]\]/g,
+                    `"<STATBLOCK-LINK>$1</STATBLOCK-LINK>"`
+                )
+                .replace(/\[\[([^"]+?)\]\]/g, (match, p1) => {
+                    return `<STATBLOCK-LINK>${p1}</STATBLOCK-LINK>`;
+                })
+                .replace(
+                    /\[([^"]*?)\]\(([^"]+?)\)/g,
+                    (s, alias: string, path: string) => {
+                        if (alias.length) {
+                            return `<STATBLOCK-LINK>${path}|${alias}</STATBLOCK-LINK>`;
+                        }
+                        return `<STATBLOCK-LINK>${path}</STATBLOCK-LINK>`;
+                    }
+                )
+        );
 
-        return ret;
+        return built;
     }
     getExtensions(monster: Partial<Monster>): Partial<Monster>[] {
         let extensions: Partial<Monster>[] = [fastCopy(monster)];
