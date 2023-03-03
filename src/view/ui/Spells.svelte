@@ -1,16 +1,23 @@
 <script lang="ts">
     import type { Monster } from "@types";
     import { stringifyYaml } from "obsidian";
-    import { stringify } from "src/util/util";
+    import { linkify, stringify } from "src/util/util";
     import TextContentHolder from "./TextContentHolder.svelte";
     import Traits from "./Traits.svelte";
 
     export let render = false;
     export let monster: Monster;
     export let property: string;
+
     const ensureColon = (header: string) => {
         if (/[^a-zA-Z0-9]$/.test(header)) return header;
         return `${header}:`;
+    };
+    const linkifySpells = (spells: string): string => {
+        if (!render) {
+            return spells;
+        }
+        return spells.split(",").map(linkify).join(",");
     };
     type Spell = { level?: string; spells: string };
     type SpellBlock = { header: string; spells: Array<Spell> };
@@ -31,12 +38,12 @@
             const lastBlock: SpellBlock = acc[acc.length - 1];
             let spell: Spell;
             if (typeof current == "string") {
-                spell = { spells: current };
+                spell = { spells: linkifySpells(current) };
             } else {
                 try {
                     spell = {
                         level: Object.keys(current).shift(),
-                        spells: stringify(Object.values(current).shift())
+                        spells: linkifySpells(stringify(Object.values(current).shift()))
                     };
                 } catch (e) {
                     return acc;

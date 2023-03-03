@@ -59,6 +59,15 @@ export function traitMapFrom(traits: Trait[] = []): Map<string, Trait> {
     return new Map(traits.map((t) => [t.name, t]));
 }
 
+/** Attempt to convert a string into a link, while maintaining any whitespace. **/
+export function linkify(input: string): string {
+    let trimmed = input.trim();
+    if (app.metadataCache.getFirstLinkpathDest(trimmed, "") != null) {
+        return input.replace(trimmed, `[[${trimmed}]]`);
+    }
+    return input;
+}
+
 export function stringify(
     property: Record<string, any> | string | any[] | number | boolean,
     depth: number = 0,
