@@ -214,7 +214,7 @@
                                                 <span>Collapse</span>
                                             {/if}
                                             <svelte:self
-                                                bind:blocks={block.blocks}
+                                                bind:blocks={block.nested}
                                                 bind:plugin
                                                 draggable={false}
                                             />
@@ -239,7 +239,7 @@
                                 <div class="statblock-creator-container">
                                     <div class="statblock-creator-block">
                                         <div class="if-else-block-container">
-                                            {#each block.conditions as { condition, blocks: ifElseBlocks } (condition)}
+                                            {#each block.conditions as { condition, nested: ifElseBlocks } (condition)}
                                                 <div
                                                     class="condition-container"
                                                 >
@@ -311,9 +311,6 @@
         width: 100%;
         padding: 2px;
         margin: 2px;
-    }
-    :global(body:not(.is-mobile)) .ifelse:not(:hover) > .icons {
-        visibility: hidden;
     }
     .group {
         display: grid;

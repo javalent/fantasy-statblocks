@@ -37,12 +37,12 @@ export type StatblockItemType = typeof StatblockItemTypes[number];
 
 type RequiredProps = {
     type: StatblockItemType;
+    conditioned?: boolean;
     id: string;
 };
 
 export type CommonProps = RequiredProps & {
     properties: Array<keyof Monster>;
-    conditioned?: boolean;
     fallback?: string;
     hasRule?: boolean;
     dice?: boolean;
@@ -114,7 +114,7 @@ type TextProps = {
 };
 export type IfElseCondition = {
     condition: string;
-    blocks: [GroupItem];
+    nested: [GroupItem];
 };
 type IfElseProps = {
     type: "ifelse";
@@ -122,7 +122,7 @@ type IfElseProps = {
 };
 type CollapseProps = {
     type: "collapse";
-    blocks: [GroupItem];
+    nested: [GroupItem];
     heading?: string;
     hasRule?: boolean;
 };

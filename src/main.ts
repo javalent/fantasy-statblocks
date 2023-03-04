@@ -473,7 +473,6 @@ export default class StatBlockPlugin extends Plugin {
 
             /** Get Parameters */
             let params: StatblockParameters = parseYaml(source);
-            console.log("🚀 ~ file: main.ts:476 ~ params:", params);
 
             el.addClass("statblock-plugin-container");
             el.parentElement?.addClass("statblock-plugin-parent");

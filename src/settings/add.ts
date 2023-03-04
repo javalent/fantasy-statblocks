@@ -101,7 +101,8 @@ export function blockGenerator(type: string): StatblockItem {
                 id: nanoid(),
                 heading: null,
                 hasRule: false,
-                blocks: [blockGenerator("group")]
+                conditioned: false,
+                nested: [blockGenerator("group")]
             };
         }
     }

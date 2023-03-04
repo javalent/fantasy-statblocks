@@ -49,7 +49,7 @@
 <div class="statblock-creator-container">
     {#key block}
         <div class="statblock-creator-block">
-            {#if block.type != "ifelse"}
+            {#if block.type != "ifelse" && block.type != "collapse"}
                 <PropertyBlock {block} />
             {/if}
         </div>

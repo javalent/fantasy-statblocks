@@ -27,11 +27,11 @@
     const monster = getContext<Monster>("monster");
 
     const checkConditioned = (item: StatblockItem): boolean => {
-        if (item.type == "ifelse" || item.type == "collapse") return true;
         if (item.conditioned == null || !item.conditioned) return true;
         if ("nested" in item) {
             return item.nested.some((prop) => checkConditioned(prop));
         }
+        if (item.type == "ifelse") return true;
         if (!item.properties.length) return true;
         return item.properties.some((prop) => {
             if (prop in monster) {
@@ -85,7 +85,7 @@
             }
             case "collapse": {
                 const elements = [];
-                for (const nested of item.blocks) {
+                for (const nested of item.nested) {
                     const element = getElementForStatblockItem(nested);
                     elements.push(...element);
                 }
@@ -96,18 +96,7 @@
                         elements
                     }
                 });
-                /* const details = target.createEl("details");
-                const summary = details.createEl("summary", {
-                    text: item.heading ?? null
-                });
-                summary.createDiv("collapser").createDiv("handle");
-                for (const nested of item.blocks) {
-                    const element = getElementForStatblockItem(nested, details);
-                    for (const el of element) {
-                        details.appendChild(el);
-                    }
-                }
-                targets.push(details); */
+                
                 break;
             }
             case "heading": {
@@ -125,7 +114,7 @@
             }
             case "ifelse": {
                 for (let i = 0; i < item.conditions.length; i++) {
-                    const { condition, blocks } = item.conditions[i];
+                    const { condition, nested } = item.conditions[i];
                     const frame = document.body.createEl("iframe");
                     const funct = (frame.contentWindow as any).Function;
                     let parsed: boolean = false;
@@ -141,7 +130,7 @@
                         parsed == true ||
                         (i == item.conditions.length - 1 && !condition?.length)
                     ) {
-                        for (const block of blocks) {
+                        for (const block of nested) {
                             const element = getElementForStatblockItem(
                                 block,
                                 target
