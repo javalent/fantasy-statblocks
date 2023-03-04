@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.27.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.26.5...2.27.0) (2023-03-04)
+
+
+### Features
+
+* adds new IfElse block, new Collapse block ([66fad70](https://github.com/valentine195/obsidian-5e-statblocks/commit/66fad70e092e8004df3a6e49bc00d42dc6a05240))
+
+
+### Bug Fixes
+
+* fixes rendering of links (close [#151](https://github.com/valentine195/obsidian-5e-statblocks/issues/151), close [#149](https://github.com/valentine195/obsidian-5e-statblocks/issues/149)) ([161d113](https://github.com/valentine195/obsidian-5e-statblocks/commit/161d1134b648cd2f5a0166d18fdfe53b7d56968e))
+
 ### [2.26.5](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.26.4...2.26.5) (2023-03-02)
 
 ### [2.26.4](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.25.4...2.26.4) (2023-03-02)
