@@ -221,17 +221,6 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         });
     }
     transform(monster: Partial<Monster>): Partial<Monster> {
-        if (
-            !("extends" in monster) ||
-            !(
-                Array.isArray(monster.extends) ||
-                typeof monster.extends == "string"
-            ) ||
-            !monster.extends.length
-        ) {
-            return monster;
-        }
-
         const extensions = this.getExtensions(monster);
 
         const ret = Object.assign({}, ...extensions, monster);
@@ -260,6 +249,15 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
     }
     getExtensions(monster: Partial<Monster>): Partial<Monster>[] {
         let extensions: Partial<Monster>[] = [fastCopy(monster)];
+        if (
+            !("extends" in monster) ||
+            !(
+                Array.isArray(monster.extends) ||
+                typeof monster.extends == "string"
+            )
+        ) {
+            return extensions;
+        }
         if (monster.extends && monster.extends.length) {
             for (const extension of [monster.extends].flat()) {
                 const extensionMonster = this.plugin.bestiary.get(extension);
