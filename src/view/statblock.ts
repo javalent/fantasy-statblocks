@@ -208,7 +208,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 return;
             this.plugin.saveMonster({
                 ...fastCopy(this.monster),
-                source: "Homebrew",
+                source: this.monster.source ?? "Homebrew",
                 layout: this.layout.name
             });
         });
