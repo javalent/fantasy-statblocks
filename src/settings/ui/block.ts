@@ -14,7 +14,8 @@ import type {
     IfElseItem,
     SavesItem,
     SpellsItem,
-    CollapseItem
+    CollapseItem,
+    JavaScriptItem
 } from "src/layouts/types";
 import type StatBlockPlugin from "src/main";
 import TableHeaders from "./TableHeaders.svelte";
@@ -53,6 +54,9 @@ export function getModalForBlock(
         }
         case "ifelse": {
             return new IfElseModal(plugin, block);
+        }
+        case "javascript": {
+            return new JavaScriptModal(plugin, block);
         }
         case "heading": {
             return new HeadingModal(plugin, block);
@@ -175,6 +179,47 @@ class CollapseModal extends BlockModal<CollapseItem> {
         this.buildButtons(this.contentEl.createDiv());
     }
 }
+class JavaScriptModal extends BlockModal<JavaScriptItem> {
+    editor: EditorView;
+    async display() {
+        this.contentEl.empty();
+
+        new Setting(this.contentEl)
+            .setName("JavaScript")
+            .setHeading()
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "JavaScript blocks can be used to do highly advanced HTML elements. The JavaScript code will be provided the "
+                    });
+                    e.createEl("code", {
+                        text: "monster"
+                    });
+                    e.createSpan({ text: " and " });
+                    e.createEl("code", {
+                        text: "property"
+                    });
+                    e.createSpan({
+                        text: "parameters and should return a HTML element, which will be attached to the block's container element."
+                    });
+                })
+            );
+        const component = new TextAreaComponent(this.contentEl).setValue(
+            this.block.code
+        );
+        component.inputEl.addClass("statblock-textarea")
+        this.editor = editorFromTextArea(
+            component.inputEl,
+            EditorView.updateListener.of((update) => {
+                if (update.docChanged) {
+                    this.block.code = update.state.doc.toString();
+                }
+            })
+        );
+
+        this.buildButtons(this.contentEl.createDiv());
+    }
+}
 class IfElseModal extends BlockModal<IfElseItem> {
     async display() {
         this.contentEl.empty();
@@ -197,7 +242,7 @@ class IfElseModal extends BlockModal<IfElseItem> {
 class GenericModal<
     I extends Exclude<
         StatblockItem,
-        GroupItem | InlineItem | IfElseItem | CollapseItem
+        GroupItem | InlineItem | IfElseItem | CollapseItem | JavaScriptItem
     >
 > extends BlockModal<I> {
     async display() {

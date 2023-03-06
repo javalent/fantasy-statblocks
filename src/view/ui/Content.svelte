@@ -16,6 +16,7 @@
     import type { StatblockItem } from "src/layouts/types";
     import { slugify } from "src/util/util";
     import Collapse from "./Collapse.svelte";
+    import JavaScript from "./JavaScript.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -31,7 +32,7 @@
         if ("nested" in item) {
             return item.nested.some((prop) => checkConditioned(prop));
         }
-        if (item.type == "ifelse") return true;
+        if (item.type == "ifelse" || item.type == "javascript") return true;
         if (!item.properties.length) return true;
         return item.properties.some((prop) => {
             if (prop in monster) {
@@ -83,6 +84,15 @@
                 }
                 break;
             }
+            case "javascript": {
+                new JavaScript({
+                    target,
+                    props: {
+                        block: item
+                    }
+                });
+                break;
+            }
             case "collapse": {
                 const elements = [];
                 for (const nested of item.nested) {
@@ -96,7 +106,7 @@
                         elements
                     }
                 });
-                
+
                 break;
             }
             case "heading": {
@@ -276,7 +286,11 @@
                 break;
             }
         }
-        if (item.type != "ifelse" && item.hasRule) {
+        if (
+            item.type != "ifelse" &&
+            item.type != "javascript" &&
+            item.hasRule
+        ) {
             const rule = createDiv("statblock-item-container rule-container");
             new Rule({
                 target: rule

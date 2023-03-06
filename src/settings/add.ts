@@ -106,6 +106,14 @@ export function blockGenerator(type: string): StatblockItem {
                 open: false
             };
         }
+        case "javascript": {
+            return {
+                type: "javascript",
+                id: nanoid(),
+                conditioned: false,
+                code: ""
+            };
+        }
     }
 }
 

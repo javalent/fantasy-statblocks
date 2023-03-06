@@ -161,3 +161,24 @@
     border-top: 0px;
     border-bottom: 1px solid var(--background-modifier-border);
 }
+
+.statblock-textarea + .cm-editor {
+    height: 200px;
+    margin-bottom: 1rem;
+}
+.confirm-buttons-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.confirm-buttons-container .dont-ask {
+    cursor: pointer;
+}
+
+.confirm-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+}

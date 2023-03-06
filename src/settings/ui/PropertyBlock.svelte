@@ -4,10 +4,11 @@
     import type {
         CollapseItem,
         IfElseItem,
+        JavaScriptItem,
         StatblockItem
     } from "src/layouts/types";
 
-    export let block: Exclude<StatblockItem, IfElseItem | CollapseItem>;
+    export let block: Exclude<StatblockItem, IfElseItem | CollapseItem | JavaScriptItem>;
 
     if (block.type == "heading" && !block.size) {
         block.size = 1;

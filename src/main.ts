@@ -65,6 +65,7 @@ export interface StatblockData {
     debug: boolean;
     notifiedOfFantasy: boolean;
     hideConditionHelp: boolean;
+    alwaysImport: boolean;
 }
 
 const DEFAULT_DATA: StatblockData = {
@@ -86,7 +87,8 @@ const DEFAULT_DATA: StatblockData = {
     tryToRenderLinks: true,
     debug: false,
     notifiedOfFantasy: false,
-    hideConditionHelp: false
+    hideConditionHelp: false,
+    alwaysImport: false
 };
 
 export default class StatBlockPlugin extends Plugin {

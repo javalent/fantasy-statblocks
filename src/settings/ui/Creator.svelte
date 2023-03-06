@@ -284,7 +284,7 @@
                             </div>
                         {/if}
                     </div>
-                    {#if block.type !== "ifelse" && block.hasRule}
+                    {#if block.type != "ifelse" && block.type != "javascript" && block.hasRule}
                         <div aria-label="Block Has Rule">
                             <Rule />
                         </div>

@@ -1,5 +1,6 @@
 import {
     App,
+    ButtonComponent,
     debounce,
     Modal,
     normalizePath,
@@ -332,9 +333,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     await new Promise<void>((resolve, reject) => {
                         const reader = new FileReader();
 
-                        reader.onload = (event) => {
+                        reader.onload = async (event) => {
                             try {
-                                const layout = JSON.parse(
+                                const layout: Layout = JSON.parse(
                                     event.target.result as string
                                 );
                                 if (!layout) {
@@ -359,6 +360,15 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                     );
                                     return;
                                 }
+                                if (
+                                    !this.plugin.settings.alwaysImport &&
+                                    layout.blocks.find(
+                                        (b) => b.type == "javascript"
+                                    ) &&
+                                    !(await confirm(this.plugin))
+                                ) {
+                                    resolve();
+                                }
                                 this.plugin.settings.layouts.push(
                                     this.getDuplicate(layout)
                                 );
@@ -376,6 +386,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     });
                 }
                 await this.plugin.saveSettings();
+                inputFile.value = null;
                 this.buildCustomLayouts(layoutContainer);
             } catch (e) {}
         };
@@ -458,11 +469,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
             layout.name != Layout5e.name
         )
             return layout;
-        const names = 
-            this.plugin.layouts
-                .filter((l) => l.name.contains(`${layout.name} Copy`))
-                .map((l) => l.name)
-        
+        const names = this.plugin.layouts
+            .filter((l) => l.name.contains(`${layout.name} Copy`))
+            .map((l) => l.name);
 
         let temp = `${layout.name} Copy`;
 
@@ -487,7 +496,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     b.setIcon("duplicate-glyph")
                         .setTooltip("Create Copy")
                         .onClick(async () => {
-                            this.plugin.settings.layouts.push(this.getDuplicate(layout));
+                            this.plugin.settings.layouts.push(
+                                this.getDuplicate(layout)
+                            );
                             await this.plugin.saveSettings();
                             this.buildCustomLayouts(layoutContainer);
                         });
@@ -508,7 +519,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                             modal.onClose = async () => {
                                 if (!modal.saved) return;
                                 this.plugin.settings.layouts.splice(
-                                    this.plugin.settings.layouts.indexOf(layout),
+                                    this.plugin.settings.layouts.indexOf(
+                                        layout
+                                    ),
                                     1,
                                     modal.layout
                                 );
@@ -522,7 +535,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     b.setIcon("duplicate-glyph")
                         .setTooltip("Create Copy")
                         .onClick(async () => {
-                            this.plugin.settings.layouts.push(this.getDuplicate(layout));
+                            this.plugin.settings.layouts.push(
+                                this.getDuplicate(layout)
+                            );
                             await this.plugin.saveSettings();
                             this.buildCustomLayouts(layoutContainer);
                         });
@@ -1017,5 +1032,64 @@ class ConfirmModal extends Modal {
                     this.close();
                 })
             );
+    }
+}
+async function confirm(plugin: StatBlockPlugin): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+        try {
+            const modal = new ConfirmImport(plugin);
+            modal.onClose = () => {
+                resolve(modal.confirmed);
+            };
+            modal.open();
+        } catch (e) {
+            reject();
+        }
+    });
+}
+class ConfirmImport extends Modal {
+    confirmed: boolean = false;
+    constructor(public plugin: StatBlockPlugin) {
+        super(plugin.app);
+    }
+    async display() {
+        this.contentEl.empty();
+        this.contentEl.addClass("confirm-modal");
+        this.contentEl.createEl("p", {
+            text: "This Layout includes JavaScript blocks. JavaScript blocks can execute code in your vault, which could cause loss or corruption of data."
+        });
+        this.contentEl.createEl("p", {
+            text: "Are you sure you want to import this layout?"
+        });
+
+        const buttonContainerEl = this.contentEl.createDiv(
+            "confirm-buttons-container"
+        );
+        buttonContainerEl.createEl("a").createEl("small", {
+            cls: "dont-ask",
+            text: "Import and don't ask again"
+        }).onclick = async () => {
+            this.confirmed = true;
+            this.plugin.settings.alwaysImport = true;
+            this.close();
+        };
+
+        const buttonEl = buttonContainerEl.createDiv("confirm-buttons");
+        new ButtonComponent(buttonEl)
+            .setButtonText("Import")
+            .setCta()
+            .onClick(() => {
+                this.confirmed = true;
+                this.close();
+            });
+        buttonEl.createEl("a").createEl("small", {
+            cls: "dont-ask",
+            text: "Cancel"
+        }).onclick = () => {
+            this.close();
+        };
+    }
+    onOpen() {
+        this.display();
     }
 }
