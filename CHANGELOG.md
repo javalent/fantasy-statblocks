@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.28.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.27.1...2.28.0) (2023-03-06)
+
+
+### Features
+
+* Adds JavaScript block ([4ed12ec](https://github.com/valentine195/obsidian-5e-statblocks/commit/4ed12ec04d99ebc869c3c543012027498623bc9a))
+
 ### [2.27.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.27.0...2.27.1) (2023-03-06)
 
 
