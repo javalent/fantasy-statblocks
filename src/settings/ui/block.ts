@@ -155,6 +155,14 @@ class CollapseModal extends BlockModal<CollapseItem> {
                 );
             });
         new Setting(this.contentEl)
+            .setName("Open by Default")
+            .setDesc("The block will start open.")
+            .addToggle((t) => {
+                t.setValue(this.block.open).onChange(
+                    (v) => (this.block.open = v)
+                );
+            });
+        new Setting(this.contentEl)
             .setName("Has Rule")
             .setDesc(
                 "If present, the block will have a horizontal rule placed after it."

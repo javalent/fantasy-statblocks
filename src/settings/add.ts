@@ -102,7 +102,8 @@ export function blockGenerator(type: string): StatblockItem {
                 heading: null,
                 hasRule: false,
                 conditioned: false,
-                nested: [blockGenerator("group")]
+                nested: [blockGenerator("group")],
+                open: false
             };
         }
     }

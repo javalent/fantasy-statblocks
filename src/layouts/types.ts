@@ -125,6 +125,7 @@ type CollapseProps = {
     nested: [GroupItem];
     heading?: string;
     hasRule?: boolean;
+    open: boolean;
 };
 
 export type GroupItem = CommonProps & GroupProps;
