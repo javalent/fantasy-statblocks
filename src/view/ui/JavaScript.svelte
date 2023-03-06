@@ -16,7 +16,9 @@
             try {
                 const func = new Function("monster", "property", block.code);
                 const htmlElement = func.call(undefined, monster, plugin);
-                div.appendChild(htmlElement);
+                if (htmlElement instanceof HTMLElement) {
+                    div.appendChild(htmlElement);
+                }
             } catch (e) {
                 console.error(e);
             }
