@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.28.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.1...2.28.2) (2023-03-06)
+
+
+### Bug Fixes
+
+* fixes monster source when saving if source is present ([4c39218](https://github.com/valentine195/obsidian-5e-statblocks/commit/4c392183614f31be1d9be2c934795116f4334e8b))
+
 ### [2.28.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.0...2.28.1) (2023-03-06)
 
 
