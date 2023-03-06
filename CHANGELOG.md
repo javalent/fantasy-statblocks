@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.27.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.27.0...2.27.1) (2023-03-06)
+
+
+### Bug Fixes
+
+* adds ability to start collapse block opened ([9a1b9af](https://github.com/valentine195/obsidian-5e-statblocks/commit/9a1b9af8f436d7e7d3dc5d34a761d9ccd35ad7e9))
+* fixes collapse handle variable ([8010cb6](https://github.com/valentine195/obsidian-5e-statblocks/commit/8010cb677ee6b7d542a0b46beca0d947e776a3b7))
+
 ## [2.27.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.26.5...2.27.0) (2023-03-04)
 
 
