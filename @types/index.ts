@@ -53,11 +53,12 @@ export interface Monster {
     actions?: Trait[];
     bonus_actions?: Trait[];
     legendary_actions?: Trait[];
+    mythic_actions?: Trait[];
     reactions?: Trait[];
     lair_actions?: Trait[];
     source?: string | string[];
     spellsNotes?: string;
-    "statblock-link"?: string; 
+    "statblock-link"?: string;
 
     /** Fate Core */
     description?: string;
