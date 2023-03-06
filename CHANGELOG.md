@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.28.3](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.2...2.28.3) (2023-03-06)
+
+
+### Bug Fixes
+
+* adds ability to set Trait subheading text blocks ([184b351](https://github.com/valentine195/obsidian-5e-statblocks/commit/184b351aacd806ab4c9b306e4ede78282c97b5b5))
+* imports Mythic Actions from 5e.tools ([750e1bc](https://github.com/valentine195/obsidian-5e-statblocks/commit/750e1bcce31a4e3b2a1018d2fa49713c9d73ac39))
+
 ### [2.28.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.1...2.28.2) (2023-03-06)
 
 
