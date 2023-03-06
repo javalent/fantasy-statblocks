@@ -263,6 +263,25 @@
                         context
                     });
                 }
+                if (item.subheadingText && item.subheadingText.length) {
+                    const prop = createDiv(
+                        `statblock-item-container statblock-trait-prop`
+                    );
+                    new Traits({
+                        target: prop,
+                        props: {
+                            name: "",
+                            desc: item.subheadingText.replace(
+                                /\{\{monster\}\}/g,
+                                monster.name
+                            ),
+                            property: "trait-subheading",
+                            render: item.markdown
+                        },
+                        context
+                    });
+                    targets.push(prop);
+                }
                 try {
                     for (const block of blocks) {
                         const prop = createDiv(

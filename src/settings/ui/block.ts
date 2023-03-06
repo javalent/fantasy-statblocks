@@ -207,7 +207,7 @@ class JavaScriptModal extends BlockModal<JavaScriptItem> {
         const component = new TextAreaComponent(this.contentEl).setValue(
             this.block.code
         );
-        component.inputEl.addClass("statblock-textarea")
+        component.inputEl.addClass("statblock-textarea");
         this.editor = editorFromTextArea(
             component.inputEl,
             EditorView.updateListener.of((update) => {
@@ -667,6 +667,29 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
                     (v) => (this.block.heading = v)
                 );
             });
+        const subheading = new Setting(this.contentEl)
+            .setName("Section Subheading Text")
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "Text entered here will appear directly after the section heading, before the actual traits. Use "
+                    });
+                    e.createEl("code", { text: "{{monster}}" });
+                    e.createSpan({
+                        text: " to insert the current monster's name."
+                    });
+                })
+            );
+        subheading.controlEl.detach();
+
+        new TextAreaComponent(this.contentEl)
+            .setValue(this.block.subheadingText)
+            .onChange((v) => (this.block.subheadingText = v));
+        /* .addTextArea((t) => {
+                t.setValue(this.block.heading).onChange(
+                    (v) => (this.block.heading = v)
+                );
+            }); */
     }
 }
 class TextModal extends MarkdownEnabledModal<TextItem> {

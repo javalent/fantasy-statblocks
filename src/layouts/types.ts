@@ -103,6 +103,7 @@ type TraitsProps = {
     type: "traits";
     heading?: string;
     headingProp?: boolean;
+    subheadingText?: string;
 };
 type ImageProps = {
     type: "image";
