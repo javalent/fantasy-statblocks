@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.28.4](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.3...2.28.4) (2023-03-07)
+
+
+### Bug Fixes
+
+* fixes Table modifier calculation, improves editor styling ([d5fbee5](https://github.com/valentine195/obsidian-5e-statblocks/commit/d5fbee5a2d44b21f9edfb41f56562881899a8993))
+* Massively improves column rendering ([33037af](https://github.com/valentine195/obsidian-5e-statblocks/commit/33037af12a00553ec7850f56ef67d73ec1bbfb14))
+
 ### [2.28.3](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.2...2.28.3) (2023-03-06)
 
 
