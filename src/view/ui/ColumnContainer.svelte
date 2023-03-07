@@ -459,7 +459,7 @@
                     Math.min(columnEl.scrollHeight / columns, maxHeight)
                 );
             }
-            debugger;
+
             temp.empty();
             temp.detach();
 
