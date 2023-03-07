@@ -1,6 +1,6 @@
 {
     "name": "obsidian-5e-statblocks",
-    "version": "2.28.5",
+    "version": "2.28.6",
     "description": "Create Fantasy statblocks in Obsidian.md",
     "main": "main.js",
     "scripts": {

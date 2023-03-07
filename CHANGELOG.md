@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.28.6](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.5...2.28.6) (2023-03-07)
+
+
+### Bug Fixes
+
+* removes debugger double whoops ([7cacd73](https://github.com/valentine195/obsidian-5e-statblocks/commit/7cacd73ccf400426ecfc049df01a9a5af40c588c))
+
 ### [2.28.5](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.4...2.28.5) (2023-03-07)
 
 
