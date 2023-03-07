@@ -25,7 +25,7 @@
 
     --statblock-content-font: "Noto Sans", "Myriad Pro", Calibri, Helvetica,
         Arial, sans-serif;
-    /* --statblock-content-font-size: 14px; */
+    --statblock-content-font-size: 14px;
 
     --statblock-heading-font: "Libre Baskerville", "Lora", "Calisto MT",
         "Bookman Old Style", Bookman, "Goudy Old Style", Garamond,
@@ -64,9 +64,9 @@
 
 .statblock-detached {
     position: absolute;
-    /* top: -9999px; */
-    top: 20px;
+    top: -9999px;
+    /* top: 20px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%); */
     width: auto;
 }
