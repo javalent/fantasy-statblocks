@@ -425,9 +425,12 @@
     const heights: number[] = [];
     let split: number;
     const buildStatblock = () => {
-        const temp = document.body.createDiv(
-            "statblock-detached markdown-preview-view"
-        );
+        const temp = document.body.createDiv({
+            cls: "statblock-detached markdown-preview-view",
+            attr: {
+                style: `width: ${columnWidth}`
+            }
+        });
         const contentContainer = new Content({
             target: temp.createDiv({
                 cls: ["obsidian-statblock-plugin", "statblock", ...classes]

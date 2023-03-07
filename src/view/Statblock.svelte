@@ -67,7 +67,6 @@
     const setColumns = () => {
         if (monster.forceColumns) {
             columns = maxColumns;
-            console.log("🚀 ~ file: Statblock.svelte:70 ~ columns:", columns);
             observer.disconnect();
             return;
         }

@@ -16,9 +16,12 @@
         node.empty();
 
         const columnEls = [];
-        const temp = document.body.createDiv(
-            "statblock-detached markdown-preview-view"
-        );
+        const temp = document.body.createDiv({
+            cls: "statblock-detached markdown-preview-view",
+            attr: {
+                style: `width: ${columnWidth}`
+            }
+        });
         const contentContainer = temp.createDiv({
             cls: [
                 "statblock-detached",
@@ -56,6 +59,7 @@
                         1.5)
             ) {
                 maxHeight = Math.max(maxHeight, columnEl.scrollHeight);
+
                 tempColumnContainer.empty();
                 columnEl = tempColumnContainer.createDiv("column");
                 columnEls.push(columnEl);
