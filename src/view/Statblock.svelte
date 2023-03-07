@@ -7,7 +7,6 @@
         Notice,
         stringifyYaml
     } from "obsidian";
-    import { stringify } from "querystring";
     import { EXPORT_SYMBOL, SAVE_SYMBOL } from "src/data/constants";
     import type { StatblockItem } from "src/layouts/types";
     import type StatBlockPlugin from "src/main";
@@ -21,6 +20,7 @@
     import type StatBlockRenderer from "./statblock";
 
     import Bar from "./ui/Bar.svelte";
+    import ColumnContainer from "./ui/ColumnContainer.svelte";
     import Content from "./ui/Content.svelte";
 
     const dispatch = createEventDispatcher();
@@ -67,6 +67,7 @@
     const setColumns = () => {
         if (monster.forceColumns) {
             columns = maxColumns;
+            console.log("🚀 ~ file: Statblock.svelte:70 ~ columns:", columns);
             observer.disconnect();
             return;
         }
@@ -164,11 +165,12 @@
             {#if monster}
                 <Bar />
                 {#key columns}
-                    <Content
+                    <ColumnContainer
                         {columns}
                         {maxColumns}
                         {statblock}
                         {ready}
+                        {classes}
                         on:save
                         on:export
                     />

@@ -3,15 +3,7 @@
     import type { ImageItem } from "src/layouts/types";
     import type StatBlockPlugin from "src/main";
     import { getContext } from "svelte";
-    import {
-        App,
-        HoverPopover,
-        MarkdownPreviewView,
-        MarkdownView,
-        Platform,
-        TFile,
-        WorkspaceLeaf
-    } from "obsidian";
+    import { Platform, TFile } from "obsidian";
 
     export let monster: Monster;
     export let item: ImageItem;
@@ -42,7 +34,7 @@
                 link = plugin.app.vault.getResourcePath(file);
             }
         } catch (e) {
-            console.error(e);
+            console.warn("No image could be loaded");
         }
         return link;
     }
@@ -117,7 +109,8 @@
         width: 100%;
         height: 100%;
         border-radius: 100%;
-        border: var(--statblock-image-border-size) solid var(--statblock-image-border-color);
+        border: var(--statblock-image-border-size) solid
+            var(--statblock-image-border-color);
         object-position: center;
     }
 </style>

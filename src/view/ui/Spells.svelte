@@ -2,6 +2,7 @@
     import type { Monster } from "@types";
     import { stringifyYaml } from "obsidian";
     import { stringify } from "src/util/util";
+    import SpellItem from "./SpellItem.svelte";
     import TextContentHolder from "./TextContentHolder.svelte";
     import Traits from "./Traits.svelte";
 
@@ -64,35 +65,9 @@
         {:else}
             <Traits name={""} desc={block.header} {property} />
         {/if}
-        <ul class="spell-list">
-            {#each block.spells as spellItem, index}
-                {#if !spellItem.level}
-                    <span class="spell-line">
-                        <TextContentHolder
-                            {render}
-                            property={spellItem.spells}
-                        />
-                    </span>
-                {:else}
-                    <li class="spell-line">
-                        <span class="spell-level">
-                            <TextContentHolder
-                                {render}
-                                property={`${spellItem.level}:`}
-                            />
-                            <!-- {spellItem.split(":").shift()}: -->
-                        </span>
-                        <span class="spells">
-                            <TextContentHolder
-                                {render}
-                                property={spellItem.spells}
-                            />
-                            <!-- {spellItem.split(":").pop()} -->
-                        </span>
-                    </li>
-                {/if}
-            {/each}
-        </ul>
+        {#each block.spells as spell, index}
+            <SpellItem {spell} {render} />
+        {/each}
     {/each}
 </div>
 
