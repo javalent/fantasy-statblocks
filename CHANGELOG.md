@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.28.5](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.4...2.28.5) (2023-03-07)
+
+
+### Bug Fixes
+
+* Fixes CSS debug WHOOPS ([8861567](https://github.com/valentine195/obsidian-5e-statblocks/commit/8861567ff99b3987676ec8f01c90fda9b5e1abbb))
+
 ### [2.28.4](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.3...2.28.4) (2023-03-07)
 
 
