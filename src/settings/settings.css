@@ -166,6 +166,10 @@
     height: 200px;
     margin-bottom: 1rem;
 }
+.statblock-textarea.statblock-textarea-small + .cm-editor {
+    height: 100px;
+    margin-bottom: 1rem;
+}
 .confirm-buttons-container {
     display: flex;
     justify-content: space-between;

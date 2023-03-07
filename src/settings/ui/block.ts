@@ -303,6 +303,10 @@ class GenericModal<
             const component = new TextAreaComponent(el).setValue(
                 this.block.diceCallback
             );
+            component.inputEl.addClasses([
+                "statblock-textarea",
+                "statblock-textarea-small"
+            ]);
             this.editor = editorFromTextArea(
                 component.inputEl,
                 EditorView.updateListener.of((update) => {
@@ -590,11 +594,26 @@ class TableModal extends GenericModal<TableItem> {
                     });
                 })
             );
-        new TextAreaComponent(el)
+        /* new TextAreaComponent(el)
             .setValue(this.block.modifier)
             .onChange((v) => {
                 (this.block as TableItem).modifier = v;
-            });
+            }); */
+        const component = new TextAreaComponent(this.contentEl).setValue(
+            this.block.modifier
+        );
+        component.inputEl.addClasses([
+            "statblock-textarea",
+            "statblock-textarea-small"
+        ]);
+        this.editor = editorFromTextArea(
+            component.inputEl,
+            EditorView.updateListener.of((update) => {
+                if (update.docChanged) {
+                    this.block.modifier = update.state.doc.toString();
+                }
+            })
+        );
     }
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);

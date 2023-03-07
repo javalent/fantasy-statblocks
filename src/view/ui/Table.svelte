@@ -6,16 +6,22 @@
     export let monster: Monster;
     export let item: TableItem;
 
-    const customMod = new Function("stat", `return ${item.modifier}`);
-
     function getMod(stat: number) {
         if (typeof stat != "number") return ``;
-        let mod =
+        let mod;
+        if (
             item.modifier == null ||
             !item.modifier.length ||
             item.modifier == ""
-                ? Math.floor(((stat ?? 10) - 10) / 2)
-                : customMod(stat);
+        ) {
+            mod = Math.floor(((stat ?? 10) - 10) / 2);
+        } else {
+            const func = item.modifier.contains("return")
+                ? item.modifier
+                : `return ${item.modifier}`;
+            const customMod = new Function("stat", func);
+            mod = customMod(stat);
+        }
         return `(${mod >= 0 ? "+" : "-"}${Math.abs(mod)})`;
     }
 
