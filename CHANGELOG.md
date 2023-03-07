@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.28.7](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.6...2.28.7) (2023-03-07)
+
+
+### Bug Fixes
+
+* Actually fixes font-size rendering issue ([7ae4005](https://github.com/valentine195/obsidian-5e-statblocks/commit/7ae40056b4fb79089b1d1ec53fd44dedfd574f3b))
+
 ### [2.28.6](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.5...2.28.6) (2023-03-07)
 
 
