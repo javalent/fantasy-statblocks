@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.28.8](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.7...2.28.8) (2023-03-08)
+
+
+### Bug Fixes
+
+* Enables multi-entry tables by passing an array of arrays ([9c71521](https://github.com/valentine195/obsidian-5e-statblocks/commit/9c715219007d2f9655f9e30c59a2336af4c7a5df))
+
 ### [2.28.7](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.6...2.28.7) (2023-03-07)
 
 
