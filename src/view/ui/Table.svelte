@@ -30,25 +30,39 @@
         values = [];
     }
 
+    const valueMap: Map<number, number[]> = new Map();
+    for (let index = 0; index < values.length; index++) {
+        const value = values[index];
+        if (Array.isArray(value)) {
+            for (let vIndex = 0; vIndex < value.length; vIndex++) {
+                const existing = valueMap.get(vIndex) ?? [];
+                existing.push(value[vIndex]);
+                valueMap.set(vIndex, existing);
+            }
+        } else {
+            valueMap.set(index, [value]);
+        }
+    }
+
     const headers = item.headers ?? [
         ...Array(values.length > 0 ? values.length : 1).keys()
     ];
 </script>
 
 <div class="table">
-    {#each values.slice(0, headers.length) as value, index}
+    {#each [...valueMap.entries()].slice(0, headers.length) as [index, values]}
         <div class="table-item">
-            <span class="statblock-table-header">
-                {`${headers[index]}`.toUpperCase()}
-            </span>
-            <span>
-                {stringify(value)}
-                {#if item.calculate}
-                    <span>
-                        {getMod(value)}
-                    </span>
-                {/if}
-            </span>
+            <span class="statblock-table-header">{headers[index]}</span>
+            {#each values as value}
+                <span>
+                    {stringify(value)}
+                    {#if item.calculate}
+                        <span>
+                            {getMod(value)}
+                        </span>
+                    {/if}
+                </span>
+            {/each}
         </div>
     {/each}
 </div>
