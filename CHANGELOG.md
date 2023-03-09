@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.28.9](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.8...2.28.9) (2023-03-09)
+
+
+### Bug Fixes
+
+* Trait headers & subheading text are attached to the first trait block now ([6349dc4](https://github.com/valentine195/obsidian-5e-statblocks/commit/6349dc4df1e5089479f25d1eed5eb64f4eb0c716))
+
 ### [2.28.8](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.7...2.28.8) (2023-03-08)
 
 
