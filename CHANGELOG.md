@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.28.10](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.9...2.28.10) (2023-03-09)
+
+
+### Bug Fixes
+
+* make column filling a little smarter ([624a883](https://github.com/valentine195/obsidian-5e-statblocks/commit/624a8830084ce15c550d9f35431926b461fa755c))
+
 ### [2.28.9](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.8...2.28.9) (2023-03-09)
 
 
