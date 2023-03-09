@@ -631,15 +631,27 @@ return "";`
         dice: true
     },
     {
-        type: "traits",
+        type: "group",
         id: nanoid(),
-        properties: ["legendary_actions"],
+        properties: ["legendary_description", "legendary_actions"],
         heading: "Legendary Actions",
-        subheadingText:
-            "The {{monster}} can take 3 legendary actions, choosing from the options below. Only one legendary action can be used at a time and only at the end of another creature's turn. {{monster}} regains spent legendary actions at the start of its turn.",
-        conditioned: true,
-
-        dice: true
+        nested: [
+            {
+                type: "text",
+                id: nanoid(),
+                properties: ["legendary_description"],
+                conditioned: true,
+                text: null
+            },
+            {
+                type: "traits",
+                id: nanoid(),
+                properties: ["legendary_actions"],
+                conditioned: true,
+                dice: true
+            },
+        ],
+        conditioned: true
     },
     {
         type: "traits",
