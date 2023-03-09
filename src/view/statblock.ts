@@ -1,5 +1,5 @@
 import { App, ButtonComponent, Modal, TFile } from "obsidian";
-import { Layout5e } from "src/layouts/basic5e";
+import { Layout5e } from "src/layouts/basic 5e/basic5e";
 import { MarkdownRenderChild } from "obsidian";
 import type { Monster, StatblockParameters, Trait } from "@types";
 
@@ -135,26 +135,6 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 });
             }
         }
-        /* built = JSON.parse(
-            JSON.stringify(built)
-                .replace(/\\#/g, "#")
-                .replace(
-                    /\[\["(.+?)"\]\]/g,
-                    `"<STATBLOCK-LINK>$1</STATBLOCK-LINK>"`
-                )
-                .replace(/\[\[([^"]+?)\]\]/g, (match, p1) => {
-                    return `<STATBLOCK-LINK>${p1}</STATBLOCK-LINK>`;
-                })
-                .replace(
-                    /\[([^"]*?)\]\(([^"]+?)\)/g,
-                    (s, alias: string, path: string) => {
-                        if (alias.length) {
-                            return `<STATBLOCK-LINK>${path}|${alias}</STATBLOCK-LINK>`;
-                        }
-                        return `<STATBLOCK-LINK>${path}</STATBLOCK-LINK>`;
-                    }
-                )
-        ); */
 
         this.monster = built as Monster;
 

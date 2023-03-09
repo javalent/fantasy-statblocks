@@ -8,11 +8,12 @@
 
     export let block: StatblockItem;
     export let plugin: StatBlockPlugin;
+    export let layout: string;
 
     const dispatch = createEventDispatcher();
 
     const editBlock = () => {
-        const modal = getModalForBlock(plugin, block);
+        const modal = getModalForBlock(plugin, block, layout);
 
         modal.onClose = () => {
             if (!modal.saved) return;
@@ -48,11 +49,14 @@
 
 <div class="statblock-creator-container">
     {#key block}
-        <div class="statblock-creator-block">
+        <div
+            class="statblock-creator-block"
+            class:layout={block.type == "layout"}
+        >
             {#if block.type == "javascript"}
                 JavaScript
             {:else if block.type != "ifelse" && block.type != "collapse"}
-                <PropertyBlock {block} />
+                <PropertyBlock {block} {plugin} />
             {/if}
         </div>
     {/key}
@@ -89,5 +93,9 @@
     }
     .icon:not(:first-child) :global(.clickable-icon) {
         margin-left: 0;
+    }
+
+    .layout {
+        border: 2px dashed grey;
     }
 </style>

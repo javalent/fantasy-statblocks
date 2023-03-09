@@ -499,7 +499,10 @@ function getSpeedString(monster: Creature5eTools): string {
 
 function getSenses(monster: Creature5eTools): string {
     if (typeof monster.senses == "string") return monster.senses;
-    const senses = [monster.senses?.join(", ").trim() ?? ""];
+    let senses: string[] = [];
+    if (Array.isArray(monster.senses) && monster.senses.length > 0) {
+        senses = [monster.senses.join(", ").trim()];
+    }
     if (monster.passive) {
         senses.push(`passive Perception ${monster.passive}`);
     }

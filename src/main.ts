@@ -3,21 +3,20 @@ import {
     MarkdownPostProcessorContext,
     Notice,
     parseYaml,
-    Plugin,
-    TFile
+    Plugin
 } from "obsidian";
 import domtoimage from "dom-to-image";
 
 import { getBestiaryByName } from "./data/srd-bestiary";
 import StatBlockRenderer from "./view/statblock";
-import { transformTraits } from "./util/util";
+import { nanoid } from "./util/util";
 import {
     EXPORT_ICON,
     EXPORT_SYMBOL,
     SAVE_ICON,
     SAVE_SYMBOL
 } from "./data/constants";
-import type { Monster, StatblockParameters, Trait } from "@types";
+import type { Monster, StatblockParameters } from "@types";
 import StatblockSettingTab from "./settings/settings";
 import fastCopy from "fast-copy";
 
@@ -25,8 +24,8 @@ import { sort } from "fast-sort";
 import type { Plugins } from "../../obsidian-overload";
 import type { HomebrewCreature } from "../../obsidian-initiative-tracker/@types";
 import { Watcher } from "./watcher/watcher";
-import type { Layout } from "./layouts/types";
-import { Layout5e } from "./layouts/basic5e";
+import type { DefaultLayout, Layout } from "./layouts/types";
+import { Layout5e } from "./layouts/basic 5e/basic5e";
 import { StatblockSuggester } from "./suggest";
 import { DefaultLayouts } from "./layouts";
 
@@ -47,6 +46,7 @@ declare module "obsidian" {
 
 export interface StatblockData {
     monsters: Array<[string, Monster]>;
+    defaultLayouts: DefaultLayout[];
     layouts: Layout[];
     default: string;
     useDice: boolean;
@@ -66,10 +66,12 @@ export interface StatblockData {
     notifiedOfFantasy: boolean;
     hideConditionHelp: boolean;
     alwaysImport: boolean;
+    defaultLayoutsIntegrated: boolean;
 }
 
 const DEFAULT_DATA: StatblockData = {
     monsters: [],
+    defaultLayouts: [...DefaultLayouts.map((l) => fastCopy(l))],
     layouts: [],
     default: Layout5e.name,
     useDice: true,
@@ -88,7 +90,8 @@ const DEFAULT_DATA: StatblockData = {
     debug: false,
     notifiedOfFantasy: false,
     hideConditionHelp: false,
-    alwaysImport: false
+    alwaysImport: false,
+    defaultLayoutsIntegrated: false
 };
 
 export default class StatBlockPlugin extends Plugin {
@@ -240,6 +243,37 @@ export default class StatBlockPlugin extends Plugin {
                 ...settings
             };
         }
+        if (!this.settings.defaultLayoutsIntegrated) {
+            for (const layout of this.settings.layouts) {
+                layout.id = nanoid();
+            }
+            this.settings.default = (
+                this.layouts.find(
+                    ({ name }) => name == this.settings.default
+                ) ?? Layout5e
+            ).id;
+
+            this.settings.defaultLayoutsIntegrated = true;
+        }
+        if (this.settings.defaultLayouts.length != DefaultLayouts.length) {
+            for (const layout of DefaultLayouts) {
+                if (this.settings.defaultLayouts.find((l) => l.id == layout.id))
+                    continue;
+                this.settings.defaultLayouts.push(fastCopy(layout));
+            }
+            for (const layout of this.settings.defaultLayouts) {
+                if (DefaultLayouts.find((l) => l.id == layout.id)) continue;
+                this.settings.layouts.push(layout);
+                this.settings.defaultLayouts.splice(
+                    this.settings.defaultLayouts.indexOf(layout),
+                    1
+                );
+            }
+            this.settings.layouts = this.settings.layouts.filter(
+                (layout) =>
+                    !this.settings.defaultLayouts.find((l) => l.id == layout.id)
+            );
+        }
 
         const version = this.manifest.version.split(".");
         this.settings.version = {
@@ -257,6 +291,41 @@ export default class StatBlockPlugin extends Plugin {
 
         await this.saveData(this.settings);
     }
+    async loadData(): Promise<StatblockData> {
+        if (
+            await this.app.vault.adapter.exists(
+                `${this.manifest.dir}/temp.json`
+            )
+        ) {
+            return JSON.parse(
+                await this.app.vault.adapter.read(
+                    `${this.manifest.dir}/temp.json`
+                )
+            );
+        }
+        return (await super.loadData()) as StatblockData;
+    }
+    async saveData(settings: StatblockData) {
+        try {
+            await this.app.vault.adapter.write(
+                `${this.manifest.dir}/temp.json`,
+                JSON.stringify(settings, null, null)
+            );
+            await this.app.vault.adapter.remove(
+                `${this.manifest.dir}/data.json`
+            );
+            await this.app.vault.adapter.copy(
+                `${this.manifest.dir}/temp.json`,
+                `${this.manifest.dir}/data.json`
+            );
+            await this.app.vault.adapter.remove(
+                `${this.manifest.dir}/temp.json`
+            );
+        } catch (e) {
+            super.saveData(settings);
+        }
+    }
+
     async loadMonsterData() {
         const data = this.settings.monsters;
 
@@ -431,13 +500,13 @@ export default class StatBlockPlugin extends Plugin {
     }
 
     get layouts() {
-        return [...DefaultLayouts, ...this.settings.layouts];
+        return [...this.settings.defaultLayouts, ...this.settings.layouts];
     }
 
     get defaultLayout() {
         return (
             this.layouts?.find(
-                (layout) => layout.name == this.settings.default
+                (layout) => layout.id == this.settings.default
             ) ?? Layout5e
         );
     }
