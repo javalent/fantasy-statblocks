@@ -1,5 +1,5 @@
 import { nanoid } from "src/util/util";
-import type { Layout, StatblockItem } from "./types";
+import type { DefaultLayout, Layout, StatblockItem } from "../types";
 
 export const Statblock5e: StatblockItem[] = [
     {
@@ -669,7 +669,9 @@ return "";`
     }
 ];
 
-export const Layout5e: Layout = {
+export const Layout5e: DefaultLayout = {
     blocks: Statblock5e,
-    name: "Basic 5e Layout"
+    id: "basic-5e-layout",
+    name: "Basic 5e Layout",
+    edited: false
 };
