@@ -119,7 +119,12 @@
 </div>
 <div class="creator-container">
     {#key layout}
-        <Creator blocks={items} {plugin} on:sorted={handleSorted} />
+        <Creator
+            blocks={items}
+            {plugin}
+            on:sorted={handleSorted}
+            layout={layout.id}
+        />
     {/key}
 </div>
 <div class="bottom">

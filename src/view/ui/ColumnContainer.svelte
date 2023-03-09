@@ -19,6 +19,7 @@
     import JavaScript from "./JavaScript.svelte";
     import Content from "./Content.svelte";
     import SpellItem from "./SpellItem.svelte";
+    import type StatBlockPlugin from "src/main";
 
     const dispatch = createEventDispatcher();
 
@@ -30,6 +31,8 @@
     export const maxColumns: number = columns;
     export const detached = false;
     export const targets: HTMLElement[] = [];
+
+    export let plugin: StatBlockPlugin;
 
     const monster = getContext<Monster>("monster");
     const ensureColon = (header: string) => {
@@ -44,7 +47,12 @@
         if ("nested" in item) {
             return item.nested.some((prop) => checkConditioned(prop));
         }
-        if (item.type == "ifelse" || item.type == "javascript") return true;
+        if (
+            item.type == "ifelse" ||
+            item.type == "javascript" ||
+            item.type == "layout"
+        )
+            return true;
         if (!item.properties.length) return true;
         return item.properties.some((prop) => {
             if (prop in monster) {
@@ -69,34 +77,43 @@
     };
 
     const context = getAllContexts();
-
+    type ContainerAndClasses = { container?: HTMLElement; classes?: string[] };
     const createDivForStatblockItem = (
         item: StatblockItem,
-        container?: HTMLElement
-    ) =>
-        container
-            ? container.createDiv(
-                  `statblock-item-container ${slugify(item.type)}-container`
+        params: ContainerAndClasses = {}
+    ) => {
+        return params.container
+            ? params.container.createDiv(
+                  `statblock-item-container ${slugify(item.type)}-container ${(
+                      params.classes ?? []
+                  ).join(" ")}`
               )
             : createDiv(
-                  `statblock-item-container ${slugify(item.type)}-container`
+                  `statblock-item-container ${slugify(item.type)}-container ${(
+                      params.classes ?? []
+                  ).join(" ")}`
               );
+    };
 
     const getElementForStatblockItem = (
         item: StatblockItem,
-        container?: HTMLElement
+        params: ContainerAndClasses = {}
     ): HTMLElement[] => {
         if (!checkConditioned(item)) {
             return [];
         }
+        const { container, classes } = params;
         const targets: HTMLElement[] = [];
-        const target = createDivForStatblockItem(item, container);
+        const target = createDivForStatblockItem(item, { container, classes });
         context.set("item", item);
         targets.push(target);
         switch (item.type) {
             case "group": {
                 for (const nested of item.nested ?? []) {
-                    const element = getElementForStatblockItem(nested, target);
+                    const element = getElementForStatblockItem(nested, {
+                        container: target,
+                        classes
+                    });
 
                     targets.push(...element);
                 }
@@ -159,10 +176,9 @@
                         (i == item.conditions.length - 1 && !condition?.length)
                     ) {
                         for (const block of nested) {
-                            const element = getElementForStatblockItem(
-                                block,
-                                target
-                            );
+                            const element = getElementForStatblockItem(block, {
+                                container: target
+                            });
                             targets.push(...element);
                         }
                         break;
@@ -172,16 +188,18 @@
                 break;
             }
             case "inline": {
-                const inline = target.createDiv("statblock-item-inline");
+                const inline = createDivForStatblockItem(item, {
+                    container: target,
+                    classes: ["statblock-item-inline", ...(classes ?? [])]
+                });
                 for (const nested of item.nested ?? []) {
-                    getElementForStatblockItem(
-                        nested,
-                        inline.createDiv(
+                    getElementForStatblockItem(nested, {
+                        container: inline.createDiv(
                             `statblock-inline-item ${slugify(
                                 nested.type
                             )}-container`
                         )
-                    );
+                    });
                 }
                 targets.push(inline);
                 break;
@@ -195,6 +213,30 @@
                     },
                     context
                 });
+                break;
+            }
+            case "layout": {
+                const layout = plugin.layouts.find(
+                    ({ id }) => id == item.layout
+                );
+                if (layout?.blocks?.length) {
+                    targets.push(
+                        ...getElementForStatblockItem(
+                            {
+                                type: "group",
+                                nested: layout.blocks,
+                                id: item.layout,
+                                properties: null
+                            },
+                            {
+                                classes: [
+                                    ...(classes ?? []),
+                                    `${slugify(layout.name)}-nested`
+                                ]
+                            }
+                        )
+                    );
+                }
                 break;
             }
             case "property": {
@@ -411,18 +453,19 @@
                 break;
             }
         }
-        if (
-            item.type != "ifelse" &&
-            item.type != "javascript" &&
-            item.hasRule
-        ) {
-            const rule = createDiv("statblock-item-container rule-container");
+        if ("hasRule" in item && item.hasRule) {
+            const rule = createDiv(
+                [
+                    "statblock-item-container rule-container",
+                    ...(classes ?? [])
+                ].join(" ")
+            );
             new Rule({
                 target: rule
             });
             targets.push(rule);
         }
-        return targets;
+        return targets.filter((el) => el.hasChildNodes());
     };
     $: maxHeight =
         !isNaN(Number(monster.columnHeight)) && monster.columnHeight > 0

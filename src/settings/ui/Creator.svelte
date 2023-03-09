@@ -18,6 +18,7 @@
     const dispatch = createEventDispatcher();
 
     export let blocks: StatblockItem[] = [];
+    export let layout: string;
     export let draggable = true;
     export let inline = false;
     export let plugin: StatBlockPlugin;
@@ -70,7 +71,7 @@
         blocks = blocks;
     };
     const editBlock = (block: StatblockItem) => {
-        const modal = getModalForBlock(plugin, block);
+        const modal = getModalForBlock(plugin, block, layout);
 
         modal.onClose = () => {
             if (!modal.saved) return;
@@ -278,13 +279,14 @@
                                 <Block
                                     {plugin}
                                     {block}
+                                    {layout}
                                     on:trash={(e) => trash(e.detail)}
                                     on:edited={(e) => edited(e.detail)}
                                 />
                             </div>
                         {/if}
                     </div>
-                    {#if block.type != "ifelse" && block.type != "javascript" && block.hasRule}
+                    {#if "hasRule" in block && block.hasRule}
                         <div aria-label="Block Has Rule">
                             <Rule />
                         </div>

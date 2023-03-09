@@ -15,7 +15,8 @@ import type {
     SavesItem,
     SpellsItem,
     CollapseItem,
-    JavaScriptItem
+    JavaScriptItem,
+    LayoutItem
 } from "src/layouts/types";
 import type StatBlockPlugin from "src/main";
 import TableHeaders from "./TableHeaders.svelte";
@@ -26,23 +27,33 @@ import { EditorView } from "@codemirror/view";
 
 export function getModalForBlock(
     plugin: StatBlockPlugin,
-    block: IfElseItem
+    block: IfElseItem,
+    layout: string
 ): IfElseModal;
 export function getModalForBlock(
     plugin: StatBlockPlugin,
-    block: CollapseItem
+    block: CollapseItem,
+    layout: string
 ): CollapseModal;
 export function getModalForBlock(
     plugin: StatBlockPlugin,
-    block: GroupItem | InlineItem
+    block: LayoutItem,
+    layout: string
+): LayoutModal;
+export function getModalForBlock(
+    plugin: StatBlockPlugin,
+    block: GroupItem | InlineItem,
+    layout: string
 ): GroupModal;
 export function getModalForBlock(
     plugin: StatBlockPlugin,
-    block: StatblockItem
+    block: StatblockItem,
+    layout: string
 ): BlockModal<StatblockItem>;
 export function getModalForBlock(
     plugin: StatBlockPlugin,
-    block: StatblockItem
+    block: StatblockItem,
+    layout: string
 ): BlockModal<StatblockItem> {
     switch (block.type) {
         case "group":
@@ -60,6 +71,9 @@ export function getModalForBlock(
         }
         case "heading": {
             return new HeadingModal(plugin, block);
+        }
+        case "layout": {
+            return new LayoutModal(plugin, block, layout);
         }
         case "property": {
             return new PropertyModal(plugin, block);
@@ -220,6 +234,46 @@ class JavaScriptModal extends BlockModal<JavaScriptItem> {
         this.buildButtons(this.contentEl.createDiv());
     }
 }
+class LayoutModal extends BlockModal<LayoutItem> {
+    editor: EditorView;
+    constructor(
+        plugin: StatBlockPlugin,
+        block: LayoutItem,
+        public layout: string
+    ) {
+        super(plugin, block);
+    }
+    hasLayoutNestedAlready(blocks: StatblockItem[]): boolean {
+        for (const block of blocks) {
+            if (block.type == "layout" && block.layout == this.layout)
+                return true;
+            if ("nested" in block && this.hasLayoutNestedAlready(block.nested))
+                return true;
+        }
+        return false;
+    }
+    async display() {
+        this.contentEl.empty();
+
+        new Setting(this.contentEl)
+            .setName("Layout to Insert")
+            .addDropdown((d) => {
+                for (const layout of this.plugin.layouts) {
+                    if (layout.id == this.layout) continue;
+                    if (this.hasLayoutNestedAlready(layout.blocks)) continue;
+                    d.addOption(layout.id, layout.name);
+                }
+                if (this.block.layout) {
+                    d.setValue(this.block.layout);
+                }
+                d.onChange((v) => {
+                    this.block.layout = v;
+                });
+            });
+
+        this.buildButtons(this.contentEl.createDiv());
+    }
+}
 class IfElseModal extends BlockModal<IfElseItem> {
     async display() {
         this.contentEl.empty();
@@ -242,7 +296,12 @@ class IfElseModal extends BlockModal<IfElseItem> {
 class GenericModal<
     I extends Exclude<
         StatblockItem,
-        GroupItem | InlineItem | IfElseItem | CollapseItem | JavaScriptItem
+        | GroupItem
+        | InlineItem
+        | IfElseItem
+        | CollapseItem
+        | JavaScriptItem
+        | LayoutItem
     >
 > extends BlockModal<I> {
     async display() {
@@ -594,11 +653,6 @@ class TableModal extends GenericModal<TableItem> {
                     });
                 })
             );
-        /* new TextAreaComponent(el)
-            .setValue(this.block.modifier)
-            .onChange((v) => {
-                (this.block as TableItem).modifier = v;
-            }); */
         const component = new TextAreaComponent(this.contentEl).setValue(
             this.block.modifier
         );

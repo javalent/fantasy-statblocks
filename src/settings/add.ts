@@ -114,6 +114,13 @@ export function blockGenerator(type: string): StatblockItem {
                 code: ""
             };
         }
+        case "layout": {
+            return {
+                type: "layout",
+                id: nanoid(),
+                layout: null
+            };
+        }
     }
 }
 

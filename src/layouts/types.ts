@@ -14,7 +14,8 @@ export const StatblockItemTypes = [
     "text",
     "ifelse",
     "collapse",
-    "javascript"
+    "javascript",
+    "layout"
 ] as const;
 
 export const TypeNames: Array<[typeof StatblockItemTypes[number], string]> = [
@@ -23,6 +24,7 @@ export const TypeNames: Array<[typeof StatblockItemTypes[number], string]> = [
     ["ifelse", "If/Else"],
     ["collapse", "Collapsible"],
     ["javascript", "JavaScript"],
+    ["layout", "Layout"],
     [null, "separator"],
     ["heading", "Heading"],
     ["image", "Image"],
@@ -134,6 +136,10 @@ type JavaScriptProps = {
     type: "javascript";
     code: string;
 };
+type LayoutProps = {
+    type: "layout";
+    layout: string;
+};
 
 export type GroupItem = CommonProps & GroupProps;
 export type HeadingItem = CommonProps & HeadingProps;
@@ -149,6 +155,7 @@ export type TextItem = CommonProps & TextProps & GenericTextProp;
 export type IfElseItem = RequiredProps & IfElseProps;
 export type CollapseItem = RequiredProps & CollapseProps;
 export type JavaScriptItem = RequiredProps & JavaScriptProps;
+export type LayoutItem = RequiredProps & LayoutProps;
 
 export type StatblockItem =
     | GroupItem
@@ -164,7 +171,8 @@ export type StatblockItem =
     | TextItem
     | IfElseItem
     | CollapseItem
-    | JavaScriptItem;
+    | JavaScriptItem
+    | LayoutItem;
 
 export interface StatblockItemMap
     extends Record<typeof StatblockItemTypes[number], StatblockItem> {
@@ -186,5 +194,10 @@ export interface StatblockItemMap
 
 export interface Layout {
     name: string;
+    id: string;
     blocks: StatblockItem[];
+}
+
+export interface DefaultLayout extends Layout {
+    edited?: boolean;
 }
