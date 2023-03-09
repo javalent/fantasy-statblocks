@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.11...3.0.0) (2023-03-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* Atomic saving of data file to prevent data loss
+* Adds Layout block to nest layouts inside other layouts
+* includes PF2e as basic layout
+* support for editable default layouts
+
+### Features
+
+* Adds Layout block to nest layouts inside other layouts ([41615a2](https://github.com/valentine195/obsidian-5e-statblocks/commit/41615a282cfc5a15788634d6b92432a9ca28a1b8))
+* Atomic saving of data file to prevent data loss ([e09ad9c](https://github.com/valentine195/obsidian-5e-statblocks/commit/e09ad9c377df5799978ef46b4e0a58cff7d5aa8a))
+* includes PF2e as basic layout ([b7981bc](https://github.com/valentine195/obsidian-5e-statblocks/commit/b7981bcd3b7139a8217fefff3b55c9ad86205452))
+* support for editable default layouts ([4cb1788](https://github.com/valentine195/obsidian-5e-statblocks/commit/4cb1788f4bb8810101cf4c9b405e5026ad559c49))
+
 ### [2.28.11](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.10...2.28.11) (2023-03-09)
 
 
