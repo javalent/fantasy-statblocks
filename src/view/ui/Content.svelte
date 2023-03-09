@@ -98,38 +98,3 @@
 >
     <div class="statblock-content" bind:this={content} />
 </div>
-
-<style>
-    .statblock-content {
-        font-family: var(--statblock-content-font);
-        font-size: var(--statblock-content-font-size);
-        color: var(--statblock-font-color);
-        background-color: var(--statblock-background-color);
-        padding: 0.5em;
-        border: var(--statblock-border-size) var(--statblock-border-color) solid;
-        box-shadow: var(--statblock-box-shadow-x-offset)
-            var(--statblock-box-shadow-y-offset)
-            var(--statblock-box-shadow-blur) var(--statblock-box-shadow-color);
-        margin-left: 2px;
-        margin-right: 2px;
-        display: flex;
-        gap: 1rem;
-    }
-    .statblock-content > :global(.column) {
-        width: var(--statblock-column-width);
-    }
-
-    @media screen and (max-width: 400px) {
-        .statblock-content > :global(.column) {
-            width: 75vw;
-        }
-    }
-
-    :global(.statblock-item-container) {
-        margin-bottom: 0.25rem;
-    }
-    :global(.statblock-item-inline) {
-        display: flex;
-        justify-content: space-between;
-    }
-</style>
