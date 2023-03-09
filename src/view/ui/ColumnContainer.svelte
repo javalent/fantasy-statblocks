@@ -70,6 +70,18 @@
 
     const context = getAllContexts();
 
+    const createDivForStatblockItem = (
+        item: StatblockItem,
+        container?: HTMLElement
+    ) =>
+        container
+            ? container.createDiv(
+                  `statblock-item-container ${slugify(item.type)}-container`
+              )
+            : createDiv(
+                  `statblock-item-container ${slugify(item.type)}-container`
+              );
+
     const getElementForStatblockItem = (
         item: StatblockItem,
         container?: HTMLElement
@@ -78,13 +90,7 @@
             return [];
         }
         const targets: HTMLElement[] = [];
-        const target = container
-            ? container.createDiv(
-                  `statblock-item-container ${slugify(item.type)}-container`
-              )
-            : createDiv(
-                  `statblock-item-container ${slugify(item.type)}-container`
-              );
+        const target = createDivForStatblockItem(item, container);
         context.set("item", item);
         targets.push(target);
         switch (item.type) {
@@ -333,9 +339,13 @@
                 const blocks: Trait[] = monster[item.properties[0]] as Trait[];
                 if (!Array.isArray(blocks) || !blocks.length) return [];
 
+                const firstElement = createDivForStatblockItem(item);
+                targets.push(firstElement);
                 if (item.heading) {
                     new SectionHeading({
-                        target,
+                        target: firstElement.createDiv(
+                            "statblock-section-heading"
+                        ),
                         props: {
                             monster,
                             item
@@ -344,7 +354,7 @@
                     });
                 }
                 if (item.subheadingText && item.subheadingText.length) {
-                    const prop = createDiv(
+                    const prop = firstElement.createDiv(
                         `statblock-item-container statblock-trait-prop`
                     );
                     new Traits({
@@ -363,25 +373,41 @@
                     targets.push(prop);
                 }
                 try {
-                    for (const block of blocks) {
-                        const prop = createDiv(
-                            `statblock-item-container statblock-trait-prop`
-                        );
+                    if (blocks.length > 0) {
                         new Traits({
-                            target: prop,
+                            target: firstElement.createDiv(
+                                `statblock-item-container statblock-trait-prop`
+                            ),
                             props: {
-                                name: block.name,
-                                desc: block.desc,
+                                name: blocks[0].name,
+                                desc: blocks[0].desc,
                                 property: item.properties[0],
                                 render: item.markdown
                             },
                             context
                         });
-                        targets.push(prop);
+                        for (let i = 1; i < blocks.length; i++) {
+                            const block = blocks[i];
+                            const prop = createDiv(
+                                `statblock-item-container statblock-trait-prop`
+                            );
+                            new Traits({
+                                target: prop,
+                                props: {
+                                    name: block.name,
+                                    desc: block.desc,
+                                    property: item.properties[0],
+                                    render: item.markdown
+                                },
+                                context
+                            });
+                            targets.push(prop);
+                        }
                     }
                 } catch (e) {
                     return [];
                 }
+
                 break;
             }
         }
