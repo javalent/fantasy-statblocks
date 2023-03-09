@@ -18,7 +18,10 @@
         if (!render) {
             return spells;
         }
-        return spells.split(",").map(linkify).join(",");
+        return spells
+            .split(",")
+            .map((spell) => linkify(spell, ""))
+            .join(",");
     };
     type Spell = { level?: string; spells: string };
     type SpellBlock = { header: string; spells: Array<Spell> };
@@ -44,7 +47,9 @@
                 try {
                     spell = {
                         level: Object.keys(current).shift(),
-                        spells: linkifySpells(stringify(Object.values(current).shift()))
+                        spells: linkifySpells(
+                            stringify(Object.values(current).shift())
+                        )
                     };
                 } catch (e) {
                     return acc;
