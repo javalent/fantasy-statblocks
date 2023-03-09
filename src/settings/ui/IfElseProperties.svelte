@@ -86,7 +86,7 @@
                     ...items,
                     {
                         prop: {
-                            blocks: [blockGenerator("group")],
+                            nested: [blockGenerator("group")],
                             condition: null
                         },
                         id

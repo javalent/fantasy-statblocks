@@ -13,7 +13,9 @@ export const StatblockItemTypes = [
     "image",
     "text",
     "ifelse",
-    "collapse"
+    "collapse",
+    "javascript",
+    "layout"
 ] as const;
 
 export const TypeNames: Array<[typeof StatblockItemTypes[number], string]> = [
@@ -21,6 +23,8 @@ export const TypeNames: Array<[typeof StatblockItemTypes[number], string]> = [
     ["inline", "Inline Group"],
     ["ifelse", "If/Else"],
     ["collapse", "Collapsible"],
+    ["javascript", "JavaScript"],
+    ["layout", "Layout"],
     [null, "separator"],
     ["heading", "Heading"],
     ["image", "Image"],
@@ -37,12 +41,12 @@ export type StatblockItemType = typeof StatblockItemTypes[number];
 
 type RequiredProps = {
     type: StatblockItemType;
+    conditioned?: boolean;
     id: string;
 };
 
 export type CommonProps = RequiredProps & {
     properties: Array<keyof Monster>;
-    conditioned?: boolean;
     fallback?: string;
     hasRule?: boolean;
     dice?: boolean;
@@ -101,6 +105,7 @@ type TraitsProps = {
     type: "traits";
     heading?: string;
     headingProp?: boolean;
+    subheadingText?: string;
 };
 type ImageProps = {
     type: "image";
@@ -114,7 +119,7 @@ type TextProps = {
 };
 export type IfElseCondition = {
     condition: string;
-    blocks: [GroupItem];
+    nested: [GroupItem];
 };
 type IfElseProps = {
     type: "ifelse";
@@ -122,9 +127,18 @@ type IfElseProps = {
 };
 type CollapseProps = {
     type: "collapse";
-    blocks: [GroupItem];
+    nested: [GroupItem];
     heading?: string;
     hasRule?: boolean;
+    open: boolean;
+};
+type JavaScriptProps = {
+    type: "javascript";
+    code: string;
+};
+type LayoutProps = {
+    type: "layout";
+    layout: string;
 };
 
 export type GroupItem = CommonProps & GroupProps;
@@ -140,6 +154,8 @@ export type ImageItem = CommonProps & ImageProps;
 export type TextItem = CommonProps & TextProps & GenericTextProp;
 export type IfElseItem = RequiredProps & IfElseProps;
 export type CollapseItem = RequiredProps & CollapseProps;
+export type JavaScriptItem = RequiredProps & JavaScriptProps;
+export type LayoutItem = RequiredProps & LayoutProps;
 
 export type StatblockItem =
     | GroupItem
@@ -154,7 +170,9 @@ export type StatblockItem =
     | ImageItem
     | TextItem
     | IfElseItem
-    | CollapseItem;
+    | CollapseItem
+    | JavaScriptItem
+    | LayoutItem;
 
 export interface StatblockItemMap
     extends Record<typeof StatblockItemTypes[number], StatblockItem> {
@@ -170,9 +188,16 @@ export interface StatblockItemMap
     image: ImageItem;
     text: TextItem;
     ifelse: IfElseItem;
+    javascript: JavaScriptItem;
+    collapse: CollapseItem;
 }
 
 export interface Layout {
     name: string;
+    id: string;
     blocks: StatblockItem[];
+}
+
+export interface DefaultLayout extends Layout {
+    edited?: boolean;
 }

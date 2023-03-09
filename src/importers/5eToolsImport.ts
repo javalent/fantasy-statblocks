@@ -142,6 +142,19 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
                             legendary_actions:
                                 monster.legendary?.flatMap(normalizeEntries) ??
                                 [],
+                            mythic_actions: [
+                                ...((monster.mythicHeader
+                                    ? [
+                                          {
+                                              name: "",
+                                              entries: monster.mythicHeader
+                                          }
+                                      ]
+                                    : []
+                                ).flatMap(normalizeEntries) ?? []),
+                                ...(monster.mythic?.flatMap(normalizeEntries) ??
+                                    [])
+                            ],
                             spells: getSpells(monster),
                             spellsNotes: getSpellNotes(monster).join(" ")
                         };

@@ -4,10 +4,16 @@
     import type {
         CollapseItem,
         IfElseItem,
+        JavaScriptItem,
         StatblockItem
     } from "src/layouts/types";
+    import type StatBlockPlugin from "src/main";
 
-    export let block: Exclude<StatblockItem, IfElseItem | CollapseItem>;
+    export let block: Exclude<
+        StatblockItem,
+        IfElseItem | CollapseItem | JavaScriptItem
+    >;
+    export let plugin: StatBlockPlugin;
 
     if (block.type == "heading" && !block.size) {
         block.size = 1;
@@ -37,6 +43,13 @@
     const code = (node: HTMLDivElement) => {
         setIcon(node, "code-glyph");
     };
+
+    const getLayoutName = (id: string) => {
+        return (
+            plugin.layouts.find((layout) => id == layout.id)?.name ??
+            "No layout selected"
+        );
+    };
 </script>
 
 <div class="property-block-container">
@@ -54,8 +67,11 @@
                 </strong>
             {/if}
         </div>
-
-        <small><em>{block.properties.join(", ")}</em></small>
+        {#if block.type != "layout"}
+            <small><em>{block.properties.join(", ")}</em></small>
+        {:else}
+            <small><em>{getLayoutName(block.layout)}</em></small>
+        {/if}
     </div>
     <small class="context">
         {#if "heading" in block}

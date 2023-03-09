@@ -2,6 +2,112 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.28.11](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.10...2.28.11) (2023-03-09)
+
+
+### Bug Fixes
+
+* fixes temp content column css inheritance ([5a7eec9](https://github.com/valentine195/obsidian-5e-statblocks/commit/5a7eec97e72870295ecee387351d60b2217d54d0))
+
+### [2.28.10](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.9...2.28.10) (2023-03-09)
+
+
+### Bug Fixes
+
+* make column filling a little smarter ([624a883](https://github.com/valentine195/obsidian-5e-statblocks/commit/624a8830084ce15c550d9f35431926b461fa755c))
+
+### [2.28.9](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.8...2.28.9) (2023-03-09)
+
+
+### Bug Fixes
+
+* Trait headers & subheading text are attached to the first trait block now ([6349dc4](https://github.com/valentine195/obsidian-5e-statblocks/commit/6349dc4df1e5089479f25d1eed5eb64f4eb0c716))
+
+### [2.28.8](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.7...2.28.8) (2023-03-08)
+
+
+### Bug Fixes
+
+* Enables multi-entry tables by passing an array of arrays ([9c71521](https://github.com/valentine195/obsidian-5e-statblocks/commit/9c715219007d2f9655f9e30c59a2336af4c7a5df))
+
+### [2.28.7](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.6...2.28.7) (2023-03-07)
+
+
+### Bug Fixes
+
+* Actually fixes font-size rendering issue ([7ae4005](https://github.com/valentine195/obsidian-5e-statblocks/commit/7ae40056b4fb79089b1d1ec53fd44dedfd574f3b))
+
+### [2.28.6](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.5...2.28.6) (2023-03-07)
+
+
+### Bug Fixes
+
+* removes debugger double whoops ([7cacd73](https://github.com/valentine195/obsidian-5e-statblocks/commit/7cacd73ccf400426ecfc049df01a9a5af40c588c))
+
+### [2.28.5](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.4...2.28.5) (2023-03-07)
+
+
+### Bug Fixes
+
+* Fixes CSS debug WHOOPS ([8861567](https://github.com/valentine195/obsidian-5e-statblocks/commit/8861567ff99b3987676ec8f01c90fda9b5e1abbb))
+
+### [2.28.4](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.3...2.28.4) (2023-03-07)
+
+
+### Bug Fixes
+
+* fixes Table modifier calculation, improves editor styling ([d5fbee5](https://github.com/valentine195/obsidian-5e-statblocks/commit/d5fbee5a2d44b21f9edfb41f56562881899a8993))
+* Massively improves column rendering ([33037af](https://github.com/valentine195/obsidian-5e-statblocks/commit/33037af12a00553ec7850f56ef67d73ec1bbfb14))
+
+### [2.28.3](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.2...2.28.3) (2023-03-06)
+
+
+### Bug Fixes
+
+* adds ability to set Trait subheading text blocks ([184b351](https://github.com/valentine195/obsidian-5e-statblocks/commit/184b351aacd806ab4c9b306e4ede78282c97b5b5))
+* imports Mythic Actions from 5e.tools ([750e1bc](https://github.com/valentine195/obsidian-5e-statblocks/commit/750e1bcce31a4e3b2a1018d2fa49713c9d73ac39))
+
+### [2.28.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.1...2.28.2) (2023-03-06)
+
+
+### Bug Fixes
+
+* fixes monster source when saving if source is present ([4c39218](https://github.com/valentine195/obsidian-5e-statblocks/commit/4c392183614f31be1d9be2c934795116f4334e8b))
+
+### [2.28.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.0...2.28.1) (2023-03-06)
+
+
+### Bug Fixes
+
+* fixes bug if no html element was returned in JS block ([55f01bc](https://github.com/valentine195/obsidian-5e-statblocks/commit/55f01bc454828be7859a6af18de82feab1d5aaa8))
+
+## [2.28.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.27.1...2.28.0) (2023-03-06)
+
+
+### Features
+
+* Adds JavaScript block ([4ed12ec](https://github.com/valentine195/obsidian-5e-statblocks/commit/4ed12ec04d99ebc869c3c543012027498623bc9a))
+
+### [2.27.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.27.0...2.27.1) (2023-03-06)
+
+
+### Bug Fixes
+
+* adds ability to start collapse block opened ([9a1b9af](https://github.com/valentine195/obsidian-5e-statblocks/commit/9a1b9af8f436d7e7d3dc5d34a761d9ccd35ad7e9))
+* fixes collapse handle variable ([8010cb6](https://github.com/valentine195/obsidian-5e-statblocks/commit/8010cb677ee6b7d542a0b46beca0d947e776a3b7))
+
+## [2.27.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.26.5...2.27.0) (2023-03-04)
+
+
+### Features
+
+* adds new IfElse block, new Collapse block ([66fad70](https://github.com/valentine195/obsidian-5e-statblocks/commit/66fad70e092e8004df3a6e49bc00d42dc6a05240))
+
+
+### Bug Fixes
+
+* fixes rendering of links (close [#151](https://github.com/valentine195/obsidian-5e-statblocks/issues/151), close [#149](https://github.com/valentine195/obsidian-5e-statblocks/issues/149)) ([161d113](https://github.com/valentine195/obsidian-5e-statblocks/commit/161d1134b648cd2f5a0166d18fdfe53b7d56968e))
+
 ### [2.26.5](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.26.4...2.26.5) (2023-03-02)
 
 ### [2.26.4](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.25.4...2.26.4) (2023-03-02)

@@ -14,7 +14,9 @@ import type {
     IfElseItem,
     SavesItem,
     SpellsItem,
-    CollapseItem
+    CollapseItem,
+    JavaScriptItem,
+    LayoutItem
 } from "src/layouts/types";
 import type StatBlockPlugin from "src/main";
 import TableHeaders from "./TableHeaders.svelte";
@@ -25,23 +27,33 @@ import { EditorView } from "@codemirror/view";
 
 export function getModalForBlock(
     plugin: StatBlockPlugin,
-    block: IfElseItem
+    block: IfElseItem,
+    layout: string
 ): IfElseModal;
 export function getModalForBlock(
     plugin: StatBlockPlugin,
-    block: CollapseItem
+    block: CollapseItem,
+    layout: string
 ): CollapseModal;
 export function getModalForBlock(
     plugin: StatBlockPlugin,
-    block: GroupItem | InlineItem
+    block: LayoutItem,
+    layout: string
+): LayoutModal;
+export function getModalForBlock(
+    plugin: StatBlockPlugin,
+    block: GroupItem | InlineItem,
+    layout: string
 ): GroupModal;
 export function getModalForBlock(
     plugin: StatBlockPlugin,
-    block: StatblockItem
+    block: StatblockItem,
+    layout: string
 ): BlockModal<StatblockItem>;
 export function getModalForBlock(
     plugin: StatBlockPlugin,
-    block: StatblockItem
+    block: StatblockItem,
+    layout: string
 ): BlockModal<StatblockItem> {
     switch (block.type) {
         case "group":
@@ -54,8 +66,14 @@ export function getModalForBlock(
         case "ifelse": {
             return new IfElseModal(plugin, block);
         }
+        case "javascript": {
+            return new JavaScriptModal(plugin, block);
+        }
         case "heading": {
             return new HeadingModal(plugin, block);
+        }
+        case "layout": {
+            return new LayoutModal(plugin, block, layout);
         }
         case "property": {
             return new PropertyModal(plugin, block);
@@ -155,6 +173,14 @@ class CollapseModal extends BlockModal<CollapseItem> {
                 );
             });
         new Setting(this.contentEl)
+            .setName("Open by Default")
+            .setDesc("The block will start open.")
+            .addToggle((t) => {
+                t.setValue(this.block.open).onChange(
+                    (v) => (this.block.open = v)
+                );
+            });
+        new Setting(this.contentEl)
             .setName("Has Rule")
             .setDesc(
                 "If present, the block will have a horizontal rule placed after it."
@@ -164,6 +190,87 @@ class CollapseModal extends BlockModal<CollapseItem> {
                     (v) => (this.block.hasRule = v)
                 );
             });
+        this.buildButtons(this.contentEl.createDiv());
+    }
+}
+class JavaScriptModal extends BlockModal<JavaScriptItem> {
+    editor: EditorView;
+    async display() {
+        this.contentEl.empty();
+
+        new Setting(this.contentEl)
+            .setName("JavaScript")
+            .setHeading()
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "JavaScript blocks can be used to do highly advanced HTML elements. The JavaScript code will be provided the "
+                    });
+                    e.createEl("code", {
+                        text: "monster"
+                    });
+                    e.createSpan({ text: " and " });
+                    e.createEl("code", {
+                        text: "property"
+                    });
+                    e.createSpan({
+                        text: "parameters and should return a HTML element, which will be attached to the block's container element."
+                    });
+                })
+            );
+        const component = new TextAreaComponent(this.contentEl).setValue(
+            this.block.code
+        );
+        component.inputEl.addClass("statblock-textarea");
+        this.editor = editorFromTextArea(
+            component.inputEl,
+            EditorView.updateListener.of((update) => {
+                if (update.docChanged) {
+                    this.block.code = update.state.doc.toString();
+                }
+            })
+        );
+
+        this.buildButtons(this.contentEl.createDiv());
+    }
+}
+class LayoutModal extends BlockModal<LayoutItem> {
+    editor: EditorView;
+    constructor(
+        plugin: StatBlockPlugin,
+        block: LayoutItem,
+        public layout: string
+    ) {
+        super(plugin, block);
+    }
+    hasLayoutNestedAlready(blocks: StatblockItem[]): boolean {
+        for (const block of blocks) {
+            if (block.type == "layout" && block.layout == this.layout)
+                return true;
+            if ("nested" in block && this.hasLayoutNestedAlready(block.nested))
+                return true;
+        }
+        return false;
+    }
+    async display() {
+        this.contentEl.empty();
+
+        new Setting(this.contentEl)
+            .setName("Layout to Insert")
+            .addDropdown((d) => {
+                for (const layout of this.plugin.layouts) {
+                    if (layout.id == this.layout) continue;
+                    if (this.hasLayoutNestedAlready(layout.blocks)) continue;
+                    d.addOption(layout.id, layout.name);
+                }
+                if (this.block.layout) {
+                    d.setValue(this.block.layout);
+                }
+                d.onChange((v) => {
+                    this.block.layout = v;
+                });
+            });
+
         this.buildButtons(this.contentEl.createDiv());
     }
 }
@@ -189,7 +296,12 @@ class IfElseModal extends BlockModal<IfElseItem> {
 class GenericModal<
     I extends Exclude<
         StatblockItem,
-        GroupItem | InlineItem | IfElseItem | CollapseItem
+        | GroupItem
+        | InlineItem
+        | IfElseItem
+        | CollapseItem
+        | JavaScriptItem
+        | LayoutItem
     >
 > extends BlockModal<I> {
     async display() {
@@ -250,6 +362,10 @@ class GenericModal<
             const component = new TextAreaComponent(el).setValue(
                 this.block.diceCallback
             );
+            component.inputEl.addClasses([
+                "statblock-textarea",
+                "statblock-textarea-small"
+            ]);
             this.editor = editorFromTextArea(
                 component.inputEl,
                 EditorView.updateListener.of((update) => {
@@ -537,11 +653,21 @@ class TableModal extends GenericModal<TableItem> {
                     });
                 })
             );
-        new TextAreaComponent(el)
-            .setValue(this.block.modifier)
-            .onChange((v) => {
-                (this.block as TableItem).modifier = v;
-            });
+        const component = new TextAreaComponent(this.contentEl).setValue(
+            this.block.modifier
+        );
+        component.inputEl.addClasses([
+            "statblock-textarea",
+            "statblock-textarea-small"
+        ]);
+        this.editor = editorFromTextArea(
+            component.inputEl,
+            EditorView.updateListener.of((update) => {
+                if (update.docChanged) {
+                    this.block.modifier = update.state.doc.toString();
+                }
+            })
+        );
     }
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
@@ -614,6 +740,29 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
                     (v) => (this.block.heading = v)
                 );
             });
+        const subheading = new Setting(this.contentEl)
+            .setName("Section Subheading Text")
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "Text entered here will appear directly after the section heading, before the actual traits. Use "
+                    });
+                    e.createEl("code", { text: "{{monster}}" });
+                    e.createSpan({
+                        text: " to insert the current monster's name."
+                    });
+                })
+            );
+        subheading.controlEl.detach();
+
+        new TextAreaComponent(this.contentEl)
+            .setValue(this.block.subheadingText)
+            .onChange((v) => (this.block.subheadingText = v));
+        /* .addTextArea((t) => {
+                t.setValue(this.block.heading).onChange(
+                    (v) => (this.block.heading = v)
+                );
+            }); */
     }
 }
 class TextModal extends MarkdownEnabledModal<TextItem> {

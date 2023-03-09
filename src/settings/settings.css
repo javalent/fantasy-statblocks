@@ -142,8 +142,8 @@
     mask-repeat: no-repeat;
     -webkit-mask-size: contain;
     mask-size: contain;
-    -webkit-mask-image: var(--admonition-details-icon);
-    mask-image: var(--admonition-details-icon);
+    -webkit-mask-image: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z'/></svg>");
+    mask-image: url("data:image/svg+xml;charset=utf-8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M8.59 16.58L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.42z'/></svg>");
     width: 20px;
     height: 20px;
 }
@@ -160,4 +160,29 @@
 .statblock-nested-settings:not(details) .setting-item-heading {
     border-top: 0px;
     border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.statblock-textarea + .cm-editor {
+    height: 200px;
+    margin-bottom: 1rem;
+}
+.statblock-textarea.statblock-textarea-small + .cm-editor {
+    height: 100px;
+    margin-bottom: 1rem;
+}
+.confirm-buttons-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.confirm-buttons-container .dont-ask {
+    cursor: pointer;
+}
+
+.confirm-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
 }

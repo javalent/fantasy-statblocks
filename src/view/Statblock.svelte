@@ -7,7 +7,6 @@
         Notice,
         stringifyYaml
     } from "obsidian";
-    import { stringify } from "querystring";
     import { EXPORT_SYMBOL, SAVE_SYMBOL } from "src/data/constants";
     import type { StatblockItem } from "src/layouts/types";
     import type StatBlockPlugin from "src/main";
@@ -21,6 +20,7 @@
     import type StatBlockRenderer from "./statblock";
 
     import Bar from "./ui/Bar.svelte";
+    import ColumnContainer from "./ui/ColumnContainer.svelte";
     import Content from "./ui/Content.svelte";
 
     const dispatch = createEventDispatcher();
@@ -141,17 +141,31 @@
         menu.showAtMouseEvent(evt);
     };
 
-    const name =
-        monster?.name
+    const slugify = (str: string, fallback: string = "") =>
+        str
             ?.toLowerCase()
             .replace(/[^A-Za-z0-9\s]/g, "")
-            .replace(/\s+/g, "-") ?? "no-name";
-    const layoutName =
-        layout
-            .toLowerCase()
-            .replace(/[^A-Za-z0-9\s]/g, "")
-            .replace(/\s+/g, "-") ?? "no-layout";
-    const classes = [name, layoutName].filter((n) => n?.length);
+            .replace(/\s+/g, "-") ?? fallback;
+
+    const name = slugify(monster.name, "no-name");
+    const layoutName = slugify(layout, "no-layout");
+    const getNestedLayouts = (blocks: StatblockItem[]): string[] => {
+        const classes: string[] = [];
+        for (const block of blocks) {
+            if (block.type == "layout") {
+                const layout = plugin.layouts.find((l) => l.id == block.layout);
+                classes.push(slugify(layout?.name));
+            }
+            if ("nested" in block) {
+                classes.push(...getNestedLayouts(block.nested));
+            }
+        }
+        return classes;
+    };
+
+    const classes = [name, layoutName, ...getNestedLayouts(statblock)].filter(
+        (n) => n?.length
+    );
 </script>
 
 <div class="container" bind:this={container}>
@@ -164,11 +178,13 @@
             {#if monster}
                 <Bar />
                 {#key columns}
-                    <Content
+                    <ColumnContainer
                         {columns}
                         {maxColumns}
                         {statblock}
                         {ready}
+                        {classes}
+                        {plugin}
                         on:save
                         on:export
                     />

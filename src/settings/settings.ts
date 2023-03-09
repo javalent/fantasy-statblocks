@@ -1,5 +1,6 @@
 import {
     App,
+    ButtonComponent,
     debounce,
     Modal,
     normalizePath,
@@ -7,7 +8,6 @@ import {
     PluginSettingTab,
     prepareSimpleSearch,
     Setting,
-    TextComponent,
     TFolder
 } from "obsidian";
 
@@ -21,11 +21,11 @@ import fastCopy from "fast-copy";
 import Importer from "src/importers/importer";
 import { FolderSuggestionModal } from "src/util/folder";
 import { EditMonsterModal } from "./modal";
-import { Layout5e } from "src/layouts/basic5e";
-import type { Layout } from "src/layouts/types";
+import { Layout5e } from "src/layouts/basic 5e/basic5e";
+import type { DefaultLayout, Layout } from "src/layouts/types";
 import { DefaultLayouts } from "src/layouts";
 import type { Monster } from "@types";
-import { stringify } from "src/util/util";
+import { nanoid, stringify } from "src/util/util";
 
 export default class StatblockSettingTab extends PluginSettingTab {
     importer: Importer;
@@ -332,9 +332,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     await new Promise<void>((resolve, reject) => {
                         const reader = new FileReader();
 
-                        reader.onload = (event) => {
+                        reader.onload = async (event) => {
                             try {
-                                const layout = JSON.parse(
+                                const layout: Layout = JSON.parse(
                                     event.target.result as string
                                 );
                                 if (!layout) {
@@ -351,6 +351,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                     );
                                     return;
                                 }
+                                if (!layout?.id) {
+                                    layout.id = nanoid();
+                                }
                                 if (!layout?.blocks) {
                                     reject(
                                         new Error(
@@ -358,6 +361,15 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                         )
                                     );
                                     return;
+                                }
+                                if (
+                                    !this.plugin.settings.alwaysImport &&
+                                    layout.blocks.find(
+                                        (b) => b.type == "javascript"
+                                    ) &&
+                                    !(await confirm(this.plugin))
+                                ) {
+                                    resolve();
                                 }
                                 this.plugin.settings.layouts.push(
                                     this.getDuplicate(layout)
@@ -376,7 +388,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     });
                 }
                 await this.plugin.saveSettings();
-                this.buildCustomLayouts(layoutContainer);
+                inputFile.value = null;
+                this.buildCustomLayouts(layoutContainer, containerEl);
             } catch (e) {}
         };
 
@@ -400,7 +413,10 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                 this.getDuplicate(modal.layout)
                             );
                             await this.plugin.saveSettings();
-                            this.buildCustomLayouts(layoutContainer);
+                            this.buildCustomLayouts(
+                                layoutContainer,
+                                containerEl
+                            );
                         };
                         modal.open();
                     })
@@ -415,20 +431,20 @@ export default class StatblockSettingTab extends PluginSettingTab {
             )
             .addDropdown(async (d) => {
                 for (const layout of this.plugin.layouts) {
-                    d.addOption(layout.name, layout.name);
+                    d.addOption(layout.id, layout.name);
                 }
 
                 if (
                     !this.plugin.settings.default ||
                     !this.plugin.layouts.find(
-                        ({ name }) => name == this.plugin.settings.default
+                        ({ id }) => id == this.plugin.settings.default
                     )
                 ) {
-                    this.plugin.settings.default = Layout5e.name;
+                    this.plugin.settings.default = Layout5e.id;
                     await this.plugin.saveSettings();
                 }
 
-                d.setValue(this.plugin.settings.default ?? Layout5e.name);
+                d.setValue(this.plugin.settings.default ?? Layout5e.id);
 
                 d.onChange(async (v) => {
                     this.plugin.settings.default = v;
@@ -450,19 +466,14 @@ export default class StatblockSettingTab extends PluginSettingTab {
         const layoutContainer =
             statblockCreatorContainer.createDiv("additional");
 
-        this.buildCustomLayouts(layoutContainer);
+        this.buildCustomLayouts(layoutContainer, containerEl);
     }
     getDuplicate(layout: Layout) {
-        if (
-            !this.plugin.layouts.find((l) => l.name == layout.name) &&
-            layout.name != Layout5e.name
-        )
+        if (!this.plugin.layouts.find((l) => l.name == layout.name))
             return layout;
-        const names = 
-            this.plugin.layouts
-                .filter((l) => l.name.contains(`${layout.name} Copy`))
-                .map((l) => l.name)
-        
+        const names = this.plugin.layouts
+            .filter((l) => l.name.contains(`${layout.name} Copy`))
+            .map((l) => l.name);
 
         let temp = `${layout.name} Copy`;
 
@@ -474,28 +485,18 @@ export default class StatblockSettingTab extends PluginSettingTab {
         }
         return {
             blocks: fastCopy(layout.blocks),
-            name: name
+            name,
+            id: nanoid()
         };
     }
-    buildCustomLayouts(layoutContainer: HTMLDivElement) {
+    buildCustomLayouts(
+        layoutContainer: HTMLDivElement,
+        outerContainer: HTMLDivElement
+    ) {
         layoutContainer.empty();
 
-        for (const layout of DefaultLayouts) {
-            new Setting(layoutContainer)
-                .setName(layout.name)
-                .addExtraButton((b) => {
-                    b.setIcon("duplicate-glyph")
-                        .setTooltip("Create Copy")
-                        .onClick(async () => {
-                            this.plugin.settings.layouts.push(this.getDuplicate(layout));
-                            await this.plugin.saveSettings();
-                            this.buildCustomLayouts(layoutContainer);
-                        });
-                });
-        }
-
-        for (const layout of this.plugin.settings.layouts) {
-            new Setting(layoutContainer)
+        for (const layout of this.plugin.settings.defaultLayouts) {
+            const setting = new Setting(layoutContainer)
                 .setName(layout.name)
                 .addExtraButton((b) => {
                     b.setIcon("pencil")
@@ -507,24 +508,58 @@ export default class StatblockSettingTab extends PluginSettingTab {
                             );
                             modal.onClose = async () => {
                                 if (!modal.saved) return;
+                                if (
+                                    DefaultLayouts.find(
+                                        ({ id }) => id == layout.id
+                                    )
+                                ) {
+                                    (modal.layout as DefaultLayout).edited =
+                                        true;
+                                }
                                 this.plugin.settings.layouts.splice(
-                                    this.plugin.settings.layouts.indexOf(layout),
+                                    this.plugin.settings.layouts.indexOf(
+                                        layout
+                                    ),
                                     1,
                                     modal.layout
                                 );
+
                                 await this.plugin.saveSettings();
-                                this.buildCustomLayouts(layoutContainer);
+                                this.generateLayouts(outerContainer);
                             };
                             modal.open();
                         });
-                })
+                });
+            if (layout.edited) {
+                setting.addExtraButton((b) =>
+                    b.setIcon("undo").onClick(async () => {
+                        const defLayout = DefaultLayouts.find(
+                            ({ id }) => id == layout.id
+                        );
+                        this.plugin.settings.layouts.splice(
+                            this.plugin.settings.layouts.indexOf(layout),
+                            1,
+                            fastCopy(defLayout)
+                        );
+                        await this.plugin.saveSettings();
+                        this.generateLayouts(outerContainer);
+                    })
+                );
+            }
+
+            setting
                 .addExtraButton((b) => {
                     b.setIcon("duplicate-glyph")
                         .setTooltip("Create Copy")
                         .onClick(async () => {
-                            this.plugin.settings.layouts.push(this.getDuplicate(layout));
+                            this.plugin.settings.layouts.push(
+                                this.getDuplicate(layout)
+                            );
                             await this.plugin.saveSettings();
-                            this.buildCustomLayouts(layoutContainer);
+                            this.buildCustomLayouts(
+                                layoutContainer,
+                                outerContainer
+                            );
                         });
                 })
                 .addExtraButton((b) => {
@@ -542,18 +577,95 @@ export default class StatblockSettingTab extends PluginSettingTab {
                             URL.revokeObjectURL(url);
                         });
                 })
-
                 .addExtraButton((b) => {
                     b.setIcon("trash")
                         .setTooltip("Delete")
                         .onClick(async () => {
                             this.plugin.settings.layouts =
                                 this.plugin.settings.layouts.filter(
-                                    (l) => l.name !== layout.name
+                                    (l) => l.id !== layout.id
                                 );
                             await this.plugin.saveSettings();
 
-                            this.buildCustomLayouts(layoutContainer);
+                            this.generateLayouts(outerContainer);
+                        });
+                });
+        }
+        for (const layout of this.plugin.settings.layouts) {
+            new Setting(layoutContainer)
+                .setName(layout.name)
+                .addExtraButton((b) => {
+                    b.setIcon("pencil")
+                        .setTooltip("Edit")
+                        .onClick(() => {
+                            const modal = new CreateStatblockModal(
+                                this.plugin,
+                                layout
+                            );
+                            modal.onClose = async () => {
+                                if (!modal.saved) return;
+                                if (
+                                    DefaultLayouts.find(
+                                        ({ id }) => id == layout.id
+                                    )
+                                ) {
+                                    (modal.layout as DefaultLayout).edited =
+                                        true;
+                                }
+                                this.plugin.settings.layouts.splice(
+                                    this.plugin.settings.layouts.indexOf(
+                                        layout
+                                    ),
+                                    1,
+                                    modal.layout
+                                );
+
+                                await this.plugin.saveSettings();
+                                this.generateLayouts(outerContainer);
+                            };
+                            modal.open();
+                        });
+                })
+                .addExtraButton((b) => {
+                    b.setIcon("duplicate-glyph")
+                        .setTooltip("Create Copy")
+                        .onClick(async () => {
+                            this.plugin.settings.layouts.push(
+                                this.getDuplicate(layout)
+                            );
+                            await this.plugin.saveSettings();
+                            this.buildCustomLayouts(
+                                layoutContainer,
+                                outerContainer
+                            );
+                        });
+                })
+                .addExtraButton((b) => {
+                    b.setIcon("import-glyph")
+                        .setTooltip("Export as JSON")
+                        .onClick(() => {
+                            const link = createEl("a");
+                            const file = new Blob([JSON.stringify(layout)], {
+                                type: "json"
+                            });
+                            const url = URL.createObjectURL(file);
+                            link.href = url;
+                            link.download = `${layout.name}.json`;
+                            link.click();
+                            URL.revokeObjectURL(url);
+                        });
+                })
+                .addExtraButton((b) => {
+                    b.setIcon("trash")
+                        .setTooltip("Delete")
+                        .onClick(async () => {
+                            this.plugin.settings.layouts =
+                                this.plugin.settings.layouts.filter(
+                                    (l) => l.id !== layout.id
+                                );
+                            await this.plugin.saveSettings();
+
+                            this.generateLayouts(outerContainer);
                         });
                 });
         }
@@ -960,7 +1072,8 @@ class CreateStatblockModal extends Modal {
         public plugin: StatBlockPlugin,
         layout: Layout = {
             name: "Layout",
-            blocks: []
+            blocks: [],
+            id: nanoid()
         }
     ) {
         super(plugin.app);
@@ -1017,5 +1130,64 @@ class ConfirmModal extends Modal {
                     this.close();
                 })
             );
+    }
+}
+async function confirm(plugin: StatBlockPlugin): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+        try {
+            const modal = new ConfirmImport(plugin);
+            modal.onClose = () => {
+                resolve(modal.confirmed);
+            };
+            modal.open();
+        } catch (e) {
+            reject();
+        }
+    });
+}
+class ConfirmImport extends Modal {
+    confirmed: boolean = false;
+    constructor(public plugin: StatBlockPlugin) {
+        super(plugin.app);
+    }
+    async display() {
+        this.contentEl.empty();
+        this.contentEl.addClass("confirm-modal");
+        this.contentEl.createEl("p", {
+            text: "This Layout includes JavaScript blocks. JavaScript blocks can execute code in your vault, which could cause loss or corruption of data."
+        });
+        this.contentEl.createEl("p", {
+            text: "Are you sure you want to import this layout?"
+        });
+
+        const buttonContainerEl = this.contentEl.createDiv(
+            "confirm-buttons-container"
+        );
+        buttonContainerEl.createEl("a").createEl("small", {
+            cls: "dont-ask",
+            text: "Import and don't ask again"
+        }).onclick = async () => {
+            this.confirmed = true;
+            this.plugin.settings.alwaysImport = true;
+            this.close();
+        };
+
+        const buttonEl = buttonContainerEl.createDiv("confirm-buttons");
+        new ButtonComponent(buttonEl)
+            .setButtonText("Import")
+            .setCta()
+            .onClick(() => {
+                this.confirmed = true;
+                this.close();
+            });
+        buttonEl.createEl("a").createEl("small", {
+            cls: "dont-ask",
+            text: "Cancel"
+        }).onclick = () => {
+            this.close();
+        };
+    }
+    onOpen() {
+        this.display();
     }
 }

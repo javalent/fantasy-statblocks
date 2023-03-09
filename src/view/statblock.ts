@@ -1,5 +1,5 @@
 import { App, ButtonComponent, Modal, TFile } from "obsidian";
-import { Layout5e } from "src/layouts/basic5e";
+import { Layout5e } from "src/layouts/basic 5e/basic5e";
 import { MarkdownRenderChild } from "obsidian";
 import type { Monster, StatblockParameters, Trait } from "@types";
 
@@ -135,26 +135,6 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 });
             }
         }
-        /* built = JSON.parse(
-            JSON.stringify(built)
-                .replace(/\\#/g, "#")
-                .replace(
-                    /\[\["(.+?)"\]\]/g,
-                    `"<STATBLOCK-LINK>$1</STATBLOCK-LINK>"`
-                )
-                .replace(/\[\[([^"]+?)\]\]/g, (match, p1) => {
-                    return `<STATBLOCK-LINK>${p1}</STATBLOCK-LINK>`;
-                })
-                .replace(
-                    /\[([^"]*?)\]\(([^"]+?)\)/g,
-                    (s, alias: string, path: string) => {
-                        if (alias.length) {
-                            return `<STATBLOCK-LINK>${path}|${alias}</STATBLOCK-LINK>`;
-                        }
-                        return `<STATBLOCK-LINK>${path}</STATBLOCK-LINK>`;
-                    }
-                )
-        ); */
 
         this.monster = built as Monster;
 
@@ -208,7 +188,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 return;
             this.plugin.saveMonster({
                 ...fastCopy(this.monster),
-                source: "Homebrew",
+                source: this.monster.source ?? "Homebrew",
                 layout: this.layout.name
             });
         });
@@ -221,17 +201,6 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         });
     }
     transform(monster: Partial<Monster>): Partial<Monster> {
-        if (
-            !("extends" in monster) ||
-            !(
-                Array.isArray(monster.extends) ||
-                typeof monster.extends == "string"
-            ) ||
-            !monster.extends.length
-        ) {
-            return monster;
-        }
-
         const extensions = this.getExtensions(monster);
 
         const ret = Object.assign({}, ...extensions, monster);
@@ -260,6 +229,15 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
     }
     getExtensions(monster: Partial<Monster>): Partial<Monster>[] {
         let extensions: Partial<Monster>[] = [fastCopy(monster)];
+        if (
+            !("extends" in monster) ||
+            !(
+                Array.isArray(monster.extends) ||
+                typeof monster.extends == "string"
+            )
+        ) {
+            return extensions;
+        }
         if (monster.extends && monster.extends.length) {
             for (const extension of [monster.extends].flat()) {
                 const extensionMonster = this.plugin.bestiary.get(extension);

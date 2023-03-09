@@ -18,6 +18,7 @@
     const dispatch = createEventDispatcher();
 
     export let blocks: StatblockItem[] = [];
+    export let layout: string;
     export let draggable = true;
     export let inline = false;
     export let plugin: StatBlockPlugin;
@@ -70,7 +71,7 @@
         blocks = blocks;
     };
     const editBlock = (block: StatblockItem) => {
-        const modal = getModalForBlock(plugin, block);
+        const modal = getModalForBlock(plugin, block, layout);
 
         modal.onClose = () => {
             if (!modal.saved) return;
@@ -214,7 +215,7 @@
                                                 <span>Collapse</span>
                                             {/if}
                                             <svelte:self
-                                                bind:blocks={block.blocks}
+                                                bind:blocks={block.nested}
                                                 bind:plugin
                                                 draggable={false}
                                             />
@@ -239,7 +240,7 @@
                                 <div class="statblock-creator-container">
                                     <div class="statblock-creator-block">
                                         <div class="if-else-block-container">
-                                            {#each block.conditions as { condition, blocks: ifElseBlocks } (condition)}
+                                            {#each block.conditions as { condition, nested: ifElseBlocks } (condition)}
                                                 <div
                                                     class="condition-container"
                                                 >
@@ -278,13 +279,14 @@
                                 <Block
                                     {plugin}
                                     {block}
+                                    {layout}
                                     on:trash={(e) => trash(e.detail)}
                                     on:edited={(e) => edited(e.detail)}
                                 />
                             </div>
                         {/if}
                     </div>
-                    {#if block.type !== "ifelse" && block.hasRule}
+                    {#if "hasRule" in block && block.hasRule}
                         <div aria-label="Block Has Rule">
                             <Rule />
                         </div>
@@ -311,9 +313,6 @@
         width: 100%;
         padding: 2px;
         margin: 2px;
-    }
-    :global(body:not(.is-mobile)) .ifelse:not(:hover) > .icons {
-        visibility: hidden;
     }
     .group {
         display: grid;

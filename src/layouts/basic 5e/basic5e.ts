@@ -1,5 +1,5 @@
 import { nanoid } from "src/util/util";
-import type { Layout, StatblockItem } from "./types";
+import type { DefaultLayout, Layout, StatblockItem } from "../types";
 
 export const Statblock5e: StatblockItem[] = [
     {
@@ -84,7 +84,17 @@ export const Statblock5e: StatblockItem[] = [
         type: "table",
         id: nanoid(),
         properties: ["fage_stats"],
-        headers: ["Accuracy", "Communication", "Constitution", "Dexterity", "Fighting", "Intelligence", "Perception", "Strength", "Willpower"],
+        headers: [
+            "Accuracy",
+            "Communication",
+            "Constitution",
+            "Dexterity",
+            "Fighting",
+            "Intelligence",
+            "Perception",
+            "Strength",
+            "Willpower"
+        ],
         calculate: false,
         hasRule: true,
         conditioned: true
@@ -625,8 +635,18 @@ return "";`
         id: nanoid(),
         properties: ["legendary_actions"],
         heading: "Legendary Actions",
+        subheadingText:
+            "The {{monster}} can take 3 legendary actions, choosing from the options below. Only one legendary action can be used at a time and only at the end of another creature's turn. {{monster}} regains spent legendary actions at the start of its turn.",
         conditioned: true,
 
+        dice: true
+    },
+    {
+        type: "traits",
+        id: nanoid(),
+        properties: ["mythic_actions"],
+        heading: "Mythic Actions",
+        conditioned: true,
         dice: true
     },
     {
@@ -649,7 +669,9 @@ return "";`
     }
 ];
 
-export const Layout5e: Layout = {
+export const Layout5e: DefaultLayout = {
     blocks: Statblock5e,
-    name: "Basic 5e Layout"
+    id: "basic-5e-layout",
+    name: "Basic 5e Layout",
+    edited: false
 };

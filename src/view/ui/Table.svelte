@@ -6,16 +6,22 @@
     export let monster: Monster;
     export let item: TableItem;
 
-    const customMod = new Function("stat", `return ${item.modifier}`);
-
     function getMod(stat: number) {
         if (typeof stat != "number") return ``;
-        let mod =
+        let mod;
+        if (
             item.modifier == null ||
             !item.modifier.length ||
             item.modifier == ""
-                ? Math.floor(((stat ?? 10) - 10) / 2)
-                : customMod(stat);
+        ) {
+            mod = Math.floor(((stat ?? 10) - 10) / 2);
+        } else {
+            const func = item.modifier.contains("return")
+                ? item.modifier
+                : `return ${item.modifier}`;
+            const customMod = new Function("stat", func);
+            mod = customMod(stat);
+        }
         return `(${mod >= 0 ? "+" : "-"}${Math.abs(mod)})`;
     }
 
@@ -24,25 +30,39 @@
         values = [];
     }
 
+    const valueMap: Map<number, number[]> = new Map();
+    for (let index = 0; index < values.length; index++) {
+        const value = values[index];
+        if (Array.isArray(value)) {
+            for (let vIndex = 0; vIndex < value.length; vIndex++) {
+                const existing = valueMap.get(vIndex) ?? [];
+                existing.push(value[vIndex]);
+                valueMap.set(vIndex, existing);
+            }
+        } else {
+            valueMap.set(index, [value]);
+        }
+    }
+
     const headers = item.headers ?? [
         ...Array(values.length > 0 ? values.length : 1).keys()
     ];
 </script>
 
 <div class="table">
-    {#each values.slice(0, headers.length) as value, index}
+    {#each [...valueMap.entries()].slice(0, headers.length) as [index, values]}
         <div class="table-item">
-            <span class="statblock-table-header">
-                {`${headers[index]}`.toUpperCase()}
-            </span>
-            <span>
-                {stringify(value)}
-                {#if item.calculate}
-                    <span>
-                        {getMod(value)}
-                    </span>
-                {/if}
-            </span>
+            <span class="statblock-table-header">{headers[index]}</span>
+            {#each values as value}
+                <span>
+                    {stringify(value)}
+                    {#if item.calculate}
+                        <span>
+                            {getMod(value)}
+                        </span>
+                    {/if}
+                </span>
+            {/each}
         </div>
     {/each}
 </div>
