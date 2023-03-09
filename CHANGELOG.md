@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.28.11](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.10...2.28.11) (2023-03-09)
+
+
+### Bug Fixes
+
+* fixes temp content column css inheritance ([5a7eec9](https://github.com/valentine195/obsidian-5e-statblocks/commit/5a7eec97e72870295ecee387351d60b2217d54d0))
+
 ### [2.28.10](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.9...2.28.10) (2023-03-09)
 
 
