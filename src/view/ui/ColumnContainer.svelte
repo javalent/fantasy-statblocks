@@ -14,7 +14,7 @@
     import { createEventDispatcher, getAllContexts, getContext } from "svelte";
     import Image from "./Image.svelte";
     import type { StatblockItem } from "src/layouts/types";
-    import { slugify, stringify } from "src/util/util";
+    import { linkifySpells, slugify, stringify } from "src/util/util";
     import Collapse from "./Collapse.svelte";
     import JavaScript from "./JavaScript.svelte";
     import Content from "./Content.svelte";
@@ -282,13 +282,21 @@
                         const lastBlock: SpellBlock = acc[acc.length - 1];
                         let spell: Spell;
                         if (typeof current == "string") {
-                            spell = { spells: current };
+                            spell = {
+                                spells: linkifySpells(
+                                    current,
+                                    context.get("context") as string
+                                )
+                            };
                         } else {
                             try {
                                 spell = {
                                     level: Object.keys(current).shift(),
-                                    spells: stringify(
-                                        Object.values(current).shift()
+                                    spells: linkifySpells(
+                                        stringify(
+                                            Object.values(current).shift()
+                                        ),
+                                        context.get("context") as string
                                     )
                                 };
                             } catch (e) {
