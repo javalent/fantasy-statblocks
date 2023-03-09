@@ -59,6 +59,23 @@ export function traitMapFrom(traits: Trait[] = []): Map<string, Trait> {
     return new Map(traits.map((t) => [t.name, t]));
 }
 
+/** Attempt to convert a string into a link, while maintaining any whitespace. **/
+export function linkify(input: string, context: string): string {
+    let trimmed = input.trim();
+    if (app.metadataCache.getFirstLinkpathDest(trimmed, context) != null) {
+        return input.replace(
+            trimmed,
+            `<STATBLOCK-LINK>${trimmed}</STATBLOCK-LINK>`
+        );
+    }
+    return input;
+}
+export const linkifySpells = (spells: string, context: string): string => {
+    return spells
+        .split(",")
+        .map((spell) => linkify(spell, context))
+        .join(",");
+};
 export function stringify(
     property: Record<string, any> | string | any[] | number | boolean,
     depth: number = 0,
