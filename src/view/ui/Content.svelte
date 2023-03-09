@@ -46,8 +46,18 @@
             const remainingHeight = heights
                 .slice(i + 1)
                 .reduce((a, b) => a + b, 0);
-
+            if (
+                columnEls.length < columns &&
+                heights[i] + columnEl.scrollHeight > maxHeight &&
+                remainingHeight < columnEl.scrollHeight
+            ) {
+                maxHeight = Math.max(maxHeight, columnEl.scrollHeight);
+                tempColumnContainer.empty();
+                columnEl = tempColumnContainer.createDiv("column");
+                columnEls.push(columnEl);
+            }
             columnEl.appendChild(target);
+
             if (
                 columnEls.length < columns &&
                 columnEl.scrollHeight > maxHeight &&
