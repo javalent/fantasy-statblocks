@@ -131,7 +131,16 @@ abstract class BlockModal<T extends StatblockItem> extends Modal {
 class GroupModal extends BlockModal<GroupItem | InlineItem> {
     async display() {
         this.contentEl.empty();
-
+        new Setting(this.contentEl)
+            .setName("Section Heading")
+            .setDesc(
+                "This text will be used for the section heading. Can be left blank."
+            )
+            .addText((t) => {
+                t.setValue(this.block.heading).onChange(
+                    (v) => (this.block.heading = v)
+                );
+            });
         new Setting(this.contentEl)
             .setName("Has Rule")
             .setDesc(

@@ -1,11 +1,11 @@
 <script lang="ts">
     import type { Monster } from "@types";
-    import type { TextItem, TraitsItem } from "src/layouts/types";
+    import type { TextItem, TraitsItem, GroupItem } from "src/layouts/types";
     import { stringify } from "src/util/util";
     import TextContent from "./TextContent.svelte";
 
     export let monster: Monster;
-    export let item: TraitsItem | TextItem;
+    export let item: TraitsItem | TextItem | GroupItem;
 
     let header: string;
 

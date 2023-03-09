@@ -89,6 +89,16 @@
         targets.push(target);
         switch (item.type) {
             case "group": {
+                if (item.heading) {
+                    new SectionHeading({
+                        target,
+                        props: {
+                            monster,
+                            item
+                        },
+                        context
+                    });
+                }
                 for (const nested of item.nested ?? []) {
                     const element = getElementForStatblockItem(nested, target);
 
