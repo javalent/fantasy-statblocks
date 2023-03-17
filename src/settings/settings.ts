@@ -508,16 +508,10 @@ export default class StatblockSettingTab extends PluginSettingTab {
                             );
                             modal.onClose = async () => {
                                 if (!modal.saved) return;
-                                if (
-                                    DefaultLayouts.find(
-                                        ({ id }) => id == layout.id
-                                    )
-                                ) {
-                                    (modal.layout as DefaultLayout).edited =
-                                        true;
-                                }
-                                this.plugin.settings.layouts.splice(
-                                    this.plugin.settings.layouts.indexOf(
+                                
+                                (modal.layout as DefaultLayout).edited = true;
+                                this.plugin.settings.defaultLayouts.splice(
+                                    this.plugin.settings.defaultLayouts.indexOf(
                                         layout
                                     ),
                                     1,
