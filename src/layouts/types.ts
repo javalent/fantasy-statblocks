@@ -69,6 +69,8 @@ type GenericTextProp = {
 
 type GroupProps = {
     type: "group";
+    heading?: string;
+    headingProp?: boolean;
     nested: StatblockItem[];
 };
 type HeadingProps = {
@@ -77,6 +79,8 @@ type HeadingProps = {
 };
 type InlineProps = {
     type: "inline";
+    heading?: string;
+    headingProp?: boolean;
     nested: StatblockItem[];
 };
 type PropertyProps = {
