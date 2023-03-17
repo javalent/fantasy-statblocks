@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.0.0...3.0.1) (2023-03-14)
+
+
+### Bug Fixes
+
+* fixes space after link ([8aa3627](https://github.com/valentine195/obsidian-5e-statblocks/commit/8aa3627fe28a5ba4f939c9127d78a1251251c5ac))
+
 ## [3.0.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/2.28.11...3.0.0) (2023-03-09)
 
 

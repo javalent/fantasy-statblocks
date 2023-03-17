@@ -84,20 +84,16 @@
                         target="_blank"
                         rel="noreferrer"
                         aria-label={split.href}
-                        aria-label-position="top"
+                        aria-label-position="top">{split.title}</a
                     >
-                        {split.title}
-                    </a>
                 {:else}
                     <a
                         data-href={split.href}
                         href={split.href}
                         class="internal-link"
                         target="_blank"
-                        rel="noopener"
+                        rel="noopener">{split.text}</a
                     >
-                        {split.text}
-                    </a>
                 {/if}
             {:else}
                 {split.text}
