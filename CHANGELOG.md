@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.0.1...3.0.2) (2023-03-17)
+
+
+### Bug Fixes
+
+* Add heading to group type and make legendary actions a group ([#152](https://github.com/valentine195/obsidian-5e-statblocks/issues/152)) ([199c94d](https://github.com/valentine195/obsidian-5e-statblocks/commit/199c94db5caf1656480f34122cfdbb91c0266a78))
+* fixes default layout editing ([8d89d3e](https://github.com/valentine195/obsidian-5e-statblocks/commit/8d89d3ecc471a3d86d72fa3c7faad54b9330e2bd))
+
 ### [3.0.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.0.0...3.0.1) (2023-03-14)
 
 
