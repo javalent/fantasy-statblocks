@@ -1197,7 +1197,6 @@ class ConfirmModal extends Modal {
             })
             .addExtraButton((b) =>
                 b.setIcon("cross").onClick(() => {
-                    this.saved = true;
                     this.close();
                 })
             );
