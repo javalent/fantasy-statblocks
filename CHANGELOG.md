@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.1.0...3.1.1) (2023-03-23)
+
+
+### Bug Fixes
+
+* no longer delete when canceling delete modal (close [#155](https://github.com/valentine195/obsidian-5e-statblocks/issues/155)) ([5b190ab](https://github.com/valentine195/obsidian-5e-statblocks/commit/5b190ab8201c01d4aca288e19b176ae673f5d208))
+* will now look at sub-properties for generic importing ([db5bd9a](https://github.com/valentine195/obsidian-5e-statblocks/commit/db5bd9a1db5953123687817cd707b7752e4d2743))
+
 ## [3.1.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.0.3...3.1.0) (2023-03-23)
 
 
