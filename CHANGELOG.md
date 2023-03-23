@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.1.1...3.1.2) (2023-03-23)
+
+
+### Bug Fixes
+
+* ensure text is stringified ([d953ebb](https://github.com/valentine195/obsidian-5e-statblocks/commit/d953ebb6023e5910200fd9c38078227de7819c72))
+
 ### [3.1.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.1.0...3.1.1) (2023-03-23)
 
 
