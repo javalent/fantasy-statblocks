@@ -26,6 +26,7 @@ import type { DefaultLayout, Layout } from "src/layouts/types";
 import { DefaultLayouts } from "src/layouts";
 import type { Monster } from "@types";
 import { nanoid, stringify } from "src/util/util";
+import { DICE_ROLLER_SOURCE } from "src/main";
 
 export default class StatblockSettingTab extends PluginSettingTab {
     importer: Importer;
@@ -145,6 +146,19 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     .setValue(this.plugin.settings.renderDice)
                     .onChange(async (v) => {
                         this.plugin.settings.renderDice = v;
+                        if (this.plugin.canUseDiceRoller) {
+                            this.app.plugins
+                                .getPlugin("obsidian-dice-roller")
+                                ?.api.registerSource(DICE_ROLLER_SOURCE, {
+                                    showDice: true,
+                                    shouldRender:
+                                        this.plugin.settings.renderDice,
+                                    showFormula: false,
+                                    showParens: false,
+                                    expectedValue: "Average",
+                                    text: null
+                                });
+                        }
                         await this.plugin.saveSettings();
                     })
             );
@@ -508,7 +522,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                             );
                             modal.onClose = async () => {
                                 if (!modal.saved) return;
-                                
+
                                 (modal.layout as DefaultLayout).edited = true;
                                 this.plugin.settings.defaultLayouts.splice(
                                     this.plugin.settings.defaultLayouts.indexOf(

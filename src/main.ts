@@ -41,8 +41,11 @@ declare module "obsidian" {
             callback: (result: number) => void
         ): EventRef;
         on(name: "dice-roller:unload", callback: () => void): EventRef;
+        on(name: "dice-roller:loaded", callback: () => void): EventRef;
     }
 }
+
+export const DICE_ROLLER_SOURCE = "FANTASY_STATBLOCKS_PLUGIN";
 
 export interface StatblockData {
     monsters: Array<[string, Monster]>;
@@ -114,18 +117,14 @@ export default class StatBlockPlugin extends Plugin {
 
     getRoller(str: string) {
         if (!this.canUseDiceRoller) return;
-        const displayFormulaAfter = false;
         const roller = this.app.plugins
             .getPlugin("obsidian-dice-roller")
-            .getRollerSync(str, "statblock", true, displayFormulaAfter);
+            ?.api.getRollerSync(str, DICE_ROLLER_SOURCE);
         return roller;
     }
     get canUseDiceRoller() {
         if (this.app.plugins.getPlugin("obsidian-dice-roller") != null) {
-            if (
-                !this.app.plugins.getPlugin("obsidian-dice-roller")
-                    .getRollerSync
-            ) {
+            if (!this.app.plugins.getPlugin("obsidian-dice-roller").api) {
                 new Notice(
                     "Please update Dice Roller to the latest version to use with Initiative Tracker."
                 );
@@ -211,7 +210,36 @@ export default class StatBlockPlugin extends Plugin {
 
         this.registerEvent(
             this.app.workspace.on("dice-roller:unload", () => {
-                this.settings.useDice = false;
+                //why did i do this?
+                /* this.settings.useDice = false; */
+            })
+        );
+        if (this.canUseDiceRoller) {
+            this.app.plugins
+                .getPlugin("obsidian-dice-roller")
+                ?.api.registerSource(DICE_ROLLER_SOURCE, {
+                    showDice: true,
+                    shouldRender: this.settings.renderDice,
+                    showFormula: false,
+                    showParens: false,
+                    expectedValue: "Average",
+                    text: null
+                });
+        }
+        this.registerEvent(
+            this.app.workspace.on("dice-roller:loaded", () => {
+                this.app.plugins
+                    .getPlugin("obsidian-dice-roller")
+                    ?.api.registerSource(DICE_ROLLER_SOURCE, {
+                        showDice: true,
+                        shouldRender: this.settings.renderDice,
+                        showFormula: false,
+                        showParens: false,
+                        expectedValue: "Average",
+                        text: null
+                    });
+                //why did i do this?
+                /* this.settings.useDice = false; */
             })
         );
     }
