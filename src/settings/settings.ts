@@ -884,6 +884,42 @@ export default class StatblockSettingTab extends PluginSettingTab {
             b.buttonEl.appendChild(inputTetra);
             b.onClick(() => inputTetra.click());
         });
+        const importGeneric = new Setting(importAdditional)
+            .setName("Import Generic Data")
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "Import generic JSON files. JSON objects will be imported "
+                    });
+                    e.createEl("strong", { text: "as-is" });
+                    e.createSpan({ text: " and all objects must have the " });
+                    e.createEl("code", { text: "name" });
+                    e.createSpan({ text: " property." });
+                })
+            );
+        const inputGeneric = createEl("input", {
+            attr: {
+                type: "file",
+                name: "generic",
+                accept: ".json, .monster",
+                multiple: true
+            }
+        });
+        inputGeneric.onchange = async () => {
+            const { files } = inputGeneric;
+            if (!files.length) return;
+            const monsters = await this.importer.import(files, "generic");
+            if (monsters && monsters.length) {
+                await this.plugin.saveMonsters(monsters);
+            }
+            this.display();
+        };
+        importGeneric.addButton((b) => {
+            b.setButtonText("Choose File(s)").setTooltip("Import Generic Data");
+            b.buttonEl.addClass("statblock-file-upload");
+            b.buttonEl.appendChild(inputGeneric);
+            b.onClick(() => inputGeneric.click());
+        });
     }
     generateMonsters(containerEl: HTMLDivElement) {
         containerEl.empty();

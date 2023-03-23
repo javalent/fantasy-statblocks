@@ -7,7 +7,6 @@ import {
 import { build5eMonsterFromFile } from "./5eToolsImport";
 import { buildMonsterFromTetraCube } from "./TetraCubeImport";
 
-
 const ctx: Worker = self as any;
 
 ctx.onmessage = async (event) => {
@@ -43,6 +42,43 @@ ctx.onmessage = async (event) => {
                 const imported = await buildMonsterFromTetraCube(file);
                 monsters.push(...(imported ?? []));
                 break;
+            }
+            case "generic": {
+                const imported: Monster[] = await new Promise(
+                    (resolve, reject) => {
+                        const reader = new FileReader();
+
+                        reader.onload = async (event: any) => {
+                            try {
+                                let json = JSON.parse(event.target.result);
+                                let monsters: any[];
+                                if (Array.isArray(json)) {
+                                    monsters = json;
+                                } else if (typeof json == "object") {
+                                    monsters = [json];
+                                } else {
+                                    reject(
+                                        "Invalid monster JSON provided. Must be array or object."
+                                    );
+                                }
+                                const imported: Monster[] = [];
+                                for (const monster of monsters) {
+                                    if ("name" in monster) {
+                                        imported.push(monster);
+                                    }
+                                }
+
+                                resolve(imported);
+                            } catch (e) {
+                                console.error(`reject!!!`, e);
+                                reject(e);
+                            }
+                        };
+
+                        reader.readAsText(file);
+                    }
+                );
+                monsters.push(...(imported ?? []));
             }
         }
     }

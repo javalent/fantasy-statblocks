@@ -138,9 +138,10 @@ export default class StatBlockPlugin extends Plugin {
     }
 
     get sorted() {
-        const valArray = Array.from(this.data.values());
-        if (this._sorted.length != valArray.length)
-            this._sorted = sort<Monster>(valArray).asc((m) => m.name);
+        if (this._sorted.length != this.data.size)
+            this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
+                (m) => m.name
+            );
         return this._sorted;
     }
     get sources() {
@@ -331,6 +332,7 @@ export default class StatBlockPlugin extends Plugin {
                     `${this.manifest.dir}/temp.json`,
                     JSON.stringify(settings, null, null)
                 );
+
                 await this.app.vault.adapter.remove(
                     `${this.manifest.dir}/data.json`
                 );
