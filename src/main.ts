@@ -297,11 +297,13 @@ export default class StatBlockPlugin extends Plugin {
                 `${this.manifest.dir}/temp.json`
             )
         ) {
-            return JSON.parse(
-                await this.app.vault.adapter.read(
-                    `${this.manifest.dir}/temp.json`
-                )
-            );
+            try {
+                return JSON.parse(
+                    await this.app.vault.adapter.read(
+                        `${this.manifest.dir}/temp.json`
+                    )
+                );
+            } catch (e) {}
         }
         return (await super.loadData()) as StatblockData;
     }
