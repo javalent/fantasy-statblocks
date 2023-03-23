@@ -70,6 +70,7 @@ export interface StatblockData {
     hideConditionHelp: boolean;
     alwaysImport: boolean;
     defaultLayoutsIntegrated: boolean;
+    atomicWrite: boolean;
 }
 
 const DEFAULT_DATA: StatblockData = {
@@ -94,7 +95,8 @@ const DEFAULT_DATA: StatblockData = {
     notifiedOfFantasy: false,
     hideConditionHelp: false,
     alwaysImport: false,
-    defaultLayoutsIntegrated: false
+    defaultLayoutsIntegrated: false,
+    atomicWrite: true
 };
 
 export default class StatBlockPlugin extends Plugin {
@@ -320,38 +322,26 @@ export default class StatBlockPlugin extends Plugin {
         await this.saveData(this.settings);
     }
     async loadData(): Promise<StatblockData> {
-        if (
-            await this.app.vault.adapter.exists(
-                `${this.manifest.dir}/temp.json`
-            )
-        ) {
-            try {
-                return JSON.parse(
-                    await this.app.vault.adapter.read(
-                        `${this.manifest.dir}/temp.json`
-                    )
-                );
-            } catch (e) {}
-        }
         return (await super.loadData()) as StatblockData;
     }
     async saveData(settings: StatblockData) {
-        try {
-            await this.app.vault.adapter.write(
-                `${this.manifest.dir}/temp.json`,
-                JSON.stringify(settings, null, null)
-            );
-            await this.app.vault.adapter.remove(
-                `${this.manifest.dir}/data.json`
-            );
-            await this.app.vault.adapter.copy(
-                `${this.manifest.dir}/temp.json`,
-                `${this.manifest.dir}/data.json`
-            );
-            await this.app.vault.adapter.remove(
-                `${this.manifest.dir}/temp.json`
-            );
-        } catch (e) {
+        if (this.settings.atomicWrite) {
+            try {
+                await this.app.vault.adapter.write(
+                    `${this.manifest.dir}/temp.json`,
+                    JSON.stringify(settings, null, null)
+                );
+                await this.app.vault.adapter.remove(
+                    `${this.manifest.dir}/data.json`
+                );
+                await this.app.vault.adapter.rename(
+                    `${this.manifest.dir}/temp.json`,
+                    `${this.manifest.dir}/data.json`
+                );
+            } catch (e) {
+                super.saveData(settings);
+            }
+        } else {
             super.saveData(settings);
         }
     }

@@ -49,6 +49,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
             this.generateTopSettings(containerEl.createDiv());
             this.generateParseSettings(containerEl.createDiv());
+            this.generateAdvancedSettings(containerEl.createDiv());
 
             this.generateLayouts(containerEl.createDiv());
 
@@ -70,6 +71,32 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 "There was an error displaying the settings tab for 5e Statblocks."
             );
         }
+    }
+    generateAdvancedSettings(container: HTMLDivElement) {
+        container.empty();
+        new Setting(container).setHeading().setName("Advanced Settings");
+
+        new Setting(container)
+            .setName("Try to Save Data Atomically")
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "This will cause to plugin to save data to a temporary file before saving the actual data file in an attempt to prevent data loss."
+                    });
+                    e.createEl("br");
+                    e.createSpan({
+                        text: "This can cause issues sometimes when using sync services."
+                    });
+                })
+            )
+            .addToggle((t) =>
+                t
+                    .setValue(this.plugin.settings.atomicWrite)
+                    .onChange(async (v) => {
+                        this.plugin.settings.atomicWrite = v;
+                        await this.plugin.saveSettings();
+                    })
+            );
     }
 
     generateTopSettings(container: HTMLDivElement) {
