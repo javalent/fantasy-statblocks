@@ -120,16 +120,18 @@ export class Watcher extends Component {
                         await this.plugin.deleteMonster(existing);
                         update = true;
                         if (this.plugin.settings.debug)
-                            console.debug(`Fantasy Statblocks: Updating ${monster.name}`);
+                            console.debug(
+                                `Fantasy Statblocks: Updating ${monster.name}`
+                            );
                     }
                     this.watchPaths.set(path, monster.name);
                     await this.plugin.saveMonster(monster, false, false);
 
                     if (this.plugin.settings.debug)
                         console.debug(
-                            `Fantasy Statblocks: ${update ? "Updated" : "Added"} ${
-                                monster.name
-                            }`
+                            `Fantasy Statblocks: ${
+                                update ? "Updated" : "Added"
+                            } ${monster.name}`
                         );
                 }
             }
@@ -148,15 +150,19 @@ export class Watcher extends Component {
             "message",
             async (evt: MessageEvent<ReadMessage>) => {
                 if (evt.data.type == "read") {
-                    const file = this.plugin.app.vault.getAbstractFileByPath(evt.data.path);
+                    const file = this.plugin.app.vault.getAbstractFileByPath(
+                        evt.data.path
+                    );
                     if (!(file instanceof TFile)) return "";
-                    await this.plugin.app.vault.read(file).then((fileContent) => {
-                        this.worker.postMessage<ContentMessage>({
-                            type: "content",
-                            path: evt.data.path,
-                            content: fileContent
+                    await this.plugin.app.vault
+                        .read(file)
+                        .then((fileContent) => {
+                            this.worker.postMessage<ContentMessage>({
+                                type: "content",
+                                path: evt.data.path,
+                                content: fileContent
+                            });
                         });
-                    })
                 }
             }
         );
@@ -195,7 +201,9 @@ export class Watcher extends Component {
         await this.plugin.deleteMonster(this.watchPaths.get(path));
         this.watchPaths.delete(path);
         if (this.plugin.settings.debug)
-            console.debug(`Fantasy Statblocks: Removing '${path}' from bestiary`);
+            console.debug(
+                `Fantasy Statblocks: Removing '${path}' from bestiary`
+            );
     }
     startTime: number;
     start(announce = false) {
