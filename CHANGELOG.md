@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.0.3...3.1.0) (2023-03-23)
+
+
+### Features
+
+* Adds new Generic JSON Importer ([049d09f](https://github.com/valentine195/obsidian-5e-statblocks/commit/049d09fa5fe8f442a4a0369d766c99cc6cf5ed8d))
+
+
+### Bug Fixes
+
+* Adds setting to disable atomic writing ([3b02b7f](https://github.com/valentine195/obsidian-5e-statblocks/commit/3b02b7fc14a58fc9271834215bd9349ebadef984))
+* update to use new Dice Roller API ([07cedb5](https://github.com/valentine195/obsidian-5e-statblocks/commit/07cedb5c008e97f4bb3218c82d6b9429ba30d1a7))
+
 ### [3.0.3](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.0.2...3.0.3) (2023-03-23)
 
 
