@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.3](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.0.2...3.0.3) (2023-03-23)
+
+
+### Bug Fixes
+
+* fixes crashing out when trying to load temp.json ([371725a](https://github.com/valentine195/obsidian-5e-statblocks/commit/371725afc78e7f4dc2d63af8e66ca6d282f78071))
+
 ### [3.0.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.0.1...3.0.2) (2023-03-17)
 
 
