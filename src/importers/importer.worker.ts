@@ -51,11 +51,19 @@ ctx.onmessage = async (event) => {
                         reader.onload = async (event: any) => {
                             try {
                                 let json = JSON.parse(event.target.result);
-                                let monsters: any[];
+                                let monsters: any[] = [];
                                 if (Array.isArray(json)) {
                                     monsters = json;
                                 } else if (typeof json == "object") {
-                                    monsters = [json];
+                                    if (!("name" in json)) {
+                                        for (const key in json) {
+                                            if (Array.isArray(json[key])) {
+                                                monsters.push(...json[key]);
+                                            }
+                                        }
+                                    } else {
+                                        monsters = [json];
+                                    }
                                 } else {
                                     reject(
                                         "Invalid monster JSON provided. Must be array or object."
