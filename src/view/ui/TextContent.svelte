@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { stringify } from "src/util/util";
+
     //Note: All final rendered text should be wrapped in this element.
     import { getContext } from "svelte";
 
@@ -44,9 +46,8 @@
         };
     };
 
-    const splitByLinks = (text: String): SplitLink[] => {
-        return text
-
+    const splitByLinks = (text: string): SplitLink[] => {
+        return stringify(text)
             .split(/(<STATBLOCK-LINK>[\s\S]+?<\/STATBLOCK-LINK>)/)
             .filter((s) => s && s.length)
             .map((str) => {
