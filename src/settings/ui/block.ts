@@ -562,6 +562,17 @@ class PropertyModal extends MarkdownEnabledModal<PropertyItem> {
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
         new Setting(this.contentEl)
+            .setName("Do Not Add Property as CSS Class")
+            .setDesc(
+                "Enable this to prevent adding the property to the containing HTML element as a CSS class. This can be used to avoid collisions with native Obsidian CSS."
+            )
+            .addToggle((t) => {
+                t.setValue(this.block.doNotAddClass).onChange((v) => {
+                    this.block.doNotAddClass = v;
+                    this.display();
+                });
+            });
+        new Setting(this.contentEl)
             .setName("Display Text")
             .setDesc("This text will be used for the property name.")
             .addText((t) => {
@@ -727,6 +738,17 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
         new Setting(this.contentEl)
+            .setName("Do Not Add Property as CSS Class")
+            .setDesc(
+                "Disable this to prevent adding the property to the containing HTML element as a CSS class. This can be used to avoid collisions with native Obsidian CSS."
+            )
+            .addToggle((t) => {
+                t.setValue(this.block.doNotAddClass).onChange((v) => {
+                    this.block.doNotAddClass = v;
+                    this.display();
+                });
+            });
+        new Setting(this.contentEl)
             .setName("Use Monster Property for Heading")
             .setDesc(
                 "The Section heading will be set to the value of the specified property."
@@ -767,11 +789,6 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
         new TextAreaComponent(this.contentEl)
             .setValue(this.block.subheadingText)
             .onChange((v) => (this.block.subheadingText = v));
-        /* .addTextArea((t) => {
-                t.setValue(this.block.heading).onChange(
-                    (v) => (this.block.heading = v)
-                );
-            }); */
     }
 }
 class TextModal extends MarkdownEnabledModal<TextItem> {

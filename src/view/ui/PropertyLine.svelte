@@ -2,7 +2,7 @@
     import type { Monster } from "@types";
     import { Notice } from "obsidian";
     import type { PropertyItem } from "src/layouts/types";
-    import { stringify } from "src/util/util";
+    import { slugify, stringify } from "src/util/util";
     import TextContentHolder from "./TextContentHolder.svelte";
 
     export let monster: Monster;
@@ -30,10 +30,12 @@
     if (!item.conditioned && !`${property}`.length) {
         property = item.fallback ?? "-";
     }
+
+    $: cssClass = item.doNotAddClass ? "" : slugify(item.properties[0]);
 </script>
 
 {#if !item.conditioned || (item.conditioned && `${property}`.length)}
-    <div class="line {item.properties[0]}">
+    <div class="line {cssClass}">
         <span class="property-name">{display}</span>
         <TextContentHolder render={item.markdown} {property} />
     </div>

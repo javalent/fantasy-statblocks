@@ -339,7 +339,8 @@
                             props: {
                                 name: blockIndex == 0 ? "Spellcasting" : "",
                                 property: item.properties[0],
-                                desc: block.header
+                                desc: block.header,
+                                item
                             }
                         });
                         targets.push(
@@ -426,7 +427,8 @@
                                 monster.name
                             ),
                             property: "trait-subheading",
-                            render: item.markdown
+                            render: item.markdown,
+                            item
                         },
                         context
                     });
@@ -442,7 +444,8 @@
                                 name: blocks[0].name,
                                 desc: blocks[0].desc,
                                 property: item.properties[0],
-                                render: item.markdown
+                                render: item.markdown,
+                                item
                             },
                             context
                         });
@@ -457,7 +460,8 @@
                                     name: block.name,
                                     desc: block.desc,
                                     property: item.properties[0],
-                                    render: item.markdown
+                                    render: item.markdown,
+                                    item
                                 },
                                 context
                             });

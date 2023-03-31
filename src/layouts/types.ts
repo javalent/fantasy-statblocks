@@ -1,4 +1,5 @@
 import type { Monster } from "@types";
+import type StatBlockPlugin from "src/main";
 
 export const StatblockItemTypes = [
     "traits",
@@ -53,6 +54,7 @@ export type CommonProps = RequiredProps & {
     diceProperty?: keyof Monster;
     diceText?: string;
     diceCallback?: string;
+    doNotAddClass?: boolean;
 };
 
 export const MarkdownTypes = [
@@ -177,6 +179,11 @@ export type StatblockItem =
     | CollapseItem
     | JavaScriptItem
     | LayoutItem;
+
+export type MarkdownableItem = Exclude<
+    StatblockItem,
+    LayoutItem | JavaScriptItem | IfElseItem | CollapseItem
+>;
 
 export interface StatblockItemMap
     extends Record<typeof StatblockItemTypes[number], StatblockItem> {

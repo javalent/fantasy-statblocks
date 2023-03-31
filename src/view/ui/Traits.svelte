@@ -1,4 +1,5 @@
 <script lang="ts">
+    import type { SpellsItem, TraitsItem } from "src/layouts/types";
     import { slugify } from "src/util/util";
     import TextContent from "./TextContent.svelte";
 
@@ -8,9 +9,14 @@
     export let desc: string;
     export let property: string = "";
     export let render: boolean = false;
+    export let item: TraitsItem | SpellsItem;
+
+    $: cssClasses = item.doNotAddClass
+        ? []
+        : [slugify(name), slugify(property)].join(" ");
 </script>
 
-<div class="property {slugify(name)} {slugify(property)}">
+<div class="property {cssClasses}">
     {#if name}
         <div class="property-name">
             <TextContent textToRender={name} />

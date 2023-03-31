@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Monster } from "@types";
     import { MarkdownRenderer, Notice } from "obsidian";
-    import type { StatblockItem } from "src/layouts/types";
+    import type { MarkdownableItem, StatblockItem } from "src/layouts/types";
     import type StatBlockPlugin from "src/main";
 
     import { getContext } from "svelte";
@@ -14,7 +14,7 @@
 
     const context = getContext<string>("context");
     const renderer = getContext<StatBlockRenderer>("renderer");
-    let item = getContext<StatblockItem>("item");
+    let item = getContext<MarkdownableItem>("item");
     let dice = getContext<boolean>("dice") && item.dice;
     let monster = getContext<Monster>("monster");
     let plugin = getContext<StatBlockPlugin>("plugin");
