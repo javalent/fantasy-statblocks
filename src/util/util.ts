@@ -33,7 +33,7 @@ export function slugify(str: string) {
     if (!str) return "";
     return str
         .toLowerCase()
-        .replace(/[^A-Za-z0-9\s]/g, "")
+        .replace(/[^A-Za-z0-9\s_-]/g, "")
         .replace(/\s+/g, "-");
 }
 
