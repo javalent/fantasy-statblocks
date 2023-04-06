@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.4](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.1.3...3.1.4) (2023-04-06)
+
+
+### Bug Fixes
+
+* fixes slugify removing valid characters ([7769127](https://github.com/valentine195/obsidian-5e-statblocks/commit/7769127f92580bc85917cb8385370770fa90874d))
+
 ### [3.1.3](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.1.2...3.1.3) (2023-03-31)
 
 
