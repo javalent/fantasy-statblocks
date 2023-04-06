@@ -2,7 +2,6 @@
     import type { Monster, Trait } from "@types";
 
     import Traits from "./Traits.svelte";
-    import Spells from "./Spells.svelte";
     import Heading from "./Heading.svelte";
     import PropertyLine from "./PropertyLine.svelte";
     import Rule from "./Rule.svelte";
