@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.5](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.1.4...3.1.5) (2023-04-07)
+
+
+### Bug Fixes
+
+* watcher more intelligently chooses files to parse ([424f11f](https://github.com/valentine195/obsidian-5e-statblocks/commit/424f11f2b8df0b0ab39d2902cbd485f51f151fea))
+
 ### [3.1.4](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.1.3...3.1.4) (2023-04-06)
 
 
