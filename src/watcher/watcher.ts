@@ -232,7 +232,7 @@ export class Watcher extends Component {
             return true;
 
         for (const path of this.plugin.settings.paths) {
-            if (file.path.includes(path)) return true;
+            if (file.path.startsWith(path)) return true;
         }
         return false;
     }
@@ -281,7 +281,7 @@ export class Watcher extends Component {
                 files.push(...this.getFiles(child));
             }
         }
-        if (folder instanceof TFile) {
+        if (folder instanceof TFile && folder.extension === "md") {
             files.push(folder.path);
         }
         return files;
