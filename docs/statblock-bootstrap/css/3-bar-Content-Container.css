@@ -1,0 +1,13 @@
+.statblock.yourlayoutname .bar {
+  height: 5px;
+  background: var(--statblock-bar-color);
+  border: var(--statblock-bar-border-size) solid var(--statblock-bar-border-color);
+  z-index: 1;
+  width: auto;
+}
+.statblock.yourlayoutname .statblock-content-container {
+  /* This is a Div Container and only contains this variable */
+  --statblock-column-width: 400px;
+}
+
+/*# sourceMappingURL=3-bar-Content-Container.css.map */
