@@ -1,0 +1,34 @@
+.statblock.yourlayoutname .container {
+  display: flex;
+  width: 100%;
+  margin: 0.25rem 0;
+}
+.statblock.yourlayoutname .container .statblock {
+  margin: 0 auto;
+  position: relative;
+}
+.statblock.yourlayoutname .container .icons {
+  position: absolute;
+  right: 0;
+}
+.statblock.yourlayoutname .container .icons .clickable-icon {
+  -webkit-app-region: no-drag;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--size-2-2) var(--size-2-3);
+  cursor: var(--cursor);
+  border-radius: var(--clickable-icon-radius);
+  color: var(--icon-color);
+  opacity: var(--icon-opacity);
+  transition: opacity 0.15s ease-in-out;
+  height: auto;
+}
+.statblock.yourlayoutname .container .icons svg.svg-icon {
+  height: var(--icon-size);
+  width: var(--icon-size);
+  stroke-width: var(--icon-stroke);
+}
+
+/*# sourceMappingURL=2-statblock-container.css.map */
