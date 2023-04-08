@@ -1,0 +1,19 @@
+.statblock.yourlayoutname {
+  & .statblock-content {
+    font-family: var(--statblock-content-font);
+    font-size: var(--statblock-content-font-size);
+    color: var(--statblock-font-color);
+    background-color: var(--statblock-background-color);
+    padding: .5em;
+    border: var(--statblock-border-size) var(--statblock-border-color) solid;
+    box-shadow: var(--statblock-box-shadow-x-offset) var(--statblock-box-shadow-y-offset) var(--statblock-box-shadow-blur) var(--statblock-box-shadow-color);
+    margin-left: 2px;
+    margin-right: 2px;
+    display: flex;
+    gap: 1rem;
+
+    > .column {
+        width: var(--statblock-column-width);
+    }
+  }
+}

@@ -1,0 +1,15 @@
+.statblock.yourlayoutname {
+  & .bar {
+    height: 5px;
+    background: var(--statblock-bar-color);
+    border: var(--statblock-bar-border-size) solid var(--statblock-bar-border-color);
+    z-index: 1;
+    width: auto;
+  }
+
+  & .statblock-content-container {
+    // This element only contains this variable. This variable is adjusted from the javascript within Fantasy Statblocks.
+    /* This is a Div Container and only contains this variable */
+    --statblock-column-width: 400px;
+  }
+}

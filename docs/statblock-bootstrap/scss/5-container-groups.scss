@@ -1,0 +1,52 @@
+.statblock.yourlayoutname {
+  &.statblock-item-container {
+    margin-bottom: .25rem;
+
+    & .statblock-item-inline {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &.inline-container {
+
+    }
+
+    &.group-container {
+
+    }
+
+    &.heading-container {
+
+    }
+
+    &.subheading-container {
+
+    }
+
+    &.image-container {
+
+    }
+
+    &.rule-container {
+
+    }
+
+    &.property-container {
+
+    }
+
+    &.traits-container {
+
+    }
+
+    &.statblock-trait-prop {
+
+    }
+  }
+
+  & .flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
