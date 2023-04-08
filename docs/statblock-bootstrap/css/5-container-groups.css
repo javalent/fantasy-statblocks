@@ -1,0 +1,39 @@
+.statblock.yourlayoutname .statblock-item-container {
+  margin-bottom: 0.25rem;
+}
+.statblock.yourlayoutname .statblock-item-container .statblock-item-inline {
+  display: flex;
+  justify-content: space-between;
+}
+.statblock.yourlayoutname .statblock-item-container.inline-container {
+  
+}
+.statblock.yourlayoutname .statblock-item-container.group-container {
+  
+}
+.statblock.yourlayoutname .statblock-item-container.heading-container {
+  
+}
+.statblock.yourlayoutname .statblock-item-container.subheading-container {
+  
+}
+.statblock.yourlayoutname .statblock-item-container.image-container {
+  
+}
+.statblock.yourlayoutname .statblock-item-container.rule-container {
+  
+}
+.statblock.yourlayoutname .statblock-item-container.property-container {
+  
+}
+.statblock.yourlayoutname .statblock-item-container.traits-container {
+  
+}
+.statblock.yourlayoutname .statblock-item-container.statblock-trait-prop {
+  
+}
+.statblock.yourlayoutname .flex-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
