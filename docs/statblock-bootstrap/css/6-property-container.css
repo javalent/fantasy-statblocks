@@ -1,0 +1,35 @@
+.statblock.yourlayoutname {
+  /* Custom Property Block Like This One Below */
+}
+.statblock.yourlayoutname .line {
+  line-height: var(--statblock-property-line-height);
+  display: block;
+  color: var(--statblock-property-font-color);
+}
+.statblock.yourlayoutname .line .property-name {
+  margin: 0;
+  margin-right: 0.25em;
+  display: inline;
+  color: var(--statblock-property-name-font-color);
+  font-weight: var(--statblock-property-name-font-weight);
+}
+.statblock.yourlayoutname .statblock-markdown {
+  display: inline;
+}
+.statblock.yourlayoutname .statblock-markdown:global(p) {
+  display: inline;
+}
+.statblock.yourlayoutname .rare_01 {
+  color: rgb(255, 255, 255) !important;
+  font-size: 12px;
+  font-style: normal !important;
+  font-weight: 900 !important;
+  letter-spacing: 0.01em;
+  min-width: 4em;
+  margin: 0 var(--statblock-traits-gap) 0 0;
+  padding: 0.4em 1.1em 0.2em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/*# sourceMappingURL=6-property-container.css.map */
