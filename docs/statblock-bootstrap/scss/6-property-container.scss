@@ -1,0 +1,39 @@
+.statblock.yourlayoutname {
+  & .line {
+    line-height: var(--statblock-property-line-height);
+    display: block;
+    color: var(--statblock-property-font-color);
+
+    & .property-name {
+      margin: 0;
+      margin-right: 0.25em;
+      display: inline;
+      color: var(--statblock-property-name-font-color);
+      font-weight: var(--statblock-property-name-font-weight);
+    }
+  }
+
+  & .statblock-markdown{
+    display: inline;
+
+    &:global(p) {
+
+      display: inline;
+    }
+  }
+
+  // Custom Property Blocks like this one Below
+  /* Custom Property Block Like This One Below */
+  & .rare_01 {
+    color: rgb(255, 255, 255) !important;
+    font-size: 12px;
+    font-style: normal !important;
+    font-weight: 900 !important;
+    letter-spacing: 0.01em;
+    min-width: 4em;
+    margin: 0 var(--statblock-traits-gap) 0 0;
+    padding: 0.4em 1.1em 0.2em;
+    text-align: center;
+    text-transform: uppercase;
+  }
+}
