@@ -1,0 +1,25 @@
+/** Related CSS */
+.workspace-leaf-content .image-container {
+  text-align: center;
+}
+
+.statblock.layoutname .image-container {
+  text-align: center;
+}
+.statblock.layoutname .image-container .image {
+  width: var(--statblock-image-width);
+  height: var(--statblock-image-height);
+}
+.statblock.layoutname .image-container .image.pointer {
+  cursor: pointer;
+}
+.statblock.layoutname .image-container img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  border: var(--statblock-image-border-size) solid var(--statblock-image-border-color);
+  object-position: center;
+}
+
+/*# sourceMappingURL=9-image-container.css.map */
