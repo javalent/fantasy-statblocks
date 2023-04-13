@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [3.1.7](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.1.6...3.1.7) (2023-04-13)
 
+### Bug Fixes
+
+* Fixes critical vulnerabilities related to the xmldom package @ryansobol [PR 158](https://github.com/valentine195/obsidian-5e-statblocks/commit/ec892fb76e24f1e94448f163a89701702aa5b992)
+
 ### [3.1.6](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.1.5...3.1.6) (2023-04-08)
 
 ### [3.1.5](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.1.4...3.1.5) (2023-04-07)
