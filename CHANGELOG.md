@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.7](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.1.6...3.1.7) (2023-04-13)
+
 ### [3.1.6](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.1.5...3.1.6) (2023-04-08)
 
 ### [3.1.5](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.1.4...3.1.5) (2023-04-07)
