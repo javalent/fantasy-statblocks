@@ -1,5 +1,5 @@
 import type { Monster, Spell, Trait } from "@types";
-import { DOMParser } from "xmldom";
+import { DOMParser } from "@xmldom/xmldom";
 
 export async function buildMonsterFromAppFile(file: File): Promise<Monster[]> {
     return new Promise((resolve, reject) => {
