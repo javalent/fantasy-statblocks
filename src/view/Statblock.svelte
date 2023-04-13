@@ -213,6 +213,6 @@
 
     .icons {
         position: absolute;
-        right: 0;
+        left: 0;
     }
 </style>
