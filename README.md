@@ -125,6 +125,20 @@ name: Paarthurnax
 
 <img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/override.PNG">
 
+## Adding to Fields
+
+Any field that is a plain string or an array can be added to, by specifying the name of the field followed by a `+`. For example:
+
+````
+```statblock
+monster: Ancient Black Dragon
+name: Paarthurnax
+traits+:
+  - name: Appended Trait
+    desc: This trait will be appended to the existing traits list, instead of overwriting all of them.
+```
+````
+
 ## Extending
 
 The `extends` key can be used to extend *extend* an existing creature, similar to the `monster` key shown in Overriding Fields. The difference is the resulting monster is not combined; it maintains a link to the base creature. This allows you to, for example, create a named version of a Goblin; any changes to the base Goblin will propagate to the extension.

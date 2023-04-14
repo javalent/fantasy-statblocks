@@ -1,6 +1,7 @@
 import { EditorState, type Extension } from "@codemirror/state";
 import { EditorView } from "@codemirror/view";
 import type { Trait } from "@types";
+import copy from "fast-copy";
 import { basicSetup } from "src/util/editor/extensions";
 import { materialPalenight } from "src/util/editor/theme-dark";
 import { basicLightTheme } from "src/util/editor/theme-light";
@@ -152,7 +153,7 @@ export function transformTraits(
             ("name" in trait || "desc" in trait)
         ) {
             monsterTraits = monsterTraits.filter(
-                (t) => t.name != trait.name || t.desc != trait.desc
+                (t) => t.name != trait.name && t.desc != trait.desc
             );
             monsterTraits.push({
                 name: trait.name,
@@ -161,4 +162,29 @@ export function transformTraits(
         }
     }
     return monsterTraits;
+}
+
+export function append(
+    property: string | any[],
+    toAppend: string | any[]
+): string | any[] {
+    if (
+        (!Array.isArray(property) && typeof property !== "string") ||
+        (!Array.isArray(toAppend) && typeof toAppend !== "string")
+    ) {
+        return toAppend;
+    }
+    let appended = copy(property);
+    if (Array.isArray(appended)) {
+        if (Array.isArray(toAppend)) {
+            return [...appended, ...toAppend];
+        }
+        if (typeof toAppend == "string") {
+            appended.push(toAppend);
+            return appended;
+        }
+    } else if (typeof appended == "string") {
+        return `${appended} ${stringify(toAppend)}`;
+    }
+    return toAppend;
 }
