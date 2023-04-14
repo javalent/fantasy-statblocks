@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.1.8...3.2.0) (2023-04-14)
+
+
+### Features
+
+* Adds ability to append to properties by specifing `property+` in a codeblock ([d84b872](https://github.com/valentine195/obsidian-5e-statblocks/commit/d84b872207938a58cf81ef7587c3e0f8a1551267))
+
+
+### Bug Fixes
+
+* Fixes transforming of traits to overwrite existing traits (close [#156](https://github.com/valentine195/obsidian-5e-statblocks/issues/156)) ([ed40a70](https://github.com/valentine195/obsidian-5e-statblocks/commit/ed40a70ad37ab211efc0f0f7a791c43297c1c46f))
+
 ### [3.1.7](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.1.6...3.1.7) (2023-04-13)
 
 ### Bug Fixes
