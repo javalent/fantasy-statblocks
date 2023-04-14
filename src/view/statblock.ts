@@ -15,7 +15,7 @@ import type {
     StatblockItem,
     TraitsItem
 } from "src/layouts/types";
-import { transformTraits } from "src/util/util";
+import { append, transformTraits } from "src/util/util";
 
 type RendererParameters = {
     container: HTMLElement;
@@ -110,12 +110,20 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         }
 
         for (const block of this.getBlocksToTransform(this.layout.blocks)) {
-            for (const property of block.properties) {
-                if (!(property in built)) continue;
+            for (let property of block.properties) {
+                if (!(property in built) && !(`${property}+` in built)) {
+                    continue;
+                }
+                let isAdditive = false;
+                let original = property;
+                if (`${property}+` in built) {
+                    property = `${property}+` as keyof Monster;
+                    isAdditive = true;
+                }
                 let transformedProperty = built[property];
                 if (block.type == "traits") {
                     transformedProperty = transformTraits(
-                        [],
+                        (this.monster[original] as Trait[]) ?? [],
                         (built[property] as Trait[]) ?? []
                     );
                 } else if (
@@ -129,9 +137,14 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                         return { [key]: value };
                     });
                 }
-
+                if (isAdditive) {
+                    transformedProperty = append(
+                        this.monster[original] as any[] | string,
+                        transformedProperty as any[] | string
+                    );
+                }
                 Object.assign(built, {
-                    [property]: transformedProperty
+                    [original]: transformedProperty
                 });
             }
         }
