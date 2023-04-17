@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.2.2...3.3.0) (2023-04-17)
+
+
+### Features
+
+* Adds in ability to override Spellcasting trait name (close [#138](https://github.com/valentine195/obsidian-5e-statblocks/issues/138)) ([c9bc086](https://github.com/valentine195/obsidian-5e-statblocks/commit/c9bc086955c8f2c48dfdcf468021842c6ce49cd4))
+
+
+### Bug Fixes
+
+* Fix spellcasting not looking at provided monster property ([0a2d654](https://github.com/valentine195/obsidian-5e-statblocks/commit/0a2d6545e09e6beacff8340cf36e549025e71987))
+* logs oops ([257bf4e](https://github.com/valentine195/obsidian-5e-statblocks/commit/257bf4ecd5116d9e1d089b13476016dd1fe76a98))
+
 ### [3.2.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.2.1...3.2.2) (2023-04-17)
 
 
