@@ -571,8 +571,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         const defLayout = DefaultLayouts.find(
                             ({ id }) => id == layout.id
                         );
-                        this.plugin.settings.layouts.splice(
-                            this.plugin.settings.layouts.indexOf(layout),
+                        this.plugin.settings.defaultLayouts.splice(
+                            this.plugin.settings.defaultLayouts.indexOf(layout),
                             1,
                             fastCopy(defLayout)
                         );
