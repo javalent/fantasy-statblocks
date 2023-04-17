@@ -16,7 +16,8 @@ import type {
     SpellsItem,
     CollapseItem,
     JavaScriptItem,
-    LayoutItem
+    LayoutItem,
+    BasicItem
 } from "src/layouts/types";
 import type StatBlockPlugin from "src/main";
 import TableHeaders from "./TableHeaders.svelte";
@@ -302,17 +303,7 @@ class IfElseModal extends BlockModal<IfElseItem> {
     }
 }
 
-class GenericModal<
-    I extends Exclude<
-        StatblockItem,
-        | GroupItem
-        | InlineItem
-        | IfElseItem
-        | CollapseItem
-        | JavaScriptItem
-        | LayoutItem
-    >
-> extends BlockModal<I> {
+class GenericModal<I extends BasicItem> extends BlockModal<I> {
     async display() {
         this.containerEl.addClass("statblock-block-editor");
         this.contentEl.empty();

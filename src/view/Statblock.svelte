@@ -201,6 +201,10 @@
 </div>
 
 <style>
+
+    :global(a) {
+        font-style: var(--statblock-link-style);
+    }
     .container {
         display: flex;
         width: 100%;

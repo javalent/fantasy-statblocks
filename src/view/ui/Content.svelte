@@ -77,6 +77,10 @@
         }
         for (const column of columnEls) {
             node.appendChild(column);
+            /** Detach elements that had all of their children removed (group, inline, ifelse, etc) */
+            column
+                .querySelectorAll(".statblock-item-container:empty")
+                .forEach((node) => node.detach());
         }
         temp.detach();
     };

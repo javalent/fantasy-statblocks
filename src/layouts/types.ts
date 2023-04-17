@@ -74,6 +74,7 @@ type GroupProps = {
     heading?: string;
     headingProp?: boolean;
     nested: StatblockItem[];
+    classes?: string[];
 };
 type HeadingProps = {
     type: "heading";
@@ -84,7 +85,9 @@ type InlineProps = {
     heading?: string;
     headingProp?: boolean;
     nested: StatblockItem[];
+    classes?: string[];
 };
+
 type PropertyProps = {
     type: "property";
     callback?: string;
@@ -184,6 +187,15 @@ export type MarkdownableItem = Exclude<
     StatblockItem,
     LayoutItem | JavaScriptItem | IfElseItem | CollapseItem
 >;
+export type NestableItem<T> = T extends { nested: StatblockItem[] } ? T : never;
+export type AdvancedItem =
+    | GroupItem
+    | InlineItem
+    | IfElseItem
+    | CollapseItem
+    | JavaScriptItem
+    | LayoutItem;
+export type BasicItem = Exclude<StatblockItem, AdvancedItem>;
 
 export interface StatblockItemMap
     extends Record<typeof StatblockItemTypes[number], StatblockItem> {

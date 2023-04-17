@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Monster } from "@types";
     import { Notice } from "obsidian";
-    import type { CollapseItem, IfElseItem, JavaScriptItem, StatblockItem } from "src/layouts/types";
+    import type { BasicItem, CollapseItem, IfElseItem, JavaScriptItem, StatblockItem } from "src/layouts/types";
     import type StatBlockPlugin from "src/main";
 
     import { getContext } from "svelte";
@@ -10,7 +10,7 @@
     import TextContent from "./TextContent.svelte";
     export let property: string;
 
-    let item = getContext<Exclude<StatblockItem, IfElseItem | CollapseItem | JavaScriptItem>>("item");
+    let item = getContext<BasicItem>("item");
 
     let dice = getContext<boolean>("dice") && item.dice;
     let monster = getContext<Monster>("monster");
