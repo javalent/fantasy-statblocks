@@ -271,10 +271,12 @@
                 break;
             }
             case "spells": {
-                const blocks: Trait[] = monster[item.properties[0]] as Trait[];
+                const blocks: (Spell | string)[] = monster[
+                    item.properties[0]
+                ] as Spell[];
 
                 if (!Array.isArray(blocks) || !blocks.length) return;
-                let spellBlocks: Array<SpellBlock> = monster.spells.reduce(
+                let spellBlocks: Array<SpellBlock> = blocks.reduce(
                     (acc, current) => {
                         if (
                             typeof current === "string" &&
@@ -336,7 +338,10 @@
                         const component = new Traits({
                             target: createDiv(),
                             props: {
-                                name: blockIndex == 0 ? "Spellcasting" : "",
+                                name:
+                                    blockIndex == 0
+                                        ? item.heading ?? "Spellcasting"
+                                        : "",
                                 property: item.properties[0],
                                 desc: block.header,
                                 item
