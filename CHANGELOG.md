@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.2](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.2.1...3.2.2) (2023-04-17)
+
+
+### Bug Fixes
+
+* adds link italics css variable ([4c8050c](https://github.com/valentine195/obsidian-5e-statblocks/commit/4c8050c582a1f07cf6db1efa2d4496797a611094))
+* Fixes spell itaclis ([#148](https://github.com/valentine195/obsidian-5e-statblocks/issues/148)) ([022f7dc](https://github.com/valentine195/obsidian-5e-statblocks/commit/022f7dc844665fdecfd489f0051bed0942205764))
+* Fixes subsequent paragraph display in markdown holders ([#148](https://github.com/valentine195/obsidian-5e-statblocks/issues/148)) ([471e7da](https://github.com/valentine195/obsidian-5e-statblocks/commit/471e7da9493b94737fb9f839f160ab6c5a545e86))
+* removes double newlines in SRD ([09fa166](https://github.com/valentine195/obsidian-5e-statblocks/commit/09fa166399b0016c862ef7245452313172335be6))
+
 ### [3.2.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.2.0...3.2.1) (2023-04-17)
 
 
