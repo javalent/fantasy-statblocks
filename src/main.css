@@ -60,6 +60,8 @@
 
     --statblock-traits-font-weight: bold;
     --statblock-traits-font-style: italic;
+
+    --statblock-link-style: italic;
 }
 
 .statblock-detached {
