@@ -99,6 +99,7 @@ type SavesProps = {
 };
 type SpellsProps = {
     type: "spells";
+    heading?: string;
 };
 type SubHeadingProps = {
     type: "subheading";

@@ -587,7 +587,20 @@ class SavesModal extends MarkdownEnabledModal<SavesItem> {
     }
 }
 
-class SpellsModal extends MarkdownEnabledModal<SpellsItem> {}
+class SpellsModal extends MarkdownEnabledModal<SpellsItem> {
+    buildProperties(el: HTMLDivElement): void {
+        new Setting(this.contentEl)
+            .setName("Trait Name")
+            .setDesc(
+                "Name to display for the Spellcasting trait. Defaults to Spellcasting if not provided."
+            )
+            .addText((t) => {
+                t.setValue(this.block.heading).onChange(
+                    (v) => (this.block.heading = v)
+                );
+            });
+    }
+}
 
 class SubheadingModal extends GenericModal<SubHeadingItem> {
     buildProperties(el: HTMLDivElement): void {
