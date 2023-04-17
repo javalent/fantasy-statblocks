@@ -35,4 +35,7 @@
     ul.spell-item:last-of-type {
         margin-bottom: revert;
     }
+    .spells {
+        font-style: italic;
+    }
 </style>
