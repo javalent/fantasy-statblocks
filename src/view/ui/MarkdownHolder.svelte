@@ -11,6 +11,7 @@
     property = property
         .replace(/<STATBLOCK-LINK>/g, "[[")
         .replace(/<\/STATBLOCK-LINK>/g, "]]");
+    console.log("🚀 ~ file: MarkdownHolder.svelte:14 ~ property:", property);
 
     const context = getContext<string>("context");
     const renderer = getContext<StatBlockRenderer>("renderer");
@@ -97,5 +98,8 @@
     }
     .statblock-markdown :global(p) {
         display: inline;
+    }
+    .statblock-markdown :global(p ~ p) {
+        display: inline-block;
     }
 </style>
