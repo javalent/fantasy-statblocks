@@ -11,7 +11,6 @@
     property = property
         .replace(/<STATBLOCK-LINK>/g, "[[")
         .replace(/<\/STATBLOCK-LINK>/g, "]]");
-    console.log("🚀 ~ file: MarkdownHolder.svelte:14 ~ property:", property);
 
     const context = getContext<string>("context");
     const renderer = getContext<StatBlockRenderer>("renderer");
