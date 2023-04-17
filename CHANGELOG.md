@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.1](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.2.0...3.2.1) (2023-04-17)
+
+
+### Bug Fixes
+
+* default layout resets correct layout (close [#172](https://github.com/valentine195/obsidian-5e-statblocks/issues/172)) ([fe3a6b9](https://github.com/valentine195/obsidian-5e-statblocks/commit/fe3a6b96fb587ea7ce723fddd3286189f0af472a))
+
 ## [3.2.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.1.8...3.2.0) (2023-04-14)
 
 
