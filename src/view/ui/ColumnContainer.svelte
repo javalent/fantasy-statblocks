@@ -351,7 +351,8 @@
                                         : "",
                                 property: item.properties[0],
                                 desc: block.header,
-                                item
+                                item,
+                                trait: monster[item.properties[0]] as Trait
                             }
                         });
                         targets.push(
@@ -439,7 +440,8 @@
                             ),
                             property: "trait-subheading",
                             render: item.markdown,
-                            item
+                            item,
+                            trait: monster[item.properties[0]] as Trait
                         },
                         context
                     });
@@ -456,7 +458,8 @@
                                 desc: blocks[0].desc,
                                 property: item.properties[0],
                                 render: item.markdown,
-                                item
+                                item,
+                                trait: blocks[0]
                             },
                             context
                         });
@@ -472,7 +475,8 @@
                                     desc: block.desc,
                                     property: item.properties[0],
                                     render: item.markdown,
-                                    item
+                                    item,
+                                    trait: block
                                 },
                                 context
                             });
@@ -482,7 +486,6 @@
                 } catch (e) {
                     return [];
                 }
-
                 break;
             }
         }

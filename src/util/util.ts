@@ -131,7 +131,9 @@ export const stringifyWithKeys = (
 
 export function transformTraits(
     monsterTraits: Trait[] = [],
-    paramsTraits: { desc: string; name: string }[] | [string, string][] = []
+    paramsTraits:
+        | { desc: string; name: string; traits?: Trait[] }[]
+        | [string, string][] = []
 ) {
     if (!monsterTraits) monsterTraits = [];
     if (!Array.isArray(monsterTraits)) monsterTraits = [monsterTraits];
@@ -156,6 +158,7 @@ export function transformTraits(
                 (t) => t.name != trait.name && t.desc != trait.desc
             );
             monsterTraits.push({
+                ...trait,
                 name: trait.name,
                 desc: stringifyWithKeys(trait.desc)
             });

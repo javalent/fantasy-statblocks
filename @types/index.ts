@@ -114,5 +114,6 @@ export type Spell = string | { [key: string]: string };
 export interface Trait {
     name: string;
     desc: string;
+    traits?: Trait[];
     [key: string]: any;
 }

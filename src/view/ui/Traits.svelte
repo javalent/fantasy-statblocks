@@ -4,6 +4,9 @@
     import TextContent from "./TextContent.svelte";
 
     import TextContentHolder from "./TextContentHolder.svelte";
+    import type { Trait } from "@types";
+
+    export let trait: Trait;
 
     export let name: string;
     export let desc: string;
@@ -24,6 +27,20 @@
     {/if}
 
     <TextContentHolder {render} property={desc} />
+    {#if trait?.traits}
+        <div class="statblock-nested-traits">
+            {#each trait.traits as nested}
+                <svelte:self
+                    name={nested.name}
+                    desc={nested.desc}
+                    {property}
+                    {render}
+                    {item}
+                    {nested}
+                />
+            {/each}
+        </div>
+    {/if}
 </div>
 
 <style>
@@ -33,5 +50,8 @@
         display: inline;
         font-weight: var(--statblock-traits-font-weight);
         font-style: var(--statblock-traits-font-style);
+    }
+    .statblock-nested-traits {
+        margin-left: 1rem;
     }
 </style>
