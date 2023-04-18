@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.4.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.3.0...3.4.0) (2023-04-18)
+
+
+### Features
+
+* Can now specify a css class to apply to every nested element inside a group container (close [#173](https://github.com/valentine195/obsidian-5e-statblocks/issues/173)) ([3c5509c](https://github.com/valentine195/obsidian-5e-statblocks/commit/3c5509c681b2ec364d0549f4ec961ff5e0310923))
+* Traits are now nestable (close [#174](https://github.com/valentine195/obsidian-5e-statblocks/issues/174)) ([d4ad0b4](https://github.com/valentine195/obsidian-5e-statblocks/commit/d4ad0b49088a9f01527683a9a241e7c91ef4b535))
+
+
+### Bug Fixes
+
+* Fix minimum CR XP (close [#92](https://github.com/valentine195/obsidian-5e-statblocks/issues/92)) ([2a88d4e](https://github.com/valentine195/obsidian-5e-statblocks/commit/2a88d4edf85e57ee32d47b82b53ff8cc262da94b))
+
 ## [3.3.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.2.2...3.3.0) (2023-04-17)
 
 
