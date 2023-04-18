@@ -166,6 +166,16 @@ class GroupModal extends BlockModal<GroupItem | InlineItem> {
                     (v) => (this.block.hasRule = v)
                 );
             });
+        new Setting(this.contentEl)
+            .setName("CSS Container Class")
+            .setDesc(
+                "All nested elements inside this group container will receive this CSS class. If blank, no class will be applied."
+            )
+            .addText((t) => {
+                t.setValue(this.block.cls).onChange(
+                    (v) => (this.block.cls = v)
+                );
+            });
         this.buildButtons(this.contentEl.createDiv());
     }
 }

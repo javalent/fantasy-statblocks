@@ -74,7 +74,7 @@ type GroupProps = {
     heading?: string;
     headingProp?: boolean;
     nested: StatblockItem[];
-    classes?: string[];
+    cls?: string;
 };
 type HeadingProps = {
     type: "heading";
@@ -85,7 +85,7 @@ type InlineProps = {
     heading?: string;
     headingProp?: boolean;
     nested: StatblockItem[];
-    classes?: string[];
+    cls?: string;
 };
 
 type PropertyProps = {

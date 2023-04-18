@@ -121,7 +121,9 @@
                 for (const nested of item.nested ?? []) {
                     const element = getElementForStatblockItem(nested, {
                         container: target,
-                        classes
+                        classes: item.cls
+                            ? [...(classes ?? []), item.cls]
+                            : classes ?? []
                     });
 
                     targets.push(...element);
@@ -199,7 +201,12 @@
             case "inline": {
                 const inline = createDivForStatblockItem(item, {
                     container: target,
-                    classes: ["statblock-item-inline", ...(classes ?? [])]
+                    classes: [
+                        "statblock-item-inline",
+                        ...(item.cls
+                            ? [...(classes ?? []), item.cls]
+                            : classes ?? [])
+                    ]
                 });
                 for (const nested of item.nested ?? []) {
                     getElementForStatblockItem(nested, {
