@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.0](https://github.com/javalent/fantasy-statblocks/compare/3.4.2...3.5.0) (2023-04-20)
+
+
+### Features
+
+* npm release ([78016ea](https://github.com/javalent/fantasy-statblocks/commit/78016ea8e5154ed1115fa83e0978039b94c214f9))
+
+
+### Bug Fixes
+
+* fixes release, name change ([bae38ed](https://github.com/javalent/fantasy-statblocks/commit/bae38ed33ac961d61db16e94adae22d16f222a52))
+
 ## [3.4.2](https://github.com/valentine195/fantasy-statblocks/compare/3.4.0...3.4.2) (2023-04-20)
 
 
