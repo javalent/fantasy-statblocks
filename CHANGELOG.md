@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.4.2](https://github.com/valentine195/fantasy-statblocks/compare/3.4.0...3.4.2) (2023-04-20)
+
+
+### Bug Fixes
+
+* fix trait overriding ([8ba0773](https://github.com/valentine195/fantasy-statblocks/commit/8ba0773fdfb662f9c392c74a44b94a9f58d7aeca))
+* fixes image rendering (close [#177](https://github.com/valentine195/fantasy-statblocks/issues/177)) ([f5aa7af](https://github.com/valentine195/fantasy-statblocks/commit/f5aa7af974f1fd6b5e66a544aa76217acf440b1a))
+
+
+### Miscellaneous Chores
+
+* release 2.0.0 ([53779ef](https://github.com/valentine195/fantasy-statblocks/commit/53779ef133fa051e2301408edd4fc5658fb99c74))
+* release 3.4.2 ([8450774](https://github.com/valentine195/fantasy-statblocks/commit/8450774eb70b4e056c6d931a6e5bf8d4051be29a))
+
 ## [3.4.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.3.0...3.4.0) (2023-04-18)
 
 
