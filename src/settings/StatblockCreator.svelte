@@ -5,7 +5,7 @@
         Menu,
         TextComponent
     } from "obsidian";
-    import { Layout, StatblockItem, TypeNames } from "src/layouts/types";
+    import { Layout, StatblockItem, TypeNames } from "types/layout";
 
     import type StatBlockPlugin from "src/main";
     import { createEventDispatcher } from "svelte";

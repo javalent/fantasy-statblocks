@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type { SpellsItem, TraitsItem } from "src/layouts/types";
+    import type { SpellsItem, TraitsItem } from "types/layout";
     import { slugify } from "src/util/util";
     import TextContent from "./TextContent.svelte";
 
     import TextContentHolder from "./TextContentHolder.svelte";
-    import type { Trait } from "@types";
+    import type { Trait } from "types";
 
     export let trait: Trait;
 

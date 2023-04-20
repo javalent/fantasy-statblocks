@@ -4,7 +4,7 @@ import {
     type StatblockItemMap,
     type StatblockItem,
     TypeNames
-} from "src/layouts/types";
+} from "types/layout";
 import { nanoid } from "src/util/util";
 
 export function blockGenerator<T extends keyof StatblockItemMap>(

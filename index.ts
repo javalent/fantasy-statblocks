@@ -1,3 +1,6 @@
+import type { Component } from "obsidian";
+import type { DefaultLayout, Layout } from "types/layout";
+
 export type ability =
     | "strength"
     | "dexterity"
@@ -116,4 +119,41 @@ export interface Trait {
     desc: string;
     traits?: Trait[];
     [key: string]: any;
+}
+
+export interface StatblockData {
+    monsters: Array<[string, Monster]>;
+    defaultLayouts: DefaultLayout[];
+    layouts: Layout[];
+    default: string;
+    useDice: boolean;
+    renderDice: boolean;
+    export: boolean;
+    showAdvanced: boolean;
+    version: {
+        major: number;
+        minor: number;
+        patch: number;
+    };
+    paths: string[];
+    autoParse: boolean;
+    disableSRD: boolean;
+    tryToRenderLinks: boolean;
+    debug: boolean;
+    notifiedOfFantasy: boolean;
+    hideConditionHelp: boolean;
+    alwaysImport: boolean;
+    defaultLayoutsIntegrated: boolean;
+    atomicWrite: boolean;
+}
+
+export interface StatblockAPI {
+    render(
+        creature: Creature,
+        statblockEl: HTMLDivElement,
+        display: string
+    ): Component;
+    saveMonsters(homebrew: import(".").HomebrewCreature[]): unknown;
+    settings: StatblockData;
+    data: Map<string, Monster>;
 }

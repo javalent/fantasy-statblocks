@@ -22,9 +22,9 @@ import Importer from "src/importers/importer";
 import { FolderSuggestionModal } from "src/util/folder";
 import { EditMonsterModal } from "./modal";
 import { Layout5e } from "src/layouts/basic 5e/basic5e";
-import type { DefaultLayout, Layout } from "src/layouts/types";
+import type { DefaultLayout, Layout } from "types/layout";
 import { DefaultLayouts } from "src/layouts";
-import type { Monster } from "@types";
+import type { Monster } from "types";
 import { nanoid, stringify } from "src/util/util";
 import { DICE_ROLLER_SOURCE } from "src/main";
 

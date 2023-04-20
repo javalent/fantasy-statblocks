@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type { Monster } from "@types";
+    import type { Monster } from "types";
     import { Notice } from "obsidian";
-    import type { BasicItem, CollapseItem, IfElseItem, JavaScriptItem, StatblockItem } from "src/layouts/types";
+    import type { BasicItem, CollapseItem, IfElseItem, JavaScriptItem, StatblockItem } from "types/layout";
     import type StatBlockPlugin from "src/main";
 
     import { getContext } from "svelte";

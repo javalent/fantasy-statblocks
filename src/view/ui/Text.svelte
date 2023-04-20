@@ -1,6 +1,6 @@
 <script lang="ts">
-    import type { Monster } from "@types";
-    import type { TextItem } from "src/layouts/types";
+    import type { Monster } from "types";
+    import type { TextItem } from "types/layout";
     import { stringify } from "src/util/util";
 
     import SectionHeading from "./SectionHeading.svelte";

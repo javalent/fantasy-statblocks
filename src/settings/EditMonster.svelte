@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
-    import type { Monster } from "@types";
+    import type { Monster } from "types";
     import {
         ButtonComponent,
         ExtraButtonComponent,

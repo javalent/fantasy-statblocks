@@ -16,18 +16,19 @@ import {
     SAVE_ICON,
     SAVE_SYMBOL
 } from "./data/constants";
-import type { Monster, StatblockParameters } from "@types";
+import type { Monster, StatblockParameters } from "../index";
 import StatblockSettingTab from "./settings/settings";
 import fastCopy from "fast-copy";
 
 import { sort } from "fast-sort";
-import type { Plugins } from "../../obsidian-overload";
+import { type Plugins, ExpectedValue } from "obsidian-overload";
 import type { HomebrewCreature } from "../../obsidian-initiative-tracker/@types";
 import { Watcher } from "./watcher/watcher";
-import type { DefaultLayout, Layout } from "./layouts/types";
+import type { DefaultLayout, Layout } from "../types/layout";
 import { Layout5e } from "./layouts/basic 5e/basic5e";
 import { StatblockSuggester } from "./suggest";
 import { DefaultLayouts } from "./layouts";
+import type { StatblockData } from "index";
 
 declare module "obsidian" {
     interface App {
@@ -46,32 +47,6 @@ declare module "obsidian" {
 }
 
 export const DICE_ROLLER_SOURCE = "FANTASY_STATBLOCKS_PLUGIN";
-
-export interface StatblockData {
-    monsters: Array<[string, Monster]>;
-    defaultLayouts: DefaultLayout[];
-    layouts: Layout[];
-    default: string;
-    useDice: boolean;
-    renderDice: boolean;
-    export: boolean;
-    showAdvanced: boolean;
-    version: {
-        major: number;
-        minor: number;
-        patch: number;
-    };
-    paths: string[];
-    autoParse: boolean;
-    disableSRD: boolean;
-    tryToRenderLinks: boolean;
-    debug: boolean;
-    notifiedOfFantasy: boolean;
-    hideConditionHelp: boolean;
-    alwaysImport: boolean;
-    defaultLayoutsIntegrated: boolean;
-    atomicWrite: boolean;
-}
 
 const DEFAULT_DATA: StatblockData = {
     monsters: [],
@@ -225,7 +200,7 @@ export default class StatBlockPlugin extends Plugin {
                     shouldRender: this.settings.renderDice,
                     showFormula: false,
                     showParens: false,
-                    expectedValue: "Average",
+                    expectedValue: ExpectedValue.Average,
                     text: null
                 });
         }
@@ -238,7 +213,7 @@ export default class StatBlockPlugin extends Plugin {
                         shouldRender: this.settings.renderDice,
                         showFormula: false,
                         showParens: false,
-                        expectedValue: "Average",
+                        expectedValue: ExpectedValue.Average,
                         text: null
                     });
                 //why did i do this?

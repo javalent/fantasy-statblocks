@@ -1,5 +1,4 @@
-import type { Monster } from "@types";
-import type StatBlockPlugin from "src/main";
+import type { Monster } from "../index";
 
 export const StatblockItemTypes = [
     "traits",

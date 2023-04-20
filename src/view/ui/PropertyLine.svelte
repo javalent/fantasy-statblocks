@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type { Monster } from "@types";
+    import type { Monster } from "types";
     import { Notice } from "obsidian";
-    import type { PropertyItem } from "src/layouts/types";
+    import type { PropertyItem } from "types/layout";
     import { slugify, stringify } from "src/util/util";
     import TextContentHolder from "./TextContentHolder.svelte";
 

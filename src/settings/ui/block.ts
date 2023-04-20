@@ -1,4 +1,4 @@
-import type { Monster } from "@types";
+import type { Monster } from "types";
 import copy from "fast-copy";
 import { Modal, Notice, Setting, TextAreaComponent } from "obsidian";
 import type {
@@ -18,7 +18,7 @@ import type {
     JavaScriptItem,
     LayoutItem,
     BasicItem
-} from "src/layouts/types";
+} from "types/layout";
 import type StatBlockPlugin from "src/main";
 import TableHeaders from "./TableHeaders.svelte";
 import SubheadingProperty from "./SubheadingProperty.svelte";

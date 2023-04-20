@@ -6,7 +6,7 @@
         IfElseItem,
         JavaScriptItem,
         StatblockItem
-    } from "src/layouts/types";
+    } from "types/layout";
     import type StatBlockPlugin from "src/main";
 
     export let block: Exclude<

@@ -1,4 +1,4 @@
-import type { Monster } from "@types";
+import type { Monster } from "types";
 import { stringify } from "src/util/util";
 import type {
     ConditionImmunityArray,

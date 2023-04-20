@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Monster } from "@types";
+    import type { Monster } from "types";
     import {
         debounce,
         ExtraButtonComponent,
@@ -8,7 +8,7 @@
         stringifyYaml
     } from "obsidian";
     import { EXPORT_SYMBOL, SAVE_SYMBOL } from "src/data/constants";
-    import type { StatblockItem } from "src/layouts/types";
+    import type { StatblockItem } from "types/layout";
     import type StatBlockPlugin from "src/main";
     import {
         createEventDispatcher,

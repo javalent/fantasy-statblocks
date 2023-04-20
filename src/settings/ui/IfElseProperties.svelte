@@ -1,6 +1,6 @@
 <script lang="ts">
     import { setIcon, Setting } from "obsidian";
-    import type { IfElseCondition } from "src/layouts/types";
+    import type { IfElseCondition } from "types/layout";
     import { nanoid } from "src/util/util";
     import { createEventDispatcher } from "svelte";
     import { dndzone, SOURCES, TRIGGERS } from "svelte-dnd-action";

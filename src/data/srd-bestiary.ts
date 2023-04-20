@@ -17,7 +17,7 @@
  *  "15 COPYRIGHT NOTICE Open Game License v 1.0 Copyright 2000, Wizards of the Coast, Inc."
  */
 
-import type { Monster } from "@types";
+import type { Monster } from "types";
 
 export const BESTIARY: Monster[] = [
     {

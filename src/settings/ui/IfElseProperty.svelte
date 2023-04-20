@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { IfElseCondition } from "src/layouts/types";
+    import type { IfElseCondition } from "types/layout";
     import { ExtraButtonComponent, setIcon, TextAreaComponent } from "obsidian";
     import { createEventDispatcher, onDestroy } from "svelte";
     import { EditorView } from "@codemirror/view";

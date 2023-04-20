@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Monster } from "@types";
+    import type { Monster } from "types";
     import { ExtraButtonComponent, setIcon } from "obsidian";
     import { createEventDispatcher } from "svelte";
     import { dndzone, SOURCES, TRIGGERS } from "svelte-dnd-action";

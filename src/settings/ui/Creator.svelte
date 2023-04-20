@@ -13,7 +13,7 @@
     import { blockGenerator } from "../add";
     import { getModalForBlock } from "./block";
     import Rule from "src/view/ui/Rule.svelte";
-    import { StatblockItem, TypeNames } from "src/layouts/types";
+    import { StatblockItem, TypeNames } from "types/layout";
 
     const dispatch = createEventDispatcher();
 

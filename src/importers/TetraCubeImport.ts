@@ -1,4 +1,4 @@
-import type { Monster, Spell, Trait } from "@types";
+import type { Monster, Spell, Trait } from "types";
 const CR: { [key: string]: any } = {
     "0": {
         cr: "0",

@@ -1,4 +1,4 @@
-import type { Monster } from "@types";
+import type { Monster } from "types";
 
 export async function buildMonsterFromCritterFile(
     file: File

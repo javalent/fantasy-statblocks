@@ -1,5 +1,5 @@
 import { nanoid } from "src/util/util";
-import type { DefaultLayout, Layout, StatblockItem } from "../types";
+import type { DefaultLayout, Layout, StatblockItem } from "../../../types/layout";
 
 export const StatblockFateCore: StatblockItem[] = [
     {
