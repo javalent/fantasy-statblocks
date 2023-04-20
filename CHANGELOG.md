@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.4.1](https://github.com/valentine195/fantasy-statblocks/compare/3.4.0...3.4.1) (2023-04-20)
+
+
+### Bug Fixes
+
+* fix trait overriding ([8ba0773](https://github.com/valentine195/fantasy-statblocks/commit/8ba0773fdfb662f9c392c74a44b94a9f58d7aeca))
+
 ## [3.4.0](https://github.com/valentine195/obsidian-5e-statblocks/compare/3.3.0...3.4.0) (2023-04-18)
 
 
