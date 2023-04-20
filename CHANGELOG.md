@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.3](https://github.com/javalent/fantasy-statblocks/compare/3.5.2...3.5.3) (2023-04-20)
+
+
+### Bug Fixes
+
+* re-add lock ([5df2898](https://github.com/javalent/fantasy-statblocks/commit/5df289879aace49246dfc11e05f94402e684cb21))
+
 ## [3.5.2](https://github.com/javalent/fantasy-statblocks/compare/3.5.1...3.5.2) (2023-04-20)
 
 
