@@ -155,7 +155,7 @@ export function transformTraits(
             ("name" in trait || "desc" in trait)
         ) {
             monsterTraits = monsterTraits.filter(
-                (t) => t.name != trait.name && t.desc != trait.desc
+                (t) => t.name != trait.name || t.desc != trait.desc
             );
             monsterTraits.push({
                 ...trait,
