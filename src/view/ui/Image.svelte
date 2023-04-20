@@ -15,7 +15,7 @@
         return link?.replace(/(\[|\])/g, "");
     }
     let file: TFile;
-    async function getLink(url: string) {
+    function getLink(url: string) {
         url = decodeURIComponent(url);
         let link: string;
         try {
@@ -38,7 +38,7 @@
         }
         return link;
     }
-    const getImage = async (): Promise<string> => {
+    const getImage = (): string => {
         if (
             item.properties.length &&
             item.properties.some(
@@ -58,7 +58,7 @@
             return getLink(path);
         }
     };
-    let promise = getImage();
+    let image = getImage();
 
     const modifier = Platform.isMacOS ? "Meta" : "Control";
     function open(evt: MouseEvent) {
@@ -79,22 +79,16 @@
     }
 </script>
 
-{#each item.properties as property}
-    {#if property in monster}
-        {#await promise then image}
-            {#if image}
-                <div
-                    class="image"
-                    class:pointer={file != null}
-                    on:click={(evt) => open(evt)}
-                    on:mouseenter={(evt) => popover(evt)}
-                >
-                    <img src={image} alt={monster.name} />
-                </div>
-            {/if}
-        {/await}
-    {/if}
-{/each}
+{#if image}
+    <div
+        class="image"
+        class:pointer={file != null}
+        on:click={(evt) => open(evt)}
+        on:mouseenter={(evt) => popover(evt)}
+    >
+        <img src={image} alt={monster.name} />
+    </div>
+{/if}
 
 <style>
     .image {
