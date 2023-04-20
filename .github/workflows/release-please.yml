@@ -99,4 +99,4 @@ jobs:
         uses: javalent/obsidian-overload/.github/workflows/upgrade.yml@main
         secrets: inherit
         with:
-            module: ${{ env.PLUGIN_NAME }}
+            module: fantasy-statblocks
