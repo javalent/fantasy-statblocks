@@ -76,6 +76,14 @@ export interface Monster {
     items?: Trait[];
     extras?: Trait[];
 
+    /** 13th Age */
+    flavor_text?: string;
+    initiative?: number;
+    vulnerability?: string;
+    mook?: boolean;
+    triggered_actions?: Trait[];
+    nastier_traits?: Trait[];
+
     /** Statblock Parameters */
     export?: boolean;
     dice?: boolean;
