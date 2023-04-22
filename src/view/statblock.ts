@@ -1,7 +1,7 @@
 import { App, ButtonComponent, Modal, TFile } from "obsidian";
 import { Layout5e } from "src/layouts/basic 5e/basic5e";
 import { MarkdownRenderChild } from "obsidian";
-import type { Monster, StatblockParameters, Trait } from "types";
+import type { Monster, StatblockParameters, Trait } from "../../index";
 
 import Statblock from "./Statblock.svelte";
 import type StatBlockPlugin from "src/main";

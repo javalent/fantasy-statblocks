@@ -113,7 +113,7 @@ export class Watcher extends Component {
             "message",
             async (evt: MessageEvent<UpdateEventMessage>) => {
                 if (evt.data.type == "update") {
-                    const { monster, path } = evt.data;
+                    let { monster, path } = evt.data;
                     let update = false;
                     if (this.watchPaths.has(path)) {
                         const existing = this.watchPaths.get(path);
@@ -124,6 +124,17 @@ export class Watcher extends Component {
                                 `Fantasy Statblocks: Updating ${monster.name}`
                             );
                     }
+
+                    if (
+                        "monster" in monster &&
+                        this.plugin.bestiary.has(monster.monster)
+                    ) {
+                        monster = {
+                            ...this.plugin.bestiary.get(monster.monster),
+                            ...monster
+                        };
+                    }
+
                     this.watchPaths.set(path, monster.name);
                     await this.plugin.saveMonster(monster, false, false);
 

@@ -1,4 +1,5 @@
 import type { Component } from "obsidian";
+import type { Creature, HomebrewCreature } from "obsidian-overload";
 import type { DefaultLayout, Layout } from "types/layout";
 
 export type ability =
@@ -105,11 +106,11 @@ export interface StatblockParameters
         | "legendary_actions"
         | "reactions"
     > {
-    traits?: { desc: string; name: string }[] | [string, string][];
-    actions?: Trait[] | [string, string][];
-    bonus_actions?: Trait[] | [string, string][];
-    legendary_actions?: Trait[] | [string, string][];
-    reactions?: Trait[] | [string, string][];
+    traits?: { desc: string; name: string }[];
+    actions?: Trait[];
+    bonus_actions?: Trait[];
+    legendary_actions?: Trait[];
+    reactions?: Trait[];
 }
 
 export type Spell = string | { [key: string]: string };
@@ -153,7 +154,7 @@ export interface StatblockAPI {
         statblockEl: HTMLDivElement,
         display: string
     ): Component;
-    saveMonsters(homebrew: import(".").HomebrewCreature[]): unknown;
+    saveMonsters(homebrew: HomebrewCreature[]): unknown;
     settings: StatblockData;
     data: Map<string, Monster>;
 }
