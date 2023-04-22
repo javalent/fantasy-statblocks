@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.5](https://github.com/javalent/fantasy-statblocks/compare/3.5.4...3.5.5) (2023-04-22)
+
+
+### Bug Fixes
+
+* adds new bestiary api hooks ([c395ab8](https://github.com/javalent/fantasy-statblocks/commit/c395ab8f32aa6d2fc6d0217490c02adc32cbf402))
+* YAML parsing respects monster key (close [#191](https://github.com/javalent/fantasy-statblocks/issues/191)) ([78eaf40](https://github.com/javalent/fantasy-statblocks/commit/78eaf4042d8f0ae75b2977f89045e4944eaff154))
+
 ## [3.5.4](https://github.com/javalent/fantasy-statblocks/compare/3.5.3...3.5.4) (2023-04-20)
 
 
