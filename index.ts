@@ -155,6 +155,8 @@ export interface StatblockAPI {
         display: string
     ): Component;
     saveMonsters(homebrew: HomebrewCreature[]): unknown;
+    hasCreature(name: string): boolean;
+    getCreatureFromBestiary(name: string): Partial<Monster> | null;
     settings: StatblockData;
     data: Map<string, Monster>;
 }

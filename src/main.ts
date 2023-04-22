@@ -16,7 +16,7 @@ import {
     SAVE_ICON,
     SAVE_SYMBOL
 } from "./data/constants";
-import type { Monster, StatblockParameters } from "../index";
+import type { Monster, StatblockAPI, StatblockParameters } from "../index";
 import StatblockSettingTab from "./settings/settings";
 import fastCopy from "fast-copy";
 
@@ -74,7 +74,7 @@ const DEFAULT_DATA: StatblockData = {
     atomicWrite: true
 };
 
-export default class StatBlockPlugin extends Plugin {
+export default class StatBlockPlugin extends Plugin implements StatblockAPI {
     settings: StatblockData;
     data: Map<string, Monster>;
     bestiary: Map<string, Monster>;
@@ -87,6 +87,54 @@ export default class StatBlockPlugin extends Plugin {
             this.names = [...this.bestiary.keys()];
         }
         return this.names;
+    }
+
+    hasCreature(name: string): boolean {
+        return this.bestiary.has(name);
+    }
+    getCreatureFromBestiary(name: string): Partial<Monster> | null {
+        if (!this.bestiary.has(name)) return null;
+        let monster = this.bestiary.get(name);
+        return Object.assign(
+            {},
+            ...this.getExtensions(monster, new Set(monster.name)),
+            monster
+        ) as Monster;
+    }
+
+    getExtensions(
+        monster: Partial<Monster>,
+        extended: Set<string>
+    ): Partial<Monster>[] {
+        let extensions: Partial<Monster>[] = [fastCopy(monster)];
+        if (
+            !("extends" in monster) ||
+            !(
+                Array.isArray(monster.extends) ||
+                typeof monster.extends == "string"
+            )
+        ) {
+            return extensions;
+        }
+        if (monster.extends && monster.extends.length) {
+            for (const extension of [monster.extends].flat()) {
+                if (extended.has(extension)) {
+                    console.info(
+                        "Circular extend dependency detected in " +
+                            [...extended]
+                    );
+                    continue;
+                }
+                extended.add(monster.name);
+                const extensionMonster = this.bestiary.get(extension);
+                if (!extensionMonster) continue;
+                extensions.push(
+                    ...this.getExtensions(extensionMonster, extended)
+                );
+            }
+        }
+
+        return extensions;
     }
 
     watcher = new Watcher(this);
