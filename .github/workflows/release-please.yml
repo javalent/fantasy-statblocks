@@ -88,6 +88,17 @@ jobs:
                   asset_name: styles.css
                   asset_content_type: text/css
 
+    notify:
+        runs-on: ubuntu-latest
+        needs: upload-build
+        steps:
+            - name: Webhook
+              uses: javalent/workflows/actions/discord-embed
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  name: Fantasy Statblocks
+                  webhook-urls: ${{ secrets.TESTING_WEBHOOK }}
     publish:
         needs: release-please
         if: ${{ needs.release-please.outputs.release_created }}
