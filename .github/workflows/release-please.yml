@@ -93,7 +93,7 @@ jobs:
         needs: upload-build
         steps:
             - name: Webhook
-              uses: javalent/workflows/actions/discord-embed
+              uses: javalent/workflows/actions/discord-embed@main
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
