@@ -98,6 +98,7 @@ jobs:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
                   name: Fantasy Statblocks
+                  repo: fantasy-statblocks
                   webhook-urls: ${{ secrets.TESTING_WEBHOOK }}
     publish:
         needs: release-please
