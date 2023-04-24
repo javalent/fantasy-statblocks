@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.7](https://github.com/javalent/fantasy-statblocks/compare/3.5.6...3.5.7) (2023-04-24)
+
+
+### Bug Fixes
+
+* test ([90830d6](https://github.com/javalent/fantasy-statblocks/commit/90830d6eb26d928aeefb6162ca342a7ea88e45cf))
+
 ## [3.5.6](https://github.com/javalent/fantasy-statblocks/compare/3.5.5...3.5.6) (2023-04-24)
 
 
