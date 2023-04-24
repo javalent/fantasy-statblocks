@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.6](https://github.com/javalent/fantasy-statblocks/compare/3.5.5...3.5.6) (2023-04-24)
+
+
+### Bug Fixes
+
+* testing release webhook ([2ca8374](https://github.com/javalent/fantasy-statblocks/commit/2ca83748ee359bdc0ad20df8d3faa6df5a68be38))
+* testing release webhook 2 ([1183543](https://github.com/javalent/fantasy-statblocks/commit/1183543d8ba3f66275a7f6a9c3589ec3f2313981))
+
 ## [3.5.5](https://github.com/javalent/fantasy-statblocks/compare/3.5.4...3.5.5) (2023-04-22)
 
 
