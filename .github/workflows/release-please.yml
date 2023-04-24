@@ -88,7 +88,7 @@ jobs:
                   asset_name: styles.css
                   asset_content_type: text/css
 
-    notify:
+    notify-obsidian:
         runs-on: ubuntu-latest
         needs: upload-build
         steps:
@@ -99,7 +99,19 @@ jobs:
               with:
                   name: Fantasy Statblocks
                   repo: fantasy-statblocks
-                  webhook-urls: ${{ secrets.TESTING_WEBHOOK }}
+                  webhook-urls: ${{ secrets.OBSIDIAN_WEBHOOK }}
+    notify-ttrpg:
+        runs-on: ubuntu-latest
+        needs: upload-build
+        steps:
+            - name: Webhook
+              uses: javalent/workflows/actions/discord-embed@main
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  name: Fantasy Statblocks
+                  repo: fantasy-statblocks
+                  webhook-urls: ${{ secrets.TTRPG_WEBHOOK }}
     publish:
         needs: release-please
         if: ${{ needs.release-please.outputs.release_created }}
