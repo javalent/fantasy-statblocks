@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.9](https://github.com/javalent/fantasy-statblocks/compare/3.5.8...3.5.9) (2023-04-24)
+
+
+### Bug Fixes
+
+* fancy new discord notifications ([737c8fe](https://github.com/javalent/fantasy-statblocks/commit/737c8fe3393d8dfc906cc1de4a058179bf2d62d9))
+
 ## [3.5.8](https://github.com/javalent/fantasy-statblocks/compare/3.5.7...3.5.8) (2023-04-24)
 
 
