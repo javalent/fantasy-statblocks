@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.10](https://github.com/javalent/fantasy-statblocks/compare/3.5.9...3.5.10) (2023-04-25)
+
+
+### Bug Fixes
+
+* remove logs ([7eebc67](https://github.com/javalent/fantasy-statblocks/commit/7eebc67fed26def762f9790b40b8aede8ad1ee44))
+* remove ttrp ([59dd7a3](https://github.com/javalent/fantasy-statblocks/commit/59dd7a37fe4ffd6c8072a3fc05b752ba283cc3cc))
+* Use new Dice Roller API hook to commonize dice strings ([6798f78](https://github.com/javalent/fantasy-statblocks/commit/6798f780bedd3245f8bc58e960d542bc2ce34606))
+
 ## [3.5.9](https://github.com/javalent/fantasy-statblocks/compare/3.5.8...3.5.9) (2023-04-24)
 
 
