@@ -1,6 +1,5 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
-    import type { Monster } from "types";
     import {
         ButtonComponent,
         ExtraButtonComponent,
@@ -8,6 +7,7 @@
         parseYaml,
         stringifyYaml
     } from "obsidian";
+    import type { Monster } from "index";
 
     const dispatch = createEventDispatcher();
 

@@ -1,11 +1,11 @@
 <script lang="ts">
-    import type { Monster } from "types";
     import { MarkdownRenderer, Notice } from "obsidian";
     import type { MarkdownableItem, StatblockItem } from "types/layout";
     import type StatBlockPlugin from "src/main";
 
     import { getContext } from "svelte";
     import type StatBlockRenderer from "../statblock";
+    import type { Monster } from "index";
 
     export let property: string;
     property = property
@@ -67,10 +67,15 @@
         if (typeof dice != "string") {
             const replacer = dice.original ?? dice.text;
             let diceString;
+            let diceText = plugin.getRollerString(dice.text);
+            console.log(
+                "🚀 ~ file: MarkdownHolder.svelte:71 ~ diceText:",
+                diceText
+            );
             if (dice.original) {
-                diceString = `${dice.original} (\`dice: ${dice.text}|noparen\`)`;
+                diceString = `${dice.original} (\`dice: ${diceText}\`)`;
             } else {
-                diceString = `\`dice: ${dice.text}|noparen\``;
+                diceString = `\`dice: ${diceText}\``;
             }
             const index = property.slice(start).indexOf(replacer);
             property =

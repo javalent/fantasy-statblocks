@@ -21,8 +21,7 @@ import StatblockSettingTab from "./settings/settings";
 import fastCopy from "fast-copy";
 
 import { sort } from "fast-sort";
-import { type Plugins, ExpectedValue } from "obsidian-overload";
-import type { HomebrewCreature } from "../../obsidian-initiative-tracker/@types";
+import { type Plugins, ExpectedValue, HomebrewCreature } from "obsidian-overload";
 import { Watcher } from "./watcher/watcher";
 import type { DefaultLayout, Layout } from "../types/layout";
 import { Layout5e } from "./layouts/basic 5e/basic5e";
@@ -146,6 +145,10 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
             .getPlugin("obsidian-dice-roller")
             ?.api.getRollerSync(str, DICE_ROLLER_SOURCE);
         return roller;
+    }
+    getRollerString(str: string) {
+        if (!this.canUseDiceRoller) return str;
+        return this.app.plugins.getPlugin("obsidian-dice-roller")?.api.getRollerString(str, DICE_ROLLER_SOURCE);
     }
     get canUseDiceRoller() {
         if (this.app.plugins.getPlugin("obsidian-dice-roller") != null) {
