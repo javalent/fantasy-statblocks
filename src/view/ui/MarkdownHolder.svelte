@@ -68,10 +68,6 @@
             const replacer = dice.original ?? dice.text;
             let diceString;
             let diceText = plugin.getRollerString(dice.text);
-            console.log(
-                "🚀 ~ file: MarkdownHolder.svelte:71 ~ diceText:",
-                diceText
-            );
             if (dice.original) {
                 diceString = `${dice.original} (\`dice: ${diceText}\`)`;
             } else {
