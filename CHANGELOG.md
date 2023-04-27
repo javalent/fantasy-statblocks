@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.11](https://github.com/javalent/fantasy-statblocks/compare/3.5.10...3.5.11) (2023-04-27)
+
+
+### Bug Fixes
+
+* Notify ObsidianTTRPG channel of releases ([d00b1bf](https://github.com/javalent/fantasy-statblocks/commit/d00b1bfaa29d445ab1b7208bb0b3fea3ee89e97b))
+
 ## [3.5.10](https://github.com/javalent/fantasy-statblocks/compare/3.5.9...3.5.10) (2023-04-25)
 
 
