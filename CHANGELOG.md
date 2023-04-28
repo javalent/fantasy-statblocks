@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.6.0](https://github.com/javalent/fantasy-statblocks/compare/3.5.12...3.6.0) (2023-04-28)
+
+
+### Features
+
+* Create a 13th Age monster layout ([#206](https://github.com/javalent/fantasy-statblocks/issues/206)) ([bafb2a0](https://github.com/javalent/fantasy-statblocks/commit/bafb2a04effb8634a705089117d8cf5dae947448))
+
 ## [3.5.12](https://github.com/javalent/fantasy-statblocks/compare/3.5.11...3.5.12) (2023-04-28)
 
 
