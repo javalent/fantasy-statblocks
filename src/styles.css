@@ -1,3 +1,4 @@
 @import "./main.css";
 @import "./settings/settings.css";
-@import "./layouts//pathfinder\ 2e/pf2e.css";
+@import "./layouts/pathfinder 2e/pf2e.css";
+@import "./layouts/13th age/monster/13th-age-monsters.css";

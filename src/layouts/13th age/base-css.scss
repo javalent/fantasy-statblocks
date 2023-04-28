@@ -1,0 +1,125 @@
+// CSS imports
+@import url(https://rawcdn.githack.com/Gazook89/Homebrewery-Snippets/25bee83182e1e598fe6b07a482e53b9e6fb70e9e/13th-Age-Fonts.css);
+
+@mixin vars {
+  --statblock-primary-color: #000;
+  --statblock-rule-color: #000;
+  --statblock-background-color:#fefaf0;
+
+  --statblock-image-border-color: var(--statblock-primary-color);
+
+  --statblock-box-shadow-blur: 1em;
+
+  --statblock-font-color: var(--statblock-primary-color);
+
+  --statblock-content-font: serif;
+
+  --statblock-heading-font:masonregular, serif;
+  --statblock-heading-font-color: var(--statblock-font-color);
+  --statblock-heading-font-weight: var(--statblock-font-weight);
+  --statblock-heading-color:  #2C2E35;
+  
+  --statblock-property-font-color: var(--statblock-font-color);
+  --statblock-property-name-font-color: var(--statblock-font-color);
+  
+  --statblock-section-heading-border-color: var(--statblock-primary-color);
+  --statblock-section-heading-font-color: var(--statblock-font-color);
+}
+
+@mixin basics {
+  @include vars;
+
+  text-align: justify;
+
+  .bar {
+    display: none;
+  }
+
+  h1, h2 {
+  	text-align: left;
+  	font-family: var(--statblock-heading-font);
+  	font-weight: normal;
+  	color: var(--statblock-heading-font-color);
+  	font-size: 2em ;
+  	margin: 0;
+  }
+
+  // Margin blocks, replacing rules
+  .rule-container {
+    margin: 0;
+
+    .tapered-rule {
+      background: none;
+      margin: 0;
+      height: 0.75em;
+    }
+  }
+
+  *:has(+ .rule-container) {
+    margin-bottom: 0 !important;
+
+    * {
+      margin-bottom: 0 !important;
+    }
+  }
+
+  .property-text {
+    text-align: left;
+  }
+}
+
+@mixin attack-name {
+  .property-name {
+    font-style: initial;
+    font-weight: bolder;
+
+    &::after {
+      margin-left: 1ch;
+      content: "—";
+    }
+  }
+}
+
+@mixin trait-name {
+  .property-name {
+    font-style: italic;
+    font-weight: normal;
+
+    &::after {
+      content: ":";
+      margin: 0
+    }
+  }
+}
+
+@mixin abilities-header {
+  text-decoration: underline;
+  font-size: initial;
+  letter-spacing: initial;
+  border-bottom: none;
+}
+
+@mixin ability-indent {
+  .property {
+    padding-left: 2ch;
+
+    .property-name {
+      margin-left: -2ch;
+    }
+
+    .statblock-nested-traits {
+      margin-left: 0;
+    }
+  }
+}
+
+@mixin description-indent {
+  p {
+    display: inline-block;
+    margin: 0;
+
+    + p {
+      text-indent: 2em;
+    }
+  }
+}

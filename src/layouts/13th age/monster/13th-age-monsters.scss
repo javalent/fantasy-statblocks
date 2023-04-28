@@ -1,0 +1,108 @@
+// Sass imports
+@import '../base-css';
+
+.statblock.basic-13th-age-monster-layout {
+  @include basics;
+
+  .statblock-item-container:has( .actions) {
+    margin-bottom: 0.5em;
+  }
+
+  .heading-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  // Font settings
+  .flavor-text {
+    font-style: italic;
+  }
+
+  p.monster-strength {
+    font-style: italic;
+    margin: 0;
+
+    &::first-letter {
+      text-transform: capitalize;
+    }
+
+    .type {
+      margin-left: 1ch;
+      font-style: normal;
+      font-variant: var(--statblock-section-heading-font-variant);
+      text-transform: capitalize;
+    }
+  }
+
+  .initiative .statblock-markdown p::before {
+    content: "+";
+  }
+
+  .initiative, .vulnerability {
+    .property-name {
+      font-weight: normal;
+    }
+  }
+
+  .statblock-item-container {
+    @include ability-indent;
+
+    .actions, .triggered_actions {
+      @include attack-name;
+    }
+
+    .traits, .nastier_traits {
+      @include trait-name;
+    }
+
+    .statblock-nested-traits, .mook {
+      @include trait-name;
+
+      .property-name {
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  .section-header {
+    &.nastier-specials, &.triggered-abilities {
+      @include abilities-header
+    }
+  }
+
+  .monster-description {
+    @include description-indent
+  }
+
+  // Recreating the 13th Age Defenses block
+  .defense-block {
+    display: grid;
+    margin: 0 15% 0 15%;
+    padding-left: 0.5em;
+    background: linear-gradient(to right, #eae8d5, 75%, var(--statblock-background-color));
+    box-shadow: 0 0 0 0.1em var(--statblock-background-color);
+
+    .ac-block, .pd-block, .md-block {
+      grid-column: 1;
+    }
+
+    .hp-block {
+      grid-column: 2;
+      grid-row: 2;
+      columns: 2;
+    }
+
+    .hp-block, .ac-block {
+      font-weight: bolder;
+    }
+
+    .defense-line {
+      display: inline-flex;
+
+      * {
+        margin-left: 0.5em;
+      }
+    }
+  }
+}

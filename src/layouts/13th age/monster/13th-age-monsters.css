@@ -1,0 +1,151 @@
+@charset "UTF-8";
+@import url(https://rawcdn.githack.com/Gazook89/Homebrewery-Snippets/25bee83182e1e598fe6b07a482e53b9e6fb70e9e/13th-Age-Fonts.css);
+.statblock.basic-13th-age-monster-layout {
+  --statblock-primary-color: #000;
+  --statblock-rule-color: #000;
+  --statblock-background-color:#fefaf0;
+  --statblock-image-border-color: var(--statblock-primary-color);
+  --statblock-box-shadow-blur: 1em;
+  --statblock-font-color: var(--statblock-primary-color);
+  --statblock-content-font: serif;
+  --statblock-heading-font:masonregular, serif;
+  --statblock-heading-font-color: var(--statblock-font-color);
+  --statblock-heading-font-weight: var(--statblock-font-weight);
+  --statblock-heading-color: #2C2E35;
+  --statblock-property-font-color: var(--statblock-font-color);
+  --statblock-property-name-font-color: var(--statblock-font-color);
+  --statblock-section-heading-border-color: var(--statblock-primary-color);
+  --statblock-section-heading-font-color: var(--statblock-font-color);
+  text-align: justify;
+}
+.statblock.basic-13th-age-monster-layout .bar {
+  display: none;
+}
+.statblock.basic-13th-age-monster-layout h1, .statblock.basic-13th-age-monster-layout h2 {
+  text-align: left;
+  font-family: var(--statblock-heading-font);
+  font-weight: normal;
+  color: var(--statblock-heading-font-color);
+  font-size: 2em;
+  margin: 0;
+}
+.statblock.basic-13th-age-monster-layout .rule-container {
+  margin: 0;
+}
+.statblock.basic-13th-age-monster-layout .rule-container .tapered-rule {
+  background: none;
+  margin: 0;
+  height: 0.75em;
+}
+.statblock.basic-13th-age-monster-layout *:has(+ .rule-container) {
+  margin-bottom: 0 !important;
+}
+.statblock.basic-13th-age-monster-layout *:has(+ .rule-container) * {
+  margin-bottom: 0 !important;
+}
+.statblock.basic-13th-age-monster-layout .property-text {
+  text-align: left;
+}
+.statblock.basic-13th-age-monster-layout .statblock-item-container:has(.actions) {
+  margin-bottom: 0.5em;
+}
+.statblock.basic-13th-age-monster-layout .heading-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.statblock.basic-13th-age-monster-layout .flavor-text {
+  font-style: italic;
+}
+.statblock.basic-13th-age-monster-layout p.monster-strength {
+  font-style: italic;
+  margin: 0;
+}
+.statblock.basic-13th-age-monster-layout p.monster-strength::first-letter {
+  text-transform: capitalize;
+}
+.statblock.basic-13th-age-monster-layout p.monster-strength .type {
+  margin-left: 1ch;
+  font-style: normal;
+  font-variant: var(--statblock-section-heading-font-variant);
+  text-transform: capitalize;
+}
+.statblock.basic-13th-age-monster-layout .initiative .statblock-markdown p::before {
+  content: "+";
+}
+.statblock.basic-13th-age-monster-layout .initiative .property-name, .statblock.basic-13th-age-monster-layout .vulnerability .property-name {
+  font-weight: normal;
+}
+.statblock.basic-13th-age-monster-layout .statblock-item-container .property {
+  padding-left: 2ch;
+}
+.statblock.basic-13th-age-monster-layout .statblock-item-container .property .property-name {
+  margin-left: -2ch;
+}
+.statblock.basic-13th-age-monster-layout .statblock-item-container .property .statblock-nested-traits {
+  margin-left: 0;
+}
+.statblock.basic-13th-age-monster-layout .statblock-item-container .actions .property-name, .statblock.basic-13th-age-monster-layout .statblock-item-container .triggered_actions .property-name {
+  font-style: initial;
+  font-weight: bolder;
+}
+.statblock.basic-13th-age-monster-layout .statblock-item-container .actions .property-name::after, .statblock.basic-13th-age-monster-layout .statblock-item-container .triggered_actions .property-name::after {
+  margin-left: 1ch;
+  content: "—";
+}
+.statblock.basic-13th-age-monster-layout .statblock-item-container .traits .property-name, .statblock.basic-13th-age-monster-layout .statblock-item-container .nastier_traits .property-name {
+  font-style: italic;
+  font-weight: normal;
+}
+.statblock.basic-13th-age-monster-layout .statblock-item-container .traits .property-name::after, .statblock.basic-13th-age-monster-layout .statblock-item-container .nastier_traits .property-name::after {
+  content: ":";
+  margin: 0;
+}
+.statblock.basic-13th-age-monster-layout .statblock-item-container .statblock-nested-traits .property-name, .statblock.basic-13th-age-monster-layout .statblock-item-container .mook .property-name {
+  font-style: italic;
+  font-weight: normal;
+}
+.statblock.basic-13th-age-monster-layout .statblock-item-container .statblock-nested-traits .property-name::after, .statblock.basic-13th-age-monster-layout .statblock-item-container .mook .property-name::after {
+  content: ":";
+  margin: 0;
+}
+.statblock.basic-13th-age-monster-layout .statblock-item-container .statblock-nested-traits .property-name, .statblock.basic-13th-age-monster-layout .statblock-item-container .mook .property-name {
+  text-transform: capitalize;
+}
+.statblock.basic-13th-age-monster-layout .section-header.nastier-specials, .statblock.basic-13th-age-monster-layout .section-header.triggered-abilities {
+  text-decoration: underline;
+  font-size: initial;
+  letter-spacing: initial;
+  border-bottom: none;
+}
+.statblock.basic-13th-age-monster-layout .monster-description p {
+  display: inline-block;
+  margin: 0;
+}
+.statblock.basic-13th-age-monster-layout .monster-description p + p {
+  text-indent: 2em;
+}
+.statblock.basic-13th-age-monster-layout .defense-block {
+  display: grid;
+  margin: 0 15% 0 15%;
+  padding-left: 0.5em;
+  background: linear-gradient(to right, #eae8d5, 75%, var(--statblock-background-color));
+  box-shadow: 0 0 0 0.1em var(--statblock-background-color);
+}
+.statblock.basic-13th-age-monster-layout .defense-block .ac-block, .statblock.basic-13th-age-monster-layout .defense-block .pd-block, .statblock.basic-13th-age-monster-layout .defense-block .md-block {
+  grid-column: 1;
+}
+.statblock.basic-13th-age-monster-layout .defense-block .hp-block {
+  grid-column: 2;
+  grid-row: 2;
+  columns: 2;
+}
+.statblock.basic-13th-age-monster-layout .defense-block .hp-block, .statblock.basic-13th-age-monster-layout .defense-block .ac-block {
+  font-weight: bolder;
+}
+.statblock.basic-13th-age-monster-layout .defense-block .defense-line {
+  display: inline-flex;
+}
+.statblock.basic-13th-age-monster-layout .defense-block .defense-line * {
+  margin-left: 0.5em;
+}
