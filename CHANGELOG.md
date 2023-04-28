@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.5.12](https://github.com/javalent/fantasy-statblocks/compare/3.5.11...3.5.12) (2023-04-28)
+
+
+### Bug Fixes
+
+* PF2e popover fix ([c7ebb18](https://github.com/javalent/fantasy-statblocks/commit/c7ebb18df512ae65f261c1163f2e964a56696164))
+
 ## [3.5.11](https://github.com/javalent/fantasy-statblocks/compare/3.5.10...3.5.11) (2023-04-27)
 
 
