@@ -12,7 +12,7 @@ The bug tracker is **ONLY** used for reporting bugs.
 
 ## Version Check
 
-<!--- Please provide your current Obsidian application version, Obsidian Installer version, and operating system. If your installer version is not 1.1.9, please reinstall on top of your current install, and try your issue again first. -->
+<!--- Please provide your current Obsidian application version, Obsidian Installer version, and operating system. If your installer version is not **at least** 1.1.9, please reinstall on top of your current install, and try your issue again first. -->
 
 
 
