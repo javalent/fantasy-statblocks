@@ -227,7 +227,7 @@ Once you've installed your desired plugin, you can use `npm` to build new `main.
 Alternatively, you can use the `npm run dev` command for a more streamlined workflow after setting up your `.env` file:
 
 1. Create a file called .env in the source directory.
-2. Add the following line to the file: `OUTDIR="/absolute/path/to/your/vault/.obsidian/plugins/fantasy-calendar"`.
+2. Add the following line to the file: `OUTDIR="/absolute/path/to/your/vault/.obsidian/plugins/plugin-name"`. For example, we would use `OUTDIR="/absolute/path/to/your/vault/.obsidian/plugins/fantasy-calendar"` if we're working on the Fantasy Calendar plugin. 
 3. Run npm run dev in the source directory to build the `main.js` and `styles.css` files, and place them in the folder you specified in your `.env` file.
 4. Whenever you save changes, the dev script will automatically rebuild those files.
 
