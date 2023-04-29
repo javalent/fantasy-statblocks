@@ -25,7 +25,7 @@ The community is excited to see your contributions. 🎉.
 - [Suggesting Enhancements](CONTRIBUTING.md#suggesting-enhancements)
 - [Your First Code Contribution](CONTRIBUTING.md#your-first-code-contribution)
 - [Improving The Documentation](CONTRIBUTING.md#improving-the-documentation)
-- [Styleguides](CONTRIBUTING.md#styleguides)
+- [Styleguides](CONTRIBUTING.md#styleguide)
 - [Commit Messages](CONTRIBUTING.md#commit-messages)
 - [Join The Project Team](CONTRIBUTING.md#join-the-project-team)
 
@@ -208,10 +208,29 @@ Your feature request will be considered, prioritized, and batched with similar c
 ```
 
 ### Your First Code Contribution
-<!-- TODO
-include Setup of env, IDE and typical getting started instructions?
 
--->
+### Building the Project
+
+#### Building from Source
+
+Once you've installed your desired plugin, you can use `npm` to build new `main.js` and `styles.css` files from the source:
+
+1. Open your terminal and navigate to the `source directory`, then run `npm install`.
+2. Trigger `npm run build` to generate the `main.js` and `styles.css` files inside the `source directory`.
+3. Go to the appropriate `javalent-plugin` folder located in your vault's plugins directory, and replace the existing `main.js` and `styles.css` files with the newly generated ones.
+4. To start using the new files, reload Obsidian. 
+   4.a.
+   If you have the [Hot-Reload](https://github.com/pjeby/hot-reload) Obsidian plugin installed,
+   the reload process will be automated for you.
+
+#### Building from .env
+
+Alternatively, you can use the `npm run dev` command for a more streamlined workflow after setting up your `.env` file:
+
+1. Create a file called .env in the source directory.
+2. Add the following line to the file: `OUTDIR="/absolute/path/to/your/vault/.obsidian/plugins/fantasy-calendar"`.
+3. Run npm run dev in the source directory to build the `main.js` and `styles.css` files, and place them in the folder you specified in your `.env` file.
+4. Whenever you save changes, the dev script will automatically rebuild those files.
 
 #### Default Code Issue Template:
 
@@ -249,20 +268,21 @@ include Setup of env, IDE and typical getting started instructions?
 ```
 
 ### Improving The Documentation
-- Do you see any areas of documentation that are unclear?
-- Do you think there is a section that you want to expand on?
+- Do you see any areas of documentation that seem confusing or unclear?
+- Do you see a section that you want to expand on?
 - Do you want to add a funny note, a song or a sarcastic vibe?
 
 Create a [[Github Policies|Github Issue]] in the appropriate documentation repository stating what you think should change. If you're creating an Issue on how you would like to contribute, please include two sample paragraphs of your writing.
 
-- **1st Sample**: *Narrative/Storytelling Writing*. Much of the documentation mixes between using metaphor and analogy to explain concepts that would otherwise not be perceived as beginner-friendly.
+- **1st Sample**: *Narrative/Storytelling Writing*. Much of the documentation mixes between using metaphor and analogy to explain concepts that would otherwise not qualify as beginner-friendly.
 - **2nd Sample**: *Technical Writing*. In certain cases, we do revert to Technical Writing, which is formalized and micromanaged. When writing in this way, anyone can perform these steps and reach the result.
 
 Both can be freestyle. It could at first be a storytelling guide about how to cook, and then a technical recipe about making a good sandwich. Have fun with it. These samples aren't a test or to judge, but an ***introduction to you***. We will never say no to help.
 
-## Styleguides
+## Styleguide
+
 ### Commit Messages
-This repository uses Semver style commit messages, specifically from [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). This is to help with automation of versioning and changelog generation.
+This repository uses Semver style commit messages, specifically from [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/). This requirement exists to **faciliate automated versioning and changelog generation**. We don't expect perfection, but do your best to get comfortable with these conventions if you're not familiar with them.
 
 ## Join The Project Team
 Want to officially join the project? Message javalent#3452 on Discord. 
