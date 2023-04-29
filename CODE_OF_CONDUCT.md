@@ -2,7 +2,7 @@
 
 ## Our Commitment
 
-As contributors and maintainers of Fantasy Statblocks, we're committed to creating and maintaining an open and welcoming environment. We pledge to make participation in our project and community a harassment-free experience for everyone.
+As contributors and maintainers of Fantasy Statblocks, we are committed to creating and maintaining an open and welcoming environment. We pledge to make participation in our project and community a harassment-free experience for everyone.
 
 ## Our Standards
 
@@ -36,7 +36,7 @@ For instance, as when as in other GitHub repositories in which you are invoking 
 
 ## Enforcement
 
-If you witness or experience any abusive, harassing, or otherwise unacceptable behavior in our community, please report it to the community leaders responsible for enforcement at [Discord](https://discord.com/channels/686053708261228577/932707309195493416). You may message LittleMaelstrom#6794 or javalent
+If you witness or experience any abusive, harassing, or, otherwise unacceptable behavior in our community, please report it to the community leaders responsible for enforcement at [Discord](https://discord.com/channels/686053708261228577/932707309195493416). You may message LittleMaelstrom#6794 or javalent
 #3452. If we're unavailable, you may also notify sklore#8618.
 
 All complaints will be promptly and fairly reviewed and investigated by the community leaders.
@@ -46,7 +46,7 @@ and community leaders respect the privacy and security of reporters, no matter t
 
 ### Enforcement Guidelines
 
-When determining the consequences for any action that violates this Code of Conduct, community leaders will follow these Community Impact Guidelines:
+When determining the consequences of any action that violates this Code of Conduct, community leaders will follow these Community Impact Guidelines:
 
 1. Correction
 **Community Impact**: Use inappropriate language or other behavior deemed intentionally inflammatory or unwelcome in the community.
