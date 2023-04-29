@@ -219,8 +219,7 @@ Once you've installed your desired plugin, you can use `npm` to build new `main.
 2. Trigger `npm run build` to generate the `main.js` and `styles.css` files inside the `source directory`.
 3. Go to the appropriate `javalent-plugin` folder located in your vault's plugins directory, and replace the existing `main.js` and `styles.css` files with the newly generated ones.
 4. To start using the new files, reload Obsidian. 
-   4.a.
-   If you have the [Hot-Reload](https://github.com/pjeby/hot-reload) Obsidian plugin installed,
+   4.a. If you have the [Hot-Reload](https://github.com/pjeby/hot-reload) Obsidian plugin installed,
    the reload process will be automated for you.
 
 #### Building from .env
