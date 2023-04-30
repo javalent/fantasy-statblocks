@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.6.1](https://github.com/javalent/fantasy-statblocks/compare/3.6.0...3.6.1) (2023-04-30)
+
+
+### Bug Fixes
+
+* fixes styling leaking to all links (close [#210](https://github.com/javalent/fantasy-statblocks/issues/210)) ([fde0ead](https://github.com/javalent/fantasy-statblocks/commit/fde0ead0a7fc7a8db8ab963c2ccf7ded24ea6fa4))
+
 ## [3.6.0](https://github.com/javalent/fantasy-statblocks/compare/3.5.12...3.6.0) (2023-04-28)
 
 
