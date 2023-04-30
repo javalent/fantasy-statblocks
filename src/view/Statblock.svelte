@@ -202,7 +202,7 @@
 
 <style>
 
-    :global(a) {
+    .statblock :global(a) {
         font-style: var(--statblock-link-style);
     }
     .container {
