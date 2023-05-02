@@ -152,7 +152,7 @@ export interface StatblockAPI {
     render(
         creature: Creature,
         statblockEl: HTMLDivElement,
-        display: string
+        display?: string
     ): Component;
     saveMonsters(homebrew: HomebrewCreature[]): unknown;
     hasCreature(name: string): boolean;
