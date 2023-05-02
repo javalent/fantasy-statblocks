@@ -39,7 +39,9 @@ title: '[Feature]: '
 * Operating System and version (desktop or mobile):
 
 
-## Are you willing to personally help out on this project, such as design, documentation, coding, project management, etc? (Bold One) Yes / No
+## Are you willing to personally help out on this project, such as design, documentation, coding, project management, etc? 
+(Bold One) Yes / No
+
 ### If yes, please answer the following:
 1. What resources and/or assistance will you need from the developer and team?
 2. What is your expected timeline of help?

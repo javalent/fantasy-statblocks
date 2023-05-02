@@ -2,6 +2,43 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.6.1](https://github.com/javalent/fantasy-statblocks/compare/3.6.0...3.6.1) (2023-04-30)
+
+
+### Bug Fixes
+
+* fixes styling leaking to all links (close [#210](https://github.com/javalent/fantasy-statblocks/issues/210)) ([fde0ead](https://github.com/javalent/fantasy-statblocks/commit/fde0ead0a7fc7a8db8ab963c2ccf7ded24ea6fa4))
+
+## [3.6.0](https://github.com/javalent/fantasy-statblocks/compare/3.5.12...3.6.0) (2023-04-28)
+
+
+### Features
+
+* Create a 13th Age monster layout ([#206](https://github.com/javalent/fantasy-statblocks/issues/206)) ([bafb2a0](https://github.com/javalent/fantasy-statblocks/commit/bafb2a04effb8634a705089117d8cf5dae947448))
+
+## [3.5.12](https://github.com/javalent/fantasy-statblocks/compare/3.5.11...3.5.12) (2023-04-28)
+
+
+### Bug Fixes
+
+* PF2e popover fix ([c7ebb18](https://github.com/javalent/fantasy-statblocks/commit/c7ebb18df512ae65f261c1163f2e964a56696164))
+
+## [3.5.11](https://github.com/javalent/fantasy-statblocks/compare/3.5.10...3.5.11) (2023-04-27)
+
+
+### Bug Fixes
+
+* Notify ObsidianTTRPG channel of releases ([d00b1bf](https://github.com/javalent/fantasy-statblocks/commit/d00b1bfaa29d445ab1b7208bb0b3fea3ee89e97b))
+
+## [3.5.10](https://github.com/javalent/fantasy-statblocks/compare/3.5.9...3.5.10) (2023-04-25)
+
+
+### Bug Fixes
+
+* remove logs ([7eebc67](https://github.com/javalent/fantasy-statblocks/commit/7eebc67fed26def762f9790b40b8aede8ad1ee44))
+* remove ttrp ([59dd7a3](https://github.com/javalent/fantasy-statblocks/commit/59dd7a37fe4ffd6c8072a3fc05b752ba283cc3cc))
+* Use new Dice Roller API hook to commonize dice strings ([6798f78](https://github.com/javalent/fantasy-statblocks/commit/6798f780bedd3245f8bc58e960d542bc2ce34606))
+
 ## [3.5.9](https://github.com/javalent/fantasy-statblocks/compare/3.5.8...3.5.9) (2023-04-24)
 
 
