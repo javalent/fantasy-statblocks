@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.6.2](https://github.com/javalent/fantasy-statblocks/compare/3.6.1...3.6.2) (2023-05-02)
+
+
+### Bug Fixes
+
+* fixes render function overwriting creature ([94a8a0a](https://github.com/javalent/fantasy-statblocks/commit/94a8a0a1a27f3fef936945b62072448aefd0a65a))
+
 ## [3.6.1](https://github.com/javalent/fantasy-statblocks/compare/3.6.0...3.6.1) (2023-04-30)
 
 
