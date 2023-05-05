@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.6.3](https://github.com/javalent/fantasy-statblocks/compare/3.6.2...3.6.3) (2023-05-05)
+
+
+### Bug Fixes
+
+* expose bestiary in API ([7de02d3](https://github.com/javalent/fantasy-statblocks/commit/7de02d3c6f06a633db914098eed1ecf5565480a8))
+
 ## [3.6.2](https://github.com/javalent/fantasy-statblocks/compare/3.6.1...3.6.2) (2023-05-02)
 
 

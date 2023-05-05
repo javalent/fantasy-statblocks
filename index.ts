@@ -167,4 +167,5 @@ export interface StatblockAPI {
     getCreatureFromBestiary(name: string): Partial<Monster> | null;
     settings: StatblockData;
     data: Map<string, Monster>;
+    bestiary: Map<string, Monster>;
 }
