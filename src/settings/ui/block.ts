@@ -1,4 +1,3 @@
-import type { Monster } from "types";
 import copy from "fast-copy";
 import { Modal, Notice, Setting, TextAreaComponent } from "obsidian";
 import type {
@@ -25,6 +24,7 @@ import SubheadingProperty from "./SubheadingProperty.svelte";
 import IfElseConditions from "./IfElseConditions.svelte";
 import { editorFromTextArea, nanoid } from "src/util/util";
 import { EditorView } from "@codemirror/view";
+import type { Monster } from "index";
 
 export function getModalForBlock(
     plugin: StatBlockPlugin,
