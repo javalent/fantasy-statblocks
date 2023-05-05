@@ -1,12 +1,8 @@
 # Fantasy Statblocks
 
-Create, manage, and view a Fantasy Bestiary in Obsidian.md.
+Create, manage and view a Fantasy Bestiary in [Obsidian](https://obsidian.md/).
 
 <img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/example.PNG">
-
-> **:pencil: Homebrew**
->
-> The plugin is used to manage
 
 # Usage
 
@@ -798,9 +794,21 @@ Please ensure you have automated backups.
 
 If you're using Obsidian to run/plan a TTRPG, you may find my other plugin useful:
 
--   [Obsidian Leaflet](https://github.com/valentine195/obsidian-leaflet-plugin) - Add interactive maps to Obsidian.md notes
--   [Dice Roller](https://github.com/valentine195/obsidian-dice-roller) - Inline dice rolling for Obsidian.md
--   [Initiative Tracker](https://github.com/valentine195/obsidian-initiative-tracker) - Track TTRPG Initiative in Obsidian
+-   [Obsidian Leaflet](https://github.com/valentine195/obsidian-leaflet-plugin) – Add interactive maps to Obsidian.md notes
+-   [Dice Roller](https://github.com/valentine195/obsidian-dice-roller) – Inline dice rolling for Obsidian.md
+-   [Initiative Tracker](https://github.com/valentine195/obsidian-initiative-tracker) – Track TTRPG Initiative in Obsidian
 
 <a href="https://www.buymeacoffee.com/valentine195"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=valentine195&button_colour=e3e7ef&font_colour=262626&font_family=Inter&outline_colour=262626&coffee_colour=ff0000"></a>
 
+## Attributions
+
+### 13th Age Community License Disclosure
+Fantasy Statblocks uses trademarks and/or copyrights owned by Fire Opal Media Inc., which are used under the Fire Opal Media Inc., 13th Age Community Use Policy. 
+We are expressly prohibited from charging you to use or access this content. 
+Fantasy Statblocks is not published, endorsed or specifically approved by Fire Opal Media.
+
+### PF2E Community Use Disclosure
+Fantasy Statblocks uses trademarks and/or copyrights owned by Paizo Inc., used under Paizo's Community Use Policy (paizo.com/communityuse).
+We are expressly prohibited from charging you to use or access this content. 
+Fantasy Statblocks is not published, endorsed, or specifically approved by Paizo. 
+For more information about Paizo Inc. and Paizo products, visit paizo.com.
