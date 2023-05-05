@@ -621,7 +621,7 @@ ${e.stack
         const monster: Monster = Object.assign<
             Partial<Monster>,
             HomebrewCreature
-        >(this.bestiary.get(creature.name) ?? {}, { ...creature }) as Monster;
+        >({}, fastCopy(this.bestiary.get(creature.name) ?? {}), fastCopy(creature)) as Monster;
         if (!monster) return null;
         if (display) {
             monster.name = display;
