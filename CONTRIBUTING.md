@@ -95,45 +95,8 @@ After submitting your bug report, our team will take the following steps:
 - Attempt to reproduce the issue using the steps provided. If the issue can't be reproduced, we may ask you for additional information and mark the issue as “discovery”.
 - If the issue can be reproduced, it will be re-prioritized and possibly have other tags added, and left for [someone](#your-first-code-contribution) to implement the solution.
 
-##### The current version of the Bug Template Issue is below:
-```md
-# Version Check
 
-<!--- Please provide your current Obsidian application version, Obsidian Installer version, and operating system. If your installer version is not **at least** 1.1.9, please reinstall on top of your current install, and try your issue again first. -->
-
-
-
-<!--- Provide a general summary of the issue in the Title above -->
-
-## What is the expected behavior?
-<!--- Tell us what should happen. Can you cite documentation as well in case it needs updating? -->
-
-
-## What is the current behavior?
-<!--- Tell us what happens instead of the expected behavior -->
-
-
-## What are the A-to-Z Steps to Reproduce your Bug?
-<!--- Provide a link to a live example, or an unambiguous set of steps to -->
-<!--- Reproduce this bug. Include code to reproduce -->
-1.
-2.
-3.
-4.
-
-
-## Error Codes
-<!--- Did Obsidian give you any Error Codes in the Developer Tools? Any other context? -->
-<!--- Providing context helps us come up with a solution that is most useful in the real world -->
-
-<!--- Provide a general summary of the issue in the Title above -->
-
-
-## Screenshots and Video
-<!--- Provide a screenshot, a gif, or video. This helps add additional context and points out more of what is happening. -->
-```
-
-### Suggesting Enhancements
+### Suggesting Features
 
 This section guides you through submitting an enhancement suggestion for Fantasy Statblocks,
 **including completely new features and minor improvements to existing functionality**.
@@ -143,15 +106,16 @@ and the community is to understand your suggestion and find related suggestions.
 <!-- omit in toc -->
 #### Before Submitting an Enhancement
 
-- Make sure that you're using the latest version of Obsidian and that your installer version is 1.1.9 or newer.
+- Make sure that you're using the latest version of Obsidian and that your installer version is 1.2.5 or newer.
 - Read the [documentation](https://plugins.javalent.com/statblocks) carefully and find out if the functionality is already covered, maybe by an individual configuration.
 - Perform a [search](https://github.com/javalent/fantasy-statblocks/issues) to see if the enhancement has already been suggested. If it has, add a comment to the existing issue instead of opening a new one.
-- Find out whether your idea fits with the scope and aims of the project. It is up to you to make a strong case to convince the project's developers the merits of this feature. Keep in mind that we want features that will be useful to most of our users and not a small subset. If you're targeting a small number of users, consider writing an add-on/plugin library to be added in.
+- Consider posting in the [Ideas section](https://github.com/javalent/fantasy-statblocks/discussions/categories/ideas) of the Discussion Forum for communal vetting of your idea. 
+- Additionally, find out whether your idea fits with the scope and aims of the project. It is up to you to make a strong case to convince the project's developers the merits of this feature. Keep in mind that we want features that will be useful to most of our users and not a small subset. If you're targeting a small number of users, consider writing an add-on/plugin library to be added in.
 
 <!-- omit in toc -->
 #### How Do I Submit a Good Enhancement Suggestion?
 
-Enhancement suggestions are tracked as [GitHub issues](https://github.com/javalent/fantasy-statblocks/issues).
+Feature suggestions are tracked as [GitHub issues](https://github.com/javalent/fantasy-statblocks/issues).
 
 - Ensure that the issue title is clear and descriptive, accurately reflecting the suggestion being made.
 - Provide a detailed step-by-step description of the suggested enhancement, including as much relevant information as possible.
@@ -159,53 +123,6 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/javale
 - Consider including screenshots or animated GIFs to demonstrate the steps or highlight the relevant part of the project. Tools such as LiceCap (for macOS and Windows) or Silentcast and Byzanz (for Linux) may be helpful. (Note: this only applies if the project has a GUI.)
 - Explain how the suggested enhancement would benefit most Fantasy Statblocks users. You may also want to provide examples of other projects that've successfully implemented similar features for inspiration.
 
-##### The current version of the Enhancement Template Issue is below:
-```md
-> Thank you for submitting a request! 
->
-> Please answer the following carefully to help us triage implementation priority appropriately. 
-
-# Summary
-
-
-<!--- Provide a general summary of the issue in the Title above -->
-
-## Detailed Description
-<!--- Provide a detailed description of the change or addition you are proposing -->
-
-## Context and Use Case
-<!--- Why is this change important to you? How would you use it? -->
-<!--- How can it benefit other users? -->
-
-## Possible Implementation(s)
-<!--- Not obligatory, but suggest an idea for implementing addition or change -->
-
-
-## Argue against Yourself
-<!--- Is there any reason why this should not be implemented here? -->
-<!--- Are there other avenues such as Obsidian, or other Plugins, where this request is more appropriate? -->
-<!--- We ask this because sometimes this is the case, and in other times, we may need to coordinate with other developers or with the Obsidian Team on a request. -->
-
-## Your Environment
-<!--- Include as many relevant details about the environment you experienced the bug in -->
-* Obsidian Version used:
-* Obsidian Installer used: 
-* Operating System and version (desktop or mobile):
-
-
-## Are you willing to personally help out on this project, such as design, documentation, coding, project management, etc? 
-(Bold One) Yes / No
-
-### If yes, please answer the following:
-1. What resources and/or assistance will you need from the developer and team?
-2. What is your expected timeline of help?
-3. Are there any scheduling conflicts that would require you to back out if this was picked up to be worked on today, or next week, or next month?
-4. Would you be willing to set some time aside to talk to @Sigrunixia and/or @Javalent on discord to figure out how best to help us help you get what you want out of this request?
-
-### If No
-
-Your feature request will be considered, prioritized, and batched with similar changes if it is decided it will be worked.
-```
 
 ### Your First Code Contribution
 
@@ -230,41 +147,6 @@ Alternatively, you can use the `npm run dev` command for a more streamlined work
 2. Add the following line to the file: `OUTDIR="/absolute/path/to/your/vault/.obsidian/plugins/plugin-name"`. For example, we would use `OUTDIR="/absolute/path/to/your/vault/.obsidian/plugins/fantasy-calendar"` if we're working on the Fantasy Calendar plugin. 
 3. Run npm run dev in the source directory to build the `main.js` and `styles.css` files, and place them in the folder you specified in your `.env` file.
 4. Whenever you save changes, the dev script will automatically rebuild those files.
-
-#### Default Code Issue Template:
-
-```md
-
-# Summary
-<!--- Provide a general summary of your changes in the Title above -->
-
-## Description
-<!--- Describe your changes in detail -->
-
-## Motivation and Context
-<!--- Why is this change required? What problem does it solve? -->
-<!--- Alternatively, how does this make the plugin better? -->
-
-## How Has This Been Tested?
-<!--- Please describe in detail how you tested your changes. -->
-<!--- Include details of your testing environment, and the tests you ran to -->
-<!--- see how your change affects other areas of the code, etc. -->
-
-## Screenshots (if appropriate):
-
-## Types of changes
-<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
-- [ ] Bug fix (non-breaking change that fixes an issue)
-- [ ] New feature (non-breaking change that adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to change)
-
-## Checklist:
-<!--- Go over all the following points, and put an `x` in all the boxes that apply. -->
-<!--- If you're unsure about any of these, don't hesitate to ask. We're here to help! -->
-- [ ] My code follows the code style of this project.
-- [ ] My change requires a change to the documentation (Please open a Documentation Report issue using the template provided in the issue templates).
-
-```
 
 ### Improving The Documentation
 - Do you see any areas of documentation that seem confusing or unclear?
