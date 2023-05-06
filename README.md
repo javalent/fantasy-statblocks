@@ -1,5 +1,9 @@
 # Fantasy Statblocks
 
+
+> Warning: We are beginning a Readme transition to [Javalent's Plugins Documentation](https://plugins.javalent.com/home) in all Javalent repositories. Please bookmark this link and check it first before referring to this readme.
+
+
 Create, manage and view a Fantasy Bestiary in [Obsidian](https://obsidian.md/).
 
 <img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/example.PNG">
@@ -8,7 +12,7 @@ Create, manage and view a Fantasy Bestiary in [Obsidian](https://obsidian.md/).
 
 A statblock may be defined in a note using the syntax below.
 
-All fields are optional - if not provided, that Statblock will simply not render them.
+All fields are optional—if not provided, that Statblock will simply not render them.
 
 The `monster` field may be combined with other fields to override the field. See [Overriding Fields](#Overriding-Fields).
 
@@ -137,7 +141,7 @@ traits+:
 
 ## Extending
 
-The `extends` key can be used to extend *extend* an existing creature, similar to the `monster` key shown in Overriding Fields. The difference is the resulting monster is not combined; it maintains a link to the base creature. This allows you to, for example, create a named version of a Goblin; any changes to the base Goblin will propagate to the extension.
+The `extends` key can be used to extend** an existing creature, similar to the `monster` key shown in Overriding Fields. The difference is the resulting monster is not combined; it maintains a link to the base creature. This allows you to, for example, create a named version of a Goblin; any changes to the base Goblin will propagate to the extension.
 
 This key supports a single creature name or an array of creatures. Fields from creatures specified later will take precedence, with any fields directly defined in the statblock taking final precedence.
 
