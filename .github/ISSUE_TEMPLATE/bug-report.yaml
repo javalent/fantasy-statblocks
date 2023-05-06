@@ -8,7 +8,7 @@ body:
         ## Before you begin
         Make sure to use the latest version of **Fantasy Statblocks**. 
         If you face any issues after installing, updating, or reloading the plugin, try restarting Obsidian before reporting the bug.
-        Also, please make sure you **read and understand the [guide for good bug reports](https://publish.obsidian.md/tasks/Support+and+Help/Report+a+Bug)**.
+        Also, please make sure you **read and understand the [guide for good bug reports](https://plugins.javalent.com/support/report-bug)**.
 
   - type: checkboxes
     id: duplicate-issues
