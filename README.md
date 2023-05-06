@@ -385,11 +385,11 @@ description: "<h2>Icons</h2><p>It is said that wizards trained by the original W
 
 #### One Column
 
-![13th Age Chimera 1-col](./src/layouts/13th%20age/monster/examples/chimera-1-col.png)
+![13th Age Chimera 1-col](src/layouts/13th%20age/monster/publish/chimera-1-col.png)
 
 #### Two Columns
 
-![13th Age Chimera 2-cols](./src/layouts/13th%20age/monster/examples/chimera-2-cols.png)
+![13th Age Chimera 2-cols](src/layouts/13th%20age/monster/publish/chimera-2-cols.png)
 
 ## Columns
 
