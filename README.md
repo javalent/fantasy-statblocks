@@ -1,5 +1,9 @@
 # Fantasy Statblocks
 
+
+> Warning: We are beginning a Readme transition to [Javalent's Plugins Documentation](https://plugins.javalent.com/home) in all Javalent repositories. Please bookmark this link and check it first before referring to this readme.
+
+
 Create, manage and view a Fantasy Bestiary in [Obsidian](https://obsidian.md/).
 
 <img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/example.PNG">
