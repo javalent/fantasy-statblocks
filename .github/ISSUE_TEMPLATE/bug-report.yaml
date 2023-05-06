@@ -37,9 +37,9 @@ body:
       required: true
 
   - type: textarea
-    id: reproduce
+    id: reproduction
     attributes:
-      label: Steps to reproduce
+      label: Reproduction
       description: |
        Please provide us with the exact steps to reproduce the issue. 
        The more detail you provide, the easier it will be for us to narrow down and fix the bug. 
