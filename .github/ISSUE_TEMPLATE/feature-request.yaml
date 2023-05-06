@@ -5,7 +5,7 @@ body:
   - type: checkboxes
     id: duplicate-issues
     attributes:
-      label: "⚠️ Please make sure this feature request hasn't been suggested before."
+      label: "Please make sure this feature request hasn't been suggested before."
       description: "Before submitting a feature request, please check if it has already been suggested in our Discussions or Issues pages. Use the **Label filters** to refine your search. Thank you."
       options:
         - label: "I searched previous [Statblocks Discussions](https://github.com/javalent/fantasy-statblocks/discussions) and didn't find any similar feature requests."
@@ -35,7 +35,7 @@ body:
   - type: textarea
     id: alternatives
     validations:
-      required: false
+      required: true
     attributes:
       label: "Alternatives"
       description: "Please provide any alternative solutions or features you've considered. Be clear and concise."
@@ -44,7 +44,7 @@ body:
   - type: textarea
     id: additional-context
     validations:
-      required: false
+      required: true
     attributes:
       label: "Additional Information"
       description: "If you have any additional context or screenshots related to your feature request, please add them here."
