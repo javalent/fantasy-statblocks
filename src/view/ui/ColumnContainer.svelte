@@ -1,6 +1,4 @@
 <script lang="ts">
-    import type { Monster, Trait } from "types";
-
     import Traits from "./Traits.svelte";
     import Heading from "./Heading.svelte";
     import PropertyLine from "./PropertyLine.svelte";
@@ -19,6 +17,7 @@
     import Content from "./Content.svelte";
     import SpellItem from "./SpellItem.svelte";
     import type StatBlockPlugin from "src/main";
+    import type { Monster, Trait } from "index";
 
     const dispatch = createEventDispatcher();
 
@@ -511,7 +510,7 @@
     if (!targets.length) {
         for (let item of statblock) {
             const elements = getElementForStatblockItem(item);
-            targets.push(...elements);
+            if (elements?.length) targets.push(...elements);
         }
     }
 
