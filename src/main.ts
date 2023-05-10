@@ -21,9 +21,13 @@ import StatblockSettingTab from "./settings/settings";
 import fastCopy from "fast-copy";
 
 import { sort } from "fast-sort";
-import { type Plugins, ExpectedValue, HomebrewCreature } from "obsidian-overload";
+import {
+    type Plugins,
+    ExpectedValue,
+    HomebrewCreature
+} from "obsidian-overload";
 import { Watcher } from "./watcher/watcher";
-import type { DefaultLayout, Layout } from "../types/layout";
+import type { DefaultLayout, Layout, StatblockItem } from "../types/layout";
 import { Layout5e } from "./layouts/basic 5e/basic5e";
 import { StatblockSuggester } from "./suggest";
 import { DefaultLayouts } from "./layouts";
@@ -148,7 +152,9 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
     }
     getRollerString(str: string) {
         if (!this.canUseDiceRoller) return str;
-        return this.app.plugins.getPlugin("obsidian-dice-roller")?.api.getRollerString(str, DICE_ROLLER_SOURCE);
+        return this.app.plugins
+            .getPlugin("obsidian-dice-roller")
+            ?.api.getRollerString(str, DICE_ROLLER_SOURCE);
     }
     get canUseDiceRoller() {
         if (this.app.plugins.getPlugin("obsidian-dice-roller") != null) {
@@ -330,6 +336,21 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
                 (layout) =>
                     !this.settings.defaultLayouts.find((l) => l.id == layout.id)
             );
+        }
+
+        function fixSpells(...blocks: StatblockItem[]) {
+            for (const block of blocks) {
+                if (block.type == "spells") {
+                    if (!block.properties.length)
+                        block.properties.push("spells");
+                }
+                if ("nested" in block) {
+                    fixSpells(...block.nested);
+                }
+            }
+        }
+        for (const layout of this.settings.layouts) {
+            fixSpells(...layout.blocks);
         }
 
         const version = this.manifest.version.split(".");
@@ -621,7 +642,11 @@ ${e.stack
         const monster: Monster = Object.assign<
             Partial<Monster>,
             HomebrewCreature
-        >({}, fastCopy(this.bestiary.get(creature.name) ?? {}), fastCopy(creature)) as Monster;
+        >(
+            {},
+            fastCopy(this.bestiary.get(creature.name) ?? {}),
+            fastCopy(creature)
+        ) as Monster;
         if (!monster) return null;
         if (display) {
             monster.name = display;
