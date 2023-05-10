@@ -599,6 +599,7 @@ class SavesModal extends MarkdownEnabledModal<SavesItem> {
 
 class SpellsModal extends MarkdownEnabledModal<SpellsItem> {
     buildProperties(el: HTMLDivElement): void {
+        super.buildProperties(el);
         new Setting(this.contentEl)
             .setName("Trait Name")
             .setDesc(
