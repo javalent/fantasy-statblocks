@@ -1,18 +1,18 @@
 # Fantasy Statblocks
 
-Create, manage, and view a Fantasy Bestiary in Obsidian.md.
+
+> Warning: We are beginning a Readme transition to [Javalent's Plugins Documentation](https://plugins.javalent.com/home) in all Javalent repositories. Please bookmark this link and check it first before referring to this readme.
+
+
+Create, manage and view a Fantasy Bestiary in [Obsidian](https://obsidian.md/).
 
 <img src="https://raw.githubusercontent.com/valentine195/obsidian-5e-statblocks/beta/images/example.PNG">
-
-> **:pencil: Homebrew**
->
-> The plugin is used to manage
 
 # Usage
 
 A statblock may be defined in a note using the syntax below.
 
-All fields are optional - if not provided, that Statblock will simply not render them.
+All fields are optional—if not provided, that Statblock will simply not render them.
 
 The `monster` field may be combined with other fields to override the field. See [Overriding Fields](#Overriding-Fields).
 
@@ -141,7 +141,7 @@ traits+:
 
 ## Extending
 
-The `extends` key can be used to extend *extend* an existing creature, similar to the `monster` key shown in Overriding Fields. The difference is the resulting monster is not combined; it maintains a link to the base creature. This allows you to, for example, create a named version of a Goblin; any changes to the base Goblin will propagate to the extension.
+The `extends` key can be used to extend** an existing creature, similar to the `monster` key shown in Overriding Fields. The difference is the resulting monster is not combined; it maintains a link to the base creature. This allows you to, for example, create a named version of a Goblin; any changes to the base Goblin will propagate to the extension.
 
 This key supports a single creature name or an array of creatures. Fields from creatures specified later will take precedence, with any fields directly defined in the statblock taking final precedence.
 
@@ -389,11 +389,11 @@ description: "<h2>Icons</h2><p>It is said that wizards trained by the original W
 
 #### One Column
 
-![13th Age Chimera 1-col](./src/layouts/13th%20age/monster/examples/chimera-1-col.png)
+![13th Age Chimera 1-col](src/layouts/13th%20age/monster/publish/chimera-1-col.png)
 
 #### Two Columns
 
-![13th Age Chimera 2-cols](./src/layouts/13th%20age/monster/examples/chimera-2-cols.png)
+![13th Age Chimera 2-cols](src/layouts/13th%20age/monster/publish/chimera-2-cols.png)
 
 ## Columns
 
@@ -798,9 +798,21 @@ Please ensure you have automated backups.
 
 If you're using Obsidian to run/plan a TTRPG, you may find my other plugin useful:
 
--   [Obsidian Leaflet](https://github.com/valentine195/obsidian-leaflet-plugin) - Add interactive maps to Obsidian.md notes
--   [Dice Roller](https://github.com/valentine195/obsidian-dice-roller) - Inline dice rolling for Obsidian.md
--   [Initiative Tracker](https://github.com/valentine195/obsidian-initiative-tracker) - Track TTRPG Initiative in Obsidian
+-   [Obsidian Leaflet](https://github.com/valentine195/obsidian-leaflet-plugin) – Add interactive maps to Obsidian.md notes
+-   [Dice Roller](https://github.com/valentine195/obsidian-dice-roller) – Inline dice rolling for Obsidian.md
+-   [Initiative Tracker](https://github.com/valentine195/obsidian-initiative-tracker) – Track TTRPG Initiative in Obsidian
 
 <a href="https://www.buymeacoffee.com/valentine195"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=valentine195&button_colour=e3e7ef&font_colour=262626&font_family=Inter&outline_colour=262626&coffee_colour=ff0000"></a>
 
+## Attributions
+
+### 13th Age Community License Disclosure
+Fantasy Statblocks uses trademarks and/or copyrights owned by Fire Opal Media Inc., which are used under the Fire Opal Media Inc., 13th Age Community Use Policy. 
+We are expressly prohibited from charging you to use or access this content. 
+Fantasy Statblocks is not published, endorsed or specifically approved by Fire Opal Media.
+
+### PF2E Community Use Disclosure
+Fantasy Statblocks uses trademarks and/or copyrights owned by Paizo Inc., used under Paizo's Community Use Policy (paizo.com/communityuse).
+We are expressly prohibited from charging you to use or access this content. 
+Fantasy Statblocks is not published, endorsed, or specifically approved by Paizo. 
+For more information about Paizo Inc. and Paizo products, visit paizo.com.

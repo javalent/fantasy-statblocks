@@ -14,7 +14,7 @@ tags: [Statblocks/Layout/PF2e]
 
 This page provides a basic code block for the Pathfinder 2e layout included within Fantasy Statblocks.
 
-The layout includes all the essential [[Key|Key]] information needed to create a creature, now it is up to you and your imagination to do the rest. Make it's abilities, attacks, and skills. Give it spells, or an image. Turn your favorite character into a statblock, or even the building across the street.
+The layout includes all the essential [[Key|Key]] information needed to create a creature, now it is up to you and your imagination to do the rest. Make its abilities, attacks, and skills. Give it spells, or an image. Turn your favorite character into a statblock, or even the building across the street.
 
 ## Sample Image
 
