@@ -24,9 +24,10 @@ import { EditMonsterModal } from "./modal";
 import { Layout5e } from "src/layouts/basic 5e/basic5e";
 import type { DefaultLayout, Layout } from "types/layout";
 import { DefaultLayouts } from "src/layouts";
-import type { Monster } from "types";
 import { nanoid, stringify } from "src/util/util";
 import { DICE_ROLLER_SOURCE } from "src/main";
+import type { Monster } from "index";
+import { ExpectedValue } from "obsidian-overload";
 
 export default class StatblockSettingTab extends PluginSettingTab {
     importer: Importer;
@@ -182,7 +183,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                         this.plugin.settings.renderDice,
                                     showFormula: false,
                                     showParens: false,
-                                    expectedValue: "Average",
+                                    expectedValue: ExpectedValue.Average,
                                     text: null
                                 });
                         }
