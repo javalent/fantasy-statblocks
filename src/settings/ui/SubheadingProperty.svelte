@@ -1,8 +1,9 @@
 <script lang="ts">
-    import type { Monster } from "types";
-    import { ExtraButtonComponent, setIcon } from "obsidian";
+    import { ExtraButtonComponent } from "obsidian";
     import { createEventDispatcher } from "svelte";
     import { dndzone, SOURCES, TRIGGERS } from "svelte-dnd-action";
+    import { setNodeIcon } from "src/util";
+    import type { Monster } from "index";
 
     type PropItem = { prop: keyof Monster; id: string };
     export let properties: PropItem[] = [];
@@ -37,9 +38,6 @@
             dragDisabled = true;
         }
     }
-    const grip = (node: HTMLElement) => {
-        setIcon(node, "dropzone-grip");
-    };
 
     function startDrag(e: Event) {
         // preventing default to prevent lag on touch devices (because of the browser checking for screen scrolling)
@@ -98,7 +96,7 @@
         <div class="setting-item">
             <div
                 class="icon"
-                use:grip
+                use:setNodeIcon={"dropzone-grip"}
                 on:mousedown={startDrag}
                 on:touchstart={startDrag}
                 style={dragDisabled ? "cursor: grab" : "cursor: grabbing"}
@@ -107,7 +105,7 @@
                 {#if editing == property.id}
                     <input
                         type="text"
-                        placeholder={property.prop}
+                        placeholder={String(property.prop)}
                         bind:value={property.prop}
                     />
                 {:else}

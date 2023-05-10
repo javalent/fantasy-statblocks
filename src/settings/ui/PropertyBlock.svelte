@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { setIcon } from "obsidian";
-
     import type {
         CollapseItem,
         IfElseItem,
@@ -8,6 +6,7 @@
         StatblockItem
     } from "types/layout";
     import type StatBlockPlugin from "src/main";
+    import { setNodeIcon } from "src/util";
 
     export let block: Exclude<
         StatblockItem,
@@ -26,22 +25,6 @@
             })`;
         }
         return text[0].toUpperCase() + text.slice(1).toLowerCase();
-    };
-
-    const conditioned = (node: HTMLDivElement) => {
-        setIcon(node, "statblock-conditioned");
-    };
-    const dice = (node: HTMLDivElement) => {
-        setIcon(node, "dice-roller-dice");
-    };
-    const markdown = (node: HTMLDivElement) => {
-        setIcon(node, "markdown-icon");
-    };
-    const heading = (node: HTMLDivElement) => {
-        setIcon(node, "heading-glyph");
-    };
-    const code = (node: HTMLDivElement) => {
-        setIcon(node, "code-glyph");
     };
 
     const getLayoutName = (id: string) => {
@@ -77,35 +60,35 @@
         {#if "heading" in block}
             <div
                 class="context-item heading"
-                use:heading
+                use:setNodeIcon={"heading-glyph"}
                 aria-label="Has Heading"
             />
         {/if}
         {#if block.conditioned}
             <div
                 class="context-item conditioned"
-                use:conditioned
+                use:setNodeIcon={"statblock-conditioned"}
                 aria-label="Conditioned"
             />
         {/if}
         {#if "callback" in block}
             <div
                 class="context-item callback"
-                use:code
+                use:setNodeIcon={"code-glyph"}
                 aria-label="Has Callback"
             />
         {/if}
         {#if "dice" in block && block.dice}
             <div
                 class="context-item dice"
-                use:dice
+                use:setNodeIcon={"dice-roller-dice"}
                 aria-label="Will Parse for Dice Rolls"
             />
         {/if}
         {#if "markdown" in block && block.markdown}
             <div
                 class="context-item dice"
-                use:markdown
+                use:setNodeIcon={"markdown-icon"}
                 aria-label="Render markdown enabled"
             />
         {/if}

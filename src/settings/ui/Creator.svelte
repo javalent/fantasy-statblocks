@@ -9,11 +9,12 @@
     import Block from "./Block.svelte";
     import type StatBlockPlugin from "src/main";
     import { createEventDispatcher } from "svelte";
-    import { ExtraButtonComponent, Menu, setIcon } from "obsidian";
+    import { ExtraButtonComponent, Menu } from "obsidian";
     import { blockGenerator } from "../add";
     import { getModalForBlock } from "./block";
     import Rule from "src/view/ui/Rule.svelte";
     import { StatblockItem, TypeNames } from "types/layout";
+    import { setNodeIcon } from "src/util";
 
     const dispatch = createEventDispatcher();
 
@@ -50,9 +51,6 @@
             dragDisabled = true;
         }
     }
-    const grip = (node: HTMLElement) => {
-        setIcon(node, "dropzone-grip");
-    };
 
     function startDrag(e: Event) {
         // preventing default to prevent lag on touch devices (because of the browser checking for screen scrolling)
@@ -148,9 +146,6 @@
             .setIcon("trash")
             .setTooltip("Delete Block");
     };
-    const collapseIcon = (node: HTMLDivElement) => {
-        setIcon(node, "chevrons-down-up");
-    };
 </script>
 
 <div class="creator">
@@ -175,7 +170,7 @@
                         {#if draggable}
                             <div
                                 class="icon"
-                                use:grip
+                                use:setNodeIcon={"dropzone-grip"}
                                 on:mousedown={startDrag}
                                 on:touchstart={startDrag}
                                 style={dragDisabled
@@ -207,7 +202,7 @@
                                     <div
                                         class="statblock-creator-block collapse-container"
                                     >
-                                        <div use:collapseIcon />
+                                        <div use:setNodeIcon={"chevrons-down-up"} />
                                         <div class="collapsible">
                                             {#if block.heading}
                                                 <span>{block.heading}</span>

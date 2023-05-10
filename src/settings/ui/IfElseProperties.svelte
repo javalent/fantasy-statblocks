@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { setIcon, Setting } from "obsidian";
+    import {  Setting } from "obsidian";
     import type { IfElseCondition } from "types/layout";
     import { nanoid } from "src/util/util";
     import { createEventDispatcher } from "svelte";
@@ -7,6 +7,7 @@
     import type { Writable } from "svelte/store";
     import { blockGenerator } from "../add";
     import IfElseProperty from "./IfElseProperty.svelte";
+    import { setNodeIcon } from "src/util";
 
     type PropItem = { prop: IfElseCondition; id: string };
     /* export let conditions: IfElseCondition[] = []; */
@@ -50,9 +51,6 @@
             dragDisabled = true;
         }
     }
-    const grip = (node: HTMLElement) => {
-        setIcon(node, "dropzone-grip");
-    };
 
     function startDrag(e: Event) {
         // preventing default to prevent lag on touch devices (because of the browser checking for screen scrolling)
@@ -119,7 +117,7 @@
                 <div class="setting-item">
                     <div
                         class="icon"
-                        use:grip
+                        use:setNodeIcon={"dropzone-grip"}
                         on:mousedown={startDrag}
                         on:touchstart={startDrag}
                         style={dragDisabled

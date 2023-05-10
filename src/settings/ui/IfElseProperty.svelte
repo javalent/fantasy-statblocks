@@ -1,9 +1,10 @@
 <script lang="ts">
     import type { IfElseCondition } from "types/layout";
-    import { ExtraButtonComponent, setIcon, TextAreaComponent } from "obsidian";
+    import { ExtraButtonComponent, TextAreaComponent } from "obsidian";
     import { createEventDispatcher, onDestroy } from "svelte";
     import { EditorView } from "@codemirror/view";
     import { editorFromTextArea } from "src/util/util";
+    import { setNodeIcon } from "src/util";
 
     const dispatch = createEventDispatcher();
     export let condition: IfElseCondition;
@@ -29,9 +30,6 @@
             })
         );
     };
-    const warning = (node: HTMLElement) => {
-        setIcon(node, "alert-triangle");
-    };
     const editIcon = (node: HTMLElement) => {
         new ExtraButtonComponent(node).setIcon("pencil");
     };
@@ -53,7 +51,7 @@
     {:else}
         <div class="setting-item-name">
             {#if !condition || !condition.condition}
-                <div use:warning />
+                <div use:setNodeIcon={"alert-triangle"} />
                 <em>No condition set</em>
             {:else}
                 <code>

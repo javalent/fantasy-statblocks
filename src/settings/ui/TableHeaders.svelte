@@ -2,15 +2,15 @@
     import { flip } from "svelte/animate";
     import { dndzone, SHADOW_PLACEHOLDER_ITEM_ID } from "svelte-dnd-action";
     import { createEventDispatcher } from "svelte";
-    import { ExtraButtonComponent, setIcon } from "obsidian";
+    import { ExtraButtonComponent } from "obsidian";
     import { nanoid } from "src/util/util";
 
     const dispatch = createEventDispatcher();
 
-    interface Header {
+    type Header = {
         name: string;
         id: string;
-    }
+    };
 
     export let headers: string[];
     let items = headers.map((h) => {
@@ -44,9 +44,6 @@
             dragDisabled = true;
         } */
     }
-    const grip = (node: HTMLElement) => {
-        setIcon(node, "dropzone-grip");
-    };
 
     function startDrag(e: Event) {
         // preventing default to prevent lag on touch devices (because of the browser checking for screen scrolling)
@@ -81,13 +78,6 @@
                 class="header-container"
                 animate:flip={{ duration: flipDurationMs }}
             >
-                <!-- <div
-                    class="icon"
-                    use:grip
-                    on:mousedown={startDrag}
-                    on:touchstart={startDrag}
-                    style={dragDisabled ? "cursor: grab" : "cursor: grabbing"}
-                /> -->
                 <span class="table-header">{header.name}</span>
                 <div use:del on:click={() => trash(header)} />
             </div>

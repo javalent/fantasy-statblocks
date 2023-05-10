@@ -1,12 +1,8 @@
 <script lang="ts">
-    import { setIcon } from "obsidian";
+    import { setNodeIcon } from "src/util";
     import { createEventDispatcher } from "svelte";
 
     const dispatch = createEventDispatcher();
-
-    const grip = (node: HTMLElement) => {
-        setIcon(node, "dropzone-grip");
-    };
 
     function startDrag(e: Event) {
         // preventing default to prevent lag on touch devices (because of the browser checking for screen scrolling)
@@ -18,7 +14,7 @@
 <div class="block">
     <div
         class="icon"
-        use:grip
+        use:setNodeIcon={"dropzone-grip"}
         on:mousedown={startDrag}
         on:touchstart={startDrag}
     />
