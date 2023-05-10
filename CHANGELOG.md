@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.6.4](https://github.com/javalent/fantasy-statblocks/compare/3.6.3...3.6.4) (2023-05-10)
+
+
+### Bug Fixes
+
+* Fix empty spells properties ([ab4d9b3](https://github.com/javalent/fantasy-statblocks/commit/ab4d9b3fb4bd11e9ba71b1b5675494d9c43fa06d))
+* fixes crash when no statblock elements are created ([b2156fb](https://github.com/javalent/fantasy-statblocks/commit/b2156fb08469b79bca5c351f5fbcb0c31ed47c9e))
+* Spells blocks can now be linked to properties ([1b37258](https://github.com/javalent/fantasy-statblocks/commit/1b37258c02fefcbe5460ab2a4ed232fa31b65192))
+
 ## [3.6.3](https://github.com/javalent/fantasy-statblocks/compare/3.6.2...3.6.3) (2023-05-05)
 
 
