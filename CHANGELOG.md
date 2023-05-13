@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.6.5](https://github.com/javalent/fantasy-statblocks/compare/3.6.4...3.6.5) (2023-05-13)
+
+
+### Bug Fixes
+
+* Fixes custom trait duplication (close [#222](https://github.com/javalent/fantasy-statblocks/issues/222)) ([a281d5b](https://github.com/javalent/fantasy-statblocks/commit/a281d5b034af9357f967c8afd2397a36a43770fd))
+
 ## [3.6.4](https://github.com/javalent/fantasy-statblocks/compare/3.6.3...3.6.4) (2023-05-10)
 
 
