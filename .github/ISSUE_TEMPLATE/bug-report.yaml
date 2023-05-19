@@ -1,6 +1,9 @@
 name: Bug Report
 description: File a bug report
-labels: ["type: bug"]
+labels: bug
+title: "[Bug]: "
+assignees:
+ - Valentine195
 body:
   - type: markdown
     attributes:
@@ -85,9 +88,9 @@ body:
   - type: input
     id: plugin-version
     attributes:
-      label: Fantasy Statblocks Version
-      description: Which Fantasy Statblocks version are you using?
-      placeholder: 3.6.3
+      label: Plugin Version
+      description: Which Plugin version are you using?
+      placeholder: x.x.x
     validations:
       required: true
 
