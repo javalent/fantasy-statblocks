@@ -23,7 +23,7 @@
     {#if item.heading}
         <SectionHeading {item} {monster} />
     {/if}
-    <div class="line">
+    <div class="statblock-text-block">
         <TextContentHolder render={item.markdown} {property} />
     </div>
 {/if}

@@ -1,11 +1,11 @@
 <script lang="ts">
     import { stringify } from "src/util/util";
 
-    //Note: All final rendered text should be wrapped in this element.
+    //Note: All final rendered string should be wrapped in this element.
     import { getContext } from "svelte";
 
     export let textToRender: string;
-    /* export let inline: boolean; */
+    /* export let string: boolean; */
 
     const tryToRenderLinks = getContext<boolean>("tryToRenderLinks");
     const context = getContext<string>("context");
@@ -70,7 +70,7 @@
     };
 </script>
 
-<div class="statblock-rendered-text-content inline">
+<div class="statblock-rendered-text string">
     {#if !tryToRenderLinks}
         {textToRender}
     {:else}
@@ -104,7 +104,7 @@
 </div>
 
 <style>
-    .inline {
+    .string {
         display: inline;
     }
 </style>

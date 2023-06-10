@@ -34,7 +34,7 @@
                 link = plugin.app.vault.getResourcePath(file);
             }
         } catch (e) {
-            console.warn("No image could be loaded");
+            console.warn("No statblock-image-block could be loaded");
         }
         return link;
     }
@@ -50,7 +50,7 @@
             );
             if (props.length > 1) {
                 console.log(
-                    "Fantasy Statblocks: Multiple image properties provided, using first."
+                    "Fantasy Statblocks: Multiple statblock-image-block properties provided, using first."
                 );
             }
             const path = monster[props[0]] as string;
@@ -81,7 +81,7 @@
 
 {#if image}
     <div
-        class="image"
+        class="statblock-image-block"
         class:pointer={file != null}
         on:click={(evt) => open(evt)}
         on:mouseenter={(evt) => popover(evt)}
@@ -91,11 +91,11 @@
 {/if}
 
 <style>
-    .image {
+    .statblock-image-block {
         width: var(--statblock-image-width);
         height: var(--statblock-image-height);
     }
-    .image.pointer {
+    .statblock-image-block.pointer {
         cursor: pointer;
     }
     img {

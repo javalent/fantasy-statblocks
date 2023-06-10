@@ -25,13 +25,13 @@ const slugify = (header: string) =>
 </script>
 
 {#if header && header.length}
-    <h3 class="section-header {slugify(header)}">
+    <h3 class="statblock-section-header-block {slugify(header)}">
         <TextContent textToRender={header} />
     </h3>
 {/if}
 
 <style>
-    .section-header {
+    .statblock-section-header-block {
         border-bottom: var(--statblock-section-heading-border-size) solid
             var(--statblock-section-heading-border-color);
         color: var(--statblock-section-heading-font-color);

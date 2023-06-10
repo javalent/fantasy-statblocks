@@ -73,7 +73,7 @@
     width: auto;
 }
 
-.statblock-content {
+.statblock-column-content {
     font-family: var(--statblock-content-font);
     font-size: var(--statblock-content-font-size);
     color: var(--statblock-font-color);
@@ -88,12 +88,12 @@
     display: flex;
     gap: 1rem;
 }
-.statblock-content > .column {
+.statblock-column-content > .column {
     width: var(--statblock-column-width);
 }
 
 @media screen and (max-width: 400px) {
-    .statblock-content > .column {
+    .statblock-column-content > .column {
         width: 75vw;
     }
 }

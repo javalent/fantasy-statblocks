@@ -5,7 +5,6 @@
 
     import TextContentHolder from "./TextContentHolder.svelte";
     import type { Trait } from "types";
-
     export let trait: Trait;
 
     export let name: string;
@@ -19,16 +18,16 @@
         : [slugify(name), slugify(property)].join(" ");
 </script>
 
-<div class="property {cssClasses}">
+<div class="statblock-trait-block {cssClasses}">
     {#if name}
-        <div class="property-name">
+        <div class="trait-name">
             <TextContent textToRender={name} />
         </div>
     {/if}
 
     <TextContentHolder {render} property={desc} />
     {#if trait?.traits}
-        <div class="statblock-nested-traits">
+        <div class="trait-nested">
             {#each trait.traits as nested}
                 <svelte:self
                     name={nested.name}
@@ -44,14 +43,14 @@
 </div>
 
 <style>
-    .property-name {
+    .trait-name {
         margin: 0;
         margin-right: 0.25em;
         display: inline;
         font-weight: var(--statblock-traits-font-weight);
         font-style: var(--statblock-traits-font-style);
     }
-    .statblock-nested-traits {
+    .trait-nested {
         margin-left: 1rem;
     }
 </style>

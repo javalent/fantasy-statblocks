@@ -83,16 +83,16 @@
     };
 </script>
 
-<div class="statblock-markdown" use:markdown />
+<div class="statblock-markdown-enabled" use:markdown />
 
 <style>
-    .statblock-markdown {
+    .statblock-markdown-enabled {
         display: inline;
     }
-    .statblock-markdown :global(p) {
+    .statblock-markdown-enabled :global(p) {
         display: inline;
     }
-    .statblock-markdown :global(p ~ p) {
+    .statblock-markdown-enabled :global(p ~ p) {
         display: inline-block;
     }
 </style>

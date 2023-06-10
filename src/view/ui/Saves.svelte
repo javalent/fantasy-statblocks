@@ -32,30 +32,30 @@
     let canDice = getContext<boolean>("dice");
 </script>
 
-<div class="info">
-    <div class="line">
-        <span class="property-name"
+<div class="statblock-saves-block">
+    <div class="saves-container">
+        <span class="saves-name"
             >{item.display ?? toTitleCase(item.properties[0])}</span
         >
-        <div class="property-text">
+        <div class="saves-text">
             <TextContentHolder render={item.markdown} property={saves} />
         </div>
     </div>
 </div>
 
 <style>
-    .line {
+    .saves-container {
         line-height: var(--statblock-saves-line-height);
         display: block;
         color: var(--statblock-font-color);
     }
-    .property-name {
+    .saves-name {
         margin: 0;
         margin-right: 0.25em;
         display: inline;
         font-weight: bold;
     }
-    .property-text {
+    .saves-text {
         display: inline;
         margin: 0;
     }

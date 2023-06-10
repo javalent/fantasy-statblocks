@@ -6,14 +6,14 @@
     export let render = false;
 </script>
 
-<ul class="spell-item">
+<ul class="statblock-spell-block">
     {#if !spell.level}
-        <span class="spell-line">
+        <span class="spell-input">
             <TextContentHolder {render} property={spell.spells} />
         </span>
     {:else}
-        <li class="spell-line">
-            <span class="spell-level">
+        <li class="spell-input">
+            <span class="fs-spell-level">
                 <TextContentHolder {render} property={`${spell.level}:`} />
                 <!-- {spellItem.split(":").shift()}: -->
             </span>
@@ -26,13 +26,13 @@
 </ul>
 
 <style scoped>
-    ul.spell-item {
+    ul.statblock-spell-block {
         margin: 0;
     }
-    ul.spell-item:first-of-type {
+    ul.statblock-spell-block:first-of-type {
         margin-top: revert;
     }
-    ul.spell-item:last-of-type {
+    ul.statblock-spell-block:last-of-type {
         margin-bottom: revert;
     }
     .spells {

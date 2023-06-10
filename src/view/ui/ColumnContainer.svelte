@@ -386,7 +386,7 @@
                 });
                 break;
             }
-            case "table": {
+            case "table-block": {
                 new Table({
                     target,
                     props: {
@@ -397,7 +397,7 @@
                 });
                 break;
             }
-            case "text": {
+            case "text-block": {
                 new Text({
                     target,
                     props: {
@@ -407,7 +407,7 @@
                 });
                 break;
             }
-            case "traits": {
+            case "traits-block": {
                 const blocks: Trait[] = monster[item.properties[0]] as Trait[];
                 if (!Array.isArray(blocks) || !blocks.length) return [];
 
@@ -427,7 +427,7 @@
                 }
                 if (item.subheadingText && item.subheadingText.length) {
                     const prop = firstElement.createDiv(
-                        `statblock-item-container statblock-trait-prop`
+                        `statblock-item-container statblock-trait-block`
                     );
                     new Traits({
                         target: prop,
@@ -450,7 +450,7 @@
                     if (blocks.length > 0) {
                         new Traits({
                             target: firstElement.createDiv(
-                                `statblock-item-container statblock-trait-prop`
+                                `statblock-item-container statblock-trait-block`
                             ),
                             props: {
                                 name: blocks[0].name,
@@ -465,7 +465,7 @@
                         for (let i = 1; i < blocks.length; i++) {
                             const block = blocks[i];
                             const prop = createDiv(
-                                `statblock-item-container statblock-trait-prop`
+                                `statblock-item-container statblock-trait-block`
                             );
                             new Traits({
                                 target: prop,
@@ -537,7 +537,7 @@
         });
         const contentContainer = new Content({
             target: temp.createDiv({
-                cls: ["obsidian-statblock-plugin", "statblock", ...classes]
+                cls: ["fantasy-statblock-plugin", "statblock", ...classes]
             }),
             props: {
                 heights,

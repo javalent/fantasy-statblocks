@@ -61,7 +61,7 @@
 </script>
 
 {#if !dice}
-    <span class="property-text">
+    <span class="statblock-dice-text">
         <TextContent textToRender={property} />
     </span>
 {:else}
@@ -72,7 +72,7 @@
                 original={test?.original ?? test?.text ?? property}
             />
         {:else}
-            <span class="property-text">
+            <span class="statblock-dice-text-alt">
                 <TextContent textToRender={test} />
             </span>
         {/if}
@@ -80,12 +80,12 @@
 {/if}
 
 <style>
-    .property-text {
+    .statblock-dice-text {
         display: inline;
         white-space: pre-line;
         text-indent: 0;
     }
-    .property-text {
+    .statblock-dice-text-alt {
         display: inline;
         margin: 0;
     }

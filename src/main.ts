@@ -495,7 +495,7 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
             return !node.hasClass || !node.hasClass("clickable-icon");
         }
         const content =
-            containerEl.querySelector<HTMLDivElement>(".statblock-content");
+            containerEl.querySelector<HTMLDivElement>(".statblock-column-content");
         if (content) delete content.style["boxShadow"];
         domtoimage
             .toPng(containerEl, {
