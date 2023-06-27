@@ -61,11 +61,10 @@
             }
         }
     }
-    let start = 0;
 
+    property = ''
     for (const dice of split) {
         if (typeof dice != "string") {
-            const replacer = dice.original ?? dice.text;
             let diceString;
             let diceText = plugin.getRollerString(dice.text);
             if (dice.original) {
@@ -73,15 +72,9 @@
             } else {
                 diceString = `\`dice: ${diceText}\``;
             }
-            const index = property.slice(start).indexOf(replacer);
-            property =
-                property.slice(0, start) +
-                property.slice(start).replace(replacer, diceString);
-
-            start =
-                property.slice(0, start).length + index + diceString.length + 1;
+            property += diceString
         } else {
-            start += dice.length;
+            property += dice
         }
     }
 
