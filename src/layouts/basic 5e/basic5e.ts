@@ -186,7 +186,7 @@ export const Statblock5e: StatblockItem[] = [
     "0": {
         cr: "0",
         value: 0,
-        xp: 0
+        xp: 10
     },
     "1/8": {
         cr: "1/8",
