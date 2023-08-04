@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.6.7](https://github.com/javalent/fantasy-statblocks/compare/3.6.6...3.6.7) (2023-07-04)
+
+
+### Bug Fixes
+
+* basic 5e layout now shows 10xp for 0cr creatures ([e6e9bb3](https://github.com/javalent/fantasy-statblocks/commit/e6e9bb3fde33bad21ef67f90a8433b47535274b2))
+
+## [3.6.6](https://github.com/javalent/fantasy-statblocks/compare/3.6.5...3.6.6) (2023-06-29)
+
+
+### Bug Fixes
+
+* solves the bug that inhibits the property to be fully dice parsed ([#237](https://github.com/javalent/fantasy-statblocks/issues/237)) ([27cf649](https://github.com/javalent/fantasy-statblocks/commit/27cf6498590c714cc8905cbae39e29714571943a))
+
 ## [3.6.5](https://github.com/javalent/fantasy-statblocks/compare/3.6.4...3.6.5) (2023-05-13)
 
 
