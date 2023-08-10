@@ -2,6 +2,8 @@
 
 
 > Warning: We are beginning a Readme transition to [Javalent's Plugins Documentation](https://plugins.javalent.com/home) in all Javalent repositories. Please bookmark this link and check it first before referring to this readme.
+>
+> Legal attributions for various layouts can be found at the documentation site, at the bottom of this readme, and in the licenses folder.
 
 
 Create, manage and view a Fantasy Bestiary in [Obsidian](https://obsidian.md/).
@@ -805,6 +807,11 @@ If you're using Obsidian to run/plan a TTRPG, you may find my other plugin usefu
 <a href="https://www.buymeacoffee.com/valentine195"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=☕&slug=valentine195&button_colour=e3e7ef&font_colour=262626&font_family=Inter&outline_colour=262626&coffee_colour=ff0000"></a>
 
 ## Attributions
+
+### DnD 5e License Disclosure
+Fantasy Statblocks uses trademarks and/or copyrights owned by Wizards of the Coast, LLC., which are used under the Open Game License v 1.0a Copyright 2000. 
+Fantasy Statblocks is not published, endorsed or specifically approved by Wizards of the Coast, LLC.
+A full copyright notice can be found in [our licenses folder](licenses/dnd-5e-ogl.md).
 
 ### 13th Age Community License Disclosure
 Fantasy Statblocks uses trademarks and/or copyrights owned by Fire Opal Media Inc., which are used under the Fire Opal Media Inc., 13th Age Community Use Policy. 
