@@ -109,55 +109,121 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             }
         }
 
+        const extensions = this.getExtensions(built);
+
+        /**
+         * At this point, the built creature has been fully resolved from all
+         * extensions and in-memory creature definitions.
+         */
+        built = Object.assign({}, ...extensions, built);
+
+        /**
+         * Traits logic:
+         * Defined in Params: ALWAYS SHOW
+         * then, defined in memory
+         * then, defined via extension
+         *
+         * Traits defined using `trait+: ...` will always just add to the underlying trait.
+         */
+
         for (const block of this.getBlocksToTransform(this.layout.blocks)) {
             for (let property of block.properties) {
-                if (!(property in built) && !(`${property}+` in built)) {
+                /** Ignore properties that aren't in the final built creature. */
+                if (
+                    !(property in built) &&
+                    !(`${property}+` in built) &&
+                    !(`${property}-` in built)
+                ) {
                     continue;
                 }
-                let isAdditive = false;
-                let original = property;
-                if (`${property}+` in built) {
-                    property = `${property}+` as keyof Monster;
-                    isAdditive = true;
+                switch (block.type) {
+                    case "traits": {
+                        const $TRAIT_MAP: Map<string, Trait> = new Map();
+                        const $ADDITIVE_TRAITS: Trait[] = [];
+                        /** Add traits from the extensions group first. */
+                        for (const extension of extensions) {
+                            if (property in extension) {
+                                const traits = extension[property] as Trait[];
+                                for (const trait of traits) {
+                                    $TRAIT_MAP.set(trait.name, trait);
+                                }
+                            }
+                            if (`${property}+` in extension) {
+                                const traits = extension[
+                                    `${property}+` as keyof Monster
+                                ] as Trait[];
+                                for (const trait of traits) {
+                                    $ADDITIVE_TRAITS.push(trait);
+                                }
+                            }
+                        }
+                        //next, underlying monster object
+                        if (property in this.monster) {
+                            const traits = this.monster[property] as Trait[];
+                            for (const trait of traits) {
+                                $TRAIT_MAP.set(trait.name, trait);
+                            }
+                        }
+                        if (`${property}+` in this.monster) {
+                            const traits = this.monster[
+                                `${property}+` as keyof Monster
+                            ] as Trait[];
+                            for (const trait of traits) {
+                                $ADDITIVE_TRAITS.push(trait);
+                            }
+                        }
+
+                        //finally, the parameters should always be added
+                        if (property in this.params) {
+                            const traits = this.params[property] as Trait[];
+                            for (const trait of traits) {
+                                $TRAIT_MAP.delete(trait.name);
+                                $ADDITIVE_TRAITS.push(trait);
+                            }
+                        }
+                        if (`${property}+` in this.params) {
+                            const traits = this.params[
+                                `${property}+` as keyof Monster
+                            ] as Trait[];
+                            for (const trait of traits) {
+                                $ADDITIVE_TRAITS.push(trait);
+                            }
+                        }
+                        if (`${property}-` in this.params) {
+                            const traits = this.params[
+                                `${property}-` as keyof Monster
+                            ] as Trait[];
+                            for (const trait of traits) {
+                                $TRAIT_MAP.delete(trait.name);
+                            }
+                        }
+                        Object.assign(built, {
+                            [property]: [
+                                ...$TRAIT_MAP.values(),
+                                ...$ADDITIVE_TRAITS
+                            ]
+                        });
+                        break;
+                    }
+                    case "saves": {
+                        /** TODO: Reimplement combinatorial saves */
+                        break;
+                    }
                 }
-                let transformedProperty = built[property];
-                if (block.type == "traits") {
-                    transformedProperty = transformTraits(
-                        (this.monster[original] as Trait[]) ?? [],
-                        (built[property] as Trait[]) ?? []
-                    );
-                } else if (
-                    block.type == "saves" &&
-                    !Array.isArray(built[property]) &&
-                    typeof built[property] == "object"
-                ) {
-                    transformedProperty = Object.entries(
-                        built[property] ?? {}
-                    ).map(([key, value]) => {
-                        return { [key]: value };
-                    });
-                }
-                if (isAdditive) {
-                    transformedProperty = append(
-                        this.monster[original] as any[] | string,
-                        transformedProperty as any[] | string
-                    );
-                }
-                Object.assign(built, {
-                    [original]: transformedProperty
-                });
             }
         }
 
+        built = this.transformLinks(built);
         this.monster = built as Monster;
 
         return built;
     }
 
-    getBlocksToTransform(
-        blocks: StatblockItem[]
-    ): (GroupItem | InlineItem | SavesItem | TraitsItem)[] {
-        let ret: (GroupItem | InlineItem | SavesItem | TraitsItem)[] = [];
+    /**
+     * This is used to return a list of "saves" or "traits" block in the layout.
+     */
+    getBlocksToTransform(blocks: StatblockItem[]): (SavesItem | TraitsItem)[] {
+        let ret: (SavesItem | TraitsItem)[] = [];
         for (const block of blocks) {
             switch (block.type) {
                 case "group":
@@ -182,7 +248,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             target: this.containerEl,
             props: {
                 context: this.context,
-                monster: this.transform(await this.build()),
+                monster: await this.build(),
                 statblock: this.layout.blocks,
                 layout: this.layout.name,
                 plugin: this.plugin,
@@ -213,12 +279,9 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             );
         });
     }
-    transform(monster: Partial<Monster>): Partial<Monster> {
-        const extensions = this.getExtensions(monster);
-
-        const ret = Object.assign({}, ...extensions, monster);
+    transformLinks(monster: Partial<Monster>): Partial<Monster> {
         const built = JSON.parse(
-            JSON.stringify(ret)
+            JSON.stringify(monster)
                 .replace(/\\#/g, "#")
                 .replace(
                     /\[\["(.+?)"\]\]/g,
@@ -241,7 +304,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         return built;
     }
     getExtensions(monster: Partial<Monster>): Partial<Monster>[] {
-        let extensions: Partial<Monster>[] = [fastCopy(monster)];
+        let extensions: Partial<Monster>[] = [];
         if (
             !("extends" in monster) ||
             !(
@@ -255,7 +318,10 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             for (const extension of [monster.extends].flat()) {
                 const extensionMonster = this.plugin.bestiary.get(extension);
                 if (!extensionMonster) continue;
-                extensions.push(...this.getExtensions(extensionMonster));
+                extensions.push(
+                    extensionMonster,
+                    ...this.getExtensions(extensionMonster)
+                );
             }
         }
 

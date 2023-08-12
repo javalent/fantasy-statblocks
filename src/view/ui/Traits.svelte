@@ -4,9 +4,10 @@
     import TextContent from "./TextContent.svelte";
 
     import TextContentHolder from "./TextContentHolder.svelte";
-    import type { Trait } from "types";
+    import type { Trait } from "index";
 
     export let trait: Trait;
+    console.log("🚀 ~ file: Traits.svelte:10 ~ trait:", trait);
 
     export let name: string;
     export let desc: string;
