@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.8.0-b1](https://github.com/javalent/fantasy-statblocks/compare/3.6.7...3.8.0-b1) (2023-08-12)
+
+
+### Bug Fixes
+
+* Rewrite how traits are combined ([4685365](https://github.com/javalent/fantasy-statblocks/commit/4685365f045621a3d9fc4c32a9e6433e2e51edc0))
+
+
+### Miscellaneous Chores
+
+* release 3.8.0-b1 ([1b3aad7](https://github.com/javalent/fantasy-statblocks/commit/1b3aad7fe670c124e5195f491f1568bb835a9123))
+
 ## [3.6.7](https://github.com/javalent/fantasy-statblocks/compare/3.6.6...3.6.7) (2023-07-04)
 
 
