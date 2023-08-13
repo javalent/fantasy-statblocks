@@ -258,6 +258,21 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                         }
                         break;
                     }
+                    default: {
+                        if (`${property}+` in built && property in built) {
+                            const additive = append(
+                                built[property] as string | any[],
+                                built[`${property}+` as keyof Monster] as
+                                    | string
+                                    | any[]
+                            );
+                            if (additive) {
+                                Object.assign(built, {
+                                    [property]: additive
+                                });
+                            }
+                        }
+                    }
                 }
             }
         }

@@ -179,17 +179,17 @@ export function append(
     ) {
         return toAppend;
     }
-    let appended = copy(property);
-    if (Array.isArray(appended)) {
+    let propCopy = copy(property);
+    if (Array.isArray(propCopy)) {
         if (Array.isArray(toAppend)) {
-            return [...appended, ...toAppend];
+            return [...propCopy, ...toAppend];
         }
         if (typeof toAppend == "string") {
-            appended.push(toAppend);
-            return appended;
+            propCopy.push(toAppend);
+            return propCopy;
         }
-    } else if (typeof appended == "string") {
-        return `${appended} ${stringify(toAppend)}`;
+    } else if (typeof propCopy == "string") {
+        return `${propCopy} ${stringify(toAppend)}`;
     }
     return toAppend;
 }
