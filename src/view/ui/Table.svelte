@@ -49,7 +49,7 @@
     ];
 </script>
 
-<div class="table">
+<div class="statblock-table">
     {#each [...valueMap.entries()].slice(0, headers.length) as [index, values]}
         <div class="table-item">
             <span class="statblock-table-header">{headers[index]}</span>
@@ -71,7 +71,7 @@
     .statblock-table-header {
         font-weight: var(--statblock-table-header-font-weight);
     }
-    .table {
+    .statblock-table {
         display: flex;
         justify-content: space-evenly;
         align-items: center;
