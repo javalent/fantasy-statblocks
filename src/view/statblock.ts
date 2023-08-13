@@ -8,14 +8,19 @@ import type StatBlockPlugin from "src/main";
 
 import fastCopy from "fast-copy";
 import type {
+    CollapseItem,
     GroupItem,
+    IfElseItem,
     InlineItem,
+    JavaScriptItem,
     Layout,
+    LayoutItem,
     SavesItem,
     StatblockItem,
     TraitsItem
 } from "types/layout";
-import { append, transformTraits } from "src/util/util";
+import type Collapse from "./ui/Collapse.svelte";
+import { append } from "src/util/util";
 
 type RendererParameters = {
     container: HTMLElement;
@@ -126,7 +131,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
          * Traits defined using `trait+: ...` will always just add to the underlying trait.
          */
 
-        for (const block of this.getBlocksToTransform(this.layout.blocks)) {
+        for (const block of this.unwrapBlocks(this.layout.blocks)) {
             for (let property of block.properties) {
                 /** Ignore properties that aren't in the final built creature. */
                 if (
@@ -142,61 +147,63 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                         const $ADDITIVE_TRAITS: Trait[] = [];
                         /** Add traits from the extensions group first. */
                         for (const extension of extensions) {
-                            if (property in extension) {
-                                const traits = extension[property] as Trait[];
-                                for (const trait of traits) {
-                                    $TRAIT_MAP.set(trait.name, trait);
-                                }
-                            }
-                            if (`${property}+` in extension) {
-                                const traits = extension[
-                                    `${property}+` as keyof Monster
-                                ] as Trait[];
-                                for (const trait of traits) {
-                                    $ADDITIVE_TRAITS.push(trait);
-                                }
-                            }
-                        }
-                        //next, underlying monster object
-                        if (property in this.monster) {
-                            const traits = this.monster[property] as Trait[];
+                            let traits = getIterable<Trait>(
+                                property,
+                                extension
+                            );
                             for (const trait of traits) {
                                 $TRAIT_MAP.set(trait.name, trait);
                             }
-                        }
-                        if (`${property}+` in this.monster) {
-                            const traits = this.monster[
-                                `${property}+` as keyof Monster
-                            ] as Trait[];
+
+                            traits = getIterable<Trait>(
+                                `${property}+` as keyof Monster,
+                                extension
+                            );
                             for (const trait of traits) {
                                 $ADDITIVE_TRAITS.push(trait);
                             }
+                        }
+                        //next, underlying monster object
+                        let traits = getIterable<Trait>(property, this.monster);
+                        for (const trait of traits) {
+                            if (!(property in this.params)) {
+                                $TRAIT_MAP.delete(trait.name);
+                                $ADDITIVE_TRAITS.push(trait);
+                            } else {
+                                $TRAIT_MAP.set(trait.name, trait);
+                            }
+                        }
+                        traits = getIterable<Trait>(
+                            `${property}+` as keyof Monster,
+                            this.monster
+                        );
+                        for (const trait of traits) {
+                            $ADDITIVE_TRAITS.push(trait);
                         }
 
                         //finally, the parameters should always be added
-                        if (property in this.params) {
-                            const traits = this.params[property] as Trait[];
-                            for (const trait of traits) {
-                                $TRAIT_MAP.delete(trait.name);
-                                $ADDITIVE_TRAITS.push(trait);
-                            }
+                        traits = getIterable<Trait>(property, this.params);
+                        for (const trait of traits) {
+                            $TRAIT_MAP.delete(trait.name);
+                            $ADDITIVE_TRAITS.push(trait);
                         }
-                        if (`${property}+` in this.params) {
-                            const traits = this.params[
-                                `${property}+` as keyof Monster
-                            ] as Trait[];
-                            for (const trait of traits) {
-                                $ADDITIVE_TRAITS.push(trait);
-                            }
+
+                        traits = getIterable<Trait>(
+                            `${property}+` as keyof Monster,
+                            this.params
+                        );
+                        for (const trait of traits) {
+                            $ADDITIVE_TRAITS.push(trait);
                         }
-                        if (`${property}-` in this.params) {
-                            const traits = this.params[
-                                `${property}-` as keyof Monster
-                            ] as Trait[];
-                            for (const trait of traits) {
-                                $TRAIT_MAP.delete(trait.name);
-                            }
+
+                        traits = getIterable<Trait>(
+                            `${property}-` as keyof Monster,
+                            this.params
+                        );
+                        for (const trait of traits) {
+                            $TRAIT_MAP.delete(trait.name);
                         }
+
                         Object.assign(built, {
                             [property]: [
                                 ...$TRAIT_MAP.values(),
@@ -207,6 +214,48 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                     }
                     case "saves": {
                         /** TODO: Reimplement combinatorial saves */
+                        let saves: {
+                            [x: string]: any;
+                        }[] = [];
+                        if (
+                            property in built &&
+                            !Array.isArray(built[property]) &&
+                            typeof built[property] == "object"
+                        ) {
+                            saves = Object.entries(built[property] ?? {}).map(
+                                ([key, value]) => {
+                                    return { [key]: value };
+                                }
+                            );
+                        }
+                        Object.assign(built, {
+                            [property]: saves
+                        });
+                        let additive: {
+                            [x: string]: any;
+                        }[] = [];
+                        if (
+                            `${property}+` in built &&
+                            !Array.isArray(
+                                built[`${property}+` as keyof Monster]
+                            ) &&
+                            typeof built[`${property}+` as keyof Monster] ==
+                                "object"
+                        ) {
+                            additive = Object.entries(
+                                built[property] ?? {}
+                            ).map(([key, value]) => {
+                                return { [key]: value };
+                            });
+                        }
+                        if (additive.length) {
+                            Object.assign(built, {
+                                [property]: append(
+                                    built[property] as { [x: string]: any }[],
+                                    additive
+                                )
+                            });
+                        }
                         break;
                     }
                 }
@@ -222,24 +271,45 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
     /**
      * This is used to return a list of "saves" or "traits" block in the layout.
      */
-    getBlocksToTransform(blocks: StatblockItem[]): (SavesItem | TraitsItem)[] {
-        let ret: (SavesItem | TraitsItem)[] = [];
+    unwrapBlocks(
+        blocks: StatblockItem[]
+    ): Exclude<
+        StatblockItem,
+        | GroupItem
+        | InlineItem
+        | IfElseItem
+        | JavaScriptItem
+        | CollapseItem
+        | LayoutItem
+    >[] {
+        let ret: Exclude<
+            StatblockItem,
+            | GroupItem
+            | InlineItem
+            | IfElseItem
+            | JavaScriptItem
+            | CollapseItem
+            | LayoutItem
+        >[] = [];
         for (const block of blocks) {
             switch (block.type) {
                 case "group":
                 case "inline": {
-                    ret.push(...this.getBlocksToTransform(block.nested));
+                    ret.push(...this.unwrapBlocks(block.nested));
                     break;
                 }
-                case "saves":
-                case "traits": {
-                    ret.push(block);
-                    break;
+                case "collapse":
+                case "layout":
+                case "ifelse":
+                case "javascript": {
+                    continue;
                 }
                 default:
-                    continue;
+                    ret.push(block);
+                    break;
             }
         }
+
         return ret;
     }
 
@@ -382,4 +452,14 @@ export class ConfirmModal extends Modal {
     onOpen() {
         this.display();
     }
+}
+
+function getIterable<T = any>(
+    property: keyof Monster,
+    obj: Partial<Monster>
+): T[] {
+    if (property in obj && Array.isArray(obj[property])) {
+        return obj[property] as T[];
+    }
+    return [] as T[];
 }
