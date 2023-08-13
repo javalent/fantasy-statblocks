@@ -148,7 +148,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 switch (block.type) {
                     case "traits": {
                         const $TRAIT_MAP: Map<string, Trait> = new Map();
-                        const $ADDITIVE_TRAITS: Trait[] = [];
+                        let $ADDITIVE_TRAITS: Trait[] = [];
                         /** Add traits from the extensions group first. */
                         for (const extension of extensions) {
                             let traits = getIterable<Trait>(
@@ -185,6 +185,17 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                             $ADDITIVE_TRAITS.push(trait);
                         }
 
+                        /** Remove these traits first, so you don't get hit by the params */
+                        traits = getIterable<Trait>(
+                            `${property}-` as keyof Monster,
+                            this.params
+                        );
+                        for (const trait of traits) {
+                            $TRAIT_MAP.delete(trait.name);
+                            $ADDITIVE_TRAITS = $ADDITIVE_TRAITS.filter(
+                                (t) => t.name !== trait.name
+                            );
+                        }
                         //finally, the parameters should always be added
                         traits = getIterable<Trait>(property, this.params);
                         for (const trait of traits) {
@@ -198,14 +209,6 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                         );
                         for (const trait of traits) {
                             $ADDITIVE_TRAITS.push(trait);
-                        }
-
-                        traits = getIterable<Trait>(
-                            `${property}-` as keyof Monster,
-                            this.params
-                        );
-                        for (const trait of traits) {
-                            $TRAIT_MAP.delete(trait.name);
                         }
 
                         Object.assign(built, {

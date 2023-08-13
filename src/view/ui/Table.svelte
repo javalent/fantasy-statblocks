@@ -75,14 +75,14 @@
         flex-wrap: wrap;
     }
 
-    .fs-table {
+    .statblock-table {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-flow: column nowrap;
     }
 
-    .fs-table-header {
+    .statblock-table-header {
         font-weight: var(--statblock-table-header-font-weight);
     }
 </style>
