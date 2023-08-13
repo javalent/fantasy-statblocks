@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.8.1](https://github.com/javalent/fantasy-statblocks/compare/3.8.0...3.8.1) (2023-08-13)
+
+
+### Bug Fixes
+
+* fixes removing traits not working unless key is present ([1f3c8c1](https://github.com/javalent/fantasy-statblocks/commit/1f3c8c1ec4e20a7eb3cb5ec9bdbca545ef16d665))
+* fixes table css class interference (close [#230](https://github.com/javalent/fantasy-statblocks/issues/230)) ([a93264c](https://github.com/javalent/fantasy-statblocks/commit/a93264c02b2ebafc026af0dbf83c0e7932c5c887))
+
 ## [3.8.0](https://github.com/javalent/fantasy-statblocks/compare/3.8.0-b1...3.8.0) (2023-08-13)
 
 
