@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.8.0](https://github.com/javalent/fantasy-statblocks/compare/3.8.0-b1...3.8.0) (2023-08-13)
+
+
+### Features
+
+* Adds layout suggestor (close [#226](https://github.com/javalent/fantasy-statblocks/issues/226)) ([cf568d8](https://github.com/javalent/fantasy-statblocks/commit/cf568d809d50872b94d93d4285948644a24ade90))
+
+
+### Bug Fixes
+
+* Creature notes no longer overwrite codeblock parameters (close [#243](https://github.com/javalent/fantasy-statblocks/issues/243)) ([78fa44e](https://github.com/javalent/fantasy-statblocks/commit/78fa44ec10da203df97b329fddf232803ca08bae))
+* creatures always show prop if not redefined, re-implement saves addition ([1bc9945](https://github.com/javalent/fantasy-statblocks/commit/1bc9945fc5d7d84d6c43404bd3dfb2ae58087cab))
+* Fixes additive string properties ([33b1a44](https://github.com/javalent/fantasy-statblocks/commit/33b1a44f25bfbd6d2d9972cccd773afd0d9a8a05))
+
+
+### Miscellaneous Chores
+
+* release 3.8.0 ([5d0f1c2](https://github.com/javalent/fantasy-statblocks/commit/5d0f1c2f537d1fecb60b6a9b02f964864a20069f))
+
 ## [3.8.0-b1](https://github.com/javalent/fantasy-statblocks/compare/3.6.7...3.8.0-b1) (2023-08-12)
 
 
