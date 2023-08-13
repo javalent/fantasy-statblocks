@@ -29,7 +29,7 @@ import {
 import { Watcher } from "./watcher/watcher";
 import type { DefaultLayout, Layout, StatblockItem } from "../types/layout";
 import { Layout5e } from "./layouts/basic 5e/basic5e";
-import { StatblockSuggester } from "./suggest";
+import { LayoutSuggester, StatblockSuggester } from "./suggest";
 import { DefaultLayouts } from "./layouts";
 import type { StatblockData } from "index";
 
@@ -242,6 +242,7 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
         );
 
         this.registerEditorSuggest(new StatblockSuggester(this));
+        this.registerEditorSuggest(new LayoutSuggester(this));
 
         this.registerEvent(
             this.app.workspace.on("dice-roller:unload", () => {
