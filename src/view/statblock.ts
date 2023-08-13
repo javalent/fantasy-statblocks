@@ -8,14 +8,19 @@ import type StatBlockPlugin from "src/main";
 
 import fastCopy from "fast-copy";
 import type {
+    CollapseItem,
     GroupItem,
+    IfElseItem,
     InlineItem,
+    JavaScriptItem,
     Layout,
+    LayoutItem,
     SavesItem,
     StatblockItem,
     TraitsItem
 } from "types/layout";
-import { append, transformTraits } from "src/util/util";
+import type Collapse from "./ui/Collapse.svelte";
+import { append } from "src/util/util";
 
 type RendererParameters = {
     container: HTMLElement;
@@ -100,7 +105,11 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             );
             if (file && file instanceof TFile) {
                 const cache = await app.metadataCache.getFileCache(file);
-                Object.assign(built, fastCopy(cache.frontmatter) ?? {});
+                Object.assign(
+                    built,
+                    fastCopy(cache.frontmatter) ?? {},
+                    this.params
+                );
             }
         }
         if ("image" in built) {
@@ -109,71 +118,217 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             }
         }
 
-        for (const block of this.getBlocksToTransform(this.layout.blocks)) {
+        const extensions = this.getExtensions(built);
+
+        /**
+         * At this point, the built creature has been fully resolved from all
+         * extensions and in-memory creature definitions.
+         */
+        built = Object.assign({}, ...extensions, built);
+
+        /**
+         * Traits logic:
+         * Defined in Params: ALWAYS SHOW
+         * then, defined in memory
+         * then, defined via extension
+         *
+         * Traits defined using `trait+: ...` will always just add to the underlying trait.
+         */
+
+        for (const block of this.unwrapBlocks(this.layout.blocks)) {
             for (let property of block.properties) {
-                if (!(property in built) && !(`${property}+` in built)) {
+                /** Ignore properties that aren't in the final built creature. */
+                if (
+                    !(property in built) &&
+                    !(`${property}+` in built) &&
+                    !(`${property}-` in built)
+                ) {
                     continue;
                 }
-                let isAdditive = false;
-                let original = property;
-                if (`${property}+` in built) {
-                    property = `${property}+` as keyof Monster;
-                    isAdditive = true;
+                switch (block.type) {
+                    case "traits": {
+                        const $TRAIT_MAP: Map<string, Trait> = new Map();
+                        const $ADDITIVE_TRAITS: Trait[] = [];
+                        /** Add traits from the extensions group first. */
+                        for (const extension of extensions) {
+                            let traits = getIterable<Trait>(
+                                property,
+                                extension
+                            );
+                            for (const trait of traits) {
+                                $TRAIT_MAP.set(trait.name, trait);
+                            }
+
+                            traits = getIterable<Trait>(
+                                `${property}+` as keyof Monster,
+                                extension
+                            );
+                            for (const trait of traits) {
+                                $ADDITIVE_TRAITS.push(trait);
+                            }
+                        }
+                        //next, underlying monster object
+                        let traits = getIterable<Trait>(property, this.monster);
+                        for (const trait of traits) {
+                            if (!(property in this.params)) {
+                                $TRAIT_MAP.delete(trait.name);
+                                $ADDITIVE_TRAITS.push(trait);
+                            } else {
+                                $TRAIT_MAP.set(trait.name, trait);
+                            }
+                        }
+                        traits = getIterable<Trait>(
+                            `${property}+` as keyof Monster,
+                            this.monster
+                        );
+                        for (const trait of traits) {
+                            $ADDITIVE_TRAITS.push(trait);
+                        }
+
+                        //finally, the parameters should always be added
+                        traits = getIterable<Trait>(property, this.params);
+                        for (const trait of traits) {
+                            $TRAIT_MAP.delete(trait.name);
+                            $ADDITIVE_TRAITS.push(trait);
+                        }
+
+                        traits = getIterable<Trait>(
+                            `${property}+` as keyof Monster,
+                            this.params
+                        );
+                        for (const trait of traits) {
+                            $ADDITIVE_TRAITS.push(trait);
+                        }
+
+                        traits = getIterable<Trait>(
+                            `${property}-` as keyof Monster,
+                            this.params
+                        );
+                        for (const trait of traits) {
+                            $TRAIT_MAP.delete(trait.name);
+                        }
+
+                        Object.assign(built, {
+                            [property]: [
+                                ...$TRAIT_MAP.values(),
+                                ...$ADDITIVE_TRAITS
+                            ]
+                        });
+                        break;
+                    }
+                    case "saves": {
+                        /** TODO: Reimplement combinatorial saves */
+                        let saves: {
+                            [x: string]: any;
+                        }[] = [];
+                        if (
+                            property in built &&
+                            !Array.isArray(built[property]) &&
+                            typeof built[property] == "object"
+                        ) {
+                            saves = Object.entries(built[property] ?? {}).map(
+                                ([key, value]) => {
+                                    return { [key]: value };
+                                }
+                            );
+                        }
+                        Object.assign(built, {
+                            [property]: saves
+                        });
+                        let additive: {
+                            [x: string]: any;
+                        }[] = [];
+                        if (
+                            `${property}+` in built &&
+                            !Array.isArray(
+                                built[`${property}+` as keyof Monster]
+                            ) &&
+                            typeof built[`${property}+` as keyof Monster] ==
+                                "object"
+                        ) {
+                            additive = Object.entries(
+                                built[property] ?? {}
+                            ).map(([key, value]) => {
+                                return { [key]: value };
+                            });
+                        }
+                        if (additive.length) {
+                            Object.assign(built, {
+                                [property]: append(
+                                    built[property] as { [x: string]: any }[],
+                                    additive
+                                )
+                            });
+                        }
+                        break;
+                    }
+                    default: {
+                        if (`${property}+` in built && property in built) {
+                            const additive = append(
+                                built[property] as string | any[],
+                                built[`${property}+` as keyof Monster] as
+                                    | string
+                                    | any[]
+                            );
+                            if (additive) {
+                                Object.assign(built, {
+                                    [property]: additive
+                                });
+                            }
+                        }
+                    }
                 }
-                let transformedProperty = built[property];
-                if (block.type == "traits") {
-                    transformedProperty = transformTraits(
-                        (this.monster[original] as Trait[]) ?? [],
-                        (built[property] as Trait[]) ?? []
-                    );
-                } else if (
-                    block.type == "saves" &&
-                    !Array.isArray(built[property]) &&
-                    typeof built[property] == "object"
-                ) {
-                    transformedProperty = Object.entries(
-                        built[property] ?? {}
-                    ).map(([key, value]) => {
-                        return { [key]: value };
-                    });
-                }
-                if (isAdditive) {
-                    transformedProperty = append(
-                        this.monster[original] as any[] | string,
-                        transformedProperty as any[] | string
-                    );
-                }
-                Object.assign(built, {
-                    [original]: transformedProperty
-                });
             }
         }
 
+        built = this.transformLinks(built);
         this.monster = built as Monster;
 
         return built;
     }
 
-    getBlocksToTransform(
+    /**
+     * This is used to return a list of "saves" or "traits" block in the layout.
+     */
+    unwrapBlocks(
         blocks: StatblockItem[]
-    ): (GroupItem | InlineItem | SavesItem | TraitsItem)[] {
-        let ret: (GroupItem | InlineItem | SavesItem | TraitsItem)[] = [];
+    ): Exclude<
+        StatblockItem,
+        | GroupItem
+        | InlineItem
+        | IfElseItem
+        | JavaScriptItem
+        | CollapseItem
+        | LayoutItem
+    >[] {
+        let ret: Exclude<
+            StatblockItem,
+            | GroupItem
+            | InlineItem
+            | IfElseItem
+            | JavaScriptItem
+            | CollapseItem
+            | LayoutItem
+        >[] = [];
         for (const block of blocks) {
             switch (block.type) {
                 case "group":
                 case "inline": {
-                    ret.push(...this.getBlocksToTransform(block.nested));
+                    ret.push(...this.unwrapBlocks(block.nested));
                     break;
                 }
-                case "saves":
-                case "traits": {
-                    ret.push(block);
-                    break;
+                case "collapse":
+                case "layout":
+                case "ifelse":
+                case "javascript": {
+                    continue;
                 }
                 default:
-                    continue;
+                    ret.push(block);
+                    break;
             }
         }
+
         return ret;
     }
 
@@ -182,7 +337,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             target: this.containerEl,
             props: {
                 context: this.context,
-                monster: this.transform(await this.build()),
+                monster: await this.build(),
                 statblock: this.layout.blocks,
                 layout: this.layout.name,
                 plugin: this.plugin,
@@ -213,12 +368,9 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             );
         });
     }
-    transform(monster: Partial<Monster>): Partial<Monster> {
-        const extensions = this.getExtensions(monster);
-
-        const ret = Object.assign({}, ...extensions, monster);
+    transformLinks(monster: Partial<Monster>): Partial<Monster> {
         const built = JSON.parse(
-            JSON.stringify(ret)
+            JSON.stringify(monster)
                 .replace(/\\#/g, "#")
                 .replace(
                     /\[\["(.+?)"\]\]/g,
@@ -241,7 +393,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         return built;
     }
     getExtensions(monster: Partial<Monster>): Partial<Monster>[] {
-        let extensions: Partial<Monster>[] = [fastCopy(monster)];
+        let extensions: Partial<Monster>[] = [];
         if (
             !("extends" in monster) ||
             !(
@@ -255,7 +407,10 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             for (const extension of [monster.extends].flat()) {
                 const extensionMonster = this.plugin.bestiary.get(extension);
                 if (!extensionMonster) continue;
-                extensions.push(...this.getExtensions(extensionMonster));
+                extensions.push(
+                    extensionMonster,
+                    ...this.getExtensions(extensionMonster)
+                );
             }
         }
 
@@ -316,4 +471,14 @@ export class ConfirmModal extends Modal {
     onOpen() {
         this.display();
     }
+}
+
+function getIterable<T = any>(
+    property: keyof Monster,
+    obj: Partial<Monster>
+): T[] {
+    if (property in obj && Array.isArray(obj[property])) {
+        return obj[property] as T[];
+    }
+    return [] as T[];
 }
