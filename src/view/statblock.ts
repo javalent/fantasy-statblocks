@@ -105,7 +105,11 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             );
             if (file && file instanceof TFile) {
                 const cache = await app.metadataCache.getFileCache(file);
-                Object.assign(built, fastCopy(cache.frontmatter) ?? {});
+                Object.assign(
+                    built,
+                    fastCopy(cache.frontmatter) ?? {},
+                    this.params
+                );
             }
         }
         if ("image" in built) {
