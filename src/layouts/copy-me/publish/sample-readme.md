@@ -26,7 +26,7 @@ tags: [Statblocks/Layout/ShortName]
 > ![]() Externally Linked Image here.
 > These can be uploaded in the publish/images folder first and linked after the fact.
 > Include it with your submission.
-> The CSS for the screenshot callout is already within our Publish site, and is also found in the [admonition section](https://github.com/ObsidianTTRPGProject/ObsidianTTRPGShare/tree/main/System_Agnostic/admonitions) on the TTRPG Share. 
+> The CSS for the screenshot callout is already within our Publish cite, and is also found in the [admonition section](https://github.com/ObsidianTTRPGProject/ObsidianTTRPGShare/tree/main/System_Agnostic/admonitions) on the TTRPG Share. 
 
 ## Short Name Code Block
 
