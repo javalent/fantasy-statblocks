@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.8.2](https://github.com/javalent/fantasy-statblocks/compare/3.8.1...3.8.2) (2023-08-14)
+
+
+### Bug Fixes
+
+* fixes saves / skillsaves not appearing ([98f79ab](https://github.com/javalent/fantasy-statblocks/commit/98f79abd9c5749b060f2374bcbf7c0f6a1a58c81))
+
 ## [3.8.1](https://github.com/javalent/fantasy-statblocks/compare/3.8.0...3.8.1) (2023-08-13)
 
 
