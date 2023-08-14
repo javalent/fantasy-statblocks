@@ -149,6 +149,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                     case "traits": {
                         const $TRAIT_MAP: Map<string, Trait> = new Map();
                         let $ADDITIVE_TRAITS: Trait[] = [];
+                        let $DELETE_TRAITS: Set<string> = new Set();
                         /** Add traits from the extensions group first. */
                         for (const extension of extensions) {
                             let traits = getIterable<Trait>(
@@ -165,6 +166,13 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                             );
                             for (const trait of traits) {
                                 $ADDITIVE_TRAITS.push(trait);
+                            }
+                            traits = getIterable<Trait>(
+                                `${property}-` as keyof Monster,
+                                extension
+                            );
+                            for (const trait of traits) {
+                                $DELETE_TRAITS.add(trait.name);
                             }
                         }
                         //next, underlying monster object
@@ -184,6 +192,13 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                         for (const trait of traits) {
                             $ADDITIVE_TRAITS.push(trait);
                         }
+                        traits = getIterable<Trait>(
+                            `${property}-` as keyof Monster,
+                            this.monster
+                        );
+                        for (const trait of traits) {
+                            $DELETE_TRAITS.add(trait.name);
+                        }
 
                         /** Remove these traits first, so you don't get hit by the params */
                         traits = getIterable<Trait>(
@@ -191,9 +206,12 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                             this.params
                         );
                         for (const trait of traits) {
-                            $TRAIT_MAP.delete(trait.name);
+                            $DELETE_TRAITS.add(trait.name);
+                        }
+                        for (const trait of $DELETE_TRAITS) {
+                            $TRAIT_MAP.delete(trait);
                             $ADDITIVE_TRAITS = $ADDITIVE_TRAITS.filter(
-                                (t) => t.name !== trait.name
+                                (t) => t.name !== trait
                             );
                         }
                         //finally, the parameters should always be added
