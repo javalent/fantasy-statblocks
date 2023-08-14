@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.8.3](https://github.com/javalent/fantasy-statblocks/compare/3.8.2...3.8.3) (2023-08-14)
+
+
+### Bug Fixes
+
+* Extended/saved creatures can now remove traits ([a5a0141](https://github.com/javalent/fantasy-statblocks/commit/a5a014145b58d79598e49c2592ccfc63cedaa00d))
+* fixes deletion of default layouts ([06f33d9](https://github.com/javalent/fantasy-statblocks/commit/06f33d99ff192a85826e121be2089df186ce4226))
+* re-enable array-based traits ([ff31008](https://github.com/javalent/fantasy-statblocks/commit/ff31008e4aac3242dfed068f90bdb371fef2b3f8))
+
 ## [3.8.2](https://github.com/javalent/fantasy-statblocks/compare/3.8.1...3.8.2) (2023-08-14)
 
 
