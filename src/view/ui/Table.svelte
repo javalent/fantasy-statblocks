@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Monster } from "types";
+    import type { Monster } from "index";
     import type { TableItem } from "types/layout";
     import { stringify } from "src/util/util";
 

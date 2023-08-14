@@ -223,7 +223,10 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                         /** TODO: Reimplement combinatorial saves */
                         let saves: {
                             [x: string]: any;
-                        }[] = [];
+                        }[] =
+                            (built[property] as {
+                                [x: string]: any;
+                            }[]) ?? [];
                         if (
                             property in built &&
                             !Array.isArray(built[property]) &&
