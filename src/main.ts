@@ -338,6 +338,7 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
                     !this.settings.defaultLayouts.find((l) => l.id == layout.id)
             );
         }
+        console.log(this.settings.defaultLayouts.filter((f) => f.removed));
 
         function fixSpells(...blocks: StatblockItem[]) {
             for (const block of blocks) {
@@ -570,7 +571,10 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
     }
 
     get layouts() {
-        return [...this.settings.defaultLayouts, ...this.settings.layouts];
+        return [
+            ...this.settings.defaultLayouts.filter((f) => !f.removed),
+            ...this.settings.layouts
+        ];
     }
 
     get defaultLayout() {

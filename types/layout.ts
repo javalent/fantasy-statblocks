@@ -223,4 +223,5 @@ export interface Layout {
 
 export interface DefaultLayout extends Layout {
     edited?: boolean;
+    removed?: boolean;
 }

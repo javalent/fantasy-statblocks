@@ -537,7 +537,23 @@ export default class StatblockSettingTab extends PluginSettingTab {
     ) {
         layoutContainer.empty();
 
+        if (this.plugin.settings.defaultLayouts.some((f) => f.removed)) {
+            new Setting(layoutContainer)
+                .setName("Restore Default Layouts")
+                .addButton((b) => {
+                    b.setIcon("rotate-ccw").onClick(async () => {
+                        for (const layout of this.plugin.settings
+                            .defaultLayouts) {
+                            delete layout.removed;
+                        }
+                        await this.plugin.saveSettings();
+                        this.generateLayouts(outerContainer);
+                    });
+                });
+        }
         for (const layout of this.plugin.settings.defaultLayouts) {
+            if (layout.removed) continue;
+
             const setting = new Setting(layoutContainer)
                 .setName(layout.name)
                 .addExtraButton((b) => {
@@ -617,11 +633,12 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     b.setIcon("trash")
                         .setTooltip("Delete")
                         .onClick(async () => {
-                            this.plugin.settings.layouts =
-                                this.plugin.settings.layouts.filter(
-                                    (l) => l.id !== layout.id
-                                );
+                            layout.removed = true;
                             await this.plugin.saveSettings();
+                            console.log(
+                                "🚀 ~ file: settings.ts:623 ~ layout:",
+                                layout
+                            );
 
                             this.generateLayouts(outerContainer);
                         });
