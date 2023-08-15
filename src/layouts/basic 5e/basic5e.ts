@@ -1,5 +1,9 @@
 import { nanoid } from "src/util/util";
-import type { DefaultLayout, Layout, StatblockItem } from "../../../types/layout";
+import type {
+    DefaultLayout,
+    Layout,
+    StatblockItem
+} from "../../../types/layout";
 
 export const Statblock5e: StatblockItem[] = [
     {
@@ -57,6 +61,8 @@ export const Statblock5e: StatblockItem[] = [
                 dice: true,
                 diceProperty: "hit_dice",
                 diceCallback: `return [{ text: monster["hit_dice"] }]`,
+                callback:
+                    'let str = [monster.hp];\nif (monster.hit_dice?.length) {\n  str.push(`(${monster.hit_dice})`);\n}\nreturn str.join(" ");',
                 conditioned: true
             },
             {
@@ -649,7 +655,7 @@ return "";`
                 properties: ["legendary_actions"],
                 conditioned: true,
                 dice: true
-            },
+            }
         ],
         conditioned: true
     },
@@ -685,5 +691,6 @@ export const Layout5e: DefaultLayout = {
     blocks: Statblock5e,
     id: "basic-5e-layout",
     name: "Basic 5e Layout",
-    edited: false
+    edited: false,
+    version: 1
 };
