@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.8.4](https://github.com/javalent/fantasy-statblocks/compare/3.8.3...3.8.4) (2023-08-15)
+
+
+### Bug Fixes
+
+* allow for updating default layouts if no changes have been made ([65c7402](https://github.com/javalent/fantasy-statblocks/commit/65c74022862755a8baed91d8f91c91da72e6f5a6))
+* show hit_dice if dice roller not available in basic 5e layout ([eeacb9f](https://github.com/javalent/fantasy-statblocks/commit/eeacb9f251ea770e0fe02abb70dcae367dc7966d))
+
 ## [3.8.3](https://github.com/javalent/fantasy-statblocks/compare/3.8.2...3.8.3) (2023-08-14)
 
 
