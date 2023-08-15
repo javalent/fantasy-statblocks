@@ -18,7 +18,7 @@ export const StatblockItemTypes = [
     "layout"
 ] as const;
 
-export const TypeNames: Array<[typeof StatblockItemTypes[number], string]> = [
+export const TypeNames: Array<[(typeof StatblockItemTypes)[number], string]> = [
     ["group", "Group"],
     ["inline", "Inline Group"],
     ["ifelse", "If/Else"],
@@ -37,7 +37,7 @@ export const TypeNames: Array<[typeof StatblockItemTypes[number], string]> = [
     ["traits", "Traits"]
 ];
 
-export type StatblockItemType = typeof StatblockItemTypes[number];
+export type StatblockItemType = (typeof StatblockItemTypes)[number];
 
 type RequiredProps = {
     type: StatblockItemType;
@@ -198,7 +198,7 @@ export type AdvancedItem =
 export type BasicItem = Exclude<StatblockItem, AdvancedItem>;
 
 export interface StatblockItemMap
-    extends Record<typeof StatblockItemTypes[number], StatblockItem> {
+    extends Record<(typeof StatblockItemTypes)[number], StatblockItem> {
     group: GroupItem;
     heading: HeadingItem;
     inline: InlineItem;
@@ -224,4 +224,6 @@ export interface Layout {
 export interface DefaultLayout extends Layout {
     edited?: boolean;
     removed?: boolean;
+    version?: number;
+    updatable?: boolean;
 }

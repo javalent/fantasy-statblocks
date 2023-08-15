@@ -541,6 +541,10 @@ class PropertyModal extends MarkdownEnabledModal<PropertyItem> {
                     });
 
                     e.createEl("code", { text: "return monster.name" });
+                    e.createEl("br");
+                    e.createEl("strong", {
+                        text: "Please Note: This will not run if a dice callback is provided."
+                    });
                 })
             );
 

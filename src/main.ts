@@ -338,7 +338,18 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
                     !this.settings.defaultLayouts.find((l) => l.id == layout.id)
             );
         }
-        console.log(this.settings.defaultLayouts.filter((f) => f.removed));
+        for (const layout of DefaultLayouts) {
+            if (!layout.version) continue;
+            const existing = this.settings.defaultLayouts.find(
+                (l) => l.id === layout.id
+            );
+            if (existing.version >= layout.version) continue;
+            if (existing.edited) {
+                existing.updatable = true;
+                continue;
+            }
+            existing.blocks = fastCopy(layout.blocks);
+        }
 
         function fixSpells(...blocks: StatblockItem[]) {
             for (const block of blocks) {
