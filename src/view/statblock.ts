@@ -222,6 +222,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                             `${property}+` as keyof Monster,
                             this.params
                         );
+
                         for (const trait of traits) {
                             $ADDITIVE_TRAITS.push(trait);
                         }
@@ -334,11 +335,11 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         for (const block of blocks) {
             switch (block.type) {
                 case "group":
-                case "inline": {
+                case "inline":
+                case "collapse": {
                     ret.push(...this.unwrapBlocks(block.nested));
                     break;
                 }
-                case "collapse":
                 case "layout":
                 case "ifelse":
                 case "javascript": {
