@@ -4,6 +4,7 @@ import builtins from "builtin-modules";
 import sveltePlugin from "esbuild-svelte";
 import sveltePreprocess from "svelte-preprocess";
 import inlineWorkerPlugin from "esbuild-plugin-inline-worker";
+import { sassPlugin } from "esbuild-sass-plugin";
 import { config } from "dotenv";
 
 config();
@@ -68,6 +69,7 @@ esbuild
         treeShaking: true,
         outdir: dir,
         plugins: [
+            sassPlugin(),
             sveltePlugin({
                 compilerOptions: { css: true },
                 preprocess: sveltePreprocess(),

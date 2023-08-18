@@ -1,0 +1,129 @@
+.basic-fate-core-layout {
+    --statblock-section-heading-font-size: 16px;
+    --statblock-rule-color: var(--color-accent);
+    --statblock-background-color: #2e3440;
+    --statblock-bar-color: #5e81ac;
+    --statblock-heading-font-color: #88c0d0;
+    --statblock-property-name-font-color: #88c0d0;
+    --statblock-section-heading-font-color: #63778f;
+    --statblock-section-heading-border-color: #63778f;
+
+    .property-name {
+        color: var(--statblock-property-name-font-color);
+    }
+
+    .statblock-inline-item .line p,
+    .statblock-inline-item .line ul {
+        margin: 0;
+        white-space: normal;
+    }
+
+    .statblock-inline-item .line ul {
+        margin-top: 10px;
+    }
+
+    .statblock-item-container .property-text p,
+    .statblock-item-container.statblock-item-container {
+        margin: 0;
+        white-space: normal;
+    }
+
+    .property-text.svelte-oskcir div,
+    .property-text.svelte-9xkcir div,
+    .statblock-inline-item .line {
+        white-space: normal;
+    }
+
+    .obsidian-statblock-plugin.statblock.statblock {
+        white-space: normal;
+        margin: 0;
+    }
+
+    .creature-statblock-container .statblock,
+    .rpg-manager-header-container .statblock {
+        max-width: 100%;
+        margin: 0;
+    }
+
+    .rpg-manager-table .statblock.statblock {
+        max-width: 90%;
+        margin: 0;
+    }
+
+    .statblock > * > * > *,
+    .rpg-manager-table .statblock > * > * > *,
+    .rpg-manager-header-container .statblock > * > * > * {
+        font-size: 0.8em;
+    }
+
+    .statblock-markdown ul {
+        margin: 0;
+    }
+
+    .statblock-item-inline {
+        align-items: center;
+    }
+
+    .statblock-item-inline .line.line {
+        display: flex;
+        align-items: center;
+        line-height: 1;
+        color: var(--text-normal);
+    }
+
+    .statblock-content.statblock-content.statblock-content {
+        box-shadow: none;
+        /*background-color: var(--titlebar-background);*/
+        background-color: transparent;
+        border-color: var(--background-secondary-alt);
+        color: var(--text-normal);
+        padding: 0em 0.5em;
+    }
+
+    .obsidian-statblock-plugin .bar.bar {
+        background: var(--color-accent);
+        border-color: var(--background-secondary-alt);
+    }
+
+    .statblock-item-container .line.line,
+    .obsidian-statblock-plugin .section-header.section-header,
+    .obsidian-statblock-plugin .property-name.property-name,
+    .obsidian-statblock-plugin .heading.heading {
+        color: var(--text-normal);
+        border-color: var(--text-normal);
+    }
+
+    .statblock-item-container .table.table,
+    .statblock-item-container .line.line,
+    .obsidian-statblock-plugin .section-header.section-header,
+    .statblock-item-inline.statblock-item-inline {
+        margin-top: 0.25rem;
+    }
+
+    .statblock-item-container .flex-container + .line.line {
+        margin-top: 0.1rem;
+    }
+
+    .statblock-item-container:empty + .statblock-item-container {
+        padding-top: 0.12rem;
+        margin-top: 0.135rem;
+        border-top: 1px dashed var(--text-muted);
+    }
+
+    .markdown-source-view ol > li,
+    .markdown-source-view .obsidian-statblock-plugin ul > li,
+    .markdown-preview-view .obsidian-statblock-plugin ol > li,
+    .markdown-preview-view .obsidian-statblock-plugin ul > li,
+    .markdown-rendered .obsidian-statblock-plugin ul > li,
+    .mod-cm6 .obsidian-statblock-plugin .HyperMD-list-line.cm-line {
+        padding: 0;
+    }
+
+    .statblock-plugin-parent .icons.icons {
+        position: static;
+    }
+
+    .tapered-rule.tapered-rule.tapered-rule {
+        height: 3px;
+    }
+}
