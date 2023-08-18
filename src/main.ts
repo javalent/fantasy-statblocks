@@ -27,11 +27,12 @@ import {
     HomebrewCreature
 } from "obsidian-overload";
 import { Watcher } from "./watcher/watcher";
-import type { DefaultLayout, Layout, StatblockItem } from "../types/layout";
+import type { Layout, StatblockItem } from "../types/layout";
 import { Layout5e } from "./layouts/basic 5e/basic5e";
-import { LayoutSuggester, StatblockSuggester } from "./suggest";
+import { StatblockSuggester } from "./suggest";
 import { DefaultLayouts } from "./layouts";
 import type { StatblockData } from "index";
+import LayoutManager from "./layouts/manager";
 
 declare module "obsidian" {
     interface App {
@@ -81,7 +82,7 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
     settings: StatblockData;
     data: Map<string, Monster>;
     bestiary: Map<string, Monster>;
-
+    manager = new LayoutManager();
     private namesHaveChanged = true;
     private names: string[];
 
@@ -188,8 +189,9 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
 
         await this.loadSettings();
         await this.loadMonsterData();
-
         await this.saveSettings();
+
+        this.manager.initialize(this.settings);
 
         this.watcher.load();
 
@@ -242,7 +244,6 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
         );
 
         this.registerEditorSuggest(new StatblockSuggester(this));
-        this.registerEditorSuggest(new LayoutSuggester(this));
 
         this.registerEvent(
             this.app.workspace.on("dice-roller:unload", () => {
@@ -582,18 +583,15 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
     }
 
     get layouts() {
-        return [
-            ...this.settings.defaultLayouts.filter((f) => !f.removed),
-            ...this.settings.layouts
-        ];
+        return this.manager.getAllLayouts();
     }
 
     get defaultLayout() {
-        return (
-            this.layouts?.find(
-                (layout) => layout.id == this.settings.default
-            ) ?? Layout5e
-        );
+        return this.manager.getDefaultLayout();
+    }
+
+    getLayoutOrDefault(monster: Monster): Layout {
+        return this.manager.getLayoutOrDefault(monster.layout);
     }
 
     async postprocessor(
@@ -661,6 +659,7 @@ ${e.stack
         >(
             {},
             fastCopy(this.bestiary.get(creature.name) ?? {}),
+            //@ts-ignore
             fastCopy(creature)
         ) as Monster;
         if (!monster) return null;
@@ -673,11 +672,5 @@ ${e.stack
             plugin: this,
             context: "STATBLOCK_RENDERER"
         });
-    }
-    getLayoutOrDefault(monster: Monster): Layout {
-        return (
-            this.layouts.find((l) => l.name == monster?.layout) ??
-            this.defaultLayout
-        );
     }
 }

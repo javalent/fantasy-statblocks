@@ -577,6 +577,10 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                 );
 
                                 await this.plugin.saveSettings();
+                                this.plugin.manager.updateDefaultLayout(
+                                    layout.id,
+                                    modal.layout
+                                );
                                 this.generateLayouts(outerContainer);
                             };
                             modal.open();
@@ -594,6 +598,10 @@ export default class StatblockSettingTab extends PluginSettingTab {
                             fastCopy(defLayout)
                         );
                         await this.plugin.saveSettings();
+                        this.plugin.manager.updateDefaultLayout(
+                            layout.id,
+                            defLayout
+                        );
                         this.generateLayouts(outerContainer);
                     })
                 );
@@ -604,10 +612,11 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     b.setIcon("duplicate-glyph")
                         .setTooltip("Create Copy")
                         .onClick(async () => {
-                            this.plugin.settings.layouts.push(
-                                this.getDuplicate(layout)
-                            );
+                            const dupe = this.getDuplicate(layout);
+                            this.plugin.settings.layouts.push(dupe);
                             await this.plugin.saveSettings();
+                            this.plugin.manager.addLayout(dupe);
+
                             this.buildCustomLayouts(
                                 layoutContainer,
                                 outerContainer
@@ -635,11 +644,6 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         .onClick(async () => {
                             layout.removed = true;
                             await this.plugin.saveSettings();
-                            console.log(
-                                "🚀 ~ file: settings.ts:623 ~ layout:",
-                                layout
-                            );
-
                             this.generateLayouts(outerContainer);
                         });
                 });
@@ -674,6 +678,10 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                 );
 
                                 await this.plugin.saveSettings();
+                                this.plugin.manager.updateLayout(
+                                    layout.id,
+                                    modal.layout
+                                );
                                 this.generateLayouts(outerContainer);
                             };
                             modal.open();
@@ -683,10 +691,10 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     b.setIcon("duplicate-glyph")
                         .setTooltip("Create Copy")
                         .onClick(async () => {
-                            this.plugin.settings.layouts.push(
-                                this.getDuplicate(layout)
-                            );
+                            const dupe = this.getDuplicate(layout);
+                            this.plugin.settings.layouts.push(dupe);
                             await this.plugin.saveSettings();
+                            this.plugin.manager.addLayout(dupe);
                             this.buildCustomLayouts(
                                 layoutContainer,
                                 outerContainer
@@ -717,6 +725,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                     (l) => l.id !== layout.id
                                 );
                             await this.plugin.saveSettings();
+                            this.plugin.manager.removeLayout(layout.id);
 
                             this.generateLayouts(outerContainer);
                         });

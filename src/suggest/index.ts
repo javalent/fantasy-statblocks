@@ -4,29 +4,142 @@ import {
     type EditorPosition,
     type Editor,
     type TFile,
-    type EditorSuggestTriggerInfo
+    type EditorSuggestTriggerInfo,
+    parseYaml
 } from "obsidian";
 import type StatBlockPlugin from "src/main";
+import type {
+    CommonProps,
+    ItemWithProperties,
+    StatblockItem
+} from "types/layout";
+enum SuggestContext {
+    Layout,
+    Creature,
+    Property,
+    Bool,
+    None
+}
+const STANDARD_FIELDS = [
+    "creature",
+    "name",
+    "layout",
+    "source",
+    "dice",
+    "render",
+    "columns",
+    "forceColumns",
+    "columnWidth",
+    "columnHeight"
+];
 
 export class StatblockSuggester extends EditorSuggest<string> {
+    private _context: SuggestContext = SuggestContext.None;
+    private _keys: string[];
+    private _layout: string;
+    private _props: Map<string, CommonProps>;
     constructor(public plugin: StatBlockPlugin) {
         super(plugin.app);
     }
     getSuggestions(ctx: EditorSuggestContext) {
-        return this.plugin
-            .getBestiaryNames()
-            .filter((p) => p.toLowerCase().contains(ctx.query.toLowerCase()));
+        let suggestions: string[] = [];
+        switch (this._context) {
+            case SuggestContext.Bool: {
+                suggestions = ["true", "false"];
+                break;
+            }
+            case SuggestContext.Creature: {
+                suggestions = this.plugin.getBestiaryNames();
+                break;
+            }
+            case SuggestContext.Layout: {
+                suggestions = this.plugin.manager.getSortedLayoutNames();
+                break;
+            }
+            case SuggestContext.Property: {
+                const layout = this.plugin.manager.getLayoutOrDefault(
+                    this._layout
+                ).id;
+                this._props = this.plugin.manager.getProperties(layout);
+                suggestions = [
+                    ...new Set([
+                        ...STANDARD_FIELDS,
+                        ...(this._props.keys() ?? [])
+                    ])
+                ].filter((k) => !this._keys.includes(k));
+                break;
+            }
+            case SuggestContext.None:
+            default: {
+                return [];
+            }
+        }
+
+        return !ctx.query?.length
+            ? suggestions
+            : suggestions.filter((p) =>
+                  p.toLowerCase().contains(ctx.query.toLowerCase())
+              );
     }
     renderSuggestion(text: string, el: HTMLElement) {
         el.createSpan({ text });
     }
     selectSuggestion(value: string, evt: MouseEvent | KeyboardEvent): void {
         if (!this.context) return;
-
         const line = this.context.editor
             .getLine(this.context.end.line)
             .slice(this.context.end.ch);
         const [_, exists] = line.match(/^(\] ?)/) ?? [];
+
+        let cursorAddition;
+        if (this._context === SuggestContext.Property) {
+            if (this._props.has(value)) {
+                const prop = this._props.get(value);
+                switch (prop.type) {
+                    /** Text only */
+                    case "heading":
+                    case "subheading":
+                    case "property":
+                    case "image":
+                    case "text": {
+                        value = `${value}: `;
+                        break;
+                    }
+                    /** Traits */
+                    case "traits": {
+                        value = `${value}:\n  - name: \n    desc:`;
+                        cursorAddition = value.length - `\n    desc:`.length;
+                        break;
+                    }
+                    /** Array of strings */
+                    case "table": {
+                        value = `${value}: []`;
+                        cursorAddition = value.length - 1;
+                        break;
+                    }
+                    /** Array */
+                    case "saves":
+                    case "spells": {
+                        value = `${value}:\n  - `;
+                        cursorAddition = value.length;
+                        break;
+                    }
+                    /** Nothing */
+                    case "inline":
+                    case "group":
+                    case "ifelse":
+                    case "collapse":
+                    case "javascript":
+                    case "layout":
+                    default: {
+                        break;
+                    }
+                }
+            } else {
+                value = `${value}: `;
+                cursorAddition = value.length;
+            }
+        }
 
         this.context.editor.replaceRange(
             `${value}`,
@@ -43,7 +156,7 @@ export class StatblockSuggester extends EditorSuggest<string> {
 
         this.context.editor.setCursor(
             this.context.start.line,
-            this.context.start.ch + value.length
+            this.context.start.ch + cursorAddition
         );
 
         this.close();
@@ -55,15 +168,18 @@ export class StatblockSuggester extends EditorSuggest<string> {
     ): EditorSuggestTriggerInfo {
         const range = editor.getRange({ line: 0, ch: 0 }, cursor);
 
-        if (range.indexOf("```statblock\n") === -1) return;
+        if (range.indexOf("```statblock\n") === -1) return null;
 
-        const split = range.split("\n").reverse();
+        const split = range.split("\n");
 
-        let inStatblock = false;
-        for (const line of split) {
-            if (/^```$/.test(line)) return;
-            if (/^```statblock/.test(line)) {
+        let inStatblock = false,
+            start: number;
+        for (let i = split.length - 1; i >= 0; i--) {
+            let line = split[i];
+            if (/^\`\`\`$/.test(line)) return null;
+            if (/^\`\`\`statblock/.test(line)) {
                 inStatblock = true;
+                start = i;
                 break;
             }
         }
@@ -71,123 +187,108 @@ export class StatblockSuggester extends EditorSuggest<string> {
 
         const line = editor.getLine(cursor.line);
         //not inside the bracket
+        this._context = SuggestContext.None;
+        if (/^name/.test(line)) return null;
+        if (/^(dice|render)/.test(line)) {
+            this._context = SuggestContext.Bool;
+            const match = line.match(/^(dice|render):\s?(.*)\n?/);
+            if (!match) return null;
+            const [_, param, query] = match;
 
-        if (!/^(monster|creature):/m.test(line.slice(0, cursor.ch)))
-            return null;
-
-        const match = line.match(/^(monster|creature): (.+)\n?/);
-        if (!match) return null;
-
-        const [_, param, query] = match;
-
-        if (
-            !query ||
-            this.plugin
-                .getBestiaryNames()
-                .find((p) => p.toLowerCase() == query.toLowerCase())
-        ) {
-            return null;
-        }
-        const matchData = {
-            end: cursor,
-            start: {
-                ch: param.length + 2,
-                line: cursor.line
-            },
-            query
-        };
-        return matchData;
-    }
-}
-export class LayoutSuggester extends EditorSuggest<string> {
-    constructor(public plugin: StatBlockPlugin) {
-        super(plugin.app);
-    }
-    getSuggestions(ctx: EditorSuggestContext) {
-        return this.plugin.layouts
-            .filter((p) =>
-                p.name.toLowerCase().contains(ctx.query.toLowerCase())
-            )
-            .map((l) => l.name);
-    }
-    renderSuggestion(text: string, el: HTMLElement) {
-        el.createSpan({ text });
-    }
-    selectSuggestion(value: string, evt: MouseEvent | KeyboardEvent): void {
-        if (!this.context) return;
-
-        const line = this.context.editor
-            .getLine(this.context.end.line)
-            .slice(this.context.end.ch);
-        const [_, exists] = line.match(/^(\] ?)/) ?? [];
-
-        this.context.editor.replaceRange(
-            `${value}`,
-            this.context.start,
-            {
-                ...this.context.end,
-                ch:
-                    this.context.start.ch +
-                    this.context.query.length +
-                    (exists?.length ?? 0)
-            },
-            "statblocks"
-        );
-
-        this.context.editor.setCursor(
-            this.context.start.line,
-            this.context.start.ch + value.length
-        );
-
-        this.close();
-    }
-    onTrigger(
-        cursor: EditorPosition,
-        editor: Editor,
-        file: TFile
-    ): EditorSuggestTriggerInfo {
-        const range = editor.getRange({ line: 0, ch: 0 }, cursor);
-
-        if (range.indexOf("```statblock\n") === -1) return;
-
-        const split = range.split("\n").reverse();
-
-        let inStatblock = false;
-        for (const line of split) {
-            if (/^```$/.test(line)) return;
-            if (/^```statblock/.test(line)) {
-                inStatblock = true;
-                break;
+            if (query === "true" || query === "false") {
+                return null;
             }
+            return {
+                end: cursor,
+                start: {
+                    ch: param.length + 2,
+                    line: cursor.line
+                },
+                query
+            };
         }
-        if (!inStatblock) return;
+        if (/^(monster|creature):/.test(line)) {
+            this._context = SuggestContext.Creature;
+            const match = line.match(/^(monster|creature):\s?(.*)\n?/);
+            if (!match) return null;
+            const [_, param, query] = match;
 
-        const line = editor.getLine(cursor.line);
-        //not inside the bracket
-
-        if (!/^(layout):/m.test(line.slice(0, cursor.ch))) return null;
-
-        const match = line.match(/^(layout): (.+)\n?/);
-        if (!match) return null;
-
-        const [_, param, query] = match;
-
-        if (
-            !query ||
-            this.plugin.layouts.find(
-                (p) => p.name.toLowerCase() == query.toLowerCase()
-            )
-        ) {
-            return null;
+            if (
+                this.plugin
+                    .getBestiaryNames()
+                    .find((p) => p.toLowerCase() == query.toLowerCase())
+            ) {
+                return null;
+            }
+            return {
+                end: cursor,
+                start: {
+                    ch: param.length + 2,
+                    line: cursor.line
+                },
+                query
+            };
         }
-        const matchData = {
+        if (/^(layout):/m.test(line)) {
+            this._context = SuggestContext.Layout;
+
+            const match = line.match(/^(layout):\s?(.*)\n?/);
+            if (!match) return null;
+
+            const [_, param, query] = match;
+
+            if (
+                this.plugin.layouts.find(
+                    (p) => p.name.toLowerCase() == query.toLowerCase()
+                )
+            ) {
+                return null;
+            }
+            const matchData = {
+                end: cursor,
+                start: {
+                    ch: param.length + 2,
+                    line: cursor.line
+                },
+                query
+            };
+            return matchData;
+        }
+
+        /**
+         * get all the keys in the encounter block
+         * only do this if not already in layout/creature suggester
+         */
+        try {
+            let doc = editor.getValue().split("\n");
+            // just remove the current line to prevent yaml parsing issues
+            doc.splice(cursor.line, 1);
+            doc = doc.slice(start + 1);
+            let end = doc.findIndex((l) => /^```$/.test(l));
+            if (end < 0) end = doc.length;
+
+            //get existing property keys.
+            //also get layout (if available);
+
+            const obj = parseYaml(doc.slice(0, end).join("\n"));
+            this._keys = Object.keys(obj);
+
+            this._layout =
+                obj.layout ?? this.plugin.manager.getDefaultLayout().name;
+        } catch (e) {
+            this._keys = [];
+        }
+        if (!this._keys) this._keys = [];
+
+        this._context = SuggestContext.Property;
+
+        return {
             end: cursor,
             start: {
-                ch: param.length + 2,
+                ch: 0,
                 line: cursor.line
             },
-            query
+            query: line
         };
-        return matchData;
     }
 }

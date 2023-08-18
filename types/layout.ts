@@ -161,6 +161,7 @@ export type SubHeadingItem = CommonProps & SubHeadingProps;
 export type TableItem = CommonProps & TableProps;
 export type ImageItem = CommonProps & ImageProps;
 export type TextItem = CommonProps & TextProps & GenericTextProp;
+
 export type IfElseItem = RequiredProps & IfElseProps;
 export type CollapseItem = RequiredProps & CollapseProps;
 export type JavaScriptItem = RequiredProps & JavaScriptProps;
@@ -196,6 +197,8 @@ export type AdvancedItem =
     | JavaScriptItem
     | LayoutItem;
 export type BasicItem = Exclude<StatblockItem, AdvancedItem>;
+
+export type ItemWithProperties = Exclude<CommonProps, GroupItem | InlineItem>;
 
 export interface StatblockItemMap
     extends Record<(typeof StatblockItemTypes)[number], StatblockItem> {
