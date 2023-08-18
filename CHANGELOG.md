@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.9.0](https://github.com/javalent/fantasy-statblocks/compare/3.8.4...3.9.0) (2023-08-18)
+
+
+### Features
+
+* Adds a Creature pane with search bar (close [#256](https://github.com/javalent/fantasy-statblocks/issues/256)) ([fca9c5a](https://github.com/javalent/fantasy-statblocks/commit/fca9c5aae69a2127569fc83b9bb330a12c98e3ba))
+* New editor suggester that dynamically loads layout fields to suggest properties in code blocks ([0064bfe](https://github.com/javalent/fantasy-statblocks/commit/0064bfe883304fc77eafa498e9847d9d8a83d6bf))
+
+
+### Bug Fixes
+
+* add bestiary names method to API spec ([7a0c509](https://github.com/javalent/fantasy-statblocks/commit/7a0c509fe593d3af261aa7b5051d8310adc792bf))
+* adds fate core css (close [#217](https://github.com/javalent/fantasy-statblocks/issues/217)) ([3ddd501](https://github.com/javalent/fantasy-statblocks/commit/3ddd501c1a6323dd4cc015df3d1b958344b9153d))
+* unwrap callout blocks to find traits ([660a657](https://github.com/javalent/fantasy-statblocks/commit/660a657981c25e65125f69d52162ee7d3f608b54))
+
 ## [3.8.4](https://github.com/javalent/fantasy-statblocks/compare/3.8.3...3.8.4) (2023-08-15)
 
 
