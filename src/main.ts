@@ -3,7 +3,8 @@ import {
     MarkdownPostProcessorContext,
     Notice,
     parseYaml,
-    Plugin
+    Plugin,
+    WorkspaceLeaf
 } from "obsidian";
 import domtoimage from "dom-to-image";
 
@@ -33,6 +34,7 @@ import { StatblockSuggester } from "./suggest";
 import { DefaultLayouts } from "./layouts";
 import type { StatblockData } from "index";
 import LayoutManager from "./layouts/manager";
+import { CREATURE_VIEW, CreatureView } from "./combatant";
 
 declare module "obsidian" {
     interface App {
@@ -184,6 +186,13 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
                 .flat()
         );
     }
+
+    get creature_view() {
+        const leaves = this.app.workspace.getLeavesOfType(CREATURE_VIEW);
+        const leaf = leaves?.length ? leaves[0] : null;
+        if (leaf && leaf.view && leaf.view instanceof CreatureView)
+            return leaf.view;
+    }
     async onload() {
         console.log("Fantasy StatBlocks loaded");
 
@@ -201,6 +210,30 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
             callback: () => {
                 this.watcher.start(true);
             }
+        });
+        this.addCommand({
+            id: "open-creature-view",
+            name: "Open Creature Pane",
+            callback: async () => {
+                const view = this.creature_view;
+                if (!view) {
+                    const leaf = this.app.workspace.getRightLeaf(true);
+                    await leaf.setViewState({
+                        type: CREATURE_VIEW
+                    });
+                }
+                this.app.workspace.revealLeaf(this.creature_view.leaf);
+            }
+        });
+        this.addRibbonIcon("skull", "Open Creature Pane", async () => {
+            const view = this.creature_view;
+            if (!view) {
+                const leaf = this.app.workspace.getRightLeaf(true);
+                await leaf.setViewState({
+                    type: CREATURE_VIEW
+                });
+            }
+            this.app.workspace.revealLeaf(this.creature_view.leaf);
         });
 
         addIcon(
@@ -245,6 +278,10 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
 
         this.registerEditorSuggest(new StatblockSuggester(this));
 
+        this.registerView(
+            CREATURE_VIEW,
+            (leaf: WorkspaceLeaf) => new CreatureView(leaf, this)
+        );
         this.registerEvent(
             this.app.workspace.on("dice-roller:unload", () => {
                 //why did i do this?
@@ -502,6 +539,10 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
         delete window.bestiary;
         this.watcher.unload();
         console.log("Fantasy StatBlocks unloaded");
+
+        this.app.workspace
+            .getLeavesOfType(CREATURE_VIEW)
+            .forEach((leaf) => leaf.detach());
     }
 
     exportAsPng(name: string, containerEl: Element) {

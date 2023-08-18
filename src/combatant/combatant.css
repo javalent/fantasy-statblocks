@@ -1,0 +1,9 @@
+.creature-view-container .creature-view-top-pane {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.creature-view-top-pane input {
+    width: 100%;
+}
