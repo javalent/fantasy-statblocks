@@ -195,26 +195,38 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
     }
     async onload() {
         console.log("Fantasy StatBlocks loaded");
+        new Notice("Loading Fantasy Statblocks...");
+        try {
+            await this.loadSettings();
+            await this.loadMonsterData();
+            await this.saveSettings();
 
-        await this.loadSettings();
-        await this.loadMonsterData();
-        await this.saveSettings();
+            this.manager.initialize(this.settings);
 
-        this.manager.initialize(this.settings);
+            this.watcher.load();
 
-        this.watcher.load();
-
-        this.addCommand({
-            id: "parse-frontmatter",
-            name: "Parse Frontmatter for Creatures",
-            callback: () => {
-                this.watcher.start(true);
-            }
-        });
-        this.addCommand({
-            id: "open-creature-view",
-            name: "Open Creature Pane",
-            callback: async () => {
+            this.addCommand({
+                id: "parse-frontmatter",
+                name: "Parse Frontmatter for Creatures",
+                callback: () => {
+                    this.watcher.start(true);
+                }
+            });
+            this.addCommand({
+                id: "open-creature-view",
+                name: "Open Creature Pane",
+                callback: async () => {
+                    const view = this.creature_view;
+                    if (!view) {
+                        const leaf = this.app.workspace.getRightLeaf(true);
+                        await leaf.setViewState({
+                            type: CREATURE_VIEW
+                        });
+                    }
+                    this.app.workspace.revealLeaf(this.creature_view.leaf);
+                }
+            });
+            this.addRibbonIcon("skull", "Open Creature Pane", async () => {
                 const view = this.creature_view;
                 if (!view) {
                     const leaf = this.app.workspace.getRightLeaf(true);
@@ -223,85 +235,61 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
                     });
                 }
                 this.app.workspace.revealLeaf(this.creature_view.leaf);
-            }
-        });
-        this.addRibbonIcon("skull", "Open Creature Pane", async () => {
-            const view = this.creature_view;
-            if (!view) {
-                const leaf = this.app.workspace.getRightLeaf(true);
-                await leaf.setViewState({
-                    type: CREATURE_VIEW
-                });
-            }
-            this.app.workspace.revealLeaf(this.creature_view.leaf);
-        });
+            });
 
-        addIcon(
-            "dropzone-grip",
-            `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="grip-lines-vertical" class="svg-inline--fa fa-grip-lines-vertical fa-w-8" role="img" viewBox="0 0 256 512"><path fill="currentColor" d="M96 496V16c0-8.8-7.2-16-16-16H48c-8.8 0-16 7.2-16 16v480c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16zm128 0V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v480c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16z"/></svg>`
-            /*  `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="grip-vertical" class="svg-inline--fa fa-grip-vertical fa-w-10" role="img" viewBox="0 0 320 512"><path fill="currentColor" d="M96 32H32C14.33 32 0 46.33 0 64v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32V64c0-17.67-14.33-32-32-32zm0 160H32c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zm0 160H32c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zM288 32h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32V64c0-17.67-14.33-32-32-32zm0 160h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zm0 160h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32z"/></svg>`*/
-        );
-        addIcon(
-            "statblock-conditioned",
-            `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="far" data-icon="question-circle" class="svg-inline--fa fa-question-circle fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"/></svg>`
-        );
-        addIcon(
-            "dice-roller-dice",
-            `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="dice" class="svg-inline--fa fa-dice fa-w-20" role="img" viewBox="0 0 640 512"><path fill="currentColor" d="M592 192H473.26c12.69 29.59 7.12 65.2-17 89.32L320 417.58V464c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48V240c0-26.51-21.49-48-48-48zM480 376c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm-46.37-186.7L258.7 14.37c-19.16-19.16-50.23-19.16-69.39 0L14.37 189.3c-19.16 19.16-19.16 50.23 0 69.39L189.3 433.63c19.16 19.16 50.23 19.16 69.39 0L433.63 258.7c19.16-19.17 19.16-50.24 0-69.4zM96 248c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z"/></svg>`
-        );
+            addIcon(
+                "dropzone-grip",
+                `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="grip-lines-vertical" class="svg-inline--fa fa-grip-lines-vertical fa-w-8" role="img" viewBox="0 0 256 512"><path fill="currentColor" d="M96 496V16c0-8.8-7.2-16-16-16H48c-8.8 0-16 7.2-16 16v480c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16zm128 0V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v480c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16z"/></svg>`
+                /*  `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="grip-vertical" class="svg-inline--fa fa-grip-vertical fa-w-10" role="img" viewBox="0 0 320 512"><path fill="currentColor" d="M96 32H32C14.33 32 0 46.33 0 64v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32V64c0-17.67-14.33-32-32-32zm0 160H32c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zm0 160H32c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zM288 32h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32V64c0-17.67-14.33-32-32-32zm0 160h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zm0 160h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32z"/></svg>`*/
+            );
+            addIcon(
+                "statblock-conditioned",
+                `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="far" data-icon="question-circle" class="svg-inline--fa fa-question-circle fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"/></svg>`
+            );
+            addIcon(
+                "dice-roller-dice",
+                `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="dice" class="svg-inline--fa fa-dice fa-w-20" role="img" viewBox="0 0 640 512"><path fill="currentColor" d="M592 192H473.26c12.69 29.59 7.12 65.2-17 89.32L320 417.58V464c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48V240c0-26.51-21.49-48-48-48zM480 376c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm-46.37-186.7L258.7 14.37c-19.16-19.16-50.23-19.16-69.39 0L14.37 189.3c-19.16 19.16-19.16 50.23 0 69.39L189.3 433.63c19.16 19.16 50.23 19.16 69.39 0L433.63 258.7c19.16-19.17 19.16-50.24 0-69.4zM96 248c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z"/></svg>`
+            );
 
-        addIcon(
-            "markdown-icon",
-            `<svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M593.8 59.1H46.2C20.7 59.1 0 79.8 0 105.2v301.5c0 25.5 20.7 46.2 46.2 46.2h547.7c25.5 0 46.2-20.7 46.1-46.1V105.2c0-25.4-20.7-46.1-46.2-46.1zM338.5 360.6H277v-120l-61.5 76.9-61.5-76.9v120H92.3V151.4h61.5l61.5 76.9 61.5-76.9h61.5v209.2zm135.3 3.1L381.5 256H443V151.4h61.5V256H566z"/></svg>`
-        );
+            addIcon(
+                "markdown-icon",
+                `<svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M593.8 59.1H46.2C20.7 59.1 0 79.8 0 105.2v301.5c0 25.5 20.7 46.2 46.2 46.2h547.7c25.5 0 46.2-20.7 46.1-46.1V105.2c0-25.4-20.7-46.1-46.2-46.1zM338.5 360.6H277v-120l-61.5 76.9-61.5-76.9v120H92.3V151.4h61.5l61.5 76.9 61.5-76.9h61.5v209.2zm135.3 3.1L381.5 256H443V151.4h61.5V256H566z"/></svg>`
+            );
 
-        this.addSettingTab(new StatblockSettingTab(this.app, this));
+            this.addSettingTab(new StatblockSettingTab(this.app, this));
 
-        addIcon(SAVE_SYMBOL, SAVE_ICON);
-        addIcon(EXPORT_SYMBOL, EXPORT_ICON);
+            addIcon(SAVE_SYMBOL, SAVE_ICON);
+            addIcon(EXPORT_SYMBOL, EXPORT_ICON);
 
-        this.bestiary = new Map([
-            ...getBestiaryByName(this.settings.disableSRD),
-            ...this.data
-        ]);
+            this.bestiary = new Map([
+                ...getBestiaryByName(this.settings.disableSRD),
+                ...this.data
+            ]);
 
-        Object.defineProperty(window, "bestiary", {
-            value: this.bestiary,
-            writable: false,
-            configurable: true
-        });
+            Object.defineProperty(window, "bestiary", {
+                value: this.bestiary,
+                writable: false,
+                configurable: true
+            });
 
-        this.registerMarkdownCodeBlockProcessor(
-            "statblock",
-            this.postprocessor.bind(this)
-        );
+            this.registerMarkdownCodeBlockProcessor(
+                "statblock",
+                this.postprocessor.bind(this)
+            );
 
-        this.registerEditorSuggest(new StatblockSuggester(this));
+            this.registerEditorSuggest(new StatblockSuggester(this));
 
-        this.registerView(
-            CREATURE_VIEW,
-            (leaf: WorkspaceLeaf) => new CreatureView(leaf, this)
-        );
-        this.registerEvent(
-            this.app.workspace.on("dice-roller:unload", () => {
-                //why did i do this?
-                /* this.settings.useDice = false; */
-            })
-        );
-        if (this.canUseDiceRoller) {
-            this.app.plugins
-                .getPlugin("obsidian-dice-roller")
-                ?.api.registerSource(DICE_ROLLER_SOURCE, {
-                    showDice: true,
-                    shouldRender: this.settings.renderDice,
-                    showFormula: false,
-                    showParens: false,
-                    expectedValue: ExpectedValue.Average,
-                    text: null
-                });
-        }
-        this.registerEvent(
-            this.app.workspace.on("dice-roller:loaded", () => {
+            this.registerView(
+                CREATURE_VIEW,
+                (leaf: WorkspaceLeaf) => new CreatureView(leaf, this)
+            );
+            this.registerEvent(
+                this.app.workspace.on("dice-roller:unload", () => {
+                    //why did i do this?
+                    /* this.settings.useDice = false; */
+                })
+            );
+            if (this.canUseDiceRoller) {
                 this.app.plugins
                     .getPlugin("obsidian-dice-roller")
                     ?.api.registerSource(DICE_ROLLER_SOURCE, {
@@ -312,10 +300,27 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
                         expectedValue: ExpectedValue.Average,
                         text: null
                     });
-                //why did i do this?
-                /* this.settings.useDice = false; */
-            })
-        );
+            }
+            this.registerEvent(
+                this.app.workspace.on("dice-roller:loaded", () => {
+                    this.app.plugins
+                        .getPlugin("obsidian-dice-roller")
+                        ?.api.registerSource(DICE_ROLLER_SOURCE, {
+                            showDice: true,
+                            shouldRender: this.settings.renderDice,
+                            showFormula: false,
+                            showParens: false,
+                            expectedValue: ExpectedValue.Average,
+                            text: null
+                        });
+                })
+            );
+
+            new Notice("Fantasy Statblocks Loaded");
+        } catch (e) {
+            new Notice(e);
+            new Notice(e.stack);
+        }
     }
     async loadSettings() {
         const settings: StatblockData = await this.loadData();
