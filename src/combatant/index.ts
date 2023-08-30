@@ -3,7 +3,8 @@ import {
     type WorkspaceLeaf,
     debounce,
     ExtraButtonComponent,
-    TextComponent
+    TextComponent,
+    SearchComponent
 } from "obsidian";
 import type { Monster } from "obsidian-overload";
 import type StatBlockPlugin from "src/main";
@@ -44,7 +45,7 @@ export class CreatureView extends ItemView {
         );
     }
     onload() {
-        const search = new TextComponent(this.topEl).setPlaceholder(
+        const search = new SearchComponent(this.topEl).setPlaceholder(
             "Find a creature"
         );
         const suggester = new MonsterSuggestionModal(

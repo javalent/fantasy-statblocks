@@ -46,11 +46,11 @@ export default class LayoutManager {
         for (const layout of layouts) {
             this.#defaults.set(layout.id, layout);
         }
-        setImmediate(() => {
+        setTimeout(() => {
             for (const layout of layouts) {
                 this.#unwrapLayout(layout);
             }
-        });
+        }, 0);
     }
     public setDefaultLayout(layout: string) {
         this.#default = layout;
@@ -63,11 +63,11 @@ export default class LayoutManager {
         for (const layout of layouts) {
             this.#layouts.set(layout.id, layout);
         }
-        setImmediate(() => {
+        setTimeout(() => {
             for (const layout of layouts) {
                 this.#unwrapLayout(layout);
             }
-        });
+        }, 0);
     }
     public getCustomLayouts() {
         return this.#layouts.values();
