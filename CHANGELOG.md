@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.9.2](https://github.com/javalent/fantasy-statblocks/compare/3.9.1...3.9.2) (2023-08-30)
+
+
+### Bug Fixes
+
+* remove setImmediate so mobile works again ([a2ffe05](https://github.com/javalent/fantasy-statblocks/commit/a2ffe05b744cfd22d53f6fc96e6ee3b9629af4fb))
+
 ## [3.9.1](https://github.com/javalent/fantasy-statblocks/compare/3.9.0...3.9.1) (2023-08-30)
 
 
