@@ -77,15 +77,15 @@
     {#if error || !dice}
         {text}
     {:else}
-        <span class="roller-result" use:rollerEl />
+        <span class="statblock-dice-result" use:rollerEl />
         {#if typeof original == "number" || (original && original.length)}
-            <span class="dice-original">({original})</span>
+            <span class="statblock-dice-original">({original})</span>
         {/if}
     {/if}
 {/key}
 
 <style>
-    .roller-result {
+    .statblock-dice-result {
         font-weight: var(--statblock-font-weight);
     }
 </style>

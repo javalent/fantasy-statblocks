@@ -1,7 +1,7 @@
-<div class="tapered-rule" />
+<div class="statblock-tapered-rule" />
 
 <style>
-    .tapered-rule {
+    .statblock-tapered-rule {
         width: auto;
         margin: 0.5em 0;
         height: 5px;

@@ -25,19 +25,19 @@
         const contentContainer = temp.createDiv({
             cls: [
                 "statblock-detached",
-                "obsidian-statblock-plugin",
+                "fantasy-statblock-plugin",
                 "statblock",
                 ...classes
             ]
         });
         let tempColumnContainer = contentContainer
             .createDiv({
-                cls: "statblock-content-container",
+                cls: "statblock-column-content-container",
                 attr: {
                     style: `width: ${columnWidth}`
                 }
             })
-            .createDiv("statblock-content");
+            .createDiv("statblock-column-content");
         let columnEl = tempColumnContainer.createDiv("column");
         columnEls.push(columnEl);
 
@@ -97,8 +97,8 @@
 </script>
 
 <div
-    class="statblock-content-container"
+    class="statblock-column-container"
     style="--statblock-column-width: {columnWidth};"
 >
-    <div class="statblock-content" bind:this={content} />
+    <div class="statblock-column-content" bind:this={content} />
 </div>

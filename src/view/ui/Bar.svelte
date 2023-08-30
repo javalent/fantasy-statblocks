@@ -1,7 +1,7 @@
-<div class="bar" />
+<div class="statblock-bar" />
 
 <style>
-    .bar {
+    .statblock-bar" {
         height: 5px;
         background: var(--statblock-bar-color);
         border: var(--statblock-bar-border-size) solid

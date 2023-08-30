@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Monster } from "types";
+    import type { Monster } from "../../../@types/types";
     import { Notice } from "obsidian";
     import type { JavaScriptItem } from "types/layout";
     import type StatBlockPlugin from "src/main";
@@ -26,7 +26,7 @@
     };
 </script>
 
-<div class="statblock-javascript" use:render />
+<div class="statblock-javascript-block" use:render />
 
 <style>
 </style>

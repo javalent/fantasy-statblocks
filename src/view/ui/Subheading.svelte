@@ -16,13 +16,13 @@
 </script>
 
 {#if subheading.length}
-    <div class="subheading">
+    <div class="statblock-subheading-block">
         <TextContent textToRender={subheading.join(item.separator ?? " ")} />
     </div>
 {/if}
 
 <style>
-    .subheading {
+    .statblock-subheading-block {
         font-weight: var(--statblock-subheading-font-weight);
         font-style: var(--statblock-subheading-font-style);
         font-size: var(--statblock-subheading-font-size);

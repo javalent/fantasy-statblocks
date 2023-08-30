@@ -49,10 +49,10 @@
     ];
 </script>
 
-<div class="statblock-table">
+<div class="statblock-table-block">
     {#each [...valueMap.entries()].slice(0, headers.length) as [index, values]}
-        <div class="table-item">
-            <span class="statblock-table-header">{headers[index]}</span>
+        <div class="fs-table">
+            <span class="fs-table-header">{headers[index]}</span>
             {#each values as value}
                 <span>
                     {stringify(value)}
@@ -68,19 +68,21 @@
 </div>
 
 <style>
-    .statblock-table-header {
-        font-weight: var(--statblock-table-header-font-weight);
-    }
-    .statblock-table {
+    .statblock-table-block {
         display: flex;
         justify-content: space-evenly;
         align-items: center;
         flex-wrap: wrap;
     }
-    .table-item {
+
+    .statblock-table {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-flow: column nowrap;
+    }
+
+    .statblock-table-header {
+        font-weight: var(--statblock-table-header-font-weight);
     }
 </style>

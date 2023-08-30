@@ -8,31 +8,31 @@
     export let item: HeadingItem;
 </script>
 
-<div class="flex-container">
+<div class="statblock-header-block">
     {#each item.properties as property}
         {#if property in monster}
             {#if !item.size || item.size == 1}
-                <h1 class="heading statblock-heading {stringify(property)}">
+                <h1 class="heading-settings {stringify(property)}">
                     <TextContent textToRender={stringify(monster[property])} />
                 </h1>
             {:else if item.size == 2}
-                <h2 class="heading statblock-heading {stringify(property)}">
+                <h2 class="heading-settings {stringify(property)}">
                     <TextContent textToRender={stringify(monster[property])} />
                 </h2>
             {:else if item.size == 3}
-                <h3 class="heading statblock-heading {stringify(property)}">
+                <h3 class="heading-settings {stringify(property)}">
                     <TextContent textToRender={stringify(monster[property])} />
                 </h3>
             {:else if item.size == 4}
-                <h4 class="heading statblock-heading {stringify(property)}">
+                <h4 class="heading-settings {stringify(property)}">
                     <TextContent textToRender={stringify(monster[property])} />
                 </h4>
             {:else if item.size == 5}
-                <h5 class="heading statblock-heading {stringify(property)}">
+                <h5 class="heading-settings {stringify(property)}">
                     <TextContent textToRender={stringify(monster[property])} />
                 </h5>
             {:else}
-                <h6 class="heading statblock-heading {stringify(property)}">
+                <h6 class="heading-settings {stringify(property)}">
                     <TextContent textToRender={stringify(monster[property])} />
                 </h6>
             {/if}
@@ -41,16 +41,16 @@
 </div>
 
 <style>
-    .flex-container {
+    .statblock-header-block {
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
-    .heading {
+    .heading-settings {
         font-family: var(--statblock-heading-font);
         color: var(--statblock-heading-font-color);
         font-weight: var(--statblock-heading-font-weight);
-        margin: 0px;
+        margin: 0;
 
         letter-spacing: 1px;
         font-variant: var(--statblock-heading-font-variant);

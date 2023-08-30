@@ -168,10 +168,10 @@
     );
 </script>
 
-<div class="container" bind:this={container}>
+<div class="statblock-container" bind:this={container}>
     {#if ready}
         <div
-            class:obsidian-statblock-plugin={true}
+            class:fantasy-statblock-plugin={true}
             class:statblock={true}
             class={classes.join(" ")}
         >
@@ -195,27 +195,28 @@
             {/if}
         </div>
         <!-- {#if icons} -->
-        <div class="icons" use:iconsEl on:click={showMenu} />
+        <div class="statblock-icons" use:iconsEl on:click={showMenu} />
         <!-- {/if} -->
     {/if}
 </div>
 
 <style>
-
-    .statblock :global(a) {
-        font-style: var(--statblock-link-style);
-    }
-    .container {
+    .statblock-container {
         display: flex;
         width: 100%;
         margin: 0.25rem 0;
     }
+
     .statblock {
         margin: 0 auto;
         position: relative;
     }
 
-    .icons {
+    .statblock :global(a) {
+        font-style: var(--statblock-link-style);
+    }
+
+    .statblock-icons {
         position: absolute;
         left: 0;
     }

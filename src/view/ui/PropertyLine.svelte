@@ -35,19 +35,19 @@
 </script>
 
 {#if !item.conditioned || (item.conditioned && `${property}`.length)}
-    <div class="line {cssClass}">
-        <span class="property-name">{display}</span>
+    <div class="statblock-property-block {cssClass}">
+        <span class="property-trait-name">{display}</span>
         <TextContentHolder render={item.markdown} {property} />
     </div>
 {/if}
 
 <style>
-    .line {
+    .statblock-property-block {
         line-height: var(--statblock-property-line-height);
         display: block;
         color: var(--statblock-property-font-color);
     }
-    .property-name {
+    .property-trait-name {
         margin: 0;
         margin-right: 0.25em;
         display: inline;
