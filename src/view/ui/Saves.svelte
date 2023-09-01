@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Monster } from "types";
+    import type { Monster } from "index";
     import type { SavesItem } from "types/layout";
     import { toTitleCase } from "src/util/util";
     import { getContext } from "svelte";
@@ -50,6 +50,7 @@
         color: var(--statblock-font-color);
     }
     .property-name {
+        color: var(--statblock-property-name-font-color);
         margin: 0;
         margin-right: 0.25em;
         display: inline;

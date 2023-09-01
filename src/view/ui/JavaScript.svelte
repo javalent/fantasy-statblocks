@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Monster } from "types";
+    import type { Monster } from "index";
     import { Notice } from "obsidian";
     import type { JavaScriptItem } from "types/layout";
     import type StatBlockPlugin from "src/main";
