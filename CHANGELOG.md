@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.9.3](https://github.com/javalent/fantasy-statblocks/compare/3.9.2...3.9.3) (2023-09-01)
+
+
+### Bug Fixes
+
+* Saves blocks now use the `--statblock-property-name-font-color` css variable ([faf5da7](https://github.com/javalent/fantasy-statblocks/commit/faf5da77b6502b8b628e38abebb598e85a75196e))
+
 ## [3.9.2](https://github.com/javalent/fantasy-statblocks/compare/3.9.1...3.9.2) (2023-08-30)
 
 
