@@ -17,7 +17,7 @@
 
 {#if subheading.length}
     <div class="subheading">
-        <TextContent textToRender={subheading.join(item.separator ?? " ")} />
+        <TextContent textToRender={subheading.join(item.separator)} />
     </div>
 {/if}
 
