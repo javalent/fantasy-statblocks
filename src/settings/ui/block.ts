@@ -663,13 +663,10 @@ class SubheadingModal extends GenericModal<SubHeadingItem> {
             .setName("Separator")
             .setDesc("Text separating properties")
             .addText((t) => {
-                if (!this.block.separator) {
-                    this.block.separator = " ";
-
-                    t.setValue(this.block.separator).onChange((v) => {
-                        this.block.separator = v;
-                    });
-                }
+                t.setValue(this.block.separator).onChange((v) => {
+                    //If onchange(v) parameter is empty, get default ", " or v value
+                    this.block.separator = (v ?? "").trim().length === 0 ? ", " : v;
+                });
             });
     }
 }
