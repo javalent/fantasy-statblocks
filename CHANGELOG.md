@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.9.4](https://github.com/javalent/fantasy-statblocks/compare/3.9.3...3.9.4) (2023-09-11)
+
+
+### Bug Fixes
+
+* Respect subheading separator in layouts ([0786e1f](https://github.com/javalent/fantasy-statblocks/commit/0786e1fd17be99b4e66e3b881d6285cb28c08b09))
+
 ## [3.9.3](https://github.com/javalent/fantasy-statblocks/compare/3.9.2...3.9.3) (2023-09-01)
 
 
