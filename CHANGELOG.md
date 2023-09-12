@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.10.0](https://github.com/javalent/fantasy-statblocks/compare/3.9.4...3.10.0) (2023-09-12)
+
+
+### Features
+
+* New `bestiary` field can be set to false to prevent creature from being exposed in the bestiary. Note that if another creature extends this, you should set `bestiary` to true. ([2ed4c9c](https://github.com/javalent/fantasy-statblocks/commit/2ed4c9cc4ddb2f1927d06ea19385af01dbcfb78d))
+
 ## [3.9.4](https://github.com/javalent/fantasy-statblocks/compare/3.9.3...3.9.4) (2023-09-11)
 
 
