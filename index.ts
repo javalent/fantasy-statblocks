@@ -103,6 +103,7 @@ export interface Monster {
     monster?: string;
     creature?: string;
     extends?: string | string[];
+    bestiary: boolean;
 }
 
 export interface StatblockParameters

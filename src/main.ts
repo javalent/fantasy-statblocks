@@ -85,12 +85,18 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
     data: Map<string, Monster>;
     bestiary: Map<string, Monster>;
     manager = new LayoutManager();
+
     private namesHaveChanged = true;
     private names: string[];
 
     getBestiaryNames() {
         if (this.namesHaveChanged) {
-            this.names = [...this.bestiary.keys()];
+            this.names = [];
+            for (const creature of this.bestiary.values()) {
+                if (creature.bestiary !== false) {
+                    this.names.push(creature.name);
+                }
+            }
         }
         return this.names;
     }
