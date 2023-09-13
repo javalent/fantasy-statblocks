@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.11.0](https://github.com/javalent/fantasy-statblocks/compare/3.10.0...3.11.0) (2023-09-13)
+
+
+### Features
+
+* Begin moving towards an API-based approach ([1cfcef8](https://github.com/javalent/fantasy-statblocks/commit/1cfcef8a9fc9e964d008df269f39c7724325003c))
+
+
+### Bug Fixes
+
+* Restrict creature pane to only creatures in bestiary ([010de61](https://github.com/javalent/fantasy-statblocks/commit/010de612dfe13efb2b1d6dc91365067b55d6ec9f))
+
 ## [3.10.0](https://github.com/javalent/fantasy-statblocks/compare/3.9.4...3.10.0) (2023-09-12)
 
 
