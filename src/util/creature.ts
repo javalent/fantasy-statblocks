@@ -6,7 +6,7 @@ import type { FuzzyMatch } from "obsidian";
 export class MonsterSuggestionModal extends SuggestionModal<Monster> {
     creature: Partial<Monster>;
     constructor(public plugin: StatBlockPlugin, inputEl: HTMLInputElement) {
-        super(plugin.app, inputEl, [...plugin.bestiary.values()]);
+        super(plugin.app, inputEl, [...plugin.getBestiaryCreatures()]);
         /* this.onInputChanged(); */
     }
     getItems() {

@@ -10,7 +10,7 @@ import type { Monster } from "obsidian-overload";
 import type StatBlockPlugin from "src/main";
 import { MonsterSuggestionModal } from "src/util/creature";
 
-export const CREATURE_VIEW = "combatant-view";
+export const CREATURE_VIEW = "fantasy-statblocks-creature-pane";
 
 export class CreatureView extends ItemView {
     topEl = this.contentEl.createDiv("creature-view-top-pane");

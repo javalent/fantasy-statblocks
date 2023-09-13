@@ -88,6 +88,19 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
 
     private namesHaveChanged = true;
     private names: string[];
+    #creatures: Monster[];
+
+    getBestiaryCreatures() {
+        if (this.namesHaveChanged) {
+            this.#creatures = [];
+            for (const creature of this.bestiary.values()) {
+                if (creature.bestiary !== false) {
+                    this.#creatures.push(creature);
+                }
+            }
+        }
+        return this.#creatures;
+    }
 
     getBestiaryNames() {
         if (this.namesHaveChanged) {
