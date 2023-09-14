@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.11.1](https://github.com/javalent/fantasy-statblocks/compare/3.11.0...3.11.1) (2023-09-14)
+
+
+### Bug Fixes
+
+* Remove single-view restriction on creature pane (close [#274](https://github.com/javalent/fantasy-statblocks/issues/274)) ([7fad139](https://github.com/javalent/fantasy-statblocks/commit/7fad13949367e205614002038e5dc6f431a659b4))
+
 ## [3.11.0](https://github.com/javalent/fantasy-statblocks/compare/3.10.0...3.11.0) (2023-09-13)
 
 
