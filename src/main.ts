@@ -216,25 +216,19 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
             id: "open-creature-view",
             name: "Open Creature Pane",
             callback: async () => {
-                const view = this.creature_view;
-                if (!view) {
-                    const leaf = this.app.workspace.getRightLeaf(true);
-                    await leaf.setViewState({
-                        type: CREATURE_VIEW
-                    });
-                }
-                this.app.workspace.revealLeaf(this.creature_view.leaf);
-            }
-        });
-        this.addRibbonIcon("skull", "Open Creature Pane", async () => {
-            const view = this.creature_view;
-            if (!view) {
                 const leaf = this.app.workspace.getRightLeaf(true);
                 await leaf.setViewState({
                     type: CREATURE_VIEW
                 });
+                this.app.workspace.revealLeaf(leaf);
             }
-            this.app.workspace.revealLeaf(this.creature_view.leaf);
+        });
+        this.addRibbonIcon("skull", "Open Creature Pane", async () => {
+            const leaf = this.app.workspace.getRightLeaf(true);
+            await leaf.setViewState({
+                type: CREATURE_VIEW
+            });
+            this.app.workspace.revealLeaf(leaf);
         });
 
         addIcon(
