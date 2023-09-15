@@ -35,7 +35,14 @@ import { DefaultLayouts } from "./layouts";
 import type { StatblockData } from "index";
 import LayoutManager from "./layouts/manager";
 import { CREATURE_VIEW, CreatureView } from "./combatant";
+import { API } from "./api/api";
 
+declare global {
+    interface Window {
+        bestiary: Map<string, Monster>;
+        FantasyStatblocks: API;
+    }
+}
 declare module "obsidian" {
     interface App {
         plugins: {
@@ -85,27 +92,22 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
     data: Map<string, Monster>;
     bestiary: Map<string, Monster>;
     manager = new LayoutManager();
-    private namesHaveChanged = true;
+
     private names: string[];
+    #creatures: Monster[];
+    api: API = new API(this);
 
-    getBestiaryNames() {
-        if (this.namesHaveChanged) {
-            this.names = [...this.bestiary.keys()];
-        }
-        return this.names;
+    getBestiaryCreatures() {
+        return this.api.getBestiaryCreatures();
     }
-
+    getBestiaryNames() {
+        return this.api.getBestiaryNames();
+    }
     hasCreature(name: string): boolean {
-        return this.bestiary.has(name);
+        return this.api.hasCreature(name);
     }
     getCreatureFromBestiary(name: string): Partial<Monster> | null {
-        if (!this.bestiary.has(name)) return null;
-        let monster = this.bestiary.get(name);
-        return Object.assign(
-            {},
-            ...this.getExtensions(monster, new Set(monster.name)),
-            monster
-        ) as Monster;
+        return this.api.getCreatureFromBestiary(name);
     }
 
     getExtensions(
@@ -214,25 +216,19 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
             id: "open-creature-view",
             name: "Open Creature Pane",
             callback: async () => {
-                const view = this.creature_view;
-                if (!view) {
-                    const leaf = this.app.workspace.getRightLeaf(true);
-                    await leaf.setViewState({
-                        type: CREATURE_VIEW
-                    });
-                }
-                this.app.workspace.revealLeaf(this.creature_view.leaf);
-            }
-        });
-        this.addRibbonIcon("skull", "Open Creature Pane", async () => {
-            const view = this.creature_view;
-            if (!view) {
                 const leaf = this.app.workspace.getRightLeaf(true);
                 await leaf.setViewState({
                     type: CREATURE_VIEW
                 });
+                this.app.workspace.revealLeaf(leaf);
             }
-            this.app.workspace.revealLeaf(this.creature_view.leaf);
+        });
+        this.addRibbonIcon("skull", "Open Creature Pane", async () => {
+            const leaf = this.app.workspace.getRightLeaf(true);
+            await leaf.setViewState({
+                type: CREATURE_VIEW
+            });
+            this.app.workspace.revealLeaf(leaf);
         });
 
         addIcon(
@@ -265,10 +261,29 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
         ]);
 
         Object.defineProperty(window, "bestiary", {
-            value: this.bestiary,
-            writable: false,
-            configurable: true
+            configurable: true,
+            get: () => {
+                new Notice(
+                    createFragment((e) => {
+                        e.createSpan({
+                            text: "The Fantasy Statblocks bestiary will be deprecated in a future version. Use "
+                        });
+                        e.createEl("code", {
+                            text: "FantasyStatblocks.getBestiary()"
+                        });
+                        e.createSpan({ text: " instead." });
+                    })
+                );
+                return this.bestiary;
+            }
         });
+
+        this.register(() =>
+            Object.defineProperty(window, "bestiary", { value: null })
+        );
+
+        (window["FantasyStatblocks"] = this.api) &&
+            this.register(() => delete window["FantasyStatblocks"]);
 
         this.registerMarkdownCodeBlockProcessor(
             "statblock",
@@ -463,7 +478,7 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
         if (!monster.name) return;
         this.data.set(monster.name, monster);
         this.bestiary.set(monster.name, monster);
-        this.namesHaveChanged = true;
+        this.api.setChanged(true);
 
         if (save) {
             await this.saveSettings();
@@ -494,7 +509,7 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
             if (!this.data.has(monster)) continue;
             this.data.delete(monster);
             this.bestiary.delete(monster);
-            this.namesHaveChanged = true;
+            this.api.setChanged(true);
         }
         await this.saveSettings();
 
@@ -514,7 +529,7 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
                 getBestiaryByName(this.settings.disableSRD).get(monster)
             );
         }
-        this.namesHaveChanged = true;
+        this.api.setChanged(true);
 
         if (save) await this.saveSettings();
 
@@ -532,8 +547,6 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
         });
     }
     onunload() {
-        //@ts-ignore
-        delete window.bestiary;
         this.watcher.unload();
         console.log("Fantasy StatBlocks unloaded");
 

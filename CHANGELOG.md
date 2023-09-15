@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.11.1](https://github.com/javalent/fantasy-statblocks/compare/3.11.0...3.11.1) (2023-09-14)
+
+
+### Bug Fixes
+
+* Remove single-view restriction on creature pane (close [#274](https://github.com/javalent/fantasy-statblocks/issues/274)) ([7fad139](https://github.com/javalent/fantasy-statblocks/commit/7fad13949367e205614002038e5dc6f431a659b4))
+
+## [3.11.0](https://github.com/javalent/fantasy-statblocks/compare/3.10.0...3.11.0) (2023-09-13)
+
+
+### Features
+
+* Begin moving towards an API-based approach ([1cfcef8](https://github.com/javalent/fantasy-statblocks/commit/1cfcef8a9fc9e964d008df269f39c7724325003c))
+
+
+### Bug Fixes
+
+* Restrict creature pane to only creatures in bestiary ([010de61](https://github.com/javalent/fantasy-statblocks/commit/010de612dfe13efb2b1d6dc91365067b55d6ec9f))
+
+## [3.10.0](https://github.com/javalent/fantasy-statblocks/compare/3.9.4...3.10.0) (2023-09-12)
+
+
+### Features
+
+* New `bestiary` field can be set to false to prevent creature from being exposed in the bestiary. Note that if another creature extends this, you should set `bestiary` to true. ([2ed4c9c](https://github.com/javalent/fantasy-statblocks/commit/2ed4c9cc4ddb2f1927d06ea19385af01dbcfb78d))
+
+## [3.9.4](https://github.com/javalent/fantasy-statblocks/compare/3.9.3...3.9.4) (2023-09-11)
+
+
+### Bug Fixes
+
+* Respect subheading separator in layouts ([0786e1f](https://github.com/javalent/fantasy-statblocks/commit/0786e1fd17be99b4e66e3b881d6285cb28c08b09))
+
 ## [3.9.3](https://github.com/javalent/fantasy-statblocks/compare/3.9.2...3.9.3) (2023-09-01)
 
 

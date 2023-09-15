@@ -1,6 +1,6 @@
 {
     "name": "fantasy-statblocks",
-    "version": "3.9.3",
+    "version": "3.11.1",
     "description": "Create Fantasy statblocks in Obsidian.md",
     "scripts": {
         "dev": "node ./esbuild.config.mjs",
@@ -48,7 +48,7 @@
         "obsidian-overload": "^1.22.0",
         "standard-version": "^9.3.2",
         "svelte": "^3.49.0",
-        "svelte-dnd-action": "^0.9.12",
+        "svelte-dnd-action": "^0.9.28",
         "svelte-loader": "^3.1.2",
         "svelte-preprocess": "^4.10.2",
         "title-case": "^3.0.3",

@@ -103,6 +103,7 @@ export interface Monster {
     monster?: string;
     creature?: string;
     extends?: string | string[];
+    bestiary: boolean;
 }
 
 export interface StatblockParameters
@@ -166,6 +167,7 @@ export interface StatblockAPI {
     hasCreature(name: string): boolean;
     getCreatureFromBestiary(name: string): Partial<Monster> | null;
     getBestiaryNames(): string[];
+    getBestiaryCreatures(): Monster[];
     settings: StatblockData;
     data: Map<string, Monster>;
     bestiary: Map<string, Monster>;
