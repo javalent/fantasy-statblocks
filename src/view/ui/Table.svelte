@@ -2,9 +2,11 @@
     import type { Monster } from "index";
     import type { TableItem } from "types/layout";
     import { stringify } from "src/util/util";
+    import TextContentHolder from "./TextContentHolder.svelte";
 
     export let monster: Monster;
     export let item: TableItem;
+    export let render: boolean = false;
 
     function getMod(stat: number) {
         if (typeof stat != "number") return ``;
@@ -55,7 +57,7 @@
             <span class="statblock-table-header">{headers[index]}</span>
             {#each values as value}
                 <span>
-                    {stringify(value)}
+                    <TextContentHolder {render} property={stringify(value)}/> 
                     {#if item.calculate}
                         <span>
                             {getMod(value)}
