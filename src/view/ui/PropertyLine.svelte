@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Monster } from "types";
+    import type { Monster } from "index";
     import { Notice } from "obsidian";
     import type { PropertyItem } from "types/layout";
     import { slugify, stringify } from "src/util/util";
