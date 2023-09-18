@@ -1,6 +1,6 @@
 .creature-view-container .creature-view-top-pane {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto;
     gap: 1rem;
     margin-bottom: 1rem;
 }
