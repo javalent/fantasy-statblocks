@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.11.2](https://github.com/javalent/fantasy-statblocks/compare/3.11.1...3.11.2) (2023-09-18)
+
+
+### Bug Fixes
+
+* fix issue where nested arrays were sometimes being interpreted as wikilinks ([844e6a6](https://github.com/javalent/fantasy-statblocks/commit/844e6a60d8e0b738cb8fb6660b16058fa54d40a6))
+
 ## [3.11.1](https://github.com/javalent/fantasy-statblocks/compare/3.11.0...3.11.1) (2023-09-14)
 
 
