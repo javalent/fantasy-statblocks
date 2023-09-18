@@ -1,4 +1,11 @@
-import { App, ButtonComponent, Modal, TFile } from "obsidian";
+import {
+    App,
+    ButtonComponent,
+    Modal,
+    TFile,
+    parseYaml,
+    stringifyYaml
+} from "obsidian";
 import { Layout5e } from "src/layouts/basic 5e/basic5e";
 import { MarkdownRenderChild } from "obsidian";
 import type { Monster, StatblockParameters, Trait } from "../../index";
@@ -391,8 +398,8 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         });
     }
     transformLinks(monster: Partial<Monster>): Partial<Monster> {
-        const built = JSON.parse(
-            JSON.stringify(monster)
+        const built = parseYaml(
+            stringifyYaml(monster)
                 .replace(/\\#/g, "#")
                 .replace(
                     /\[\["(.+?)"\]\]/g,
