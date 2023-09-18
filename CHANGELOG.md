@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.12.0](https://github.com/javalent/fantasy-statblocks/compare/3.11.2...3.12.0) (2023-09-18)
+
+
+### Features
+
+* Enables searching by field in creature pane using `@&lt;field&gt; <search>` ([45760aa](https://github.com/javalent/fantasy-statblocks/commit/45760aa966af6ad4061c45ff27e34d79d65660fe))
+
+
+### Bug Fixes
+
+* beep boop ([0d942df](https://github.com/javalent/fantasy-statblocks/commit/0d942dfc9da30512faac7982d7838ebb09c62be3))
+* Better styling for combatant pane search ([f96297a](https://github.com/javalent/fantasy-statblocks/commit/f96297afad075ab008e2156adbcf76682ed4170b))
+* Pass table values through the markdown path ([1be6459](https://github.com/javalent/fantasy-statblocks/commit/1be6459d3b4a18b1afd4f7a9f193249852d1da27))
+
 ## [3.11.2](https://github.com/javalent/fantasy-statblocks/compare/3.11.1...3.11.2) (2023-09-18)
 
 
