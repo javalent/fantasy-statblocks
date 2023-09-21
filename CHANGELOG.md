@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.12.2](https://github.com/javalent/fantasy-statblocks/compare/3.12.1...3.12.2) (2023-09-21)
+
+
+### Bug Fixes
+
+* fixes being unable to parse certain save roll syntaxes ([24e1696](https://github.com/javalent/fantasy-statblocks/commit/24e16964b8c35fa6ddcae86c1c815b5145f54599))
+
 ## [3.12.1](https://github.com/javalent/fantasy-statblocks/compare/3.12.0...3.12.1) (2023-09-21)
 
 
