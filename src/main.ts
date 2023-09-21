@@ -586,9 +586,9 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
         const roller = (str: string) => {
             let text: string;
             let original: string;
-            if (/\w+ [\+\-]\d+/.test(str)) {
+            if (/. [\+\-]\d+/.test(str)) {
                 let [, save, sign, number] =
-                    str.match(/(\w+) ([\+\-])(\d+)/) ?? [];
+                    str.match(/(.) ([\+\-])(\d+)/) ?? [];
                 let mult = 1;
                 if (sign === "-") {
                     mult = -1;
@@ -609,6 +609,7 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
                     original = str;
                 }
             } else if (/\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)/.test(str)) {
+                console.log("🚀 ~ file: main.ts:612 ~ str:", str);
                 let [, base, dice] =
                     str.match(/(\d+)\s\((\d+d\d+(?:\s*[+\-]\s*\d+)?)\)/) ?? [];
                 if (!isNaN(Number(base)) && dice) {
@@ -620,7 +621,7 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
 
         const match = (str: string) => {
             return (
-                /\w+ [\+\-]\d+/.test(str) ||
+                /. [\+\-]\d+/.test(str) ||
                 /[\+\-]\d+ to hit/.test(str) ||
                 /\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)/.test(str)
             );
@@ -628,7 +629,7 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
 
         return property
             .split(
-                /([\+\-]\d+ to hit|\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)|\w+ [\+\-]\d+)/
+                /([\+\-]\d+ to hit|\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)|. [\+\-]\d+)/
             )
             .map((v) => (match(v) ? roller(v) : v));
     }
