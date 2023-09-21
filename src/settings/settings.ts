@@ -347,9 +347,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
             .appendChild(
                 createFragment((el) => {
                     el.createSpan({
-                        text: "New statblock layouts can be created and managed here. A specific statblock can be used for a creature using the "
+                        text: "New statblock layouts can be created and managed here. A specific layout can be used for a creature using the "
                     });
-                    el.createEl("code", { text: "statblock" });
+                    el.createEl("code", { text: "layout" });
                     el.createSpan({ text: " parameter." });
                 })
             );
