@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.13.1](https://github.com/javalent/fantasy-statblocks/compare/3.13.0...3.13.1) (2023-09-27)
+
+
+### Bug Fixes
+
+* lumberjack attack (aka removed logs whoops) ([5cfbcf3](https://github.com/javalent/fantasy-statblocks/commit/5cfbcf3827e448d2ce395fe10945b3fb28056244))
+
 ## [3.13.0](https://github.com/javalent/fantasy-statblocks/compare/3.12.2...3.13.0) (2023-09-27)
 
 
