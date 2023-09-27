@@ -11,13 +11,14 @@
     import { createEventDispatcher, getAllContexts, getContext } from "svelte";
     import Image from "./Image.svelte";
     import type { StatblockItem } from "types/layout";
-    import { linkifySpells, slugify, stringify } from "src/util/util";
+    import { /* linkifySpells, */ slugify, stringify } from "src/util/util";
     import Collapse from "./Collapse.svelte";
     import JavaScript from "./JavaScript.svelte";
     import Content from "./Content.svelte";
     import SpellItem from "./SpellItem.svelte";
     import type StatBlockPlugin from "src/main";
     import type { Monster, Trait } from "index";
+    import { Linkifier } from "src/util/linkify";
 
     const dispatch = createEventDispatcher();
 
@@ -300,7 +301,7 @@
                         let spell: Spell;
                         if (typeof current == "string") {
                             spell = {
-                                spells: linkifySpells(
+                                spells: Linkifier.linkifySpells(
                                     current,
                                     context.get("context") as string
                                 )
@@ -309,7 +310,7 @@
                             try {
                                 spell = {
                                     level: Object.keys(current).shift(),
-                                    spells: linkifySpells(
+                                    spells: Linkifier.linkifySpells(
                                         stringify(
                                             Object.values(current).shift()
                                         ),

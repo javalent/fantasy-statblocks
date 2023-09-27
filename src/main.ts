@@ -36,6 +36,7 @@ import type { StatblockData } from "index";
 import LayoutManager from "./layouts/manager";
 import { CREATURE_VIEW, CreatureView } from "./combatant";
 import { API } from "./api/api";
+import { Linkifier } from "./util/linkify";
 
 declare global {
     interface Window {
@@ -204,6 +205,9 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
         this.manager.initialize(this.settings);
 
         this.watcher.load();
+
+        Linkifier.load();
+        this.register(() => Linkifier.unload());
 
         this.addCommand({
             id: "parse-frontmatter",
