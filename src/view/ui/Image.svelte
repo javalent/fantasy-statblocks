@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Monster } from "types";
+    import type { Monster } from "index";
     import type { ImageItem } from "types/layout";
     import type StatBlockPlugin from "src/main";
     import { getContext } from "svelte";

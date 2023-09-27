@@ -613,7 +613,6 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
                     original = str;
                 }
             } else if (/\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)/.test(str)) {
-                console.log("🚀 ~ file: main.ts:612 ~ str:", str);
                 let [, base, dice] =
                     str.match(/(\d+)\s\((\d+d\d+(?:\s*[+\-]\s*\d+)?)\)/) ?? [];
                 if (!isNaN(Number(base)) && dice) {

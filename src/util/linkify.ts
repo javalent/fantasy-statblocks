@@ -17,7 +17,6 @@ class LinkifierClass extends Component {
                 if (!alias) continue;
                 this.#cache.set(alias, file.name);
             }
-            console.log("🚀 ~ file: linkify.ts:19 ~ this.#cache:", this.#cache);
         }, 0);
     }
     getResolvedFile(
@@ -33,7 +32,6 @@ class LinkifierClass extends Component {
         };
     }
     onload(): void {
-        console.log("🚀 ~ file: linkify.ts:24 ~ onload:");
         if (app.metadataCache.initialized) {
             this.buildCache();
         } else {
