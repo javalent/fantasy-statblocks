@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.13.0](https://github.com/javalent/fantasy-statblocks/compare/3.12.2...3.13.0) (2023-09-27)
+
+
+### Features
+
+* Spells can now also auto-link to aliases of files ([d666d57](https://github.com/javalent/fantasy-statblocks/commit/d666d57b188c5893a9ca6b6f5a9f332ab887e30e))
+
 ## [3.12.2](https://github.com/javalent/fantasy-statblocks/compare/3.12.1...3.12.2) (2023-09-21)
 
 
