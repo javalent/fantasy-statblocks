@@ -665,7 +665,8 @@ class SubheadingModal extends GenericModal<SubHeadingItem> {
             .addText((t) => {
                 t.setValue(this.block.separator).onChange((v) => {
                     //If onchange(v) parameter is empty, get default ", " or v value
-                    this.block.separator = (v ?? "").trim().length === 0 ? ", " : v;
+                    this.block.separator =
+                        (v ?? "").trim().length === 0 ? ", " : v;
                 });
             });
     }
@@ -689,7 +690,7 @@ class TableModal extends GenericModal<TableItem> {
                     });
                 })
             );
-        const component = new TextAreaComponent(this.contentEl).setValue(
+        const component = new TextAreaComponent(el).setValue(
             this.block.modifier
         );
         component.inputEl.addClasses([
