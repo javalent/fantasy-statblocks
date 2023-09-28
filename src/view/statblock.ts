@@ -405,6 +405,10 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                     /\[\["(.+?)"\]\]/g,
                     `"<STATBLOCK-LINK>$1</STATBLOCK-LINK>"`
                 )
+                .replace(
+                    /\- \- ([^-]+?)$/gm,
+                    `"<STATBLOCK-LINK>$1</STATBLOCK-LINK>"`
+                )
                 .replace(/\[\[([^"]+?)\]\]/g, (match, p1) => {
                     return `<STATBLOCK-LINK>${p1}</STATBLOCK-LINK>`;
                 })
@@ -418,7 +422,6 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                     }
                 )
         );
-
         return built;
     }
     getExtensions(monster: Partial<Monster>): Partial<Monster>[] {
