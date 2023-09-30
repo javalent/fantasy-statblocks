@@ -24,8 +24,14 @@ class LinkifierClass extends Component {
         context: string
     ): { alias: string | null; file: TFile | null } {
         input = input.trim();
-        let filePath = this.#cache.get(input) ?? input;
-        let alias = this.#cache.has(input) ? input : null;
+        let filePath =
+            this.#cache.get(input) ??
+            this.#cache.get(input.toLowerCase()) ??
+            input;
+        let alias =
+            this.#cache.has(input) || this.#cache.has(input.toLowerCase())
+                ? input
+                : null;
         return {
             alias,
             file: app.metadataCache.getFirstLinkpathDest(filePath, context)
@@ -49,6 +55,7 @@ class LinkifierClass extends Component {
                 const aliases = parseFrontMatterAliases(frontmatter) ?? [];
                 for (const alias of aliases) {
                     this.#cache.set(alias, file.name);
+                    this.#cache.set(alias.toLowerCase(), file.name);
                 }
             })
         );
