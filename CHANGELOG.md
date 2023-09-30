@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.13.3](https://github.com/javalent/fantasy-statblocks/compare/3.13.2...3.13.3) (2023-09-30)
+
+
+### Bug Fixes
+
+* normalize aliases when linkifying spells ([dd79164](https://github.com/javalent/fantasy-statblocks/commit/dd79164856701643b2f160ae3c759c0b16ff3d45))
+
 ## [3.13.2](https://github.com/javalent/fantasy-statblocks/compare/3.13.1...3.13.2) (2023-09-28)
 
 
