@@ -9,13 +9,19 @@ declare module "obsidian" {
 
 class LinkifierClass extends Component {
     #cache: Map<string, string> = new Map();
+    #addAliasesToCache(aliases: string[], file: TFile) {
+        for (const alias of aliases) {
+            this.#cache.set(alias, file.name);
+            this.#cache.set(alias.toLowerCase(), file.name);
+        }
+    }
     buildCache() {
         //defer this
         setTimeout(() => {
             const links = app.metadataCache.getLinkSuggestions();
             for (const { alias, file } of links) {
                 if (!alias) continue;
-                this.#cache.set(alias, file.name);
+                this.#addAliasesToCache([alias], file);
             }
         }, 0);
     }
@@ -53,10 +59,7 @@ class LinkifierClass extends Component {
                     app.metadataCache.getFileCache(file) ?? {};
                 if (!frontmatter) return;
                 const aliases = parseFrontMatterAliases(frontmatter) ?? [];
-                for (const alias of aliases) {
-                    this.#cache.set(alias, file.name);
-                    this.#cache.set(alias.toLowerCase(), file.name);
-                }
+                this.#addAliasesToCache(aliases, file);
             })
         );
     }
