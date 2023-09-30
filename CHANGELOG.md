@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.13.2](https://github.com/javalent/fantasy-statblocks/compare/3.13.1...3.13.2) (2023-09-28)
+
+
+### Bug Fixes
+
+* fixes parsing wikilinks out of nested arrays in frontmatter ([f5676c2](https://github.com/javalent/fantasy-statblocks/commit/f5676c251f0076619190840cb5981020d4a09436))
+* Fixes table Ability Modifier callback input not being in the collapsible Advanced element ([427a05d](https://github.com/javalent/fantasy-statblocks/commit/427a05d5224d9d343e1d24fc9312881a85962860))
+
 ## [3.13.1](https://github.com/javalent/fantasy-statblocks/compare/3.13.0...3.13.1) (2023-09-27)
 
 
