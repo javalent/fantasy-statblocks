@@ -665,6 +665,10 @@ class SubheadingModal extends GenericModal<SubHeadingItem> {
             .addText((t) => {
                 t.setValue(this.block.separator).onChange((v) => {
                     //If onchange(v) parameter is empty, get default ", " or v value
+                    if (v === " ") {
+                        this.block.separator = v;
+                        return;
+                    }
                     this.block.separator =
                         (v ?? "").trim().length === 0 ? ", " : v;
                 });
