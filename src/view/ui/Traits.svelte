@@ -4,7 +4,8 @@
     import TextContent from "./TextContent.svelte";
 
     import TextContentHolder from "./TextContentHolder.svelte";
-    import type { Trait } from "index";
+    import type { Monster, Trait } from "index";
+    import { Notice } from "obsidian";
 
     export let trait: Trait;
 
@@ -13,6 +14,23 @@
     export let property: string = "";
     export let render: boolean = false;
     export let item: TraitsItem | SpellsItem;
+    export let monster: Monster;
+    if (item.callback) {
+        try {
+            const frame = document.body.createEl("iframe");
+            const funct = (frame.contentWindow as any).Function;
+            const func = new funct("monster", item.callback);
+            desc = func.call(undefined, monster) ?? desc;
+            document.body.removeChild(frame);
+        } catch (e) {
+            new Notice(
+                `There was an error executing the provided callback for [${item.properties.join(
+                    ", "
+                )}]\n\n${e.message}`
+            );
+            console.error(e);
+        }
+    }
 
     $: cssClasses = item.doNotAddClass
         ? []

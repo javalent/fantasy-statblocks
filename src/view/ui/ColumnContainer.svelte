@@ -352,6 +352,7 @@
                                 property: item.properties[0],
                                 desc: block.header,
                                 item,
+                                monster,
                                 trait: monster[item.properties[0]] as Trait
                             }
                         });
@@ -441,6 +442,7 @@
                             property: "trait-subheading",
                             render: item.markdown,
                             item,
+                            monster,
                             trait: monster[item.properties[0]] as Trait
                         },
                         context
@@ -459,6 +461,7 @@
                                 property: item.properties[0],
                                 render: item.markdown,
                                 item,
+                                monster,
                                 trait: blocks[0]
                             },
                             context
@@ -476,6 +479,7 @@
                                     property: item.properties[0],
                                     render: item.markdown,
                                     item,
+                                    monster,
                                     trait: block
                                 },
                                 context

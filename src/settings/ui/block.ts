@@ -811,6 +811,45 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
             .setValue(this.block.subheadingText)
             .onChange((v) => (this.block.subheadingText = v));
     }
+    buildAdvanced(el: HTMLDetailsElement): void {
+        super.buildAdvanced(el);
+        new Setting(el)
+            .setHeading()
+            .setName("Callback")
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "The block will run the callback and use the returned string as the property."
+                    });
+                    e.createEl("br");
+                    e.createSpan({
+                        text: "The callback will receive the "
+                    });
+                    e.createEl("code", { text: "monster" });
+                    e.createSpan({
+                        text: " parameter. The callback should return a string. For example: "
+                    });
+
+                    e.createEl("code", { text: "return monster.name" });
+                    e.createEl("br");
+                    e.createEl("strong", {
+                        text: "Please Note: This will not run if a dice callback is provided."
+                    });
+                })
+            );
+
+        const component = new TextAreaComponent(el).setValue(
+            this.block.callback
+        );
+        this.editor = editorFromTextArea(
+            component.inputEl,
+            EditorView.updateListener.of((update) => {
+                if (update.docChanged) {
+                    this.block.callback = update.state.doc.toString();
+                }
+            })
+        );
+    }
 }
 class TextModal extends MarkdownEnabledModal<TextItem> {
     buildAdvanced(el: HTMLDetailsElement): void {

@@ -98,11 +98,12 @@ type SavesProps = {
 };
 type SpellsProps = {
     type: "spells";
+    callback?: string;
     heading?: string;
 };
 type SubHeadingProps = {
     type: "subheading";
-    separator: string;
+    separator?: string;
 };
 type TableProps = {
     type: "table";
@@ -112,6 +113,7 @@ type TableProps = {
 };
 type TraitsProps = {
     type: "traits";
+    callback?: string;
     heading?: string;
     headingProp?: boolean;
     subheadingText?: string;
