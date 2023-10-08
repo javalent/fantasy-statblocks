@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.14.0](https://github.com/javalent/fantasy-statblocks/compare/3.13.4...3.14.0) (2023-10-08)
+
+
+### Features
+
+* Enable property callbacks on traits ([e643ae6](https://github.com/javalent/fantasy-statblocks/commit/e643ae6b73df2ca529bf1fd9b7e0da679516c8ca))
+
+
+### Bug Fixes
+
+* Add bestiary key to included SRD ([95af431](https://github.com/javalent/fantasy-statblocks/commit/95af431d280124570d7fb7a516488f03b0eeb4f3))
+* Allow space as a separator for subheadings ([37126dd](https://github.com/javalent/fantasy-statblocks/commit/37126dd1cb738713b02be7d84b71af48cdc7b792))
+
 ## [3.13.4](https://github.com/javalent/fantasy-statblocks/compare/3.13.3...3.13.4) (2023-09-30)
 
 
