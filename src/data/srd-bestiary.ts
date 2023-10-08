@@ -17,7 +17,7 @@
  *  "15 COPYRIGHT NOTICE Open Game License v 1.0 Copyright 2000, Wizards of the Coast, Inc."
  */
 
-import type { Monster } from "types";
+import type { Monster } from "index";
 
 export const BESTIARY: Monster[] = [
     {
@@ -40,6 +40,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 20",
         languages: "Deep Speech, telepathy 120 ft.",
         cr: "10",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -120,6 +121,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 12",
         languages: "any one language (usually Common)",
         cr: "1/4",
+        bestiary: true,
         traits: [],
         actions: [
             {
@@ -160,6 +162,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 21",
         languages: "Common, Draconic",
         cr: "14",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -249,6 +252,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 22",
         languages: "Common, Draconic",
         cr: "17",
+        bestiary: true,
         traits: [
             {
                 name: "Legendary Resistance (3/Day)",
@@ -343,6 +347,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 22",
         languages: "Common, Draconic",
         cr: "16",
+        bestiary: true,
         traits: [
             {
                 name: "Legendary Resistance (3/Day)",
@@ -438,6 +443,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 21",
         languages: "Common, Draconic",
         cr: "13",
+        bestiary: true,
         traits: [
             {
                 name: "Legendary Resistance (3/Day)",
@@ -510,6 +516,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 22",
         languages: "Common, Draconic",
         cr: "15",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -604,6 +611,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 22",
         languages: "Common, Draconic",
         cr: "14",
+        bestiary: true,
         traits: [
             {
                 name: "Legendary Resistance (3/Day)",
@@ -698,6 +706,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 24",
         languages: "Common, Draconic",
         cr: "17",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -798,6 +807,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 22",
         languages: "Common, Draconic",
         cr: "15",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -892,6 +902,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 23",
         languages: "Common, Draconic",
         cr: "17",
+        bestiary: true,
         traits: [
             {
                 name: "Legendary Resistance (3/Day)",
@@ -992,6 +1003,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 21",
         languages: "Common, Draconic",
         cr: "16",
+        bestiary: true,
         traits: [
             {
                 name: "Legendary Resistance (3/Day)",
@@ -1081,6 +1093,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 21",
         languages: "Common, Draconic",
         cr: "13",
+        bestiary: true,
         traits: [
             {
                 name: "Ice Walk",
@@ -1170,6 +1183,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "Auran",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Air Form",
@@ -1222,6 +1236,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 26",
         languages: "Common, Draconic",
         cr: "21",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -1315,6 +1330,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 27",
         languages: "Common, Draconic",
         cr: "23",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -1402,6 +1418,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 24",
         languages: "Common, Draconic",
         cr: "20",
+        bestiary: true,
         traits: [
             {
                 name: "Legendary Resistance (3/Day)",
@@ -1496,6 +1513,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 27",
         languages: "Common, Draconic",
         cr: "22",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -1595,6 +1613,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 27",
         languages: "Common, Draconic",
         cr: "21",
+        bestiary: true,
         traits: [
             {
                 name: "Legendary Resistance (3/Day)",
@@ -1694,6 +1713,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 27",
         languages: "Common, Draconic",
         cr: "24",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -1799,6 +1819,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 27",
         languages: "Common, Draconic",
         cr: "22",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -1893,6 +1914,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 26",
         languages: "Common, Draconic",
         cr: "24",
+        bestiary: true,
         traits: [
             {
                 name: "Legendary Resistance (3/Day)",
@@ -1987,6 +2009,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 26",
         languages: "Common, Draconic",
         cr: "23",
+        bestiary: true,
         traits: [
             {
                 name: "Legendary Resistance (3/Day)",
@@ -2081,6 +2104,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 23",
         languages: "Common, Draconic",
         cr: "20",
+        bestiary: true,
         traits: [
             {
                 name: "Ice Walk",
@@ -2159,6 +2183,7 @@ export const BESTIARY: Monster[] = [
         senses: "truesight 120 ft., passive Perception 20",
         languages: "Common, Sphinx",
         cr: "17",
+        bestiary: true,
         traits: [
             {
                 name: "Inscrutable",
@@ -2243,6 +2268,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft. (blind beyond this radius), passive Perception 6",
         languages: "",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Antimagic Susceptibility",
@@ -2288,6 +2314,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., tremorsense 60 ft., passive Perception 11",
         languages: "",
         cr: "2",
+        bestiary: true,
         actions: [
             {
                 name: "Bite",
@@ -2323,6 +2350,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -2366,6 +2394,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 12",
         languages: "any six languages",
         cr: "12",
+        bestiary: true,
         traits: [
             {
                 name: "Magic Resistance",
@@ -2431,6 +2460,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "Thieves' cant plus any two languages",
         cr: "8",
+        bestiary: true,
         traits: [
             {
                 name: "Assassinate",
@@ -2489,6 +2519,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "one language known by its creator",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "False Appearance",
@@ -2524,6 +2555,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "one language known by its creator",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "False Appearance",
@@ -2559,6 +2591,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         actions: [
             {
                 name: "Beak",
@@ -2588,6 +2621,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 11",
         languages: "Ignan",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Heated Body",
@@ -2634,6 +2668,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 11",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Pack Tactics",
@@ -2669,6 +2704,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 30 ft., passive Perception 11",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Smell",
@@ -2710,6 +2746,7 @@ export const BESTIARY: Monster[] = [
         senses: "truesight 120 ft., passive Perception 13",
         languages: "Abyssal, telepathy 120 ft.",
         cr: "19",
+        bestiary: true,
         traits: [
             {
                 name: "Death Throes",
@@ -2784,6 +2821,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "any one language (usually Common)",
         cr: "1/8",
+        bestiary: true,
         actions: [
             {
                 name: "Scimitar",
@@ -2821,6 +2859,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "any two languages",
         cr: "2",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -2876,6 +2915,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 18",
         languages: "Infernal, telepathy 120 ft.",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Barbed Hide",
@@ -2940,6 +2980,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 9",
         languages: "",
         cr: "3",
+        bestiary: true,
         traits: [
             {
                 name: "Petrifying Gaze",
@@ -2975,6 +3016,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., passive Perception 11",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Echolocation",
@@ -3016,6 +3058,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 10",
         languages: "Infernal, telepathy 120 ft.",
         cr: "3",
+        bestiary: true,
         traits: [
             {
                 name: "Devil's Sight",
@@ -3074,6 +3117,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 90 ft., passive Perception 16",
         languages: "Draconic",
         cr: "11",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -3126,6 +3170,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "any one language (usually Common)",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Reckless",
@@ -3161,6 +3206,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Smell",
@@ -3215,6 +3261,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., darkvision 60 ft., passive Perception 14",
         languages: "Draconic",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -3257,6 +3304,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft. (blind beyond this radius), passive Perception 8",
         languages: "",
         cr: "4",
+        bestiary: true,
         traits: [
             {
                 name: "Amorphous",
@@ -3311,6 +3359,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "Blink Dog, understands Sylvan but can't speak it",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Hearing and Smell",
@@ -3352,6 +3401,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 14",
         languages: "",
         cr: "1/8",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Sight",
@@ -3399,6 +3449,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., darkvision 60 ft., passive Perception 14",
         languages: "Draconic",
         cr: "3",
+        bestiary: true,
         actions: [
             {
                 name: "Bite",
@@ -3433,6 +3484,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 9",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Charge",
@@ -3477,6 +3529,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 9",
         languages: "Infernal, telepathy 120 ft.",
         cr: "12",
+        bestiary: true,
         traits: [
             {
                 name: "Devil's Sight",
@@ -3555,6 +3608,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., darkvision 60 ft., passive Perception 14",
         languages: "Draconic",
         cr: "1",
+        bestiary: true,
         actions: [
             {
                 name: "Bite",
@@ -3596,6 +3650,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., darkvision 60 ft., passive Perception 14",
         languages: "Draconic",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -3638,6 +3693,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Smell",
@@ -3686,6 +3742,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "Common, Goblin",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Brute",
@@ -3735,6 +3792,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., tremorsense 60 ft., passive Perception 16",
         languages: "",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Standing Leap",
@@ -3775,6 +3833,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 9",
         languages: "",
         cr: "1/8",
+        bestiary: true,
         actions: [
             {
                 name: "Bite",
@@ -3803,6 +3862,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 13",
         languages: "",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Smell",
@@ -3856,6 +3916,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Smell",
@@ -3891,6 +3952,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 13",
         languages: "",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Smell",
@@ -3939,6 +4001,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "Elvish, Sylvan",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Charge",
@@ -3995,6 +4058,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 8",
         languages: "Infernal, telepathy 120 ft.",
         cr: "11",
+        bestiary: true,
         traits: [
             {
                 name: "Devil's Sight",
@@ -4053,6 +4117,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 18",
         languages: "understands Draconic but can't speak",
         cr: "6",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -4107,6 +4172,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 14",
         languages: "understands Deep Speech but can't speak",
         cr: "4",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -4159,6 +4225,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 9",
         languages: "understands the languages of its creator but can't speak",
         cr: "9",
+        bestiary: true,
         traits: [
             {
                 name: "Acid Absorption",
@@ -4225,6 +4292,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 11",
         languages: "Deep Speech, Undercommon",
         cr: "8",
+        bestiary: true,
         traits: [
             {
                 name: "Damage Transfer",
@@ -4294,6 +4362,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 17",
         languages: "Common, Giant",
         cr: "9",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Smell",
@@ -4346,6 +4415,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 11",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         actions: [
             {
                 name: "Bite",
@@ -4374,6 +4444,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "any one language (usually Common)",
         cr: "0",
+        bestiary: true,
         actions: [
             {
                 name: "Club",
@@ -4401,6 +4472,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., passive Perception 10",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         actions: [
             {
                 name: "Bite",
@@ -4443,6 +4515,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., darkvision 60 ft., passive Perception 14",
         languages: "Draconic",
         cr: "1",
+        bestiary: true,
         actions: [
             {
                 name: "Bite",
@@ -4479,6 +4552,7 @@ export const BESTIARY: Monster[] = [
         senses: "truesight 120 ft., passive Perception 15",
         languages: "all, telepathy 120 ft.",
         cr: "4",
+        bestiary: true,
         traits: [
             {
                 name: "Innate Spellcasting",
@@ -4537,6 +4611,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft., passive Perception 9",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -4572,6 +4647,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Hold Breath",
@@ -4608,6 +4684,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 11",
         languages: "any one language (usually Common)",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Dark Devotion",
@@ -4658,6 +4735,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "any one language (usually Common)",
         cr: "1/8",
+        bestiary: true,
         traits: [
             {
                 name: "Dark Devotion",
@@ -4694,6 +4772,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., passive Perception 10",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Echolocation",
@@ -4740,6 +4819,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 15",
         languages: "",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Two-Headed",
@@ -4781,6 +4861,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 12",
         languages: "Gnomish, Terran, Undercommon",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Stone Camouflage",
@@ -4833,6 +4914,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 12",
         languages: "",
         cr: "0",
+        bestiary: true,
         actions: [
             {
                 name: "Bite",
@@ -4863,6 +4945,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 19",
         languages: "all, telepathy 120 ft.",
         cr: "10",
+        bestiary: true,
         traits: [
             {
                 name: "Angelic Weapons",
@@ -4924,6 +5007,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Hearing and Smell",
@@ -4965,6 +5049,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 13",
         languages: "Auran",
         cr: "11",
+        bestiary: true,
         traits: [
             {
                 name: "Elemental Demise",
@@ -5021,6 +5106,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 11",
         languages: "Common",
         cr: "3",
+        bestiary: true,
         traits: [
             {
                 name: "Shapechanger",
@@ -5077,6 +5163,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         actions: [
             {
                 name: "Hooves",
@@ -5106,6 +5193,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 11",
         languages: "Aquan, Draconic",
         cr: "17",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -5167,6 +5255,7 @@ export const BESTIARY: Monster[] = [
         languages:
             "Abyssal, telepathy 60 ft. (works only with creatures that understand Abyssal)",
         cr: "1/4",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -5211,6 +5300,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 15",
         languages: "Elvish, Undercommon",
         cr: "6",
+        bestiary: true,
         traits: [
             {
                 name: "Fey Ancestry",
@@ -5286,6 +5376,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 12",
         languages: "Elvish, Undercommon",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Fey Ancestry",
@@ -5339,6 +5430,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 14",
         languages: "Druidic plus any two languages",
         cr: "2",
+        bestiary: true,
         traits: [],
         actions: [
             {
@@ -5377,6 +5469,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 14",
         languages: "Elvish, Sylvan",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Innate Spellcasting",
@@ -5431,6 +5524,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 10",
         languages: "Dwarvish, Undercommon",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Duergar Resilience",
@@ -5489,6 +5583,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 12",
         languages: "Auran, Terran",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Death Burst",
@@ -5540,6 +5635,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 14",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Sight",
@@ -5577,6 +5673,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., tremorsense 60 ft., passive Perception 10",
         languages: "Terran",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Earth Glide",
@@ -5623,6 +5720,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 12",
         languages: "Ignan",
         cr: "11",
+        bestiary: true,
         traits: [
             {
                 name: "Elemental Demise",
@@ -5679,6 +5777,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "",
         cr: "4",
+        bestiary: true,
         traits: [
             {
                 name: "Trampling Charge",
@@ -5721,6 +5820,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Charge",
@@ -5767,6 +5867,7 @@ export const BESTIARY: Monster[] = [
         senses: "truesight 120 ft., passive Perception 12",
         languages: "Infernal, telepathy 120 ft.",
         cr: "12",
+        bestiary: true,
         traits: [
             {
                 name: "Hellish Weapons",
@@ -5832,6 +5933,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 13",
         languages: "",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Spider Climb",
@@ -5902,6 +6004,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 14",
         languages: "Giant, Orc",
         cr: "4",
+        bestiary: true,
         traits: [
             {
                 name: "Two Heads",
@@ -5956,6 +6059,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "Ignan",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Fire Form",
@@ -6009,6 +6113,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 16",
         languages: "Giant",
         cr: "9",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -6051,6 +6156,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "understands the languages of its creator but can't speak",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Berserk",
@@ -6116,6 +6222,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., passive Perception 11",
         languages: "",
         cr: "1/8",
+        bestiary: true,
         traits: [
             {
                 name: "Flyby",
@@ -6152,6 +6259,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft. (blind beyond this radius), passive Perception 7",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Antimagic Susceptibility",
@@ -6193,6 +6301,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 30 ft., passive Perception 11",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -6226,6 +6335,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "Giant",
         cr: "8",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -6267,6 +6377,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "Terran",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "False Appearance",
@@ -6315,6 +6426,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft. (blind beyond this radius), passive Perception 8",
         languages: "",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Ooze Cube",
@@ -6359,6 +6471,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "Common",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Stench",
@@ -6408,6 +6521,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 11",
         languages: "any languages it knew in life",
         cr: "4",
+        bestiary: true,
         traits: [
             {
                 name: "Ethereal Sight",
@@ -6463,6 +6577,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "Common",
         cr: "1",
+        bestiary: true,
         actions: [
             {
                 name: "Bite",
@@ -6497,6 +6612,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 14",
         languages: "",
         cr: "7",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -6537,6 +6653,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 30 ft., passive Perception 11",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Smell",
@@ -6584,6 +6701,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., passive Perception 11",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Echolocation",
@@ -6624,6 +6742,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 8",
         languages: "",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Charge",
@@ -6665,6 +6784,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft., passive Perception 8",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         actions: [
             {
                 name: "Bite",
@@ -6694,6 +6814,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., passive Perception 12",
         languages: "",
         cr: "2",
+        bestiary: true,
         actions: [
             {
                 name: "Bite",
@@ -6730,6 +6851,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft., passive Perception 9",
         languages: "",
         cr: "1/8",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -6766,6 +6888,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Hold Breath",
@@ -6814,6 +6937,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 14",
         languages: "Giant Eagle, understands Common and Auran but can't speak",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Sight",
@@ -6863,6 +6987,7 @@ export const BESTIARY: Monster[] = [
         languages:
             "Giant Elk, understands Common, Elvish, and Sylvan but can't speak",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Charge",
@@ -6906,6 +7031,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft., passive Perception 8",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Illumination",
@@ -6942,6 +7068,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 30 ft., passive Perception 12",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -6987,6 +7114,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 11",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Charge",
@@ -7029,6 +7157,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Rampage",
@@ -7064,6 +7193,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 30 ft., passive Perception 10",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Variant: Hold Breath",
@@ -7105,6 +7235,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 14",
         languages: "",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Hold Breath",
@@ -7157,6 +7288,7 @@ export const BESTIARY: Monster[] = [
         languages:
             "Giant Owl, understands Common, Elvish, and Sylvan but can't speak",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Flyby",
@@ -7198,6 +7330,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., passive Perception 12",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         actions: [
             {
                 name: "Bite",
@@ -7226,6 +7359,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "",
         cr: "1/8",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Smell",
@@ -7266,6 +7400,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "",
         cr: "1/8",
+        bestiary: true,
         actions: [
             {
                 name: "Bite",
@@ -7294,6 +7429,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., passive Perception 9",
         languages: "",
         cr: "3",
+        bestiary: true,
         actions: [
             {
                 name: "Claw",
@@ -7334,6 +7470,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 11",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Charge",
@@ -7376,6 +7513,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., passive Perception 13",
         languages: "",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Blood Frenzy",
@@ -7417,6 +7555,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., darkvision 60 ft., passive Perception 10",
         languages: "",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Spider Climb",
@@ -7467,6 +7606,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 30 ft., passive Perception 10",
         languages: "",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -7513,6 +7653,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "understands Common but can't speak",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Sight and Smell",
@@ -7565,6 +7706,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         actions: [
             {
                 name: "Sting",
@@ -7594,6 +7736,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 13",
         languages: "",
         cr: "1/8",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Hearing and Smell",
@@ -7630,6 +7773,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., darkvision 60 ft., passive Perception 13",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Spider Climb",
@@ -7675,6 +7819,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Aberrant Ground",
@@ -7731,6 +7876,7 @@ export const BESTIARY: Monster[] = [
         senses: "truesight 120 ft., passive Perception 13",
         languages: "Abyssal, telepathy 120 ft.",
         cr: "9",
+        bestiary: true,
         traits: [
             {
                 name: "Innate Spellcasting",
@@ -7790,6 +7936,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 11",
         languages: "any one language (usually Common)",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Brave",
@@ -7849,6 +7996,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "Gnoll",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Rampage",
@@ -7898,6 +8046,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Charge",
@@ -7940,6 +8089,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 9",
         languages: "Common, Goblin",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Nimble Escape",
@@ -7989,6 +8139,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., darkvision 60 ft., passive Perception 14",
         languages: "Draconic",
         cr: "3",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -8031,6 +8182,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 14",
         languages: "",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Trampling Charge",
@@ -8080,6 +8232,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft. (blind beyond this radius), passive Perception 8",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Amorphous",
@@ -8132,6 +8285,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., darkvision 60 ft., passive Perception 14",
         languages: "Draconic",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -8179,6 +8333,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 14",
         languages: "Common, Draconic, Sylvan",
         cr: "3",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -8250,6 +8405,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 12",
         languages: "",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Stone Camouflage",
@@ -8298,6 +8454,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 15",
         languages: "",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Sight",
@@ -8346,6 +8503,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft. or 10 ft. while deafened (blind beyond this radius), passive Perception 13",
         languages: "Undercommon",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Blind Senses",
@@ -8392,6 +8550,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 12",
         languages: "any one language (usually Common)",
         cr: "1/8",
+        bestiary: true,
         actions: [
             {
                 name: "Spear",
@@ -8427,6 +8586,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 14",
         languages: "Celestial, Common",
         cr: "10",
+        bestiary: true,
         traits: [
             {
                 name: "Rejuvenation",
@@ -8485,6 +8645,7 @@ export const BESTIARY: Monster[] = [
         senses: "truesight 120 ft., passive Perception 18",
         languages: "Common, Sphinx",
         cr: "11",
+        bestiary: true,
         traits: [
             {
                 name: "Inscrutable",
@@ -8559,6 +8720,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., darkvision 60 ft., passive Perception 12",
         languages: "Common, Draconic",
         cr: "5",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -8612,6 +8774,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "Common",
         cr: "1",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -8658,6 +8821,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 14",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Sight",
@@ -8693,6 +8857,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 15",
         languages: "understands Infernal but can't speak it",
         cr: "3",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Hearing and Smell",
@@ -8741,6 +8906,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 11",
         languages: "Abyssal, telepathy 120 ft.",
         cr: "8",
+        bestiary: true,
         traits: [
             {
                 name: "Magic Resistance",
@@ -8799,6 +8965,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 12",
         languages: "Giant",
         cr: "5",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -8840,6 +9007,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 15",
         languages: "",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Sight",
@@ -8887,6 +9055,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "Common, Goblin",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Martial Advantage",
@@ -8930,6 +9099,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "understands the languages of its creator but can't speak",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Telepathic Bond",
@@ -8971,6 +9141,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 13",
         languages: "Infernal, telepathy 120 ft.",
         cr: "11",
+        bestiary: true,
         traits: [
             {
                 name: "Devil's Sight",
@@ -9030,6 +9201,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 30 ft., passive Perception 12",
         languages: "",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Blood Frenzy",
@@ -9071,6 +9243,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 16",
         languages: "",
         cr: "8",
+        bestiary: true,
         traits: [
             {
                 name: "Hold Breath",
@@ -9127,6 +9300,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Pack Tactics",
@@ -9168,6 +9342,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., darkvision 120 ft., passive Perception 12",
         languages: "Infernal, telepathy 120 ft.",
         cr: "14",
+        bestiary: true,
         traits: [
             {
                 name: "Devil's Sight",
@@ -9233,6 +9408,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 12",
         languages: "Aquan, Auran",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Death Burst",
@@ -9296,6 +9472,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 11",
         languages: "Infernal, Common",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Shapechanger",
@@ -9354,6 +9531,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 18",
         languages: "Auran, understands Common but doesn't speak it",
         cr: "6",
+        bestiary: true,
         traits: [
             {
                 name: "Invisibility",
@@ -9401,6 +9579,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 10",
         languages: "understands the languages of its creator but can't speak",
         cr: "16",
+        bestiary: true,
         traits: [
             {
                 name: "Fire Absorption",
@@ -9470,6 +9649,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Hearing and Smell",
@@ -9511,6 +9691,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 120 ft., passive Perception 13",
         languages: "",
         cr: "3",
+        bestiary: true,
         traits: [
             {
                 name: "Echolocation",
@@ -9555,6 +9736,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "any one language (usually Common)",
         cr: "3",
+        bestiary: true,
         traits: [
             {
                 name: "Brave",
@@ -9613,6 +9795,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 8",
         languages: "Common, Draconic",
         cr: "1/8",
+        bestiary: true,
         traits: [
             {
                 name: "Sunlight Sensitivity",
@@ -9669,6 +9852,7 @@ export const BESTIARY: Monster[] = [
         languages:
             "understands Abyssal, Celestial, Infernal, and Primordial but can't speak, telepathy 120 ft.",
         cr: "23",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -9755,6 +9939,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 12",
         languages: "Abyssal, Common",
         cr: "4",
+        bestiary: true,
         traits: [
             {
                 name: "Innate Spellcasting",
@@ -9807,6 +9992,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 10",
         languages: "understands infernal but can't speak",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Devil's Sight",
@@ -9855,6 +10041,7 @@ export const BESTIARY: Monster[] = [
         senses: "truesight 120 ft., passive Perception 19",
         languages: "Common plus up to five other languages",
         cr: "21",
+        bestiary: true,
         traits: [
             {
                 name: "Legendary Resistance (3/Day)",
@@ -9948,6 +10135,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Smell",
@@ -10005,6 +10193,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 30 ft., passive Perception 9",
         languages: "",
         cr: "0",
+        bestiary: true,
         actions: [
             {
                 name: "Bite",
@@ -10033,6 +10222,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "Draconic",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Hold Breath",
@@ -10096,6 +10286,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 11",
         languages: "any four languages",
         cr: "6",
+        bestiary: true,
         traits: [],
         actions: [
             {
@@ -10141,6 +10332,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "Ignan, Terran",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Death Burst",
@@ -10198,6 +10390,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "Ignan",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Death Burst",
@@ -10238,6 +10431,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "",
         cr: "6",
+        bestiary: true,
         traits: [
             {
                 name: "Trampling Charge",
@@ -10280,6 +10474,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 11",
         languages: "",
         cr: "3",
+        bestiary: true,
         traits: [
             {
                 name: "Tail Spike Regrowth",
@@ -10341,6 +10536,7 @@ export const BESTIARY: Monster[] = [
         senses: "truesight 120 ft., passive Perception 13",
         languages: "Abyssal, telepathy 120 ft.",
         cr: "16",
+        bestiary: true,
         traits: [
             {
                 name: "Magic Resistance",
@@ -10416,6 +10612,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "",
         cr: "1/8",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Hearing and Smell",
@@ -10457,6 +10654,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 14",
         languages: "Common",
         cr: "6",
+        bestiary: true,
         traits: [
             {
                 name: "Petrifying Gaze",
@@ -10511,6 +10709,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 12",
         languages: "Aquan, Common",
         cr: "1/8",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -10545,6 +10744,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "Abyssal, Aquan",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -10600,6 +10800,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 11",
         languages: "",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Shapechanger",
@@ -10658,6 +10859,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 17",
         languages: "Abyssal",
         cr: "3",
+        bestiary: true,
         traits: [
             {
                 name: "Charge",
@@ -10711,6 +10913,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 9",
         languages: "understands Abyssal but can't speak",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Charge",
@@ -10754,6 +10957,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "",
         cr: "1/8",
+        bestiary: true,
         traits: [
             {
                 name: "Beast of Burden",
@@ -10796,6 +11000,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "the languages it knew in life",
         cr: "3",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -10843,6 +11048,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 14",
         languages: "the languages it knew in life",
         cr: "15",
+        bestiary: true,
         traits: [
             {
                 name: "Magic Resistance",
@@ -10937,6 +11143,7 @@ export const BESTIARY: Monster[] = [
         senses: "truesight 120 ft., passive Perception 11",
         languages: "Abyssal, telepathy 120 ft.",
         cr: "13",
+        bestiary: true,
         traits: [
             {
                 name: "Magic Resistance",
@@ -11006,6 +11213,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 16",
         languages: "Abyssal, Common, Infernal, Primordial",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Innate Spellcasting",
@@ -11081,6 +11289,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 11",
         languages: "understands Abyssal, Common, and Infernal but can't speak",
         cr: "3",
+        bestiary: true,
         traits: [
             {
                 name: "Confer Fire Resistance",
@@ -11127,6 +11336,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 12",
         languages: "any two languages",
         cr: "1/8",
+        bestiary: true,
         actions: [
             {
                 name: "Rapier",
@@ -11163,6 +11373,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft. (blind beyond this radius), passive Perception 8",
         languages: "",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Amorphous",
@@ -11211,6 +11422,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 30 ft., passive Perception 12",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Hold Breath",
@@ -11260,6 +11472,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 8",
         languages: "Common, Giant",
         cr: "2",
+        bestiary: true,
         actions: [
             {
                 name: "Greatclub",
@@ -11296,6 +11509,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 8",
         languages: "understands Common and Giant but can't speak",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Undead Fortitude",
@@ -11338,6 +11552,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 14",
         languages: "Common, Giant",
         cr: "7",
+        bestiary: true,
         traits: [
             {
                 name: "Innate Spellcasting",
@@ -11401,6 +11616,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "Common, Orc",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Aggressive",
@@ -11444,6 +11660,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 11",
         languages: "Otyugh",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Limited Telepathy",
@@ -11497,6 +11714,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 13",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Flyby",
@@ -11537,6 +11755,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 13",
         languages: "",
         cr: "3",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Sight and Smell",
@@ -11585,6 +11804,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 14",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Smell",
@@ -11635,6 +11855,7 @@ export const BESTIARY: Monster[] = [
         languages:
             "understands Celestial, Common, Elvish, and Sylvan but can't speak",
         cr: "2",
+        bestiary: true,
         actions: [
             {
                 name: "Hooves",
@@ -11664,6 +11885,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "",
         cr: "3",
+        bestiary: true,
         traits: [
             {
                 name: "Ethereal Jaunt",
@@ -11711,6 +11933,7 @@ export const BESTIARY: Monster[] = [
         senses: "truesight 120 ft., passive Perception 14",
         languages: "Infernal, telepathy 120 ft.",
         cr: "20",
+        bestiary: true,
         traits: [
             {
                 name: "Fear Aura",
@@ -11790,6 +12013,7 @@ export const BESTIARY: Monster[] = [
         senses: "truesight 120 ft., passive Perception 21",
         languages: "all, telepathy 120 ft.",
         cr: "16",
+        bestiary: true,
         traits: [
             {
                 name: "Angelic Weapons",
@@ -11851,6 +12075,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Hold Breath",
@@ -11886,6 +12111,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., passive Perception 10",
         languages: "",
         cr: "1/8",
+        bestiary: true,
         actions: [
             {
                 name: "Bite",
@@ -11914,6 +12140,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Smell",
@@ -11961,6 +12188,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "",
         cr: "1/8",
+        bestiary: true,
         actions: [
             {
                 name: "Hooves",
@@ -11990,6 +12218,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "any two languages",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Divine Eminence",
@@ -12033,6 +12262,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., darkvision 60 ft., passive Perception 13",
         languages: "understands Common and Draconic but can't speak",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Senses",
@@ -12091,6 +12321,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft., tremorsense 60 ft., passive Perception 9",
         languages: "",
         cr: "15",
+        bestiary: true,
         traits: [
             {
                 name: "Tunneler",
@@ -12140,6 +12371,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 10",
         languages: "Abyssal, Common",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Shapechanger",
@@ -12195,6 +12427,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 8",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Blood Frenzy",
@@ -12237,6 +12470,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 13",
         languages: "Common, Infernal",
         cr: "13",
+        bestiary: true,
         traits: [
             {
                 name: "Limited Magic Immunity",
@@ -12282,6 +12516,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 30 ft., passive Perception 10",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Smell",
@@ -12317,6 +12552,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Mimicry",
@@ -12357,6 +12593,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., darkvision 60 ft., passive Perception 14",
         languages: "Draconic",
         cr: "4",
+        bestiary: true,
         actions: [
             {
                 name: "Bite",
@@ -12392,6 +12629,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft., passive Perception 12",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Pack Tactics",
@@ -12432,6 +12670,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., tremorsense 60 ft., passive Perception 10",
         languages: "",
         cr: "11",
+        bestiary: true,
         traits: [
             {
                 name: "Heated Body",
@@ -12473,6 +12712,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 11",
         languages: "",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Charge",
@@ -12509,6 +12749,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         actions: [
             {
                 name: "Hooves",
@@ -12544,6 +12785,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 14",
         languages: "",
         cr: "11",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Sight",
@@ -12592,6 +12834,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 16",
         languages: "",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "False Appearance",
@@ -12653,6 +12896,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft. (blind beyond this radius), passive Perception 6",
         languages: "",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Antimagic Susceptibility",
@@ -12698,6 +12942,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 11",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Iron Scent",
@@ -12744,6 +12989,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Smell",
@@ -12792,6 +13038,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 15",
         languages: "Sahuagin",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Blood Frenzy",
@@ -12857,6 +13104,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "Ignan",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Heated Body",
@@ -12911,6 +13159,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 12",
         languages: "Common, Elvish, Sylvan",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Magic Resistance",
@@ -12965,6 +13214,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., passive Perception 9",
         languages: "",
         cr: "0",
+        bestiary: true,
         actions: [
             {
                 name: "Sting",
@@ -12998,6 +13248,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 15",
         languages: "any one language (usually Common)",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Hearing and Sight",
@@ -13045,6 +13296,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 11",
         languages: "Aquan, Common, Giant",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -13110,6 +13362,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Water Breathing",
@@ -13139,6 +13392,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Amorphous",
@@ -13185,6 +13439,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft. (blind beyond this radius), passive Perception 10",
         languages: "",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Lightning Absorption",
@@ -13231,6 +13486,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., darkvision 60 ft., passive Perception 10",
         languages: "understands commands given in any language but can't speak",
         cr: "7",
+        bestiary: true,
         traits: [
             {
                 name: "Bound",
@@ -13288,6 +13544,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft. (blind beyond this radius), passive Perception 6",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "False Appearance",
@@ -13328,6 +13585,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., darkvision 60 ft., passive Perception 14",
         languages: "Draconic",
         cr: "2",
+        bestiary: true,
         actions: [
             {
                 name: "Bite",
@@ -13362,6 +13620,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 9",
         languages: "understands all languages it spoke in life but can't speak",
         cr: "1/4",
+        bestiary: true,
         actions: [
             {
                 name: "Shortsword",
@@ -13400,6 +13659,7 @@ export const BESTIARY: Monster[] = [
         senses: "truesight 120 ft., passive Perception 24",
         languages: "all, telepathy 120 ft.",
         cr: "21",
+        bestiary: true,
         traits: [
             {
                 name: "Angelic Weapons",
@@ -13491,6 +13751,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "understands all languages it knew in life but can't speak",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Incorporeal Movement",
@@ -13531,6 +13792,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 30 ft., passive Perception 12",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Spider Climb",
@@ -13581,6 +13843,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 12",
         languages: "Abyssal, Common",
         cr: "8",
+        bestiary: true,
         traits: [
             {
                 name: "Rejuvenation",
@@ -13626,6 +13889,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "Common, Elvish, Sylvan",
         cr: "1/4",
+        bestiary: true,
         actions: [
             {
                 name: "Longsword",
@@ -13677,6 +13941,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 16",
         languages: "any two languages",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Cunning Action",
@@ -13730,6 +13995,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "Aquan, Ignan",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Death Burst",
@@ -13780,6 +14046,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 9",
         languages: "",
         cr: "1/8",
+        bestiary: true,
         actions: [
             {
                 name: "Blood Drain",
@@ -13810,6 +14077,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 14",
         languages: "Giant",
         cr: "7",
+        bestiary: true,
         traits: [
             {
                 name: "Stone Camouflage",
@@ -13866,6 +14134,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 10",
         languages: "understands the languages of its creator but can't speak",
         cr: "10",
+        bestiary: true,
         traits: [
             {
                 name: "Immutable Form",
@@ -13933,6 +14202,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 19",
         languages: "Common, Giant",
         cr: "13",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -13999,6 +14269,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 15",
         languages: "Abyssal, Common, Infernal, telepathy 60 ft.",
         cr: "4",
+        bestiary: true,
         traits: [
             {
                 name: "Telepathic Bond",
@@ -14057,6 +14328,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 60 ft., passive Perception 11",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Echolocation",
@@ -14102,6 +14374,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., passive Perception 8",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Swarm",
@@ -14137,6 +14410,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., passive Perception 8",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Swarm",
@@ -14172,6 +14446,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., passive Perception 8",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Swarm",
@@ -14207,6 +14482,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., passive Perception 10",
         languages: "",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Swarm",
@@ -14242,6 +14518,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 8",
         languages: "",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Blood Frenzy",
@@ -14287,6 +14564,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 30 ft., passive Perception 10",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Smell",
@@ -14327,6 +14605,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 15",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Swarm",
@@ -14362,6 +14641,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., passive Perception 8",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Swarm",
@@ -14412,6 +14692,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., passive Perception 8",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Swarm",
@@ -14448,6 +14729,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 120 ft., passive Perception 10",
         languages: "",
         cr: "30",
+        bestiary: true,
         traits: [
             {
                 name: "Legendary Resistance (3/Day)",
@@ -14552,6 +14834,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "any one language (usually Common)",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Pack Tactics",
@@ -14599,6 +14882,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 13",
         languages: "",
         cr: "1",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Smell",
@@ -14644,6 +14928,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "Common, Druidic, Elvish, Sylvan",
         cr: "9",
+        bestiary: true,
         traits: [
             {
                 name: "False Appearance",
@@ -14701,6 +14986,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "any one language",
         cr: "1/8",
+        bestiary: true,
         traits: [
             {
                 name: "Pack Tactics",
@@ -14736,6 +15022,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 10",
         languages: "",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Trampling Charge",
@@ -14779,6 +15066,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 12",
         languages: "Giant",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Smell",
@@ -14837,6 +15125,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 14",
         languages: "",
         cr: "8",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -14877,6 +15166,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 13",
         languages: "Celestial, Elvish, Sylvan, telepathy 60 ft.",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Charge",
@@ -14970,6 +15260,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 17",
         languages: "the languages it knew in life",
         cr: "13",
+        bestiary: true,
         traits: [
             {
                 name: "Shapechanger",
@@ -15072,6 +15363,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 13",
         languages: "the languages it knew in life",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Regeneration",
@@ -15128,6 +15420,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 12",
         languages: "any one language (usually Common)",
         cr: "3",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -15175,6 +15468,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft. (blind beyond this radius), passive Perception 6",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "False Appearance",
@@ -15216,6 +15510,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 11",
         languages: "Abyssal, telepathy 120 ft.",
         cr: "6",
+        bestiary: true,
         traits: [
             {
                 name: "Magic Resistance",
@@ -15279,6 +15574,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Sight and Smell",
@@ -15318,6 +15614,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 11",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Trampling Charge",
@@ -15353,6 +15650,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 9",
         languages: "",
         cr: "1/2",
+        bestiary: true,
         actions: [
             {
                 name: "Hooves",
@@ -15383,6 +15681,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 10",
         languages: "Aquan",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Water Form",
@@ -15434,6 +15733,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "",
         cr: "0",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Hearing and Smell",
@@ -15470,6 +15770,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 17",
         languages: "Common (can't speak in bear form)",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Shapechanger",
@@ -15531,6 +15832,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 12",
         languages: "Common (can't speak in boar form)",
         cr: "4",
+        bestiary: true,
         traits: [
             {
                 name: "Shapechanger",
@@ -15591,6 +15893,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft. (rat form only), passive Perception 12",
         languages: "Common (can't speak in rat form)",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Shapechanger",
@@ -15652,6 +15955,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 15",
         languages: "Common (can't speak in tiger form)",
         cr: "4",
+        bestiary: true,
         traits: [
             {
                 name: "Shapechanger",
@@ -15725,6 +16029,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 14",
         languages: "Common (can't speak in wolf form)",
         cr: "3",
+        bestiary: true,
         traits: [
             {
                 name: "Shapechanger",
@@ -15791,6 +16096,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 10 ft., darkvision 60 ft., passive Perception 14",
         languages: "Draconic",
         cr: "2",
+        bestiary: true,
         actions: [
             {
                 name: "Bite",
@@ -15827,6 +16133,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 13",
         languages: "the languages it knew in life",
         cr: "3",
+        bestiary: true,
         traits: [
             {
                 name: "Sunlight Sensitivity",
@@ -15883,6 +16190,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 120 ft., passive Perception 12",
         languages: "the languages it knew in life",
         cr: "2",
+        bestiary: true,
         traits: [
             {
                 name: "Consume Life",
@@ -15938,6 +16246,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 15",
         languages: "Common, Giant, Winter Wolf",
         cr: "3",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Hearing and Smell",
@@ -15990,6 +16299,7 @@ export const BESTIARY: Monster[] = [
         senses: "passive Perception 13",
         languages: "",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Hearing and Smell",
@@ -16031,6 +16341,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 14",
         languages: "Goblin, Worg",
         cr: "1/2",
+        bestiary: true,
         traits: [
             {
                 name: "Keen Hearing and Smell",
@@ -16068,6 +16379,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 12",
         languages: "the languages it knew in life",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Incorporeal Movement",
@@ -16114,6 +16426,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 14",
         languages: "",
         cr: "6",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -16163,6 +16476,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., tremorsense 60 ft., passive Perception 16",
         languages: "Terran",
         cr: "5",
+        bestiary: true,
         traits: [
             {
                 name: "Earth Glide",
@@ -16227,6 +16541,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft., darkvision 120 ft., passive Perception 16",
         languages: "Common, Draconic",
         cr: "7",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -16287,6 +16602,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft., darkvision 120 ft., passive Perception 19",
         languages: "Common, Draconic",
         cr: "9",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -16340,6 +16656,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft., darkvision 120 ft., passive Perception 16",
         languages: "Common, Draconic",
         cr: "6",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -16393,6 +16710,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft., darkvision 120 ft., passive Perception 17",
         languages: "Common, Draconic",
         cr: "8",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -16453,6 +16771,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft., darkvision 120 ft., passive Perception 17",
         languages: "Common, Draconic",
         cr: "7",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -16511,6 +16830,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft., darkvision 120 ft., passive Perception 19",
         languages: "Common, Draconic",
         cr: "10",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -16571,6 +16891,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft., darkvision 120 ft., passive Perception 17",
         languages: "Common, Draconic",
         cr: "8",
+        bestiary: true,
         traits: [
             {
                 name: "Amphibious",
@@ -16631,6 +16952,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft., darkvision 120 ft., passive Perception 18",
         languages: "Common, Draconic",
         cr: "10",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -16689,6 +17011,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft., darkvision 120 ft., passive Perception 18",
         languages: "Common, Draconic",
         cr: "9",
+        bestiary: true,
         actions: [
             {
                 name: "Multiattack",
@@ -16742,6 +17065,7 @@ export const BESTIARY: Monster[] = [
         senses: "blindsight 30 ft., darkvision 120 ft., passive Perception 16",
         languages: "Common, Draconic",
         cr: "6",
+        bestiary: true,
         traits: [
             {
                 name: "Ice Walk",
@@ -16796,6 +17120,7 @@ export const BESTIARY: Monster[] = [
         senses: "darkvision 60 ft., passive Perception 8",
         languages: "understands all languages it spoke in life but can't speak",
         cr: "1/4",
+        bestiary: true,
         traits: [
             {
                 name: "Undead Fortitude",
@@ -16819,7 +17144,7 @@ export const BESTIARY: Monster[] = [
     BESTIARY.map((monster) => [monster.name, monster])
 ); */
 
-export function getBestiaryByName (disableSRD: boolean) {
+export function getBestiaryByName(disableSRD: boolean) {
     return !disableSRD ? BESTIARY_BY_NAME : new Map();
 }
 
