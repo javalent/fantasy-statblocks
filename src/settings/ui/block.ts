@@ -114,7 +114,6 @@ export function getModalForBlock(
             return new TextModal(plugin, block);
         }
     }
-    return new GenericModal(plugin, block);
 }
 
 abstract class BlockModal<T extends StatblockItem> extends Modal {
@@ -196,120 +195,6 @@ class GroupModal extends BlockModal<GroupItem | InlineItem> {
     }
 }
 
-class ActionModal extends BlockModal<ActionItem> {
-    editor: EditorView;
-    async display() {
-        this.contentEl.empty();
-        this.containerEl.addClass("statblock-block-editor");
-        this.buildBasic(this.contentEl.createDiv());
-        this.buildAdvanced(
-            this.contentEl.createEl("details", {
-                cls: "statblock-nested-settings",
-                attr: {
-                    ...(this.plugin.settings.showAdvanced ? { open: true } : {})
-                }
-            })
-        );
-    }
-    buildBasic(el: HTMLElement) {
-        el.empty();
-
-        new Setting(el)
-            .setName("Icon")
-            .setDesc("Choose the icon to use for the button.")
-            .addText((t) => {
-                t.setValue(this.block.icon);
-                const icons = getIconIds().map((v) =>
-                    v.replace(/^lucide-/, "")
-                );
-                const modal = new IconSuggester(t, icons);
-
-                modal.onClose = async () => {
-                    const v = t.inputEl.value?.trim()
-                        ? t.inputEl.value.trim()
-                        : "/";
-                    this.block.icon = v;
-                    this.buildBasic(el);
-                };
-
-                t.inputEl.onblur = async () => {
-                    const v = t.inputEl.value?.trim()
-                        ? t.inputEl.value.trim()
-                        : "/";
-                    this.block.icon = v;
-                    this.buildBasic(el);
-                };
-            })
-            .addExtraButton((b) => {
-                b.setIcon(this.block.icon).setDisabled(true);
-            });
-        new Setting(el)
-            .setName("Action")
-            .setDesc("Choose a Command to run when this action is executed.")
-            .addText((t) => {
-                t.setValue(this.block.action);
-                const commands = app.commands.listCommands();
-                const modal = new CommandSuggester(t, commands);
-
-                modal.onClose = async () => {
-                    const v = t.inputEl.value?.trim()
-                        ? t.inputEl.value.trim()
-                        : "/";
-                    this.block.action = v;
-                };
-
-                t.inputEl.onblur = async () => {
-                    const v = t.inputEl.value?.trim()
-                        ? t.inputEl.value.trim()
-                        : "/";
-                    this.block.action = v;
-                };
-            });
-    }
-    buildAdvanced(el: HTMLDetailsElement): void {
-        el.empty();
-
-        const summary = el.createEl("summary");
-        new Setting(summary).setHeading().setName("Advanced Settings");
-        summary.createDiv("collapser").createDiv("handle");
-
-        new Setting(el)
-            .setHeading()
-            .setName("Callback")
-            .setDesc(
-                createFragment((e) => {
-                    e.createSpan({
-                        text: "Executing the action will run the callback. Any registered commands will "
-                    });
-                    e.createEl("strong", { text: "not" });
-                    e.createSpan({
-                        text: " be ran."
-                    });
-                    e.createEl("br");
-                    e.createSpan({
-                        text: "The callback will receive the "
-                    });
-                    e.createEl("code", { text: "monster" });
-                    e.createSpan({
-                        text: " parameter. "
-                    });
-                })
-            );
-
-        const component = new TextAreaComponent(el).setValue(
-            this.block.callback
-        );
-        component.inputEl.addClass("statblock-textarea");
-        this.editor = editorFromTextArea(
-            component.inputEl,
-            EditorView.updateListener.of((update) => {
-                if (update.docChanged) {
-                    this.block.callback = update.state.doc.toString();
-                }
-            })
-        );
-    }
-}
 class CollapseModal extends BlockModal<CollapseItem> {
     async display() {
         this.contentEl.empty();
@@ -443,29 +328,39 @@ class IfElseModal extends BlockModal<IfElseItem> {
         });
     }
 }
-
-class GenericModal<I extends BasicItem> extends BlockModal<I> {
+abstract class EditorEnabledModal<
+    I extends StatblockItem
+> extends BlockModal<I> {
+    editor: EditorView;
+    propertiesEl = createDiv();
+    separatorEl = createDiv();
+    conditionsEl = createDiv();
+    diceEl = createDiv();
+    advancedEl = createEl("details", {
+        cls: "statblock-nested-settings",
+        attr: {
+            ...(this.plugin.settings.showAdvanced ? { open: true } : {})
+        }
+    });
+    buttonsEl = createDiv();
     async display() {
         this.containerEl.addClass("statblock-block-editor");
         this.contentEl.empty();
+        this.contentEl.appendChild(this.propertiesEl);
+        this.contentEl.appendChild(this.separatorEl);
+        this.contentEl.appendChild(this.conditionsEl);
+        this.contentEl.appendChild(this.diceEl);
+        this.contentEl.appendChild(this.advancedEl);
+        this.contentEl.appendChild(this.buttonsEl);
 
-        this.buildProperties(this.contentEl.createDiv());
-        this.buildSeparator(this.contentEl.createDiv());
-        this.buildConditions(this.contentEl.createDiv());
-        this.buildDice(this.contentEl.createDiv());
-
-        this.buildAdvanced(
-            this.contentEl.createEl("details", {
-                cls: "statblock-nested-settings",
-                attr: {
-                    ...(this.plugin.settings.showAdvanced ? { open: true } : {})
-                }
-            })
-        );
-
-        this.buildButtons(this.contentEl.createDiv());
+        this.buildProperties(this.propertiesEl);
+        this.buildSeparator(this.separatorEl);
+        this.buildConditions(this.conditionsEl);
+        this.buildDice(this.diceEl);
+        this.#buildAdvanced(this.advancedEl);
+        this.buildButtons(this.buttonsEl);
     }
-    buildAdvanced(el: HTMLDetailsElement) {
+    #buildAdvanced(el: HTMLDetailsElement) {
         el.empty();
         el.ontoggle = () => {
             this.plugin.settings.showAdvanced = el.open;
@@ -474,6 +369,128 @@ class GenericModal<I extends BasicItem> extends BlockModal<I> {
         const summary = el.createEl("summary");
         new Setting(summary).setHeading().setName("Advanced Settings");
         summary.createDiv("collapser").createDiv("handle");
+        this.buildAdvanced(el.createDiv());
+    }
+    abstract buildAdvanced(el: HTMLDivElement): void;
+
+    onClose(): void {
+        this.editor?.destroy();
+    }
+
+    buildProperties(el: HTMLDivElement): void {}
+    buildSeparator(el: HTMLDivElement): void {}
+    buildConditions(el: HTMLDivElement): void {}
+    buildDice(el: HTMLDivElement): void {}
+}
+
+class ActionModal extends EditorEnabledModal<ActionItem> {
+    buildProperties(el: HTMLDivElement): void {
+        el.empty();
+
+        new Setting(el)
+            .setName("Icon")
+            .setDesc("Choose the icon to use for the button.")
+            .addText((t) => {
+                t.setValue(this.block.icon);
+                const icons = getIconIds().map((v) =>
+                    v.replace(/^lucide-/, "")
+                );
+                const modal = new IconSuggester(t, icons);
+
+                modal.onClose = async () => {
+                    const v = t.inputEl.value?.trim()
+                        ? t.inputEl.value.trim()
+                        : "/";
+                    this.block.icon = v;
+                    this.buildProperties(el);
+                };
+
+                t.inputEl.onblur = async () => {
+                    const v = t.inputEl.value?.trim()
+                        ? t.inputEl.value.trim()
+                        : "/";
+                    this.block.icon = v;
+                    this.buildProperties(el);
+                };
+            })
+            .addExtraButton((b) => {
+                b.setIcon(this.block.icon).setDisabled(true);
+            });
+        new Setting(el)
+            .setName("Action")
+            .setDesc("Choose a Command to run when this action is executed.")
+            .addText((t) => {
+                t.setValue(this.block.action);
+                const commands = app.commands.listCommands();
+                const modal = new CommandSuggester(t, commands);
+
+                modal.onClose = async () => {
+                    const v = t.inputEl.value?.trim()
+                        ? t.inputEl.value.trim()
+                        : "/";
+                    this.block.action = v;
+                };
+
+                t.inputEl.onblur = async () => {
+                    const v = t.inputEl.value?.trim()
+                        ? t.inputEl.value.trim()
+                        : "/";
+                    this.block.action = v;
+                };
+            });
+    }
+    buildAdvanced(el: HTMLDivElement): void {
+        el.empty();
+
+        new Setting(el)
+            .setHeading()
+            .setName("Callback")
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "Executing the action will run the callback. Any registered commands will "
+                    });
+                    e.createEl("strong", { text: "not" });
+                    e.createSpan({
+                        text: " be ran."
+                    });
+                    e.createEl("br");
+                    e.createSpan({
+                        text: "The callback will receive the "
+                    });
+                    e.createEl("code", { text: "monster" });
+                    e.createSpan({
+                        text: " parameter. "
+                    });
+                })
+            );
+
+        const component = new TextAreaComponent(el).setValue(
+            this.block.callback
+        );
+        component.inputEl.addClass("statblock-textarea");
+        this.editor = editorFromTextArea(
+            component.inputEl,
+            EditorView.updateListener.of((update) => {
+                if (update.docChanged) {
+                    this.block.callback = update.state.doc.toString();
+                }
+            })
+        );
+    }
+}
+class BasicModal<I extends BasicItem> extends EditorEnabledModal<I> {
+    buildProperties(el: HTMLDivElement) {
+        el.empty();
+        const block = this.block;
+        new Setting(el).setName("Link Monster Property").addText((t) =>
+            t.setValue(block.properties[0]).onChange((v) => {
+                block.properties[0] = v as keyof Monster;
+            })
+        );
+    }
+    buildAdvanced(el: HTMLDivElement): void {
+        el.empty();
         if (this.plugin.canUseDiceRoller) {
             new Setting(el)
                 .setHeading()
@@ -516,22 +533,6 @@ class GenericModal<I extends BasicItem> extends BlockModal<I> {
                 })
             );
         }
-    }
-
-    onClose(): void {
-        this.editor?.destroy();
-    }
-
-    editor: EditorView;
-
-    buildProperties(el: HTMLDivElement) {
-        el.empty();
-        const block = this.block;
-        new Setting(el).setName("Link Monster Property").addText((t) =>
-            t.setValue(block.properties[0]).onChange((v) => {
-                block.properties[0] = v as keyof Monster;
-            })
-        );
     }
     buildSeparator(el: HTMLDivElement) {
         return;
@@ -604,11 +605,10 @@ class GenericModal<I extends BasicItem> extends BlockModal<I> {
         }
     }
 }
-
 class MarkdownEnabledModal<
     M extends PropertyItem | TraitsItem | SpellsItem | TextItem | SavesItem
-> extends GenericModal<M> {
-    buildAdvanced(el: HTMLDetailsElement): void {
+> extends BasicModal<M> {
+    buildAdvanced(el: HTMLDivElement): void {
         super.buildAdvanced(el);
         new Setting(el)
             .setName("Render as Markdown")
@@ -626,8 +626,7 @@ class MarkdownEnabledModal<
             });
     }
 }
-
-class HeadingModal extends GenericModal<HeadingItem> {
+class HeadingModal extends BasicModal<HeadingItem> {
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
         new Setting(this.contentEl)
@@ -650,9 +649,8 @@ class HeadingModal extends GenericModal<HeadingItem> {
             });
     }
 }
-
 class PropertyModal extends MarkdownEnabledModal<PropertyItem> {
-    buildAdvanced(el: HTMLDetailsElement): void {
+    buildAdvanced(el: HTMLDivElement): void {
         super.buildAdvanced(el);
         new Setting(el)
             .setHeading()
@@ -732,7 +730,6 @@ class SavesModal extends MarkdownEnabledModal<SavesItem> {
             });
     }
 }
-
 class SpellsModal extends MarkdownEnabledModal<SpellsItem> {
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
@@ -748,8 +745,7 @@ class SpellsModal extends MarkdownEnabledModal<SpellsItem> {
             });
     }
 }
-
-class SubheadingModal extends GenericModal<SubHeadingItem> {
+class SubheadingModal extends BasicModal<SubHeadingItem> {
     buildProperties(el: HTMLDivElement): void {
         el.empty();
         const block = this.block;
@@ -807,8 +803,8 @@ class SubheadingModal extends GenericModal<SubHeadingItem> {
             });
     }
 }
-class TableModal extends GenericModal<TableItem> {
-    buildAdvanced(el: HTMLDetailsElement): void {
+class TableModal extends BasicModal<TableItem> {
+    buildAdvanced(el: HTMLDivElement): void {
         super.buildAdvanced(el);
         new Setting(el)
             .setHeading()
@@ -886,7 +882,6 @@ class TableModal extends GenericModal<TableItem> {
             });
     }
 }
-
 class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
@@ -943,7 +938,7 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
             .setValue(this.block.subheadingText)
             .onChange((v) => (this.block.subheadingText = v));
     }
-    buildAdvanced(el: HTMLDetailsElement): void {
+    buildAdvanced(el: HTMLDivElement): void {
         super.buildAdvanced(el);
         new Setting(el)
             .setHeading()
@@ -985,7 +980,7 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
     }
 }
 class TextModal extends MarkdownEnabledModal<TextItem> {
-    buildAdvanced(el: HTMLDetailsElement): void {
+    buildAdvanced(el: HTMLDivElement): void {
         super.buildAdvanced(el);
         new Setting(el)
             .setHeading()
