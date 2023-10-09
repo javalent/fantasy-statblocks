@@ -51,6 +51,7 @@ declare module "obsidian" {
         };
         commands: {
             listCommands: () => Command[];
+            executeCommandById: (id: string) => boolean;
         };
     }
     interface Workspace {

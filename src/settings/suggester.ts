@@ -24,7 +24,7 @@ export class CommandSuggester extends SuggestionModal<Command> {
     }
     selectSuggestion({ item }: FuzzyMatch<Command>) {
         let link = item.name;
-
+        this.item = item;
         this.text.setValue(link);
         this.onClose();
 

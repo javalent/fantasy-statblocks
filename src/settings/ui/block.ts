@@ -428,14 +428,16 @@ class ActionModal extends EditorEnabledModal<ActionItem> {
                     const v = t.inputEl.value?.trim()
                         ? t.inputEl.value.trim()
                         : "/";
-                    this.block.action = v;
+                    this.block.action = modal.item.id;
                 };
 
                 t.inputEl.onblur = async () => {
                     const v = t.inputEl.value?.trim()
                         ? t.inputEl.value.trim()
                         : "/";
-                    this.block.action = v;
+                    this.block.action = commands.find(
+                        (c) => c.name.toLowerCase() === v?.toLowerCase()
+                    )?.id;
                 };
             });
     }
