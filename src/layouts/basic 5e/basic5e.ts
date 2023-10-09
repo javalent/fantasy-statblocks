@@ -18,11 +18,41 @@ export const Statblock5e: StatblockItem[] = [
                 properties: ["name", "size", "type", "subtype", "alignment"],
                 nested: [
                     {
-                        type: "heading",
+                        type: "inline",
                         id: nanoid(),
-                        properties: ["name"],
-                        conditioned: true,
-                        size: 1
+                        properties: [],
+                        hasRule: false,
+                        nested: [
+                            {
+                                type: "heading",
+                                id: nanoid(),
+                                properties: ["name"],
+                                conditioned: true,
+                                size: 1
+                            },
+                            {
+                                type: "inline",
+                                id: nanoid(),
+                                properties: [],
+                                hasRule: false,
+                                nested: [
+                                    {
+                                        type: "action",
+                                        id: nanoid(),
+                                        icon: "sword",
+                                        callback:
+                                            "try { InitiativeTracker.addCreatures([monster]); } catch(e) {}"
+                                    },
+                                    {
+                                        type: "action",
+                                        id: nanoid(),
+                                        icon: "plus-with-circle",
+                                        callback:
+                                            "try { InitiativeTracker.newEncounter({creatures: [monster]}); } catch(e) {}"
+                                    }
+                                ]
+                            }
+                        ]
                     },
                     {
                         type: "subheading",
@@ -692,5 +722,5 @@ export const Layout5e: DefaultLayout = {
     id: "basic-5e-layout",
     name: "Basic 5e Layout",
     edited: false,
-    version: 1
+    version: 2
 };
