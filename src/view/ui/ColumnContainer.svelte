@@ -53,7 +53,7 @@
             item.type == "layout"
         )
             return true;
-        console.log("🚀 ~ file: ColumnContainer.svelte:57 ~ item:", item);
+
         if (!("properties" in item)) return true;
         if (!item.properties.length) return true;
         return item.properties.some((prop) => {

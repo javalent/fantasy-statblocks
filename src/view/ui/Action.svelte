@@ -20,7 +20,7 @@
                 }
             } else if (block.action) {
                 try {
-                    console.log(app.commands.executeCommandById(block.action));
+                    app.commands.executeCommandById(block.action);
                 } catch (e) {
                     new Notice(
                         `There was an error executing the command for the action block.\n\n${e.message}`
