@@ -143,6 +143,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
          */
 
         for (const block of this.unwrapBlocks(this.layout.blocks)) {
+            if (!("properties" in block)) continue;
             for (let property of block.properties) {
                 /** Ignore properties that aren't in the final built creature. */
                 if (

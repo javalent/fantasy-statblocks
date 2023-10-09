@@ -202,7 +202,9 @@
                                     <div
                                         class="statblock-creator-block collapse-container"
                                     >
-                                        <div use:setNodeIcon={"chevrons-down-up"} />
+                                        <div
+                                            use:setNodeIcon={"chevrons-down-up"}
+                                        />
                                         <div class="collapsible">
                                             {#if block.heading}
                                                 <span>{block.heading}</span>
@@ -269,6 +271,27 @@
                                     </div>
                                 </div>
                             </div>
+                        {:else if block.type == "action"}
+                            <div
+                                class="action-container statblock-creator-container"
+                            >
+                                <div
+                                    class="action-icon"
+                                    use:setNodeIcon={block.icon}
+                                />
+                                <div class="icons">
+                                    <div
+                                        class="icon"
+                                        use:editIcon
+                                        on:click={() => editBlock(block)}
+                                    />
+                                    <div
+                                        class="icon"
+                                        use:trashIcon
+                                        on:click={() => trash(block)}
+                                    />
+                                </div>
+                            </div>
                         {:else}
                             <div class="item">
                                 <Block
@@ -326,6 +349,10 @@
         height: 100%;
         min-width: 2rem;
     }
+    .action-icon {
+        display: flex;
+        align-items: center;
+    }
     .icon {
         display: flex;
     }
@@ -337,6 +364,9 @@
         width: 100%;
         height: 100%;
         gap: 0.25rem;
+    }
+    .statblock-creator-container.action-container {
+        justify-content: flex-start;
     }
 
     :global(body:not(.is-mobile))

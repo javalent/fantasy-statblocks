@@ -15,7 +15,8 @@ export const StatblockItemTypes = [
     "ifelse",
     "collapse",
     "javascript",
-    "layout"
+    "layout",
+    "action"
 ] as const;
 
 export const TypeNames: Array<[(typeof StatblockItemTypes)[number], string]> = [
@@ -25,6 +26,7 @@ export const TypeNames: Array<[(typeof StatblockItemTypes)[number], string]> = [
     ["collapse", "Collapsible"],
     ["javascript", "JavaScript"],
     ["layout", "Layout"],
+    ["action", "Action"],
     [null, "separator"],
     ["heading", "Heading"],
     ["image", "Image"],
@@ -152,6 +154,13 @@ type LayoutProps = {
     layout: string;
 };
 
+type ActionProps = {
+    type: "action";
+    action?: string;
+    callback?: string;
+    icon?: string;
+};
+
 export type GroupItem = CommonProps & GroupProps;
 export type HeadingItem = CommonProps & HeadingProps;
 export type InlineItem = CommonProps & InlineProps;
@@ -164,6 +173,7 @@ export type TableItem = CommonProps & TableProps;
 export type ImageItem = CommonProps & ImageProps;
 export type TextItem = CommonProps & TextProps & GenericTextProp;
 
+export type ActionItem = RequiredProps & ActionProps;
 export type IfElseItem = RequiredProps & IfElseProps;
 export type CollapseItem = RequiredProps & CollapseProps;
 export type JavaScriptItem = RequiredProps & JavaScriptProps;
@@ -184,11 +194,12 @@ export type StatblockItem =
     | IfElseItem
     | CollapseItem
     | JavaScriptItem
-    | LayoutItem;
+    | LayoutItem
+    | ActionItem;
 
 export type MarkdownableItem = Exclude<
     StatblockItem,
-    LayoutItem | JavaScriptItem | IfElseItem | CollapseItem
+    LayoutItem | JavaScriptItem | IfElseItem | CollapseItem | ActionItem
 >;
 export type NestableItem<T> = T extends { nested: StatblockItem[] } ? T : never;
 export type AdvancedItem =
@@ -197,7 +208,8 @@ export type AdvancedItem =
     | IfElseItem
     | CollapseItem
     | JavaScriptItem
-    | LayoutItem;
+    | LayoutItem
+    | ActionItem;
 export type BasicItem = Exclude<StatblockItem, AdvancedItem>;
 
 export type ItemWithProperties = Exclude<CommonProps, GroupItem | InlineItem>;

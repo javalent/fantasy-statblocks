@@ -19,6 +19,7 @@
     import type StatBlockPlugin from "src/main";
     import type { Monster, Trait } from "index";
     import { Linkifier } from "src/util/linkify";
+    import Action from "./Action.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -52,6 +53,8 @@
             item.type == "layout"
         )
             return true;
+        console.log("🚀 ~ file: ColumnContainer.svelte:57 ~ item:", item);
+        if (!("properties" in item)) return true;
         if (!item.properties.length) return true;
         return item.properties.some((prop) => {
             if (prop in monster) {
@@ -128,6 +131,16 @@
 
                     targets.push(...element);
                 }
+                break;
+            }
+            case "action": {
+                new Action({
+                    target,
+                    props: {
+                        block: item,
+                        monster
+                    }
+                });
                 break;
             }
             case "javascript": {

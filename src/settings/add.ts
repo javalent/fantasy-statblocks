@@ -121,6 +121,13 @@ export function blockGenerator(type: string): StatblockItem {
                 layout: null
             };
         }
+        case "action": {
+            return {
+                type: "action",
+                id: nanoid(),
+                icon: "clapperboard"
+            };
+        }
     }
 }
 

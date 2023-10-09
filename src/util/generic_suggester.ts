@@ -14,10 +14,13 @@ declare module "obsidian" {
         };
     }
 }
+declare global {
+    var app: App;
+}
 class Suggester<T> {
     owner: SuggestModal<T>;
     items: T[];
-    suggestions: HTMLDivElement[];
+    suggestions: HTMLElement[];
     selectedItem: number;
     containerEl: HTMLElement;
     constructor(
@@ -65,7 +68,7 @@ class Suggester<T> {
             this.owner.onChooseSuggestion(currentValue, evt);
         }
     }
-    onSuggestionClick(event: MouseEvent, el: HTMLDivElement): void {
+    onSuggestionClick(event: MouseEvent, el: HTMLElement): void {
         event.preventDefault();
         if (!this.suggestions || !this.suggestions.length) return;
 
@@ -74,7 +77,7 @@ class Suggester<T> {
         this.useSelectedItem(event);
     }
 
-    onSuggestionMouseover(event: MouseEvent, el: HTMLDivElement): void {
+    onSuggestionMouseover(event: MouseEvent, el: HTMLElement): void {
         if (!this.suggestions || !this.suggestions.length) return;
         const item = this.suggestions.indexOf(el);
         this.setSelectedItem(item, false);
@@ -115,7 +118,7 @@ class Suggester<T> {
 
         this.selectedItem = nIndex;
 
-        if (scroll && next) {
+        if (scroll) {
             next.scrollIntoView(false);
         }
     }
@@ -123,6 +126,7 @@ class Suggester<T> {
 
 export abstract class SuggestionModal<T> extends FuzzySuggestModal<T> {
     items: T[] = [];
+    item: T;
     suggestions: HTMLDivElement[];
     popper: PopperInstance;
     scope: Scope = new Scope();
@@ -162,7 +166,7 @@ export abstract class SuggestionModal<T> extends FuzzySuggestModal<T> {
     onInputChanged(): void {
         if (this.shouldNotOpen) return;
         const inputStr = this.modifyInput(this.inputEl.value);
-        const suggestions = this.getSuggestions(inputStr);
+        const suggestions = this.getSuggestions(inputStr ?? "");
         if (suggestions.length > 0) {
             this.suggester.setSuggestions(suggestions.slice(0, this.limit));
         } else {
@@ -174,15 +178,11 @@ export abstract class SuggestionModal<T> extends FuzzySuggestModal<T> {
         this.shouldNotOpen = false;
         this.onInputChanged();
     }
-    modifyInput(input: string): string {
+    modifyInput(input: string): string | undefined {
         return input;
     }
     onNoSuggestion() {
         this.empty();
-        this.renderSuggestion(
-            null,
-            this.contentEl.createDiv("suggestion-item")
-        );
     }
     open(): void {
         // TODO: Figure out a better way to do this. Idea from Periodic Notes plugin

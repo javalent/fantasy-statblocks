@@ -1,8 +1,9 @@
-import type { Monster } from "types";
-import { Modal, Notice } from "obsidian";
+import type { Monster } from "index";
+import { Modal, Notice, Platform } from "obsidian";
 import type StatBlockPlugin from "src/main";
 
 import EditMonsterApp from "./EditMonster.svelte";
+import StatBlockRenderer from "src/view/statblock";
 
 export class EditMonsterModal extends Modal {
     private _instance: EditMonsterApp;
@@ -36,5 +37,26 @@ export class EditMonsterModal extends Modal {
     close() {
         if (this._instance) this._instance.$destroy();
         super.close();
+    }
+}
+
+
+
+export class ViewMonsterModal extends Modal {
+    constructor(private plugin: StatBlockPlugin, private monster: Monster) {
+        super(plugin.app);
+    }
+    async display() {
+        if (!Platform.isMobile) {
+            this.contentEl.style.maxWidth = "85vw";
+        }
+        new StatBlockRenderer({
+            container: this.contentEl,
+            monster: this.monster,
+            plugin: this.plugin
+        });
+    }
+    onOpen() {
+        this.display();
     }
 }

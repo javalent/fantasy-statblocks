@@ -49,6 +49,9 @@ declare module "obsidian" {
         plugins: {
             getPlugin<T extends keyof Plugins>(plugin: T): Plugins[T];
         };
+        commands: {
+            listCommands: () => Command[];
+        };
     }
     interface Workspace {
         on(

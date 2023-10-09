@@ -1,5 +1,11 @@
 import copy from "fast-copy";
-import { Modal, Notice, Setting, TextAreaComponent } from "obsidian";
+import {
+    Modal,
+    Notice,
+    Setting,
+    TextAreaComponent,
+    getIconIds
+} from "obsidian";
 import type {
     StatblockItem,
     PropertyItem,
@@ -16,7 +22,8 @@ import type {
     CollapseItem,
     JavaScriptItem,
     LayoutItem,
-    BasicItem
+    BasicItem,
+    ActionItem
 } from "types/layout";
 import type StatBlockPlugin from "src/main";
 import TableHeaders from "./TableHeaders.svelte";
@@ -25,7 +32,13 @@ import IfElseConditions from "./IfElseConditions.svelte";
 import { editorFromTextArea, nanoid } from "src/util/util";
 import { EditorView } from "@codemirror/view";
 import type { Monster } from "index";
+import { CommandSuggester, IconSuggester } from "../suggester";
 
+export function getModalForBlock(
+    plugin: StatBlockPlugin,
+    block: ActionItem,
+    layout: string
+): ActionModal;
 export function getModalForBlock(
     plugin: StatBlockPlugin,
     block: IfElseItem,
@@ -60,6 +73,9 @@ export function getModalForBlock(
         case "group":
         case "inline": {
             return new GroupModal(plugin, block);
+        }
+        case "action": {
+            return new ActionModal(plugin, block);
         }
         case "collapse": {
             return new CollapseModal(plugin, block);
@@ -104,7 +120,7 @@ export function getModalForBlock(
 abstract class BlockModal<T extends StatblockItem> extends Modal {
     block: T;
     saved: boolean;
-
+    editor: EditorView;
     constructor(public plugin: StatBlockPlugin, block?: T) {
         super(plugin.app);
         if (block) this.block = copy(block);
@@ -177,6 +193,121 @@ class GroupModal extends BlockModal<GroupItem | InlineItem> {
                 );
             });
         this.buildButtons(this.contentEl.createDiv());
+    }
+}
+
+class ActionModal extends BlockModal<ActionItem> {
+    editor: EditorView;
+    async display() {
+        this.contentEl.empty();
+        this.containerEl.addClass("statblock-block-editor");
+        this.buildBasic(this.contentEl.createDiv());
+        this.buildAdvanced(
+            this.contentEl.createEl("details", {
+                cls: "statblock-nested-settings",
+                attr: {
+                    ...(this.plugin.settings.showAdvanced ? { open: true } : {})
+                }
+            })
+        );
+    }
+    buildBasic(el: HTMLElement) {
+        el.empty();
+
+        new Setting(el)
+            .setName("Icon")
+            .setDesc("Choose the icon to use for the button.")
+            .addText((t) => {
+                t.setValue(this.block.icon);
+                const icons = getIconIds().map((v) =>
+                    v.replace(/^lucide-/, "")
+                );
+                const modal = new IconSuggester(t, icons);
+
+                modal.onClose = async () => {
+                    const v = t.inputEl.value?.trim()
+                        ? t.inputEl.value.trim()
+                        : "/";
+                    this.block.icon = v;
+                    this.buildBasic(el);
+                };
+
+                t.inputEl.onblur = async () => {
+                    const v = t.inputEl.value?.trim()
+                        ? t.inputEl.value.trim()
+                        : "/";
+                    this.block.icon = v;
+                    this.buildBasic(el);
+                };
+            })
+            .addExtraButton((b) => {
+                b.setIcon(this.block.icon).setDisabled(true);
+            });
+        new Setting(el)
+            .setName("Action")
+            .setDesc("Choose a Command to run when this action is executed.")
+            .addText((t) => {
+                t.setValue(this.block.action);
+                const commands = app.commands.listCommands();
+                const modal = new CommandSuggester(t, commands);
+
+                modal.onClose = async () => {
+                    const v = t.inputEl.value?.trim()
+                        ? t.inputEl.value.trim()
+                        : "/";
+                    this.block.action = v;
+                };
+
+                t.inputEl.onblur = async () => {
+                    const v = t.inputEl.value?.trim()
+                        ? t.inputEl.value.trim()
+                        : "/";
+                    this.block.action = v;
+                };
+            });
+    }
+    buildAdvanced(el: HTMLDetailsElement): void {
+        el.empty();
+
+        const summary = el.createEl("summary");
+        new Setting(summary).setHeading().setName("Advanced Settings");
+        summary.createDiv("collapser").createDiv("handle");
+
+        new Setting(el)
+            .setHeading()
+            .setName("Callback")
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "Executing the action will run the callback. Any registered commands will "
+                    });
+                    e.createEl("strong", { text: "not" });
+                    e.createSpan({
+                        text: " be ran."
+                    });
+                    e.createEl("br");
+                    e.createSpan({
+                        text: "The callback will receive the "
+                    });
+                    e.createEl("code", { text: "monster" });
+                    e.createSpan({
+                        text: " parameter. "
+                    });
+                })
+            );
+
+        const component = new TextAreaComponent(el).setValue(
+            this.block.callback
+        );
+        component.inputEl.addClass("statblock-textarea");
+        this.editor = editorFromTextArea(
+            component.inputEl,
+            EditorView.updateListener.of((update) => {
+                if (update.docChanged) {
+                    this.block.callback = update.state.doc.toString();
+                }
+            })
+        );
     }
 }
 class CollapseModal extends BlockModal<CollapseItem> {
@@ -551,6 +682,7 @@ class PropertyModal extends MarkdownEnabledModal<PropertyItem> {
         const component = new TextAreaComponent(el).setValue(
             this.block.callback
         );
+        component.inputEl.addClass("statblock-textarea");
         this.editor = editorFromTextArea(
             component.inputEl,
             EditorView.updateListener.of((update) => {
@@ -841,6 +973,7 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
         const component = new TextAreaComponent(el).setValue(
             this.block.callback
         );
+        component.inputEl.addClass("statblock-textarea");
         this.editor = editorFromTextArea(
             component.inputEl,
             EditorView.updateListener.of((update) => {
