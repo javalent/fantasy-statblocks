@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.15.0](https://github.com/javalent/fantasy-statblocks/compare/3.14.0...3.15.0) (2023-10-09)
+
+
+### Features
+
+* New Action block for layouts enables in-layout buttons ([982a690](https://github.com/javalent/fantasy-statblocks/commit/982a6909270657bcb3367b4fb4d1fdbaf3277101))
+* New IT encounter buttons for 5e layout ([b57f315](https://github.com/javalent/fantasy-statblocks/commit/b57f315b3d0e3cc1607bbc95b6d6ca4a82c96dd7))
+
 ## [3.14.0](https://github.com/javalent/fantasy-statblocks/compare/3.13.4...3.14.0) (2023-10-08)
 
 
