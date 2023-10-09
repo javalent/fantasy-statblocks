@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.15.1](https://github.com/javalent/fantasy-statblocks/compare/3.15.0...3.15.1) (2023-10-09)
+
+
+### Bug Fixes
+
+* action block editor allows saving now ([98929f0](https://github.com/javalent/fantasy-statblocks/commit/98929f08f1c474dcdf878afe3a0167fa833b6a6f))
+* Actions will now actually execute ([ece1f43](https://github.com/javalent/fantasy-statblocks/commit/ece1f4339973bb10bab947728c4c2ea24559fed1))
+* removed logs ([c348c24](https://github.com/javalent/fantasy-statblocks/commit/c348c2483041858058c1d28efdff21170f20e3bf))
+
 ## [3.15.0](https://github.com/javalent/fantasy-statblocks/compare/3.14.0...3.15.0) (2023-10-09)
 
 
