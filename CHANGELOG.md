@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.15.2](https://github.com/javalent/fantasy-statblocks/compare/3.15.1...3.15.2) (2023-10-13)
+
+
+### Bug Fixes
+
+* temp fix for not image block modal not opening ([f876bb5](https://github.com/javalent/fantasy-statblocks/commit/f876bb518bcfdcc7e6833ccfb4984afc3d0ca598))
+
 ## [3.15.1](https://github.com/javalent/fantasy-statblocks/compare/3.15.0...3.15.1) (2023-10-09)
 
 
