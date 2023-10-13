@@ -113,6 +113,9 @@ export function getModalForBlock(
         case "text": {
             return new TextModal(plugin, block);
         }
+        default: {
+            return new BasicModal(plugin, block);
+        }
     }
 }
 
