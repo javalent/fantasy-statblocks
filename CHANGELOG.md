@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.15.3](https://github.com/javalent/fantasy-statblocks/compare/3.15.2...3.15.3) (2023-10-16)
+
+
+### Bug Fixes
+
+* Traits respect inline groups now ([2a4c7b0](https://github.com/javalent/fantasy-statblocks/commit/2a4c7b0ecb8dd8d5f5e178598b44fe9d603acb87))
+
 ## [3.15.2](https://github.com/javalent/fantasy-statblocks/compare/3.15.1...3.15.2) (2023-10-13)
 
 
