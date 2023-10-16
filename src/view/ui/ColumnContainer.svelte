@@ -426,7 +426,9 @@
                 const blocks: Trait[] = monster[item.properties[0]] as Trait[];
                 if (!Array.isArray(blocks) || !blocks.length) return [];
 
-                const firstElement = createDivForStatblockItem(item);
+                const firstElement = createDivForStatblockItem(item, {
+                    container: target
+                });
                 targets.push(firstElement);
                 if (item.heading) {
                     new SectionHeading({
