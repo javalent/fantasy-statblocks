@@ -1,5 +1,6 @@
 <script lang="ts">
     import type {
+        ActionItem,
         CollapseItem,
         IfElseItem,
         JavaScriptItem,
@@ -10,7 +11,7 @@
 
     export let block: Exclude<
         StatblockItem,
-        IfElseItem | CollapseItem | JavaScriptItem
+        IfElseItem | CollapseItem | JavaScriptItem | ActionItem
     >;
     export let plugin: StatBlockPlugin;
 
@@ -78,7 +79,7 @@
                 aria-label="Has Callback"
             />
         {/if}
-        {#if "dice" in block && block.dice}
+        {#if ("dice" in block && block.dice) || ("diceCallback" in block && block.diceCallback?.length)}
             <div
                 class="context-item dice"
                 use:setNodeIcon={"dice-roller-dice"}

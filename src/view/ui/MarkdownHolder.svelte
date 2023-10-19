@@ -27,31 +27,6 @@
             typeof monster[item.diceProperty] == "string"
         ) {
             split = [{ text: monster[item.diceProperty] as string }];
-        } else if (item.diceCallback) {
-            try {
-                const frame = document.body.createEl("iframe");
-                const funct = (frame.contentWindow as any).Function;
-                const func = new funct(
-                    "monster",
-                    "property",
-                    item.diceCallback
-                );
-                const parsed =
-                    func.call(undefined, monster, property) ?? property;
-                document.body.removeChild(frame);
-                if (Array.isArray(parsed)) {
-                    split = parsed;
-                } else {
-                    split = [parsed];
-                }
-            } catch (e) {
-                new Notice(
-                    `There was an error executing the provided dice callback for [${item.properties.join(
-                        ", "
-                    )}]\n\n${e.message}`
-                );
-                console.error(e);
-            }
         } else {
             const parsed = plugin.parseForDice(property);
             if (Array.isArray(parsed)) {
@@ -60,9 +35,29 @@
                 split = [parsed];
             }
         }
+    } else if (item.diceCallback) {
+        try {
+            const frame = document.body.createEl("iframe");
+            const funct = (frame.contentWindow as any).Function;
+            const func = new funct("monster", "property", item.diceCallback);
+            const parsed = func.call(undefined, monster, property) ?? property;
+            document.body.removeChild(frame);
+            if (Array.isArray(parsed)) {
+                split = parsed;
+            } else {
+                split = [parsed];
+            }
+        } catch (e) {
+            new Notice(
+                `There was an error executing the provided dice callback for [${item.properties.join(
+                    ", "
+                )}]\n\n${e.message}`
+            );
+            console.error(e);
+        }
     }
 
-    property = ''
+    property = "";
     for (const dice of split) {
         if (typeof dice != "string") {
             let diceString;
@@ -72,14 +67,14 @@
             } else {
                 diceString = `\`dice: ${diceText}\``;
             }
-            property += diceString
+            property += diceString;
         } else {
-            property += dice
+            property += dice;
         }
     }
 
     const markdown = (node: HTMLElement) => {
-        MarkdownRenderer.renderMarkdown(property, node, context, renderer);
+        MarkdownRenderer.render(app, property, node, context, renderer);
     };
 </script>
 
