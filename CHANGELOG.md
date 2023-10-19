@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.15.5](https://github.com/javalent/fantasy-statblocks/compare/3.15.4...3.15.5) (2023-10-19)
+
+
+### Bug Fixes
+
+* Improves help text for dice callbacks ([b69cc61](https://github.com/javalent/fantasy-statblocks/commit/b69cc614509b73cac46ca60cccdf489511902aaa))
+
 ## [3.15.4](https://github.com/javalent/fantasy-statblocks/compare/3.15.3...3.15.4) (2023-10-19)
 
 
