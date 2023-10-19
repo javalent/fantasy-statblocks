@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.15.6](https://github.com/javalent/fantasy-statblocks/compare/3.15.5...3.15.6) (2023-10-19)
+
+
+### Bug Fixes
+
+* Fixes resolving markdown style links when URI encoded ([604f4d7](https://github.com/javalent/fantasy-statblocks/commit/604f4d76411ab238200e01062df965ebf66de006))
+
 ## [3.15.5](https://github.com/javalent/fantasy-statblocks/compare/3.15.4...3.15.5) (2023-10-19)
 
 
