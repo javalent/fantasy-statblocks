@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.15.4](https://github.com/javalent/fantasy-statblocks/compare/3.15.3...3.15.4) (2023-10-19)
+
+
+### Bug Fixes
+
+* remove logs ([09d92e0](https://github.com/javalent/fantasy-statblocks/commit/09d92e0209dce35db0b6afe81164e663fda5a8d6))
+* Remove requirement to have Parse for Dice turned on to use Dice Callbacks ([a8bab50](https://github.com/javalent/fantasy-statblocks/commit/a8bab50c31b46c455c9fb5158a68da9397b9da76))
+
 ## [3.15.3](https://github.com/javalent/fantasy-statblocks/compare/3.15.2...3.15.3) (2023-10-16)
 
 
