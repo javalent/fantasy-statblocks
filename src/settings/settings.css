@@ -24,6 +24,9 @@
     padding-bottom: 0;
 }
 
+.statblock-edit-block .copy-code-button {
+    display: none;
+}
 .statblock-edit-block .setting-item {
     border: 0;
 

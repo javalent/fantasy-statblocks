@@ -1,5 +1,7 @@
 import copy from "fast-copy";
 import {
+    Component,
+    MarkdownRenderer,
     Modal,
     Notice,
     Setting,
@@ -513,12 +515,35 @@ class BasicModal<I extends BasicItem> extends EditorEnabledModal<I> {
                         e.createSpan({ text: " and " });
                         e.createEl("code", { text: "property" });
                         e.createSpan({
-                            text: "parameters and should return a string. For example: "
+                            text: "parameters. Dice callbacks should return an array of strings and objects, with the objects defining the dice rolls:"
                         });
+                        e.createEl("br");
+                        MarkdownRenderer.render(
+                            this.plugin.app,
+                            `\`\`\`ts
+interface DiceCallbackObject {
+    text: string // string to be parsed into a dice roll
+    original?: string // optional, shown in parenthesis
+}
+\`\`\``,
+                            e.createDiv(),
+                            "",
+                            new Component()
+                        );
 
-                        e.createEl("code", {
-                            text: "return 2d6 + monster.stats[2];"
-                        });
+                        e.createEl("br");
+                        e.createEl("span", { text: "For example: " });
+                        e.createEl("br");
+                        MarkdownRenderer.render(
+                            this.plugin.app,
+                            `\`\`\`ts
+const diceText = monster.stats[5] + "d20 + 2";
+return ["The monster guesses you have: ", { text: diceText }, " freckles."];
+\`\`\``,
+                            e.createDiv(),
+                            "",
+                            new Component()
+                        );
                     })
                 );
 
