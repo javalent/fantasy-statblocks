@@ -40,7 +40,6 @@
             const func = new funct("monster", "property", item.diceCallback);
             const parsed = func.call(undefined, monster, property) ?? property;
             document.body.removeChild(frame);
-            console.log("🚀 ~ file: DiceHolder.svelte:47 ~ split:", parsed);
             if (Array.isArray(parsed)) {
                 split = parsed;
             } else {
