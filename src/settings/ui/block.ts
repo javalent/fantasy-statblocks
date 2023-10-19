@@ -337,17 +337,17 @@ abstract class EditorEnabledModal<
     I extends StatblockItem
 > extends BlockModal<I> {
     editor: EditorView;
-    propertiesEl = createDiv();
-    separatorEl = createDiv();
-    conditionsEl = createDiv();
-    diceEl = createDiv();
+    propertiesEl = createDiv("block-properties-container");
+    separatorEl = createDiv("block-separator-container");
+    conditionsEl = createDiv("block-conditions-container");
+    diceEl = createDiv("block-dice-container");
     advancedEl = createEl("details", {
         cls: "statblock-nested-settings",
         attr: {
             ...(this.plugin.settings.showAdvanced ? { open: true } : {})
         }
     });
-    buttonsEl = createDiv();
+    buttonsEl = createDiv("block-buttons-container");
     async display() {
         this.containerEl.addClass("statblock-block-editor");
         this.contentEl.empty();
@@ -726,7 +726,7 @@ class PropertyModal extends MarkdownEnabledModal<PropertyItem> {
     }
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
-        new Setting(this.contentEl)
+        new Setting(el)
             .setName("Do Not Add Property as CSS Class")
             .setDesc(
                 "Enable this to prevent adding the property to the containing HTML element as a CSS class. This can be used to avoid collisions with native Obsidian CSS."
@@ -737,7 +737,7 @@ class PropertyModal extends MarkdownEnabledModal<PropertyItem> {
                     this.display();
                 });
             });
-        new Setting(this.contentEl)
+        new Setting(el)
             .setName("Display Text")
             .setDesc("This text will be used for the property name.")
             .addText((t) => {

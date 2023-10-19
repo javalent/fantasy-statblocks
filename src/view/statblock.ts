@@ -28,6 +28,7 @@ import type {
 } from "types/layout";
 import type Collapse from "./ui/Collapse.svelte";
 import { append } from "src/util/util";
+import { Linkifier } from "src/util/linkify";
 
 type RendererParameters = {
     container: HTMLElement;
@@ -400,28 +401,9 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
     }
     transformLinks(monster: Partial<Monster>): Partial<Monster> {
         const built = parseYaml(
-            stringifyYaml(monster)
-                .replace(/\\#/g, "#")
-                .replace(
-                    /\[\["(.+?)"\]\]/g,
-                    `"<STATBLOCK-LINK>$1</STATBLOCK-LINK>"`
-                )
-                .replace(
-                    /\- \- ([^-]+?)$/gm,
-                    `"<STATBLOCK-LINK>$1</STATBLOCK-LINK>"`
-                )
-                .replace(/\[\[([^"]+?)\]\]/g, (match, p1) => {
-                    return `<STATBLOCK-LINK>${p1}</STATBLOCK-LINK>`;
-                })
-                .replace(
-                    /\[([^"]*?)\]\(([^"]+?)\)/g,
-                    (s, alias: string, path: string) => {
-                        if (alias.length) {
-                            return `<STATBLOCK-LINK>${path}|${alias}</STATBLOCK-LINK>`;
-                        }
-                        return `<STATBLOCK-LINK>${path}</STATBLOCK-LINK>`;
-                    }
-                )
+            Linkifier.transformYamlSource(
+                stringifyYaml(monster).replace(/\\#/g, "#")
+            )
         );
         return built;
     }

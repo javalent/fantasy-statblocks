@@ -660,29 +660,7 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
     ) {
         try {
             /** Replace Links */
-            source = source
-                .replace(
-                    /^image: (?:\[\[([\s\S]+?)\]\]|\[[\s\S]*?\]\(([\s\S]+?)\))\n/gm,
-                    (_, wiki: string, mark: string) => {
-                        if (mark?.length) {
-                            return `image: ${mark}\n`;
-                        }
-                        return `image: ${wiki}\n`;
-                    }
-                )
-                .replace(
-                    /\[\[([\s\S]+?)\]\]/g,
-                    `<STATBLOCK-LINK>$1</STATBLOCK-LINK>`
-                )
-                .replace(
-                    /\[([\s\S]*?)\]\(([\s\S]+?)\)/g,
-                    (_, alias: string, path: string) => {
-                        if (alias.length) {
-                            return `<STATBLOCK-LINK>${path}|${alias}</STATBLOCK-LINK>`;
-                        }
-                        return `<STATBLOCK-LINK>${path}</STATBLOCK-LINK>`;
-                    }
-                );
+            source = Linkifier.transformSource(source);
 
             /** Get Parameters */
             let params: StatblockParameters = parseYaml(source);

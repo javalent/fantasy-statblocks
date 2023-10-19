@@ -1,4 +1,10 @@
-import { Component, TFile, parseFrontMatterAliases } from "obsidian";
+import {
+    Component,
+    TFile,
+    normalizePath,
+    parseFrontMatterAliases
+} from "obsidian";
+import { stringify } from "src/util/util";
 
 declare module "obsidian" {
     interface MetadataCache {
@@ -84,6 +90,98 @@ class LinkifierClass extends Component {
             .map((spell) => this.linkify(spell, context))
             .join(",");
     }
+
+    WIKILINK = "STATBLOCK-WIKI-LINK";
+    WIKILINK_REGEX = new RegExp(
+        `<${this.WIKILINK}>([\\s\\S]+?)<${this.WIKILINK}>`
+    );
+    MARKDOWN = "STATBLOCK-MARKDOWN-LINK";
+    MARKDOWN_REGEX = new RegExp(
+        `<${this.MARKDOWN}>([\\s\\S]+?)(?:\\|([\\s\\S]+?))?<${this.MARKDOWN}>`
+    );
+    GENERIC_REGEX =
+        /(<STATBLOCK-(?:WIKI|MARKDOWN)-LINK>[\s\S]+?<STATBLOCK-(?:WIKI|MARKDOWN)-LINK>)/;
+
+    #replaceWikiLink(link: string) {
+        return `<${this.WIKILINK}>${link}<${this.WIKILINK}>`;
+    }
+    #replaceMarkdownLink(link: string, alias?: string) {
+        return `<${this.MARKDOWN}>${link}${alias ? "|" + alias : ""}<${
+            this.MARKDOWN
+        }>`;
+    }
+    /**
+     * This method can be used to replace any markdown or wikilinks in a source, so that it
+     * can safely be transformed into YAML.
+     *
+     * @param {string} source The string to be transformed.
+     * @returns {string} A transformed source, with links replaced.
+     */
+    transformSource(source: string) {
+        return source
+            .replace(
+                /^image: (?:\[\[([\s\S]+?)\]\]|\[[\s\S]*?\]\(([\s\S]+?)\))\n/gm,
+                (_, wiki: string, mark: string) => {
+                    if (mark?.length) {
+                        return `image: ${mark}\n`;
+                    }
+                    return `image: ${wiki}\n`;
+                }
+            )
+            .replace(/\[\[([\s\S]+?)\]\]/g, (_, $1) =>
+                this.#replaceWikiLink($1)
+            )
+            .replace(
+                /\[([\s\S]*?)\]\(([\s\S]+?)\)/g,
+                (_, alias: string, path: string) =>
+                    this.#replaceMarkdownLink(path, alias)
+            );
+    }
+    /**
+     * This can be used to transform a source coming from frontmatter, that could possibly
+     * have wikilinks defined as an array.
+     * @param source Source to transform.
+     * @returns {string} A transformed source, with links replaced.
+     */
+    transformYamlSource(source: string) {
+        return this.transformSource(source).replace(/\- \- ([^-]+?)$/gm, ($1) =>
+            this.#replaceWikiLink($1)
+        );
+    }
+
+    stringifyLinks(source: string) {
+        return source
+            .replace(new RegExp(this.WIKILINK_REGEX, "g"), ($1) => `[[${$1}]]`)
+            .replace(
+                new RegExp(this.MARKDOWN_REGEX, "g"),
+                (path, alias) => `[${alias ? alias : ""}](${path})`
+            );
+    }
+
+    splitByLinks(text: string, context: string, render?: boolean): SplitLink[] {
+        return stringify(text)
+            .split(this.GENERIC_REGEX)
+            .filter((s) => s && s.length)
+            .map((str) => {
+                if (this.WIKILINK_REGEX.test(str)) {
+                    let link = str.match(this.WIKILINK_REGEX)[1];
+                    return {
+                        isLink: render,
+                        text: `[[${normalizePath(link)}]]`
+                    };
+                }
+                if (this.MARKDOWN_REGEX.test(str)) {
+                    const [_, path, alias] = str.match(this.MARKDOWN_REGEX);
+
+                    return {
+                        isLink: render,
+                        text: `[${alias ? alias : ""}](${path})`
+                    };
+                }
+                return { isLink: false, text: str };
+            });
+    }
 }
+type SplitLink = { text: string; isLink: boolean };
 
 export const Linkifier = new LinkifierClass();

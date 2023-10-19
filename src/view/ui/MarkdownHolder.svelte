@@ -6,11 +6,10 @@
     import { getContext } from "svelte";
     import type StatBlockRenderer from "../statblock";
     import type { Monster } from "index";
+    import { Linkifier } from "src/util/linkify";
 
     export let property: string;
-    property = property
-        .replace(/<STATBLOCK-LINK>/g, "[[")
-        .replace(/<\/STATBLOCK-LINK>/g, "]]");
+    property = Linkifier.stringifyLinks(property);
 
     const context = getContext<string>("context");
     const renderer = getContext<StatBlockRenderer>("renderer");
