@@ -244,3 +244,5 @@ export interface DefaultLayout extends Layout {
     version?: number;
     updatable?: boolean;
 }
+
+export type ParsedDice = string | { text: string; original: string };

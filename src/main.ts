@@ -28,7 +28,7 @@ import {
     HomebrewCreature
 } from "obsidian-overload";
 import { Watcher } from "./watcher/watcher";
-import type { Layout, StatblockItem } from "../types/layout";
+import type { Layout, ParsedDice, StatblockItem } from "../types/layout";
 import { Layout5e } from "./layouts/basic 5e/basic5e";
 import { StatblockSuggester } from "./suggest";
 import { DefaultLayouts } from "./layouts";
@@ -591,12 +591,21 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
     }
 
     parseForDice(property: string) {
-        const roller = (str: string) => {
+        const roller = (prop: ParsedDice) => {
+            if (typeof prop !== "string") return prop;
+
             let text: string;
             let original: string;
-            if (/. [\+\-]\d+/.test(str)) {
+
+            if (/\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)/.test(prop)) {
+                let [, base, dice] =
+                    prop.match(/(\d+)\s\((\d+d\d+(?:\s*[+\-]\s*\d+)?)\)/) ?? [];
+                if (!isNaN(Number(base)) && dice) {
+                    text = dice;
+                }
+            } else if (/. [\+\-]\d+/.test(prop)) {
                 let [, save, sign, number] =
-                    str.match(/(.) ([\+\-])(\d+)/) ?? [];
+                    prop.match(/(.) ([\+\-])(\d+)/) ?? [];
                 let mult = 1;
                 if (sign === "-") {
                     mult = -1;
@@ -605,8 +614,8 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
                     text = `1d20+${mult * Number(number)}`;
                     original = `${save} ${sign}${number}`;
                 }
-            } else if (/[\+\-]\d+ to hit/.test(str)) {
-                let [, sign, number] = str.match(/([\+\-])(\d+)/) ?? [];
+            } else if (/[\+\-]\d+ to hit/.test(prop)) {
+                let [, sign, number] = prop.match(/([\+\-])(\d+)/) ?? [];
 
                 let mult = 1;
                 if (sign === "-") {
@@ -614,31 +623,42 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
                 }
                 if (!isNaN(Number(number))) {
                     text = `1d20+${mult * Number(number)}`;
-                    original = str;
-                }
-            } else if (/\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)/.test(str)) {
-                let [, base, dice] =
-                    str.match(/(\d+)\s\((\d+d\d+(?:\s*[+\-]\s*\d+)?)\)/) ?? [];
-                if (!isNaN(Number(base)) && dice) {
-                    text = dice;
+                    original = prop;
                 }
             }
             return { text, original };
         };
 
-        const match = (str: string) => {
-            return (
-                /. [\+\-]\d+/.test(str) ||
-                /[\+\-]\d+ to hit/.test(str) ||
-                /\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)/.test(str)
-            );
-        };
+        /**
+         * Rolling to hit: +15 to hit
+         */
+        let regexes = [
+            /([\+\-]\d+ to hit)/,
+            /(\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\))/,
+            /. [\+\-]\d+/
+        ];
+        let split: ParsedDice[] = [property];
 
-        return property
-            .split(
-                /([\+\-]\d+ to hit|\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)|. [\+\-]\d+)/
-            )
-            .map((v) => (match(v) ? roller(v) : v));
+        for (const regex of regexes) {
+            let temp: ParsedDice[] = [];
+            for (const prop of split) {
+                if (typeof prop !== "string") {
+                    temp.push(prop);
+                    continue;
+                }
+                const splitProp = prop.split(regex);
+                for (const prop of splitProp) {
+                    if (!regex.test(prop)) {
+                        temp.push(prop);
+                    } else {
+                        temp.push(roller(prop));
+                    }
+                }
+            }
+            split = [...temp];
+        }
+
+        return split;
     }
 
     get layouts() {
