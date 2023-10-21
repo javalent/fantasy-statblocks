@@ -77,9 +77,9 @@ class LinkifierClass extends Component {
         if (file != null) {
             return input.replace(
                 trimmed,
-                `<STATBLOCK-LINK>${file.basename}${
-                    alias ? "|" + alias : ""
-                }</STATBLOCK-LINK>`
+                this.#replaceWikiLink(
+                    `${file.basename}${alias ? "|" + alias : ""}`
+                )
             );
         }
         return input;
