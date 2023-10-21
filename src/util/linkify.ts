@@ -119,15 +119,6 @@ class LinkifierClass extends Component {
      */
     transformSource(source: string) {
         return source
-            .replace(
-                /^image: (?:\[\[([\s\S]+?)\]\]|\[[\s\S]*?\]\(([\s\S]+?)\))\n/gm,
-                (_, wiki: string, mark: string) => {
-                    if (mark?.length) {
-                        return `image: ${mark}\n`;
-                    }
-                    return `image: ${wiki}\n`;
-                }
-            )
             .replace(/\[\[([\s\S]+?)\]\]/g, (_, $1) =>
                 this.#replaceWikiLink($1)
             )
@@ -151,10 +142,13 @@ class LinkifierClass extends Component {
 
     stringifyLinks(source: string) {
         return source
-            .replace(new RegExp(this.WIKILINK_REGEX, "g"), ($1) => `[[${$1}]]`)
+            .replace(
+                new RegExp(this.WIKILINK_REGEX, "g"),
+                (_, $1) => `[[${$1}]]`
+            )
             .replace(
                 new RegExp(this.MARKDOWN_REGEX, "g"),
-                (path, alias) => `[${alias ? alias : ""}](${path})`
+                (_, path, alias) => `[${alias ? alias : ""}](${path})`
             );
     }
 

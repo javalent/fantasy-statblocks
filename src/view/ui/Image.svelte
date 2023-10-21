@@ -4,6 +4,7 @@
     import type StatBlockPlugin from "src/main";
     import { getContext } from "svelte";
     import { Platform, TFile } from "obsidian";
+    import { Linkifier } from "src/util/linkify";
 
     export let monster: Monster;
     export let item: ImageItem;
@@ -11,9 +12,6 @@
     const plugin = getContext<StatBlockPlugin>("plugin");
     const context = getContext<string>("context");
 
-    function parseLink(link: string) {
-        return link?.replace(/(\[|\])/g, "");
-    }
     let file: TFile;
     function getLink(url: string) {
         url = decodeURIComponent(url);
@@ -21,13 +19,15 @@
         try {
             if (/https?:/.test(url)) {
                 //url
-                const [linkpath] = parseLink(url).split("|");
+                const [linkpath] = Linkifier.stringifyLinks(url).split("|");
                 link = linkpath;
             } else {
-                const [linkpath] = parseLink(url).split("|");
+                const [linkpath] = Linkifier.stringifyLinks(url)
+                    .replace(/(^\[\[|\]\]$)/g, "")
+                    .split("|");
 
                 file = plugin.app.metadataCache.getFirstLinkpathDest(
-                    linkpath.replace(/<\/?STATBLOCK-LINK>/g, ""),
+                    linkpath,
                     context
                 );
                 if (!file) throw new Error();
