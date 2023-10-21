@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.15.7](https://github.com/javalent/fantasy-statblocks/compare/3.15.6...3.15.7) (2023-10-21)
+
+
+### Bug Fixes
+
+* Fixes linkifying spells ([ae0a52b](https://github.com/javalent/fantasy-statblocks/commit/ae0a52b33f3422de1a87eb87777c95bd3b5a225a))
+
 ## [3.15.6](https://github.com/javalent/fantasy-statblocks/compare/3.15.5...3.15.6) (2023-10-19)
 
 
