@@ -23,6 +23,8 @@
             let key = Object.keys(ability)[0];
             if (!key) return null;
             const value = Object.values(ability)[0];
+            if (typeof value == "string" && isNaN(Number(value)))
+                return `${toTitleCase(key)} ${value}`;
             if (!value || isNaN(Number(value))) return null;
             return `${toTitleCase(key)} ${getMod(value as number)}`;
         })
