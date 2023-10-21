@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.15.8](https://github.com/javalent/fantasy-statblocks/compare/3.15.7...3.15.8) (2023-10-21)
+
+
+### Bug Fixes
+
+* Fixes dice parsing displaying incorrectly ([c626dd9](https://github.com/javalent/fantasy-statblocks/commit/c626dd9a3244a4810e4032bb92971b5c9e07b0f2))
+* Fixes image blocks not resolving if a property other than `image` is used (close [#300](https://github.com/javalent/fantasy-statblocks/issues/300)) ([d0a4b30](https://github.com/javalent/fantasy-statblocks/commit/d0a4b30724bb70051b61dbc2f341d135a03489f8))
+* Saves blocks will now allow strings (close [#267](https://github.com/javalent/fantasy-statblocks/issues/267)) ([3bca930](https://github.com/javalent/fantasy-statblocks/commit/3bca930b5f9238abd3bcb19a585187132bf0bf94))
+
 ## [3.15.7](https://github.com/javalent/fantasy-statblocks/compare/3.15.6...3.15.7) (2023-10-21)
 
 
