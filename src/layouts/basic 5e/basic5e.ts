@@ -690,12 +690,27 @@ return "";`
         conditioned: true
     },
     {
-        type: "traits",
+        type: "group",
         id: nanoid(),
-        properties: ["mythic_actions"],
+        properties: ["mythic_description", "mythic_actions"],
         heading: "Mythic Actions",
-        conditioned: true,
-        dice: true
+        nested: [
+            {
+                type: "text",
+                id: nanoid(),
+                properties: ["mythic_description"],
+                conditioned: true,
+                text: null
+            },
+            {
+                type: "traits",
+                id: nanoid(),
+                properties: ["mythic_actions"],
+                conditioned: true,
+                dice: true
+            }
+        ],
+        conditioned: true
     },
     {
         type: "traits",
