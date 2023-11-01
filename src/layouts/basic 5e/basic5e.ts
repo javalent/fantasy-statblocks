@@ -41,14 +41,14 @@ export const Statblock5e: StatblockItem[] = [
                                         id: nanoid(),
                                         icon: "sword",
                                         callback:
-                                            "try { InitiativeTracker.addCreatures([monster]); } catch(e) {}"
+                                            "try { InitiativeTracker.newEncounter({creatures: [monster]}); } catch(e) {}"
                                     },
                                     {
                                         type: "action",
                                         id: nanoid(),
                                         icon: "plus-with-circle",
                                         callback:
-                                            "try { InitiativeTracker.newEncounter({creatures: [monster]}); } catch(e) {}"
+                                            "try { InitiativeTracker.addCreatures([monster]); } catch(e) {}"
                                     }
                                 ]
                             }
