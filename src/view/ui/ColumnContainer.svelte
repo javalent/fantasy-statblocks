@@ -212,6 +212,16 @@
                 break;
             }
             case "inline": {
+                if (item.heading) {
+                    new SectionHeading({
+                        target,
+                        props: {
+                            monster,
+                            item
+                        },
+                        context
+                    });
+                }
                 const inline = createDivForStatblockItem(item, {
                     container: target,
                     classes: [
@@ -483,7 +493,9 @@
                         });
                         for (let i = 1; i < blocks.length; i++) {
                             const block = blocks[i];
-                            const prop = createDiv(
+                            const prop = (
+                                container ? container : window
+                            ).createDiv(
                                 `statblock-item-container statblock-trait-prop`
                             );
                             new Traits({
