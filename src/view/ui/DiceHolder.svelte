@@ -33,7 +33,8 @@
                 split = [parsed];
             }
         }
-    } else if (item.diceCallback?.length) {
+    }
+    if (item.diceCallback?.length) {
         try {
             const frame = document.body.createEl("iframe");
             const funct = (frame.contentWindow as any).Function;
