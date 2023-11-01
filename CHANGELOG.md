@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.15.9](https://github.com/javalent/fantasy-statblocks/compare/3.15.8...3.15.9) (2023-11-01)
+
+
+### Bug Fixes
+
+* Fixes Parse for Dice being on preventing dice callbacks ([6d08509](https://github.com/javalent/fantasy-statblocks/commit/6d085093ef780bed4b46672bc1fe306db0ebc54c))
+* Syncs order of action buttons in the 5e layout with IT's encounter blocks ([f7d4675](https://github.com/javalent/fantasy-statblocks/commit/f7d4675b9af9b00bd8bb3458320f9f477b080d56))
+
 ## [3.15.8](https://github.com/javalent/fantasy-statblocks/compare/3.15.7...3.15.8) (2023-10-21)
 
 
