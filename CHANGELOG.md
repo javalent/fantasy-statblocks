@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.16.0](https://github.com/javalent/fantasy-statblocks/compare/3.15.9...3.16.0) (2023-11-01)
+
+
+### Features
+
+* Adds Mythic Description in the Basic 5e Layout ([15e137d](https://github.com/javalent/fantasy-statblocks/commit/15e137d244d6f950b361294bccc5041414948ba9))
+
+
+### Bug Fixes
+
+* Enable section headings on inline groups ([e755ef4](https://github.com/javalent/fantasy-statblocks/commit/e755ef4bd2c8269ebf4668ddf7fb9f893e103c23))
+* Traits will now properly display in inline groups ([385b0c0](https://github.com/javalent/fantasy-statblocks/commit/385b0c0600513a262f7839025155e0b8ff6424b5))
+
 ## [3.15.9](https://github.com/javalent/fantasy-statblocks/compare/3.15.8...3.15.9) (2023-11-01)
 
 
