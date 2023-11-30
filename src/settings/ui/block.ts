@@ -196,7 +196,24 @@ class GroupModal extends BlockModal<GroupItem | InlineItem> {
                     (v) => (this.block.cls = v)
                 );
             });
+        this.buildConditions(this.contentEl.createDiv());
         this.buildButtons(this.contentEl.createDiv());
+    }
+    buildConditions(el: HTMLDivElement) {
+        el.empty();
+        const block = this.block;
+        new Setting(el)
+            .setName("Conditional")
+            .setDesc(
+                "The block will not be added if the associated properties are not present."
+            )
+            .addToggle((t) => {
+                t.setValue(block.conditioned).onChange((v) => {
+                    block.conditioned = v;
+
+                    this.buildConditions(el);
+                });
+            });
     }
 }
 
@@ -659,7 +676,7 @@ class MarkdownEnabledModal<
 class HeadingModal extends BasicModal<HeadingItem> {
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
-        new Setting(this.contentEl)
+        new Setting(el)
             .setName("Header Size")
             .setDesc("The heading will use this size.")
             .addDropdown((d) => {
@@ -750,7 +767,7 @@ class PropertyModal extends MarkdownEnabledModal<PropertyItem> {
 class SavesModal extends MarkdownEnabledModal<SavesItem> {
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
-        new Setting(this.contentEl)
+        new Setting(el)
             .setName("Display Text")
             .setDesc("This text will be used for the property name.")
             .addText((t) => {
@@ -763,7 +780,7 @@ class SavesModal extends MarkdownEnabledModal<SavesItem> {
 class SpellsModal extends MarkdownEnabledModal<SpellsItem> {
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
-        new Setting(this.contentEl)
+        new Setting(el)
             .setName("Trait Name")
             .setDesc(
                 "Name to display for the Spellcasting trait. Defaults to Spellcasting if not provided."
@@ -915,7 +932,7 @@ class TableModal extends BasicModal<TableItem> {
 class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
-        new Setting(this.contentEl)
+        new Setting(el)
             .setName("Do Not Add Property as CSS Class")
             .setDesc(
                 "Disable this to prevent adding the property to the containing HTML element as a CSS class. This can be used to avoid collisions with native Obsidian CSS."
@@ -926,7 +943,7 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
                     this.display();
                 });
             });
-        new Setting(this.contentEl)
+        new Setting(el)
             .setName("Use Monster Property for Heading")
             .setDesc(
                 "The Section heading will be set to the value of the specified property."
@@ -937,7 +954,7 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
                     this.display();
                 });
             });
-        new Setting(this.contentEl)
+        new Setting(el)
             .setName("Section Heading")
             .setDesc(
                 this.block.headingProp
@@ -949,7 +966,7 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
                     (v) => (this.block.heading = v)
                 );
             });
-        const subheading = new Setting(this.contentEl)
+        const subheading = new Setting(el)
             .setName("Section Subheading Text")
             .setDesc(
                 createFragment((e) => {
@@ -1030,7 +1047,7 @@ class TextModal extends MarkdownEnabledModal<TextItem> {
     }
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
-        new Setting(this.contentEl)
+        new Setting(el)
             .setName("Use Monster Property for Heading")
             .setDesc(
                 "The Section heading will be set to the value of the specified property."
@@ -1041,7 +1058,7 @@ class TextModal extends MarkdownEnabledModal<TextItem> {
                     this.display();
                 });
             });
-        new Setting(this.contentEl)
+        new Setting(el)
             .setName("Section Heading")
             .setDesc(
                 this.block.headingProp
