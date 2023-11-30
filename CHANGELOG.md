@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.16.1](https://github.com/javalent/fantasy-statblocks/compare/3.16.0...3.16.1) (2023-11-30)
+
+
+### Bug Fixes
+
+* Allows Group blocks to be set conditional ([d07b6ec](https://github.com/javalent/fantasy-statblocks/commit/d07b6ecc39cd7bff9c881ed80ccc7262ac4bb792))
+
 ## [3.16.0](https://github.com/javalent/fantasy-statblocks/compare/3.15.9...3.16.0) (2023-11-01)
 
 
