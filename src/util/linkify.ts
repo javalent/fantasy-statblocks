@@ -135,9 +135,7 @@ class LinkifierClass extends Component {
      * @returns {string} A transformed source, with links replaced.
      */
     transformYamlSource(source: string) {
-        return this.transformSource(source).replace(/\- \- ([^-]+?)$/gm, ($1) =>
-            this.#replaceWikiLink($1)
-        );
+        return this.transformSource(source);
     }
 
     stringifyLinks(source: string) {
