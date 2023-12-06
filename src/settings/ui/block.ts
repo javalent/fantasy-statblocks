@@ -920,7 +920,7 @@ class TableModal extends BasicModal<TableItem> {
         new Setting(el)
             .setName("Calculate Modifiers")
             .setDesc(
-                "The block will not attempt to calculate modifiers for table values."
+                "The block will attempt to calculate modifiers for table values."
             )
             .addToggle((t) => {
                 t.setValue(this.block.calculate).onChange((v) => {
