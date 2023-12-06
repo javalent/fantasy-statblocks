@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.16.2](https://github.com/javalent/fantasy-statblocks/compare/3.16.1...3.16.2) (2023-12-06)
+
+
+### Bug Fixes
+
+* fixes multiline tables (breaks wikilinks in yaml style arrays coming from source...) ([79a29d1](https://github.com/javalent/fantasy-statblocks/commit/79a29d1dd6df371798362897dc62adb29d67201e))
+* removes css import ([b874f6e](https://github.com/javalent/fantasy-statblocks/commit/b874f6e1ce6535885247cb9d56971171db2aeb29))
+* typo (close [#310](https://github.com/javalent/fantasy-statblocks/issues/310)) ([8fe7242](https://github.com/javalent/fantasy-statblocks/commit/8fe7242ddf96e5eb69e0d3e207fd9fc76fca1a92))
+
 ## [3.16.1](https://github.com/javalent/fantasy-statblocks/compare/3.16.0...3.16.1) (2023-11-30)
 
 
