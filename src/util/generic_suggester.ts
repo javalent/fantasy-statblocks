@@ -14,9 +14,7 @@ declare module "obsidian" {
         };
     }
 }
-declare global {
-    let app: App;
-}
+
 class Suggester<T> {
     owner: SuggestModal<T>;
     items: T[];
