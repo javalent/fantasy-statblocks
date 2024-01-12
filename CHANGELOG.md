@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.16.3](https://github.com/javalent/fantasy-statblocks/compare/3.16.2...3.16.3) (2024-01-12)
+
+
+### Bug Fixes
+
+* don't register popover for image if no image file exists ([e0dbcb7](https://github.com/javalent/fantasy-statblocks/commit/e0dbcb7eb40db90147069d18daf5bd6d99637350))
+
 ## [3.16.2](https://github.com/javalent/fantasy-statblocks/compare/3.16.1...3.16.2) (2023-12-06)
 
 
