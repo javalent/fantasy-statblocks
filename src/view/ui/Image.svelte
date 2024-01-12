@@ -69,6 +69,7 @@
         leaf.openFile(file);
     }
     function popover(evt: MouseEvent & { currentTarget: HTMLDivElement }) {
+        if (!file) return;
         plugin.app.workspace.trigger(
             "link-hover",
             {},
