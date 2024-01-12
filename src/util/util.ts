@@ -44,7 +44,7 @@ export function toTitleCase(str: string): string {
 
 export function nanoid() {
     return "xyxyxyxyxyxy".replace(/[xy]/g, function (c) {
-        var r = (Math.random() * 16) | 0,
+        let r = (Math.random() * 16) | 0,
             v = c == "x" ? r : (r & 0x3) | 0x8;
         return v.toString(16);
     });
