@@ -415,8 +415,16 @@ function getAlignmentString(alignment: Align[] | Align | Alignment): string {
     if (!alignment) return null; // used in sidekicks
     let alignments: string[] = [];
     if (Array.isArray(alignment)) {
+        let alignStr: string[] = [];
         for (const align of alignment) {
-            alignments.push(getAlignmentString(align));
+            if (typeof align === "string") {
+                alignStr.push(getAlignmentString(align));
+            } else {
+                alignments.push(getAlignmentString(align));
+            }
+        }
+        if (alignStr.length > 0) {
+            alignments.push(alignStr.join(" "));
         }
     } else if (typeof alignment === "object") {
         if ("special" in alignment && alignment.special != null) {
