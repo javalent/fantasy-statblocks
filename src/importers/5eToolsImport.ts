@@ -72,7 +72,7 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
                             name: monster.name,
                             source: getSource(monster),
                             type: getType(monster.type),
-                            subtype: "",
+                            subtype: getSubType(monster.type),
                             size: SIZE_ABV_TO_FULL[monster.size?.[0]],
                             alignment: getMonsterAlignment(monster),
                             hp:
@@ -183,6 +183,26 @@ function getType(type: Creature5eTools["type"]) {
     }
     return type.type;
 }
+
+function getSubType(type: Creature5eTools["type"]) {
+    if (!type) return;
+    if (typeof type == "string") {
+        return;
+    }
+    if (!type.tags) {
+        return;
+    }
+    let result: string[] = [];
+    for (const subtype in type.tags) {
+        if (typeof subtype == "string") {
+            result.push(subtype);
+        } else {
+            result.push(subtype.tag);
+        }
+    }
+    return result.toString();
+}
+
 function getCR(type: Creature5eTools["cr"]) {
     if (!type) return;
     if (typeof type == "string") {
