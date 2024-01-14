@@ -193,14 +193,14 @@ function getSubType(type: Creature5eTools["type"]) {
         return;
     }
     let result: string[] = [];
-    for (var i in type.tags) {
-        if (typeof type.tags[i] == "string") {
-            result.push(type.tags[i]);
+    for (var t of type.tags) {
+        if (typeof t == "string") {
+            result.push(t);
         } else {
-            result.push(type.tags[i].tag);
+            result.push(t.tag);
         }
     }
-    return result.toString();
+    return result.join(", ");
 }
 
 function getCR(type: Creature5eTools["cr"]) {
