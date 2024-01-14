@@ -193,11 +193,11 @@ function getSubType(type: Creature5eTools["type"]) {
         return;
     }
     let result: string[] = [];
-    for (const subtype in type.tags) {
-        if (typeof subtype == "string") {
-            result.push(subtype);
+    for (var i in type.tags) {
+        if (typeof type.tags[i] == "string") {
+            result.push(type.tags[i]);
         } else {
-            result.push(subtype.tag);
+            result.push(type.tags[i].tag);
         }
     }
     return result.toString();
