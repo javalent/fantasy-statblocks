@@ -738,5 +738,5 @@ export const Layout5e: DefaultLayout = {
     id: "basic-5e-layout",
     name: "Basic 5e Layout",
     edited: false,
-    version: 2
+    version: 3
 };
