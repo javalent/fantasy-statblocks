@@ -142,10 +142,7 @@
     };
 
     const slugify = (str: string, fallback: string = "") =>
-        str
-            ?.toLowerCase()
-            .replace(/[^A-Za-z0-9\s]/g, "")
-            .replace(/\s+/g, "-") ?? fallback;
+        str?.toLowerCase().replace(/\s+/g, "-") ?? fallback;
 
     const name = slugify(monster.name, "no-name");
     const layoutName = slugify(layout, "no-layout");
@@ -201,7 +198,6 @@
 </div>
 
 <style>
-
     .statblock :global(a) {
         font-style: var(--statblock-link-style);
     }
