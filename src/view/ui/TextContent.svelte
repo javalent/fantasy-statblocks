@@ -28,15 +28,8 @@
 </script>
 
 <div class="statblock-rendered-text-content inline">
-    {#each splitLinks as split}
-        {#if split.isLink}
-            {#await renderLink(split.text) then linkEl}
-                {@html linkEl}
-            {/await}
-        {:else}
-            {split.text}
-        {/if}
-    {/each}
+    <!-- Don't expand this as it messes with inline whitespace. -->
+    {#each splitLinks as split}{#if split.isLink}{#await renderLink(split.text) then linkEl}{@html linkEl}{/await}{:else}{split.text}{/if}{/each}
 </div>
 
 <style>
