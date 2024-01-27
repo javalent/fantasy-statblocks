@@ -1,6 +1,6 @@
 {
     "name": "fantasy-statblocks",
-    "version": "3.16.3",
+    "version": "3.17.0",
     "description": "Create Fantasy statblocks in Obsidian.md",
     "scripts": {
         "dev": "node ./esbuild.config.mjs",
