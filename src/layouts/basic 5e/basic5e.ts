@@ -58,7 +58,8 @@ export const Statblock5e: StatblockItem[] = [
                         type: "subheading",
                         id: nanoid(),
                         properties: ["size", "type", "subtype", "alignment"],
-                        conditioned: true
+                        conditioned: true,
+                        separator: ", "
                     }
                 ],
                 conditioned: true
