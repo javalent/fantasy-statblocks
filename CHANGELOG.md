@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.17.0](https://github.com/javalent/fantasy-statblocks/compare/3.16.3...3.17.0) (2024-01-27)
+
+
+### Features
+
+* Extract monster subtypes from 5e.tools tags ([9f8bf4e](https://github.com/javalent/fantasy-statblocks/commit/9f8bf4e5430015513bffca71d66deb8e85e3e511))
+
+
+### Bug Fixes
+
+* bump 5e layout version ([539a049](https://github.com/javalent/fantasy-statblocks/commit/539a04908cc01950b0c581fd68fe5224f8a8d845))
+* Fixes extra whitespaces between links ([#331](https://github.com/javalent/fantasy-statblocks/issues/331)) ([9717c3c](https://github.com/javalent/fantasy-statblocks/commit/9717c3cf31ca8e32c68724b85a82b98ac9d1f7e4))
+* Fixes subheading separator in basic 5e layout (close [#331](https://github.com/javalent/fantasy-statblocks/issues/331)) ([1b21bd7](https://github.com/javalent/fantasy-statblocks/commit/1b21bd7ad3c5bfb9f99694e3a7dfe97decaef8bc))
+* Remove latin alphabet requirement for css classes (close [#338](https://github.com/javalent/fantasy-statblocks/issues/338)) ([79ada6c](https://github.com/javalent/fantasy-statblocks/commit/79ada6cabf1ffcb41d17f3450c76e0c1eba95b3e))
+
 ## [3.16.3](https://github.com/javalent/fantasy-statblocks/compare/3.16.2...3.16.3) (2024-01-12)
 
 
