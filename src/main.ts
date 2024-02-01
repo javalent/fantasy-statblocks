@@ -635,7 +635,7 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
         let regexes = [
             /([\+\-]\d+ to hit)/,
             /(\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\))/,
-            /. [\+\-]\d+/
+            /(. [\+\-]\d+)/
         ];
         let split: ParsedDice[] = [property];
 
