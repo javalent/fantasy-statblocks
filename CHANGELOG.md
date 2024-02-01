@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.18.0](https://github.com/javalent/fantasy-statblocks/compare/3.17.1...3.18.0) (2024-02-01)
+
+
+### Features
+
+* Adds Obsidian protocol handler `creature-pane` to open Creature Pane via an Obsidian link. Usage: `obsidian://creature-pane?creature=&lt;name&gt;` ([dee46de](https://github.com/javalent/fantasy-statblocks/commit/dee46deabdc8a02b78d3da8118504f763f0fb9f2))
+
 ## [3.17.1](https://github.com/javalent/fantasy-statblocks/compare/3.17.0...3.17.1) (2024-02-01)
 
 
