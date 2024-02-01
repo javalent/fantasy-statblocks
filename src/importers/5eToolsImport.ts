@@ -72,7 +72,7 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
                             name: monster.name,
                             source: getSource(monster),
                             type: getType(monster.type),
-                            subtype: "",
+                            subtype: getSubType(monster.type),
                             size: SIZE_ABV_TO_FULL[monster.size?.[0]],
                             alignment: getMonsterAlignment(monster),
                             hp:
@@ -183,6 +183,26 @@ function getType(type: Creature5eTools["type"]) {
     }
     return type.type;
 }
+
+function getSubType(type: Creature5eTools["type"]) {
+    if (!type) return;
+    if (typeof type == "string") {
+        return;
+    }
+    if (!type.tags) {
+        return;
+    }
+    let result: string[] = [];
+    for (var t of type.tags) {
+        if (typeof t == "string") {
+            result.push(t);
+        } else {
+            result.push(t.tag);
+        }
+    }
+    return result.join(", ");
+}
+
 function getCR(type: Creature5eTools["cr"]) {
     if (!type) return;
     if (typeof type == "string") {
@@ -395,8 +415,16 @@ function getAlignmentString(alignment: Align[] | Align | Alignment): string {
     if (!alignment) return null; // used in sidekicks
     let alignments: string[] = [];
     if (Array.isArray(alignment)) {
+        let alignStr: string[] = [];
         for (const align of alignment) {
-            alignments.push(getAlignmentString(align));
+            if (typeof align === "string") {
+                alignStr.push(getAlignmentString(align));
+            } else {
+                alignments.push(getAlignmentString(align));
+            }
+        }
+        if (alignStr.length > 0) {
+            alignments.push(alignStr.join(" "));
         }
     } else if (typeof alignment === "object") {
         if ("special" in alignment && alignment.special != null) {
