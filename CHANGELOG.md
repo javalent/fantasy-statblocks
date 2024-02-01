@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.17.1](https://github.com/javalent/fantasy-statblocks/compare/3.17.0...3.17.1) (2024-02-01)
+
+
+### Bug Fixes
+
+* Fixes issue where dice parsing would consume +/- values ([200f787](https://github.com/javalent/fantasy-statblocks/commit/200f787810aa747cf80195e4ae3219655f55a57c))
+
 ## [3.17.0](https://github.com/javalent/fantasy-statblocks/compare/3.16.3...3.17.0) (2024-01-27)
 
 
