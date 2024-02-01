@@ -2,6 +2,7 @@ import {
     addIcon,
     MarkdownPostProcessorContext,
     Notice,
+    ObsidianProtocolHandler,
     parseYaml,
     Plugin,
     WorkspaceLeaf
@@ -200,6 +201,28 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
         if (leaf && leaf.view && leaf.view instanceof CreatureView)
             return leaf.view;
     }
+    async openCreatureView() {
+        const leaf = this.app.workspace.getRightLeaf(true);
+        await leaf.setViewState({
+            type: CREATURE_VIEW
+        });
+        this.app.workspace.revealLeaf(leaf);
+        return leaf.view as CreatureView;
+    }
+
+    #creaturePaneProtocolHandler: ObsidianProtocolHandler = (data) => {
+        const creature = data?.creature ?? data?.name ?? "";
+
+        if (this.bestiary.has(creature)) {
+            if (!this.creature_view) {
+                this.openCreatureView().then((v) =>
+                    v.render(this.bestiary.get(creature))
+                );
+            } else {
+                this.creature_view.render(this.bestiary.get(creature));
+            }
+        }
+    };
     async onload() {
         console.log("Fantasy StatBlocks loaded");
         await this.loadSettings();
@@ -223,12 +246,8 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
         this.addCommand({
             id: "open-creature-view",
             name: "Open Creature Pane",
-            callback: async () => {
-                const leaf = this.app.workspace.getRightLeaf(true);
-                await leaf.setViewState({
-                    type: CREATURE_VIEW
-                });
-                this.app.workspace.revealLeaf(leaf);
+            callback: () => {
+                this.openCreatureView();
             }
         });
         this.addRibbonIcon("skull", "Open Creature Pane", async () => {
@@ -238,6 +257,10 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
             });
             this.app.workspace.revealLeaf(leaf);
         });
+        this.registerObsidianProtocolHandler(
+            "creature-pane",
+            this.#creaturePaneProtocolHandler.bind(this)
+        );
 
         addIcon(
             "dropzone-grip",
