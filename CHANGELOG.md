@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.18.1](https://github.com/javalent/fantasy-statblocks/compare/3.18.0...3.18.1) (2024-02-02)
+
+
+### Bug Fixes
+
+* Expose the monster on Table ability modifier calculation callbacks ([7bad5f2](https://github.com/javalent/fantasy-statblocks/commit/7bad5f2981a587417be156f8d2f1a8c265e55a75))
+
 ## [3.18.0](https://github.com/javalent/fantasy-statblocks/compare/3.17.1...3.18.0) (2024-02-01)
 
 
