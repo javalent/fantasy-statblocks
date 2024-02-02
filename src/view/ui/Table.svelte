@@ -20,8 +20,8 @@
             const func = item.modifier.contains("return")
                 ? item.modifier
                 : `return ${item.modifier}`;
-            const customMod = new Function("stat", func);
-            mod = customMod(stat);
+            const customMod = new Function("stat", "monster", func);
+            mod = customMod(stat, monster);
         }
         return `(${mod >= 0 ? "+" : "-"}${Math.abs(mod)})`;
     }

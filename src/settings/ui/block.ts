@@ -862,10 +862,12 @@ class TableModal extends BasicModal<TableItem> {
                         text: "Allows a custom modifier for the stat."
                     });
                     e.createEl("br");
-                    e.createSpan({ text: "Variable " });
+                    e.createSpan({ text: "Variables " });
                     e.createEl("code", { text: "stat" });
+                    e.createSpan({ text: " and " });
+                    e.createEl("code", { text: "monster" });
                     e.createSpan({
-                        text: "is accessible, use this to calculate the modifier."
+                        text: "are accessible, use these to calculate the modifier."
                     });
                 })
             );
