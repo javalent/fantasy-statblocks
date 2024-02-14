@@ -738,5 +738,47 @@ export const Layout5e: DefaultLayout = {
     id: "basic-5e-layout",
     name: "Basic 5e Layout",
     edited: false,
-    version: 3
+    version: 4,
+    diceParsing: [
+        {
+            regex: /([\+\-])(\d+) to hit/.source,
+            parser: `let [, sign, number] = matches;
+let mult = 1;
+if (sign === "-") {
+    mult = -1;
+}
+if (!isNaN(Number(number))) {
+    return {
+        text: \`1d20+\${mult * Number(number)}\`,
+        original
+    }
+}`,
+            id: "to-hit"
+        },
+        {
+            regex: /(\d+)\s\((\d+d\d+(?:\s*[+\-]\s*\d+)?)\)/.source,
+            parser: `let [, base, dice] = matches;
+let text;
+if (!isNaN(Number(base)) && dice) {
+    text = dice;
+}
+return { text, original };`,
+            id: "dice"
+        },
+        {
+            regex: /. ([\+\-]\d+)/.source,
+            parser: `let [, save, sign, number] = matches;
+let mult = 1;
+if (sign === "-") {
+    mult = -1;
+}
+let text;
+if (!isNaN(Number(number))) {
+    text = \`1d20+\${mult * Number(number)}\`;
+    original = \`\${save} \${sign}\${number}\`;
+}
+return { text, original };`,
+            id: "modifier"
+        }
+    ]
 };

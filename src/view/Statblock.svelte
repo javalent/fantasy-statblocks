@@ -8,7 +8,7 @@
         stringifyYaml
     } from "obsidian";
     import { EXPORT_SYMBOL, SAVE_SYMBOL } from "src/data/constants";
-    import type { StatblockItem } from "types/layout";
+    import type { Layout, StatblockItem } from "types/layout";
     import type StatBlockPlugin from "src/main";
     import {
         createEventDispatcher,
@@ -22,6 +22,7 @@
     import Bar from "./ui/Bar.svelte";
     import ColumnContainer from "./ui/ColumnContainer.svelte";
     import Content from "./ui/Content.svelte";
+    import { DefaultProperties } from "src/settings/settings.constants";
 
     const dispatch = createEventDispatcher();
 
@@ -30,8 +31,9 @@
     export let plugin: StatBlockPlugin;
     export let statblock: StatblockItem[];
     export let renderer: StatBlockRenderer;
-    export let layout: string;
+    export let layout: Layout;
     export let canSave: boolean = true;
+    export let icons = true;
 
     let maxColumns =
         !isNaN(Number(monster.columns)) && Number(monster.columns) > 0
@@ -56,6 +58,7 @@
     setContext<boolean>("dice", canDice);
     setContext<boolean>("render", canRender);
     setContext<StatBlockRenderer>("renderer", renderer);
+    setContext<Layout>("layout", layout);
 
     const reset = writable<boolean>(false);
     setContext<Writable<boolean>>("reset", reset);
@@ -145,7 +148,7 @@
         str?.toLowerCase().replace(/\s+/g, "-") ?? fallback;
 
     const name = slugify(monster.name, "no-name");
-    const layoutName = slugify(layout, "no-layout");
+    const layoutName = slugify(layout.name, "no-layout");
     const getNestedLayouts = (blocks: StatblockItem[]): string[] => {
         const classes: string[] = [];
         for (const block of blocks) {
@@ -163,9 +166,23 @@
     const classes = [name, layoutName, ...getNestedLayouts(statblock)].filter(
         (n) => n?.length
     );
+
+    const customProps: string[] = [];
+    const transform = (str: string) => {
+        return `--statblock-${str.replace(
+            /[A-Z]/g,
+            (m) => `-${m.toLowerCase()}`
+        )}`;
+    };
+    for (let [key, value] of Object.entries(layout.cssProperties ?? {})) {
+        if (value in DefaultProperties) {
+            value = `var(${transform(value)})`;
+        }
+        customProps.push(`${transform(key)}: ${value};`);
+    }
 </script>
 
-<div class="container" bind:this={container}>
+<div class="container" bind:this={container} style={customProps.join("")}>
     {#if ready}
         <div
             class:obsidian-statblock-plugin={true}
@@ -191,15 +208,104 @@
                 <span>Invalid monster.</span>
             {/if}
         </div>
-        <!-- {#if icons} -->
-        <div class="icons" use:iconsEl on:click={showMenu} />
-        <!-- {/if} -->
+        {#if icons}
+            <div class="icons" use:iconsEl on:click={showMenu} />
+        {/if}
     {/if}
 </div>
 
 <style>
+    /**
+    * Active theming variables.
+    */
+    .statblock {
+        --active--primary-color: var(--statblock-primary-color);
+        --active--rule-color: var(--statblock-rule-color);
+        --active--background-color: var(--statblock-background-color);
+
+        --active--bar-color: var(--statblock-bar-color);
+        --active--bar-border-size: var(--statblock-bar-border-size);
+        --active--bar-border-color: var(--statblock-bar-border-color);
+
+        --active--image-width: var(--statblock-image-width);
+        --active--image-height: var(--statblock-image-height);
+        --active--image-border-size: var(--statblock-image-border-size);
+        --active--image-border-color: var(
+            --statblock-image-border-color,
+            --active--primary-color
+        );
+
+        --active--border-size: var(--statblock-border-size);
+        --active--border-color: var(--statblock-border-color);
+
+        --active--box-shadow-color: var(--statblock-box-shadow-color);
+        --active--box-shadow-x-offset: var(--statblock-box-shadow-x-offset);
+        --active--box-shadow-y-offset: var(--statblock-box-shadow-y-offset);
+        --active--box-shadow-blur: var(--statblock-box-shadow-blur);
+
+        --active--font-color: var(
+            --statblock-font-color,
+            --active--primary-color
+        );
+        --active--font-weight: var(--statblock-font-weight);
+
+        --active--content-font: var(--statblock-content-font: );
+        --active--content-font-size: var(--statblock-content-font-size);
+
+        --active--heading-font: var(--statblock-heading-font);
+        --active--heading-font-color: var(--active--font-color);
+        --active--heading-font-size: var(--statblock-heading-font-size);
+        --active--heading-font-variant: var(--statblock-heading-font-variant);
+        --active--heading-font-weight: var(--active--font-weight);
+        --active--heading-line-height: var(--statblock-heading-line-height);
+
+        --active--property-line-height: var(--statblock-property-line-height);
+        --active--property-font-color: var(--active--font-color);
+        --active--property-name-font-color: var(--active--font-color);
+        --active--property-name-font-weight: var(
+            --statblock-property-name-font-weight
+        );
+
+        --active--section-heading-border-size: var(
+            --statblock-section-heading-border-size
+        );
+        --active--section-heading-border-color: var(
+            --statblock-section-heading-border-color,
+            --active--primary-color
+        );
+        --active--section-heading-font-color: var(--active--font-color);
+        --active--section-heading-font-size: var(
+            --statblock-section-heading-font-size
+        );
+        --active--section-heading-font-variant: var(
+            --statblock-section-heading-font-variant
+        );
+        --active--section-heading-font-weight: var(
+            --statblock-section-heading-font-weight
+        );
+
+        --active--saves-line-height: var(--statblock-saves-line-height);
+
+        --active--spells-font-style: var(--statblock-spells-font-style);
+
+        --active--subheading-font-size: var(--statblock-subheading-font-size);
+        --active--subheading-font-style: var(--statblock-subheading-font-style);
+        --active--subheading-font-weight: var(
+            --statblock-subheading-font-weight
+        );
+
+        --active--table-header-font-weight: var(
+            --statblock-table-header-font-weight
+        );
+
+        --active--traits-font-weight: var(--statblock-traits-font-weight);
+        --active--traits-font-style: var(--statblock-traits-font-style);
+
+        --active--link-style: var(--statblock-link-style);
+    }
+
     .statblock :global(a) {
-        font-style: var(--statblock-link-style);
+        font-style: var(--active--link-style);
     }
     .container {
         display: flex;

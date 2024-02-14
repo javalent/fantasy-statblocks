@@ -32,27 +32,29 @@ import { highlightSelectionMatches, searchKeymap } from "@codemirror/search";
 
 import { lintKeymap } from "@codemirror/lint";
 
-export const basicSetup: Extension[] = [
-    javascriptLanguage,
-    foldGutter(),
-    drawSelection(),
-    dropCursor(),
-    indentOnInput(),
-    syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
-    EditorView.lineWrapping,
-    bracketMatching(),
-    closeBrackets(),
-    autocompletion(),
-    rectangularSelection(),
-    highlightSelectionMatches(),
-    keymap.of([
-        ...closeBracketsKeymap,
-        ...defaultKeymap,
-        ...searchKeymap,
-        ...historyKeymap,
-        indentWithTab,
-        ...foldKeymap,
-        ...completionKeymap,
-        ...lintKeymap
-    ])
-].filter((ext) => ext);
+export const basicSetup = (): Extension[] =>
+    [
+        javascriptLanguage,
+
+        foldGutter(),
+        drawSelection(),
+        dropCursor(),
+        indentOnInput(),
+        syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+        EditorView.lineWrapping,
+        bracketMatching(),
+        closeBrackets(),
+        autocompletion(),
+        rectangularSelection(),
+        highlightSelectionMatches(),
+        keymap.of([
+            ...closeBracketsKeymap,
+            ...defaultKeymap,
+            ...searchKeymap,
+            ...historyKeymap,
+            indentWithTab,
+            ...foldKeymap,
+            ...completionKeymap,
+            ...lintKeymap
+        ])
+    ].filter((ext) => ext);

@@ -29,6 +29,7 @@ import type {
 import type Collapse from "./ui/Collapse.svelte";
 import { append } from "src/util/util";
 import { Linkifier } from "src/util/linkify";
+import FantasyStatblockModal from "src/modal/modal";
 
 type RendererParameters = {
     container: HTMLElement;
@@ -56,36 +57,33 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
     params: Partial<StatblockParameters>;
     context: string;
     layout: Layout;
-    constructor(public rendererParameters: RendererParameters) {
+    constructor(
+        public rendererParameters: RendererParameters,
+        public icons = true
+    ) {
         super(rendererParameters.container);
 
         this.container = rendererParameters.container;
         this.plugin = rendererParameters.plugin;
         this.context = rendererParameters.context ?? "";
-        if ("params" in rendererParameters) {
-            this.params = rendererParameters.params;
-            this.monster = Object.assign(
-                {},
-                this.plugin.bestiary.get(this.params.monster) ??
-                    this.plugin.bestiary.get(this.params.creature)
-            );
-        } else {
-            this.params = {};
-            this.monster = rendererParameters.monster;
-        }
+
+        this.setCreature(rendererParameters);
+
         this.setLayout();
 
         this.init();
     }
     setLayout() {
         this.layout =
+            this.rendererParameters.layout ??
             this.plugin.layouts.find(
                 (layout) =>
                     layout.name ==
                         (this.params.layout ?? this.monster.layout) ||
                     layout.name ==
                         (this.params.statblock ?? this.monster.statblock)
-            ) ?? this.plugin.defaultLayout;
+            ) ??
+            this.plugin.defaultLayout;
     }
     get canSave() {
         return "name" in this.params;
@@ -363,20 +361,45 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         return ret;
     }
 
+    setCreature(
+        params:
+            | {
+                  monster: Monster;
+              }
+            | {
+                  params: Partial<StatblockParameters>;
+              }
+    ) {
+        if ("params" in params) {
+            this.params = params.params;
+            this.monster = Object.assign(
+                {},
+                this.plugin.bestiary.get(this.params.monster) ??
+                    this.plugin.bestiary.get(this.params.creature)
+            );
+        } else {
+            this.params = {};
+            this.monster = params.monster;
+        }
+    }
+
+    $ui: Statblock;
     async init() {
-        const statblock = new Statblock({
+        this.containerEl.empty();
+        this.$ui = new Statblock({
             target: this.containerEl,
             props: {
                 context: this.context,
                 monster: await this.build(),
                 statblock: this.layout.blocks,
-                layout: this.layout.name,
+                layout: this.layout,
                 plugin: this.plugin,
                 renderer: this,
-                canSave: this.canSave
+                canSave: this.canSave,
+                icons: this.icons ?? true
             }
         });
-        statblock.$on("save", async () => {
+        this.$ui.$on("save", async () => {
             if (
                 this.plugin.bestiary.has(this.monster.name) &&
                 !(await confirmWithModal(
@@ -392,7 +415,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             });
         });
 
-        statblock.$on("export", () => {
+        this.$ui.$on("export", () => {
             this.plugin.exportAsPng(
                 this.monster.name,
                 this.containerEl.firstElementChild

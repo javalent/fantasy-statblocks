@@ -12,7 +12,7 @@ import {
 } from "obsidian";
 
 import type StatBlockPlugin from "src/main";
-import StatblockCreator from "./StatblockCreator.svelte";
+import LayoutEditor from "./layout/LayoutEditor.svelte";
 
 import fastCopy from "fast-copy";
 
@@ -26,6 +26,7 @@ import { nanoid, stringify } from "src/util/util";
 import { DICE_ROLLER_SOURCE } from "src/main";
 import type { Monster } from "index";
 import { ExpectedValue } from "obsidian-overload";
+import FantasyStatblockModal from "src/modal/modal";
 
 export default class StatblockSettingTab extends PluginSettingTab {
     importer: Importer;
@@ -402,6 +403,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                     );
                                     return;
                                 }
+                                if (!layout.diceParsing) {
+                                    layout.diceParsing = [];
+                                }
                                 if (
                                     !this.plugin.settings.alwaysImport &&
                                     layout.blocks.find(
@@ -439,7 +443,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
             b.buttonEl.appendChild(inputFile);
             b.onClick(() => inputFile.click());
         });
-        const setting = new Setting(statblockCreatorContainer)
+        new Setting(statblockCreatorContainer)
             .setName("Add New Layout")
             .addButton((b) =>
                 b
@@ -989,7 +993,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     .onClick(() => {
                         const modal = new ConfirmModal(
                             this.results.length,
-                            this.plugin.app
+                            this.plugin
                         );
                         modal.onClose = async () => {
                             if (modal.saved) {
@@ -1160,8 +1164,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
     }
 }
 
-class CreateStatblockModal extends Modal {
-    creator: StatblockCreator;
+class CreateStatblockModal extends FantasyStatblockModal {
+    creator: LayoutEditor;
     layout: Layout;
     saved: boolean = false;
     constructor(
@@ -1169,11 +1173,14 @@ class CreateStatblockModal extends Modal {
         layout: Layout = {
             name: "Layout",
             blocks: [],
+            diceParsing: [],
             id: nanoid()
         }
     ) {
-        super(plugin.app);
+        super(plugin);
         this.layout = fastCopy(layout);
+        this.modalEl.addClasses(["mod-sidebar-layout", "mod-settings"]);
+        this.contentEl.addClass("vertical-tabs-container");
     }
 
     onOpen() {
@@ -1182,7 +1189,7 @@ class CreateStatblockModal extends Modal {
 
     display() {
         this.titleEl.createSpan({ text: "Create Layout" });
-        this.creator = new StatblockCreator({
+        this.creator = new LayoutEditor({
             target: this.contentEl,
             props: {
                 layout: this.layout,
@@ -1200,10 +1207,10 @@ class CreateStatblockModal extends Modal {
     }
 }
 
-class ConfirmModal extends Modal {
+class ConfirmModal extends FantasyStatblockModal {
     saved: boolean = false;
-    constructor(public filtered: number, app: App) {
-        super(app);
+    constructor(public filtered: number, plugin: StatBlockPlugin) {
+        super(plugin);
     }
     onOpen() {
         this.titleEl.setText("Are you sure?");
@@ -1240,10 +1247,10 @@ async function confirm(plugin: StatBlockPlugin): Promise<boolean> {
         }
     });
 }
-class ConfirmImport extends Modal {
+class ConfirmImport extends FantasyStatblockModal {
     confirmed: boolean = false;
     constructor(public plugin: StatBlockPlugin) {
-        super(plugin.app);
+        super(plugin);
     }
     async display() {
         this.contentEl.empty();

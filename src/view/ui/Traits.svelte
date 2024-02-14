@@ -66,8 +66,8 @@
         margin: 0;
         margin-right: 0.25em;
         display: inline;
-        font-weight: var(--statblock-traits-font-weight);
-        font-style: var(--statblock-traits-font-style);
+        font-weight: var(--active--traits-font-weight);
+        font-style: var(--active--traits-font-style);
     }
     .statblock-nested-traits {
         margin-left: 1rem;

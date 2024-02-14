@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Monster } from "types";
+    import type { Monster } from "index";
     import type { HeadingItem } from "types/layout";
     import { stringify } from "src/util/util";
     import TextContent from "./TextContent.svelte";
@@ -47,16 +47,16 @@
         align-items: center;
     }
     .heading {
-        font-family: var(--statblock-heading-font);
-        color: var(--statblock-heading-font-color);
-        font-weight: var(--statblock-heading-font-weight);
+        font-family: var(--active--heading-font);
+        color: var(--active--heading-font-color);
+        font-weight: var(--active--heading-font-weight);
         margin: 0px;
 
         letter-spacing: 1px;
-        font-variant: var(--statblock-heading-font-variant);
+        font-variant: var(--active--heading-font-variant);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        line-height: var(--statblock-heading-line-height);
+        line-height: var(--active--heading-line-height);
     }
 </style>

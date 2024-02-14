@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Monster } from "types";
+    import type { Monster } from "index";
     import type { SubHeadingItem } from "types/layout";
     import { stringify } from "src/util/util";
     import TextContent from "./TextContent.svelte";
@@ -23,9 +23,9 @@
 
 <style>
     .subheading {
-        font-weight: var(--statblock-subheading-font-weight);
-        font-style: var(--statblock-subheading-font-style);
-        font-size: var(--statblock-subheading-font-size);
+        font-weight: var(--active--subheading-font-weight);
+        font-style: var(--active--subheading-font-style);
+        font-size: var(--active--subheading-font-size);
         margin: 0;
     }
 </style>

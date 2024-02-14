@@ -1,20 +1,20 @@
 <script lang="ts">
     import type { Monster } from "index";
     import { Notice } from "obsidian";
-    import type { BasicItem } from "types/layout";
-    import type StatBlockPlugin from "src/main";
+    import type { BasicItem, Layout } from "types/layout";
 
     import { getContext } from "svelte";
 
     import DiceRoll from "./DiceRoll.svelte";
     import TextContent from "./TextContent.svelte";
+    import { parseForDice } from "src/util/dice-parsing";
     export let property: string;
 
     let item = getContext<BasicItem>("item");
 
     let dice = getContext<boolean>("dice") && item.dice;
     let monster = getContext<Monster>("monster");
-    let plugin = getContext<StatBlockPlugin>("plugin");
+    let layout = getContext<Layout>("layout");
 
     let split: Array<{ text: string; original?: string } | string> = [property];
 
@@ -26,7 +26,8 @@
         ) {
             split = [{ text: monster[item.diceProperty] as string }];
         } else {
-            const parsed = plugin.parseForDice(property);
+            const parsed = parseForDice(layout, property, monster);
+
             if (Array.isArray(parsed)) {
                 split = parsed;
             } else {

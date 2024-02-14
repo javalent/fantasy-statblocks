@@ -14,7 +14,7 @@
     const dispatch = createEventDispatcher<{ change: string }>();
 
     const setting = (node: HTMLElement) => {
-        new Setting(node)
+        new Setting(node.parentElement)
             .setName(name)
             .setDesc(desc)
             .addColorPicker((c) => {
@@ -23,6 +23,7 @@
                     dispatch("change", v);
                 });
             });
+        node.detach();
     };
 </script>
 

@@ -1,4 +1,4 @@
-import type { Monster } from "types";
+import type { Monster } from "index";
 import copy from "fast-copy";
 import type { CachedMetadata } from "obsidian";
 import { transformTraits } from "src/util/util";

@@ -1,12 +1,13 @@
 <script lang="ts">
     import { MarkdownRenderer, Notice } from "obsidian";
-    import type { MarkdownableItem, StatblockItem } from "types/layout";
+    import type { Layout, MarkdownableItem, StatblockItem } from "types/layout";
     import type StatBlockPlugin from "src/main";
 
     import { getContext } from "svelte";
     import type StatBlockRenderer from "../statblock";
     import type { Monster } from "index";
     import { Linkifier } from "src/util/linkify";
+    import { parseForDice } from "src/util/dice-parsing";
 
     export let property: string;
     property = Linkifier.stringifyLinks(property);
@@ -17,6 +18,7 @@
     let dice = getContext<boolean>("dice") && item.dice;
     let monster = getContext<Monster>("monster");
     let plugin = getContext<StatBlockPlugin>("plugin");
+    let layout = getContext<Layout>("layout");
 
     let split: Array<{ text: string; original?: string } | string> = [property];
     if (dice) {
@@ -27,7 +29,7 @@
         ) {
             split = [{ text: monster[item.diceProperty] as string }];
         } else {
-            const parsed = plugin.parseForDice(property);
+            const parsed = parseForDice(layout, property, monster);
             if (Array.isArray(parsed)) {
                 split = parsed;
             } else {

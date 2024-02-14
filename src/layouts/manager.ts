@@ -8,10 +8,6 @@ import { Layout5e } from "./basic 5e/basic5e";
 import type { StatblockData } from "obsidian-overload";
 
 export default class LayoutManager {
-    constructor() {
-        //@ts-ignore
-        window["manager"] = this;
-    }
     public initialize(settings: StatblockData) {
         this.setDefaultLayout(settings.default);
         this.setDefaultLayouts(settings.defaultLayouts);

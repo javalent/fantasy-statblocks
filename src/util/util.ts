@@ -5,16 +5,19 @@ import type { Trait } from "index";
 import { basicSetup } from "src/util/editor/extensions";
 import { materialPalenight } from "src/util/editor/theme-dark";
 import { basicLightTheme } from "src/util/editor/theme-light";
+
 export function editorFromTextArea(
     textarea: HTMLTextAreaElement,
-    facet?: Extension
+    facet?: Extension,
+    lang: "js" | "yaml" = "js"
 ) {
+    let setup = basicSetup();
     if (document.body.hasClass("theme-dark")) {
-        basicSetup.push(materialPalenight);
+        setup.push(materialPalenight);
     } else {
-        basicSetup.push(basicLightTheme);
+        setup.push(basicLightTheme);
     }
-    const extensions = [...basicSetup];
+    const extensions = [...setup];
     if (facet) extensions.push(facet);
     let view = new EditorView({
         state: EditorState.create({

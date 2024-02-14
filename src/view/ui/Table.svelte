@@ -70,7 +70,7 @@
 
 <style>
     .statblock-table-header {
-        font-weight: var(--statblock-table-header-font-weight);
+        font-weight: var(--active--table-header-font-weight);
     }
     .statblock-table {
         display: flex;

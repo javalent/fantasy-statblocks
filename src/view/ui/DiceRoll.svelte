@@ -86,6 +86,6 @@
 
 <style>
     .roller-result {
-        font-weight: var(--statblock-font-weight);
+        font-weight: var(--active--font-weight);
     }
 </style>

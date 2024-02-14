@@ -32,12 +32,12 @@ const slugify = (header: string) =>
 
 <style>
     .section-header {
-        border-bottom: var(--statblock-section-heading-border-size) solid
-            var(--statblock-section-heading-border-color);
-        color: var(--statblock-section-heading-font-color);
-        font-size: var(--statblock-section-heading-font-size);
-        font-variant: var(--statblock-section-heading-font-variant);
-        font-weight: var(--statblock-section-heading-font-weight);
+        border-bottom: var(--active--section-heading-border-size) solid
+            var(--active--section-heading-border-color);
+        color: var(--active--section-heading-font-color);
+        font-size: var(--active--section-heading-font-size);
+        font-variant: var(--active--section-heading-font-variant);
+        font-weight: var(--active--section-heading-font-weight);
         letter-spacing: 1px;
         margin: 0;
         margin-bottom: 0.3em;

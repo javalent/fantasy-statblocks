@@ -235,6 +235,8 @@ export interface StatblockItemMap
 export interface Layout {
     name: string;
     id: string;
+    diceParsing?: DiceParsing[];
+    cssProperties?: Partial<LayoutCSSProperties>;
     blocks: StatblockItem[];
 }
 
@@ -245,4 +247,23 @@ export interface DefaultLayout extends Layout {
     updatable?: boolean;
 }
 
+export type DiceParsing = {
+    regex: string;
+    parser: string;
+    id: string;
+};
+
+export type DiceParser = () => ParsedDice[];
+
 export type ParsedDice = string | { text: string; original: string };
+
+export interface LayoutCSSProperties {
+    primaryColor: string;
+    ruleColor: string;
+    backgroundColor: string;
+    barColor: string;
+    barBorderColor: string;
+    borderColor: string;
+    boxShadowColor: string;
+    fontColor: string;
+}

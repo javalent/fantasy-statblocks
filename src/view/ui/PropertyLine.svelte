@@ -43,15 +43,15 @@
 
 <style>
     .line {
-        line-height: var(--statblock-property-line-height);
+        line-height: var(--active--property-line-height);
         display: block;
-        color: var(--statblock-property-font-color);
+        color: var(--active--property-font-color);
     }
     .property-name {
         margin: 0;
         margin-right: 0.25em;
         display: inline;
-        color: var(--statblock-property-name-font-color);
-        font-weight: var(--statblock-property-name-font-weight);
+        color: var(--active--property-name-font-color);
+        font-weight: var(--active--property-name-font-weight);
     }
 </style>
