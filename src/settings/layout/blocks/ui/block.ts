@@ -34,7 +34,8 @@ import IfElseConditions from "./IfElseConditions.svelte";
 import { editorFromTextArea, nanoid } from "src/util/util";
 import { EditorView } from "@codemirror/view";
 import type { Monster } from "index";
-import { CommandSuggester, IconSuggester } from "../suggester";
+import { CommandSuggester, IconSuggester } from "../../../suggester";
+import FantasyStatblockModal from "src/modal/modal";
 
 export function getModalForBlock(
     plugin: StatBlockPlugin,
@@ -121,12 +122,14 @@ export function getModalForBlock(
     }
 }
 
-abstract class BlockModal<T extends StatblockItem> extends Modal {
+abstract class BlockModal<
+    T extends StatblockItem
+> extends FantasyStatblockModal {
     block: T;
     saved: boolean;
     editor: EditorView;
     constructor(public plugin: StatBlockPlugin, block?: T) {
-        super(plugin.app);
+        super(plugin);
         if (block) this.block = copy(block);
         this.containerEl.addClass("statblock-edit-block");
     }
