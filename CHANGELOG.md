@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.19.0](https://github.com/javalent/fantasy-statblocks/compare/3.18.1...3.19.0) (2024-02-14)
+
+
+### Features
+
+* Enables Layout-specific dice parsing using Regular Expressions and callbacks ([a6f482b](https://github.com/javalent/fantasy-statblocks/commit/a6f482b67db5606bda26b45915876454a793f493))
+* Exposes some basic color settings for Layouts ([1716230](https://github.com/javalent/fantasy-statblocks/commit/17162304eff3ec4f3f251619ccd953b76b1bd057))
+* New Layout Editor experience on Desktop / Tablet ([6d017c6](https://github.com/javalent/fantasy-statblocks/commit/6d017c68af30e6f7f32aa5388dc7ea062e3d3059))
+
+
+### Bug Fixes
+
+* Properly scope Bunkers and Badasses css ([ccf0296](https://github.com/javalent/fantasy-statblocks/commit/ccf0296fd4403a3a09e274ef2d47162e406aea80))
+
 ## [3.18.1](https://github.com/javalent/fantasy-statblocks/compare/3.18.0...3.18.1) (2024-02-02)
 
 
