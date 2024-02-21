@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.19.2](https://github.com/javalent/fantasy-statblocks/compare/3.19.1...3.19.2) (2024-02-21)
+
+
+### Bug Fixes
+
+* Fixes issue where having DR installed but not enabled in FS would erroneously run dice callbacks ([2fa84c1](https://github.com/javalent/fantasy-statblocks/commit/2fa84c1ba2c48a5b7c672724b271df466eefef05))
+
 ## [3.19.1](https://github.com/javalent/fantasy-statblocks/compare/3.19.0...3.19.1) (2024-02-20)
 
 
