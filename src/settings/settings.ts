@@ -102,7 +102,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
     generateTopSettings(container: HTMLDivElement) {
         container.empty();
         new Setting(container).setHeading().setName("General Settings");
-        new Setting(container)
+        /* new Setting(container)
             .setName("Enable Export to PNG")
             .setDesc(
                 createFragment((e) => {
@@ -115,18 +115,18 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     });
                 })
             )
-            .setDisabled(!this.plugin.canUseDiceRoller)
+            .setDisabled(!this.plugin.diceRollerInstalled)
             .addToggle((t) =>
                 t.setValue(this.plugin.settings.useDice).onChange(async (v) => {
                     this.plugin.settings.useDice = v;
                     await this.plugin.saveSettings();
                 })
-            );
+            ); */
         new Setting(container)
             .setName("Integrate Dice Roller")
             .setDesc(
                 createFragment((e) => {
-                    if (this.plugin.canUseDiceRoller) {
+                    if (this.plugin.diceRollerInstalled) {
                         e.createSpan({
                             text: "Add Dice Roller dice to statblocks by default. Use "
                         });
@@ -141,7 +141,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     }
                 })
             )
-            .setDisabled(!this.plugin.canUseDiceRoller)
+            .setDisabled(!this.plugin.diceRollerInstalled)
             .addToggle((t) =>
                 t.setValue(this.plugin.settings.useDice).onChange(async (v) => {
                     this.plugin.settings.useDice = v;
@@ -152,7 +152,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
             .setName("Render Dice Rolls")
             .setDesc(
                 createFragment((e) => {
-                    if (this.plugin.canUseDiceRoller) {
+                    if (this.plugin.diceRollerInstalled) {
                         e.createSpan({
                             text: "Roll graphical dice inside statblocks by default. Use "
                         });
@@ -167,13 +167,13 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     }
                 })
             )
-            .setDisabled(!this.plugin.canUseDiceRoller)
+            .setDisabled(!this.plugin.diceRollerInstalled)
             .addToggle((t) =>
                 t
                     .setValue(this.plugin.settings.renderDice)
                     .onChange(async (v) => {
                         this.plugin.settings.renderDice = v;
-                        if (this.plugin.canUseDiceRoller) {
+                        if (this.plugin.diceRollerInstalled) {
                             this.app.plugins
                                 .getPlugin("obsidian-dice-roller")
                                 ?.api.registerSource(DICE_ROLLER_SOURCE, {

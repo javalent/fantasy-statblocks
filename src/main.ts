@@ -167,15 +167,21 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
             .getPlugin("obsidian-dice-roller")
             ?.api.getRollerString(str, DICE_ROLLER_SOURCE);
     }
-    get canUseDiceRoller() {
+    get diceRollerInstalled() {
         if (this.app.plugins.getPlugin("obsidian-dice-roller") != null) {
             if (!this.app.plugins.getPlugin("obsidian-dice-roller").api) {
                 new Notice(
-                    "Please update Dice Roller to the latest version to use with Initiative Tracker."
+                    "Please update Dice Roller to the latest version to use with Fantasy Statblocks."
                 );
-            } else {
-                return true;
+                return false;
             }
+            return true;
+        }
+        return false;
+    }
+    get canUseDiceRoller() {
+        if (this.diceRollerInstalled) {
+            return this.settings.useDice;
         }
         return false;
     }
