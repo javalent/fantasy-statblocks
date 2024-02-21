@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.19.1](https://github.com/javalent/fantasy-statblocks/compare/3.19.0...3.19.1) (2024-02-20)
+
+
+### Bug Fixes
+
+* Dice Callbacks will no longer try to execute if Dice Roller is not enabled ([5ec4019](https://github.com/javalent/fantasy-statblocks/commit/5ec40198276c570903d8d9d2d8a0606a9a5b9db9))
+
 ## [3.19.0](https://github.com/javalent/fantasy-statblocks/compare/3.18.1...3.19.0) (2024-02-14)
 
 
