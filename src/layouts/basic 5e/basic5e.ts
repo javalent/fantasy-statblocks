@@ -738,7 +738,7 @@ export const Layout5e: DefaultLayout = {
     id: "basic-5e-layout",
     name: "Basic 5e Layout",
     edited: false,
-    version: 4,
+    version: 5,
     diceParsing: [
         {
             regex: /([\+\-])(\d+) to hit/.source,
@@ -762,7 +762,7 @@ let text;
 if (!isNaN(Number(base)) && dice) {
     text = dice;
 }
-return { text, original };`,
+return { text, original: dice ?? original };`,
             id: "dice"
         },
         {

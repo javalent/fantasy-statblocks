@@ -91,7 +91,7 @@ return { text, original };`,
 if (!isNaN(Number(base)) && dice) {
     text = dice;
 }
-return { text, original };`,
+return { text, original: dice ?? original };`,
             id: nanoid()
         },
         {
