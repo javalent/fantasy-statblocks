@@ -44,7 +44,7 @@
         "fast-copy": "^2.1.1",
         "fast-sort": "^3.0.2",
         "jest": "^27.4.7",
-        "obsidian": "^1.4.11",
+        "obsidian": "^1.5.7-1",
         "obsidian-overload": "^1.22.0",
         "standard-version": "^9.3.2",
         "svelte": "^3.49.0",
