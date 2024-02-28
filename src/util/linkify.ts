@@ -124,6 +124,10 @@ class LinkifierClass extends Component {
         return this.#stringifier.transformYamlSource(source);
     }
 
+    stringifyLinks(source: string) {
+        return this.#stringifier.stringifyLinks(source);
+    }
+
     splitByLinks(text: string, context: string, render?: boolean): SplitLink[] {
         return stringify(text)
             .split(GENERIC_REGEX)

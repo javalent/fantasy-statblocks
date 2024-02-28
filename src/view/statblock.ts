@@ -3,6 +3,7 @@ import {
     ButtonComponent,
     Modal,
     TFile,
+    getFrontMatterInfo,
     parseYaml,
     stringifyYaml
 } from "obsidian";
@@ -22,14 +23,10 @@ import type {
     JavaScriptItem,
     Layout,
     LayoutItem,
-    SavesItem,
-    StatblockItem,
-    TraitsItem
+    StatblockItem
 } from "types/layout";
-import type Collapse from "./ui/Collapse.svelte";
 import { append } from "src/util/util";
 import { Linkifier } from "src/util/linkify";
-import FantasyStatblockModal from "src/modal/modal";
 
 type RendererParameters = {
     container: HTMLElement;
@@ -105,17 +102,26 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             const note = Array.isArray(built.note)
                 ? (<string[]>built.note).flat(Infinity).pop()
                 : built.note;
-            const file = await app.metadataCache.getFirstLinkpathDest(
-                `${note}`,
-                this.context ?? ""
-            );
-            if (file && file instanceof TFile) {
-                const cache = await app.metadataCache.getFileCache(file);
-                Object.assign(
-                    built,
-                    fastCopy(cache.frontmatter) ?? {},
-                    this.params
+            const file =
+                await this.plugin.app.metadataCache.getFirstLinkpathDest(
+                    `${note}`,
+                    this.context ?? ""
                 );
+            if (file && file instanceof TFile) {
+                const info = getFrontMatterInfo(
+                    await this.plugin.app.vault.cachedRead(file)
+                );
+                if (info.exists) {
+                    Object.assign(
+                        built,
+                        fastCopy(
+                            parseYaml(
+                                Linkifier.transformYamlSource(info.frontmatter)
+                            ) ?? {}
+                        ),
+                        this.params
+                    );
+                }
             }
         }
         if ("image" in built) {
@@ -311,6 +317,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         }
 
         built = this.transformLinks(built);
+
         this.monster = built as Monster;
 
         return built;

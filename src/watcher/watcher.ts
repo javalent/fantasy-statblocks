@@ -1,17 +1,21 @@
-import { Component, Notice, TAbstractFile, TFile, TFolder } from "obsidian";
+import {
+    Component,
+    Notice,
+    TAbstractFile,
+    TFile,
+    TFolder,
+    getFrontMatterInfo
+} from "obsidian";
 import type StatBlockPlugin from "src/main";
 //have to ignore until i fix typing issue
 //@ts-expect-error
-import Worker, {
+import FSWorker, {
     GetFileCacheMessage,
     FileCacheMessage,
     QueueMessage,
     UpdateEventMessage,
     SaveMessage,
-    FinishFileMessage,
-    DebugMessage,
-    ReadMessage,
-    ContentMessage
+    DebugMessage
 } from "./watcher.worker";
 
 declare global {
@@ -34,11 +38,11 @@ export class Watcher extends Component {
 
     watchPaths: Map<string, string> = new Map();
 
-    worker = new Worker();
+    worker: Worker = new FSWorker();
     setDebug() {
         this.worker.postMessage<DebugMessage>({
             type: "debug",
-            debug: this.plugin.settings.debug
+            data: this.plugin.settings.debug
         });
     }
     onload() {
@@ -93,17 +97,16 @@ export class Watcher extends Component {
         /** The worker will ask for file information from files in its queue here */
         this.worker.addEventListener(
             "message",
-            (event: MessageEvent<GetFileCacheMessage>) => {
+            async (event: MessageEvent<GetFileCacheMessage>) => {
                 if (event.data.type == "get") {
-                    const { path } = event.data;
-                    const data = this.getFileInformation(path);
-                    //TODO: Add in file data parsing for events
-                    //TODO: E.g., timelines
-                    this.worker.postMessage<FileCacheMessage>({
-                        type: "file",
-                        path,
-                        ...data
-                    });
+                    const data = await this.getFileInformation(event.data.data);
+                    if (!data) {
+                        this.worker.postMessage<Partial<FileCacheMessage>>({
+                            type: "file"
+                        });
+                    } else {
+                        this.worker.postMessage<FileCacheMessage>(data);
+                    }
                 }
             }
         );
@@ -113,7 +116,8 @@ export class Watcher extends Component {
             "message",
             async (evt: MessageEvent<UpdateEventMessage>) => {
                 if (evt.data.type == "update") {
-                    let { monster, path } = evt.data;
+                    let { monster, path } = evt.data.data;
+
                     let update = false;
                     if (this.watchPaths.has(path)) {
                         const existing = this.watchPaths.get(path);
@@ -154,26 +158,6 @@ export class Watcher extends Component {
             async (evt: MessageEvent<SaveMessage>) => {
                 if (evt.data.type == "save") {
                     await this.save();
-                }
-            }
-        );
-        this.worker.addEventListener(
-            "message",
-            async (evt: MessageEvent<ReadMessage>) => {
-                if (evt.data.type == "read") {
-                    const file = this.plugin.app.vault.getAbstractFileByPath(
-                        evt.data.path
-                    );
-                    if (!(file instanceof TFile)) return "";
-                    await this.plugin.app.vault
-                        .read(file)
-                        .then((fileContent) => {
-                            this.worker.postMessage<ContentMessage>({
-                                type: "content",
-                                path: evt.data.path,
-                                content: fileContent
-                            });
-                        });
                 }
             }
         );
@@ -259,29 +243,47 @@ export class Watcher extends Component {
         if (paths.length) {
             this.worker.postMessage<QueueMessage>({
                 type: "queue",
-                paths
+                data: paths
             });
         }
     }
-    getFileInformation(path: string) {
+    async getFileInformation(path: string): Promise<FileCacheMessage | null> {
         const file = this.plugin.app.vault.getAbstractFileByPath(path);
-        if (!(file instanceof TFile)) return {};
+        if (!(file instanceof TFile)) return null;
         if (this.watchPaths.has(file.path)) {
             const monster = this.plugin.bestiary.get(
                 this.watchPaths.get(file.path)
             );
 
             if (monster && monster.mtime && monster.mtime == file.stat.mtime)
-                return {};
+                return null;
         }
 
-        const cache = this.metadataCache.getFileCache(file);
+        const cache = this.plugin.app.metadataCache.getFileCache(file);
+        if (!cache?.frontmatter?.statblock) return null;
+        if (
+            cache?.frontmatter?.statblock !== true &&
+            cache?.frontmatter?.statblock !== "true" &&
+            cache?.frontmatter?.statblock !== "inline"
+        )
+            return null;
+        const content = await this.plugin.app.vault.cachedRead(file);
+        const info = getFrontMatterInfo(content);
+
         return {
-            cache,
-            file: {
-                path: file.path,
-                basename: file.basename,
-                mtime: file.stat.mtime
+            type: "file",
+            data: {
+                statblock:
+                    cache.frontmatter.statblock == "inline"
+                        ? "inline"
+                        : "frontmatter",
+                content,
+                info,
+                file: {
+                    path: file.path,
+                    basename: file.basename,
+                    mtime: file.stat.mtime
+                }
             }
         };
     }
