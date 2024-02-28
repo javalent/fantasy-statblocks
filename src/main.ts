@@ -239,7 +239,7 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
 
         this.watcher.load();
 
-        Linkifier.load();
+        Linkifier.initialize(this.app.metadataCache);
         this.register(() => Linkifier.unload());
 
         this.addCommand({

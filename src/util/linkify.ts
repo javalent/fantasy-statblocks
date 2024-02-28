@@ -1,9 +1,17 @@
 import {
+    type App,
+    type TFile,
     Component,
-    TFile,
     normalizePath,
-    parseFrontMatterAliases
+    parseFrontMatterAliases,
+    MetadataCache
 } from "obsidian";
+import {
+    GENERIC_REGEX,
+    LinkStringifier,
+    MARKDOWN_REGEX,
+    WIKILINK_REGEX
+} from "src/parser/stringifier";
 import { stringify } from "src/util/util";
 
 declare module "obsidian" {
@@ -14,6 +22,7 @@ declare module "obsidian" {
 }
 
 class LinkifierClass extends Component {
+    #stringifier = new LinkStringifier();
     #cache: Map<string, string> = new Map();
     #addAliasesToCache(aliases: string[], file: TFile) {
         for (const alias of aliases) {
@@ -24,7 +33,7 @@ class LinkifierClass extends Component {
     buildCache() {
         //defer this
         setTimeout(() => {
-            const links = app.metadataCache.getLinkSuggestions();
+            const links = this.metadataCache.getLinkSuggestions();
             for (const { alias, file } of links) {
                 if (!alias) continue;
                 this.#addAliasesToCache([alias], file);
@@ -49,18 +58,22 @@ class LinkifierClass extends Component {
             file: app.metadataCache.getFirstLinkpathDest(filePath, context)
         };
     }
-    onload(): void {
-        if (app.metadataCache.initialized) {
+    metadataCache: MetadataCache;
+
+    initialize(metadataCache: MetadataCache) {
+        this.load();
+        this.metadataCache = metadataCache;
+        if (metadataCache.initialized) {
             this.buildCache();
         } else {
             const ref = app.metadataCache.on("resolved", () => {
                 this.buildCache();
-                app.metadataCache.offref(ref);
+                this.metadataCache.offref(ref);
             });
             this.registerEvent(ref);
         }
         this.registerEvent(
-            app.metadataCache.on("changed", (file) => {
+            this.metadataCache.on("changed", (file) => {
                 const { frontmatter } =
                     app.metadataCache.getFileCache(file) ?? {};
                 if (!frontmatter) return;
@@ -77,7 +90,7 @@ class LinkifierClass extends Component {
         if (file != null) {
             return input.replace(
                 trimmed,
-                this.#replaceWikiLink(
+                this.#stringifier.replaceWikiLink(
                     `${file.basename}${alias ? "|" + alias : ""}`
                 )
             );
@@ -91,25 +104,6 @@ class LinkifierClass extends Component {
             .join(",");
     }
 
-    WIKILINK = "STATBLOCK-WIKI-LINK";
-    WIKILINK_REGEX = new RegExp(
-        `<${this.WIKILINK}>([\\s\\S]+?)<${this.WIKILINK}>`
-    );
-    MARKDOWN = "STATBLOCK-MARKDOWN-LINK";
-    MARKDOWN_REGEX = new RegExp(
-        `<${this.MARKDOWN}>([\\s\\S]+?)(?:\\|([\\s\\S]+?))?<${this.MARKDOWN}>`
-    );
-    GENERIC_REGEX =
-        /(<STATBLOCK-(?:WIKI|MARKDOWN)-LINK>[\s\S]+?<STATBLOCK-(?:WIKI|MARKDOWN)-LINK>)/;
-
-    #replaceWikiLink(link: string) {
-        return `<${this.WIKILINK}>${link}<${this.WIKILINK}>`;
-    }
-    #replaceMarkdownLink(link: string, alias?: string) {
-        return `<${this.MARKDOWN}>${link}${alias ? "|" + alias : ""}<${
-            this.MARKDOWN
-        }>`;
-    }
     /**
      * This method can be used to replace any markdown or wikilinks in a source, so that it
      * can safely be transformed into YAML.
@@ -118,15 +112,7 @@ class LinkifierClass extends Component {
      * @returns {string} A transformed source, with links replaced.
      */
     transformSource(source: string) {
-        return source
-            .replace(/\[\[([\s\S]+?)\]\]/g, (_, $1) =>
-                this.#replaceWikiLink($1)
-            )
-            .replace(
-                /\[([\s\S]*?)\]\(([\s\S]+?)\)/g,
-                (_, alias: string, path: string) =>
-                    this.#replaceMarkdownLink(path, alias)
-            );
+        return this.#stringifier.transformSource(source);
     }
     /**
      * This can be used to transform a source coming from frontmatter, that could possibly
@@ -135,35 +121,23 @@ class LinkifierClass extends Component {
      * @returns {string} A transformed source, with links replaced.
      */
     transformYamlSource(source: string) {
-        return this.transformSource(source);
-    }
-
-    stringifyLinks(source: string) {
-        return source
-            .replace(
-                new RegExp(this.WIKILINK_REGEX, "g"),
-                (_, $1) => `[[${$1}]]`
-            )
-            .replace(
-                new RegExp(this.MARKDOWN_REGEX, "g"),
-                (_, path, alias) => `[${alias ? alias : ""}](${path})`
-            );
+        return this.#stringifier.transformYamlSource(source);
     }
 
     splitByLinks(text: string, context: string, render?: boolean): SplitLink[] {
         return stringify(text)
-            .split(this.GENERIC_REGEX)
+            .split(GENERIC_REGEX)
             .filter((s) => s && s.length)
             .map((str) => {
-                if (this.WIKILINK_REGEX.test(str)) {
-                    let link = str.match(this.WIKILINK_REGEX)[1];
+                if (WIKILINK_REGEX.test(str)) {
+                    let link = str.match(WIKILINK_REGEX)[1];
                     return {
                         isLink: render,
                         text: `[[${normalizePath(link)}]]`
                     };
                 }
-                if (this.MARKDOWN_REGEX.test(str)) {
-                    const [_, path, alias] = str.match(this.MARKDOWN_REGEX);
+                if (MARKDOWN_REGEX.test(str)) {
+                    const [_, path, alias] = str.match(MARKDOWN_REGEX);
 
                     return {
                         isLink: render,
