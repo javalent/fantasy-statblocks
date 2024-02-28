@@ -17,7 +17,6 @@ import LayoutEditor from "./layout/LayoutEditor.svelte";
 import fastCopy from "fast-copy";
 
 import Importer from "src/importers/importer";
-import { FolderSuggestionModal } from "src/util/folder";
 import { EditMonsterModal, ViewMonsterModal } from "./modal";
 import { Layout5e } from "src/layouts/basic 5e/basic5e";
 import type { DefaultLayout, Layout } from "types/layout";
@@ -27,6 +26,7 @@ import { DICE_ROLLER_SOURCE } from "src/main";
 import type { Monster } from "index";
 import { ExpectedValue } from "obsidian-overload";
 import FantasyStatblockModal from "src/modal/modal";
+import { FolderInputSuggest } from "obsidian-utilities";
 
 export default class StatblockSettingTab extends PluginSettingTab {
     importer: Importer;
@@ -291,16 +291,16 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     );
 
                 text.setPlaceholder("/");
-                const modal = new FolderSuggestionModal(this.app, text, [
+                const modal = new FolderInputSuggest(this.app, text, [
                     ...(folders as TFolder[])
                 ]);
 
-                modal.onClose = async () => {
+                modal.onSelect(async () => {
                     const v = text.inputEl.value?.trim()
                         ? text.inputEl.value.trim()
                         : "/";
                     path = normalizePath(v);
-                };
+                });
 
                 text.inputEl.onblur = async () => {
                     const v = text.inputEl.value?.trim()

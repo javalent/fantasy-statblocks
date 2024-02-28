@@ -45,11 +45,15 @@
         const search = new SearchComponent(node).setPlaceholder(
             "Find a creature"
         );
-        const suggester = new MonsterSuggestionModal(plugin, search.inputEl);
-        suggester.onClose = async () => {
-            if (suggester.creature) {
+        const suggester = new MonsterSuggestionModal(
+            plugin.app,
+            search,
+            plugin.getBestiaryCreatures()
+        );
+        suggester.onSelect(async (match) => {
+            if (match.item) {
                 search.setValue("");
-                const text = stringifyYaml(suggester.creature);
+                const text = stringifyYaml(match.item);
                 dispatch("update", text);
                 editor.dispatch({
                     changes: [
@@ -61,7 +65,7 @@
                     ]
                 });
             }
-        };
+        });
     };
 
     let editor: EditorView;

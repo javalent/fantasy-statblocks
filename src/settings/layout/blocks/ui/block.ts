@@ -420,15 +420,12 @@ class ActionModal extends EditorEnabledModal<ActionItem> {
                 const icons = getIconIds().map((v) =>
                     v.replace(/^lucide-/, "")
                 );
-                const modal = new IconSuggester(t, icons);
+                const modal = new IconSuggester(this.app, t, icons);
 
-                modal.onClose = async () => {
-                    const v = t.inputEl.value?.trim()
-                        ? t.inputEl.value.trim()
-                        : "/";
-                    this.block.icon = v;
+                modal.onSelect(async (match) => {
+                    this.block.icon = match.item;
                     this.buildProperties(el);
-                };
+                });
 
                 t.inputEl.onblur = async () => {
                     const v = t.inputEl.value?.trim()
@@ -446,15 +443,12 @@ class ActionModal extends EditorEnabledModal<ActionItem> {
             .setDesc("Choose a Command to run when this action is executed.")
             .addText((t) => {
                 t.setValue(this.block.action);
-                const commands = app.commands.listCommands();
-                const modal = new CommandSuggester(t, commands);
+                const commands = this.app.commands.listCommands();
+                const modal = new CommandSuggester(this.app, t, commands);
 
-                modal.onClose = async () => {
-                    const v = t.inputEl.value?.trim()
-                        ? t.inputEl.value.trim()
-                        : "/";
-                    this.block.action = modal.item.id;
-                };
+                modal.onSelect(async (match) => {
+                    this.block.action = match.item.id;
+                });
 
                 t.inputEl.onblur = async () => {
                     const v = t.inputEl.value?.trim()

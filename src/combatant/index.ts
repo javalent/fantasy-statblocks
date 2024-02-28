@@ -49,15 +49,16 @@ export class CreatureView extends ItemView {
             "Find a creature"
         );
         const suggester = new MonsterSuggestionModal(
-            this.plugin,
-            search.inputEl
+            this.plugin.app,
+            search,
+            this.plugin.getBestiaryCreatures()
         );
-        suggester.onClose = async () => {
-            if (suggester.creature) {
-                await this.render(suggester.creature);
+        suggester.onSelect(async (v) => {
+            if (v) {
+                await this.render(v.item);
                 search.setValue("");
             }
-        };
+        });
         new ExtraButtonComponent(this.topEl)
             .setIcon("cross")
             .setTooltip("Close Statblock")
