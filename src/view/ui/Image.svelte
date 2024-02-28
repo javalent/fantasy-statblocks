@@ -4,7 +4,7 @@
     import type StatBlockPlugin from "src/main";
     import { getContext } from "svelte";
     import { Platform, TFile } from "obsidian";
-    import { Linkifier } from "src/util/linkify";
+    import { Linkifier } from "src/parser/linkify";
 
     export let monster: Monster;
     export let item: ImageItem;

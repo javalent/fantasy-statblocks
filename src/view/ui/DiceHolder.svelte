@@ -7,7 +7,7 @@
 
     import DiceRoll from "./DiceRoll.svelte";
     import TextContent from "./TextContent.svelte";
-    import { parseForDice } from "src/util/dice-parsing";
+    import { parseForDice } from "src/parser/dice-parsing";
     import type StatBlockPlugin from "src/main";
 
     export let property: string;

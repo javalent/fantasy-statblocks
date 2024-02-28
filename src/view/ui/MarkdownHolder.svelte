@@ -6,8 +6,8 @@
     import { getContext } from "svelte";
     import type StatBlockRenderer from "../statblock";
     import type { Monster } from "index";
-    import { Linkifier } from "src/util/linkify";
-    import { parseForDice } from "src/util/dice-parsing";
+    import { Linkifier } from "src/parser/linkify";
+    import { parseForDice } from "src/parser/dice-parsing";
 
     export let property: string;
     property = Linkifier.stringifyLinks(property);

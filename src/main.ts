@@ -37,7 +37,7 @@ import type { StatblockData } from "index";
 import LayoutManager from "./layouts/manager";
 import { CREATURE_VIEW, CreatureView } from "./combatant";
 import { API } from "./api/api";
-import { Linkifier } from "./util/linkify";
+import { Linkifier } from "./parser/linkify";
 
 declare global {
     interface Window {

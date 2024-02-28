@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Component, MarkdownRenderer } from "obsidian";
-    import { Linkifier } from "src/util/linkify";
+    import { Linkifier } from "src/parser/linkify";
     import { stringify } from "src/util/util";
 
     //Note: All final rendered text should be wrapped in this element.

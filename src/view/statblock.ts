@@ -26,7 +26,7 @@ import type {
     StatblockItem
 } from "types/layout";
 import { append } from "src/util/util";
-import { Linkifier } from "src/util/linkify";
+import { Linkifier } from "src/parser/linkify";
 
 type RendererParameters = {
     container: HTMLElement;

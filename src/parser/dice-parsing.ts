@@ -1,5 +1,5 @@
 import type { DiceParsing, Layout, ParsedDice } from "types/layout";
-import { nanoid } from "./util";
+import { nanoid } from "../util/util";
 import type { Monster } from "index";
 
 export function parseForDice(

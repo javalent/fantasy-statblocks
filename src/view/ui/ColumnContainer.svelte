@@ -18,7 +18,7 @@
     import SpellItem from "./SpellItem.svelte";
     import type StatBlockPlugin from "src/main";
     import type { Monster, Trait } from "index";
-    import { Linkifier } from "src/util/linkify";
+    import { Linkifier } from "src/parser/linkify";
     import Action from "./Action.svelte";
 
     const dispatch = createEventDispatcher();
