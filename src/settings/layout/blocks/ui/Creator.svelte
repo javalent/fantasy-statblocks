@@ -170,7 +170,7 @@
                         {#if draggable}
                             <div
                                 class="icon"
-                                use:setNodeIcon={"dropzone-grip"}
+                                use:setNodeIcon={"grip-vertical"}
                                 on:mousedown={startDrag}
                                 on:touchstart={startDrag}
                                 style={dragDisabled

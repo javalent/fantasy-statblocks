@@ -104,7 +104,7 @@
     const menu = new Menu();
     menu.addItem((item) =>
         item
-            .setIcon(SAVE_SYMBOL)
+            .setIcon("save")
             .setTitle("Save to Bestiary")
             .setDisabled(!canSave)
             .onClick(() => dispatch("save"))
@@ -126,7 +126,7 @@
     if (canExport)
         menu.addItem((item) =>
             item
-                .setIcon(EXPORT_SYMBOL)
+                .setIcon("image-down")
                 .setTitle("Export as PNG")
                 .onClick(() => dispatch("export"))
         );

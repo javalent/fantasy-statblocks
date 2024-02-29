@@ -48,7 +48,7 @@
         const suggester = new MonsterSuggestionModal(
             plugin.app,
             search,
-            plugin.getBestiaryCreatures()
+            plugin.api.getBestiaryCreatures()
         );
         suggester.onSelect(async (match) => {
             if (match.item) {

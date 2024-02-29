@@ -68,7 +68,7 @@
         {#if block.conditioned}
             <div
                 class="context-item conditioned"
-                use:setNodeIcon={"statblock-conditioned"}
+                use:setNodeIcon={"help-circle"}
                 aria-label="Conditioned"
             />
         {/if}
@@ -82,7 +82,7 @@
         {#if ("dice" in block && block.dice) || ("diceCallback" in block && block.diceCallback?.length)}
             <div
                 class="context-item dice"
-                use:setNodeIcon={"dice-roller-dice"}
+                use:setNodeIcon={"dices"}
                 aria-label="Will Parse for Dice Rolls"
             />
         {/if}
