@@ -79,15 +79,17 @@ if (sign === "-") {
     mult = -1;
 }
 if (!isNaN(Number(number))) {
-    text = \`1d20+\${mult * Number(number)}\`;
-    original = prop;
-}
-return { text, original };`,
+    return {
+        text: \`1d20+\$\{mult * Number(number)\}\`,
+        original
+    }
+}`,
             id: nanoid()
         },
         {
             regex: /\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)/.source,
             parser: `let [, base, dice] = matches;
+let text;
 if (!isNaN(Number(base)) && dice) {
     text = dice;
 }
@@ -101,9 +103,10 @@ let mult = 1;
 if (sign === "-") {
     mult = -1;
 }
+let text;
 if (!isNaN(Number(number))) {
-    text = \`1d20+\${mult * Number(number)}\`;
-    original = \`\${save} \${sign}\${number}\`;
+    text = \`1d20+\$\{mult * Number(number)\}\`;
+    original = \`\$\{save} \$\{sign\}\$\{number\}\`;
 }
 return { text, original };`,
             id: nanoid()
