@@ -12,12 +12,6 @@ import domtoimage from "dom-to-image";
 import { getBestiaryByName } from "./data/srd-bestiary";
 import StatBlockRenderer from "./view/statblock";
 import { nanoid } from "./util/util";
-import {
-    EXPORT_ICON,
-    EXPORT_SYMBOL,
-    SAVE_ICON,
-    SAVE_SYMBOL
-} from "./data/constants";
 import type { Monster, StatblockAPI, StatblockParameters } from "../index";
 import StatblockSettingTab from "./settings/settings";
 import fastCopy from "fast-copy";
@@ -38,6 +32,7 @@ import LayoutManager from "./layouts/manager";
 import { CREATURE_VIEW, CreatureView } from "./combatant";
 import { API } from "./api/api";
 import { Linkifier } from "./parser/linkify";
+import { Bestiary } from "./bestiary/bestiary";
 
 declare global {
     interface Window {
@@ -93,63 +88,12 @@ const DEFAULT_DATA: StatblockData = {
     atomicWrite: true
 };
 
-export default class StatBlockPlugin extends Plugin implements StatblockAPI {
+export default class StatBlockPlugin extends Plugin {
     settings: StatblockData;
     data: Map<string, Monster>;
     bestiary: Map<string, Monster>;
     manager = new LayoutManager();
-
-    private names: string[];
-    #creatures: Monster[];
     api: API = new API(this);
-
-    getBestiaryCreatures() {
-        return this.api.getBestiaryCreatures();
-    }
-    getBestiaryNames() {
-        return this.api.getBestiaryNames();
-    }
-    hasCreature(name: string): boolean {
-        return this.api.hasCreature(name);
-    }
-    getCreatureFromBestiary(name: string): Partial<Monster> | null {
-        return this.api.getCreatureFromBestiary(name);
-    }
-
-    getExtensions(
-        monster: Partial<Monster>,
-        extended: Set<string>
-    ): Partial<Monster>[] {
-        let extensions: Partial<Monster>[] = [fastCopy(monster)];
-        if (
-            !("extends" in monster) ||
-            !(
-                Array.isArray(monster.extends) ||
-                typeof monster.extends == "string"
-            )
-        ) {
-            return extensions;
-        }
-        if (monster.extends && monster.extends.length) {
-            for (const extension of [monster.extends].flat()) {
-                if (extended.has(extension)) {
-                    console.info(
-                        "Circular extend dependency detected in " +
-                            [...extended]
-                    );
-                    continue;
-                }
-                extended.add(monster.name);
-                const extensionMonster = this.bestiary.get(extension);
-                if (!extensionMonster) continue;
-                extensions.push(
-                    ...this.getExtensions(extensionMonster, extended)
-                );
-            }
-        }
-
-        return extensions;
-    }
 
     watcher = new Watcher(this);
     private _sorted: Monster[] = [];
@@ -236,19 +180,12 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
         await this.saveSettings();
 
         this.manager.initialize(this.settings);
-
         this.watcher.load();
 
         Linkifier.initialize(this.app.metadataCache);
+
         this.register(() => Linkifier.unload());
 
-        this.addCommand({
-            id: "parse-frontmatter",
-            name: "Parse Frontmatter for Creatures",
-            callback: () => {
-                this.watcher.start(true);
-            }
-        });
         this.addCommand({
             id: "open-creature-view",
             name: "Open Creature Pane",
@@ -257,29 +194,11 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
             }
         });
         this.addRibbonIcon("skull", "Open Creature Pane", async () => {
-            const leaf = this.app.workspace.getRightLeaf(true);
-            await leaf.setViewState({
-                type: CREATURE_VIEW
-            });
-            this.app.workspace.revealLeaf(leaf);
+            this.openCreatureView();
         });
         this.registerObsidianProtocolHandler(
             "creature-pane",
             this.#creaturePaneProtocolHandler.bind(this)
-        );
-
-        addIcon(
-            "dropzone-grip",
-            `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="grip-lines-vertical" class="svg-inline--fa fa-grip-lines-vertical fa-w-8" role="img" viewBox="0 0 256 512"><path fill="currentColor" d="M96 496V16c0-8.8-7.2-16-16-16H48c-8.8 0-16 7.2-16 16v480c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16zm128 0V16c0-8.8-7.2-16-16-16h-32c-8.8 0-16 7.2-16 16v480c0 8.8 7.2 16 16 16h32c8.8 0 16-7.2 16-16z"/></svg>`
-            /*  `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="grip-vertical" class="svg-inline--fa fa-grip-vertical fa-w-10" role="img" viewBox="0 0 320 512"><path fill="currentColor" d="M96 32H32C14.33 32 0 46.33 0 64v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32V64c0-17.67-14.33-32-32-32zm0 160H32c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zm0 160H32c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zM288 32h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32V64c0-17.67-14.33-32-32-32zm0 160h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32zm0 160h-64c-17.67 0-32 14.33-32 32v64c0 17.67 14.33 32 32 32h64c17.67 0 32-14.33 32-32v-64c0-17.67-14.33-32-32-32z"/></svg>`*/
-        );
-        addIcon(
-            "statblock-conditioned",
-            `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="far" data-icon="question-circle" class="svg-inline--fa fa-question-circle fa-w-16" role="img" viewBox="0 0 512 512"><path fill="currentColor" d="M256 8C119.043 8 8 119.083 8 256c0 136.997 111.043 248 248 248s248-111.003 248-248C504 119.083 392.957 8 256 8zm0 448c-110.532 0-200-89.431-200-200 0-110.495 89.472-200 200-200 110.491 0 200 89.471 200 200 0 110.53-89.431 200-200 200zm107.244-255.2c0 67.052-72.421 68.084-72.421 92.863V300c0 6.627-5.373 12-12 12h-45.647c-6.627 0-12-5.373-12-12v-8.659c0-35.745 27.1-50.034 47.579-61.516 17.561-9.845 28.324-16.541 28.324-29.579 0-17.246-21.999-28.693-39.784-28.693-23.189 0-33.894 10.977-48.942 29.969-4.057 5.12-11.46 6.071-16.666 2.124l-27.824-21.098c-5.107-3.872-6.251-11.066-2.644-16.363C184.846 131.491 214.94 112 261.794 112c49.071 0 101.45 38.304 101.45 88.8zM298 368c0 23.159-18.841 42-42 42s-42-18.841-42-42 18.841-42 42-42 42 18.841 42 42z"/></svg>`
-        );
-        addIcon(
-            "dice-roller-dice",
-            `<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="dice" class="svg-inline--fa fa-dice fa-w-20" role="img" viewBox="0 0 640 512"><path fill="currentColor" d="M592 192H473.26c12.69 29.59 7.12 65.2-17 89.32L320 417.58V464c0 26.51 21.49 48 48 48h224c26.51 0 48-21.49 48-48V240c0-26.51-21.49-48-48-48zM480 376c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm-46.37-186.7L258.7 14.37c-19.16-19.16-50.23-19.16-69.39 0L14.37 189.3c-19.16 19.16-19.16 50.23 0 69.39L189.3 433.63c19.16 19.16 50.23 19.16 69.39 0L433.63 258.7c19.16-19.17 19.16-50.24 0-69.4zM96 248c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm0-128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm128 128c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24z"/></svg>`
         );
 
         addIcon(
@@ -288,9 +207,6 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
         );
 
         this.addSettingTab(new StatblockSettingTab(this.app, this));
-
-        addIcon(SAVE_SYMBOL, SAVE_ICON);
-        addIcon(EXPORT_SYMBOL, EXPORT_ICON);
 
         this.bestiary = new Map([
             ...getBestiaryByName(this.settings.disableSRD),
@@ -332,12 +248,6 @@ export default class StatBlockPlugin extends Plugin implements StatblockAPI {
         this.registerView(
             CREATURE_VIEW,
             (leaf: WorkspaceLeaf) => new CreatureView(leaf, this)
-        );
-        this.registerEvent(
-            this.app.workspace.on("dice-roller:unload", () => {
-                //why did i do this?
-                /* this.settings.useDice = false; */
-            })
         );
         if (this.canUseDiceRoller) {
             this.app.plugins
@@ -666,26 +576,8 @@ ${e.stack
 \`\`\``);
         }
     }
-
+    //backwards-compat
     render(creature: HomebrewCreature, el: HTMLElement, display?: string) {
-        const monster: Monster = Object.assign<
-            Partial<Monster>,
-            HomebrewCreature
-        >(
-            {},
-            fastCopy(this.bestiary.get(creature.name) ?? {}),
-            //@ts-ignore
-            fastCopy(creature)
-        ) as Monster;
-        if (!monster) return null;
-        if (display) {
-            monster.name = display;
-        }
-        return new StatBlockRenderer({
-            container: el,
-            monster,
-            plugin: this,
-            context: "STATBLOCK_RENDERER"
-        });
+        this.api.render(creature, el, display);
     }
 }
