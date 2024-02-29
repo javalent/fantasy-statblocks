@@ -130,7 +130,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             }
         }
 
-        const extensions = this.getExtensions(built);
+        const extensions = this.plugin.api.getExtensions(built, new Set());
 
         /**
          * At this point, the built creature has been fully resolved from all
@@ -436,30 +436,6 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             )
         );
         return built;
-    }
-    getExtensions(monster: Partial<Monster>): Partial<Monster>[] {
-        let extensions: Partial<Monster>[] = [];
-        if (
-            !("extends" in monster) ||
-            !(
-                Array.isArray(monster.extends) ||
-                typeof monster.extends == "string"
-            )
-        ) {
-            return extensions;
-        }
-        if (monster.extends && monster.extends.length) {
-            for (const extension of [monster.extends].flat()) {
-                const extensionMonster = this.plugin.bestiary.get(extension);
-                if (!extensionMonster) continue;
-                extensions.push(
-                    extensionMonster,
-                    ...this.getExtensions(extensionMonster)
-                );
-            }
-        }
-
-        return extensions;
     }
 }
 

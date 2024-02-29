@@ -51,7 +51,7 @@ export class CreatureView extends ItemView {
         const suggester = new MonsterSuggestionModal(
             this.plugin.app,
             search,
-            this.plugin.getBestiaryCreatures()
+            this.plugin.api.getBestiaryCreatures()
         );
         suggester.onSelect(async (v) => {
             if (v) {
@@ -75,7 +75,7 @@ export class CreatureView extends ItemView {
             });
             return;
         }
-        const statblock = this.plugin.render(creature, this.statblockEl);
+        const statblock = this.plugin.api.render(creature, this.statblockEl);
         this.addChild(statblock);
     }
 

@@ -8,11 +8,7 @@ import {
     parseYaml
 } from "obsidian";
 import type StatBlockPlugin from "src/main";
-import type {
-    CommonProps,
-    ItemWithProperties,
-    StatblockItem
-} from "types/layout";
+import type { CommonProps } from "types/layout";
 enum SuggestContext {
     Layout,
     Creature,
@@ -49,7 +45,7 @@ export class StatblockSuggester extends EditorSuggest<string> {
                 break;
             }
             case SuggestContext.Creature: {
-                suggestions = this.plugin.getBestiaryNames();
+                suggestions = this.plugin.api.getBestiaryNames();
                 break;
             }
             case SuggestContext.Layout: {
@@ -214,7 +210,7 @@ export class StatblockSuggester extends EditorSuggest<string> {
             const [_, param, query] = match;
 
             if (
-                this.plugin
+                this.plugin.api
                     .getBestiaryNames()
                     .find((p) => p.toLowerCase() == query.toLowerCase())
             ) {
