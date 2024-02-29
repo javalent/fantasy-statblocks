@@ -9,10 +9,10 @@ import {
 } from "obsidian";
 import domtoimage from "dom-to-image";
 
-import { getBestiaryByName } from "./data/srd-bestiary";
+import { getBestiaryByName } from "./bestiary/srd-bestiary";
 import StatBlockRenderer from "./view/statblock";
 import { nanoid } from "./util/util";
-import type { Monster, StatblockAPI, StatblockParameters } from "../index";
+import type { Monster, StatblockParameters } from "../index";
 import StatblockSettingTab from "./settings/settings";
 import fastCopy from "fast-copy";
 
@@ -22,8 +22,7 @@ import {
     ExpectedValue,
     HomebrewCreature
 } from "obsidian-overload";
-import { Watcher } from "./watcher/watcher";
-import type { Layout, ParsedDice, StatblockItem } from "../types/layout";
+import type { Layout, StatblockItem } from "../types/layout";
 import { Layout5e } from "./layouts/basic 5e/basic5e";
 import { StatblockSuggester } from "./suggest";
 import { DefaultLayouts } from "./layouts";
@@ -95,7 +94,6 @@ export default class StatBlockPlugin extends Plugin {
     manager = new LayoutManager();
     api: API = new API(this);
 
-    watcher = new Watcher(this);
     private _sorted: Monster[] = [];
 
     getRoller(str: string) {
@@ -161,15 +159,14 @@ export default class StatBlockPlugin extends Plugin {
     }
 
     #creaturePaneProtocolHandler: ObsidianProtocolHandler = (data) => {
-        const creature = data?.creature ?? data?.name ?? "";
+        const name = data?.creature ?? data?.name ?? "";
 
-        if (this.bestiary.has(creature)) {
+        if (Bestiary.hasCreature(name)) {
+            const creature = Bestiary.get(name);
             if (!this.creature_view) {
-                this.openCreatureView().then((v) =>
-                    v.render(this.bestiary.get(creature))
-                );
+                this.openCreatureView().then((v) => v.render(creature));
             } else {
-                this.creature_view.render(this.bestiary.get(creature));
+                this.creature_view.render(creature);
             }
         }
     };
@@ -180,8 +177,8 @@ export default class StatBlockPlugin extends Plugin {
         await this.saveSettings();
 
         this.manager.initialize(this.settings);
-        this.watcher.load();
 
+        Bestiary.initialize(this);
         Linkifier.initialize(this.app.metadataCache);
 
         this.register(() => Linkifier.unload());
@@ -207,33 +204,6 @@ export default class StatBlockPlugin extends Plugin {
         );
 
         this.addSettingTab(new StatblockSettingTab(this.app, this));
-
-        this.bestiary = new Map([
-            ...getBestiaryByName(this.settings.disableSRD),
-            ...this.data
-        ]);
-
-        Object.defineProperty(window, "bestiary", {
-            configurable: true,
-            get: () => {
-                new Notice(
-                    createFragment((e) => {
-                        e.createSpan({
-                            text: "The Fantasy Statblocks bestiary will be deprecated in a future version. Use "
-                        });
-                        e.createEl("code", {
-                            text: "FantasyStatblocks.getBestiary()"
-                        });
-                        e.createSpan({ text: " instead." });
-                    })
-                );
-                return this.bestiary;
-            }
-        });
-
-        this.register(() =>
-            Object.defineProperty(window, "bestiary", { value: null })
-        );
 
         (window["FantasyStatblocks"] = this.api) &&
             this.register(() => delete window["FantasyStatblocks"]);
@@ -371,12 +341,6 @@ export default class StatBlockPlugin extends Plugin {
         };
     }
     async saveSettings() {
-        this.settings.monsters = this._transformData(this.data);
-        this.bestiary = new Map([
-            ...getBestiaryByName(this.settings.disableSRD),
-            ...this.data
-        ]);
-
         await this.saveData(this.settings);
     }
     async loadData(): Promise<StatblockData> {
@@ -486,15 +450,7 @@ export default class StatBlockPlugin extends Plugin {
             );
     }
 
-    private _transformData(
-        data: Map<string, Monster>
-    ): Array<[string, Monster]> {
-        return [...(data ?? [])].map(([name, monster]) => {
-            return [name, fastCopy(monster)];
-        });
-    }
     onunload() {
-        this.watcher.unload();
         console.log("Fantasy StatBlocks unloaded");
 
         this.app.workspace

@@ -29,10 +29,7 @@
     };
 
     const getLayoutName = (id: string) => {
-        return (
-            plugin.layouts.find((layout) => id == layout.id)?.name ??
-            "No layout selected"
-        );
+        return plugin.manager.getLayout(id)?.name ?? "No layout selected";
     };
 </script>
 

@@ -1,13 +1,12 @@
 import fastCopy from "fast-copy";
 import type { Monster } from "index";
 import type { HomebrewCreature } from "obsidian-overload";
+import { Bestiary } from "src/bestiary/bestiary";
 import type StatBlockPlugin from "src/main";
 import StatBlockRenderer from "src/view/statblock";
 
 export class API {
     #changed: boolean = true;
-    #creatures: Monster[];
-    #names: string[];
     #plugin: StatBlockPlugin;
     constructor(plugin: StatBlockPlugin) {
         this.#plugin = plugin;
@@ -26,7 +25,7 @@ export class API {
      * @returns {Map<string, Monster>}
      */
     getBestiary() {
-        return this.#plugin.bestiary;
+        return Bestiary.getBestiary();
     }
 
     /**
@@ -35,16 +34,7 @@ export class API {
      * @returns {Monster[]}
      */
     getBestiaryCreatures(): Monster[] {
-        if (this.#changed) {
-            this.#creatures = [];
-            for (const creature of this.#plugin.bestiary.values()) {
-                if (creature.bestiary !== false) {
-                    this.#creatures.push(creature);
-                }
-            }
-            this.#changed = false;
-        }
-        return this.#creatures;
+        return Bestiary.getBestiaryCreatures();
     }
 
     /**
@@ -53,16 +43,7 @@ export class API {
      * @returns {string[]}
      */
     getBestiaryNames(): string[] {
-        if (this.#changed) {
-            this.#names = [];
-            for (const creature of this.#plugin.bestiary.values()) {
-                if (creature.bestiary !== false) {
-                    this.#names.push(creature.name);
-                }
-            }
-            this.#changed = false;
-        }
-        return this.#names;
+        return Bestiary.getBestiaryNames();
     }
 
     /**
@@ -72,42 +53,7 @@ export class API {
      * @returns {boolean}
      */
     hasCreature(name: string): boolean {
-        return this.#plugin.bestiary.has(name);
-    }
-
-    getExtensions(
-        monster: Partial<Monster>,
-        extended: Set<string>
-    ): Partial<Monster>[] {
-        let extensions: Partial<Monster>[] = [fastCopy(monster)];
-        if (
-            !("extends" in monster) ||
-            !(
-                Array.isArray(monster.extends) ||
-                typeof monster.extends == "string"
-            )
-        ) {
-            return extensions;
-        }
-        if (monster.extends && monster.extends.length) {
-            for (const extension of [monster.extends].flat()) {
-                if (extended.has(extension)) {
-                    console.info(
-                        "Circular extend dependency detected in " +
-                            [...extended]
-                    );
-                    continue;
-                }
-                extended.add(monster.name);
-                const extensionMonster = this.#plugin.bestiary.get(extension);
-                if (!extensionMonster) continue;
-                extensions.push(
-                    ...this.getExtensions(extensionMonster, extended)
-                );
-            }
-        }
-
-        return extensions;
+        return Bestiary.hasCreature(name);
     }
 
     /**
@@ -117,13 +63,7 @@ export class API {
      * @returns {Partial<Monster> | null} The creature from the bestiary, or null if not present.
      */
     getCreatureFromBestiary(name: string): Partial<Monster> | null {
-        if (!this.#plugin.bestiary.has(name)) return null;
-        let monster = this.#plugin.bestiary.get(name);
-        return Object.assign(
-            {},
-            ...this.getExtensions(monster, new Set(monster.name)),
-            monster
-        ) as Monster;
+        return Bestiary.getCreatureFromBestiarySync(name);
     }
 
     render(creature: HomebrewCreature, el: HTMLElement, display?: string) {

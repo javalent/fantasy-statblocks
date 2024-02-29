@@ -17,6 +17,7 @@ import FSWorker, {
     SaveMessage,
     DebugMessage
 } from "./watcher.worker";
+import { Bestiary } from "src/bestiary/bestiary";
 
 declare global {
     interface Worker {
@@ -24,16 +25,14 @@ declare global {
     }
 }
 
-export class Watcher extends Component {
+class WatcherClass extends Component {
     announce: boolean;
+    plugin: StatBlockPlugin;
     get metadataCache() {
         return this.plugin.app.metadataCache;
     }
     get vault() {
         return this.plugin.app.vault;
-    }
-    constructor(public plugin: StatBlockPlugin) {
-        super();
     }
 
     watchPaths: Map<string, string> = new Map();
@@ -44,6 +43,10 @@ export class Watcher extends Component {
             type: "debug",
             data: this.plugin.settings.debug
         });
+    }
+    initialize(plugin: StatBlockPlugin) {
+        this.plugin = plugin;
+        return this;
     }
     onload() {
         this.setDebug();
@@ -116,31 +119,11 @@ export class Watcher extends Component {
             "message",
             async (evt: MessageEvent<UpdateEventMessage>) => {
                 if (evt.data.type == "update") {
-                    let { monster, path } = evt.data.data;
+                    let { monster } = evt.data.data;
 
-                    let update = false;
-                    if (this.watchPaths.has(path)) {
-                        const existing = this.watchPaths.get(path);
-                        await this.plugin.deleteMonster(existing);
-                        update = true;
-                        if (this.plugin.settings.debug)
-                            console.debug(
-                                `Fantasy Statblocks: Updating ${monster.name}`
-                            );
-                    }
+                    let update = Bestiary.hasCreature(monster.name);
 
-                    if (
-                        "monster" in monster &&
-                        this.plugin.bestiary.has(monster.monster)
-                    ) {
-                        monster = {
-                            ...this.plugin.bestiary.get(monster.monster),
-                            ...monster
-                        };
-                    }
-
-                    this.watchPaths.set(path, monster.name);
-                    await this.plugin.saveMonster(monster, false, false);
+                    Bestiary.addCreature(monster);
 
                     if (this.plugin.settings.debug)
                         console.debug(
@@ -173,11 +156,10 @@ export class Watcher extends Component {
             }
 
             if (!this.plugin.settings.autoParse) return;
-            this.start();
+            this.start(true);
         });
     }
     async save() {
-        await this.plugin.saveSettings();
         if (this.startTime) {
             console.info(
                 `Fantasy Statblocks: Frontmatter Parsing Complete in ${(
@@ -191,6 +173,7 @@ export class Watcher extends Component {
             new Notice("Fantasy Statblocks: Frontmatter Parsing complete.");
             this.announce = false;
         }
+        Bestiary.setResolved();
     }
     async delete(path: string) {
         await this.plugin.deleteMonster(this.watchPaths.get(path));
@@ -251,12 +234,9 @@ export class Watcher extends Component {
         const file = this.plugin.app.vault.getAbstractFileByPath(path);
         if (!(file instanceof TFile)) return null;
         if (this.watchPaths.has(file.path)) {
-            const monster = this.plugin.bestiary.get(
-                this.watchPaths.get(file.path)
-            );
+            const monster = Bestiary.get(this.watchPaths.get(file.path));
 
-            if (monster && monster.mtime && monster.mtime == file.stat.mtime)
-                return null;
+            if (monster?.mtime == file.stat.mtime) return null;
         }
 
         const cache = this.plugin.app.metadataCache.getFileCache(file);
@@ -311,3 +291,5 @@ export class Watcher extends Component {
         this.worker = null;
     }
 }
+
+export const Watcher = new WatcherClass();

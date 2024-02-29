@@ -1,5 +1,6 @@
 import type { Component } from "obsidian";
 import type { Creature, HomebrewCreature } from "obsidian-overload";
+import type { API } from "src/api/api";
 import type { DefaultLayout, Layout } from "types/layout";
 
 export type ability =
@@ -159,17 +160,7 @@ export interface StatblockData {
 }
 
 export interface StatblockAPI {
-    render(
-        creature: Creature,
-        statblockEl: HTMLDivElement,
-        display?: string
-    ): Component;
     saveMonsters(homebrew: HomebrewCreature[]): unknown;
-    hasCreature(name: string): boolean;
-    getCreatureFromBestiary(name: string): Partial<Monster> | null;
-    getBestiaryNames(): string[];
-    getBestiaryCreatures(): Monster[];
     settings: StatblockData;
-    data: Map<string, Monster>;
-    bestiary: Map<string, Monster>;
+    api: API;
 }

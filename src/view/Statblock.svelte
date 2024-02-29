@@ -7,7 +7,7 @@
         Notice,
         stringifyYaml
     } from "obsidian";
-    import { EXPORT_SYMBOL, SAVE_SYMBOL } from "src/data/constants";
+    
     import type { Layout, StatblockItem } from "types/layout";
     import type StatBlockPlugin from "src/main";
     import {
@@ -153,7 +153,7 @@
         const classes: string[] = [];
         for (const block of blocks) {
             if (block.type == "layout") {
-                const layout = plugin.layouts.find((l) => l.id == block.layout);
+                const layout = plugin.manager.getAllLayouts().find((l) => l.id == block.layout);
                 classes.push(slugify(layout?.name));
             }
             if ("nested" in block) {

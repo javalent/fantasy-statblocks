@@ -234,7 +234,7 @@ export class StatblockSuggester extends EditorSuggest<string> {
             const [_, param, query] = match;
 
             if (
-                this.plugin.layouts.find(
+                this.plugin.manager.getAllLayouts().find(
                     (p) => p.name.toLowerCase() == query.toLowerCase()
                 )
             ) {

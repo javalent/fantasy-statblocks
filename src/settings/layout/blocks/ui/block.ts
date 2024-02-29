@@ -319,7 +319,7 @@ class LayoutModal extends BlockModal<LayoutItem> {
         new Setting(this.contentEl)
             .setName("Layout to Insert")
             .addDropdown((d) => {
-                for (const layout of this.plugin.layouts) {
+                for (const layout of this.plugin.manager.getAllLayouts()) {
                     if (layout.id == this.layout) continue;
                     if (this.hasLayoutNestedAlready(layout.blocks)) continue;
                     d.addOption(layout.id, layout.name);

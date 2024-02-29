@@ -255,9 +255,7 @@
                 break;
             }
             case "layout": {
-                const layout = plugin.layouts.find(
-                    ({ id }) => id == item.layout
-                );
+                const layout = plugin.manager.getLayout(item.layout);
                 if (layout?.blocks?.length) {
                     targets.push(
                         ...getElementForStatblockItem(

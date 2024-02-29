@@ -27,6 +27,7 @@ import type {
 } from "types/layout";
 import { append } from "src/util/util";
 import { Linkifier } from "src/parser/linkify";
+import { Bestiary } from "src/bestiary/bestiary";
 
 type RendererParameters = {
     container: HTMLElement;
@@ -73,14 +74,16 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
     setLayout() {
         this.layout =
             this.rendererParameters.layout ??
-            this.plugin.layouts.find(
-                (layout) =>
-                    layout.name ==
-                        (this.params.layout ?? this.monster.layout) ||
-                    layout.name ==
-                        (this.params.statblock ?? this.monster.statblock)
-            ) ??
-            this.plugin.defaultLayout;
+            this.plugin.manager
+                .getAllLayouts()
+                .find(
+                    (layout) =>
+                        layout.name ==
+                            (this.params.layout ?? this.monster.layout) ||
+                        layout.name ==
+                            (this.params.statblock ?? this.monster.statblock)
+                ) ??
+            this.plugin.manager.getDefaultLayout();
     }
     get canSave() {
         return "name" in this.params;
@@ -130,7 +133,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             }
         }
 
-        const extensions = this.plugin.api.getExtensions(built, new Set());
+        const extensions = Bestiary.getExtensions(built, new Set());
 
         /**
          * At this point, the built creature has been fully resolved from all
@@ -381,8 +384,8 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
             this.params = params.params;
             this.monster = Object.assign(
                 {},
-                this.plugin.bestiary.get(this.params.monster) ??
-                    this.plugin.bestiary.get(this.params.creature)
+                Bestiary.get(this.params.monster) ??
+                    Bestiary.get(this.params.creature)
             );
         } else {
             this.params = {};
@@ -408,7 +411,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         });
         this.$ui.$on("save", async () => {
             if (
-                this.plugin.bestiary.has(this.monster.name) &&
+                Bestiary.hasCreature(this.monster.name) &&
                 !(await confirmWithModal(
                     this.plugin.app,
                     "This will overwrite an existing monster in settings. Are you sure?"

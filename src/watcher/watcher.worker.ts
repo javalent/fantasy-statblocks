@@ -143,6 +143,7 @@ class Parser {
             ctx.postMessage<FinishFileMessage>({ type: "done", data: path });
         }
         this.parsing = false;
+        ctx.postMessage<SaveMessage>({ type: "save", data: null });
     }
 
     async getFileData(path: string): Promise<FileCacheMessage | null> {

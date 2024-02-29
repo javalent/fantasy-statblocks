@@ -17140,27 +17140,12 @@ export const BESTIARY: Monster[] = [
     }
 ];
 
-/* export const BESTIARY_BY_NAME = Object.fromEntries(
-    BESTIARY.map((monster) => [monster.name, monster])
-); */
-
 export function getBestiaryByName(disableSRD: boolean) {
     return !disableSRD ? BESTIARY_BY_NAME : new Map();
 }
 
 const BESTIARY_BY_NAME: Map<string, Monster> = new Map(
     BESTIARY.map((monster) => {
-        /*         const statblock: StatblockMonster = Object.assign({}, monster, {
-            traits: new Map(),
-            actions: new Map(),
-            reactions: new Map(),
-            legendary_actions: new Map()
-        });
-        statblock.traits = traitMapFrom(monster.traits);
-        statblock.actions = traitMapFrom(monster.actions);
-        statblock.reactions = traitMapFrom(monster.reactions);
-        statblock.legendary_actions = traitMapFrom(monster.legendary_actions); */
-
         return [monster.name, monster];
     })
 );

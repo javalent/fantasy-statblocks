@@ -27,6 +27,7 @@ import type { Monster } from "index";
 import { ExpectedValue } from "obsidian-overload";
 import FantasyStatblockModal from "src/modal/modal";
 import { FolderInputSuggest } from "obsidian-utilities";
+import { Watcher } from "src/watcher/watcher";
 
 export default class StatblockSettingTab extends PluginSettingTab {
     importer: Importer;
@@ -253,7 +254,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     async (v) => {
                         this.plugin.settings.autoParse = v;
                         if (v) {
-                            this.plugin.watcher.start();
+                            Watcher.start();
                         }
                         await this.plugin.saveSettings();
                     }
@@ -271,7 +272,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
             .addToggle((t) =>
                 t.setValue(this.plugin.settings.debug).onChange(async (v) => {
                     this.plugin.settings.debug = v;
-                    this.plugin.watcher.setDebug();
+                    Watcher.setDebug();
                     await this.plugin.saveSettings();
                 })
             );
@@ -314,7 +315,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     if (!path || !path.length) return;
                     this.plugin.settings.paths.push(normalizePath(path));
                     await this.plugin.saveSettings();
-                    await this.plugin.watcher.reparseVault();
+                    await Watcher.reparseVault();
                     await this.generateParseSettings(containerEl);
                 });
             });
@@ -327,7 +328,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         this.plugin.settings.paths.filter((p) => p != path);
 
                     await this.plugin.saveSettings();
-                    await this.plugin.watcher.reparseVault();
+                    await Watcher.reparseVault();
                     await this.generateParseSettings(containerEl);
                 })
             );
@@ -474,15 +475,15 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 "Change the default statblock layout used, if not specified."
             )
             .addDropdown(async (d) => {
-                for (const layout of this.plugin.layouts) {
+                for (const layout of this.plugin.manager.getAllLayouts()) {
                     d.addOption(layout.id, layout.name);
                 }
 
                 if (
                     !this.plugin.settings.default ||
-                    !this.plugin.layouts.find(
-                        ({ id }) => id == this.plugin.settings.default
-                    )
+                    !this.plugin.manager
+                        .getAllLayouts()
+                        .find(({ id }) => id == this.plugin.settings.default)
                 ) {
                     this.plugin.settings.default = Layout5e.id;
                     await this.plugin.saveSettings();
@@ -513,11 +514,15 @@ export default class StatblockSettingTab extends PluginSettingTab {
         this.buildCustomLayouts(layoutContainer, containerEl);
     }
     getDuplicate(layout: Layout) {
-        if (!this.plugin.layouts.find((l) => l.name == layout.name))
+        if (
+            !this.plugin.manager
+                .getAllLayouts()
+                .find((l) => l.name == layout.name)
+        )
             return layout;
-        const names = this.plugin.layouts
-            .filter((l) => l.name.contains(`${layout.name} Copy`))
-            .map((l) => l.name);
+        const names = this.plugin.manager
+            .getSortedLayoutNames()
+            .filter((name) => name.contains(`${layout.name} Copy`));
 
         let temp = `${layout.name} Copy`;
 
