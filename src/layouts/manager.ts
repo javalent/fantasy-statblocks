@@ -70,7 +70,7 @@ export default class LayoutManager {
     }
     public getAllLayouts() {
         return [...this.#defaults.values(), ...this.#layouts.values()].filter(
-            (f) => !("removed" in f) || !f.removed
+            (f) => !("removed" in f) || !(f as DefaultLayout).removed
         );
     }
     public getLayout(id: string): Layout | null {

@@ -200,7 +200,7 @@ export default class StatBlockPlugin extends Plugin {
         if (settings != undefined && !("version" in settings)) {
             //1.X settings;
             this.settings = { ...DEFAULT_DATA };
-            this.settings.monsters = settings;
+            this.settings.monsters = settings as any as [string, Monster][];
 
             new Notice(
                 "5e Statblocks is now TTRPG Statblocks. Check out the ReadMe for more information!"

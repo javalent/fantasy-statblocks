@@ -32,5 +32,6 @@ declare module "obsidian" {
             name: T,
             data: StatblockEvents[T]
         ): void;
+        trigger(name: "link-hover", popover: object, target: HTMLElement, link: string, source: string);
     }
 }
