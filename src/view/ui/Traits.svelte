@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { SpellsItem, TraitsItem } from "types/layout";
+    import type { SpellsItem, TraitsItem } from "src/layouts/layout.types";
     import { slugify } from "src/util/util";
     import TextContent from "./TextContent.svelte";
 

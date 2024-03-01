@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Writable } from "svelte/store";
-    import { type Layout, type StatblockItem, TypeNames } from "types/layout";
+    import { type Layout, type StatblockItem, TypeNames } from "src/layouts/layout.types";
     import Creator from "./ui/Creator.svelte";
     import type StatBlockPlugin from "src/main";
     import { Menu, Setting } from "obsidian";

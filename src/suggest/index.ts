@@ -8,7 +8,7 @@ import {
     parseYaml
 } from "obsidian";
 import type StatBlockPlugin from "src/main";
-import type { CommonProps } from "types/layout";
+import type { CommonProps } from "src/layouts/layout.types";
 enum SuggestContext {
     Layout,
     Creature,

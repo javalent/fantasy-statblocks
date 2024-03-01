@@ -10,7 +10,7 @@
     import Text from "./Text.svelte";
     import { createEventDispatcher, getAllContexts, getContext } from "svelte";
     import Image from "./Image.svelte";
-    import type { StatblockItem } from "types/layout";
+    import type { StatblockItem } from "src/layouts/layout.types";
     import { /* linkifySpells, */ slugify, stringify } from "src/util/util";
     import Collapse from "./Collapse.svelte";
     import JavaScript from "./JavaScript.svelte";

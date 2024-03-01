@@ -3,7 +3,7 @@
     import { SHADOW_PLACEHOLDER_ITEM_ID, dndzone } from "svelte-dnd-action";
     import { type ComponentType, createEventDispatcher } from "svelte";
     import { flip } from "svelte/animate";
-    import type { DiceParsing } from "types/layout";
+    import type { DiceParsing } from "src/layouts/layout.types";
     import { setNodeIcon } from "src/util";
 
     type T = DiceParsing;

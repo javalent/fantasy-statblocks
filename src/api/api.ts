@@ -5,12 +5,24 @@ import type { HomebrewCreature } from "obsidian-overload";
 import { Bestiary } from "src/bestiary/bestiary";
 import type StatBlockPlugin from "src/main";
 import StatBlockRenderer from "src/view/statblock";
-
+declare global {
+    interface Window {
+        FantasyStatblocks: API;
+    }
+}
 export class API {
     #changed: boolean = true;
     #plugin: StatBlockPlugin;
     constructor(plugin: StatBlockPlugin) {
         this.#plugin = plugin;
+    }
+
+    getVersion(): {
+        major: number;
+        minor: number;
+        patch: number;
+    } {
+        return this.#plugin.settings.version;
     }
 
     setChanged(changed: boolean) {
@@ -67,7 +79,11 @@ export class API {
         return Bestiary.getCreatureFromBestiarySync(name);
     }
 
-    render(creature: HomebrewCreature, el: HTMLElement, display?: string): Component {
+    render(
+        creature: HomebrewCreature,
+        el: HTMLElement,
+        display?: string
+    ): Component {
         const monster: Monster = Object.assign<
             Partial<Monster>,
             HomebrewCreature

@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Monster } from "index";
-    import type { TextItem, TraitsItem, GroupItem, InlineItem } from "types/layout";
+    import type { TextItem, TraitsItem, GroupItem, InlineItem } from "src/layouts/layout.types";
     import { stringify } from "src/util/util";
     import TextContent from "./TextContent.svelte";
 

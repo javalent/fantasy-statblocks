@@ -5,7 +5,7 @@
         IfElseItem,
         JavaScriptItem,
         StatblockItem
-    } from "types/layout";
+    } from "src/layouts/layout.types";
     import type StatBlockPlugin from "src/main";
     import { setNodeIcon } from "src/util";
 

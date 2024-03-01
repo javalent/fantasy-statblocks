@@ -3,7 +3,7 @@ import type {
     DefaultLayout,
     Layout,
     StatblockItem
-} from "../../../types/layout";
+} from "../layout.types";
 
 export const Statblock5e: StatblockItem[] = [
     {

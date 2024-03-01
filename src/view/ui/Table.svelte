@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Monster } from "index";
-    import type { TableItem } from "types/layout";
+    import type { TableItem } from "src/layouts/layout.types";
     import { stringify } from "src/util/util";
     import TextContentHolder from "./TextContentHolder.svelte";
 

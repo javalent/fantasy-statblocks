@@ -8,7 +8,7 @@
         stringifyYaml
     } from "obsidian";
     
-    import type { Layout, StatblockItem } from "types/layout";
+    import type { Layout, StatblockItem } from "src/layouts/layout.types";
     import type StatBlockPlugin from "src/main";
     import {
         createEventDispatcher,

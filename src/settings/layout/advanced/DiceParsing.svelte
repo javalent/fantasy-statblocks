@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { DiceParsing } from "types/layout";
+    import type { DiceParsing } from "src/layouts/layout.types";
 
     export let item: DiceParsing;
 </script>

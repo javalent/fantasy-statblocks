@@ -4,7 +4,7 @@ import type StatBlockPlugin from "src/main";
 import FantasyStatblockModal from "src/modal/modal";
 import { buildTextArea } from "src/util";
 import { nanoid } from "src/util/util";
-import type { DiceParsing } from "types/layout";
+import type { DiceParsing } from "src/layouts/layout.types";
 
 export default class DiceParsingModal extends FantasyStatblockModal {
     editing: boolean;

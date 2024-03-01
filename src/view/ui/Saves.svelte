@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Monster } from "index";
-    import type { SavesItem } from "types/layout";
+    import type { SavesItem } from "src/layouts/layout.types";
     import { toTitleCase } from "src/util/util";
     import { getContext } from "svelte";
     import TextContentHolder from "./TextContentHolder.svelte";

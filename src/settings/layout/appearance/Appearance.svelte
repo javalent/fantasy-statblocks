@@ -4,7 +4,7 @@
     import { DefaultProperties } from "src/settings/settings.constants";
 
     import SettingComponent from "./Setting.svelte";
-    import type { LayoutCSSProperties } from "types/layout";
+    import type { LayoutCSSProperties } from "src/layouts/layout.types";
 
     const layout = getContext("layout");
     $: cssProperties = {

@@ -1,7 +1,7 @@
 import type StatBlockPlugin from "src/main";
 import { getContext as gC, setContext as sC } from "svelte";
 import type { Writable } from "svelte/store";
-import type { Layout } from "types/layout";
+import type { Layout } from "src/layouts/layout.types";
 
 interface LayoutEditorContext {
     layout: Writable<Layout>;

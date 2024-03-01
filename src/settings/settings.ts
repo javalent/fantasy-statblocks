@@ -20,7 +20,7 @@ import fastCopy from "fast-copy";
 import Importer from "src/importers/importer";
 import { EditMonsterModal, ViewMonsterModal } from "./modal";
 import { Layout5e } from "src/layouts/basic 5e/basic5e";
-import type { DefaultLayout, Layout } from "types/layout";
+import type { DefaultLayout, Layout } from "src/layouts/layout.types";
 import { DefaultLayouts } from "src/layouts";
 import { nanoid, stringify } from "src/util/util";
 import { DICE_ROLLER_SOURCE } from "src/main";

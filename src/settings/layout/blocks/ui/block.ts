@@ -26,7 +26,7 @@ import type {
     LayoutItem,
     BasicItem,
     ActionItem
-} from "types/layout";
+} from "src/layouts/layout.types";
 import type StatBlockPlugin from "src/main";
 import TableHeaders from "./TableHeaders.svelte";
 import SubheadingProperty from "./SubheadingProperty.svelte";

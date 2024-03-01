@@ -3,7 +3,7 @@
     import { DefaultProperties } from "src/settings/settings.constants";
     import { createEventDispatcher } from "svelte";
     import { getContext } from "../context";
-    import type { LayoutCSSProperties } from "types/layout";
+    import type { LayoutCSSProperties } from "src/layouts/layout.types";
     import { derived } from "svelte/store";
 
     export let name: string;

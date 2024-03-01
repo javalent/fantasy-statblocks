@@ -1,5 +1,5 @@
 import type { API } from "src/api/api";
-import type { DefaultLayout, Layout } from "types/layout";
+import type { DefaultLayout, Layout } from "src/layouts/layout.types";
 
 export type ability =
     | "strength"

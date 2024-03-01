@@ -1,4 +1,4 @@
-import type { Monster } from "../index";
+import type { Monster } from "../../index";
 
 export const StatblockItemTypes = [
     "traits",

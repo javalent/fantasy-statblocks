@@ -24,7 +24,7 @@ import type {
     Layout,
     LayoutItem,
     StatblockItem
-} from "types/layout";
+} from "src/layouts/layout.types";
 import { append } from "src/util/util";
 import { Linkifier } from "src/parser/linkify";
 import { Bestiary } from "src/bestiary/bestiary";

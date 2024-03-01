@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Monster } from "index";
-    import type { SubHeadingItem } from "types/layout";
+    import type { SubHeadingItem } from "src/layouts/layout.types";
     import { stringify } from "src/util/util";
     import TextContent from "./TextContent.svelte";
 

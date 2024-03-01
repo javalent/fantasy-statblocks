@@ -1,6 +1,6 @@
 <script lang="ts">
     import { ExtraButtonComponent } from "obsidian";
-    import type { IfElseCondition, IfElseItem } from "types/layout";
+    import type { IfElseCondition, IfElseItem } from "src/layouts/layout.types";
     import type StatBlockPlugin from "src/main";
     import { writable } from "svelte/store";
     import { slide } from "svelte/transition";

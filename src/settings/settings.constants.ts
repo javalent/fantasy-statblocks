@@ -1,4 +1,4 @@
-import type { LayoutCSSProperties } from "types/layout";
+import type { LayoutCSSProperties } from "src/layouts/layout.types";
 
 export const DefaultProperties: LayoutCSSProperties = {
     primaryColor: "#7a200d",

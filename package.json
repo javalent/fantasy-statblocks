@@ -8,10 +8,7 @@
         "release": "standard-version",
         "push": "git push --follow-tags origin"
     },
-    "standard-version": {
-        "t": "",
-        "releaseCommitMessageFormat": "Fantasy Statblocks Release: v{{currentTag}}"
-    },
+    "types": "./lib/api.d.ts",
     "keywords": [],
     "author": "Jeremy Valentine",
     "license": "MIT",

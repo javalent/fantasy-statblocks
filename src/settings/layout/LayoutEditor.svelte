@@ -14,7 +14,7 @@
 
     import Blocks from "./blocks/Blocks.svelte";
     import { writable } from "svelte/store";
-    import type { Layout } from "types/layout";
+    import type { Layout } from "src/layouts/layout.types";
     import Advanced from "./advanced/Advanced.svelte";
     import { setContext } from "./context";
     import Appearance from "./appearance/Appearance.svelte";

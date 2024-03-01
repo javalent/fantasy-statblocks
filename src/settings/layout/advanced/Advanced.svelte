@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Setting } from "obsidian";
-    import type { DiceParsing, Layout } from "types/layout";
+    import type { DiceParsing, Layout } from "src/layouts/layout.types";
     import DropZone from "../Dropzone.svelte";
     import DiceParsingComponent from "./DiceParsing.svelte";
     import DiceParsingModal from "./modal";

@@ -3,7 +3,7 @@ import type {
     ItemWithProperties,
     Layout,
     StatblockItem
-} from "types/layout";
+} from "src/layouts/layout.types";
 import { Layout5e } from "./basic 5e/basic5e";
 import type { StatblockData } from "obsidian-overload";
 

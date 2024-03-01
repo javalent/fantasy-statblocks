@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Monster } from "index";
     import { Notice } from "obsidian";
-    import type { BasicItem, Layout } from "types/layout";
+    import type { BasicItem, Layout } from "src/layouts/layout.types";
 
     import { getContext } from "svelte";
 

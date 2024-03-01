@@ -1,4 +1,4 @@
-import type { DiceParsing, Layout, ParsedDice } from "types/layout";
+import type { DiceParsing, Layout, ParsedDice } from "src/layouts/layout.types";
 import { nanoid } from "../util/util";
 import type { Monster } from "index";
 

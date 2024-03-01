@@ -4,7 +4,7 @@
     import { ExtraButtonComponent } from "obsidian";
     import { createEventDispatcher } from "svelte";
     import { getModalForBlock } from "./block";
-    import type { StatblockItem } from "types/layout";
+    import type { StatblockItem } from "src/layouts/layout.types";
 
     export let block: StatblockItem;
     export let plugin: StatBlockPlugin;
