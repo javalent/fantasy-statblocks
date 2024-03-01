@@ -6,6 +6,16 @@ export const setNodeIcon = (node: HTMLElement, icon: string) => {
     setIcon(node, icon);
 };
 
+export const buildLoader = (text: string): HTMLDivElement => {
+    const loading = createDiv({
+        cls: "statblock-loading"
+    });
+    setIcon(loading.createDiv("spinner"), "loader-2");
+    loading.createEl("em", {
+        text
+    });
+    return loading;
+};
 export function buildTextArea(
     containerEl: HTMLElement,
     initialValue: string,

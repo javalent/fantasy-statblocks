@@ -119,11 +119,13 @@ class WatcherClass extends Component {
             "message",
             async (evt: MessageEvent<UpdateEventMessage>) => {
                 if (evt.data.type == "update") {
-                    let { monster } = evt.data.data;
+                    let { monster, path } = evt.data.data;
 
                     let update = Bestiary.hasCreature(monster.name);
 
-                    Bestiary.addCreature(monster);
+                    Bestiary.addEphemeralCreature(monster);
+
+                    this.watchPaths.set(path, monster.name);
 
                     if (this.plugin.settings.debug)
                         console.debug(
@@ -145,16 +147,6 @@ class WatcherClass extends Component {
             }
         );
         this.plugin.app.workspace.onLayoutReady(() => {
-            for (const [_, monster] of this.plugin.settings.monsters.filter(
-                ([_, monster]) => monster.note
-            )) {
-                if (this.watchPaths.has(monster.note)) {
-                    //multiple defined for this note... delete them all
-                    this.plugin.deleteMonster(monster.name);
-                }
-                this.watchPaths.set(monster.note, monster.name);
-            }
-
             if (!this.plugin.settings.autoParse) return;
             this.start(true);
         });
@@ -176,7 +168,7 @@ class WatcherClass extends Component {
         Bestiary.setResolved();
     }
     async delete(path: string) {
-        await this.plugin.deleteMonster(this.watchPaths.get(path));
+        Bestiary.removeEphemeralCreature(this.watchPaths.get(path));
         this.watchPaths.delete(path);
         if (this.plugin.settings.debug)
             console.debug(
@@ -280,10 +272,6 @@ class WatcherClass extends Component {
         return files;
     }
     async reparseVault() {
-        for (const monster of this.watchPaths.values()) {
-            this.plugin.deleteMonster(monster, false, false);
-        }
-
         this.start(false);
     }
     onunload() {

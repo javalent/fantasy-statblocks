@@ -17140,11 +17140,7 @@ export const BESTIARY: Monster[] = [
     }
 ];
 
-export function getBestiaryByName(disableSRD: boolean) {
-    return !disableSRD ? BESTIARY_BY_NAME : new Map();
-}
-
-const BESTIARY_BY_NAME: Map<string, Monster> = new Map(
+export const BESTIARY_BY_NAME: Map<string, Monster> = new Map(
     BESTIARY.map((monster) => {
         return [monster.name, monster];
     })

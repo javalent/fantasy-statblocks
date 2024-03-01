@@ -2,12 +2,19 @@ import fastCopy from "fast-copy";
 import type { Monster } from "index";
 import type StatBlockPlugin from "src/main";
 import { Watcher } from "src/watcher/watcher";
+import { BESTIARY_BY_NAME } from "./srd-bestiary";
 
 class BestiaryClass {
     #bestiary: Map<string, Monster> = new Map();
     #local: Map<string, Monster> = new Map();
+    #ephemeral: Map<string, Monster> = new Map();
+
     #resolved = false;
     #resolveCallbacks: Array<() => void> = [];
+    #updatedCallbacks: Array<() => void> = [];
+
+    enableSRD: boolean;
+
     initialize(plugin: StatBlockPlugin) {
         Watcher.initialize(plugin).load();
         plugin.addCommand({
@@ -19,14 +26,66 @@ class BestiaryClass {
         });
         plugin.register(() => Watcher.unload());
 
-        for (const [name, monster] of plugin.settings.monsters) {
-            this.#bestiary.set(name, monster);
-            this.#local.set(name, monster);
+        plugin.registerEvent(
+            plugin.app.workspace.on("fantasy-statblocks:srd-change", (srd) => {
+                this.enableSRD = srd;
+                if (srd) {
+                    this.#bestiary = new Map([
+                        ...BESTIARY_BY_NAME,
+                        ...this.#bestiary
+                    ]);
+                } else {
+                    this.#bestiary = new Map([
+                        ...this.#local,
+                        ...this.#ephemeral
+                    ]);
+                }
+            })
+        );
+        this.enableSRD = !plugin.settings.disableSRD;
+        if (this.enableSRD) {
+            this.#bestiary = new Map(BESTIARY_BY_NAME);
+        }
+        for (const [, monster] of plugin.settings.monsters) {
+            this.addLocalCreature(monster);
         }
     }
 
     isLocal(name: string) {
-        return this.#local.has(name);
+        return (
+            this.#local.has(name) &&
+            this.#bestiary.get(name) === this.#local.get(name)
+        );
+    }
+    addLocalCreature(monster: Monster) {
+        this.#local.set(monster.name, monster);
+        this.#bestiary.set(monster.name, monster);
+        this.#triggerUpdatedCallbacks();
+    }
+    removeLocalCreature(name: string) {
+        if (
+            this.#bestiary.has(name) &&
+            this.#bestiary.get(name) === this.#local.get(name)
+        ) {
+            this.#bestiary.delete(name);
+        }
+        this.#local.delete(name);
+        if (this.#ephemeral.has(name)) {
+            this.#bestiary.set(name, this.#ephemeral.get(name));
+        } else if (this.enableSRD && BESTIARY_BY_NAME.has(name)) {
+            this.#bestiary.set(name, BESTIARY_BY_NAME.get(name));
+        }
+        this.#triggerUpdatedCallbacks();
+    }
+    addEphemeralCreature(creature: Monster) {
+        this.#bestiary.set(creature.name, creature);
+        this.#ephemeral.set(creature.name, creature);
+        this.#triggerUpdatedCallbacks();
+    }
+    removeEphemeralCreature(name: string) {
+        this.#bestiary.delete(name);
+        this.#ephemeral.delete(name);
+        this.#triggerUpdatedCallbacks();
     }
 
     isResolved() {
@@ -38,12 +97,27 @@ class BestiaryClass {
             callback();
         }
     }
+
     onResolved(callback: () => void) {
         if (this.isResolved()) {
             callback();
         } else {
             this.#resolveCallbacks.push(callback);
         }
+    }
+    onUpdated(callback: () => void) {
+        this.#updatedCallbacks.push(callback);
+    }
+
+    #triggerUpdatedCallbacks() {
+        if (this.isResolved()) {
+            for (const callback of this.#updatedCallbacks) {
+                callback();
+            }
+        }
+    }
+    size() {
+        return this.#bestiary.size;
     }
 
     /**
@@ -70,11 +144,7 @@ class BestiaryClass {
      * @returns {string[]}
      */
     getBestiaryNames(): string[] {
-        return Array.from(this.#bestiary.keys());
-    }
-
-    addCreature(creature: Monster) {
-        this.#bestiary.set(creature.name, creature);
+        return Array.from(this.#bestiary.keys()).sort();
     }
 
     /**

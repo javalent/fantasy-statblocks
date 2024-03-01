@@ -1,5 +1,6 @@
 import fastCopy from "fast-copy";
 import type { Monster } from "index";
+import type { Component } from "obsidian";
 import type { HomebrewCreature } from "obsidian-overload";
 import { Bestiary } from "src/bestiary/bestiary";
 import type StatBlockPlugin from "src/main";
@@ -66,7 +67,7 @@ export class API {
         return Bestiary.getCreatureFromBestiarySync(name);
     }
 
-    render(creature: HomebrewCreature, el: HTMLElement, display?: string) {
+    render(creature: HomebrewCreature, el: HTMLElement, display?: string): Component {
         const monster: Monster = Object.assign<
             Partial<Monster>,
             HomebrewCreature

@@ -9,14 +9,12 @@ import {
 } from "obsidian";
 import domtoimage from "dom-to-image";
 
-import { getBestiaryByName } from "./bestiary/srd-bestiary";
 import StatBlockRenderer from "./view/statblock";
 import { nanoid } from "./util/util";
 import type { Monster, StatblockParameters } from "../index";
 import StatblockSettingTab from "./settings/settings";
 import fastCopy from "fast-copy";
 
-import { sort } from "fast-sort";
 import {
     type Plugins,
     ExpectedValue,
@@ -37,25 +35,6 @@ declare global {
     interface Window {
         bestiary: Map<string, Monster>;
         FantasyStatblocks: API;
-    }
-}
-declare module "obsidian" {
-    interface App {
-        plugins: {
-            getPlugin<T extends keyof Plugins>(plugin: T): Plugins[T];
-        };
-        commands: {
-            listCommands: () => Command[];
-            executeCommandById: (id: string) => boolean;
-        };
-    }
-    interface Workspace {
-        on(
-            name: "dice-roller:rendered-result",
-            callback: (result: number) => void
-        ): EventRef;
-        on(name: "dice-roller:unload", callback: () => void): EventRef;
-        on(name: "dice-roller:loaded", callback: () => void): EventRef;
     }
 }
 
@@ -89,12 +68,8 @@ const DEFAULT_DATA: StatblockData = {
 
 export default class StatBlockPlugin extends Plugin {
     settings: StatblockData;
-    data: Map<string, Monster>;
-    bestiary: Map<string, Monster>;
     manager = new LayoutManager();
     api: API = new API(this);
-
-    private _sorted: Monster[] = [];
 
     getRoller(str: string) {
         if (!this.canUseDiceRoller) return;
@@ -128,21 +103,6 @@ export default class StatBlockPlugin extends Plugin {
         return false;
     }
 
-    get sorted() {
-        if (this._sorted.length != this.data.size)
-            this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
-                (m) => m.name
-            );
-        return this._sorted;
-    }
-    get sources() {
-        return new Set(
-            Array.from(this.data.values())
-                .map((m) => m.source)
-                .flat()
-        );
-    }
-
     get creature_view() {
         const leaves = this.app.workspace.getLeavesOfType(CREATURE_VIEW);
         const leaf = leaves?.length ? leaves[0] : null;
@@ -173,7 +133,6 @@ export default class StatBlockPlugin extends Plugin {
     async onload() {
         console.log("Fantasy StatBlocks loaded");
         await this.loadSettings();
-        await this.loadMonsterData();
         await this.saveSettings();
 
         this.manager.initialize(this.settings);
@@ -253,8 +212,6 @@ export default class StatBlockPlugin extends Plugin {
             //1.X settings;
             this.settings = { ...DEFAULT_DATA };
             this.settings.monsters = settings;
-
-            await this.loadMonsterData();
 
             new Notice(
                 "5e Statblocks is now TTRPG Statblocks. Check out the ReadMe for more information!"
@@ -341,6 +298,10 @@ export default class StatBlockPlugin extends Plugin {
         };
     }
     async saveSettings() {
+        this.app.workspace.trigger(
+            "fantasy-statblocks:settings-change",
+            this.settings
+        );
         await this.saveData(this.settings);
     }
     async loadData(): Promise<StatblockData> {
@@ -369,85 +330,55 @@ export default class StatBlockPlugin extends Plugin {
         }
     }
 
-    async loadMonsterData() {
-        const data = this.settings.monsters;
-
-        if (!data) this.data = new Map();
-
-        this.data = new Map(
-            data?.map(([name, monster]) => {
-                return [name, fastCopy(monster)];
-            }) ?? []
-        );
-    }
-
-    async saveMonster(
-        monster: Monster,
-        sortFields: boolean = true,
-        save: boolean = true
-    ) {
+    async saveMonster(monster: Monster, save: boolean = true) {
         if (!monster.name) return;
-        this.data.set(monster.name, monster);
-        this.bestiary.set(monster.name, monster);
-        this.api.setChanged(true);
+        if (Bestiary.isLocal(monster.name)) {
+            //already exists, replace it
+            const index = this.settings.monsters.findIndex(
+                ([name]) => name === monster.name
+            );
+            if (index >= 0) {
+                this.settings.monsters.splice(index, 1, [
+                    monster.name,
+                    monster
+                ]);
+            } else {
+                this.settings.monsters.push([monster.name, monster]);
+            }
+        } else {
+            this.settings.monsters.push([monster.name, monster]);
+        }
+        Bestiary.addLocalCreature(monster);
 
         if (save) {
             await this.saveSettings();
         }
-
-        if (sortFields)
-            this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
-                (m) => m.name
-            );
     }
     async saveMonsters(monsters: Monster[]) {
         for (let monster of monsters) {
-            await this.saveMonster(monster, false, false);
+            await this.saveMonster(monster, false);
         }
-        this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
-            (m) => m.name
-        );
         await this.saveSettings();
     }
 
     async updateMonster(oldMonster: Monster, newMonster: Monster) {
-        this.data.delete(oldMonster.name);
+        this.deleteMonster(oldMonster.name, false);
         await this.saveMonster(newMonster);
     }
 
     async deleteMonsters(...monsters: string[]) {
-        for (const monster of monsters) {
-            if (!this.data.has(monster)) continue;
-            this.data.delete(monster);
-            this.bestiary.delete(monster);
-            this.api.setChanged(true);
+        for (let monster of monsters) {
+            Bestiary.removeLocalCreature(monster);
         }
-        await this.saveSettings();
-
-        this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
-            (m) => m.name
+        this.settings.monsters = this.settings.monsters.filter(
+            ([name]) => !monsters.includes(name)
         );
+        await this.saveSettings();
     }
 
-    async deleteMonster(monster: string, sortFields = true, save = true) {
-        if (!this.data.has(monster)) return;
-        this.data.delete(monster);
-        this.bestiary.delete(monster);
-
-        if (getBestiaryByName(this.settings.disableSRD).has(monster)) {
-            this.bestiary.set(
-                monster,
-                getBestiaryByName(this.settings.disableSRD).get(monster)
-            );
-        }
-        this.api.setChanged(true);
-
+    async deleteMonster(monster: string, save = true) {
+        Bestiary.removeLocalCreature(monster);
         if (save) await this.saveSettings();
-
-        if (sortFields)
-            this._sorted = sort<Monster>(Array.from(this.data.values())).asc(
-                (m) => m.name
-            );
     }
 
     onunload() {

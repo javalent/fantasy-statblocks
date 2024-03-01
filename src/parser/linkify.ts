@@ -14,13 +14,6 @@ import {
 } from "src/parser/stringifier";
 import { stringify } from "src/util/util";
 
-declare module "obsidian" {
-    interface MetadataCache {
-        initialized: boolean;
-        getLinkSuggestions(): { alias?: string; file: TFile; path: string }[];
-    }
-}
-
 class LinkifierClass extends Component {
     #stringifier = new LinkStringifier();
     #cache: Map<string, string> = new Map();

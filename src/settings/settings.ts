@@ -7,6 +7,7 @@ import {
     Notice,
     PluginSettingTab,
     prepareSimpleSearch,
+    setIcon,
     Setting,
     TFolder
 } from "obsidian";
@@ -28,10 +29,12 @@ import { ExpectedValue } from "obsidian-overload";
 import FantasyStatblockModal from "src/modal/modal";
 import { FolderInputSuggest } from "obsidian-utilities";
 import { Watcher } from "src/watcher/watcher";
+import { Bestiary } from "src/bestiary/bestiary";
+import { buildLoader } from "src/util";
 
 export default class StatblockSettingTab extends PluginSettingTab {
     importer: Importer;
-    results: Monster[] = [];
+    results: Partial<Monster>[] = [];
     filter: Setting;
     constructor(app: App, private plugin: StatBlockPlugin) {
         super(app, plugin);
@@ -212,20 +215,24 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     })
             );
         new Setting(container)
-            .setName("Disable 5e SRD")
+            .setName("Enable 5e SRD")
             .setDesc(
                 createFragment((e) => {
                     e.createSpan({
-                        text: "Disable the Dungeons & Dragons 5th Edition System Reference Document monsters."
+                        text: "Use the Dungeons & Dragons 5th Edition System Reference Document monsters."
                     });
                 })
             )
             .addToggle((t) =>
                 t
-                    .setValue(this.plugin.settings.disableSRD)
+                    .setValue(!this.plugin.settings.disableSRD)
                     .onChange(async (v) => {
-                        this.plugin.settings.disableSRD = v;
+                        this.plugin.settings.disableSRD = !v;
                         await this.plugin.saveSettings();
+                        this.plugin.app.workspace.trigger(
+                            "fantasy-statblocks:srd-change",
+                            v
+                        );
                     })
             );
     }
@@ -236,7 +243,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
         );
         new Setting(additionalContainer).setHeading().setName("Note Parsing");
         new Setting(additionalContainer)
-            .setName("Parse Frontmatter for Creatures")
+            .setName("Automatically Parse Frontmatter for Creatures")
             .setDesc(
                 createFragment((e) => {
                     e.createSpan({
@@ -1019,7 +1026,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
             "contains-task-list task-list-inline markdown-preview-view"
         );
 
-        for (let source of this.plugin.sources) {
+        /* for (let source of this.plugin.sources) {
             const li = list.createEl("li", "task-list-item");
             li.createEl("input", {
                 attr: {
@@ -1043,9 +1050,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 },
                 text: source
             });
-        }
+        } */
         const additional = additionalContainer.createDiv("additional");
-        if (!this.plugin.data.size) {
+        if (!Bestiary.size()) {
             additional
                 .createDiv({
                     attr: {
@@ -1057,16 +1064,23 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 });
             return;
         }
-        setTimeout(() => this.showSearchResults(additional, ""));
+
+        const loading = buildLoader("Loading Bestiary...");
+        if (!Bestiary.isResolved()) {
+            additional.appendChild(loading);
+        }
+        Bestiary.onResolved(() => {
+            loading.detach();
+            this.showSearchResults(additional, "");
+        });
     }
+
     setFilterDesc() {
         this.filter.setDesc(
             createFragment((e) => {
                 e.createSpan({
-                    text: `Managing ${
-                        this.plugin.settings.monsters.length
-                    } homebrew creature${
-                        this.plugin.settings.monsters.length == 1 ? "" : "s"
+                    text: `Managing ${Bestiary.size()} homebrew creature${
+                        Bestiary.size() == 1 ? "" : "s"
                     }.`
                 });
                 e.createEl("p", {
@@ -1102,61 +1116,64 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     stringify(item.source, 0, ", ", false)
                 );
             }
-            content
-                .addExtraButton((b) => {
-                    b.setIcon("info")
-                        .setTooltip("View")
-                        .onClick(() => {
-                            const modal = new ViewMonsterModal(
-                                this.plugin,
-                                item
-                            );
-                            modal.open();
-                        });
-                })
-                .addExtraButton((b) => {
-                    b.setIcon("pencil")
-                        .setTooltip("Edit")
-                        .onClick(() => {
-                            const modal = new EditMonsterModal(
-                                this.plugin,
-                                item
-                            );
-                            modal.open();
-                            modal.onClose = () => {
+            content.addExtraButton((b) => {
+                b.setIcon("info")
+                    .setTooltip("View")
+                    .onClick(() => {
+                        const modal = new ViewMonsterModal(
+                            this.plugin,
+                            item as Monster
+                        );
+                        modal.open();
+                    });
+            });
+            if (Bestiary.isLocal(item.name)) {
+                content
+                    .addExtraButton((b) => {
+                        b.setIcon("pencil")
+                            .setTooltip("Edit")
+                            .onClick(() => {
+                                const modal = new EditMonsterModal(
+                                    this.plugin,
+                                    item
+                                );
+                                modal.open();
+                                modal.onClose = () => {
+                                    this.showSearchResults(additional, search);
+                                };
+                            });
+                    })
+                    .addExtraButton((b) => {
+                        b.setIcon("trash")
+                            .setTooltip("Delete")
+                            .onClick(async () => {
+                                await this.plugin.deleteMonster(item.name);
                                 this.showSearchResults(additional, search);
-                            };
-                        });
-                })
-                .addExtraButton((b) => {
-                    b.setIcon("trash")
-                        .setTooltip("Delete")
-                        .onClick(async () => {
-                            await this.plugin.deleteMonster(item.name);
-                            this.showSearchResults(additional, search);
-                        });
-                });
+                            });
+                    });
+            }
         }
         this.setFilterDesc();
     }
-    displayed: Set<string> = new Set(this.plugin.sources);
+    displayed: Set<string> = new Set(/* this.plugin.sources */);
     performFuzzySearch(input: string) {
-        const results: Monster[] = [];
-        for (const resource of this.plugin.sorted) {
-            if (!resource.name && !resource.source) continue;
-            if (
+        const results: Partial<Monster>[] = [];
+        for (const name of Bestiary.getBestiaryNames()) {
+            /* if (!resource.name && !resource.source) continue; */
+            /* if (
                 typeof resource.source == "string" &&
                 !this.displayed.has(resource.source)
             )
-                continue;
-            if (
+                continue; */
+            /* if (
                 Array.isArray(resource.source) &&
                 !resource.source.find((s) => this.displayed.has(s))
             )
-                continue;
+                continue; */
 
             const search = prepareSimpleSearch(input);
-            let result = search(resource.name);
+            let result = search(name);
+            const resource = Bestiary.getCreatureFromBestiarySync(name);
             if (!result && resource.source != null) {
                 result = search(stringify(resource.source));
             }

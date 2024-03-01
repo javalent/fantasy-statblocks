@@ -202,3 +202,18 @@ details[open].statblock-nested-settings > summary .collapser > .handle {
     align-items: center;
     gap: 0.5rem;
 }
+
+.statblock-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.375rem;
+}
+.statblock-loading .spinner {
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    animation: rotation 1s ease infinite;
+}
