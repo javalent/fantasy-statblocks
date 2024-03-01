@@ -1,5 +1,3 @@
-import type { Component } from "obsidian";
-import type { Creature, HomebrewCreature } from "obsidian-overload";
 import type { API } from "src/api/api";
 import type { DefaultLayout, Layout } from "types/layout";
 
@@ -159,8 +157,8 @@ export interface StatblockData {
     atomicWrite: boolean;
 }
 
-export interface StatblockAPI {
-    saveMonsters(homebrew: HomebrewCreature[]): unknown;
-    settings: StatblockData;
-    api: API;
+declare global {
+    interface Window {
+        FantasyStatblocks: API;
+    }
 }
