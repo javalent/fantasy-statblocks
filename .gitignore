@@ -21,4 +21,4 @@ src/importers/*.json
 
 .env
 data.json
-lib
+dist
