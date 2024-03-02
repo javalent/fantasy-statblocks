@@ -5,7 +5,7 @@ import type {
     StatblockItem
 } from "src/layouts/layout.types";
 import { Layout5e } from "./basic 5e/basic5e";
-import type { StatblockData } from "obsidian-overload";
+import type { StatblockData } from "index";
 
 export default class LayoutManager {
     public initialize(settings: StatblockData) {

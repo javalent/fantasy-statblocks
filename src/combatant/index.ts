@@ -1,3 +1,4 @@
+import type { Monster } from "index";
 import {
     ItemView,
     type WorkspaceLeaf,
@@ -6,7 +7,6 @@ import {
     TextComponent,
     SearchComponent
 } from "obsidian";
-import type { Monster } from "obsidian-overload";
 import type StatBlockPlugin from "src/main";
 import { MonsterSuggestionModal } from "src/util/creature";
 
