@@ -217,3 +217,19 @@ details[open].statblock-nested-settings > summary .collapser > .handle {
     box-sizing: border-box;
     animation: rotation 1s ease infinite;
 }
+
+
+@keyframes rotation {
+    0% {
+        transform: scale(1) rotate(-60deg);
+    }
+    20% {
+        transform: /* scale(1.1)  */ rotate(-90deg);
+    }
+    50% {
+        transform: /* scale(0.9)  */ rotate(690deg);
+    }
+    100% {
+        transform: /* scale(1) */ rotate(660deg);
+    }
+}
