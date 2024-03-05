@@ -4,6 +4,7 @@ import type { Component } from "obsidian";
 import type { HomebrewCreature } from "obsidian-overload";
 import { Bestiary } from "src/bestiary/bestiary";
 import type StatBlockPlugin from "src/main";
+import { buildLoader } from "src/util";
 import StatBlockRenderer from "src/view/statblock";
 declare global {
     interface Window {
@@ -77,6 +78,25 @@ export class API {
      */
     getCreatureFromBestiary(name: string): Partial<Monster> | null {
         return Bestiary.getCreatureFromBestiarySync(name);
+    }
+    /**
+     * Retrieve a fully defined creature out of the bestiary, resolving all extensions.
+     *
+     * @param {string} name Name of the creautre to retrieve.
+     * @returns {Partial<Monster> | null} The creature from the bestiary, or null if not present.
+     */
+    async getCreature(name: string): Promise<Partial<Monster> | null> {
+        return await Bestiary.getCreatureFromBestiary(name);
+    }
+
+    isResolved(): boolean {
+        return Bestiary.isResolved();
+    }
+    onResolved(callback: () => void) {
+        Bestiary.onResolved(callback);
+    }
+    onUpdated(callback: () => void) {
+        Bestiary.onUpdated(callback);
     }
 
     render(
