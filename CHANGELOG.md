@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.19.3](https://github.com/javalent/fantasy-statblocks/compare/3.19.2...3.19.3) (2024-02-22)
+
+
+### Bug Fixes
+
+* Fixes appearance of parsed dice rolls in 5e ([153226e](https://github.com/javalent/fantasy-statblocks/commit/153226e1752a7a64b27fb2695198640fcac61a88))
+
 ## [3.19.2](https://github.com/javalent/fantasy-statblocks/compare/3.19.1...3.19.2) (2024-02-21)
 
 
