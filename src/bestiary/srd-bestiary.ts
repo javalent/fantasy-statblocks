@@ -22,6 +22,7 @@ import type { Monster } from "index";
 export const BESTIARY: Monster[] = [
     {
         name: "Aboleth",
+        source: "5e SRD",
         size: "Large",
         type: "aberration",
         subtype: "",
@@ -104,6 +105,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Acolyte",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -139,6 +141,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Adult Black Dragon",
+        source: "5e SRD",
         size: "Huge",
         type: "dragon",
         subtype: "",
@@ -234,6 +237,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Adult Blue Dracolich",
+        source: "5e SRD",
         size: "Huge",
         type: "undead",
         subtype: "",
@@ -324,6 +328,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Adult Blue Dragon",
+        source: "5e SRD",
         size: "Huge",
         type: "dragon",
         subtype: "",
@@ -414,6 +419,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Adult Brass Dragon",
+        source: "5e SRD",
         size: "Huge",
         type: "dragon",
         subtype: "",
@@ -493,6 +499,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Adult Bronze Dragon",
+        source: "5e SRD",
         size: "Huge",
         type: "dragon",
         subtype: "",
@@ -588,6 +595,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Adult Copper Dragon",
+        source: "5e SRD",
         size: "Huge",
         type: "dragon",
         subtype: "",
@@ -678,6 +686,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Adult Gold Dragon",
+        source: "5e SRD",
         size: "Huge",
         type: "dragon",
         subtype: "",
@@ -778,6 +787,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Adult Green Dragon",
+        source: "5e SRD",
         size: "Huge",
         type: "dragon",
         subtype: "",
@@ -879,6 +889,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Adult Red Dragon",
+        source: "5e SRD",
         size: "Huge",
         type: "dragon",
         subtype: "",
@@ -975,6 +986,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Adult Silver Dragon",
+        source: "5e SRD",
         size: "Huge",
         type: "dragon",
         subtype: "",
@@ -1070,6 +1082,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Adult White Dragon",
+        source: "5e SRD",
         size: "Huge",
         type: "dragon",
         subtype: "",
@@ -1165,6 +1178,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Air Elemental",
+        source: "5e SRD",
         size: "Large",
         type: "elemental",
         subtype: "",
@@ -1213,6 +1227,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ancient Black Dragon",
+        source: "5e SRD",
         size: "Gargantuan",
         type: "dragon",
         subtype: "",
@@ -1307,6 +1322,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ancient Blue Dragon",
+        source: "5e SRD",
         size: "Gargantuan",
         type: "dragon",
         subtype: "",
@@ -1390,6 +1406,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ancient Brass Dragon",
+        source: "5e SRD",
         size: "Gargantuan",
         type: "dragon",
         subtype: "",
@@ -1490,6 +1507,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ancient Bronze Dragon",
+        source: "5e SRD",
         size: "Gargantuan",
         type: "dragon",
         subtype: "",
@@ -1590,6 +1608,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ancient Copper Dragon",
+        source: "5e SRD",
         size: "Gargantuan",
         type: "dragon",
         subtype: "",
@@ -1685,6 +1704,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ancient Gold Dragon",
+        source: "5e SRD",
         size: "Gargantuan",
         type: "dragon",
         subtype: "",
@@ -1790,6 +1810,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ancient Green Dragon",
+        source: "5e SRD",
         size: "Gargantuan",
         type: "dragon",
         subtype: "",
@@ -1891,6 +1912,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ancient Red Dragon",
+        source: "5e SRD",
         size: "Gargantuan",
         type: "dragon",
         subtype: "",
@@ -1981,6 +2003,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ancient Silver Dragon",
+        source: "5e SRD",
         size: "Gargantuan",
         type: "dragon",
         subtype: "",
@@ -2081,6 +2104,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ancient White Dragon",
+        source: "5e SRD",
         size: "Gargantuan",
         type: "dragon",
         subtype: "",
@@ -2159,6 +2183,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Androsphinx",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -2251,6 +2276,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Animated Armor",
+        source: "5e SRD",
         size: "Medium",
         type: "construct",
         subtype: "",
@@ -2298,6 +2324,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ankheg",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -2333,6 +2360,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ape",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -2375,6 +2403,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Archmage",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -2437,6 +2466,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Assassin",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -2503,6 +2533,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Awakened Shrub",
+        source: "5e SRD",
         size: "Small",
         type: "plant",
         subtype: "",
@@ -2539,6 +2570,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Awakened Tree",
+        source: "5e SRD",
         size: "Huge",
         type: "plant",
         subtype: "",
@@ -2575,6 +2607,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Axe Beak",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -2604,6 +2637,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Azer",
+        source: "5e SRD",
         size: "Medium",
         type: "elemental",
         subtype: "",
@@ -2652,6 +2686,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Baboon",
+        source: "5e SRD",
         size: "Small",
         type: "beast",
         subtype: "",
@@ -2688,6 +2723,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Badger",
+        source: "5e SRD",
         size: "Tiny",
         type: "beast",
         subtype: "",
@@ -2723,6 +2759,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Balor",
+        source: "5e SRD",
         size: "Huge",
         type: "fiend",
         subtype: "demon",
@@ -2805,6 +2842,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Bandit",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -2841,6 +2879,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Bandit Captain",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -2891,6 +2930,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Barbed Devil",
+        source: "5e SRD",
         size: "Medium",
         type: "fiend",
         subtype: "devil",
@@ -2964,6 +3004,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Basilisk",
+        source: "5e SRD",
         size: "Medium",
         type: "monstrosity",
         subtype: "",
@@ -3000,6 +3041,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Bat",
+        source: "5e SRD",
         size: "Tiny",
         type: "beast",
         subtype: "",
@@ -3040,6 +3082,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Bearded Devil",
+        source: "5e SRD",
         size: "Medium",
         type: "fiend",
         subtype: "devil",
@@ -3100,6 +3143,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Behir",
+        source: "5e SRD",
         size: "Huge",
         type: "monstrosity",
         subtype: "",
@@ -3154,6 +3198,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Berserker",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -3190,6 +3235,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Black Bear",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -3238,6 +3284,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Black Dragon Wyrmling",
+        source: "5e SRD",
         size: "Medium",
         type: "dragon",
         subtype: "",
@@ -3287,6 +3334,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Black Pudding",
+        source: "5e SRD",
         size: "Large",
         type: "ooze",
         subtype: "",
@@ -3342,6 +3390,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Blink Dog",
+        source: "5e SRD",
         size: "Medium",
         type: "fey",
         subtype: "",
@@ -3384,6 +3433,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Blood Hawk",
+        source: "5e SRD",
         size: "Small",
         type: "beast",
         subtype: "",
@@ -3426,6 +3476,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Blue Dragon Wyrmling",
+        source: "5e SRD",
         size: "Medium",
         type: "dragon",
         subtype: "",
@@ -3468,6 +3519,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Boar",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -3510,6 +3562,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Bone Devil",
+        source: "5e SRD",
         size: "Large",
         type: "fiend",
         subtype: "devil",
@@ -3585,6 +3638,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Brass Dragon Wyrmling",
+        source: "5e SRD",
         size: "Medium",
         type: "dragon",
         subtype: "",
@@ -3627,6 +3681,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Bronze Dragon Wyrmling",
+        source: "5e SRD",
         size: "Medium",
         type: "dragon",
         subtype: "",
@@ -3676,6 +3731,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Brown Bear",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -3725,6 +3781,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Bugbear",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "goblinoid",
@@ -3775,6 +3832,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Bulette",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -3817,6 +3875,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Camel",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -3845,6 +3904,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Carrion Crawler",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -3899,6 +3959,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Cat",
+        source: "5e SRD",
         size: "Tiny",
         type: "beast",
         subtype: "",
@@ -3935,6 +3996,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Cave Bear",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -3984,6 +4046,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Centaur",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -4041,6 +4104,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Chain Devil",
+        source: "5e SRD",
         size: "Medium",
         type: "fiend",
         subtype: "devil",
@@ -4100,6 +4164,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Chimera",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -4155,6 +4220,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Chuul",
+        source: "5e SRD",
         size: "Large",
         type: "aberration",
         subtype: "",
@@ -4207,6 +4273,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Clay Golem",
+        source: "5e SRD",
         size: "Large",
         type: "construct",
         subtype: "",
@@ -4275,6 +4342,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Cloaker",
+        source: "5e SRD",
         size: "Large",
         type: "aberration",
         subtype: "",
@@ -4344,6 +4412,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Cloud Giant",
+        source: "5e SRD",
         size: "Huge",
         type: "giant",
         subtype: "",
@@ -4399,6 +4468,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Cockatrice",
+        source: "5e SRD",
         size: "Small",
         type: "monstrosity",
         subtype: "",
@@ -4428,6 +4498,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Commoner",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -4456,6 +4527,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Constrictor Snake",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -4492,6 +4564,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Copper Dragon Wyrmling",
+        source: "5e SRD",
         size: "Medium",
         type: "dragon",
         subtype: "",
@@ -4534,6 +4607,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Couatl",
+        source: "5e SRD",
         size: "Medium",
         type: "celestial",
         subtype: "",
@@ -4594,6 +4668,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Crab",
+        source: "5e SRD",
         size: "Tiny",
         type: "beast",
         subtype: "",
@@ -4630,6 +4705,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Crocodile",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -4667,6 +4743,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Cult Fanatic",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -4718,6 +4795,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Cultist",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -4755,6 +4833,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Darkmantle",
+        source: "5e SRD",
         size: "Small",
         type: "monstrosity",
         subtype: "",
@@ -4802,6 +4881,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Death Dog",
+        source: "5e SRD",
         size: "Medium",
         type: "monstrosity",
         subtype: "",
@@ -4844,6 +4924,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Deep Gnome (Svirfneblin)",
+        source: "5e SRD",
         size: "Small",
         type: "humanoid",
         subtype: "gnome",
@@ -4898,6 +4979,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Deer",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -4926,6 +5008,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Deva",
+        source: "5e SRD",
         size: "Medium",
         type: "celestial",
         subtype: "",
@@ -4990,6 +5073,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Dire Wolf",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -5032,6 +5116,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Djinni",
+        source: "5e SRD",
         size: "Large",
         type: "elemental",
         subtype: "",
@@ -5089,6 +5174,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Doppelganger",
+        source: "5e SRD",
         size: "Medium",
         type: "monstrosity",
         subtype: "shapechanger",
@@ -5147,6 +5233,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Draft Horse",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -5176,6 +5263,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Dragon Turtle",
+        source: "5e SRD",
         size: "Gargantuan",
         type: "dragon",
         subtype: "",
@@ -5238,6 +5326,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Dretch",
+        source: "5e SRD",
         size: "Small",
         type: "fiend",
         subtype: "demon",
@@ -5283,6 +5372,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Drider",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -5359,6 +5449,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Drow",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "elf",
@@ -5413,6 +5504,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Druid",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -5452,6 +5544,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Dryad",
+        source: "5e SRD",
         size: "Medium",
         type: "fey",
         subtype: "",
@@ -5508,6 +5601,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Duergar",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "dwarf",
@@ -5566,6 +5660,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Dust Mephit",
+        source: "5e SRD",
         size: "Small",
         type: "elemental",
         subtype: "",
@@ -5618,6 +5713,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Eagle",
+        source: "5e SRD",
         size: "Small",
         type: "beast",
         subtype: "",
@@ -5655,6 +5751,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Earth Elemental",
+        source: "5e SRD",
         size: "Large",
         type: "elemental",
         subtype: "",
@@ -5703,6 +5800,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Efreeti",
+        source: "5e SRD",
         size: "Large",
         type: "elemental",
         subtype: "",
@@ -5761,6 +5859,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Elephant",
+        source: "5e SRD",
         size: "Huge",
         type: "beast",
         subtype: "",
@@ -5804,6 +5903,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Elk",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -5844,6 +5944,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Erinyes",
+        source: "5e SRD",
         size: "Medium",
         type: "fiend",
         subtype: "devil",
@@ -5916,6 +6017,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ettercap",
+        source: "5e SRD",
         size: "Medium",
         type: "monstrosity",
         subtype: "",
@@ -5987,6 +6089,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ettin",
+        source: "5e SRD",
         size: "Large",
         type: "giant",
         subtype: "",
@@ -6041,6 +6144,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Fire Elemental",
+        source: "5e SRD",
         size: "Large",
         type: "elemental",
         subtype: "",
@@ -6095,6 +6199,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Fire Giant",
+        source: "5e SRD",
         size: "Huge",
         type: "giant",
         subtype: "",
@@ -6138,6 +6243,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Flesh Golem",
+        source: "5e SRD",
         size: "Medium",
         type: "construct",
         subtype: "",
@@ -6206,6 +6312,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Flying Snake",
+        source: "5e SRD",
         size: "Tiny",
         type: "beast",
         subtype: "",
@@ -6241,6 +6348,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Flying Sword",
+        source: "5e SRD",
         size: "Small",
         type: "construct",
         subtype: "",
@@ -6284,6 +6392,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Frog",
+        source: "5e SRD",
         size: "Tiny",
         type: "beast",
         subtype: "",
@@ -6317,6 +6426,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Frost Giant",
+        source: "5e SRD",
         size: "Huge",
         type: "giant",
         subtype: "",
@@ -6360,6 +6470,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Gargoyle",
+        source: "5e SRD",
         size: "Medium",
         type: "elemental",
         subtype: "",
@@ -6409,6 +6520,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Gelatinous Cube",
+        source: "5e SRD",
         size: "Large",
         type: "ooze",
         subtype: "",
@@ -6455,6 +6567,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ghast",
+        source: "5e SRD",
         size: "Medium",
         type: "undead",
         subtype: "",
@@ -6503,6 +6616,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ghost",
+        source: "5e SRD",
         size: "Medium",
         type: "undead",
         subtype: "",
@@ -6561,6 +6675,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ghoul",
+        source: "5e SRD",
         size: "Medium",
         type: "undead",
         subtype: "",
@@ -6595,6 +6710,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Ape",
+        source: "5e SRD",
         size: "Huge",
         type: "beast",
         subtype: "",
@@ -6637,6 +6753,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Badger",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -6685,6 +6802,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Bat",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -6726,6 +6844,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Boar",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -6768,6 +6887,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Centipede",
+        source: "5e SRD",
         size: "Small",
         type: "beast",
         subtype: "",
@@ -6797,6 +6917,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Constrictor Snake",
+        source: "5e SRD",
         size: "Huge",
         type: "beast",
         subtype: "",
@@ -6834,6 +6955,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Crab",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -6871,6 +6993,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Crocodile",
+        source: "5e SRD",
         size: "Huge",
         type: "beast",
         subtype: "",
@@ -6920,6 +7043,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Eagle",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -6969,6 +7093,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Elk",
+        source: "5e SRD",
         size: "Huge",
         type: "beast",
         subtype: "",
@@ -7015,6 +7140,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Fire Beetle",
+        source: "5e SRD",
         size: "Small",
         type: "beast",
         subtype: "",
@@ -7051,6 +7177,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Frog",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -7098,6 +7225,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Goat",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -7140,6 +7268,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Hyena",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -7177,6 +7306,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Lizard",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -7218,6 +7348,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Octopus",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -7270,6 +7401,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Owl",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -7313,6 +7445,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Poisonous Snake",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -7343,6 +7476,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Rat",
+        source: "5e SRD",
         size: "Small",
         type: "beast",
         subtype: "",
@@ -7384,6 +7518,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Rat (Diseased)",
+        source: "5e SRD",
         size: "Small",
         type: "beast",
         subtype: "",
@@ -7413,6 +7548,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Scorpion",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -7454,6 +7590,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Sea Horse",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -7496,6 +7633,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Shark",
+        source: "5e SRD",
         size: "Huge",
         type: "beast",
         subtype: "",
@@ -7538,6 +7676,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Spider",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -7590,6 +7729,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Toad",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -7636,6 +7776,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Vulture",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -7690,6 +7831,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Wasp",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -7719,6 +7861,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Weasel",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -7756,6 +7899,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Giant Wolf Spider",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -7803,6 +7947,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Gibbering Mouther",
+        source: "5e SRD",
         size: "Medium",
         type: "aberration",
         subtype: "",
@@ -7853,6 +7998,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Glabrezu",
+        source: "5e SRD",
         size: "Large",
         type: "fiend",
         subtype: "demon",
@@ -7918,6 +8064,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Gladiator",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -7980,6 +8127,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Gnoll",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "gnoll",
@@ -8030,6 +8178,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Goat",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -8072,6 +8221,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Goblin",
+        source: "5e SRD",
         size: "Small",
         type: "humanoid",
         subtype: "goblinoid",
@@ -8116,6 +8266,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Gold Dragon Wyrmling",
+        source: "5e SRD",
         size: "Medium",
         type: "dragon",
         subtype: "",
@@ -8165,6 +8316,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Gorgon",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -8214,6 +8366,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Gray Ooze",
+        source: "5e SRD",
         size: "Medium",
         type: "ooze",
         subtype: "",
@@ -8262,6 +8415,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Green Dragon Wyrmling",
+        source: "5e SRD",
         size: "Medium",
         type: "dragon",
         subtype: "",
@@ -8311,6 +8465,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Green Hag",
+        source: "5e SRD",
         size: "Medium",
         type: "fey",
         subtype: "",
@@ -8388,6 +8543,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Grick",
+        source: "5e SRD",
         size: "Medium",
         type: "monstrosity",
         subtype: "",
@@ -8437,6 +8593,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Griffon",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -8486,6 +8643,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Grimlock",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "grimlock",
@@ -8533,6 +8691,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Guard",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -8563,6 +8722,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Guardian Naga",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -8622,6 +8782,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Gynosphinx",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -8704,6 +8865,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Half-Red Dragon Veteran",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "human",
@@ -8758,6 +8920,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Harpy",
+        source: "5e SRD",
         size: "Medium",
         type: "monstrosity",
         subtype: "",
@@ -8804,6 +8967,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Hawk",
+        source: "5e SRD",
         size: "Tiny",
         type: "beast",
         subtype: "",
@@ -8840,6 +9004,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Hell Hound",
+        source: "5e SRD",
         size: "Medium",
         type: "fiend",
         subtype: "",
@@ -8888,6 +9053,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Hezrou",
+        source: "5e SRD",
         size: "Large",
         type: "fiend",
         subtype: "demon",
@@ -8948,6 +9114,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Hill Giant",
+        source: "5e SRD",
         size: "Huge",
         type: "giant",
         subtype: "",
@@ -8990,6 +9157,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Hippogriff",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -9039,6 +9207,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Hobgoblin",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "goblinoid",
@@ -9083,6 +9252,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Homunculus",
+        source: "5e SRD",
         size: "Tiny",
         type: "construct",
         subtype: "",
@@ -9118,6 +9288,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Horned Devil",
+        source: "5e SRD",
         size: "Large",
         type: "fiend",
         subtype: "devil",
@@ -9184,6 +9355,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Hunter Shark",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -9226,6 +9398,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Hydra",
+        source: "5e SRD",
         size: "Huge",
         type: "monstrosity",
         subtype: "",
@@ -9283,6 +9456,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Hyena",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -9319,6 +9493,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ice Devil",
+        source: "5e SRD",
         size: "Large",
         type: "fiend",
         subtype: "devil",
@@ -9391,6 +9566,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ice Mephit",
+        source: "5e SRD",
         size: "Small",
         type: "elemental",
         subtype: "",
@@ -9449,6 +9625,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Imp",
+        source: "5e SRD",
         size: "Tiny",
         type: "fiend",
         subtype: "devil",
@@ -9512,6 +9689,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Invisible Stalker",
+        source: "5e SRD",
         size: "Medium",
         type: "elemental",
         subtype: "",
@@ -9561,6 +9739,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Iron Golem",
+        source: "5e SRD",
         size: "Large",
         type: "construct",
         subtype: "",
@@ -9632,6 +9811,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Jackal",
+        source: "5e SRD",
         size: "Small",
         type: "beast",
         subtype: "",
@@ -9674,6 +9854,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Killer Whale",
+        source: "5e SRD",
         size: "Huge",
         type: "beast",
         subtype: "",
@@ -9719,6 +9900,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Knight",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -9779,6 +9961,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Kobold",
+        source: "5e SRD",
         size: "Small",
         type: "humanoid",
         subtype: "kobold",
@@ -9827,6 +10010,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Kraken",
+        source: "5e SRD",
         size: "Gargantuan",
         type: "monstrosity",
         subtype: "titan",
@@ -9922,6 +10106,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Lamia",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -9976,6 +10161,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Lemure",
+        source: "5e SRD",
         size: "Medium",
         type: "fiend",
         subtype: "devil",
@@ -10016,6 +10202,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Lich",
+        source: "5e SRD",
         size: "Medium",
         type: "undead",
         subtype: "",
@@ -10118,6 +10305,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Lion",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -10177,6 +10365,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Lizard",
+        source: "5e SRD",
         size: "Tiny",
         type: "beast",
         subtype: "",
@@ -10205,6 +10394,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Lizardfolk",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "lizardfolk",
@@ -10268,6 +10458,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Mage",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -10315,6 +10506,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Magma Mephit",
+        source: "5e SRD",
         size: "Small",
         type: "elemental",
         subtype: "",
@@ -10373,6 +10565,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Magmin",
+        source: "5e SRD",
         size: "Small",
         type: "elemental",
         subtype: "",
@@ -10415,6 +10608,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Mammoth",
+        source: "5e SRD",
         size: "Huge",
         type: "beast",
         subtype: "",
@@ -10458,6 +10652,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Manticore",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -10513,6 +10708,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Marilith",
+        source: "5e SRD",
         size: "Large",
         type: "fiend",
         subtype: "demon",
@@ -10595,6 +10791,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Mastiff",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -10632,6 +10829,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Medusa",
+        source: "5e SRD",
         size: "Medium",
         type: "monstrosity",
         subtype: "",
@@ -10692,6 +10890,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Merfolk",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "merfolk",
@@ -10728,6 +10927,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Merrow",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -10783,6 +10983,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Mimic",
+        source: "5e SRD",
         size: "Medium",
         type: "monstrosity",
         subtype: "shapechanger",
@@ -10842,6 +11043,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Minotaur",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -10897,6 +11099,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Minotaur Skeleton",
+        source: "5e SRD",
         size: "Large",
         type: "undead",
         subtype: "",
@@ -10941,6 +11144,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Mule",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -10982,6 +11186,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Mummy",
+        source: "5e SRD",
         size: "Medium",
         type: "undead",
         subtype: "",
@@ -11023,6 +11228,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Mummy Lord",
+        source: "5e SRD",
         size: "Medium",
         type: "undead",
         subtype: "",
@@ -11120,6 +11326,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Nalfeshnee",
+        source: "5e SRD",
         size: "Large",
         type: "fiend",
         subtype: "demon",
@@ -11190,6 +11397,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Night Hag",
+        source: "5e SRD",
         size: "Medium",
         type: "fiend",
         subtype: "",
@@ -11273,6 +11481,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Nightmare",
+        source: "5e SRD",
         size: "Large",
         type: "fiend",
         subtype: "",
@@ -11319,6 +11528,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Noble",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -11356,6 +11566,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ochre Jelly",
+        source: "5e SRD",
         size: "Large",
         type: "ooze",
         subtype: "",
@@ -11405,6 +11616,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Octopus",
+        source: "5e SRD",
         size: "Small",
         type: "beast",
         subtype: "",
@@ -11456,6 +11668,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ogre",
+        source: "5e SRD",
         size: "Large",
         type: "giant",
         subtype: "",
@@ -11492,6 +11705,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Ogre Zombie",
+        source: "5e SRD",
         size: "Large",
         type: "undead",
         subtype: "",
@@ -11529,6 +11743,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Oni",
+        source: "5e SRD",
         size: "Large",
         type: "giant",
         subtype: "",
@@ -11599,6 +11814,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Orc",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "orc",
@@ -11643,6 +11859,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Otyugh",
+        source: "5e SRD",
         size: "Large",
         type: "aberration",
         subtype: "",
@@ -11697,6 +11914,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Owl",
+        source: "5e SRD",
         size: "Tiny",
         type: "beast",
         subtype: "",
@@ -11738,6 +11956,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Owlbear",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -11787,6 +12006,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Panther",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -11836,6 +12056,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Pegasus",
+        source: "5e SRD",
         size: "Large",
         type: "celestial",
         subtype: "",
@@ -11868,6 +12089,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Phase Spider",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -11915,6 +12137,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Pit Fiend",
+        source: "5e SRD",
         size: "Large",
         type: "fiend",
         subtype: "devil",
@@ -11994,6 +12217,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Planetar",
+        source: "5e SRD",
         size: "Large",
         type: "celestial",
         subtype: "",
@@ -12058,6 +12282,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Plesiosaurus",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -12095,6 +12320,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Poisonous Snake",
+        source: "5e SRD",
         size: "Tiny",
         type: "beast",
         subtype: "",
@@ -12123,6 +12349,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Polar Bear",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -12172,6 +12399,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Pony",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -12201,6 +12429,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Priest",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -12245,6 +12474,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Pseudodragon",
+        source: "5e SRD",
         size: "Tiny",
         type: "dragon",
         subtype: "",
@@ -12304,6 +12534,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Purple Worm",
+        source: "5e SRD",
         size: "Gargantuan",
         type: "monstrosity",
         subtype: "",
@@ -12353,6 +12584,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Quasit",
+        source: "5e SRD",
         size: "Tiny",
         type: "fiend",
         subtype: "demon",
@@ -12411,6 +12643,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Quipper",
+        source: "5e SRD",
         size: "Tiny",
         type: "beast",
         subtype: "",
@@ -12451,6 +12684,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Rakshasa",
+        source: "5e SRD",
         size: "Medium",
         type: "fiend",
         subtype: "",
@@ -12500,6 +12734,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Rat",
+        source: "5e SRD",
         size: "Tiny",
         type: "beast",
         subtype: "",
@@ -12535,6 +12770,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Raven",
+        source: "5e SRD",
         size: "Tiny",
         type: "beast",
         subtype: "",
@@ -12570,6 +12806,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Red Dragon Wyrmling",
+        source: "5e SRD",
         size: "Medium",
         type: "dragon",
         subtype: "",
@@ -12612,6 +12849,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Reef Shark",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -12654,6 +12892,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Remorhaz",
+        source: "5e SRD",
         size: "Huge",
         type: "monstrosity",
         subtype: "",
@@ -12696,6 +12935,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Rhinoceros",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -12733,6 +12973,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Riding Horse",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -12762,6 +13003,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Roc",
+        source: "5e SRD",
         size: "Gargantuan",
         type: "monstrosity",
         subtype: "",
@@ -12817,6 +13059,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Roper",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -12879,6 +13122,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Rug of Smothering",
+        source: "5e SRD",
         size: "Large",
         type: "construct",
         subtype: "",
@@ -12926,6 +13170,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Rust Monster",
+        source: "5e SRD",
         size: "Medium",
         type: "monstrosity",
         subtype: "",
@@ -12972,6 +13217,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Saber-Toothed Tiger",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -13021,6 +13267,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Sahuagin",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "sahuagin",
@@ -13087,6 +13334,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Salamander",
+        source: "5e SRD",
         size: "Large",
         type: "elemental",
         subtype: "",
@@ -13142,6 +13390,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Satyr",
+        source: "5e SRD",
         size: "Medium",
         type: "fey",
         subtype: "",
@@ -13198,6 +13447,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Scorpion",
+        source: "5e SRD",
         size: "Tiny",
         type: "beast",
         subtype: "",
@@ -13226,6 +13476,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Scout",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -13280,6 +13531,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Sea Hag",
+        source: "5e SRD",
         size: "Medium",
         type: "fey",
         subtype: "",
@@ -13346,6 +13598,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Sea Horse",
+        source: "5e SRD",
         size: "Tiny",
         type: "beast",
         subtype: "",
@@ -13373,6 +13626,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Shadow",
+        source: "5e SRD",
         size: "Medium",
         type: "undead",
         subtype: "",
@@ -13422,6 +13676,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Shambling Mound",
+        source: "5e SRD",
         size: "Large",
         type: "plant",
         subtype: "",
@@ -13469,6 +13724,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Shield Guardian",
+        source: "5e SRD",
         size: "Large",
         type: "construct",
         subtype: "",
@@ -13528,6 +13784,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Shrieker",
+        source: "5e SRD",
         size: "Medium",
         type: "plant",
         subtype: "",
@@ -13562,6 +13819,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Silver Dragon Wyrmling",
+        source: "5e SRD",
         size: "Medium",
         type: "dragon",
         subtype: "",
@@ -13604,6 +13862,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Skeleton",
+        source: "5e SRD",
         size: "Medium",
         type: "undead",
         subtype: "",
@@ -13640,6 +13899,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Solar",
+        source: "5e SRD",
         size: "Large",
         type: "celestial",
         subtype: "",
@@ -13733,6 +13993,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Specter",
+        source: "5e SRD",
         size: "Medium",
         type: "undead",
         subtype: "",
@@ -13775,6 +14036,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Spider",
+        source: "5e SRD",
         size: "Tiny",
         type: "beast",
         subtype: "",
@@ -13821,6 +14083,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Spirit Naga",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -13872,6 +14135,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Sprite",
+        source: "5e SRD",
         size: "Tiny",
         type: "fey",
         subtype: "",
@@ -13917,6 +14181,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Spy",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -13979,6 +14244,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Steam Mephit",
+        source: "5e SRD",
         size: "Small",
         type: "elemental",
         subtype: "",
@@ -14030,6 +14296,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Stirge",
+        source: "5e SRD",
         size: "Tiny",
         type: "beast",
         subtype: "",
@@ -14059,6 +14326,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Stone Giant",
+        source: "5e SRD",
         size: "Huge",
         type: "giant",
         subtype: "",
@@ -14116,6 +14384,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Stone Golem",
+        source: "5e SRD",
         size: "Large",
         type: "construct",
         subtype: "",
@@ -14174,6 +14443,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Storm Giant",
+        source: "5e SRD",
         size: "Huge",
         type: "giant",
         subtype: "",
@@ -14245,6 +14515,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Succubus/Incubus",
+        source: "5e SRD",
         size: "Medium",
         type: "fiend",
         subtype: "shapechanger",
@@ -14311,6 +14582,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Swarm of Bats",
+        source: "5e SRD",
         size: "Medium",
         type: "swarm of Tiny beasts",
         subtype: "",
@@ -14357,6 +14629,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Swarm of Beetles",
+        source: "5e SRD",
         size: "Medium",
         type: "swarm of Tiny beasts",
         subtype: "",
@@ -14393,6 +14666,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Swarm of Centipedes",
+        source: "5e SRD",
         size: "Medium",
         type: "swarm of Tiny beasts",
         subtype: "",
@@ -14429,6 +14703,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Swarm of Insects",
+        source: "5e SRD",
         size: "Medium",
         type: "swarm of Tiny beasts",
         subtype: "",
@@ -14465,6 +14740,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Swarm of Poisonous Snakes",
+        source: "5e SRD",
         size: "Medium",
         type: "swarm of Tiny beasts",
         subtype: "",
@@ -14501,6 +14777,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Swarm of Quippers",
+        source: "5e SRD",
         size: "Medium",
         type: "swarm of Tiny beasts",
         subtype: "",
@@ -14547,6 +14824,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Swarm of Rats",
+        source: "5e SRD",
         size: "Medium",
         type: "swarm of Tiny beasts",
         subtype: "",
@@ -14588,6 +14866,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Swarm of Ravens",
+        source: "5e SRD",
         size: "Medium",
         type: "swarm of Tiny beasts",
         subtype: "",
@@ -14624,6 +14903,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Swarm of Spiders",
+        source: "5e SRD",
         size: "Medium",
         type: "swarm of Tiny beasts",
         subtype: "",
@@ -14675,6 +14955,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Swarm of Wasps",
+        source: "5e SRD",
         size: "Medium",
         type: "swarm of Tiny beasts",
         subtype: "",
@@ -14711,6 +14992,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Tarrasque",
+        source: "5e SRD",
         size: "Gargantuan",
         type: "monstrosity",
         subtype: "titan",
@@ -14817,6 +15099,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Thug",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -14865,6 +15148,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Tiger",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -14912,6 +15196,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Treant",
+        source: "5e SRD",
         size: "Huge",
         type: "plant",
         subtype: "",
@@ -14970,6 +15255,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Tribal Warrior",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -15006,6 +15292,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Triceratops",
+        source: "5e SRD",
         size: "Huge",
         type: "beast",
         subtype: "",
@@ -15049,6 +15336,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Troll",
+        source: "5e SRD",
         size: "Large",
         type: "giant",
         subtype: "",
@@ -15108,6 +15396,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Tyrannosaurus Rex",
+        source: "5e SRD",
         size: "Huge",
         type: "beast",
         subtype: "",
@@ -15150,6 +15439,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Unicorn",
+        source: "5e SRD",
         size: "Large",
         type: "celestial",
         subtype: "",
@@ -15241,6 +15531,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Vampire",
+        source: "5e SRD",
         size: "Medium",
         type: "undead",
         subtype: "shapechanger",
@@ -15344,6 +15635,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Vampire Spawn",
+        source: "5e SRD",
         size: "Medium",
         type: "undead",
         subtype: "",
@@ -15403,6 +15695,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Veteran",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "any race",
@@ -15452,6 +15745,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Violet Fungus",
+        source: "5e SRD",
         size: "Medium",
         type: "plant",
         subtype: "",
@@ -15492,6 +15786,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Vrock",
+        source: "5e SRD",
         size: "Large",
         type: "fiend",
         subtype: "demon",
@@ -15557,6 +15852,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Vulture",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -15598,6 +15894,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Warhorse",
+        source: "5e SRD",
         size: "Large",
         type: "beast",
         subtype: "",
@@ -15634,6 +15931,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Warhorse Skeleton",
+        source: "5e SRD",
         size: "Large",
         type: "undead",
         subtype: "",
@@ -15663,6 +15961,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Water Elemental",
+        source: "5e SRD",
         size: "Large",
         type: "elemental",
         subtype: "",
@@ -15716,6 +16015,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Weasel",
+        source: "5e SRD",
         size: "Tiny",
         type: "beast",
         subtype: "",
@@ -15752,6 +16052,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Werebear",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "human",
@@ -15814,6 +16115,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Wereboar",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "human",
@@ -15875,6 +16177,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Wererat",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "human",
@@ -15937,6 +16240,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Weretiger",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "human",
@@ -16011,6 +16315,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Werewolf",
+        source: "5e SRD",
         size: "Medium",
         type: "humanoid",
         subtype: "human",
@@ -16073,6 +16378,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "White Dragon Wyrmling",
+        source: "5e SRD",
         size: "Medium",
         type: "dragon",
         subtype: "",
@@ -16115,6 +16421,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Wight",
+        source: "5e SRD",
         size: "Medium",
         type: "undead",
         subtype: "",
@@ -16172,6 +16479,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Will-o'-Wisp",
+        source: "5e SRD",
         size: "Tiny",
         type: "undead",
         subtype: "",
@@ -16229,6 +16537,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Winter Wolf",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -16282,6 +16591,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Wolf",
+        source: "5e SRD",
         size: "Medium",
         type: "beast",
         subtype: "",
@@ -16324,6 +16634,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Worg",
+        source: "5e SRD",
         size: "Large",
         type: "monstrosity",
         subtype: "",
@@ -16361,6 +16672,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Wraith",
+        source: "5e SRD",
         size: "Medium",
         type: "undead",
         subtype: "",
@@ -16409,6 +16721,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Wyvern",
+        source: "5e SRD",
         size: "Large",
         type: "dragon",
         subtype: "",
@@ -16458,6 +16771,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Xorn",
+        source: "5e SRD",
         size: "Medium",
         type: "elemental",
         subtype: "",
@@ -16518,6 +16832,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Young Black Dragon",
+        source: "5e SRD",
         size: "Large",
         type: "dragon",
         subtype: "",
@@ -16579,6 +16894,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Young Blue Dragon",
+        source: "5e SRD",
         size: "Large",
         type: "dragon",
         subtype: "",
@@ -16633,6 +16949,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Young Brass Dragon",
+        source: "5e SRD",
         size: "Large",
         type: "dragon",
         subtype: "",
@@ -16687,6 +17004,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Young Bronze Dragon",
+        source: "5e SRD",
         size: "Large",
         type: "dragon",
         subtype: "",
@@ -16748,6 +17066,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Young Copper Dragon",
+        source: "5e SRD",
         size: "Large",
         type: "dragon",
         subtype: "",
@@ -16802,6 +17121,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Young Gold Dragon",
+        source: "5e SRD",
         size: "Large",
         type: "dragon",
         subtype: "",
@@ -16868,6 +17188,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Young Green Dragon",
+        source: "5e SRD",
         size: "Large",
         type: "dragon",
         subtype: "",
@@ -16929,6 +17250,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Young Red Dragon",
+        source: "5e SRD",
         size: "Large",
         type: "dragon",
         subtype: "",
@@ -16983,6 +17305,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Young Silver Dragon",
+        source: "5e SRD",
         size: "Large",
         type: "dragon",
         subtype: "",
@@ -17042,6 +17365,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Young White Dragon",
+        source: "5e SRD",
         size: "Large",
         type: "dragon",
         subtype: "",
@@ -17103,6 +17427,7 @@ export const BESTIARY: Monster[] = [
     },
     {
         name: "Zombie",
+        source: "5e SRD",
         size: "Medium",
         type: "undead",
         subtype: "",
