@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.6](https://github.com/javalent/fantasy-statblocks/compare/4.0.5...4.0.6) (2024-03-07)
+
+
+### Bug Fixes
+
+* Fixes issue where bestiary would never resolve if Parse Frontmatter was disabled ([16bfb03](https://github.com/javalent/fantasy-statblocks/commit/16bfb0316b22f6bb9182ac2764f2182c1e5d432b))
+
 ## [4.0.5](https://github.com/javalent/fantasy-statblocks/compare/4.0.4...4.0.5) (2024-03-07)
 
 
