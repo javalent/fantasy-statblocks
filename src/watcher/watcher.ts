@@ -148,7 +148,10 @@ class WatcherClass extends Component {
             }
         );
         this.plugin.app.workspace.onLayoutReady(() => {
-            if (!this.plugin.settings.autoParse) return;
+            if (!this.plugin.settings.autoParse) {
+                Bestiary.setResolved();
+                return;
+            }
             this.start(true);
         });
     }
