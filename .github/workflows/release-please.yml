@@ -89,12 +89,12 @@ jobs:
                   asset_name: styles.css
                   asset_content_type: text/css
         
-            - run: npm whoami
-              env:
-                  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-            - run: npm publish
-              env:
-                  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+#            - run: npm whoami
+#              env:
+#                  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+#            - run: npm publish
+#              env:
+#                  NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
     notify:
         needs: upload-build
