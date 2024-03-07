@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/javalent/fantasy-statblocks/compare/3.19.3...4.0.0) (2024-03-07)
+
+
+### ⚠ BREAKING CHANGES
+
+* Full transition to new Bestiary API
+* Creatures from notes are no longer saved to data.
+
+### Features
+
+* Adds ability to open note-based creatures directly from the bestiary in settings ([4669df8](https://github.com/javalent/fantasy-statblocks/commit/4669df8c73c026e1fd0fb04905b841d79cff6e14))
+* Adds proper API typings for npm module ([dbf6b7d](https://github.com/javalent/fantasy-statblocks/commit/dbf6b7db5ec4b466d458ba15cf1a47abc241200e))
+* Creatures from notes are no longer saved to data. ([1f08a96](https://github.com/javalent/fantasy-statblocks/commit/1f08a9608016da3938d7e855a3ae6f5ff7232690))
+* Full transition to new Bestiary API ([0c58550](https://github.com/javalent/fantasy-statblocks/commit/0c5855071afa9d4c8509ecea6055f75218c228ea))
+* New UI for Bestiary creatures in settings ([b6063aa](https://github.com/javalent/fantasy-statblocks/commit/b6063aa05b0b3bbbff63e18aee37a5a131c4570f))
+
+
+### Bug Fixes
+
+* Added isResolved, onResolved and onUpdated API hooks ([8d3b1e9](https://github.com/javalent/fantasy-statblocks/commit/8d3b1e959a5bf751230f98bddf6cc8ded9a0f4be))
+* Adds rotation animation for CSS ([7df6249](https://github.com/javalent/fantasy-statblocks/commit/7df624977dc8bf63f808ae3b8f9602b90eacab47))
+* Adds source field to 5e SRD bestiary ([7b3da4c](https://github.com/javalent/fantasy-statblocks/commit/7b3da4c032b693f10eae041894a19fe663963d96))
+* Clean up dead plugin code ([3df6baf](https://github.com/javalent/fantasy-statblocks/commit/3df6baf3c6e5f0503b07135b936f793f6703f6d3))
+* Correctly parses links for frontmatter creatures ([b182d8f](https://github.com/javalent/fantasy-statblocks/commit/b182d8f2de36471cf3c39557cf9eed4417d4e32b))
+* Fixes some dice parser errors ([#353](https://github.com/javalent/fantasy-statblocks/issues/353)) ([35fb8a9](https://github.com/javalent/fantasy-statblocks/commit/35fb8a9159939d28f1b013d52beb8a5057d37f87))
+* Global switch to Lucide icons ([ddc2ea4](https://github.com/javalent/fantasy-statblocks/commit/ddc2ea404e23e07a880087df871bf89ac517cf90))
+* made link stringifier stateless ([52672ce](https://github.com/javalent/fantasy-statblocks/commit/52672ce01c2ac67d13910aaf333e31177b5a9e3a))
+* Remove duplicated API methods from plugin definition ([780ab18](https://github.com/javalent/fantasy-statblocks/commit/780ab184661ff699d5a8dd858843170b820f8ae2))
+* Switch to centralized suggestion class ([2914658](https://github.com/javalent/fantasy-statblocks/commit/29146587db7d0b9f6c6272109d1c9988b2f48db5))
+
 ## [3.19.3](https://github.com/javalent/fantasy-statblocks/compare/3.19.2...3.19.3) (2024-02-22)
 
 
