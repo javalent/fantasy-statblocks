@@ -12,7 +12,6 @@ declare global {
     }
 }
 export class API {
-    #changed: boolean = true;
     #plugin: StatBlockPlugin;
     constructor(plugin: StatBlockPlugin) {
         this.#plugin = plugin;
@@ -24,13 +23,6 @@ export class API {
         patch: number;
     } {
         return this.#plugin.settings.version;
-    }
-
-    setChanged(changed: boolean) {
-        this.#changed = changed;
-    }
-    hasChanged() {
-        return this.#changed;
     }
 
     /**
@@ -87,6 +79,77 @@ export class API {
      */
     async getCreature(name: string): Promise<Partial<Monster> | null> {
         return await Bestiary.getCreatureFromBestiary(name);
+    }
+
+    /**
+     * Gets an array of monsters sorted by the specified field.
+     *
+     * @param {string} field - The field by which monsters should be sorted.
+     * @returns {Array<Monster>} - An array of monsters sorted by the specified field.
+     */
+    getSortedBy(field: string): Array<Monster> {
+        return Bestiary.getSortedBy(field);
+    }
+    /**
+     * Registers a callback to be invoked when monsters are sorted by the specified field.
+     *
+     * @param {string} field - The field by which monsters are sorted.
+     * @param {(values: Array<Monster>) => void} cb - The callback function to be invoked when sorting occurs.
+     * @returns {() => void} - A function that can be used to unregister the callback.
+     */
+    onSortedBy(
+        field: string,
+        cb: (values: Array<Monster>) => void
+    ): () => void {
+        return Bestiary.onSortedBy(field, cb);
+    }
+    /**
+     * Registers a custom sorter function for sorting monsters by the specified field.
+     *
+     * @param {string} field - The field by which monsters should be sorted.
+     * @param {(a: Monster, b: Monster) => number} compareFn - The comparison function used for sorting.
+     */
+    registerSorter(
+        field: string,
+        compareFn: (a: Monster, b: Monster) => number
+    ) {
+        return Bestiary.registerSorter(field, compareFn);
+    }
+
+    /**
+     * Gets an array of indices.
+     *
+     * @returns {Array<string>} - An array of indices.
+     */
+    getIndices() {
+        return Bestiary.getIndices();
+    }
+    /**
+     * Gets the index map for the specified field.
+     *
+     * @param {string} field - The field for which the index map is retrieved.
+     * @returns {Map<string, Set<string>>} - The index map for the specified field.
+     */
+    getIndex(field: string): Map<string, Set<string>> {
+        return Bestiary.getIndex(field);
+    }
+    /**
+     * Registers an index for the specified field.
+     *
+     * @param {string} field - The field for which the index is registered.
+     */
+    registerIndex(field: string) {
+        return Bestiary.registerIndex(field);
+    }
+    /**
+     * Registers a callback to be invoked when the specified index is updated.
+     *
+     * @param {string} index - The index for which the callback is registered.
+     * @param {() => void} callback - The callback function to be invoked when the index is updated.
+     * @returns {() => void} - A function that can be used to unregister the callback.
+     */
+    onIndexUpdated(index: string, callback: () => void): () => void {
+        return Bestiary.onIndexUpdated(index, callback);
     }
 
     isResolved(): boolean {

@@ -6,7 +6,7 @@ import sveltePreprocess from "svelte-preprocess";
 import inlineWorkerPlugin from "esbuild-plugin-inline-worker";
 import { sassPlugin } from "esbuild-sass-plugin";
 import { config } from "dotenv";
-import { build } from 'tsup';
+import { build } from "tsup";
 
 config();
 
@@ -67,6 +67,7 @@ const params = {
     minify: prod,
     treeShaking: true,
     outdir: dir,
+    conditions: ["svelte"],
     plugins: [
         sassPlugin(),
         sveltePlugin({

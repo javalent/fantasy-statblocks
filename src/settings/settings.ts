@@ -30,7 +30,7 @@ import FantasyStatblockModal from "src/modal/modal";
 import { FolderInputSuggest } from "obsidian-utilities";
 import { Watcher } from "src/watcher/watcher";
 import { Bestiary } from "src/bestiary/bestiary";
-import { buildLoader } from "src/util";
+import Creatures from "./creatures/Creatures.svelte";
 
 export default class StatblockSettingTab extends PluginSettingTab {
     importer: Importer;
@@ -983,206 +983,14 @@ export default class StatblockSettingTab extends PluginSettingTab {
         const ancestor = this.containerEl.closest(".statblock-settings");
         const { backgroundColor, paddingTop } = getComputedStyle(ancestor);
 
-        const filters = additionalContainer.createDiv({
-            cls: "statblock-monster-filter",
-            attr: {
-                style: `--statblock-filter-offset: ${paddingTop}; --statblock-filter-bg: ${backgroundColor}`
+        new Creatures({
+            target: additionalContainer,
+            props: {
+                plugin: this.plugin,
+                backgroundColor,
+                paddingTop
             }
         });
-        this.filter = new Setting(filters)
-            .setClass("statblock-filter-container")
-
-            .addSearch((t) => {
-                t.setPlaceholder("Search Monsters").onChange(
-                    debounce((v) => {
-                        this.showSearchResults(additional, v);
-                    }, 100)
-                );
-            })
-            .addExtraButton((b) => {
-                b.setIcon("trash")
-                    .setTooltip("Delete All Filtered Monsters")
-                    .onClick(() => {
-                        const modal = new ConfirmModal(
-                            this.results.length,
-                            this.plugin
-                        );
-                        modal.onClose = async () => {
-                            if (modal.saved) {
-                                await this.plugin.deleteMonsters(
-                                    ...(this.results?.map((m) => m.name) ?? [])
-                                );
-                                this.generateMonsters(containerEl);
-                            }
-                        };
-                        modal.open();
-                    });
-            });
-        this.setFilterDesc();
-        const sourcesSetting = filters.createEl("details");
-        sourcesSetting.createEl("summary", { text: "Filter Sources" });
-        const list = sourcesSetting.createEl(
-            "ul",
-            "contains-task-list task-list-inline markdown-preview-view"
-        );
-
-        /* for (let source of this.plugin.sources) {
-            const li = list.createEl("li", "task-list-item");
-            li.createEl("input", {
-                attr: {
-                    id: "input_" + source,
-                    checked: true
-                },
-                type: "checkbox",
-                cls: "task-list-item-checkbox"
-            }).onclick = (evt) => {
-                const target = evt.target as HTMLInputElement;
-                if (target.checked) {
-                    this.displayed.add(source);
-                } else {
-                    this.displayed.delete(source);
-                }
-                this.showSearchResults(additional, "");
-            };
-            li.createEl("label", {
-                attr: {
-                    for: "input_" + source
-                },
-                text: source
-            });
-        } */
-        const additional = additionalContainer.createDiv("additional");
-        if (!Bestiary.size()) {
-            additional
-                .createDiv({
-                    attr: {
-                        style: "display: flex; justify-content: center; padding-bottom: 18px;"
-                    }
-                })
-                .createSpan({
-                    text: "No saved creatures! Create one to see it here."
-                });
-            return;
-        }
-
-        const loading = buildLoader("Loading Bestiary...");
-        if (!Bestiary.isResolved()) {
-            additional.appendChild(loading);
-        }
-        Bestiary.onResolved(() => {
-            loading.detach();
-            this.showSearchResults(additional, "");
-        });
-    }
-
-    setFilterDesc() {
-        this.filter.setDesc(
-            createFragment((e) => {
-                e.createSpan({
-                    text: `Managing ${Bestiary.size()} homebrew creature${
-                        Bestiary.size() == 1 ? "" : "s"
-                    }.`
-                });
-                e.createEl("p", {
-                    attr: {
-                        style: "margin: 0;"
-                    }
-                }).createEl("small", {
-                    text: `Displaying: ${this.results.length} homebrew creatures.`
-                });
-            })
-        );
-    }
-    showSearchResults(additional: HTMLDivElement, search: string) {
-        additional.empty();
-        for (const item of this.performFuzzySearch(search)) {
-            const content = new Setting(additional).setName(item.name);
-            let desc: string,
-                needTooltip = false;
-            if (Array.isArray(item.source)) {
-                let source = item.source.slice(0, 4);
-                if (item.source.length > 4) {
-                    source.push(`and ${item.source.length - 4} more`);
-                    needTooltip = true;
-                }
-                desc = stringify(source, 0, ", ", false);
-            } else {
-                desc = item.source;
-            }
-            content.setDesc(desc);
-            if (needTooltip) {
-                content.descEl.setAttr(
-                    "aria-label",
-                    stringify(item.source, 0, ", ", false)
-                );
-            }
-            content.addExtraButton((b) => {
-                b.setIcon("info")
-                    .setTooltip("View")
-                    .onClick(() => {
-                        const modal = new ViewMonsterModal(
-                            this.plugin,
-                            item as Monster
-                        );
-                        modal.open();
-                    });
-            });
-            if (Bestiary.isLocal(item.name)) {
-                content
-                    .addExtraButton((b) => {
-                        b.setIcon("pencil")
-                            .setTooltip("Edit")
-                            .onClick(() => {
-                                const modal = new EditMonsterModal(
-                                    this.plugin,
-                                    item
-                                );
-                                modal.open();
-                                modal.onClose = () => {
-                                    this.showSearchResults(additional, search);
-                                };
-                            });
-                    })
-                    .addExtraButton((b) => {
-                        b.setIcon("trash")
-                            .setTooltip("Delete")
-                            .onClick(async () => {
-                                await this.plugin.deleteMonster(item.name);
-                                this.showSearchResults(additional, search);
-                            });
-                    });
-            }
-        }
-        this.setFilterDesc();
-    }
-    displayed: Set<string> = new Set(/* this.plugin.sources */);
-    performFuzzySearch(input: string) {
-        const results: Partial<Monster>[] = [];
-        for (const name of Bestiary.getBestiaryNames()) {
-            /* if (!resource.name && !resource.source) continue; */
-            /* if (
-                typeof resource.source == "string" &&
-                !this.displayed.has(resource.source)
-            )
-                continue; */
-            /* if (
-                Array.isArray(resource.source) &&
-                !resource.source.find((s) => this.displayed.has(s))
-            )
-                continue; */
-
-            const search = prepareSimpleSearch(input);
-            let result = search(name);
-            const resource = Bestiary.getCreatureFromBestiarySync(name);
-            if (!result && resource.source != null) {
-                result = search(stringify(resource.source));
-            }
-            if (result) {
-                results.push(resource);
-            }
-        }
-        this.results = results.slice(0, 100);
-        return this.results;
     }
 }
 
