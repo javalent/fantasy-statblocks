@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.4](https://github.com/javalent/fantasy-statblocks/compare/4.0.0...4.0.4) (2024-03-07)
+
+
+### Miscellaneous Chores
+
+* release 4.0.4 ([0048de5](https://github.com/javalent/fantasy-statblocks/commit/0048de5bc0385bdf2bb883852e5ab0708fd79954))
+
 ## [4.0.0](https://github.com/javalent/fantasy-statblocks/compare/3.19.3...4.0.0) (2024-03-07)
 
 
