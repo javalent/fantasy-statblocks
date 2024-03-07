@@ -122,6 +122,7 @@ class WatcherClass extends Component {
                     let { monster, path } = evt.data.data;
 
                     let update = Bestiary.hasCreature(monster.name);
+                    monster.path = path;
 
                     Bestiary.addEphemeralCreature(monster);
 

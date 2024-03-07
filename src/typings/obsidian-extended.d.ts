@@ -18,6 +18,9 @@ declare module "obsidian" {
             listCommands: () => Command[];
             executeCommandById: (id: string) => boolean;
         };
+        setting: {
+            close: () => void;
+        };
     }
     interface MetadataCache {
         initialized: boolean;
@@ -32,6 +35,12 @@ declare module "obsidian" {
             name: T,
             data: StatblockEvents[T]
         ): void;
-        trigger(name: "link-hover", popover: object, target: HTMLElement, link: string, source: string);
+        trigger(
+            name: "link-hover",
+            popover: object,
+            target: HTMLElement,
+            link: string,
+            source: string
+        );
     }
 }

@@ -96,6 +96,7 @@ export interface Monster {
     forceColumns?: boolean;
 
     note?: string;
+    path?: string;
     mtime?: number;
 
     /* Extensions */

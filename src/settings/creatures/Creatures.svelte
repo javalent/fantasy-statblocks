@@ -78,7 +78,7 @@
     </div>
     <div class="creatures-container">
         {#each $sliced as item (item.name)}
-            <Creature {item} />
+            <Creature {item} on:close />
         {/each}
     </div>
     <div class="pagination-container">

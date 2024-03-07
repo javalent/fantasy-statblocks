@@ -6,9 +6,11 @@
     import { Bestiary } from "src/bestiary/bestiary";
     import { getContext } from "../layout/context";
     import { NameFilter } from "./filters/filters";
+    import { createEventDispatcher } from "svelte";
 
     export let item: Monster;
 
+    const dispatch = createEventDispatcher<{ close: void }>();
     const plugin = getContext("plugin");
     let content: Setting;
     const buildSetting = (node: HTMLElement) => {
@@ -33,14 +35,7 @@
                 stringify(item.source, 0, ", ", false)
             );
         }
-        content.addExtraButton((b) => {
-            b.setIcon("info")
-                .setTooltip("View")
-                .onClick(() => {
-                    const modal = new ViewMonsterModal(plugin, item as Monster);
-                    modal.open();
-                });
-        });
+
         if (Bestiary.isLocal(item.name)) {
             content
                 .addExtraButton((b) => {
@@ -58,7 +53,25 @@
                             await plugin.deleteMonster(item.name);
                         });
                 });
+        } else if (item.path) {
+            const file = plugin.app.vault.getFileByPath(item.path);
+            if (!file) return;
+            content.addExtraButton((b) => {
+                b.setIcon("file-symlink").onClick(async () => {
+                    const leaf = plugin.app.workspace.getLeaf();
+                    await leaf.openFile(file);
+                    plugin.app.setting.close();
+                });
+            });
         }
+        content.addExtraButton((b) => {
+            b.setIcon("info")
+                .setTooltip("View")
+                .onClick(() => {
+                    const modal = new ViewMonsterModal(plugin, item as Monster);
+                    modal.open();
+                });
+        });
     };
 
     $: {

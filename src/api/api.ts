@@ -4,8 +4,8 @@ import type { Component } from "obsidian";
 import type { HomebrewCreature } from "obsidian-overload";
 import { Bestiary } from "src/bestiary/bestiary";
 import type StatBlockPlugin from "src/main";
-import { buildLoader } from "src/util";
 import StatBlockRenderer from "src/view/statblock";
+
 declare global {
     interface Window {
         FantasyStatblocks: API;
