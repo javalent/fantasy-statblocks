@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.8](https://github.com/javalent/fantasy-statblocks/compare/4.0.7...4.0.8) (2024-03-08)
+
+
+### Bug Fixes
+
+* Properly return the FS Bestiary unloaders ([004e43f](https://github.com/javalent/fantasy-statblocks/commit/004e43ff60dc5d005038fe67856f31406dac2593))
+
 ## [4.0.7](https://github.com/javalent/fantasy-statblocks/compare/4.0.6...4.0.7) (2024-03-08)
 
 
