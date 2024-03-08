@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.7](https://github.com/javalent/fantasy-statblocks/compare/4.0.6...4.0.7) (2024-03-08)
+
+
+### Bug Fixes
+
+* Bestiary resolved events will re-fire after the vault is re-parsed ([2c8c8c7](https://github.com/javalent/fantasy-statblocks/commit/2c8c8c77a657c3b161cb67bd4ccfc4b0e28450f5))
+* Fixes error handling in Statblock parser ([c6f7e7d](https://github.com/javalent/fantasy-statblocks/commit/c6f7e7d4858a21eeff298dba0f7e026874791894))
+* Inline Statblocks will now have their links transformed properly ([a15d5c2](https://github.com/javalent/fantasy-statblocks/commit/a15d5c2f86dda2810626a3df76ee3cc65078fa78))
+* Plugin is now properly registered with the Page Preview plugin ([c1e9237](https://github.com/javalent/fantasy-statblocks/commit/c1e9237f2f54c7e4c9e2bbbc286e9b032abf63cc))
+
 ## [4.0.6](https://github.com/javalent/fantasy-statblocks/compare/4.0.5...4.0.6) (2024-03-07)
 
 
