@@ -70,13 +70,13 @@
     }
     function popover(evt: MouseEvent & { currentTarget: HTMLDivElement }) {
         if (!file) return;
-        plugin.app.workspace.trigger(
-            "link-hover",
-            {},
-            evt.currentTarget,
-            file.path,
-            context
-        );
+        plugin.app.workspace.trigger("hover-link", {
+            event: evt,
+            source: plugin.manifest.id,
+            hoverParent: plugin.app.workspace.getMostRecentLeaf(),
+            targetEl: evt.currentTarget,
+            linktext: file.path
+        });
     }
 </script>
 

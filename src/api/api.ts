@@ -11,6 +11,12 @@ declare global {
         FantasyStatblocks: API;
     }
 }
+
+declare module "obsidian" {
+    interface Workspace {
+        on(name: "fantasy-statblocks:loaded", callback: () => void): EventRef;
+    }
+}
 export class API {
     #plugin: StatBlockPlugin;
     constructor(plugin: StatBlockPlugin) {

@@ -7,6 +7,7 @@ interface StatblockEvents {
     "fantasy-statblocks:settings-change": StatblockData;
     "fantasy-statblocks:frontmatter-change": boolean;
     "fantasy-statblocks:srd-change": boolean;
+    "fantasy-statblocks:loaded": null;
 }
 
 declare module "obsidian" {
@@ -26,6 +27,17 @@ declare module "obsidian" {
         initialized: boolean;
         getLinkSuggestions(): { alias?: string; file: TFile; path: string }[];
     }
+    interface HoverLinkEvent {
+        event: MouseEvent;
+        source: string;
+        hoverParent: WorkspaceLeaf;
+        targetEl: HTMLElement | null;
+        linktext: string;
+        sourcePath?: string;
+        state?: {
+            scroll: unknown;
+        };
+    }
     interface Workspace {
         on<T extends keyof StatblockEvents>(
             name: T,
@@ -35,12 +47,6 @@ declare module "obsidian" {
             name: T,
             data: StatblockEvents[T]
         ): void;
-        trigger(
-            name: "link-hover",
-            popover: object,
-            target: HTMLElement,
-            link: string,
-            source: string
-        );
+        trigger(name: "hover-link", data: HoverLinkEvent): EventRef;
     }
 }

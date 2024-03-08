@@ -121,6 +121,8 @@ export default class StatBlockPlugin extends Plugin {
     };
     async onload() {
         console.log("Fantasy StatBlocks loaded");
+        this.app.workspace.trigger("fantasy-statblocks:loaded", null);
+
         await this.loadSettings();
         await this.saveSettings();
 
@@ -130,6 +132,11 @@ export default class StatBlockPlugin extends Plugin {
         Linkifier.initialize(this.app.metadataCache);
 
         this.register(() => Linkifier.unload());
+
+        this.registerHoverLinkSource(this.manifest.id, {
+            display: this.manifest.name,
+            defaultMod: false
+        });
 
         this.addCommand({
             id: "open-creature-view",

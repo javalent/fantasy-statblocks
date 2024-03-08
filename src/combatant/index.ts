@@ -25,14 +25,14 @@ export class CreatureView extends ItemView {
         this.containerEl.on(
             "mouseover",
             "a.internal-link",
-            debounce((ev) => {
-                this.plugin.app.workspace.trigger(
-                    "link-hover",
-                    {}, //hover popover, but don't need
-                    ev.target as HTMLElement, //targetEl
-                    (ev.target as HTMLAnchorElement).dataset.href, //linkText
-                    "fantasy-statblocks " //source
-                );
+            debounce((event) => {
+                this.plugin.app.workspace.trigger("hover-link", {
+                    event,
+                    source: this.plugin.manifest.id,
+                    hoverParent: this.leaf,
+                    targetEl: event.target as HTMLAnchorElement,
+                    linktext: (event.target as HTMLAnchorElement).dataset.href
+                });
             }, 10)
         );
         this.containerEl.on("click", "a.internal-link", (ev) =>
