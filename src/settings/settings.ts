@@ -36,6 +36,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
     importer: Importer;
     results: Partial<Monster>[] = [];
     filter: Setting;
+    $UI: Creatures;
     constructor(app: App, private plugin: StatBlockPlugin) {
         super(app, plugin);
         this.importer = new Importer(this.plugin);
@@ -983,7 +984,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
         const ancestor = this.containerEl.closest(".statblock-settings");
         const { backgroundColor, paddingTop } = getComputedStyle(ancestor);
 
-        new Creatures({
+        this.$UI = new Creatures({
             target: additionalContainer,
             props: {
                 plugin: this.plugin,
@@ -991,6 +992,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 paddingTop
             }
         });
+    }
+    override hide() {
+        this.$UI.$destroy();
     }
 }
 

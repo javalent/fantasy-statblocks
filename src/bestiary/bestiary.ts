@@ -4,6 +4,29 @@ import type StatBlockPlugin from "src/main";
 import { Watcher } from "src/watcher/watcher";
 import { BESTIARY_BY_NAME } from "./srd-bestiary";
 import { stringify } from "src/util/util";
+import type { EventRef, Events, Workspace } from "obsidian";
+
+declare module "obsidian" {
+    interface Workspace {
+        trigger(name: "fantasy-statblocks:bestiary:resolved"): void;
+        trigger(name: "fantasy-statblocks:bestiary:updated"): void;
+        trigger<T extends string>(
+            name: `fantasy-statblocks:bestiary:indexed:${T}`
+        ): void;
+        trigger<T extends string>(
+            name: `fantasy-statblocks:bestiary:sorted:${T}`,
+            values: Array<Monster>
+        ): void;
+        on<T extends string>(
+            name: `fantasy-statblocks:bestiary:indexed:${T}`,
+            callback: () => void
+        ): EventRef;
+        on<T extends string>(
+            name: `fantasy-statblocks:bestiary:sorted:${T}`,
+            callback: (values: Array<Monster>) => void
+        ): EventRef;
+    }
+}
 
 class BestiaryClass {
     #bestiary: Map<string, Monster> = new Map();
@@ -11,18 +34,13 @@ class BestiaryClass {
     #ephemeral: Map<string, Monster> = new Map();
 
     #resolved = false;
-    #resolveCallbacks: Array<() => void> = [];
-    #updatedCallbacks: Array<() => void> = [];
 
     enableSRD: boolean;
 
     #indices: Map<string, Map<string, Set<string>>> = new Map();
-    #indexCallbacks: Map<string, Array<() => void>> = new Map();
 
     #sorters: Map<string, (a: Monster, b: Monster) => number> = new Map();
     #sorted: Map<string, Array<Monster>> = new Map();
-    #sortedCallbacks: Map<string, Array<(values: Array<Monster>) => void>> =
-        new Map();
 
     getSortedBy(field: string): Array<Monster> {
         return this.#sorted.get(field) ?? [];
@@ -31,15 +49,14 @@ class BestiaryClass {
         field: string,
         cb: (values: Array<Monster>) => void
     ): () => void {
-        if (!this.#sortedCallbacks.has(field)) {
-            this.#sortedCallbacks.set(field, []);
-        }
-        this.#sortedCallbacks.get(field).push(cb);
-        console.log(
-            "🚀 ~ file: bestiary.ts:40 ~ this.#sortedCallbacks.get(field):",
-            this.#sortedCallbacks.get(field)
+        let ref = this.#events.on(
+            `fantasy-statblocks:bestiary:sorted:${field}`,
+            (values) => cb(values)
         );
-        return () => this.#sortedCallbacks.get(field)?.remove(cb);
+
+        return () => {
+            this.#events.offref(ref);
+        };
     }
 
     registerSorter(
@@ -64,9 +81,10 @@ class BestiaryClass {
                         this.#sorters.get(field)(a, b)
                     )
                 );
-                for (const callback of this.#sortedCallbacks.get(field) ?? []) {
-                    callback(this.getSortedBy(field));
-                }
+                this.#events.trigger(
+                    `fantasy-statblocks:bestiary:sorted:${field}`,
+                    this.getSortedBy(field)
+                );
             }
         }, 0);
     }
@@ -83,21 +101,24 @@ class BestiaryClass {
     }
 
     onIndexUpdated(index: string, callback: () => void): () => void {
-        if (!this.#indices.has(index)) return;
-        if (!this.#indexCallbacks.has(index)) {
-            this.#indexCallbacks.set(index, []);
-        }
-        this.#indexCallbacks.get(index)?.push(callback);
+        if (!this.#indices.has(index)) return () => {};
+        let ref: EventRef = this.#events.on(
+            `fantasy-statblocks:bestiary:indexed:${index}`,
+            () => callback()
+        );
+
         return () => {
-            this.#indexCallbacks.get(index)?.remove(callback);
+            this.#events.offref(ref);
         };
     }
-
+    #events: Workspace;
     initialize(plugin: StatBlockPlugin) {
         this.registerIndex("source");
         this.registerSorter("name", (a, b) => a.name.localeCompare(b.name));
 
         Watcher.initialize(plugin).load();
+
+        this.#events = plugin.app.workspace;
         plugin.addCommand({
             id: "parse-frontmatter",
             name: "Parse Frontmatter for Creatures",
@@ -143,9 +164,9 @@ class BestiaryClass {
                         map.get(value).add(creature.name);
                     }
 
-                    for (const cb of this.#indexCallbacks?.get(field) ?? []) {
-                        cb();
-                    }
+                    this.#events.trigger(
+                        `fantasy-statblocks:bestiary:indexed:${field}`
+                    );
                 }
             }
         }, 0);
@@ -158,9 +179,9 @@ class BestiaryClass {
                     if (map.has(value)) {
                         map.get(value).delete(creature.name);
                     }
-                    for (const cb of this.#indexCallbacks?.get(field) ?? []) {
-                        cb();
-                    }
+                    this.#events.trigger(
+                        `fantasy-statblocks:bestiary:indexed:${field}`
+                    );
                 }
             }
         }, 0);
@@ -217,9 +238,14 @@ class BestiaryClass {
     setResolved(resolved: boolean) {
         this.#resolved = resolved;
         if (resolved) {
-            for (const callback of this.#resolveCallbacks) {
-                callback();
-            }
+            /* for (const callback of this.#resolveCallbacks) {
+                try {
+                    callback();
+                } catch (e) {
+                    console.log("🚀 ~ file: bestiary.ts:224 ~ e:", e);
+                }
+            } */
+            this.#events.trigger("fantasy-statblocks:bestiary:resolved");
 
             this.#triggerUpdatedCallbacks();
             this.#triggerSort();
@@ -227,27 +253,37 @@ class BestiaryClass {
     }
 
     onResolved(callback: () => void): () => void {
+        let ref: EventRef;
         if (this.isResolved()) {
             callback();
         } else {
-            this.#resolveCallbacks.push(callback);
+            ref = this.#events.on("fantasy-statblocks:bestiary:resolved", () =>
+                callback()
+            );
         }
         return () => {
-            this.#resolveCallbacks?.remove(callback);
+            if (!ref) return;
+            this.#events.offref(ref);
         };
     }
     onUpdated(callback: () => void): () => void {
-        this.#updatedCallbacks.push(callback);
+        let ref: EventRef;
+        if (this.isResolved()) {
+            callback();
+        } else {
+            ref = this.#events.on("fantasy-statblocks:bestiary:updated", () =>
+                callback()
+            );
+        }
         return () => {
-            this.#updatedCallbacks?.remove(callback);
+            if (!ref) return;
+            this.#events.offref(ref);
         };
     }
 
     #triggerUpdatedCallbacks() {
         if (this.isResolved()) {
-            for (const callback of this.#updatedCallbacks) {
-                callback();
-            }
+            this.#events.trigger("fantasy-statblocks:bestiary:updated");
         }
     }
     size() {

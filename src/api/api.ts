@@ -15,6 +15,14 @@ declare global {
 declare module "obsidian" {
     interface Workspace {
         on(name: "fantasy-statblocks:loaded", callback: () => void): EventRef;
+        on(
+            name: "fantasy-statblocks:bestiary:resolved",
+            callback: () => void
+        ): EventRef;
+        on(
+            name: "fantasy-statblocks:bestiary:updated",
+            callback: () => void
+        ): EventRef;
     }
 }
 export class API {

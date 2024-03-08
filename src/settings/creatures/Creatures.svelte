@@ -9,6 +9,7 @@
     import { Setting, prepareSimpleSearch } from "obsidian";
     import type { Monster } from "index";
     import { derived, writable } from "svelte/store";
+    import { onDestroy } from "svelte";
 
     export let plugin: StatBlockPlugin;
 
@@ -18,7 +19,13 @@
     export let paddingTop: string;
 
     const creatures = writable(Bestiary.getBestiaryCreatures());
-    Bestiary.onSortedBy("name", (values) => ($creatures = values));
+    let ref = Bestiary.onSortedBy("name", (values) => {
+        $creatures = values;
+    });
+
+    onDestroy(() => {
+        ref();
+    });
 
     const slice = writable(50);
     const page = writable(1);
