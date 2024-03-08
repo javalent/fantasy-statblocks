@@ -214,14 +214,16 @@ class BestiaryClass {
     isResolved() {
         return this.#resolved;
     }
-    setResolved() {
-        this.#resolved = true;
-        for (const callback of this.#resolveCallbacks) {
-            callback();
-        }
+    setResolved(resolved: boolean) {
+        this.#resolved = resolved;
+        if (resolved) {
+            for (const callback of this.#resolveCallbacks) {
+                callback();
+            }
 
-        this.#triggerUpdatedCallbacks();
-        this.#triggerSort();
+            this.#triggerUpdatedCallbacks();
+            this.#triggerSort();
+        }
     }
 
     onResolved(callback: () => void): () => void {

@@ -149,7 +149,7 @@ class WatcherClass extends Component {
         );
         this.plugin.app.workspace.onLayoutReady(() => {
             if (!this.plugin.settings.autoParse) {
-                Bestiary.setResolved();
+                Bestiary.setResolved(true);
                 return;
             }
             this.start(true);
@@ -169,7 +169,7 @@ class WatcherClass extends Component {
             new Notice("Fantasy Statblocks: Frontmatter Parsing complete.");
             this.announce = false;
         }
-        Bestiary.setResolved();
+        Bestiary.setResolved(true);
     }
     async delete(path: string) {
         Bestiary.removeEphemeralCreature(this.watchPaths.get(path));
@@ -181,6 +181,7 @@ class WatcherClass extends Component {
     }
     startTime: number;
     start(announce = false) {
+        Bestiary.setResolved(false);
         this.announce = announce;
         this.startTime = Date.now();
         console.info("Fantasy Statblocks: Starting Frontmatter Parsing.");
