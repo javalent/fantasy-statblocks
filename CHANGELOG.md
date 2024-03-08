@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.9](https://github.com/javalent/fantasy-statblocks/compare/4.0.8...4.0.9) (2024-03-08)
+
+
+### Bug Fixes
+
+* Improves Bestiary event registration ([a0870e3](https://github.com/javalent/fantasy-statblocks/commit/a0870e31fbfe09a1caf42fc6b9f2c7a0f60ccb1f))
+
 ## [4.0.8](https://github.com/javalent/fantasy-statblocks/compare/4.0.7...4.0.8) (2024-03-08)
 
 
