@@ -97,9 +97,14 @@ class Parser {
                         statBlock
                     )}`
                 );
-            const monster: Monster = Object.assign({}, YAML.parse(statBlock), {
-                mtime: file.mtime
-            });
+
+            const monster: Monster = Object.assign(
+                {},
+                YAML.parse(statBlock),
+                {
+                    mtime: file.mtime
+                }
+            );
             if (this.debug)
                 console.debug(`Fantasy Statblocks: ${JSON.stringify(monster)}`);
             this.processMonster(monster, file);
@@ -132,12 +137,18 @@ class Parser {
 
             const { file, statblock } = event.data;
 
-            if (statblock === "inline") {
-                //statblock codeblock
-                this.processContent(event.data.content, file);
-            } else {
-                //frontmatter
-                this.parseFrontmatter(event.data.info, file);
+            try {
+                if (statblock === "inline") {
+                    //statblock codeblock
+                    this.processContent(event.data.content, file);
+                } else {
+                    //frontmatter
+                    this.parseFrontmatter(event.data.info, file);
+                }
+            } catch (e) {
+                console.error(
+                    `There was an error parsing the Statblock in ${path}: \n\n${e.message}`
+                );
             }
 
             ctx.postMessage<FinishFileMessage>({ type: "done", data: path });
