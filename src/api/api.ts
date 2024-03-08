@@ -162,10 +162,10 @@ export class API {
         return Bestiary.isResolved();
     }
     onResolved(callback: () => void) {
-        Bestiary.onResolved(callback);
+        return Bestiary.onResolved(callback);
     }
     onUpdated(callback: () => void) {
-        Bestiary.onUpdated(callback);
+        return Bestiary.onUpdated(callback);
     }
 
     render(
