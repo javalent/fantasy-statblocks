@@ -98,9 +98,10 @@ class Parser {
                     )}`
                 );
 
+            const frontmatter = Stringifier.transformSource(statBlock);
             const monster: Monster = Object.assign(
                 {},
-                YAML.parse(statBlock),
+                YAML.parse(frontmatter),
                 {
                     mtime: file.mtime
                 }
