@@ -148,8 +148,8 @@ class BestiaryClass {
         if (this.enableSRD) {
             this.#bestiary = new Map(BESTIARY_BY_NAME);
         }
-        for (const [, monster] of plugin.settings.monsters) {
-            this.addLocalCreature(monster);
+        for (const [, creature] of plugin.settings.monsters) {
+            this.addLocalCreature(creature);
         }
     }
 
@@ -193,10 +193,11 @@ class BestiaryClass {
             this.#bestiary.get(name) === this.#local.get(name)
         );
     }
-    addLocalCreature(monster: Monster) {
-        this.#local.set(monster.name, monster);
-        this.#bestiary.set(monster.name, monster);
-        this.#addToIndex(monster);
+    addLocalCreature(creature: Monster) {
+        if (!creature.name) return;
+        this.#local.set(creature.name, creature);
+        this.#bestiary.set(creature.name, creature);
+        this.#addToIndex(creature);
         this.#triggerUpdatedCallbacks();
         this.#triggerSort();
     }
@@ -218,6 +219,7 @@ class BestiaryClass {
         this.#triggerSort();
     }
     addEphemeralCreature(creature: Monster) {
+        if (!creature.name) return;
         this.#ephemeral.set(creature.name, creature);
         this.#bestiary.set(creature.name, creature);
         this.#addToIndex(creature);
@@ -327,21 +329,21 @@ class BestiaryClass {
         return this.#bestiary.has(name);
     }
     getExtensions(
-        monster: Partial<Monster>,
+        creature: Partial<Monster>,
         extended: Set<string>
     ): Partial<Monster>[] {
-        let extensions: Partial<Monster>[] = [fastCopy(monster)];
+        let extensions: Partial<Monster>[] = [fastCopy(creature)];
         if (
-            !("extends" in monster) ||
+            !("extends" in creature) ||
             !(
-                Array.isArray(monster.extends) ||
-                typeof monster.extends == "string"
+                Array.isArray(creature.extends) ||
+                typeof creature.extends == "string"
             )
         ) {
             return extensions;
         }
-        if (monster.extends && monster.extends.length) {
-            for (const extension of [monster.extends].flat()) {
+        if (creature.extends && creature.extends.length) {
+            for (const extension of [creature.extends].flat()) {
                 if (extended.has(extension)) {
                     console.info(
                         "Circular extend dependency detected in " +
@@ -349,7 +351,7 @@ class BestiaryClass {
                     );
                     continue;
                 }
-                extended.add(monster.name);
+                extended.add(creature.name);
                 const extensionMonster = this.#bestiary.get(extension);
                 if (!extensionMonster) continue;
                 extensions.push(
@@ -373,12 +375,12 @@ class BestiaryClass {
         return new Promise((resolve) => {
             this.onResolved(() => {
                 if (!this.hasCreature(name)) resolve(null);
-                let monster = this.#bestiary.get(name);
+                let creature = this.#bestiary.get(name);
                 resolve(
                     Object.assign(
                         {},
-                        ...this.getExtensions(monster, new Set(monster.name)),
-                        monster
+                        ...this.getExtensions(creature, new Set(creature.name)),
+                        creature
                     ) as Monster
                 );
             });
@@ -394,11 +396,11 @@ class BestiaryClass {
         if (!this.isResolved())
             throw new Error("The bestiary is not fully resolved.");
         if (!this.hasCreature(name)) return null;
-        let monster = this.#bestiary.get(name);
+        let creature = this.#bestiary.get(name);
         return Object.assign(
             {},
-            ...this.getExtensions(monster, new Set(monster.name)),
-            monster
+            ...this.getExtensions(creature, new Set(creature.name)),
+            creature
         ) as Monster;
     }
 
