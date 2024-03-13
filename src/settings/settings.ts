@@ -401,9 +401,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                     );
                                     return;
                                 }
-                                if (!layout?.id) {
-                                    layout.id = nanoid();
-                                }
+
                                 if (!layout?.blocks) {
                                     reject(
                                         new Error(
@@ -415,6 +413,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                 if (!layout.diceParsing) {
                                     layout.diceParsing = [];
                                 }
+
+                                layout.id = nanoid();
+
                                 if (
                                     !this.plugin.settings.alwaysImport &&
                                     layout.blocks.find(
