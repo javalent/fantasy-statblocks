@@ -253,7 +253,7 @@
         --active--content-font-size: var(--statblock-content-font-size);
 
         --active--heading-font: var(--statblock-heading-font);
-        --active--heading-font-color: var(--active--font-color);
+        --active--heading-font-color: var(--statblock-heading-font-color);
         --active--heading-font-size: var(--statblock-heading-font-size);
         --active--heading-font-variant: var(--statblock-heading-font-variant);
         --active--heading-font-weight: var(--active--font-weight);
