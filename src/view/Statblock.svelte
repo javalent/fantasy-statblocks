@@ -261,7 +261,7 @@
 
         --active--property-line-height: var(--statblock-property-line-height);
         --active--property-font-color: var(--active--font-color);
-        --active--property-name-font-color: var(--active--font-color);
+        --active--property-name-font-color: var(--statblock-property-name-font-color);
         --active--property-name-font-weight: var(
             --statblock-property-name-font-weight
         );
