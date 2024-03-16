@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.11](https://github.com/javalent/fantasy-statblocks/compare/4.0.10...4.0.11) (2024-03-16)
+
+
+### Bug Fixes
+
+* Fixes issue where the folder suggester wasn't interactable ([df149c8](https://github.com/javalent/fantasy-statblocks/commit/df149c8c24b03a113ba46c88789411e22e1862bb))
+
 ## [4.0.10](https://github.com/javalent/fantasy-statblocks/compare/4.0.9...4.0.10) (2024-03-13)
 
 
