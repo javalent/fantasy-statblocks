@@ -10,6 +10,10 @@ declare module "obsidian" {
     interface Workspace {
         trigger(name: "fantasy-statblocks:bestiary:resolved"): void;
         trigger(name: "fantasy-statblocks:bestiary:updated"): void;
+        trigger(
+            name: "fantasy-statblocks:bestiary:creature-added",
+            creature: Monster
+        ): void;
         trigger<T extends string>(
             name: `fantasy-statblocks:bestiary:indexed:${T}`
         ): void;
@@ -24,6 +28,10 @@ declare module "obsidian" {
         on<T extends string>(
             name: `fantasy-statblocks:bestiary:sorted:${T}`,
             callback: (values: Array<Monster>) => void
+        ): EventRef;
+        on(
+            name: `fantasy-statblocks:bestiary:creature-added`,
+            callback: (creature: Monster) => void
         ): EventRef;
     }
 }
@@ -187,6 +195,12 @@ class BestiaryClass {
         }, 0);
     }
 
+    hasLocal(name: string) {
+        return this.#local.has(name);
+    }
+    getLocal(name: string) {
+        return this.#local.get(name);
+    }
     isLocal(name: string) {
         return (
             this.#local.has(name) &&
@@ -222,6 +236,10 @@ class BestiaryClass {
         if (!creature.name) return;
         this.#ephemeral.set(creature.name, creature);
         this.#bestiary.set(creature.name, creature);
+        this.#events.trigger(
+            "fantasy-statblocks:bestiary:creature-added",
+            creature
+        );
         this.#addToIndex(creature);
         this.#triggerSort();
         this.#triggerUpdatedCallbacks();
@@ -240,13 +258,6 @@ class BestiaryClass {
     setResolved(resolved: boolean) {
         this.#resolved = resolved;
         if (resolved) {
-            /* for (const callback of this.#resolveCallbacks) {
-                try {
-                    callback();
-                } catch (e) {
-                    console.log("🚀 ~ file: bestiary.ts:224 ~ e:", e);
-                }
-            } */
             this.#events.trigger("fantasy-statblocks:bestiary:resolved");
 
             this.#triggerUpdatedCallbacks();

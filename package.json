@@ -38,6 +38,7 @@
         "esbuild-sass-plugin": "^2.3.3",
         "esbuild-svelte": "^0.6.3",
         "fast-copy": "^2.1.1",
+        "fast-equals": "^5.0.1",
         "fast-sort": "^3.0.2",
         "jest": "^27.4.7",
         "obsidian": "^1.5.7-1",

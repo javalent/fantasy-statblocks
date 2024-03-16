@@ -304,11 +304,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     ...(folders as TFolder[])
                 ]);
 
-                modal.onSelect(async () => {
-                    const v = text.inputEl.value?.trim()
-                        ? text.inputEl.value.trim()
-                        : "/";
-                    path = normalizePath(v);
+                modal.onSelect(async ({ item }) => {
+                    path = normalizePath(item.path);
+                    text.setValue(item.path);
                 });
 
                 text.inputEl.onblur = async () => {
