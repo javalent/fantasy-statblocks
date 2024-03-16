@@ -77,7 +77,7 @@ const params = {
                 return !filteredWarnings.includes(warning.code);
             }
         }),
-        inlineWorkerPlugin()
+        inlineWorkerPlugin({ workerName: "Fantasy Statblocks Creature Parser" })
     ]
 };
 

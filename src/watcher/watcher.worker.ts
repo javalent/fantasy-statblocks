@@ -125,15 +125,16 @@ class Parser {
         this.parsing = true;
         while (this.queue.length) {
             const path = this.queue.shift();
-            if (!path.endsWith(".md")) {
-                continue;
-            }
             if (this.debug) {
                 console.debug(
                     `Fantasy Statblocks: Parsing ${path} for statblocks (${this.queue.length} to go)`
                 );
             }
             const event = await this.getFileData(path);
+
+            if (!path.endsWith(".md")) {
+                continue;
+            }
             if (!event.data) continue;
 
             const { file, statblock } = event.data;
