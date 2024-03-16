@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.10](https://github.com/javalent/fantasy-statblocks/compare/4.0.9...4.0.10) (2024-03-13)
+
+
+### Bug Fixes
+
+* Fixes issue where creatures without an explicit name could cause the Bestiary to crash ([c7ea4ee](https://github.com/javalent/fantasy-statblocks/commit/c7ea4ee57cf9ade417cdd16fb89e2a7de84ec2b8))
+* Fixes issue where importing the same layout twice and deleting one would delete both ([9c189eb](https://github.com/javalent/fantasy-statblocks/commit/9c189eb84a7186858ed5966dc7266b67657000ed))
+
 ## [4.0.9](https://github.com/javalent/fantasy-statblocks/compare/4.0.8...4.0.9) (2024-03-08)
 
 
