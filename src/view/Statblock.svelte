@@ -273,7 +273,9 @@
             --statblock-section-heading-border-color,
             --active--primary-color
         );
-        --active--section-heading-font-color: var(--active--font-color);
+        --active--section-heading-font-color: var(
+            --statblock-section-heading-font-color
+        );
         --active--section-heading-font-size: var(
             --statblock-section-heading-font-size
         );
