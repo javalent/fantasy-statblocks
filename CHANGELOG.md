@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.13](https://github.com/javalent/fantasy-statblocks/compare/4.0.12...4.0.13) (2024-03-20)
+
+
+### Bug Fixes
+
+* Add ability to add examples for dice parsers for future reference ([e1d365c](https://github.com/javalent/fantasy-statblocks/commit/e1d365c4d36d68a28863738b2e725820cbed99ad))
+* Adds in PF2e specific dice parsers (close [#357](https://github.com/javalent/fantasy-statblocks/issues/357)) ([1449d79](https://github.com/javalent/fantasy-statblocks/commit/1449d79e2b2e8a3411551f31e58a97a3b37e4e26))
+* **css:** add consistency to css variables for statblocks ([#369](https://github.com/javalent/fantasy-statblocks/issues/369)) ([6731d73](https://github.com/javalent/fantasy-statblocks/commit/6731d7351d68a0bcdfbbf5645d199ff85823f4fd))
+* Expose Section Heading border color in layout editor ([9fdba90](https://github.com/javalent/fantasy-statblocks/commit/9fdba9074730eefff384c28210355c9370d6769b))
+* Fixes issue where modifying a default layout could duplicate it in the settings list ([35d7ab4](https://github.com/javalent/fantasy-statblocks/commit/35d7ab42307a8b9fca147b3168f0d81d5854ecb5))
+* Fixes issue where trying to add a dice parser without any defined would crash the plugin ([0a60234](https://github.com/javalent/fantasy-statblocks/commit/0a602342a031263c15b4238251f85f8d3a3ff48d))
+* Improve Dice Parser UI in layout editor ([6115a6d](https://github.com/javalent/fantasy-statblocks/commit/6115a6d6ec77fd82a686052babaeba8253e40fa3))
+* Inherit default parsers into 5e Layout ([54d9061](https://github.com/javalent/fantasy-statblocks/commit/54d90612d3db070c706813913e5c60b21074241d))
+* Initialize Bestiary events hook before initializing file watcher ([08a1a5d](https://github.com/javalent/fantasy-statblocks/commit/08a1a5d57e7cb902cecfcb3475766c0f4977a590))
+* New layouts will inherit default dice parsers by default ([59d8950](https://github.com/javalent/fantasy-statblocks/commit/59d89500fe37a5f7b30795094a48ab6f5621063d))
+* Position 3 dot menu relative to container (close [#364](https://github.com/javalent/fantasy-statblocks/issues/364)) ([ef9c9f5](https://github.com/javalent/fantasy-statblocks/commit/ef9c9f57efa2f727265cf22efecabc06ee2ab06c))
+
 ## [4.0.12](https://github.com/javalent/fantasy-statblocks/compare/4.0.11...4.0.12) (2024-03-16)
 
 
