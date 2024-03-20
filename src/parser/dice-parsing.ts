@@ -84,7 +84,8 @@ if (!isNaN(Number(number))) {
         original
     }
 }`,
-            id: nanoid()
+            id: nanoid(),
+            desc: "+10 to hit"
         },
         {
             regex: /\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)/.source,
@@ -94,7 +95,8 @@ if (!isNaN(Number(base)) && dice) {
     text = dice;
 }
 return { text, original: dice ?? original };`,
-            id: nanoid()
+            id: nanoid(),
+            desc: "4 (1d6 + 1)"
         },
         {
             regex: /. ([\+\-]\d+)/.source,
@@ -109,7 +111,8 @@ if (!isNaN(Number(number))) {
     original = \`\$\{save} \$\{sign\}\$\{number\}\`;
 }
 return { text, original };`,
-            id: nanoid()
+            id: nanoid(),
+            desc: "+5"
         }
     ];
 }

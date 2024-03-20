@@ -251,6 +251,7 @@ export type DiceParsing = {
     regex: string;
     parser: string;
     id: string;
+    desc?: string;
 };
 
 export type DiceParser = () => ParsedDice[];
