@@ -25,6 +25,9 @@
         const modal = new DiceParsingModal(plugin, item);
         modal.onClose = () => {
             if (!modal.saved) return;
+            if ($layout.diceParsing == null) {
+                $layout.diceParsing = [];
+            }
             const existing = $layout.diceParsing.indexOf(item);
 
             if (existing === -1) {
