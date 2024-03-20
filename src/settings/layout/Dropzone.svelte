@@ -9,6 +9,10 @@
     type T = DiceParsing;
     export let items: T[];
     export let type: string;
+
+    export let draggable: boolean = true;
+    export let showIcons: boolean = true;
+
     export let component: ComponentType;
     export let onDrop: (items: T[]) => void;
     let dispatch = createEventDispatcher<{
@@ -51,7 +55,7 @@
         flipDurationMs,
         dragDisabled,
         dropFromOthersDisabled: true,
-        type,
+        type
     }}
     class="drop-items"
     on:consider={handleConsider}
@@ -61,23 +65,27 @@
         <div
             animate:flip={{ duration: flipDurationMs }}
             class="drop-item-container"
+            class:draggable
         >
-            <div
-                class="icon"
-                use:setNodeIcon={"grip-vertical"}
-                on:mousedown={startDrag}
-                on:touchstart={startDrag}
-                style={dragDisabled ? "cursor: grab" : "cursor: grabbing"}
-            />
-
+            {#if draggable}
+                <div
+                    class="icon"
+                    use:setNodeIcon={"grip-vertical"}
+                    on:mousedown={startDrag}
+                    on:touchstart={startDrag}
+                    style={dragDisabled ? "cursor: grab" : "cursor: grabbing"}
+                />
+            {/if}
             <div class="drop-item" class:type>
                 <svelte:component this={component} {item} />
             </div>
 
-            <div class="icons">
-                <div class="icon" use:advanced={item} />
-                <div class="icon" use:trash={item} />
-            </div>
+            {#if showIcons}
+                <div class="icons">
+                    <div class="icon" use:advanced={item} />
+                    <div class="icon" use:trash={item} />
+                </div>
+            {/if}
         </div>
     {/each}
 </div>
@@ -99,6 +107,9 @@
         justify-content: space-between;
         gap: 1rem;
         width: 100%;
+    }
+    .drop-item-container:not(.draggable) {
+        cursor: inherit !important;
     }
     .drop-item-container:not(:last-child) {
         margin-bottom: 0.5rem;
