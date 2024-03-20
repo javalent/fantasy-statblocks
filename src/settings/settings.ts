@@ -520,7 +520,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
         this.buildCustomLayouts(layoutContainer, containerEl);
     }
-    getDuplicate(layout: Layout) {
+    getDuplicate(layout: Layout): Layout {
         if (
             !this.plugin.manager
                 .getAllLayouts()
@@ -1008,7 +1008,6 @@ class CreateStatblockModal extends FantasyStatblockModal {
         layout: Layout = {
             name: "Layout",
             blocks: [],
-            diceParsing: [],
             id: nanoid()
         }
     ) {
