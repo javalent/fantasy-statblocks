@@ -72,7 +72,7 @@ try {
 export function getDiceParsingDefaults(): DiceParsing[] {
     return [
         {
-            regex: /([\+\-]\d+) to hit/.source,
+            regex: /([\+\-])(\d+) to hit/.source,
             parser: `let [, sign, number] = matches;
 let mult = 1;
 if (sign === "-") {
@@ -80,7 +80,7 @@ if (sign === "-") {
 }
 if (!isNaN(Number(number))) {
     return {
-        text: \`1d20+\$\{mult * Number(number)\}\`,
+        text: \`1d20+\${mult * Number(number)}\`,
         original
     }
 }`,
@@ -88,7 +88,7 @@ if (!isNaN(Number(number))) {
             desc: "+10 to hit"
         },
         {
-            regex: /\d+\s\(\d+d\d+(?:\s*[+\-]\s*\d+)?\)/.source,
+            regex: /(\d+)\s\((\d+d\d+(?:\s*[+\-]\s*\d+)?)\)/.source,
             parser: `let [, base, dice] = matches;
 let text;
 if (!isNaN(Number(base)) && dice) {
@@ -107,8 +107,8 @@ if (sign === "-") {
 }
 let text;
 if (!isNaN(Number(number))) {
-    text = \`1d20+\$\{mult * Number(number)\}\`;
-    original = \`\$\{save} \$\{sign\}\$\{number\}\`;
+    text = \`1d20+\${mult * Number(number)}\`;
+    original = \`\${save} \${sign}\${number}\`;
 }
 return { text, original };`,
             id: nanoid(),
