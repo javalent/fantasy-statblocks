@@ -583,8 +583,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
                                 (modal.layout as DefaultLayout).edited = true;
                                 this.plugin.settings.defaultLayouts.splice(
-                                    this.plugin.settings.defaultLayouts.indexOf(
-                                        layout
+                                    this.plugin.settings.defaultLayouts.findIndex(
+                                        (l) => layout.id === l.id
                                     ),
                                     1,
                                     modal.layout
@@ -607,7 +607,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                             ({ id }) => id == layout.id
                         );
                         this.plugin.settings.defaultLayouts.splice(
-                            this.plugin.settings.defaultLayouts.indexOf(layout),
+                            this.plugin.settings.defaultLayouts.findIndex(
+                                (l) => layout.id === l.id
+                            ),
                             1,
                             fastCopy(defLayout)
                         );
