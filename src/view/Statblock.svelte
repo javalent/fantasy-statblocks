@@ -263,7 +263,7 @@
 
         --active--property-line-height: var(--statblock-property-line-height);
         --active--property-font-color: var(--active--font-color);
-        --active--property-name-font-color: var(--active--font-color);
+        --active--property-name-font-color: var(--statblock-property-name-font-color);
         --active--property-name-font-weight: var(
             --statblock-property-name-font-weight
         );
@@ -275,7 +275,9 @@
             --statblock-section-heading-border-color,
             --active--primary-color
         );
-        --active--section-heading-font-color: var(--active--font-color);
+        --active--section-heading-font-color: var(
+            --statblock-section-heading-font-color
+        );
         --active--section-heading-font-size: var(
             --statblock-section-heading-font-size
         );
