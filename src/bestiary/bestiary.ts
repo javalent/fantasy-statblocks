@@ -124,9 +124,9 @@ class BestiaryClass {
         this.registerIndex("source");
         this.registerSorter("name", (a, b) => a.name.localeCompare(b.name));
 
+        this.#events = plugin.app.workspace;
         Watcher.initialize(plugin).load();
 
-        this.#events = plugin.app.workspace;
         plugin.addCommand({
             id: "parse-frontmatter",
             name: "Parse Frontmatter for Creatures",
