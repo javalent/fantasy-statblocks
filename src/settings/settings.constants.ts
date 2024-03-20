@@ -3,6 +3,7 @@ import type { LayoutCSSProperties } from "src/layouts/layout.types";
 export const DefaultProperties: LayoutCSSProperties = {
     primaryColor: "#7a200d",
     ruleColor: "#922610",
+    sectionHeadingBorderColor: "#7a200d",
     backgroundColor: "#fdf1dc",
     barColor: "#e69a28",
     barBorderColor: "#000",

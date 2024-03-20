@@ -249,7 +249,7 @@
         );
         --active--font-weight: var(--statblock-font-weight);
 
-        --active--content-font: var(--statblock-content-font: );
+        --active--content-font: var(--statblock-content-font);
         --active--content-font-size: var(--statblock-content-font-size);
 
         --active--heading-font: var(--statblock-heading-font);

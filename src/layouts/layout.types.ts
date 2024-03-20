@@ -260,6 +260,7 @@ export type ParsedDice = string | { text: string; original: string };
 export interface LayoutCSSProperties {
     primaryColor: string;
     ruleColor: string;
+    sectionHeadingBorderColor: string;
     backgroundColor: string;
     barColor: string;
     barBorderColor: string;

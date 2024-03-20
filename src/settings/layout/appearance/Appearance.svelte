@@ -60,6 +60,12 @@
             on:change={(e) => update("fontColor", e.detail)}
         />
         <SettingComponent
+            name={"Section Heading Border Color"}
+            desc={"Control the color of section heading borders."}
+            value={cssProperties.ruleColor}
+            on:change={(e) => update("sectionHeadingBorderColor", e.detail)}
+        />
+        <SettingComponent
             name={"Rule Color"}
             desc={"Control the color of horizontal rules."}
             value={cssProperties.ruleColor}
