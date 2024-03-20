@@ -56,11 +56,15 @@ try {
 
         if (
             !res ||
-            !res.text ||
-            typeof res.text != "string" ||
-            !res.text.length
+            (Array.isArray(res) &&
+                !res.every((r) => typeof r == "string" || r?.text?.length)) ||
+            (!Array.isArray(res) &&
+                typeof res === "object" &&
+                !res.text?.length)
         ) {
             result.push(prop);
+        } else if (Array.isArray(res)) {
+            result.push(...res);
         } else {
             result.push(res);
         }
@@ -99,7 +103,7 @@ return { text, original: dice ?? original };`,
             desc: "4 (1d6 + 1)"
         },
         {
-            regex: /. ([\+\-]\d+)/.source,
+            regex: /(.+) ([\+\-])(\d+)/.source,
             parser: `let [, save, sign, number] = matches;
 let mult = 1;
 if (sign === "-") {
