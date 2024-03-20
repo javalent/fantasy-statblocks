@@ -153,7 +153,9 @@
         const classes: string[] = [];
         for (const block of blocks) {
             if (block.type == "layout") {
-                const layout = plugin.manager.getAllLayouts().find((l) => l.id == block.layout);
+                const layout = plugin.manager
+                    .getAllLayouts()
+                    .find((l) => l.id == block.layout);
                 classes.push(slugify(layout?.name));
             }
             if ("nested" in block) {
@@ -309,6 +311,7 @@
     }
     .container {
         display: flex;
+        position: relative;
         width: 100%;
         margin: 0.25rem 0;
     }
@@ -319,6 +322,6 @@
 
     .icons {
         position: absolute;
-        left: 0;
+        left: var(--size-2-2);
     }
 </style>
