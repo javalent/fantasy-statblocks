@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.12](https://github.com/javalent/fantasy-statblocks/compare/4.0.11...4.0.12) (2024-03-16)
+
+
+### Bug Fixes
+
+* Attempt to speed up initial FS parsing ([51a31ae](https://github.com/javalent/fantasy-statblocks/commit/51a31aee1af24593cc9c6ff011fcea5fe598cc68))
+
 ## [4.0.11](https://github.com/javalent/fantasy-statblocks/compare/4.0.10...4.0.11) (2024-03-16)
 
 
