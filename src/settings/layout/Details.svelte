@@ -6,9 +6,6 @@
     export let desc: string = "";
     export let alwaysOpen = false;
 
-    const details = (node: HTMLDetailsElement) => {
-        if (open) node.setAttr("open", "open");
-    };
     const handle = (node: HTMLElement) => {
         setIcon(node, "chevron-right");
     };
@@ -17,7 +14,7 @@
 <details
     class="creator calendarium-nested-settings setting-item"
     class:always-open={alwaysOpen}
-    use:details
+    bind:open
 >
     <summary class="calendarium-nested-summary">
         <div class="setting-item setting-item-heading">
