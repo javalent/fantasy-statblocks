@@ -1,8 +1,10 @@
-import type {
-    DefaultLayout,
-    ItemWithProperties,
-    Layout,
-    StatblockItem
+import {
+    CSSProperties,
+    ThemeMode,
+    type DefaultLayout,
+    type ItemWithProperties,
+    type Layout,
+    type StatblockItem
 } from "src/layouts/layout.types";
 import { Layout5e } from "./basic 5e/basic5e";
 import type { StatblockData } from "index";
@@ -12,6 +14,85 @@ export default class LayoutManager {
         this.setDefaultLayout(settings.default);
         this.setDefaultLayouts(settings.defaultLayouts);
         this.setLayouts(settings.layouts);
+
+        for (const layout of this.getAllLayouts()) {
+            this.addStyleSheet(layout);
+        }
+    }
+
+    unload() {
+        for (const sheet of this.#STYLESHEETS.values()) {
+            sheet.detach();
+        }
+    }
+    #STYLESHEETS: Map<string, HTMLStyleElement> = new Map();
+    addStyleSheet(layout: Layout) {
+        this.removeStyleSheet(layout.id);
+        const sheet = this.generateStyleSheet(layout);
+        if (!sheet) return;
+        this.#STYLESHEETS.set(layout.id, sheet);
+    }
+    removeStyleSheet(id: string) {
+        if (this.#STYLESHEETS.has(id)) {
+            const existing = this.#STYLESHEETS.get(id);
+            existing.detach();
+        }
+    }
+    getSheetRules(layout: Layout): string[] {
+        const layoutName = `.${layout.name.toLowerCase().replace(/\s+/g, "-")}`;
+        const rules: string[] = [
+            this.#buildSheetRule(layoutName, layout.cssProperties)
+        ];
+
+        if (ThemeMode.Light in layout.cssProperties) {
+            rules.push(
+                this.#buildSheetRule(
+                    `${layoutName}.theme-light`,
+                    layout.cssProperties[ThemeMode.Light]
+                )
+            );
+        }
+        if (ThemeMode.Dark in layout.cssProperties) {
+            rules.push(
+                this.#buildSheetRule(
+                    `${layoutName}.theme-dark`,
+                    layout.cssProperties[ThemeMode.Dark]
+                )
+            );
+        }
+        return rules;
+    }
+    generateStyleSheet(
+        layout: Layout,
+        id = `FS_CSS_PROPERTIES_${layout.id}`
+    ): HTMLStyleElement | null {
+        if (!layout.cssProperties) return null;
+        const stylesheet = document.head.createEl("style", {
+            attr: { id }
+        });
+
+        return stylesheet;
+    }
+    #transformProp(prop: string): string {
+        return prop.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
+    }
+    #buildSheetRule(
+        scope: string,
+        properties: Partial<
+            Record<(typeof CSSProperties)[number], string | null>
+        >
+    ): string {
+        const built: string[] = [];
+        for (const [prop, value] of Object.entries(properties)) {
+            if (prop == ThemeMode.Dark || prop == ThemeMode.Light) continue;
+            let derived = CSSProperties.includes(value as CSSProperties)
+                ? `var(--statblock-${this.#transformProp(value)})`
+                : value;
+            built.push(`
+            --statblock-${this.#transformProp(prop)}: ${derived};`);
+        }
+        return `${scope} {${built.join("")}
+        }`;
     }
     #default: string;
     #defaults: Map<string, DefaultLayout> = new Map();
@@ -97,12 +178,14 @@ export default class LayoutManager {
      */
     public removeLayout(layout: string) {
         this.#layouts.delete(layout);
+        this.removeStyleSheet(layout);
     }
     /**
      * @param layout Layout to be added.
      */
     public addLayout(layout: Layout) {
         this.setLayouts([layout]);
+        this.addStyleSheet(layout);
     }
 
     public getSortedLayoutNames() {
