@@ -7,6 +7,7 @@ interface LayoutEditorContext {
     layout: Writable<Layout>;
     plugin: StatBlockPlugin;
     previewed: string | null;
+    mode: Writable<"light" | "dark" | null>;
 }
 
 export function getContext<K extends keyof LayoutEditorContext>(key: K) {

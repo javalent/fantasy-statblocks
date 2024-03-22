@@ -355,7 +355,10 @@ export type CSSProperties = (typeof CSSProperties)[number];
 export type LayoutCSSProperties = Record<
     (typeof CSSProperties)[number],
     string | null
->;
+> & {
+    dark?: Record<(typeof CSSProperties)[number], string | null>;
+    light?: Record<(typeof CSSProperties)[number], string | null>;
+};
 
 export const DefaultLayoutCSSProperties: LayoutCSSProperties = {
     primaryColor: "#7a200d",
@@ -423,7 +426,8 @@ export function isDerived(
 
 export function resolveRawProperty(
     properties: LayoutCSSProperties,
-    property: CSSProperties
+    property: CSSProperties,
+    mode: "light" | "dark" | null
 ) {
     return (
         properties?.[property] ?? DefaultLayoutCSSProperties[property] ?? null
@@ -432,6 +436,7 @@ export function resolveRawProperty(
 export function resolveProperty(
     properties: LayoutCSSProperties,
     property: CSSProperties,
+    mode: "light" | "dark" | null,
     seen: Set<CSSProperties> = new Set()
 ): string | null {
     seen.add(property);
@@ -441,7 +446,7 @@ export function resolveProperty(
     if (CSSProperties.includes(prop as CSSProperties)) {
         //derived...
         if (seen.has(prop as CSSProperties)) return null;
-        return resolveProperty(properties, prop as CSSProperties, seen);
+        return resolveProperty(properties, prop as CSSProperties, mode, seen);
     }
     return prop;
 }
@@ -460,7 +465,7 @@ export type CSSPropertyType =
     (typeof CSSPropertyType)[keyof typeof CSSPropertyType];
 
 export type CSSPropertyDefinition = {
-    property: keyof LayoutCSSProperties;
+    property: CSSProperties;
     name: string;
     desc?: string;
     type: CSSPropertyType;
