@@ -7,7 +7,7 @@
         Notice,
         stringifyYaml
     } from "obsidian";
-    
+
     import type { Layout, StatblockItem } from "src/layouts/layout.types";
     import type StatBlockPlugin from "src/main";
     import {
@@ -168,23 +168,9 @@
     const classes = [name, layoutName, ...getNestedLayouts(statblock)].filter(
         (n) => n?.length
     );
-
-    const customProps: string[] = [];
-    const transform = (str: string) => {
-        return `--statblock-${str.replace(
-            /[A-Z]/g,
-            (m) => `-${m.toLowerCase()}`
-        )}`;
-    };
-    for (let [key, value] of Object.entries(layout.cssProperties ?? {})) {
-        if (value in DefaultProperties) {
-            value = `var(${transform(value)})`;
-        }
-        customProps.push(`${transform(key)}: ${value};`);
-    }
 </script>
 
-<div class="container" bind:this={container} style={customProps.join("")}>
+<div class="container" bind:this={container}>
     {#if ready}
         <div
             class:obsidian-statblock-plugin={true}
