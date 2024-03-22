@@ -461,9 +461,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         const modal = new CreateStatblockModal(this.plugin);
                         modal.onClose = async () => {
                             if (!modal.saved) return;
-                            this.plugin.settings.layouts.push(
-                                this.getDuplicate(modal.layout)
-                            );
+                            const l = this.getDuplicate(modal.layout);
+                            this.plugin.settings.layouts.push(l);
+                            this.plugin.manager.addLayout(l);
                             await this.plugin.saveSettings();
                             this.buildCustomLayouts(
                                 layoutContainer,

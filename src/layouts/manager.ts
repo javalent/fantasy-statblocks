@@ -39,6 +39,7 @@ export default class LayoutManager {
         }
     }
     getSheetRules(layout: Layout): string[] {
+        if (!layout.cssProperties) return [];
         const layoutName = `.${layout.name.toLowerCase().replace(/\s+/g, "-")}`;
         const rules: string[] = [
             this.#buildSheetRule(layoutName, layout.cssProperties)
@@ -70,7 +71,10 @@ export default class LayoutManager {
         const stylesheet = document.head.createEl("style", {
             attr: { id }
         });
-
+        const rules = this.getSheetRules(layout);
+        for (const rule of rules) {
+            stylesheet.sheet.insertRule(rule, stylesheet.sheet.cssRules.length);
+        }
         return stylesheet;
     }
     #transformProp(prop: string): string {
@@ -105,12 +109,14 @@ export default class LayoutManager {
     public updateDefaultLayout(old: string, layout: DefaultLayout) {
         this.#defaults.delete(old);
         this.setDefaultLayouts([layout]);
+        this.addStyleSheet(layout);
     }
     /**
      * @param layout ID of the layout to be removed.
      */
     public removeDefaultLayout(layout: string) {
         this.#defaults.delete(layout);
+        this.removeStyleSheet(layout);
     }
     /**
      * @param layout Layout to be added.
@@ -172,6 +178,7 @@ export default class LayoutManager {
     public updateLayout(old: string, layout: Layout) {
         this.#layouts.delete(old);
         this.setLayouts([layout]);
+        this.addStyleSheet(layout);
     }
     /**
      * @param layout ID of the layout to be removed.
