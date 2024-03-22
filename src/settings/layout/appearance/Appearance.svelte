@@ -1,43 +1,51 @@
 <script lang="ts">
-    import { CSSPropertyGroups } from "src/layouts/layout.types";
+    import { CSSPropertyGroups, ThemeMode } from "src/layouts/layout.types";
     import { getContext, setContext } from "../context";
     import Group from "./Group.svelte";
     import { writable } from "svelte/store";
     import { setNodeIcon } from "src/util";
 
-    const layout = getContext("layout");
-    const mode = writable<"light" | "dark" | null>(null);
+    const mode = writable<ThemeMode>(ThemeMode.None);
     setContext("mode", mode);
 </script>
 
-<div class="setting-item">
-    <div class="setting-item-info">
-        <div class="setting-item-name">Select mode</div>
+<div class="appearance-parent">
+    <div class="setting-item">
+        <div class="setting-item-info">
+            <div class="setting-item-name">Set colors for...</div>
+        </div>
+        <div class="setting-item-control">
+            <button
+                class:mod-cta={$mode == ThemeMode.None}
+                on:click={() => ($mode = ThemeMode.None)}>Both</button
+            >
+            <button
+                use:setNodeIcon={"sun"}
+                aria-label="Light"
+                class:mod-cta={$mode == ThemeMode.Light}
+                on:click={() => ($mode = ThemeMode.Light)}
+            ></button>
+            <button
+                use:setNodeIcon={"moon"}
+                aria-label="Dark"
+                class:mod-cta={$mode == ThemeMode.Dark}
+                on:click={() => ($mode = ThemeMode.Dark)}
+            ></button>
+        </div>
     </div>
-    <div class="setting-item-control">
-        <button
-            use:setNodeIcon={"sun-moon"}
-            aria-label="Global"
-            class:mod-cta={$mode == null}
-            on:click={() => ($mode = null)}
-        ></button>
-        <button
-            use:setNodeIcon={"sun"}
-            aria-label="Light"
-            class:mod-cta={$mode == "light"}
-            on:click={() => ($mode = "light")}
-        ></button>
-        <button
-            use:setNodeIcon={"moon"}
-            aria-label="Dark"
-            class:mod-cta={$mode == "dark"}
-            on:click={() => ($mode = "dark")}
-        ></button>
+    <div class="property-groups">
+        {#each CSSPropertyGroups as group}
+            <Group {group} />
+        {/each}
     </div>
 </div>
-{#each CSSPropertyGroups as group}
-    <Group {group} />
-{/each}
 
 <style scoped>
+    .appearance-parent {
+        overflow: hidden;
+    }
+    .property-groups {
+        overflow: auto;
+        height: 100%;
+    }
 </style>

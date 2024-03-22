@@ -10,68 +10,87 @@
         PropertiesByType,
         resolveProperty,
         isDerived,
-        resolveRawProperty
+        resolveRawProperty,
+        CSSPropertyType,
+        ThemeMode,
+        DefaultLayoutCSSProperties,
+        resolutionTree
     } from "src/layouts/layout.types";
     import { getContext } from "../context";
-    import { writable } from "svelte/store";
+    import { derived, writable } from "svelte/store";
 
     export let property: CSSPropertyDefinition;
     const layout = getContext("layout");
+    const mode = getContext("mode");
+    const options = derived([layout, mode], ([layout, mode]) => {
+        return PropertiesByType.get(property.type).filter(
+            (d) =>
+                d.property != property.property &&
+                !resolutionTree(layout.cssProperties, d.property, mode).has(
+                    property.property
+                )
+        );
+    });
+    const existing = derived([layout, mode], ([layout, mode]) => {
+        return (
+            resolveProperty(layout.cssProperties, property.property, mode) ?? ""
+        );
+    });
+    const raw = derived([layout, mode, options], ([layout, mode, options]) => {
+        return (
+            resolveRawProperty(layout.cssProperties, property.property, mode) ??
+            options[0].property
+        );
+    });
 
-    let existing =
-        resolveProperty($layout.cssProperties, property.property) ?? "";
+    const linked = derived([layout, mode], ([layout, mode]) =>
+        isDerived(layout.cssProperties, property.property, mode)
+    );
 
-    let prop = writable(property.property);
-
-    let linked = isDerived($layout.cssProperties, $prop);
-
-    const propertyControl = (node: HTMLElement) => {
-        if (linked) {
-            const options = PropertiesByType.get(property.type).filter(
-                (d) => d.property != property.property
-            );
-            console.log(existing, property.property, options);
-            const linkDrop = new DropdownComponent(node);
-            for (const option of options) {
-                linkDrop.addOption(option.property, option.name);
-            }
-            linkDrop.setValue(
-                resolveRawProperty($layout.cssProperties, $prop) ??
-                    options[0].property
-            );
-        } else {
-            switch (property.type) {
-                case "Color": {
-                    new ColorComponent(node).setValue(existing);
-                    break;
-                }
-                case "Style": /*  {
-                    new DropdownComponent(node);
-                    break;
-                } */
-                case "Variant": /*  {
-                    new DropdownComponent(node);
-                    break;
-                } */
-                case "Font":
-                case "Weight":
-                case "Size": {
-                    new TextComponent(node).setValue(existing);
-                    break;
-                }
-                case "Number": {
-                    break;
-                }
-            }
-        }
-
+    const linkControl = (node: HTMLElement) => {
         new ExtraButtonComponent(node)
-            .setIcon(linked ? "unlink" : "link")
-            .onClick(() => (linked = !linked));
-    }; /* 
-    const referenceControl = (node: HTMLElement) => {
-        const drop = new DropdownComponent(node);
-    }; */
+            .setIcon($linked ? "unlink" : "link")
+            .onClick(() => {
+                if ($linked) {
+                    setProp(DefaultLayoutCSSProperties[property.property]);
+                } else {
+                    setProp(
+                        $options.find(
+                            (d) =>
+                                !resolutionTree(
+                                    $layout.cssProperties,
+                                    d.property,
+                                    $mode
+                                ).has(property.property)
+                        ).property
+                    );
+                }
+            });
+    };
+    const resetControl = (node: HTMLElement) => {
+        new ExtraButtonComponent(node).setIcon("undo").onClick(() => {
+            if ($mode === ThemeMode.None) {
+                delete $layout.cssProperties?.[property.property];
+            } else {
+                delete $layout.cssProperties?.[$mode]?.[property.property];
+            }
+            $layout.cssProperties = $layout.cssProperties;
+        });
+    };
+
+    const setProp = (value: string) => {
+        if (!$layout.cssProperties) {
+            $layout.cssProperties = {};
+        }
+        if ($mode === ThemeMode.None) {
+            $layout.cssProperties[property.property] = value;
+        } else {
+            if (!$layout.cssProperties[$mode]) {
+                $layout.cssProperties[$mode] = {};
+            }
+            $layout.cssProperties[$mode][property.property] = value;
+        }
+    };
 </script>
 
 <div class="setting-item">
@@ -81,9 +100,38 @@
         </div>
         <div class="setting-item-description">{property.desc ?? ""}</div>
     </div>
-    {#key linked}
-        <div class="setting-item-control" use:propertyControl />
-    {/key}
+    <div class="setting-item-control">
+        {#if $linked}
+            <select
+                class="dropdown"
+                on:change={(evt) => setProp(evt.currentTarget.value)}
+            >
+                {#each $options as option}
+                    <option
+                        value={option.property}
+                        selected={$raw == option.property}>{option.name}</option
+                    >
+                {/each}
+            </select>
+        {:else if property.type === CSSPropertyType.Color}
+            <input
+                type="color"
+                value={$existing}
+                on:change={(evt) => setProp(evt.currentTarget.value)}
+            />
+        {:else}
+            <input
+                type="text"
+                spellcheck="false"
+                value={$existing}
+                on:change={(evt) => setProp(evt.currentTarget.value)}
+            />
+        {/if}
+        {#key $linked}
+            <div use:linkControl />
+        {/key}
+        <div use:resetControl />
+    </div>
 </div>
 
 <style scoped>

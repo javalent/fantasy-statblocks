@@ -236,7 +236,7 @@ export interface Layout {
     name: string;
     id: string;
     diceParsing?: DiceParsing[];
-    cssProperties?: LayoutCSSProperties;
+    cssProperties?: Partial<LayoutCSSProperties>;
     blocks: StatblockItem[];
 }
 
@@ -356,8 +356,12 @@ export type LayoutCSSProperties = Record<
     (typeof CSSProperties)[number],
     string | null
 > & {
-    dark?: Record<(typeof CSSProperties)[number], string | null>;
-    light?: Record<(typeof CSSProperties)[number], string | null>;
+    [ThemeMode.Dark]?: Partial<
+        Record<(typeof CSSProperties)[number], string | null>
+    >;
+    [ThemeMode.Light]?: Partial<
+        Record<(typeof CSSProperties)[number], string | null>
+    >;
 };
 
 export const DefaultLayoutCSSProperties: LayoutCSSProperties = {
@@ -415,34 +419,62 @@ export const DefaultLayoutCSSProperties: LayoutCSSProperties = {
     traitsFontSize: null
 };
 
+export const ThemeMode = {
+    Light: "moonstone",
+    Dark: "obsidian",
+    None: "none"
+} as const;
+export type ThemeMode = (typeof ThemeMode)[keyof typeof ThemeMode];
+
+export function resolutionTree(
+    properties: Partial<LayoutCSSProperties>,
+    property: CSSProperties,
+    mode: ThemeMode
+) {
+    let seen = new Set();
+    let prop = resolveRawProperty(properties, property, mode);
+    while (CSSProperties.includes(prop as CSSProperties)) {
+        //derived...
+        if (seen.has(prop as CSSProperties)) {
+            break;
+        }
+        seen.add(prop);
+        prop = resolveRawProperty(properties, prop as CSSProperties, mode);
+    }
+    return seen;
+}
 export function isDerived(
-    properties: LayoutCSSProperties,
-    property: CSSProperties
+    properties: Partial<LayoutCSSProperties>,
+    property: CSSProperties,
+    mode: ThemeMode
 ): boolean {
-    let prop =
-        properties?.[property] ?? DefaultLayoutCSSProperties[property] ?? null;
-    return CSSProperties.includes(prop as CSSProperties);
+    let prop = resolveRawProperty(properties, property, mode);
+    console.log("🚀 ~ file: layout.types.ts:450 ~ prop:", property, prop);
+
+    return prop != null && CSSProperties.includes(prop as CSSProperties);
 }
 
 export function resolveRawProperty(
-    properties: LayoutCSSProperties,
+    properties: Partial<LayoutCSSProperties>,
     property: CSSProperties,
-    mode: "light" | "dark" | null
+    mode: ThemeMode
 ) {
     return (
-        properties?.[property] ?? DefaultLayoutCSSProperties[property] ?? null
+        (mode != ThemeMode.None ? properties?.[mode]?.[property] : null) ??
+        properties?.[property] ??
+        DefaultLayoutCSSProperties[property] ??
+        null
     );
 }
 export function resolveProperty(
-    properties: LayoutCSSProperties,
+    properties: Partial<LayoutCSSProperties>,
     property: CSSProperties,
-    mode: "light" | "dark" | null,
+    mode: ThemeMode,
     seen: Set<CSSProperties> = new Set()
 ): string | null {
     seen.add(property);
 
-    let prop =
-        properties?.[property] ?? DefaultLayoutCSSProperties[property] ?? null;
+    let prop = resolveRawProperty(properties, property, mode);
     if (CSSProperties.includes(prop as CSSProperties)) {
         //derived...
         if (seen.has(prop as CSSProperties)) return null;
@@ -486,53 +518,53 @@ export const CSSPropertyGroups: CSSPropertyGroup[] = [
                 type: CSSPropertyType.Color,
                 property: "primaryColor",
                 desc: "This is used to derive several other properties by default.",
-                name: "Primary Color"
+                name: "Primary color"
             },
             {
                 type: CSSPropertyType.Color,
                 property: "ruleColor",
-                name: "Rule Color"
+                name: "Rule color"
             },
             {
                 type: CSSPropertyType.Color,
                 property: "backgroundColor",
-                name: "Background Color"
+                name: "Background color"
             },
             {
                 type: CSSPropertyType.Color,
                 property: "borderColor",
-                name: "Border Color"
+                name: "Border color"
             },
             {
                 type: CSSPropertyType.Size,
                 property: "borderSize",
-                name: "Border Size"
+                name: "Border size"
             }
         ]
     },
     {
-        name: "Content Font",
+        name: "Content font",
         desc: "",
         properties: [
             {
                 type: CSSPropertyType.Font,
-                name: "Content Font",
-                desc: "This is the font used for most of the content in a Statblock.",
+                name: "Content font",
+                desc: "This is the font used for most of the content in a statblock.",
                 property: "contentFont"
             },
             {
                 type: CSSPropertyType.Size,
-                name: "Content Font Size",
+                name: "Content font size",
                 property: "contentFontSize"
             },
             {
                 type: CSSPropertyType.Weight,
-                name: "Content Font Weight",
+                name: "Content font weight",
                 property: "fontWeight"
             },
             {
                 type: CSSPropertyType.Color,
-                name: "Content Font Color",
+                name: "Content font color",
                 property: "fontColor"
             }
         ]
@@ -543,17 +575,17 @@ export const CSSPropertyGroups: CSSPropertyGroup[] = [
         properties: [
             {
                 type: CSSPropertyType.Color,
-                name: "Bar Color",
+                name: "Bar color",
                 property: "barColor"
             },
             {
                 type: CSSPropertyType.Color,
-                name: "Bar Border Color",
+                name: "Bar border color",
                 property: "barBorderColor"
             },
             {
                 type: CSSPropertyType.Size,
-                name: "Bar Border Size",
+                name: "Bar border size",
                 property: "barBorderSize"
             }
         ]
@@ -564,22 +596,22 @@ export const CSSPropertyGroups: CSSPropertyGroup[] = [
         properties: [
             {
                 type: CSSPropertyType.Size,
-                name: "Image Width",
+                name: "Image width",
                 property: "imageWidth"
             },
             {
                 type: CSSPropertyType.Size,
-                name: "Image Height",
+                name: "Image height",
                 property: "imageHeight"
             },
             {
                 type: CSSPropertyType.Size,
-                name: "Image Border Size",
+                name: "Image border size",
                 property: "imageBorderSize"
             },
             {
                 type: CSSPropertyType.Color,
-                name: "Image Border Color",
+                name: "Image border color",
                 property: "imageBorderColor"
             }
         ]
@@ -590,151 +622,151 @@ export const CSSPropertyGroups: CSSPropertyGroup[] = [
         properties: [
             {
                 type: CSSPropertyType.Color,
-                name: "Shadow Color",
+                name: "Shadow color",
                 property: "boxShadowColor"
             },
             {
                 type: CSSPropertyType.Size,
-                name: "Shadow X Offset",
+                name: "Shadow x offset",
                 property: "boxShadowXOffset"
             },
             {
                 type: CSSPropertyType.Size,
-                name: "Shadow Y Offset",
+                name: "Shadow y offset",
                 property: "boxShadowYOffset"
             },
             {
                 type: CSSPropertyType.Size,
-                name: "Shadow Blur",
+                name: "Shadow blur",
                 property: "boxShadowBlur"
             }
         ]
     },
     {
         name: "Headings",
-        desc: "Anything related to Heading blocks.",
+        desc: "Anything related to heading blocks.",
         properties: [
             {
                 type: CSSPropertyType.Font,
                 property: "headingFont",
-                name: "Heading Font"
+                name: "Heading font"
             },
             {
                 type: CSSPropertyType.Color,
                 property: "headingFontColor",
-                name: "Heading Font Color"
+                name: "Heading font color"
             },
             {
                 type: CSSPropertyType.Size,
                 property: "headingFontSize",
-                name: "Heading Font Size"
+                name: "Heading font size"
             },
             {
                 type: CSSPropertyType.Variant,
                 property: "headingFontVariant",
-                name: "Heading Font Variant"
+                name: "Heading font variant"
             },
             {
                 type: CSSPropertyType.Weight,
                 property: "headingFontWeight",
-                name: "Heading Font Weight"
+                name: "Heading font weight"
             }
         ]
     },
     {
         name: "Properties",
-        desc: "Anything related to Property blocks.",
+        desc: "Anything related to property blocks.",
         properties: [
             {
                 type: CSSPropertyType.Font,
                 property: "propertyFont",
-                name: "Property Font"
+                name: "Property font"
             },
             {
                 type: CSSPropertyType.Color,
                 property: "propertyFontColor",
-                name: "Property Font Color"
+                name: "Property font color"
             },
             {
                 type: CSSPropertyType.Size,
                 property: "propertyFontSize",
-                name: "Property Font Size"
+                name: "Property font size"
             },
             {
                 type: CSSPropertyType.Variant,
                 property: "propertyFontVariant",
-                name: "Property Font Variant"
+                name: "Property font variant"
             },
             {
                 type: CSSPropertyType.Weight,
                 property: "propertyFontWeight",
-                name: "Property Font Weight"
+                name: "Property font weight"
             },
             {
                 type: CSSPropertyType.Font,
                 property: "propertyNameFont",
-                name: "Property Heading Font"
+                name: "Property heading font"
             },
             {
                 type: CSSPropertyType.Color,
                 property: "propertyNameFontColor",
-                name: "Property Name Font Color"
+                name: "Property name font color"
             },
             {
                 type: CSSPropertyType.Size,
                 property: "propertyNameFontSize",
-                name: "Property Name Font Size"
+                name: "Property name font size"
             },
             {
                 type: CSSPropertyType.Variant,
                 property: "propertyNameFontVariant",
-                name: "Property Name Font Variant"
+                name: "Property name font variant"
             },
             {
                 type: CSSPropertyType.Weight,
                 property: "propertyNameFontWeight",
-                name: "Property Name Font Weight"
+                name: "Property name font weight"
             }
         ]
     },
     {
-        name: "Section Headings",
-        desc: "Anything related to Section Heading blocks.",
+        name: "Section headings",
+        desc: "Anything related to section heading blocks.",
         properties: [
             {
                 type: CSSPropertyType.Font,
                 property: "sectionHeadingFont",
-                name: "Section Heading Font"
+                name: "Section heading font"
             },
             {
                 type: CSSPropertyType.Color,
                 property: "sectionHeadingFontColor",
-                name: "Section Heading Font Color"
+                name: "Section heading font color"
             },
             {
                 type: CSSPropertyType.Size,
                 property: "sectionHeadingFontSize",
-                name: "Section Heading Font Size"
+                name: "Section heading font size"
             },
             {
                 type: CSSPropertyType.Variant,
                 property: "sectionHeadingFontVariant",
-                name: "Section Heading Font Variant"
+                name: "Section heading font variant"
             },
             {
                 type: CSSPropertyType.Weight,
                 property: "sectionHeadingFontWeight",
-                name: "Section Heading Font Weight"
+                name: "Section heading font weight"
             },
             {
                 type: CSSPropertyType.Size,
                 property: "sectionHeadingBorderSize",
-                name: "Section Heading Border Size"
+                name: "Section heading border size"
             },
             {
                 type: CSSPropertyType.Color,
                 property: "sectionHeadingBorderColor",
-                name: "Section Heading Border Color"
+                name: "Section heading border color"
             }
         ]
     },
@@ -745,27 +777,27 @@ export const CSSPropertyGroups: CSSPropertyGroup[] = [
             {
                 type: CSSPropertyType.Font,
                 property: "subheadingFont",
-                name: "Subheading Font"
+                name: "Subheading font"
             },
             {
                 type: CSSPropertyType.Color,
                 property: "subheadingFontColor",
-                name: "Subheading Font Color"
+                name: "Subheading font color"
             },
             {
                 type: CSSPropertyType.Size,
                 property: "subheadingFontSize",
-                name: "Subheading Font Size"
+                name: "Subheading font size"
             },
             {
                 type: CSSPropertyType.Style,
                 property: "subheadingFontStyle",
-                name: "Subheading Font Style"
+                name: "Subheading font style"
             },
             {
                 type: CSSPropertyType.Weight,
                 property: "subheadingFontWeight",
-                name: "Subheading Font Weight"
+                name: "Subheading font weight"
             }
         ]
     },
@@ -776,27 +808,27 @@ export const CSSPropertyGroups: CSSPropertyGroup[] = [
             {
                 type: CSSPropertyType.Font,
                 property: "traitsFont",
-                name: "Traits Font"
+                name: "Traits font"
             },
             {
                 type: CSSPropertyType.Color,
                 property: "traitsFontColor",
-                name: "Traits Font Color"
+                name: "Traits font color"
             },
             {
                 type: CSSPropertyType.Size,
                 property: "traitsFontSize",
-                name: "Traits Font Size"
+                name: "Traits font size"
             },
             {
                 type: CSSPropertyType.Style,
                 property: "traitsFontStyle",
-                name: "Traits Font Style"
+                name: "Traits font style"
             },
             {
                 type: CSSPropertyType.Weight,
                 property: "traitsFontWeight",
-                name: "Traits Font Weight"
+                name: "Traits font weight"
             }
         ]
     }
