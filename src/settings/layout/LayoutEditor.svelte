@@ -13,7 +13,7 @@
     import { createEventDispatcher } from "svelte";
 
     import Blocks from "./blocks/Blocks.svelte";
-    import { writable } from "svelte/store";
+    import { derived, writable } from "svelte/store";
     import type { Layout } from "src/layouts/layout.types";
     import Advanced from "./advanced/Advanced.svelte";
     import { setContext } from "./context";
@@ -90,8 +90,15 @@
                 dispatch("cancel");
             });
     };
+
+    const style = derived(store, (layout) => {
+        return plugin.manager.getSheetRules(layout);
+    });
 </script>
 
+{@html `<style>
+        ${$style.join("\n")}
+    </style>`}
 {#if !Platform.isMobile}
     <div class="vertical-tab-header">
         <div class="vertical-tab-header-group">
