@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.1](https://github.com/javalent/fantasy-statblocks/compare/4.1.0...4.1.1) (2024-03-23)
+
+
+### Bug Fixes
+
+* Adds Theme toggles to Previewer in Layout Editor ([e531fe8](https://github.com/javalent/fantasy-statblocks/commit/e531fe8d0b782587b8cb0999c30e92d9313dc4b3))
+* Fixes scoping issue for Layout CSS in dark/light mode ([6f44db0](https://github.com/javalent/fantasy-statblocks/commit/6f44db06ec33cc4fbe9ad5fdd74b0586bb5b5689))
+* Improves Previewer user experience ([05ec8c4](https://github.com/javalent/fantasy-statblocks/commit/05ec8c4f1d8b7033bfb2141330b781309b4f7d91))
+* Remove outdated beta manifest ([1567fe5](https://github.com/javalent/fantasy-statblocks/commit/1567fe5637be1dadd231010a5dc50d2b8f0226c1))
+
 ## [4.1.0](https://github.com/javalent/fantasy-statblocks/compare/4.0.13...4.1.0) (2024-03-23)
 
 
