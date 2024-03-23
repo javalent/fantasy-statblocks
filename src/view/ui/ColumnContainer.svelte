@@ -10,7 +10,7 @@
     import Text from "./Text.svelte";
     import { createEventDispatcher, getAllContexts, getContext } from "svelte";
     import Image from "./Image.svelte";
-    import type { StatblockItem } from "src/layouts/layout.types";
+    import type { Layout, StatblockItem } from "src/layouts/layout.types";
     import { /* linkifySpells, */ slugify, stringify } from "src/util/util";
     import Collapse from "./Collapse.svelte";
     import JavaScript from "./JavaScript.svelte";
@@ -26,7 +26,7 @@
     export let statblock: StatblockItem[];
     export let ready: boolean;
     export let classes: string[];
-
+    export let layout: Layout;
     export let columns: number;
     export const maxColumns: number = columns;
     export const detached = false;
@@ -553,6 +553,8 @@
         if (typeof monster.columnWidth == "string") {
             columnWidth = monster.columnWidth;
         }
+    } else if (layout.columnWidth) {
+        columnWidth = `${layout.columnWidth}px`;
     }
 
     let HEIGHT_READY = false;

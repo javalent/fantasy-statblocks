@@ -1,4 +1,5 @@
 import type { Monster } from "../../index";
+import type { LayoutCSSProperties } from "./layout.css";
 
 export const StatblockItemTypes = [
     "traits",
@@ -237,6 +238,9 @@ export interface Layout {
     id: string;
     diceParsing?: DiceParsing[];
     cssProperties?: Partial<LayoutCSSProperties>;
+    columns?: number;
+    forceColumns?: boolean;
+    columnWidth?: number;
     blocks: StatblockItem[];
 }
 
@@ -257,15 +261,3 @@ export type DiceParsing = {
 export type DiceParser = () => ParsedDice[];
 
 export type ParsedDice = string | { text: string; original: string };
-
-export interface LayoutCSSProperties {
-    primaryColor: string;
-    ruleColor: string;
-    sectionHeadingBorderColor: string;
-    backgroundColor: string;
-    barColor: string;
-    barBorderColor: string;
-    borderColor: string;
-    boxShadowColor: string;
-    fontColor: string;
-}

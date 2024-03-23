@@ -1,4 +1,3 @@
-import type { Monster } from "types";
 import { stringify } from "src/util/util";
 import type {
     ConditionImmunityArray,
@@ -14,6 +13,7 @@ import type {
     Align,
     Alignment
 } from "./bestiary";
+import type { Monster } from "index";
 
 const abilityMap: { [key: string]: string } = {
     str: "strength",
@@ -69,6 +69,7 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
                     try {
                         const importedMonster: Monster = {
                             image: null,
+                            bestiary: true,
                             name: monster.name,
                             source: getSource(monster),
                             type: getType(monster.type),
@@ -381,7 +382,7 @@ function extractSpellsBlocks(spellBlock: EntrySpellcasting): ExtractedSpells {
         "yearly",
         "charges"
     ] as const;
-    const frequencyMap: { [K in typeof frequencyCasting[number]]: string } = {
+    const frequencyMap: { [K in (typeof frequencyCasting)[number]]: string } = {
         rest: "/rest each",
         daily: "/day each",
         weekly: "/week each",

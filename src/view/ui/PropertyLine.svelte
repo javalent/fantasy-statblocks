@@ -43,15 +43,22 @@
 
 <style>
     .line {
-        line-height: var(--active--property-line-height);
+        line-height: var(--active-property-line-height);
         display: block;
-        color: var(--active--property-font-color);
+        font-family: var(--active-property-font);
+        color: var(--active-property-font-color);
+        font-variant: var(--active-property-font-variant);
+        font-size: var(--active-property-font-size);
+        font-weight: var(--active-property-font-weight);
     }
     .property-name {
         margin: 0;
         margin-right: 0.25em;
         display: inline;
-        color: var(--active--property-name-font-color);
-        font-weight: var(--active--property-name-font-weight);
+        font-family: var(--active-property-name-font);
+        color: var(--active-property-name-font-color);
+        font-variant: var(--active-property-name-font-variant);
+        font-size: var(--active-property-name-font-size);
+        font-weight: var(--active-property-name-font-weight);
     }
 </style>
