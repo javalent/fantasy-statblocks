@@ -1,14 +1,12 @@
-import {
-    CSSProperties,
-    DefaultLayoutCSSProperties,
-    ThemeMode,
-    type DefaultLayout,
-    type ItemWithProperties,
-    type Layout,
-    type StatblockItem
+import type {
+    DefaultLayout,
+    ItemWithProperties,
+    Layout,
+    StatblockItem
 } from "src/layouts/layout.types";
 import { Layout5e } from "./basic 5e/basic5e";
 import type { StatblockData } from "index";
+import { DefaultLayoutCSSProperties, ThemeMode, CSSProperties } from "./layout.css";
 
 export default class LayoutManager {
     public initialize(settings: StatblockData) {

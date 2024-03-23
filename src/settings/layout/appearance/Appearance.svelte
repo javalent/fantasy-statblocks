@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { CSSPropertyGroups, ThemeMode } from "src/layouts/layout.types";
     import { getContext, setContext } from "../context";
     import Group from "./Group.svelte";
     import { writable } from "svelte/store";
     import { setNodeIcon } from "src/util";
+    import { ThemeMode, CSSPropertyGroups } from "src/layouts/layout.css";
 
     const mode = writable<ThemeMode>(ThemeMode.None);
     setContext("mode", mode);

@@ -2,11 +2,8 @@
     import {
         ButtonComponent,
         ExtraButtonComponent,
-        Menu,
         Platform,
-        Setting,
-        TextComponent,
-        setIcon
+        TextComponent
     } from "obsidian";
 
     import type StatBlockPlugin from "src/main";
