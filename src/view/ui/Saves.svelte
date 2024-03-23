@@ -47,12 +47,12 @@
 
 <style>
     .line {
-        line-height: var(--active--saves-line-height);
+        line-height: var(--active-saves-line-height);
         display: block;
-        color: var(--active--font-color);
+        color: var(--active-font-color);
     }
     .property-name {
-        color: var(--active--property-name-font-color);
+        color: var(--active-property-name-font-color);
         margin: 0;
         margin-right: 0.25em;
         display: inline;

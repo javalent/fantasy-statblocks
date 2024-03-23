@@ -390,33 +390,33 @@ export const DefaultLayoutCSSProperties: LayoutCSSProperties = {
     headingFontSize: "23px",
     headingFontVariant: "small-caps",
     headingFontWeight: "fontWeight",
-    propertyFont: "contentFont",
-    propertyNameFontColor: "fontColor",
-    propertyNameFontWeight: "bold",
     sectionHeadingBorderSize: "1px",
     sectionHeadingBorderColor: "primaryColor",
+    sectionHeadingFont: null,
     sectionHeadingFontColor: "fontColor",
     sectionHeadingFontSize: "21px",
     sectionHeadingFontVariant: "small-caps",
     sectionHeadingFontWeight: "normal",
+    subheadingFont: "contentFont",
+    subheadingFontColor: "fontColor",
     subheadingFontSize: "12px",
     subheadingFontStyle: "italic",
     subheadingFontWeight: "normal",
-    traitsFontWeight: "bold",
-    traitsFontStyle: "italic",
-    propertyFontColor: null,
-    propertyFontVariant: null,
-    propertyFontSize: null,
+    propertyFont: "contentFont",
+    propertyFontColor: "fontColor",
+    propertyFontVariant: "normal",
+    propertyFontSize: "contentFontSize",
     propertyFontWeight: null,
-    propertyNameFont: null,
+    propertyNameFont: "contentFont",
+    propertyNameFontColor: "fontColor",
+    propertyNameFontWeight: null,
     propertyNameFontVariant: null,
-    propertyNameFontSize: null,
-    sectionHeadingFont: null,
-    subheadingFont: null,
-    subheadingFontColor: null,
-    traitsFont: null,
-    traitsFontColor: null,
-    traitsFontSize: null
+    propertyNameFontSize: "contentFontSize",
+    traitsFont: "contentFont",
+    traitsFontColor: "fontColor",
+    traitsFontSize: "contentFontSize",
+    traitsFontWeight: "bold",
+    traitsFontStyle: "italic"
 };
 
 export const ThemeMode = {
@@ -449,8 +449,6 @@ export function isDerived(
     mode: ThemeMode
 ): boolean {
     let prop = resolveRawProperty(properties, property, mode);
-    console.log("🚀 ~ file: layout.types.ts:450 ~ prop:", property, prop);
-
     return prop != null && CSSProperties.includes(prop as CSSProperties);
 }
 
