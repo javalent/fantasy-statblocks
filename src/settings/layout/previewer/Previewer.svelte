@@ -2,7 +2,9 @@
     import { getContext } from "../context";
     import { createEventDispatcher, onDestroy, onMount } from "svelte";
     import {
+        ExtraButtonComponent,
         SearchComponent,
+        Setting,
         debounce,
         parseYaml,
         stringifyYaml
@@ -12,8 +14,9 @@
     import { buildTextArea, setNodeIcon } from "src/util";
     import type { EditorView } from "@codemirror/view";
     import StatBlockRenderer from "src/view/statblock";
-    import { writable } from "svelte/store";
+    import { derived, writable } from "svelte/store";
     import { ThemeMode } from "src/layouts/layout.css";
+    import Details from "../Details.svelte";
 
     export let previewed: string;
 
@@ -97,12 +100,30 @@
     onDestroy(() => {
         if (editor) editor.destroy();
     });
+
+    const scale = writable(1);
+    const reset = (node: HTMLElement) => {
+        new ExtraButtonComponent(node).setIcon("undo").onClick(() => {
+            $scale = 1;
+        });
+    };
+    const settingsDesc = derived([mode, scale], ([mode, scale]) => {
+        const desc = [`Scale: ${scale}`];
+        if (mode === ThemeMode.Light) {
+            desc.push("Mode: Light");
+        }
+        if (mode === ThemeMode.Dark) {
+            desc.push("Mode: Dark");
+        }
+        return desc.join(", ");
+    });
 </script>
 
 <div
     class="previewer"
     class:theme-light={$mode === ThemeMode.Light}
     class:theme-dark={$mode === ThemeMode.Dark}
+    style={`--scale: ${$scale}`}
 >
     <div>
         Select a creature to preview the layout, or enter your own definition
@@ -112,28 +133,49 @@
     <div class="preview">
         <div class="preview-container inner" bind:this={previewContainer} />
     </div>
-    <div class="setting-item">
-        <div class="setting-item-info">
-            <div class="setting-item-name">Set theme mode</div>
+
+    <div use:search />
+    <Details name="Settings" desc={$settingsDesc} open={false}>
+        <div class="setting-item">
+            <div class="setting-item-info">
+                <div class="setting-item-name">Set theme mode</div>
+            </div>
+            <div class="setting-item-control">
+                <button
+                    use:setNodeIcon={"sun"}
+                    aria-label="Light"
+                    class:mod-cta={$mode == ThemeMode.Light}
+                    on:click={() => setMode(ThemeMode.Light)}
+                ></button>
+                <button
+                    use:setNodeIcon={"moon"}
+                    aria-label="Dark"
+                    class:mod-cta={$mode == ThemeMode.Dark}
+                    on:click={() => setMode(ThemeMode.Dark)}
+                ></button>
+            </div>
         </div>
-        <div class="setting-item-control">
-            <button
-                use:setNodeIcon={"sun"}
-                aria-label="Light"
-                class:mod-cta={$mode == ThemeMode.Light}
-                on:click={() => setMode(ThemeMode.Light)}
-            ></button>
-            <button
-                use:setNodeIcon={"moon"}
-                aria-label="Dark"
-                class:mod-cta={$mode == ThemeMode.Dark}
-                on:click={() => setMode(ThemeMode.Dark)}
-            ></button>
+        <div class="setting-item">
+            <div class="setting-item-info">
+                <div class="setting-item-name">Scale preview</div>
+                <div class="setting-item-description">Current: {$scale}</div>
+            </div>
+            <div class="setting-item-control" use:reset>
+                <input
+                    class="slider"
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    bind:value={$scale}
+                />
+            </div>
         </div>
-    </div>
+    </Details>
     <div class="definition">
-        <div use:search />
-        <div class="yaml-editor" use:yaml />
+        <Details name="Editor" open={false}>
+            <div class="yaml-editor" use:yaml />
+        </Details>
     </div>
 </div>
 
@@ -151,12 +193,10 @@
     .inner {
         overflow: auto;
         padding: var(--size-4-4);
-        scale: 0.625;
-        position: absolute;
-        top: -30%;
-        left: -30%;
-        height: 160%;
-        width: 160%;
+        transform-origin: top left;
+        scale: var(--scale, 0.625);
+        width: calc(100% / var(--scale, 0.625));
+        height: calc(100% / var(--scale, 0.625));
     }
     .definition {
         display: flex;
