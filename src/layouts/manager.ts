@@ -6,7 +6,11 @@ import type {
 } from "src/layouts/layout.types";
 import { Layout5e } from "./basic 5e/basic5e";
 import type { StatblockData } from "index";
-import { DefaultLayoutCSSProperties, ThemeMode, CSSProperties } from "./layout.css";
+import {
+    DefaultLayoutCSSProperties,
+    ThemeMode,
+    CSSProperties
+} from "./layout.css";
 
 export default class LayoutManager {
     public initialize(settings: StatblockData) {
@@ -50,7 +54,7 @@ export default class LayoutManager {
         if (ThemeMode.Light in layout.cssProperties) {
             rules.push(
                 this.#buildSheetRule(
-                    `${layoutName}.theme-light`,
+                    `.theme-light ${layoutName}`,
                     layout.cssProperties[ThemeMode.Light]
                 )
             );
@@ -58,7 +62,7 @@ export default class LayoutManager {
         if (ThemeMode.Dark in layout.cssProperties) {
             rules.push(
                 this.#buildSheetRule(
-                    `${layoutName}.theme-dark`,
+                    `.theme-dark ${layoutName}`,
                     layout.cssProperties[ThemeMode.Dark]
                 )
             );
