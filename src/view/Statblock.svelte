@@ -308,6 +308,17 @@
         --active-traits-font-size: var(--statblock-traits-font-size);
         --active-traits-font-weight: var(--statblock-traits-font-weight);
         --active-traits-font-style: var(--statblock-traits-font-style);
+        --active-traits-name-font: var(--statblock-traits-name-font);
+        --active-traits-name-font-color: var(
+            --statblock-traits-name-font-color
+        );
+        --active-traits-name-font-size: var(--statblock-traits-name-font-size);
+        --active-traits-name-font-weight: var(
+            --statblock-traits-name-font-weight
+        );
+        --active-traits-name-font-style: var(
+            --statblock-traits-name-font-style
+        );
 
         --active-link-style: var(--statblock-link-style);
     }
