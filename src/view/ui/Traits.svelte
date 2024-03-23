@@ -37,9 +37,9 @@
         : [slugify(name), slugify(property)].join(" ");
 </script>
 
-<div class="property {cssClasses}">
+<div class="property {cssClasses} trait">
     {#if name}
-        <div class="property-name">
+        <div class="property-name trait-name">
             <TextContent textToRender={name} />
         </div>
     {/if}
@@ -62,12 +62,24 @@
 </div>
 
 <style>
+    .trait {
+        font-family: var(--active-traits-font);
+        color: var(--active-traits-font-color);
+        font-size: var(--active-traits-font-size);
+        font-weight: var(--active-traits-font-weight);
+        font-style: var(--active-traits-font-style);
+    }
+    .trait-name {
+        font-family: var(--active-traits-name-font);
+        color: var(--active-traits-name-font-color);
+        font-size: var(--active-traits-name-font-size);
+        font-weight: var(--active-traits-name-font-weight);
+        font-style: var(--active-traits-name-font-style);
+    }
     .property-name {
         margin: 0;
         margin-right: 0.25em;
         display: inline;
-        font-weight: var(--active--traits-font-weight);
-        font-style: var(--active--traits-font-style);
     }
     .statblock-nested-traits {
         margin-left: 1rem;

@@ -7,6 +7,7 @@
     export let columns: number = 1;
     export let targets: HTMLElement[];
     export let columnWidth = "400px";
+
     export let heights: number[] = [];
     export let split: number = Infinity;
     export let classes: string[];
@@ -105,15 +106,15 @@
 
 <style>
     .statblock-content {
-        font-family: var(--active--content-font);
-        font-size: var(--active--content-font-size);
-        color: var(--active--font-color);
-        background-color: var(--active--background-color);
+        font-family: var(--active-content-font);
+        font-size: var(--active-content-font-size);
+        color: var(--active-font-color);
+        background-color: var(--active-background-color);
         padding: 0.5em;
-        border: var(--active--border-size) var(--active--border-color) solid;
-        box-shadow: var(--active--box-shadow-x-offset)
-            var(--active--box-shadow-y-offset) var(--active--box-shadow-blur)
-            var(--active--box-shadow-color);
+        border: var(--active-border-size) var(--active-border-color) solid;
+        box-shadow: var(--active-box-shadow-x-offset)
+            var(--active-box-shadow-y-offset) var(--active-box-shadow-blur)
+            var(--active-box-shadow-color);
         margin-left: 2px;
         margin-right: 2px;
         display: flex;

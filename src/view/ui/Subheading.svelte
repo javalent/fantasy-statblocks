@@ -23,9 +23,11 @@
 
 <style>
     .subheading {
-        font-weight: var(--active--subheading-font-weight);
-        font-style: var(--active--subheading-font-style);
-        font-size: var(--active--subheading-font-size);
+        font-weight: var(--active-subheading-font-weight);
+        font-style: var(--active-subheading-font-style);
+        font-size: var(--active-subheading-font-size);
+        font-family: var(--active-subheading-font-family);
+        color: var(--active-subheading-font-color);
         margin: 0;
     }
 </style>

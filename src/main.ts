@@ -127,6 +127,7 @@ export default class StatBlockPlugin extends Plugin {
         await this.saveSettings();
 
         this.manager.initialize(this.settings);
+        this.register(() => this.manager.unload());
 
         Bestiary.initialize(this);
         Linkifier.initialize(this.app.metadataCache);
@@ -201,6 +202,7 @@ export default class StatBlockPlugin extends Plugin {
             })
         );
     }
+
     async loadSettings() {
         const settings: StatblockData = await this.loadData();
 

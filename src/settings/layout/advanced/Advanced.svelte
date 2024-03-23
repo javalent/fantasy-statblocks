@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Setting } from "obsidian";
+    import { Setting, ToggleComponent } from "obsidian";
     import type { DiceParsing, Layout } from "src/layouts/layout.types";
     import DropZone from "../Dropzone.svelte";
     import DiceParsingComponent from "./DiceParsing.svelte";
@@ -13,10 +13,6 @@
     $: items = $layout.diceParsing ? [...$layout.diceParsing] : null;
     $: diceDisabled = items != null && items.length > 0;
 
-    $: console.log(
-        "🚀 ~ file: Advanced.svelte:15 ~ diceDisabled:",
-        diceDisabled
-    );
     function onDrop(items: DiceParsing[]) {
         $layout.diceParsing = [...items];
     }
@@ -85,7 +81,47 @@
                 );
             });
     };
+
+    const toggleForce = (node: HTMLElement) => {
+        new ToggleComponent(node)
+            .setValue($layout.forceColumns)
+            .onChange(() => {
+                $layout.forceColumns = !$layout.forceColumns;
+            });
+    };
 </script>
+
+<div class="setting-item">
+    <div class="setting-item-info">
+        <div class="setting-item-name">Columns</div>
+        <div class="setting-item-description">
+            Always try to split into this many columns, regardless of height.
+        </div>
+    </div>
+    <div class="setting-item-control">
+        <input type="number" bind:value={$layout.columns} min="0" />
+    </div>
+</div>
+<div class="setting-item">
+    <div class="setting-item-info">
+        <div class="setting-item-name">Column width</div>
+        <div class="setting-item-description">
+            Width in pixels. Default: 400px
+        </div>
+    </div>
+    <div class="setting-item-control">
+        <input type="number" bind:value={$layout.columnWidth} min="0" />
+    </div>
+</div>
+<div class="setting-item">
+    <div class="setting-item-info">
+        <div class="setting-item-name">Force columns</div>
+        <div class="setting-item-description">
+            Ignore available space when calculating columns.
+        </div>
+    </div>
+    <div class="setting-item-control" use:toggleForce />
+</div>
 
 <div use:diceParsingLayout />
 <div class="dice-parsing statblock-additional-container">

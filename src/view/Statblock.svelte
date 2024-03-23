@@ -7,7 +7,7 @@
         Notice,
         stringifyYaml
     } from "obsidian";
-    
+
     import type { Layout, StatblockItem } from "src/layouts/layout.types";
     import type StatBlockPlugin from "src/main";
     import {
@@ -21,8 +21,6 @@
 
     import Bar from "./ui/Bar.svelte";
     import ColumnContainer from "./ui/ColumnContainer.svelte";
-    import Content from "./ui/Content.svelte";
-    import { DefaultProperties } from "src/settings/settings.constants";
 
     const dispatch = createEventDispatcher();
 
@@ -36,13 +34,15 @@
     export let icons = true;
 
     let maxColumns =
-        !isNaN(Number(monster.columns)) && Number(monster.columns) > 0
-            ? Number(monster.columns)
+        !isNaN(Number(monster.columns ?? layout.columns)) &&
+        Number(monster.columns ?? layout.columns) > 0
+            ? Number(monster.columns ?? layout.columns)
             : 2;
 
     $: monsterColumnWidth = Number(`${monster.columnWidth}`.replace(/\D/g, ""));
     $: columnWidth =
-        !isNaN(monsterColumnWidth) && monsterColumnWidth > 0
+        !isNaN(monsterColumnWidth ?? layout.columnWidth) &&
+        (monsterColumnWidth ?? layout.columnWidth) > 0
             ? monsterColumnWidth
             : 400;
 
@@ -68,7 +68,7 @@
     let ready = false;
 
     const setColumns = () => {
-        if (monster.forceColumns) {
+        if (monster.forceColumns ?? layout.forceColumns) {
             columns = maxColumns;
             observer.disconnect();
             return;
@@ -168,23 +168,9 @@
     const classes = [name, layoutName, ...getNestedLayouts(statblock)].filter(
         (n) => n?.length
     );
-
-    const customProps: string[] = [];
-    const transform = (str: string) => {
-        return `--statblock-${str.replace(
-            /[A-Z]/g,
-            (m) => `-${m.toLowerCase()}`
-        )}`;
-    };
-    for (let [key, value] of Object.entries(layout.cssProperties ?? {})) {
-        if (value in DefaultProperties) {
-            value = `var(${transform(value)})`;
-        }
-        customProps.push(`${transform(key)}: ${value};`);
-    }
 </script>
 
-<div class="container" bind:this={container} style={customProps.join("")}>
+<div class="container" bind:this={container}>
     {#if ready}
         <div
             class:obsidian-statblock-plugin={true}
@@ -200,6 +186,7 @@
                         {statblock}
                         {ready}
                         {classes}
+                        {layout}
                         {plugin}
                         on:save
                         on:export
@@ -221,93 +208,126 @@
     * Active theming variables.
     */
     .statblock {
-        --active--primary-color: var(--statblock-primary-color);
-        --active--rule-color: var(--statblock-rule-color);
-        --active--background-color: var(--statblock-background-color);
+        --active-primary-color: var(--statblock-primary-color);
+        --active-rule-color: var(--statblock-rule-color);
+        --active-background-color: var(--statblock-background-color);
 
-        --active--bar-color: var(--statblock-bar-color);
-        --active--bar-border-size: var(--statblock-bar-border-size);
-        --active--bar-border-color: var(--statblock-bar-border-color);
+        --active-bar-color: var(--statblock-bar-color);
+        --active-bar-border-size: var(--statblock-bar-border-size);
+        --active-bar-border-color: var(--statblock-bar-border-color);
 
-        --active--image-width: var(--statblock-image-width);
-        --active--image-height: var(--statblock-image-height);
-        --active--image-border-size: var(--statblock-image-border-size);
-        --active--image-border-color: var(
+        --active-image-width: var(--statblock-image-width);
+        --active-image-height: var(--statblock-image-height);
+        --active-image-border-size: var(--statblock-image-border-size);
+        --active-image-border-color: var(
             --statblock-image-border-color,
-            --active--primary-color
+            --active-primary-color
         );
 
-        --active--border-size: var(--statblock-border-size);
-        --active--border-color: var(--statblock-border-color);
+        --active-border-size: var(--statblock-border-size);
+        --active-border-color: var(--statblock-border-color);
 
-        --active--box-shadow-color: var(--statblock-box-shadow-color);
-        --active--box-shadow-x-offset: var(--statblock-box-shadow-x-offset);
-        --active--box-shadow-y-offset: var(--statblock-box-shadow-y-offset);
-        --active--box-shadow-blur: var(--statblock-box-shadow-blur);
+        --active-box-shadow-color: var(--statblock-box-shadow-color);
+        --active-box-shadow-x-offset: var(--statblock-box-shadow-x-offset);
+        --active-box-shadow-y-offset: var(--statblock-box-shadow-y-offset);
+        --active-box-shadow-blur: var(--statblock-box-shadow-blur);
 
-        --active--font-color: var(
+        --active-font-color: var(
             --statblock-font-color,
-            --active--primary-color
+            --active-primary-color
         );
-        --active--font-weight: var(--statblock-font-weight);
+        --active-font-weight: var(--statblock-font-weight);
 
-        --active--content-font: var(--statblock-content-font);
-        --active--content-font-size: var(--statblock-content-font-size);
+        --active-content-font: var(--statblock-content-font);
+        --active-content-font-size: var(--statblock-content-font-size);
 
-        --active--heading-font: var(--statblock-heading-font);
-        --active--heading-font-color: var(--statblock-heading-font-color);
-        --active--heading-font-size: var(--statblock-heading-font-size);
-        --active--heading-font-variant: var(--statblock-heading-font-variant);
-        --active--heading-font-weight: var(--active--font-weight);
-        --active--heading-line-height: var(--statblock-heading-line-height);
+        --active-heading-font: var(--statblock-heading-font);
+        --active-heading-font-color: var(--statblock-heading-font-color);
+        --active-heading-font-size: var(--statblock-heading-font-size);
+        --active-heading-font-variant: var(--statblock-heading-font-variant);
+        --active-heading-font-weight: var(--statblock-font-weight);
+        --active-heading-line-height: var(--statblock-heading-line-height);
 
-        --active--property-line-height: var(--statblock-property-line-height);
-        --active--property-font-color: var(--active--font-color);
-        --active--property-name-font-color: var(--active--font-color);
-        --active--property-name-font-weight: var(
+        --active-property-line-height: var(--statblock-property-line-height);
+
+        --active-property-font: var(--statblock-property-font);
+        --active-property-font-color: var(--statblock-property-font-color);
+        --active-property-font-variant: var(--statblock-property-font-variant);
+        --active-property-font-size: var(--statblock-property-font-size);
+        --active-property-font-weight: var(--statblock-property-font-weight);
+
+        --active-property-name-font: var(--statblock-property-name-font);
+        --active-property-name-font-color: var(
+            --statblock-property-name-font-color
+        );
+        --active-property-name-font-variant: var(
+            --statblock-property-name-font-variant
+        );
+        --active-property-name-font-size: var(
+            --statblock-property-name-font-size
+        );
+        --active-property-name-font-weight: var(
             --statblock-property-name-font-weight
         );
 
-        --active--section-heading-border-size: var(
+        --active-section-heading-border-size: var(
             --statblock-section-heading-border-size
         );
-        --active--section-heading-border-color: var(
-            --statblock-section-heading-border-color,
-            --active--primary-color
+        --active-section-heading-border-color: var(
+            --statblock-section-heading-border-color
         );
-        --active--section-heading-font-color: var(--active--font-color);
-        --active--section-heading-font-size: var(
+        --active-section-heading-font: var(--statblock-section-heading-font);
+        --active-section-heading-font-color: var(
+            --statblock-section-heading-font-color
+        );
+        --active-section-heading-font-size: var(
             --statblock-section-heading-font-size
         );
-        --active--section-heading-font-variant: var(
+        --active-section-heading-font-variant: var(
             --statblock-section-heading-font-variant
         );
-        --active--section-heading-font-weight: var(
+        --active-section-heading-font-weight: var(
             --statblock-section-heading-font-weight
         );
 
-        --active--saves-line-height: var(--statblock-saves-line-height);
+        --active-saves-line-height: var(--statblock-saves-line-height);
 
-        --active--spells-font-style: var(--statblock-spells-font-style);
+        --active-spells-font-style: var(--statblock-spells-font-style);
 
-        --active--subheading-font-size: var(--statblock-subheading-font-size);
-        --active--subheading-font-style: var(--statblock-subheading-font-style);
-        --active--subheading-font-weight: var(
+        --active-subheading-font: var(--statblock-subheading-font);
+        --active-subheading-font-color: var(--statblock-subheading-font-color);
+        --active-subheading-font-size: var(--statblock-subheading-font-size);
+        --active-subheading-font-style: var(--statblock-subheading-font-style);
+        --active-subheading-font-weight: var(
             --statblock-subheading-font-weight
         );
 
-        --active--table-header-font-weight: var(
+        --active-table-header-font-weight: var(
             --statblock-table-header-font-weight
         );
 
-        --active--traits-font-weight: var(--statblock-traits-font-weight);
-        --active--traits-font-style: var(--statblock-traits-font-style);
+        --active-traits-font: var(--statblock-traits-font);
+        --active-traits-font-color: var(--statblock-traits-font-color);
+        --active-traits-font-size: var(--statblock-traits-font-size);
+        --active-traits-font-weight: var(--statblock-traits-font-weight);
+        --active-traits-font-style: var(--statblock-traits-font-style);
+        --active-traits-name-font: var(--statblock-traits-name-font);
+        --active-traits-name-font-color: var(
+            --statblock-traits-name-font-color
+        );
+        --active-traits-name-font-size: var(--statblock-traits-name-font-size);
+        --active-traits-name-font-weight: var(
+            --statblock-traits-name-font-weight
+        );
+        --active-traits-name-font-style: var(
+            --statblock-traits-name-font-style
+        );
 
-        --active--link-style: var(--statblock-link-style);
+        --active-link-style: var(--statblock-link-style);
     }
 
     .statblock :global(a) {
-        font-style: var(--active--link-style);
+        font-style: var(--statblock-link-style);
     }
     .container {
         display: flex;
