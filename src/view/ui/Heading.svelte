@@ -51,7 +51,7 @@
         color: var(--active-heading-font-color);
         font-weight: var(--active-heading-font-weight);
         font-variant: var(--active-heading-font-variant);
-        font-variant: var(--active-heading-font-size);
+        font-size: var(--active-heading-font-size);
         line-height: var(--active-heading-line-height);
         margin: 0px;
         letter-spacing: 1px;
