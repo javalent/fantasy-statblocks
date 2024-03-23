@@ -13,10 +13,6 @@
     $: items = $layout.diceParsing ? [...$layout.diceParsing] : null;
     $: diceDisabled = items != null && items.length > 0;
 
-    $: console.log(
-        "🚀 ~ file: Advanced.svelte:15 ~ diceDisabled:",
-        diceDisabled
-    );
     function onDrop(items: DiceParsing[]) {
         $layout.diceParsing = [...items];
     }
