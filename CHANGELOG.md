@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/javalent/fantasy-statblocks/compare/4.0.13...4.1.0) (2024-03-23)
+
+
+### Features
+
+* Adds Column settings in the Advanced pane of the Layout Editor ([0193fad](https://github.com/javalent/fantasy-statblocks/commit/0193fad4f1b16363245696efec488fbf5d6abb35))
+* Revamps Appearance pane of the Layout Editor ([0193fad](https://github.com/javalent/fantasy-statblocks/commit/0193fad4f1b16363245696efec488fbf5d6abb35))
+
 ## [4.0.13](https://github.com/javalent/fantasy-statblocks/compare/4.0.12...4.0.13) (2024-03-20)
 
 
