@@ -1,5 +1,6 @@
 import {
     CSSProperties,
+    DefaultLayoutCSSProperties,
     ThemeMode,
     type DefaultLayout,
     type ItemWithProperties,
@@ -42,7 +43,10 @@ export default class LayoutManager {
         if (!layout.cssProperties) return [];
         const layoutName = `.${layout.name.toLowerCase().replace(/\s+/g, "-")}`;
         const rules: string[] = [
-            this.#buildSheetRule(layoutName, layout.cssProperties)
+            this.#buildSheetRule(layoutName, {
+                ...DefaultLayoutCSSProperties,
+                ...layout.cssProperties
+            })
         ];
 
         if (ThemeMode.Light in layout.cssProperties) {
@@ -139,7 +143,9 @@ export default class LayoutManager {
         this.#default = layout;
     }
     public getDefaultLayout() {
-        return this.#layouts?.get(this.#default) ?? Layout5e;
+        return (
+            this.getAllLayouts()?.find((l) => l.id == this.#default) ?? Layout5e
+        );
     }
     #layouts: Map<string, Layout> = new Map();
     public setLayouts(layouts: Layout[]) {
