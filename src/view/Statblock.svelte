@@ -34,13 +34,15 @@
     export let icons = true;
 
     let maxColumns =
-        !isNaN(Number(monster.columns)) && Number(monster.columns) > 0
-            ? Number(monster.columns)
+        !isNaN(Number(monster.columns ?? layout.columns)) &&
+        Number(monster.columns ?? layout.columns) > 0
+            ? Number(monster.columns ?? layout.columns)
             : 2;
 
     $: monsterColumnWidth = Number(`${monster.columnWidth}`.replace(/\D/g, ""));
     $: columnWidth =
-        !isNaN(monsterColumnWidth) && monsterColumnWidth > 0
+        !isNaN(monsterColumnWidth ?? layout.columnWidth) &&
+        (monsterColumnWidth ?? layout.columnWidth) > 0
             ? monsterColumnWidth
             : 400;
 
@@ -66,7 +68,7 @@
     let ready = false;
 
     const setColumns = () => {
-        if (monster.forceColumns) {
+        if (monster.forceColumns ?? layout.forceColumns) {
             columns = maxColumns;
             observer.disconnect();
             return;
@@ -184,6 +186,7 @@
                         {statblock}
                         {ready}
                         {classes}
+                        {layout}
                         {plugin}
                         on:save
                         on:export

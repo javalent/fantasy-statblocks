@@ -7,6 +7,7 @@
     export let columns: number = 1;
     export let targets: HTMLElement[];
     export let columnWidth = "400px";
+
     export let heights: number[] = [];
     export let split: number = Infinity;
     export let classes: string[];

@@ -238,6 +238,9 @@ export interface Layout {
     id: string;
     diceParsing?: DiceParsing[];
     cssProperties?: Partial<LayoutCSSProperties>;
+    columns?: number;
+    forceColumns?: boolean;
+    columnWidth?: number;
     blocks: StatblockItem[];
 }
 
@@ -258,4 +261,3 @@ export type DiceParsing = {
 export type DiceParser = () => ParsedDice[];
 
 export type ParsedDice = string | { text: string; original: string };
-
