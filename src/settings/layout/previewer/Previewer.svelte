@@ -9,9 +9,11 @@
     } from "obsidian";
     import { MonsterSuggestionModal } from "src/util/creature";
     import type { Monster } from "index";
-    import { buildTextArea } from "src/util";
+    import { buildTextArea, setNodeIcon } from "src/util";
     import type { EditorView } from "@codemirror/view";
     import StatBlockRenderer from "src/view/statblock";
+    import { writable } from "svelte/store";
+    import { ThemeMode } from "src/layouts/layout.css";
 
     export let previewed: string;
 
@@ -83,13 +85,25 @@
             }, 500)
         );
     };
+    const mode = writable<ThemeMode>(ThemeMode.None);
+    const setMode = (current: ThemeMode) => {
+        if ($mode == current) {
+            $mode = ThemeMode.None;
+        } else {
+            $mode = current;
+        }
+    };
 
     onDestroy(() => {
         if (editor) editor.destroy();
     });
 </script>
 
-<div class="previewer">
+<div
+    class="previewer"
+    class:theme-light={$mode === ThemeMode.Light}
+    class:theme-dark={$mode === ThemeMode.Dark}
+>
     <div>
         Select a creature to preview the layout, or enter your own definition
         below.
@@ -98,7 +112,25 @@
     <div class="preview">
         <div class="preview-container inner" bind:this={previewContainer} />
     </div>
-
+    <div class="setting-item">
+        <div class="setting-item-info">
+            <div class="setting-item-name">Set theme mode</div>
+        </div>
+        <div class="setting-item-control">
+            <button
+                use:setNodeIcon={"sun"}
+                aria-label="Light"
+                class:mod-cta={$mode == ThemeMode.Light}
+                on:click={() => setMode(ThemeMode.Light)}
+            ></button>
+            <button
+                use:setNodeIcon={"moon"}
+                aria-label="Dark"
+                class:mod-cta={$mode == ThemeMode.Dark}
+                on:click={() => setMode(ThemeMode.Dark)}
+            ></button>
+        </div>
+    </div>
     <div class="definition">
         <div use:search />
         <div class="yaml-editor" use:yaml />
