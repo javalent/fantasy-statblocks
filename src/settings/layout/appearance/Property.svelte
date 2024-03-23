@@ -1,10 +1,5 @@
 <script lang="ts">
-    import {
-        ColorComponent,
-        DropdownComponent,
-        ExtraButtonComponent,
-        TextComponent
-    } from "obsidian";
+    import { ExtraButtonComponent } from "obsidian";
     import {
         type CSSPropertyDefinition,
         PropertiesByType,
@@ -13,11 +8,10 @@
         resolveRawProperty,
         CSSPropertyType,
         ThemeMode,
-        DefaultLayoutCSSProperties,
         resolutionTree
-    } from "src/layouts/layout.types";
+    } from "src/layouts/layout.css";
     import { getContext } from "../context";
-    import { derived, writable } from "svelte/store";
+    import { derived } from "svelte/store";
 
     export let property: CSSPropertyDefinition;
     const layout = getContext("layout");
@@ -52,7 +46,13 @@
             .setIcon($linked ? "unlink" : "link")
             .onClick(() => {
                 if ($linked) {
-                    setProp(DefaultLayoutCSSProperties[property.property]);
+                    setProp(
+                        resolveProperty(
+                            $layout.cssProperties,
+                            property.property,
+                            $mode
+                        )
+                    );
                 } else {
                     setProp(
                         $options.find(
