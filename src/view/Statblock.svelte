@@ -245,7 +245,7 @@
         --active-heading-font-color: var(--statblock-heading-font-color);
         --active-heading-font-size: var(--statblock-heading-font-size);
         --active-heading-font-variant: var(--statblock-heading-font-variant);
-        --active-heading-font-weight: var(--statblock-font-weight);
+        --active-heading-font-weight: var(--statblock-heading-font-weight);
         --active-heading-line-height: var(--statblock-heading-line-height);
 
         --active-property-line-height: var(--statblock-property-line-height);
