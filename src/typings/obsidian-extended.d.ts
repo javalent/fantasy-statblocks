@@ -49,4 +49,10 @@ declare module "obsidian" {
         ): void;
         trigger(name: "hover-link", data: HoverLinkEvent): EventRef;
     }
+    interface WorkspaceLeaf {
+        parent: WorkspaceParent;
+    }
+    interface WorkspaceParent {
+        children: WorkspaceLeaf[];
+    }
 }

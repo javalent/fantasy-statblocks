@@ -98,11 +98,25 @@ export default class StatBlockPlugin extends Plugin {
         if (leaf && leaf.view && leaf.view instanceof CreatureView)
             return leaf.view;
     }
-    async openCreatureView() {
-        const leaf = this.app.workspace.getRightLeaf(true);
-        await leaf.setViewState({
-            type: CREATURE_VIEW
-        });
+    async openCreatureView(newPane: boolean = false) {
+        let leaf: WorkspaceLeaf;
+        const existing = this.app.workspace.getLeavesOfType(CREATURE_VIEW);
+
+        if (!newPane && existing?.length) {
+            leaf = existing.shift();
+        } else {
+            if (newPane && existing?.length) {
+                leaf = this.app.workspace.createLeafInParent(
+                    existing[0].parent,
+                    existing[0].parent.children.length
+                );
+            } else {
+                leaf = this.app.workspace.getRightLeaf(true);
+            }
+            await leaf.setViewState({
+                type: CREATURE_VIEW
+            });
+        }
         this.app.workspace.revealLeaf(leaf);
         return leaf.view as CreatureView;
     }
@@ -141,14 +155,20 @@ export default class StatBlockPlugin extends Plugin {
 
         this.addCommand({
             id: "open-creature-view",
-            name: "Open Creature Pane",
-            callback: () => {
-                this.openCreatureView();
+            name: "Open Creature pane",
+            checkCallback: (checking) => {
+                const existing =
+                    this.app.workspace.getLeavesOfType(CREATURE_VIEW);
+                if (!existing.length) {
+                    if (!checking) {
+                        this.openCreatureView();
+                    }
+                    return true;
+                }
+                return false;
             }
         });
-        this.addRibbonIcon("skull", "Open Creature Pane", async () => {
-            this.openCreatureView();
-        });
+
         this.registerObsidianProtocolHandler(
             "creature-pane",
             this.#creaturePaneProtocolHandler.bind(this)
