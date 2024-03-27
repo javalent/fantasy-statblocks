@@ -58,8 +58,8 @@
 
     --statblock-table-header-font-weight: bold;
 
-    --statblock-traits-font-weight: bold;
-    --statblock-traits-font-style: italic;
+    --statblock-traits-name-font-weight: bold;
+    --statblock-traits-name-font-style: italic;
 
     --statblock-link-style: italic;
 }
@@ -72,8 +72,6 @@
     transform: translateX(-50%); */
     width: auto;
 }
-
-
 
 .statblock-item-container {
     margin-bottom: 0.25rem;
