@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.2](https://github.com/javalent/fantasy-statblocks/compare/4.1.1...4.1.2) (2024-03-27)
+
+
+### Bug Fixes
+
+* Adds new Creature pane commands: Reveal existing, Open new ([81a9491](https://github.com/javalent/fantasy-statblocks/commit/81a9491a9d69c8928e104485ba0eb512e12a3920))
+* Creature pane ribbon button will now open a new pane with a `mod`-click (cmd/ctrl) ([a4ba38a](https://github.com/javalent/fantasy-statblocks/commit/a4ba38a55adf4dff59eece19da6d7b876440954e))
+* Creature pane will now intelligently open new panes alongside existing ones (close [#342](https://github.com/javalent/fantasy-statblocks/issues/342)) ([3040013](https://github.com/javalent/fantasy-statblocks/commit/30400131a343addffad068bdb1729eee8af64be3))
+* Fixes 5e.tools AC import not including additional AC info (close [#340](https://github.com/javalent/fantasy-statblocks/issues/340)) ([6116540](https://github.com/javalent/fantasy-statblocks/commit/61165403859cd13ac3f3fc92c0eb8f6636df8b2a))
+* Fixes issue where traits would be bold by default (close [#376](https://github.com/javalent/fantasy-statblocks/issues/376)) ([4152ffa](https://github.com/javalent/fantasy-statblocks/commit/4152ffa99efa5844a141e25e3154f6f800c94ecd))
+* Uses Dice Roller's average calculation instead of a rudimentary approach (close [#350](https://github.com/javalent/fantasy-statblocks/issues/350)) ([5affff8](https://github.com/javalent/fantasy-statblocks/commit/5affff80f5947f4409006c462f06e98251ce7f0d))
+
 ## [4.1.1](https://github.com/javalent/fantasy-statblocks/compare/4.1.0...4.1.1) (2024-03-23)
 
 
