@@ -78,7 +78,9 @@ export const Statblock5e: StatblockItem[] = [
                 id: nanoid(),
                 properties: ["ac"],
                 display: "Armor Class",
-                conditioned: true
+                conditioned: true,
+                callback:
+                    'const ac = [monster.ac];if ("ac_class" in monster) {ac.push(`(${monster.ac_class})`);}return ac.join(" ");'
             },
             {
                 type: "property",
@@ -734,5 +736,5 @@ export const Layout5e: DefaultLayout = {
     id: "basic-5e-layout",
     name: "Basic 5e Layout",
     edited: false,
-    version: 6
+    version: 7
 };
