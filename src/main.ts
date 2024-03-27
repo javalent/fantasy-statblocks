@@ -168,6 +168,28 @@ export default class StatBlockPlugin extends Plugin {
                 return false;
             }
         });
+        this.addCommand({
+            id: "reveal-creature-view",
+            name: "Reveal Creature pane",
+            checkCallback: (checking) => {
+                const existing =
+                    this.app.workspace.getLeavesOfType(CREATURE_VIEW);
+                if (existing.length) {
+                    if (!checking) {
+                        this.openCreatureView();
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+        this.addCommand({
+            id: "open-new-creature-view",
+            name: "Open new Creature pane",
+            callback: () => {
+                this.openCreatureView(true);
+            }
+        });
 
         this.registerObsidianProtocolHandler(
             "creature-pane",
