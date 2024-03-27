@@ -190,6 +190,9 @@ export default class StatBlockPlugin extends Plugin {
                 this.openCreatureView(true);
             }
         });
+        this.addRibbonIcon("skull", "Open Creature pane", async (evt) => {
+            this.openCreatureView(evt.getModifierState("Meta"));
+        });
 
         this.registerObsidianProtocolHandler(
             "creature-pane",
