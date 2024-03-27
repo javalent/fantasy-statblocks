@@ -2,7 +2,6 @@
     import type { Monster } from "index";
     import type { SavesItem } from "src/layouts/layout.types";
     import { toTitleCase } from "src/util/util";
-    import { getContext } from "svelte";
     import TextContentHolder from "./TextContentHolder.svelte";
 
     export let monster: Monster;
@@ -30,8 +29,6 @@
         })
         .filter((m) => m)
         .join(", ");
-
-    let canDice = getContext<boolean>("dice");
 </script>
 
 <div class="info">
