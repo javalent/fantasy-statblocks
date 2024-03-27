@@ -26,7 +26,7 @@ export interface Monster {
     type: string;
     subtype: string;
     alignment: string;
-    ac: number;
+    ac: string | number;
     hp: number;
     hit_dice?: string;
     speed: string;
