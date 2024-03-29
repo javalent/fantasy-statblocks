@@ -966,7 +966,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
     }
     generateMonsters(containerEl: HTMLDivElement) {
         containerEl.empty();
-        new Setting(containerEl).setHeading().setName("Homebrew Creatures");
+        new Setting(containerEl).setHeading().setName("Bestiary");
         const additionalContainer = containerEl.createDiv(
             "statblock-additional-container statblock-monsters"
         );

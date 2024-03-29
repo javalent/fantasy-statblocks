@@ -27,10 +27,10 @@ const abilityMap: { [key: string]: string } = {
 function parseString(str: string) {
     if (!str) return "";
     return str
-        .replace(/{@condition (.+?)(?:\|.+)}/g, "$1")
-        .replace(/{@item (.+?)(?:\|.+)}/g, "$1")
-        .replace(/{@spell ([\s\S]+?)(?:\|.+)}/g, `$1`)
-        .replace(/{@recharge (.+?)(?:\|.+)}/g, `(Recharge $1-6)`)
+        .replace(/{@condition (.+?)(?:\|.+)?}/g, "$1")
+        .replace(/{@item (.+?)(?:\|.+)?}/g, "$1")
+        .replace(/{@spell ([\s\S]+?)(?:\|.+)?}/g, `$1`)
+        .replace(/{@recharge (.+?)(?:\|.+)?}/g, `(Recharge $1-6)`)
         .replace(/{@recharge}/g, `(Recharge 6)`)
         .replace(/{@h}/g, ``)
         .replace(/{@damage (.+?)}/g, `$1`)
@@ -39,12 +39,12 @@ function parseString(str: string) {
         .replace(/{@atk mw}/g, `Melee Weapon Attack`)
         .replace(/{@atk rw}/g, `Ranged Weapon Attack`)
         .replace(/{@atk mw,rw}/g, `Melee / Ranged Weapon Attack`)
-        .replace(/{@creature (.+?)(?:\|.+)}/g, `$1`)
-        .replace(/{@skill (.+?)(?:\|.+)}/g, `$1`)
-        .replace(/{@dice (.+?)(?:\|.+)}/g, `$1`)
-        .replace(/{@hit (\d+?)(?:\|.+)}/g, `+$1`)
-        .replace(/{@dc (\d+?)(?:\|.+)}/g, `$1`)
-        .replace(/{@quickref (.+?)\|\|.+?(?:\|.+)}/, `$1`);
+        .replace(/{@creature (.+?)(?:\|.+)?}/g, `$1`)
+        .replace(/{@skill (.+?)(?:\|.+)?}/g, `$1`)
+        .replace(/{@dice (.+?)(?:\|.+)?}/g, `$1`)
+        .replace(/{@hit (\d+?)(?:\|.+)?}/g, `+$1`)
+        .replace(/{@dc (\d+?)(?:\|.+)?}/g, `$1`)
+        .replace(/{@quickref (.+?)\|\|.+?}/, `$1`);
 }
 
 export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {

@@ -6,7 +6,7 @@
     import { setContext } from "../layout/context";
     import Filters from "./filters/Filters.svelte";
     import { NONE, NameFilter, SourcesFilter } from "./filters/filters";
-    import { Setting, prepareSimpleSearch } from "obsidian";
+    import { prepareSimpleSearch } from "obsidian";
     import type { Monster } from "index";
     import { derived, writable } from "svelte/store";
     import { onDestroy } from "svelte";
