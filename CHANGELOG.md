@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.4](https://github.com/javalent/fantasy-statblocks/compare/4.1.3...4.1.4) (2024-03-29)
+
+
+### Bug Fixes
+
+* Fixes 5e.tools import text replacement ([59877b3](https://github.com/javalent/fantasy-statblocks/commit/59877b32ee5b65c5c0a7edadacda42e14f8bbf49))
+
 ## [4.1.3](https://github.com/javalent/fantasy-statblocks/compare/4.1.2...4.1.3) (2024-03-27)
 
 
