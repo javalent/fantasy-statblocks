@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.3](https://github.com/javalent/fantasy-statblocks/compare/4.1.2...4.1.3) (2024-03-27)
+
+
+### Bug Fixes
+
+* Adds support for the `ac_class` property ([8e9e26b](https://github.com/javalent/fantasy-statblocks/commit/8e9e26ba428dfefe01424b21d6ded60e7fed0587))
+
 ## [4.1.2](https://github.com/javalent/fantasy-statblocks/compare/4.1.1...4.1.2) (2024-03-27)
 
 
