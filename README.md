@@ -1,6 +1,6 @@
 # Fantasy Statblocks
 
-The documentation for Fantasy Statblocks has moved [here](https://plugins.javalent.com/home);
+The documentation for Fantasy Statblocks has moved [here](https://plugins.javalent.com/home).
 
 > Legal attributions for various layouts can be found at the documentation site, at the bottom of this readme, and in the licenses folder.
 
