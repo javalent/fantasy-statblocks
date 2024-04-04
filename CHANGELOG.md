@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.5](https://github.com/javalent/fantasy-statblocks/compare/4.1.4...4.1.5) (2024-04-04)
+
+
+### Bug Fixes
+
+* Fixes "Start Encounter" IT button ([21b4cc9](https://github.com/javalent/fantasy-statblocks/commit/21b4cc9e655c7199682e21060d37bd6ca58a920b))
+
 ## [4.1.4](https://github.com/javalent/fantasy-statblocks/compare/4.1.3...4.1.4) (2024-03-29)
 
 
