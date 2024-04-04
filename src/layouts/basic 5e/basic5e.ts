@@ -37,7 +37,7 @@ export const Statblock5e: StatblockItem[] = [
                                         id: nanoid(),
                                         icon: "sword",
                                         callback:
-                                            "try { InitiativeTracker.newEncounter({creatures: [monster]}); } catch(e) {}"
+                                            "try { InitiativeTracker.newEncounter({roll: true, creatures: [monster]}); } catch(e) {}"
                                     },
                                     {
                                         type: "action",
@@ -736,5 +736,5 @@ export const Layout5e: DefaultLayout = {
     id: "basic-5e-layout",
     name: "Basic 5e Layout",
     edited: false,
-    version: 7
+    version: 8
 };
