@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.7](https://github.com/javalent/fantasy-statblocks/compare/4.1.6...4.1.7) (2024-04-15)
+
+
+### Bug Fixes
+
+* Added "Delete filtered creatures" button to Bestiary in settings ([ea238e3](https://github.com/javalent/fantasy-statblocks/commit/ea238e3b5ddbbcfbf8e3d76a612ff3d208a7d1ba))
+* Fixes error where array values added to the Bestiary index would be stringified as-is ([7cc3e4b](https://github.com/javalent/fantasy-statblocks/commit/7cc3e4bf72c7da8faff03250176739df156f978d))
+
 ## [4.1.6](https://github.com/javalent/fantasy-statblocks/compare/4.1.5...4.1.6) (2024-04-15)
 
 
