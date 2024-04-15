@@ -27,7 +27,8 @@ const STANDARD_FIELDS = [
     "columns",
     "forceColumns",
     "columnWidth",
-    "columnHeight"
+    "columnHeight",
+    "extends"
 ];
 
 export class StatblockSuggester extends EditorSuggest<string> {
@@ -204,9 +205,9 @@ export class StatblockSuggester extends EditorSuggest<string> {
                 query
             };
         }
-        if (/^(monster|creature):/.test(line)) {
+        if (/^(monster|creature|extends):/.test(line)) {
             this._context = SuggestContext.Creature;
-            const match = line.match(/^(monster|creature):\s?(.*)\n?/);
+            const match = line.match(/^(monster|creature|extends):\s?(.*)\n?/);
             if (!match) return null;
             const [_, param, query] = match;
 
