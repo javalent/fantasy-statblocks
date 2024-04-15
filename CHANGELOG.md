@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.6](https://github.com/javalent/fantasy-statblocks/compare/4.1.5...4.1.6) (2024-04-15)
+
+
+### Bug Fixes
+
+* Adds `extends` to the statblock editor suggest ([39067b0](https://github.com/javalent/fantasy-statblocks/commit/39067b0073d1641e38423c2d9f3e62b4ac738b43))
+
 ## [4.1.5](https://github.com/javalent/fantasy-statblocks/compare/4.1.4...4.1.5) (2024-04-04)
 
 
