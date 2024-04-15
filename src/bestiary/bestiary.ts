@@ -165,11 +165,25 @@ class BestiaryClass {
         setTimeout(() => {
             for (const [field, map] of this.#indices) {
                 if (field in creature) {
-                    const value = stringify(creature[field as keyof Monster]);
-                    if (!map.has(value)) {
-                        map.set(value, new Set([creature.name]));
+                    let values = [];
+                    if (Array.isArray(creature[field as keyof Monster])) {
+                        for (const _v of creature[
+                            field as keyof Monster
+                        ] as Array<any>) {
+                            values.push(stringify(_v));
+                        }
                     } else {
-                        map.get(value).add(creature.name);
+                        values.push(
+                            stringify(creature[field as keyof Monster])
+                        );
+                    }
+
+                    for (const value of values) {
+                        if (!map.has(value)) {
+                            map.set(value, new Set([creature.name]));
+                        } else {
+                            map.get(value).add(creature.name);
+                        }
                     }
 
                     this.#events.trigger(
@@ -250,6 +264,16 @@ class BestiaryClass {
         this.#ephemeral.delete(name);
         this.#triggerUpdatedCallbacks();
         this.#triggerSort();
+    }
+
+    removeCreatures(...names: string[]) {
+        for (const name of names) {
+            if (this.isLocal(name)) {
+                this.removeLocalCreature(name);
+            } else {
+                this.removeEphemeralCreature(name);
+            }
+        }
     }
 
     isResolved() {
