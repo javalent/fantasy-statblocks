@@ -7,8 +7,11 @@
     import { linear } from "svelte/easing";
     import { Bestiary } from "src/bestiary/bestiary";
     import { writable } from "svelte/store";
+    import { createEventDispatcher } from "svelte";
 
     const sources = writable([...Bestiary.getIndex("source").keys()]);
+
+    const dispatch = createEventDispatcher<{ remove: void }>();
     Bestiary.onIndexUpdated(
         "source",
         () => ($sources = [...Bestiary.getIndex("source").keys()])
@@ -17,6 +20,9 @@
 
     const resetIcon = (node: HTMLElement) => {
         new ExtraButtonComponent(node).setIcon("reset");
+    };
+    const deleteIcon = (node: HTMLElement) => {
+        new ExtraButtonComponent(node).setIcon("trash");
     };
     const filter = (node: HTMLElement) => {
         new ExtraButtonComponent(node).setIcon("filter");
@@ -36,6 +42,11 @@
         </div>
 
         <div use:resetIcon on:click={() => reset()} />
+        <div
+            use:deleteIcon
+            on:click={() => dispatch("remove")}
+            aria-label="Delete filtered creatures"
+        />
     </div>
     {#if open}
         <div class="filters" transition:slide={{ easing: linear }}>
