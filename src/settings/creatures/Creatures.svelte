@@ -69,6 +69,7 @@
             )
         ) {
             Bestiary.removeCreatures(...$filtered.map((f) => f.name));
+            await plugin.saveSettings();
         }
     };
 

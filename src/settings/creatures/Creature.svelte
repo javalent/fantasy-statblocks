@@ -50,7 +50,7 @@
                     b.setIcon("trash")
                         .setTooltip("Delete")
                         .onClick(async () => {
-                            await plugin.deleteMonster(item.name);
+                            await plugin.deleteMonster(item.name, true);
                         });
                 });
         } else if (item.path) {
