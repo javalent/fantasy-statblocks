@@ -20,6 +20,7 @@
     import type { Monster, Trait } from "index";
     import { Linkifier } from "src/parser/linkify";
     import Action from "./Action.svelte";
+    import type { Writable } from "svelte/store";
 
     const dispatch = createEventDispatcher();
 
@@ -34,7 +35,9 @@
 
     export let plugin: StatBlockPlugin;
 
-    const monster = getContext<Monster>("monster");
+    const monsterStore = getContext<Writable<Monster>>("monster");
+    let monster = $monsterStore;
+    monsterStore.subscribe((m) => (monster = m));
     const ensureColon = (header: string) => {
         if (/[^a-zA-Z0-9]$/.test(header)) return header;
         return `${header}:`;

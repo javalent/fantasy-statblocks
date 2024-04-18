@@ -5,10 +5,13 @@
     import type StatBlockPlugin from "src/main";
 
     import { getContext } from "svelte";
+    import type { Writable } from "svelte/store";
 
     export let block: JavaScriptItem;
 
-    let monster = getContext<Monster>("monster");
+    const monsterStore = getContext<Writable<Monster>>("monster");
+    let monster = $monsterStore;
+    monsterStore.subscribe((m) => (monster = m));
     let plugin = getContext<StatBlockPlugin>("plugin");
 
     const render = (div: HTMLElement) => {

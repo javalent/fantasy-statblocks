@@ -8,6 +8,7 @@
     import type { Monster } from "index";
     import { Linkifier } from "src/parser/linkify";
     import { parseForDice } from "src/parser/dice-parsing";
+    import type { Writable } from "svelte/store";
 
     export let property: string;
     property = Linkifier.stringifyLinks(property);
@@ -16,7 +17,9 @@
     const renderer = getContext<StatBlockRenderer>("renderer");
     let item = getContext<MarkdownableItem>("item");
     let dice = getContext<boolean>("dice") && item.dice;
-    let monster = getContext<Monster>("monster");
+    const monsterStore = getContext<Writable<Monster>>("monster");
+    let monster = $monsterStore;
+    monsterStore.subscribe((m) => (monster = m));
     let plugin = getContext<StatBlockPlugin>("plugin");
     let layout = getContext<Layout>("layout");
 

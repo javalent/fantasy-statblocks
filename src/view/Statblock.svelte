@@ -21,6 +21,9 @@
 
     import Bar from "./ui/Bar.svelte";
     import ColumnContainer from "./ui/ColumnContainer.svelte";
+    import { nanoid } from "src/util/util";
+    import { Bestiary } from "src/bestiary/bestiary";
+    import copy from "fast-copy";
 
     const dispatch = createEventDispatcher();
 
@@ -32,6 +35,19 @@
     export let layout: Layout;
     export let canSave: boolean = true;
     export let icons = true;
+
+    const monsterStore = writable(monster);
+
+    plugin.registerEvent(
+        plugin.app.workspace.on(
+            "fantasy-statblocks:bestiary:creature-added",
+            (creature) => {
+                if (creature.name === monster.name) {
+                    $monsterStore = copy(creature);
+                }
+            }
+        )
+    );
 
     let maxColumns =
         !isNaN(Number(monster.columns ?? layout.columns)) &&
@@ -54,7 +70,7 @@
     setContext<StatBlockPlugin>("plugin", plugin);
     setContext<boolean>("tryToRenderLinks", plugin.settings.tryToRenderLinks);
     setContext<string>("context", context);
-    setContext<Partial<Monster>>("monster", monster);
+    setContext<Writable<Partial<Monster>>>("monster", monsterStore);
     setContext<boolean>("dice", canDice);
     setContext<boolean>("render", canRender);
     setContext<StatBlockRenderer>("renderer", renderer);
@@ -177,25 +193,27 @@
             class:statblock={true}
             class={classes.join(" ")}
         >
-            {#if monster}
-                <Bar />
-                {#key columns}
-                    <ColumnContainer
-                        {columns}
-                        {maxColumns}
-                        {statblock}
-                        {ready}
-                        {classes}
-                        {layout}
-                        {plugin}
-                        on:save
-                        on:export
-                    />
-                {/key}
-                <Bar />
-            {:else}
-                <span>Invalid monster.</span>
-            {/if}
+            {#key $monsterStore}
+                {#if $monsterStore}
+                    <Bar />
+                    {#key columns}
+                        <ColumnContainer
+                            {columns}
+                            {maxColumns}
+                            {statblock}
+                            {ready}
+                            {classes}
+                            {layout}
+                            {plugin}
+                            on:save
+                            on:export
+                        />
+                    {/key}
+                    <Bar />
+                {:else}
+                    <span>Invalid monster.</span>
+                {/if}
+            {/key}
         </div>
         {#if icons}
             <div class="icons" use:iconsEl on:click={showMenu} />

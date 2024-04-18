@@ -21,6 +21,10 @@ declare module "obsidian" {
             name: `fantasy-statblocks:bestiary:sorted:${T}`,
             values: Array<Monster>
         ): void;
+        on(
+            name: `fantasy-statblocks:bestiary:creature-added`,
+            callback: (creature: Monster) => void
+        ): EventRef;
         on<T extends string>(
             name: `fantasy-statblocks:bestiary:indexed:${T}`,
             callback: () => void
@@ -28,10 +32,6 @@ declare module "obsidian" {
         on<T extends string>(
             name: `fantasy-statblocks:bestiary:sorted:${T}`,
             callback: (values: Array<Monster>) => void
-        ): EventRef;
-        on(
-            name: `fantasy-statblocks:bestiary:creature-added`,
-            callback: (creature: Monster) => void
         ): EventRef;
     }
 }

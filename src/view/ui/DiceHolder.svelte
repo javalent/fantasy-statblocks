@@ -9,13 +9,16 @@
     import TextContent from "./TextContent.svelte";
     import { parseForDice } from "src/parser/dice-parsing";
     import type StatBlockPlugin from "src/main";
+    import type { Writable } from "svelte/store";
 
     export let property: string;
 
     let item = getContext<BasicItem>("item");
 
     let dice = getContext<boolean>("dice") && item.dice;
-    let monster = getContext<Monster>("monster");
+    const monsterStore = getContext<Writable<Monster>>("monster");
+    let monster = $monsterStore;
+    monsterStore.subscribe((m) => (monster = m));
     let layout = getContext<Layout>("layout");
     let plugin = getContext<StatBlockPlugin>("plugin");
 
