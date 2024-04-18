@@ -15,7 +15,7 @@ import type { Monster, StatblockParameters } from "../index";
 import StatblockSettingTab from "./settings/settings";
 import fastCopy from "fast-copy";
 
-import { ExpectedValue, type HomebrewCreature } from "obsidian-overload";
+import type { HomebrewCreature } from "obsidian-overload";
 import type { Layout, StatblockItem } from "./layouts/layout.types";
 import { Layout5e } from "./layouts/basic 5e/basic5e";
 import { StatblockSuggester } from "./suggest";
@@ -26,6 +26,7 @@ import { CREATURE_VIEW, CreatureView } from "./combatant";
 import { API } from "./api/api";
 import { Linkifier } from "./parser/linkify";
 import { Bestiary } from "./bestiary/bestiary";
+import { ExpectedValue } from "@javalent/dice-roller";
 
 export const DICE_ROLLER_SOURCE = "FANTASY_STATBLOCKS_PLUGIN";
 
