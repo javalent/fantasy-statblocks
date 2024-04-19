@@ -1,5 +1,5 @@
 import type { Command, FuzzyMatch } from "obsidian";
-import { FuzzyInputSuggest } from "obsidian-utilities";
+import { FuzzyInputSuggest } from "@javalent/utilities";
 
 export class CommandSuggester extends FuzzyInputSuggest<Command> {
     getItemText(item: Command) {

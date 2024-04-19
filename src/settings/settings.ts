@@ -27,7 +27,7 @@ import { DICE_ROLLER_SOURCE } from "src/main";
 import type { Monster } from "index";
 import { ExpectedValue } from "obsidian-overload";
 import FantasyStatblockModal from "src/modal/modal";
-import { FolderInputSuggest } from "obsidian-utilities";
+import { FolderInputSuggest } from "@javalent/utilities";
 import { Watcher } from "src/watcher/watcher";
 import { Bestiary } from "src/bestiary/bestiary";
 import Creatures from "./creatures/Creatures.svelte";

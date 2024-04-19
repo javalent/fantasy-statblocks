@@ -1,6 +1,6 @@
 import type { Monster } from "../../index";
 import { renderMatches, type FuzzyMatch } from "obsidian";
-import { FuzzyInputSuggest } from "obsidian-utilities";
+import { FuzzyInputSuggest } from "@javalent/utilities";
 import { stringify } from "./util";
 
 export class MonsterSuggestionModal extends FuzzyInputSuggest<Monster> {
