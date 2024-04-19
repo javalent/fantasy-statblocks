@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.2](https://github.com/javalent/fantasy-statblocks/compare/4.2.1...4.2.2) (2024-04-19)
+
+
+### Bug Fixes
+
+* Deleting a monster now actually removes it from the data file before saving ([92c1402](https://github.com/javalent/fantasy-statblocks/commit/92c1402e9b70b7fb1c67400d9ab1e7cafefe90a1))
+
 ## [4.2.1](https://github.com/javalent/fantasy-statblocks/compare/4.2.0...4.2.1) (2024-04-19)
 
 
