@@ -68,8 +68,7 @@
                 `Are you sure you want to delete ${$filtered.length} creature${$filtered.length === 1 ? "" : "s"}?`
             )
         ) {
-            Bestiary.removeCreatures(...$filtered.map((f) => f.name));
-            await plugin.saveSettings();
+            await plugin.deleteMonsters(...$filtered.map((m) => m.name));
         }
     };
 

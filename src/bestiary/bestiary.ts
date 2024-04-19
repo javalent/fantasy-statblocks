@@ -125,6 +125,7 @@ class BestiaryClass {
         this.registerSorter("name", (a, b) => a.name.localeCompare(b.name));
 
         this.#events = plugin.app.workspace;
+
         Watcher.initialize(plugin).load();
 
         plugin.addCommand({

@@ -406,7 +406,7 @@ export default class StatBlockPlugin extends Plugin {
     }
 
     async updateMonster(oldMonster: Monster, newMonster: Monster) {
-        this.deleteMonster(oldMonster.name, false);
+        await this.deleteMonsters(oldMonster.name);
         await this.saveMonster(newMonster);
     }
 
@@ -418,11 +418,6 @@ export default class StatBlockPlugin extends Plugin {
             ([name]) => !monsters.includes(name)
         );
         await this.saveSettings();
-    }
-
-    async deleteMonster(monster: string, save = true) {
-        Bestiary.removeLocalCreature(monster);
-        if (save) await this.saveSettings();
     }
 
     onunload() {
