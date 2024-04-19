@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.0](https://github.com/javalent/fantasy-statblocks/compare/4.1.7...4.2.0) (2024-04-18)
+
+
+### Features
+
+* Statblocks will now attempt to self-update when the monster they are rendering has been updated. ([b7731ef](https://github.com/javalent/fantasy-statblocks/commit/b7731efea9d3aaf13aead6966382d7a6c51951fb))
+
+
+### Bug Fixes
+
+* Deleting a monster should now save ([e81a00f](https://github.com/javalent/fantasy-statblocks/commit/e81a00fb0723617c9e847d8beea6d22953034af3))
+* Switch to new dice roller module ([09a5047](https://github.com/javalent/fantasy-statblocks/commit/09a50478836e4e602652ed86ebf4b392c2d4af07))
+
 ## [4.1.7](https://github.com/javalent/fantasy-statblocks/compare/4.1.6...4.1.7) (2024-04-15)
 
 
