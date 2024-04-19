@@ -28,6 +28,7 @@ import type {
 import { append } from "src/util/util";
 import { Linkifier } from "src/parser/linkify";
 import { Bestiary } from "src/bestiary/bestiary";
+import copy from "fast-copy";
 
 type RendererParameters = {
     container: HTMLElement;
@@ -89,7 +90,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         return "name" in this.params;
     }
 
-    async build(): Promise<Partial<Monster>> {
+    async build(): Promise<Monster> {
         let built: Partial<Monster> = Object.assign(
             {},
             this.monster ?? {},
@@ -189,7 +190,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                             }
                         }
                         //next, underlying monster object
-                        let traits = getTraitsList(property, this.monster);
+                        let traits = getTraitsList(property, built);
                         for (const trait of traits) {
                             if (!(property in this.params)) {
                                 $TRAIT_MAP.delete(trait.name);
@@ -200,14 +201,14 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                         }
                         traits = getTraitsList(
                             `${property}+` as keyof Monster,
-                            this.monster
+                            built
                         );
                         for (const trait of traits) {
                             $ADDITIVE_TRAITS.push(trait);
                         }
                         traits = getTraitsList(
                             `${property}-` as keyof Monster,
-                            this.monster
+                            built
                         );
                         for (const trait of traits) {
                             $DELETE_TRAITS.add(trait.name);
@@ -321,9 +322,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
 
         built = this.transformLinks(built);
 
-        this.monster = built as Monster;
-
-        return built;
+        return built as Monster;
     }
 
     /**
@@ -396,11 +395,12 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
     $ui: Statblock;
     async init() {
         this.containerEl.empty();
+        this.monster = (await this.build()) as Monster;
         this.$ui = new Statblock({
             target: this.containerEl,
             props: {
                 context: this.context,
-                monster: await this.build(),
+                monster: this.monster,
                 statblock: this.layout.blocks,
                 layout: this.layout,
                 plugin: this.plugin,
@@ -422,7 +422,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 ...fastCopy(this.monster),
                 source: this.monster.source ?? "Homebrew",
                 layout: this.layout.name
-            });
+            } as Monster);
         });
 
         this.$ui.$on("export", () => {
@@ -431,6 +431,23 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 this.containerEl.firstElementChild
             );
         });
+
+        let extensionNames = Bestiary.getExtensionNames(
+            this.monster,
+            new Set()
+        );
+        this.plugin.registerEvent(
+            this.plugin.app.workspace.on(
+                "fantasy-statblocks:bestiary:creature-added",
+                async (creature) => {
+                    if (extensionNames.includes(creature.name)) {
+                        this.monster = copy(creature);
+                        this.monster = await this.build();
+                        this.$ui.$set({ monster: this.monster });
+                    }
+                }
+            )
+        );
     }
     transformLinks(monster: Partial<Monster>): Partial<Monster> {
         const built = parseYaml(
