@@ -25,6 +25,6 @@ jobs:
             - run: npm whoami
               env:
                   NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
-            - run: npm publish
+            - run: npm publish --scope=@javalent --access=public
               env:
                   NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
