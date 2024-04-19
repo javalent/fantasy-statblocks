@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.1](https://github.com/javalent/fantasy-statblocks/compare/4.2.0...4.2.1) (2024-04-19)
+
+
+### Bug Fixes
+
+* Fixes some bugs related to trait inheritance ([1814062](https://github.com/javalent/fantasy-statblocks/commit/1814062b3927147255ae91ed7234a53a589b72ef))
+* Improve behavior of self-updating feature ([7f8b84a](https://github.com/javalent/fantasy-statblocks/commit/7f8b84ab14a53801f62413353fd39e6f9a0aa3f3))
+
 ## [4.2.0](https://github.com/javalent/fantasy-statblocks/compare/4.1.7...4.2.0) (2024-04-18)
 
 
