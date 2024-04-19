@@ -397,11 +397,45 @@ class BestiaryClass {
 
         return extensions;
     }
+    getExtensionNames(
+        creature: Partial<Monster>,
+        extended: Set<string>
+    ): string[] {
+        let extensions: string[] = [creature.name];
+        if (
+            !("extends" in creature) ||
+            !(
+                Array.isArray(creature.extends) ||
+                typeof creature.extends == "string"
+            )
+        ) {
+            return extensions;
+        }
+        if (creature.extends && creature.extends.length) {
+            for (const extension of [creature.extends].flat()) {
+                if (extended.has(extension)) {
+                    console.info(
+                        "Circular extend dependency detected in " +
+                            [...extended]
+                    );
+                    continue;
+                }
+                extended.add(creature.name);
+                const extensionMonster = this.#bestiary.get(extension);
+                if (!extensionMonster) continue;
+                extensions.push(
+                    ...this.getExtensionNames(extensionMonster, extended)
+                );
+            }
+        }
+
+        return extensions;
+    }
 
     /**
      * Retrieve a fully defined creature out of the bestiary, resolving all extensions.
      *
-     * @param {string} name Name of the creautre to retrieve.
+     * @param {string} name Name of the creature to retrieve.
      * @returns {Partial<Monster> | null} The creature from the bestiary, or null if not present.
      */
     async getCreatureFromBestiary(

@@ -36,20 +36,9 @@
     export let canSave: boolean = true;
     export let icons = true;
 
-    const monsterStore = writable(monster);
-
-    plugin.registerEvent(
-        plugin.app.workspace.on(
-            "fantasy-statblocks:bestiary:creature-added",
-            (creature) => {
-                if (creature.name === monster.name) {
-                    $monsterStore = copy(creature);
-                }
-            }
-        )
-    );
-
-    let maxColumns =
+    const monsterStore = writable();
+    $: $monsterStore = monster;
+    $: maxColumns =
         !isNaN(Number(monster.columns ?? layout.columns)) &&
         Number(monster.columns ?? layout.columns) > 0
             ? Number(monster.columns ?? layout.columns)
@@ -62,10 +51,10 @@
             ? monsterColumnWidth
             : 400;
 
-    let canExport = monster.export ?? plugin.settings.export;
-    let canDice =
+    $: canExport = monster.export ?? plugin.settings.export;
+    $: canDice =
         plugin.canUseDiceRoller && (monster.dice ?? plugin.settings.useDice);
-    let canRender = monster.render ?? plugin.settings.renderDice;
+    $: canRender = monster.render ?? plugin.settings.renderDice;
 
     setContext<StatBlockPlugin>("plugin", plugin);
     setContext<boolean>("tryToRenderLinks", plugin.settings.tryToRenderLinks);
@@ -80,8 +69,8 @@
     setContext<Writable<boolean>>("reset", reset);
 
     let container: HTMLElement;
-    let columns: number = maxColumns;
-    let ready = false;
+    $: columns = maxColumns;
+    $: ready = false;
 
     const setColumns = () => {
         if (monster.forceColumns ?? layout.forceColumns) {
@@ -163,8 +152,8 @@
     const slugify = (str: string, fallback: string = "") =>
         str?.toLowerCase().replace(/\s+/g, "-") ?? fallback;
 
-    const name = slugify(monster.name, "no-name");
-    const layoutName = slugify(layout.name, "no-layout");
+    $: name = slugify(monster.name, "no-name");
+    $: layoutName = slugify(layout.name, "no-layout");
     const getNestedLayouts = (blocks: StatblockItem[]): string[] => {
         const classes: string[] = [];
         for (const block of blocks) {
@@ -181,7 +170,7 @@
         return classes;
     };
 
-    const classes = [name, layoutName, ...getNestedLayouts(statblock)].filter(
+    $: classes = [name, layoutName, ...getNestedLayouts(statblock)].filter(
         (n) => n?.length
     );
 </script>
