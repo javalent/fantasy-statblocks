@@ -21,9 +21,6 @@
 
     import Bar from "./ui/Bar.svelte";
     import ColumnContainer from "./ui/ColumnContainer.svelte";
-    import { nanoid } from "src/util/util";
-    import { Bestiary } from "src/bestiary/bestiary";
-    import copy from "fast-copy";
 
     const dispatch = createEventDispatcher();
 
@@ -38,23 +35,25 @@
 
     const monsterStore = writable();
     $: $monsterStore = monster;
-    $: maxColumns =
+    const maxColumns =
         !isNaN(Number(monster.columns ?? layout.columns)) &&
         Number(monster.columns ?? layout.columns) > 0
             ? Number(monster.columns ?? layout.columns)
             : 2;
 
-    $: monsterColumnWidth = Number(`${monster.columnWidth}`.replace(/\D/g, ""));
-    $: columnWidth =
+    const monsterColumnWidth = Number(
+        `${monster.columnWidth}`.replace(/\D/g, "")
+    );
+    const columnWidth =
         !isNaN(monsterColumnWidth ?? layout.columnWidth) &&
         (monsterColumnWidth ?? layout.columnWidth) > 0
             ? monsterColumnWidth
             : 400;
 
-    $: canExport = monster.export ?? plugin.settings.export;
-    $: canDice =
+    const canExport = monster.export ?? plugin.settings.export;
+    const canDice =
         plugin.canUseDiceRoller && (monster.dice ?? plugin.settings.useDice);
-    $: canRender = monster.render ?? plugin.settings.renderDice;
+    const canRender = monster.render ?? plugin.settings.renderDice;
 
     setContext<StatBlockPlugin>("plugin", plugin);
     setContext<boolean>("tryToRenderLinks", plugin.settings.tryToRenderLinks);
