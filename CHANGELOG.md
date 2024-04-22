@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.3](https://github.com/javalent/fantasy-statblocks/compare/4.2.2...4.2.3) (2024-04-22)
+
+
+### Bug Fixes
+
+* Fixes issue where dice integration no longer works (close [#398](https://github.com/javalent/fantasy-statblocks/issues/398)) ([447f8ab](https://github.com/javalent/fantasy-statblocks/commit/447f8ab4e68dd673f4dd89ea58fc74558df25f4f))
+* Switches to @javalent/utilities ([f25e845](https://github.com/javalent/fantasy-statblocks/commit/f25e845d3549c3b8327a02eed61b88a15dfca473))
+
 ## [4.2.2](https://github.com/javalent/fantasy-statblocks/compare/4.2.1...4.2.2) (2024-04-19)
 
 
