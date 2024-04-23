@@ -18,7 +18,7 @@
         "@codemirror/language": "^6.6.0",
         "@codemirror/search": "^6.2.3",
         "@codemirror/view": "^6.9.1",
-        "@javalent/dice-roller": "^10.5.3",
+        "@javalent/dice-roller": "^10.5.7",
         "@javalent/utilities": "^1.1.5",
         "@lezer/common": "^1.0.2",
         "@lezer/highlight": "^1.1.3",

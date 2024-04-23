@@ -1,9 +1,6 @@
 import "obsidian";
 
 interface StatblockEvents {
-    "dice-roller:rendered-result": number;
-    "dice-roller:unload": null;
-    "dice-roller:loaded": null;
     "fantasy-statblocks:settings-change": StatblockData;
     "fantasy-statblocks:frontmatter-change": boolean;
     "fantasy-statblocks:srd-change": boolean;

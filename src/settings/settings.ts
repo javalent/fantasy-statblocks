@@ -1,13 +1,9 @@
 import {
     App,
     ButtonComponent,
-    debounce,
-    Modal,
     normalizePath,
     Notice,
     PluginSettingTab,
-    prepareSimpleSearch,
-    setIcon,
     Setting,
     TFolder
 } from "obsidian";
@@ -18,19 +14,18 @@ import LayoutEditor from "./layout/LayoutEditor.svelte";
 import fastCopy from "fast-copy";
 
 import Importer from "src/importers/importer";
-import { EditMonsterModal, ViewMonsterModal } from "./modal";
+import { EditMonsterModal } from "./modal";
 import { Layout5e } from "src/layouts/basic 5e/basic5e";
 import type { DefaultLayout, Layout } from "src/layouts/layout.types";
 import { DefaultLayouts } from "src/layouts";
-import { nanoid, stringify } from "src/util/util";
+import { nanoid } from "src/util/util";
 import { DICE_ROLLER_SOURCE } from "src/main";
 import type { Monster } from "index";
-import { ExpectedValue } from "obsidian-overload";
 import FantasyStatblockModal from "src/modal/modal";
 import { FolderInputSuggest } from "@javalent/utilities";
 import { Watcher } from "src/watcher/watcher";
-import { Bestiary } from "src/bestiary/bestiary";
 import Creatures from "./creatures/Creatures.svelte";
+import { ExpectedValue } from "@javalent/dice-roller";
 
 export default class StatblockSettingTab extends PluginSettingTab {
     importer: Importer;
@@ -179,9 +174,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     .onChange(async (v) => {
                         this.plugin.settings.renderDice = v;
                         if (this.plugin.diceRollerInstalled) {
-                            this.app.plugins
-                                .getPlugin("obsidian-dice-roller")
-                                ?.api.registerSource(DICE_ROLLER_SOURCE, {
+                            window.DiceRoller.registerSource(
+                                DICE_ROLLER_SOURCE,
+                                {
                                     showDice: true,
                                     shouldRender:
                                         this.plugin.settings.renderDice,
@@ -189,7 +184,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                     showParens: false,
                                     expectedValue: ExpectedValue.Average,
                                     text: null
-                                });
+                                }
+                            );
                         }
                         await this.plugin.saveSettings();
                     })

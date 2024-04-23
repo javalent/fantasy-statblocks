@@ -63,25 +63,15 @@ export default class StatBlockPlugin extends Plugin {
 
     getRoller(str: string) {
         if (!this.canUseDiceRoller) return;
-        const roller = this.app.plugins
-            .getPlugin("obsidian-dice-roller")
-            ?.api.getRollerSync(str, DICE_ROLLER_SOURCE);
+        const roller = window.DiceRoller.getRollerSync(str, DICE_ROLLER_SOURCE);
         return roller;
     }
     getRollerString(str: string) {
         if (!this.canUseDiceRoller) return str;
-        return this.app.plugins
-            .getPlugin("obsidian-dice-roller")
-            ?.api.getRollerString(str, DICE_ROLLER_SOURCE);
+        return window.DiceRoller.getRollerString(str, DICE_ROLLER_SOURCE);
     }
     get diceRollerInstalled() {
-        if (this.app.plugins.getPlugin("obsidian-dice-roller") != null) {
-            if (!this.app.plugins.getPlugin("obsidian-dice-roller").api) {
-                new Notice(
-                    "Please update Dice Roller to the latest version to use with Fantasy Statblocks."
-                );
-                return false;
-            }
+        if (window.DiceRoller != null) {
             return true;
         }
         return false;
@@ -222,9 +212,18 @@ export default class StatBlockPlugin extends Plugin {
             (leaf: WorkspaceLeaf) => new CreatureView(leaf, this)
         );
         if (this.canUseDiceRoller) {
-            this.app.plugins
-                .getPlugin("obsidian-dice-roller")
-                ?.api.registerSource(DICE_ROLLER_SOURCE, {
+            window.DiceRoller.registerSource(DICE_ROLLER_SOURCE, {
+                showDice: true,
+                shouldRender: this.settings.renderDice,
+                showFormula: false,
+                showParens: false,
+                expectedValue: ExpectedValue.Average,
+                text: null
+            });
+        }
+        this.registerEvent(
+            this.app.workspace.on("dice-roller:loaded", () => {
+                window.DiceRoller.registerSource(DICE_ROLLER_SOURCE, {
                     showDice: true,
                     shouldRender: this.settings.renderDice,
                     showFormula: false,
@@ -232,19 +231,6 @@ export default class StatBlockPlugin extends Plugin {
                     expectedValue: ExpectedValue.Average,
                     text: null
                 });
-        }
-        this.registerEvent(
-            this.app.workspace.on("dice-roller:loaded", () => {
-                this.app.plugins
-                    .getPlugin("obsidian-dice-roller")
-                    ?.api.registerSource(DICE_ROLLER_SOURCE, {
-                        showDice: true,
-                        shouldRender: this.settings.renderDice,
-                        showFormula: false,
-                        showParens: false,
-                        expectedValue: ExpectedValue.Average,
-                        text: null
-                    });
             })
         );
     }
