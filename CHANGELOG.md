@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.4](https://github.com/javalent/fantasy-statblocks/compare/4.2.3...4.2.4) (2024-04-23)
+
+
+### Bug Fixes
+
+* Sync to new Dice Roller API ([672dc8b](https://github.com/javalent/fantasy-statblocks/commit/672dc8b979e9a637590d0e293181176ff9e77b2a))
+
 ## [4.2.3](https://github.com/javalent/fantasy-statblocks/compare/4.2.2...4.2.3) (2024-04-22)
 
 
