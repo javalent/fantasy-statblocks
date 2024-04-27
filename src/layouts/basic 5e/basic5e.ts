@@ -728,6 +728,14 @@ return "";`
         conditioned: true,
 
         dice: true
+    },
+    {
+        type: "traits",
+        id: nanoid(),
+        properties: ["regional_effects"],
+        heading: "Regional Effects",
+        conditioned: true,
+        dice: true
     }
 ];
 
@@ -736,5 +744,5 @@ export const Layout5e: DefaultLayout = {
     id: "basic-5e-layout",
     name: "Basic 5e Layout",
     edited: false,
-    version: 8
+    version: 9
 };

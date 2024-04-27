@@ -49,7 +49,7 @@ type RequiredProps = {
 };
 
 export type CommonProps = RequiredProps & {
-    properties: Array<keyof Monster>;
+    properties: string[];
     fallback?: string;
     hasRule?: boolean;
     dice?: boolean;
