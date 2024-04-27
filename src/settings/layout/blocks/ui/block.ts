@@ -654,7 +654,7 @@ class MarkdownEnabledModal<
 > extends BasicModal<M> {
     buildAdvanced(el: HTMLDivElement): void {
         super.buildAdvanced(el);
-        new Setting(el)
+        /* new Setting(el)
             .setName("Render as Markdown")
             .setDesc(
                 createFragment((e) => {
@@ -667,7 +667,7 @@ class MarkdownEnabledModal<
                 t.setValue(this.block.markdown).onChange((v) => {
                     this.block.markdown = v;
                 });
-            });
+            }); */
     }
 }
 class HeadingModal extends BasicModal<HeadingItem> {

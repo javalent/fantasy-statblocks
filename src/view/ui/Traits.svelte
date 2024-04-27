@@ -12,7 +12,6 @@
     export let name: string;
     export let desc: string;
     export let property: string = "";
-    export let render: boolean = false;
     export let item: TraitsItem | SpellsItem;
     export let monster: Monster;
     if (item.callback) {
@@ -44,7 +43,7 @@
         </div>
     {/if}
 
-    <TextContentHolder {render} property={desc} />
+    <TextContentHolder property={desc} />
     {#if trait?.traits}
         <div class="statblock-nested-traits">
             {#each trait.traits as nested}
@@ -52,7 +51,6 @@
                     name={nested.name}
                     desc={nested.desc}
                     {property}
-                    {render}
                     {item}
                     {nested}
                 />

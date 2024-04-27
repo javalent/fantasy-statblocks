@@ -3,22 +3,21 @@
 
     type Spell = { level?: string; spells: string };
     export let spell: Spell;
-    export let render = false;
 </script>
 
 <ul class="spell-item">
     {#if !spell.level}
         <span class="spell-line">
-            <TextContentHolder {render} property={spell.spells} />
+            <TextContentHolder property={spell.spells} />
         </span>
     {:else}
         <li class="spell-line">
             <span class="spell-level">
-                <TextContentHolder {render} property={`${spell.level}:`} />
+                <TextContentHolder property={`${spell.level}:`} />
                 <!-- {spellItem.split(":").shift()}: -->
             </span>
             <span class="spells">
-                <TextContentHolder {render} property={spell.spells} />
+                <TextContentHolder property={spell.spells} />
                 <!-- {spellItem.split(":").pop()} -->
             </span>
         </li>

@@ -3,11 +3,10 @@
     import MarkdownHolder from "./MarkdownHolder.svelte";
 
     export let property: string = "";
-    export let render: boolean = false;
 </script>
 
-{#if render}
+<!-- {#if render} -->
     <MarkdownHolder {property} />
-{:else}
+<!-- {:else}
     <DiceHolder {property} />
-{/if}
+{/if} -->

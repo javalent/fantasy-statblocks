@@ -389,8 +389,7 @@
                         const component = new SpellItem({
                             target: createDiv(),
                             props: {
-                                spell,
-                                render: item.markdown
+                                spell
                             }
                         });
                         targets.push(
@@ -466,7 +465,6 @@
                                 monster.name
                             ),
                             property: "trait-subheading",
-                            render: item.markdown,
                             item,
                             monster,
                             trait: monster[item.properties[0]] as Trait
@@ -485,7 +483,6 @@
                                 name: blocks[0].name,
                                 desc: blocks[0].desc,
                                 property: item.properties[0],
-                                render: item.markdown,
                                 item,
                                 monster,
                                 trait: blocks[0]
@@ -505,7 +502,6 @@
                                     name: block.name,
                                     desc: block.desc,
                                     property: item.properties[0],
-                                    render: item.markdown,
                                     item,
                                     monster,
                                     trait: block
