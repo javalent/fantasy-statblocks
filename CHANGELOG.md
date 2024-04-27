@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.0](https://github.com/javalent/fantasy-statblocks/compare/4.2.4...4.3.0) (2024-04-27)
+
+
+### Features
+
+* Text content is now rendered as markdown by default. The "Render as Markdown" option has been removed. ([fb58048](https://github.com/javalent/fantasy-statblocks/commit/fb580482d1764b1132d6661d5ffcdbc961e76ffb))
+
+
+### Bug Fixes
+
+* Adds Regional Effects to the Basic 5e Statblock ([8274249](https://github.com/javalent/fantasy-statblocks/commit/82742497a697bcbdb1b4d9ef94145d91261242dc))
+
 ## [4.2.4](https://github.com/javalent/fantasy-statblocks/compare/4.2.3...4.2.4) (2024-04-23)
 
 
