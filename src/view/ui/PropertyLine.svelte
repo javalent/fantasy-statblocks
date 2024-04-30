@@ -37,7 +37,7 @@
 {#if !item.conditioned || (item.conditioned && `${property}`.length)}
     <div class="line {cssClass}">
         <span class="property-name">{display}</span>
-        <TextContentHolder render={item.markdown} {property} />
+        <TextContentHolder {property} />
     </div>
 {/if}
 

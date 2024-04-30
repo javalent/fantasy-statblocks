@@ -1,6 +1,6 @@
 <script lang="ts">
     import { MarkdownRenderer, Notice } from "obsidian";
-    import type { Layout, MarkdownableItem, StatblockItem } from "src/layouts/layout.types";
+    import type { Layout, MarkdownableItem } from "src/layouts/layout.types";
     import type StatBlockPlugin from "src/main";
 
     import { getContext } from "svelte";
@@ -39,7 +39,8 @@
                 split = [parsed];
             }
         }
-    } else if (item.diceCallback) {
+    }
+    if (dice && item.diceCallback) {
         try {
             const frame = document.body.createEl("iframe");
             const funct = (frame.contentWindow as any).Function;
