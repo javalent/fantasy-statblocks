@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.2](https://github.com/javalent/fantasy-statblocks/compare/4.3.1...4.3.2) (2024-04-30)
+
+
+### Bug Fixes
+
+* Check for `hit_dice` property in `hp` dice callback for the Basic 5e Layout ([fb2bbe6](https://github.com/javalent/fantasy-statblocks/commit/fb2bbe6672c23681c8ab970a6d926aacccbcee93))
+* Fixes instance where specifying a dice callback would override the dice settings for a statblock ([d60f6de](https://github.com/javalent/fantasy-statblocks/commit/d60f6def9c442d1077b2fdf318b256c95c35700d))
+* Remove unused components ([133c36e](https://github.com/javalent/fantasy-statblocks/commit/133c36eaec4c0e920933e00e410415ca47d18ebe))
+
 ## [4.3.1](https://github.com/javalent/fantasy-statblocks/compare/4.3.0...4.3.1) (2024-04-29)
 
 
