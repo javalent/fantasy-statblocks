@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.1](https://github.com/javalent/fantasy-statblocks/compare/4.3.0...4.3.1) (2024-04-29)
+
+
+### Bug Fixes
+
+* Better scoping for BnB css ([297e2be](https://github.com/javalent/fantasy-statblocks/commit/297e2be8415979ce86b9cfe127e53a76a59880df))
+
 ## [4.3.0](https://github.com/javalent/fantasy-statblocks/compare/4.2.4...4.3.0) (2024-04-27)
 
 
