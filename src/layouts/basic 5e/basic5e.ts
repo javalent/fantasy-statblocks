@@ -89,7 +89,11 @@ export const Statblock5e: StatblockItem[] = [
                 display: "Hit Points",
                 dice: true,
                 diceProperty: "hit_dice",
-                diceCallback: `return [{ text: monster["hit_dice"] }]`,
+                diceCallback: `if ("hit_dice" in monster) {
+  return [{ text: monster["hit_dice"] }];
+} else {
+  return property;
+}`,
                 callback:
                     'let str = [monster.hp];\nif (monster.hit_dice?.length) {\n  str.push(`(${monster.hit_dice})`);\n}\nreturn str.join(" ");',
                 conditioned: true
