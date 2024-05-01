@@ -3,9 +3,11 @@
 
     type Spell = { level?: string; spells: string };
     export let spell: Spell;
+    export let first = false;
+    export let last = false;
 </script>
 
-<ul class="spell-item">
+<ul class="spell-item" class:first class:last>
     {#if !spell.level}
         <span class="spell-line">
             <TextContentHolder property={spell.spells} />
@@ -28,10 +30,10 @@
     ul.spell-item {
         margin: 0;
     }
-    ul.spell-item:first-of-type {
+    ul.spell-item.first {
         margin-top: revert;
     }
-    ul.spell-item:last-of-type {
+    ul.spell-item.last {
         margin-bottom: revert;
     }
     .spells {

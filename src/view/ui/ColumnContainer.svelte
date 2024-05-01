@@ -385,11 +385,14 @@
                                 .firstElementChild as HTMLDivElement
                         );
                     }
-                    for (const spell of block.spells) {
+                    for (let i = 0; i < block.spells.length; i++) {
+                        const spell = block.spells[i];
                         const component = new SpellItem({
                             target: createDiv(),
                             props: {
-                                spell
+                                spell,
+                                first: i === 0,
+                                last: i === block.spells.length - 1
                             }
                         });
                         targets.push(
