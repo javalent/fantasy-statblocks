@@ -11,7 +11,6 @@
     const plugin = getContext("plugin");
 
     $: items = $layout.diceParsing ? [...$layout.diceParsing] : null;
-    $: diceDisabled = items != null && items.length > 0;
 
     function onDrop(items: DiceParsing[]) {
         $layout.diceParsing = [...items];
@@ -38,6 +37,8 @@
     };
     const trash = (evt: DiceParsing) => {
         items = items.filter((i) => i.id != evt.id);
+
+        $layout.diceParsing = [...items];
     };
 
     const diceParsingLayout = (node: HTMLElement) => {
