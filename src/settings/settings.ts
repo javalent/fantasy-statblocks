@@ -547,21 +547,27 @@ export default class StatblockSettingTab extends PluginSettingTab {
     ) {
         layoutContainer.empty();
 
-        if (this.plugin.settings.defaultLayouts.some((f) => f.removed)) {
+        if (this.plugin.manager.getAllDefaultLayouts().some((f) => f.removed)) {
             new Setting(layoutContainer)
                 .setName("Restore Default Layouts")
                 .addButton((b) => {
                     b.setIcon("rotate-ccw").onClick(async () => {
-                        for (const layout of this.plugin.settings
-                            .defaultLayouts) {
-                            delete layout.removed;
+                        for (const layout of Object.values(
+                            this.plugin.settings.defaultLayouts
+                        )) {
+                            layout.removed = false;
+                            if (!layout.edited) {
+                                delete this.plugin.settings.defaultLayouts[
+                                    layout.id
+                                ];
+                            }
                         }
                         await this.plugin.saveSettings();
                         this.generateLayouts(outerContainer);
                     });
                 });
         }
-        for (const layout of this.plugin.settings.defaultLayouts) {
+        for (const layout of this.plugin.manager.getAllDefaultLayouts()) {
             if (layout.removed) continue;
 
             const setting = new Setting(layoutContainer)
@@ -578,13 +584,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                 if (!modal.saved) return;
 
                                 (modal.layout as DefaultLayout).edited = true;
-                                this.plugin.settings.defaultLayouts.splice(
-                                    this.plugin.settings.defaultLayouts.findIndex(
-                                        (l) => layout.id === l.id
-                                    ),
-                                    1,
-                                    modal.layout
-                                );
+                                this.plugin.settings.defaultLayouts[layout.id] =
+                                    modal.layout;
 
                                 await this.plugin.saveSettings();
                                 this.plugin.manager.updateDefaultLayout(
@@ -602,13 +603,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         const defLayout = DefaultLayouts.find(
                             ({ id }) => id == layout.id
                         );
-                        this.plugin.settings.defaultLayouts.splice(
-                            this.plugin.settings.defaultLayouts.findIndex(
-                                (l) => layout.id === l.id
-                            ),
-                            1,
-                            fastCopy(defLayout)
-                        );
+                        delete this.plugin.settings.defaultLayouts[layout.id];
                         await this.plugin.saveSettings();
                         this.plugin.manager.updateDefaultLayout(
                             layout.id,
@@ -655,6 +650,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         .setTooltip("Delete")
                         .onClick(async () => {
                             layout.removed = true;
+                            this.plugin.settings.defaultLayouts[layout.id] =
+                                layout;
                             await this.plugin.saveSettings();
                             this.generateLayouts(outerContainer);
                         });

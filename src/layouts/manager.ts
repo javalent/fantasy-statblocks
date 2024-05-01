@@ -11,6 +11,7 @@ import {
     ThemeMode,
     CSSProperties
 } from "./layout.css";
+import { DefaultLayouts } from ".";
 
 export default class LayoutManager {
     public initialize(settings: StatblockData) {
@@ -114,7 +115,7 @@ export default class LayoutManager {
      */
     public updateDefaultLayout(old: string, layout: DefaultLayout) {
         this.#defaults.delete(old);
-        this.setDefaultLayouts([layout]);
+        this.setDefaultLayouts({ [layout.id]: layout });
         this.addStyleSheet(layout);
     }
     /**
@@ -124,19 +125,16 @@ export default class LayoutManager {
         this.#defaults.delete(layout);
         this.removeStyleSheet(layout);
     }
-    /**
-     * @param layout Layout to be added.
-     */
-    public addDefaultLayout(layout: DefaultLayout) {
-        this.setDefaultLayouts([layout]);
-    }
 
-    public setDefaultLayouts(layouts: DefaultLayout[]) {
-        for (const layout of layouts) {
-            this.#defaults.set(layout.id, layout);
+    public setDefaultLayouts(layouts: Record<string, DefaultLayout>) {
+        for (const layout of DefaultLayouts) {
+            this.#defaults.set(
+                layout.id,
+                layout.id in layouts ? layouts[layout.id] : layout
+            );
         }
         setTimeout(() => {
-            for (const layout of layouts) {
+            for (const layout of this.#defaults.values()) {
                 this.#unwrapLayout(layout);
             }
         }, 0);
@@ -167,6 +165,9 @@ export default class LayoutManager {
         return [...this.#defaults.values(), ...this.#layouts.values()].filter(
             (f) => !("removed" in f) || !(f as DefaultLayout).removed
         );
+    }
+    public getAllDefaultLayouts(): DefaultLayout[] {
+        return [...this.#defaults.values()];
     }
     public getLayout(id: string): Layout | null {
         return this.#layouts.get(id) ?? this.#defaults.get(id) ?? null;

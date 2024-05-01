@@ -16,7 +16,11 @@ import StatblockSettingTab from "./settings/settings";
 import fastCopy from "fast-copy";
 
 import type { HomebrewCreature } from "obsidian-overload";
-import type { Layout, StatblockItem } from "./layouts/layout.types";
+import type {
+    DefaultLayout,
+    Layout,
+    StatblockItem
+} from "./layouts/layout.types";
 import { Layout5e } from "./layouts/basic 5e/basic5e";
 import { StatblockSuggester } from "./suggest";
 import { DefaultLayouts } from "./layouts";
@@ -32,7 +36,7 @@ export const DICE_ROLLER_SOURCE = "FANTASY_STATBLOCKS_PLUGIN";
 
 const DEFAULT_DATA: StatblockData = {
     monsters: [],
-    defaultLayouts: [...DefaultLayouts.map((l) => fastCopy(l))],
+    defaultLayouts: {},
     layouts: [],
     default: Layout5e.name,
     useDice: true,
@@ -53,7 +57,7 @@ const DEFAULT_DATA: StatblockData = {
     hideConditionHelp: false,
     alwaysImport: false,
     defaultLayoutsIntegrated: false,
-    atomicWrite: true
+    atomicWrite: false
 };
 
 export default class StatBlockPlugin extends Plugin {
@@ -237,30 +241,10 @@ export default class StatBlockPlugin extends Plugin {
 
     async loadSettings() {
         const settings: StatblockData = await this.loadData();
-
-        if (settings != undefined && !("version" in settings)) {
-            //1.X settings;
-            this.settings = { ...DEFAULT_DATA };
-            this.settings.monsters = settings as any as [string, Monster][];
-
-            new Notice(
-                "5e Statblocks is now TTRPG Statblocks. Check out the ReadMe for more information!"
-            );
-        } else {
-            if (
-                settings &&
-                settings?.version?.major >= 2 &&
-                settings?.version?.minor >= 25 &&
-                !settings?.notifiedOfFantasy
-            ) {
-                new Notice("TTRPG Statblocks is now Fantasy Statblocks!");
-                settings.notifiedOfFantasy = true;
-            }
-            this.settings = {
-                ...DEFAULT_DATA,
-                ...settings
-            };
-        }
+        this.settings = {
+            ...DEFAULT_DATA,
+            ...settings
+        };
         if (!this.settings.defaultLayoutsIntegrated) {
             for (const layout of this.settings.layouts) {
                 layout.id = nanoid();
@@ -273,30 +257,20 @@ export default class StatBlockPlugin extends Plugin {
 
             this.settings.defaultLayoutsIntegrated = true;
         }
-        if (this.settings.defaultLayouts.length != DefaultLayouts.length) {
-            for (const layout of DefaultLayouts) {
-                if (this.settings.defaultLayouts.find((l) => l.id == layout.id))
-                    continue;
-                this.settings.defaultLayouts.push(fastCopy(layout));
+        if (Array.isArray(this.settings.defaultLayouts)) {
+            const map: Record<string, DefaultLayout> = {};
+            for (const layout of this.settings
+                .defaultLayouts as DefaultLayout[]) {
+                if (layout.removed || layout.edited) {
+                    map[layout.id] = layout;
+                }
             }
-            for (const layout of this.settings.defaultLayouts) {
-                if (DefaultLayouts.find((l) => l.id == layout.id)) continue;
-                this.settings.layouts.push(layout);
-                this.settings.defaultLayouts.splice(
-                    this.settings.defaultLayouts.indexOf(layout),
-                    1
-                );
-            }
-            this.settings.layouts = this.settings.layouts.filter(
-                (layout) =>
-                    !this.settings.defaultLayouts.find((l) => l.id == layout.id)
-            );
+            this.settings.defaultLayouts = map;
         }
         for (const layout of DefaultLayouts) {
-            if (!layout.version) continue;
-            const existing = this.settings.defaultLayouts.find(
-                (l) => l.id === layout.id
-            );
+            if (!(layout.id in this.settings.defaultLayouts)) continue;
+            if (layout.version == null) continue;
+            const existing = this.settings.defaultLayouts[layout.id];
             if (existing.version >= layout.version) continue;
             if (existing.edited) {
                 existing.updatable = true;

@@ -136,7 +136,7 @@ export interface Trait {
 
 export interface StatblockData {
     monsters: Array<[string, Monster]>;
-    defaultLayouts: DefaultLayout[];
+    defaultLayouts: Record<string, DefaultLayout>;
     layouts: Layout[];
     default: string;
     useDice: boolean;
