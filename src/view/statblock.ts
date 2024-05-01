@@ -140,7 +140,9 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
          * At this point, the built creature has been fully resolved from all
          * extensions and in-memory creature definitions.
          */
-        built = Object.assign({}, ...extensions, built);
+        for (const extension of extensions) {
+            built = Object.assign(built, extension);
+        }
 
         /**
          * Traits logic:
