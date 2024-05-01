@@ -16,7 +16,8 @@
     const context = getContext<string>("context");
     const renderer = getContext<StatBlockRenderer>("renderer");
     let item = getContext<MarkdownableItem>("item");
-    let dice = getContext<boolean>("dice") && item.dice;
+    let canDice = getContext<boolean>("dice");
+    let parseDice = item.dice;
     const monsterStore = getContext<Writable<Monster>>("monster");
     let monster = $monsterStore;
     monsterStore.subscribe((m) => (monster = m));
@@ -24,7 +25,7 @@
     let layout = getContext<Layout>("layout");
 
     let split: Array<{ text: string; original?: string } | string> = [property];
-    if (dice) {
+    if (canDice && parseDice) {
         if (
             item.diceProperty &&
             item.diceProperty in monster &&
@@ -40,7 +41,7 @@
             }
         }
     }
-    if (dice && item.diceCallback) {
+    if (canDice && item.diceCallback) {
         try {
             const frame = document.body.createEl("iframe");
             const funct = (frame.contentWindow as any).Function;
