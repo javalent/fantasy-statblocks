@@ -38,8 +38,10 @@ class WatcherClass extends Component {
 
     watchPaths: Map<string, string> = new Map();
 
-    workers: Worker[] = [];
+    workers: FSWorker[] = [];
     index = 0;
+
+    queue: Set<string> = new Set();
 
     setDebug() {
         for (const worker of this.workers) {
@@ -105,7 +107,7 @@ class WatcherClass extends Component {
 
         const cores = Platform.isIosApp
             ? 2
-            : Math.max(Math.ceil(navigator.hardwareConcurrency / 3), 2);
+            : Math.max(Math.ceil(navigator.hardwareConcurrency / 2), 2);
         for (let i = 0; i < cores; i++) {
             const worker = new FSWorker();
             this.workers.push(worker);
@@ -117,6 +119,7 @@ class WatcherClass extends Component {
                         const path = event.data.data;
                         const abstract =
                             this.plugin.app.vault.getAbstractFileByPath(path);
+                        this.queue.delete(path);
                         if (abstract instanceof TFile) {
                             const data = await this.getFileInformation(
                                 abstract
@@ -179,6 +182,8 @@ class WatcherClass extends Component {
         });
     }
     async save() {
+        //still have files queued
+        if (this.queue.size) return;
         if (this.startTime) {
             console.info(
                 `Fantasy Statblocks: Frontmatter Parsing Complete in ${(
@@ -245,6 +250,9 @@ class WatcherClass extends Component {
     }
     startParsing(paths: string[]) {
         if (paths.length) {
+            for (const path of paths) {
+                this.queue.add(path);
+            }
             this.workers[this.index].postMessage<QueueMessage>({
                 type: "queue",
                 data: paths

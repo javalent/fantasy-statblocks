@@ -4,9 +4,9 @@ import {
     type WorkspaceLeaf,
     debounce,
     ExtraButtonComponent,
-    TextComponent,
     SearchComponent
 } from "obsidian";
+import { Bestiary } from "src/bestiary/bestiary";
 import type StatBlockPlugin from "src/main";
 import { MonsterSuggestionModal } from "src/util/creature";
 
@@ -49,8 +49,11 @@ export class CreatureView extends ItemView {
         const suggester = new MonsterSuggestionModal(
             this.plugin.app,
             search,
-            this.plugin.api.getBestiaryCreatures()
+            Bestiary.getBestiaryCreatures()
         );
+        Bestiary.onResolved(() => {
+            suggester.items = Bestiary.getBestiaryCreatures();
+        });
         suggester.onSelect(async (v) => {
             if (v) {
                 await this.render(v.item);
