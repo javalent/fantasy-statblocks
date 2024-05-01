@@ -4,6 +4,7 @@ import {
     normalizePath,
     Notice,
     PluginSettingTab,
+    setIcon,
     Setting,
     TFolder
 } from "obsidian";
@@ -86,6 +87,15 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     e.createEl("br");
                     e.createSpan({
                         text: "This can cause issues sometimes when using sync services."
+                    });
+                    e.createEl("br");
+                    const warning = e.createDiv();
+                    setIcon(warning.createDiv(), "warning");
+                    warning.createSpan({
+                        attr: {
+                            style: "color: var(--text-error)"
+                        },
+                        text: "This setting is currently disabled."
                     });
                 })
             )

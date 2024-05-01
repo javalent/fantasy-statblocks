@@ -312,7 +312,7 @@ export default class StatBlockPlugin extends Plugin {
         return (await super.loadData()) as StatblockData;
     }
     async saveData(settings: StatblockData) {
-        if (this.settings.atomicWrite) {
+        /* if (this.settings.atomicWrite) {
             try {
                 await this.app.vault.adapter.write(
                     `${this.manifest.dir}/temp.json`,
@@ -329,9 +329,9 @@ export default class StatBlockPlugin extends Plugin {
             } catch (e) {
                 super.saveData(settings);
             }
-        } else {
-            super.saveData(settings);
-        }
+        } else { */
+        super.saveData(settings);
+        /* } */
     }
 
     async saveMonster(monster: Monster, save: boolean = true) {
