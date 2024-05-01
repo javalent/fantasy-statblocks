@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.3](https://github.com/javalent/fantasy-statblocks/compare/4.3.2...4.3.3) (2024-05-01)
+
+
+### Bug Fixes
+
+* Dice callbacks should now correctly execute even if parse dice is off ([1602e6c](https://github.com/javalent/fantasy-statblocks/commit/1602e6ca02effbacf12fb3c8a060b51dde2e60e6))
+* Fixes incorrect inheritance of certain properties (closes [#400](https://github.com/javalent/fantasy-statblocks/issues/400)) ([e83b300](https://github.com/javalent/fantasy-statblocks/commit/e83b30011bea0fa3002ee630ec2f423cc4723c52))
+* Fixes issue where margins around spells would be incorrect if multiple spell blocks were rendered (close [#337](https://github.com/javalent/fantasy-statblocks/issues/337)) ([d90e8e1](https://github.com/javalent/fantasy-statblocks/commit/d90e8e196b6c8a51067a0a1b18a9f81ba22c0f57))
+* Fixes issue where the Bestiary could resolve prematurely ([7668707](https://github.com/javalent/fantasy-statblocks/commit/7668707ab337457dd74c478edf38494f93f1fb2a))
+* Removing a dice parser now saves properly (close [#382](https://github.com/javalent/fantasy-statblocks/issues/382)) ([4219b98](https://github.com/javalent/fantasy-statblocks/commit/4219b983d84b96268a4a09252ab8d8e766b1b257))
+* Temporarily disable the Atomic Write functionality pending more investigation into data loss issues. ([97d38bc](https://github.com/javalent/fantasy-statblocks/commit/97d38bc1dcb579f16231a935aa6948b8394e5acc))
+* Updates how default layouts are stored in the data file to reduce data file operations ([e1eb126](https://github.com/javalent/fantasy-statblocks/commit/e1eb1267959d70ebf3942927a5fbfa0f2516c582))
+
 ## [4.3.2](https://github.com/javalent/fantasy-statblocks/compare/4.3.1...4.3.2) (2024-04-30)
 
 
