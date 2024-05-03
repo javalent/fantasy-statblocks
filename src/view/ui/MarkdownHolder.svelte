@@ -80,7 +80,10 @@
     }
 
     const markdown = (node: HTMLElement) => {
-        MarkdownRenderer.render(app, property, node, context, renderer);
+        if (property === "-") {
+            property = "\\-"
+        }
+        MarkdownRenderer.render(plugin.app, property, node, context, renderer);
     };
 </script>
 
