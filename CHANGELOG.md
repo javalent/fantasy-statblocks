@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.4](https://github.com/javalent/fantasy-statblocks/compare/4.3.3...4.3.4) (2024-05-03)
+
+
+### Bug Fixes
+
+* Fixes issue where non-string properties would try to replace links ([0ee0330](https://github.com/javalent/fantasy-statblocks/commit/0ee03309987bde67e34671929b852300dc70d0d6))
+* Fixes issue where the default fallback for non-conditional blocks would cause a list to render (close [#409](https://github.com/javalent/fantasy-statblocks/issues/409)) ([de5b6bf](https://github.com/javalent/fantasy-statblocks/commit/de5b6bff8fa86f463aecb57da858f4e5b42c7ab4))
+
 ## [4.3.3](https://github.com/javalent/fantasy-statblocks/compare/4.3.2...4.3.3) (2024-05-01)
 
 
