@@ -11,12 +11,17 @@
     import type { Writable } from "svelte/store";
 
     export let property: string;
-    property = Linkifier.stringifyLinks(property);
+
+    property =
+        typeof property === "string"
+            ? Linkifier.stringifyLinks(property)
+            : property;
 
     const context = getContext<string>("context");
     const renderer = getContext<StatBlockRenderer>("renderer");
     let item = getContext<MarkdownableItem>("item");
     let canDice = getContext<boolean>("dice");
+
     let parseDice = item.dice;
     const monsterStore = getContext<Writable<Monster>>("monster");
     let monster = $monsterStore;
@@ -64,8 +69,9 @@
     }
 
     property = "";
+
     for (const dice of split) {
-        if (typeof dice != "string") {
+        if (canDice && typeof dice != "string") {
             let diceString;
             let diceText = plugin.getRollerString(dice.text);
             if (dice.original) {
@@ -81,7 +87,7 @@
 
     const markdown = (node: HTMLElement) => {
         if (property === "-") {
-            property = "\\-"
+            property = "\\-";
         }
         MarkdownRenderer.render(plugin.app, property, node, context, renderer);
     };
