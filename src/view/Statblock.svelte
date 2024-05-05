@@ -50,7 +50,6 @@
             ? monsterColumnWidth
             : 400;
 
-    const canExport = monster.export ?? plugin.settings.export;
     const canDice =
         plugin.canUseDiceRoller && (monster.dice ?? plugin.settings.useDice);
     const canRender = monster.render ?? plugin.settings.renderDice;
@@ -127,13 +126,12 @@
                 }
             });
     });
-    if (canExport)
-        menu.addItem((item) =>
-            item
-                .setIcon("image-down")
-                .setTitle("Export as PNG")
-                .onClick(() => dispatch("export"))
-        );
+    menu.addItem((item) =>
+        item
+            .setIcon("image-down")
+            .setTitle("Export as PNG")
+            .onClick(() => dispatch("export"))
+    );
     if (canDice)
         menu.addItem((item) =>
             item
