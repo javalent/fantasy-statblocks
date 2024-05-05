@@ -91,10 +91,15 @@ class LinkifierClass extends Component {
         return input;
     }
     linkifySpells(spells: string, context: string = ""): string {
-        return spells
+        return spells.replace(
+            /(.+?)(\*?,|\*?$)/g,
+            (_, spell, splitter) => `${this.linkify(spell, context)}${splitter}`
+        );
+
+        /*  return spells
             .split(",")
             .map((spell) => this.linkify(spell, context))
-            .join(",");
+            .join(","); */
     }
 
     /**
