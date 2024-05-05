@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.3.5](https://github.com/javalent/fantasy-statblocks/compare/4.3.4...4.3.5) (2024-05-05)
+
+
+### Bug Fixes
+
+* Fix issue where some creatures wouldn't be able to export as PNG ([92ffc68](https://github.com/javalent/fantasy-statblocks/commit/92ffc68488f964546f28db19a49378539ccc89bd))
+* Linkifying spells now ignores `*` ([26a1898](https://github.com/javalent/fantasy-statblocks/commit/26a189896221a3acdf721e1df3410fe3a5e1ea8c))
+
 ## [4.3.4](https://github.com/javalent/fantasy-statblocks/compare/4.3.3...4.3.4) (2024-05-03)
 
 
