@@ -15,7 +15,6 @@ import {
 import { stringify } from "src/util/util";
 
 class LinkifierClass extends Component {
-    #stringifier = new LinkStringifier();
     #cache: Map<string, string> = new Map();
     #addAliasesToCache(aliases: string[], file: TFile) {
         for (const alias of aliases) {
@@ -83,7 +82,7 @@ class LinkifierClass extends Component {
         if (file != null) {
             return input.replace(
                 trimmed,
-                this.#stringifier.replaceWikiLink(
+                LinkStringifier.replaceWikiLink(
                     `${file.basename}${alias ? "|" + alias : ""}`
                 )
             );
@@ -110,7 +109,7 @@ class LinkifierClass extends Component {
      * @returns {string} A transformed source, with links replaced.
      */
     transformSource(source: string) {
-        return this.#stringifier.transformSource(source);
+        return LinkStringifier.transformSource(source);
     }
     /**
      * This can be used to transform a source coming from frontmatter, that could possibly
@@ -119,11 +118,11 @@ class LinkifierClass extends Component {
      * @returns {string} A transformed source, with links replaced.
      */
     transformYamlSource(source: string) {
-        return this.#stringifier.transformYamlSource(source);
+        return LinkStringifier.transformYamlSource(source);
     }
 
     stringifyLinks(source: string) {
-        return this.#stringifier.stringifyLinks(source);
+        return LinkStringifier.stringifyLinks(source);
     }
 
     splitByLinks(text: string, context: string, render?: boolean): SplitLink[] {

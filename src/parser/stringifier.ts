@@ -13,10 +13,14 @@ export const MARKDOWN_REGEX = new RegExp(
 export const GENERIC_REGEX =
     /(<STATBLOCK-(?:WIKI|MARKDOWN)-LINK>[\s\S]+?<STATBLOCK-(?:WIKI|MARKDOWN)-LINK>)/;
 export class LinkStringifier {
-    replaceWikiLink(link: string) {
+    static isStatblockLink(link: string) {
+        return GENERIC_REGEX.test(link);
+    }
+
+    static replaceWikiLink(link: string) {
         return `<${WIKILINK}>${link}<${WIKILINK}>`;
     }
-    replaceMarkdownLink(link: string, alias?: string) {
+    static replaceMarkdownLink(link: string, alias?: string) {
         return `<${MARKDOWN}>${link}${alias ? "|" + alias : ""}<${MARKDOWN}>`;
     }
     /**
@@ -26,15 +30,15 @@ export class LinkStringifier {
      * @param {string} source The string to be transformed.
      * @returns {string} A transformed source, with links replaced.
      */
-    transformSource(source: string) {
+    static transformSource(source: string) {
         return source
             .replace(/\[\[([\s\S]+?)\]\]/g, (_, $1) =>
-                this.replaceWikiLink($1)
+                LinkStringifier.replaceWikiLink($1)
             )
             .replace(
                 /\[([\s\S]*?)\]\(([\s\S]+?)\)/g,
                 (_, alias: string, path: string) =>
-                    this.replaceMarkdownLink(path, alias)
+                    LinkStringifier.replaceMarkdownLink(path, alias)
             );
     }
     /**
@@ -43,11 +47,11 @@ export class LinkStringifier {
      * @param source Source to transform.
      * @returns {string} A transformed source, with links replaced.
      */
-    transformYamlSource(source: string) {
-        return this.transformSource(source);
+    static transformYamlSource(source: string) {
+        return LinkStringifier.transformSource(source);
     }
 
-    stringifyLinks(source: string) {
+    static stringifyLinks(source: string) {
         return source
             .replace(new RegExp(WIKILINK_REGEX, "g"), (_, $1) => `[[${$1}]]`)
             .replace(

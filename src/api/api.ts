@@ -4,6 +4,7 @@ import type { Component } from "obsidian";
 import type { HomebrewCreature } from "obsidian-overload";
 import { Bestiary } from "src/bestiary/bestiary";
 import type StatBlockPlugin from "src/main";
+import { LinkStringifier } from "src/parser/stringifier";
 import StatBlockRenderer from "src/view/statblock";
 
 declare global {
@@ -200,5 +201,13 @@ export class API {
             plugin: this.#plugin,
             context: "STATBLOCK_RENDERER"
         });
+    }
+
+    //Links
+    isStatblockLink(link: string): boolean {
+        return LinkStringifier.isStatblockLink(link);
+    }
+    parseStatblockLink(link: string): string {
+        return LinkStringifier.stringifyLinks(link);
     }
 }
