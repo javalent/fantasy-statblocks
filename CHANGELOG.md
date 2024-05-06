@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.4.0](https://github.com/javalent/fantasy-statblocks/compare/4.3.5...4.4.0) (2024-05-06)
+
+
+### Features
+
+* Adds new methods to the API to transform Statblock Links back to Obsidian links ([fb80517](https://github.com/javalent/fantasy-statblocks/commit/fb805170330ee64073f0c4ad58c53544c805fc51))
+
 ## [4.3.5](https://github.com/javalent/fantasy-statblocks/compare/4.3.4...4.3.5) (2024-05-05)
 
 
