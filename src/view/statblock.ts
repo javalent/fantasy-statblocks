@@ -135,14 +135,14 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         }
 
         const extensions = Bestiary.getExtensions(built, new Set());
-
         /**
          * At this point, the built creature has been fully resolved from all
          * extensions and in-memory creature definitions.
          */
-        for (const extension of extensions) {
+        for (const extension of extensions.reverse()) {
             built = Object.assign(built, extension);
         }
+        built = Object.assign(built, this.monster ?? {}, this.params ?? {});
 
         /**
          * Traits logic:
