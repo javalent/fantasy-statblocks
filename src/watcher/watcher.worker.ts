@@ -51,8 +51,6 @@ export type SaveMessage = WorkerMessage<"save">;
 
 const ctx: Worker = self as any;
 
-const Stringifier = new LinkStringifier();
-
 class Parser {
     queue: string[] = [];
     parsing: boolean = false;
@@ -98,7 +96,7 @@ class Parser {
                     )}`
                 );
 
-            const frontmatter = Stringifier.transformSource(statBlock);
+            const frontmatter = LinkStringifier.transformSource(statBlock);
             const monster: Monster = Object.assign(
                 {},
                 YAML.parse(frontmatter),
@@ -175,7 +173,9 @@ class Parser {
     parseFrontmatter(info: FrontMatterInfo, file: FileDetails) {
         if (!info.exists) return;
 
-        const frontmatter = Stringifier.transformYamlSource(info.frontmatter);
+        const frontmatter = LinkStringifier.transformYamlSource(
+            info.frontmatter
+        );
 
         const monster: Monster = this.validate(
             Object.assign({}, copy(YAML.parse(frontmatter)), {
