@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.4.2](https://github.com/javalent/fantasy-statblocks/compare/4.4.1...4.4.2) (2024-05-09)
+
+
+### Bug Fixes
+
+* Fixes "Default Layout" setting not being respected until restart ([8f24d0d](https://github.com/javalent/fantasy-statblocks/commit/8f24d0dc90b403c958edb5e1f43877e4cae3a314))
+
 ## [4.4.1](https://github.com/javalent/fantasy-statblocks/compare/4.4.0...4.4.1) (2024-05-07)
 
 
