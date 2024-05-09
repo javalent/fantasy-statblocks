@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.4.1](https://github.com/javalent/fantasy-statblocks/compare/4.4.0...4.4.1) (2024-05-07)
+
+
+### Bug Fixes
+
+* Fixes extends behavior not preferring in-note parameters ([72cc62e](https://github.com/javalent/fantasy-statblocks/commit/72cc62ea5f61a4ab8854c23a5f70a9bcbf372226))
+* Fixes issue with watcher not being able to parse some files ([1d625f7](https://github.com/javalent/fantasy-statblocks/commit/1d625f79971ecaf8afc1a3c0f81d37f3bc9d2176))
+
 ## [4.4.0](https://github.com/javalent/fantasy-statblocks/compare/4.3.5...4.4.0) (2024-05-06)
 
 
