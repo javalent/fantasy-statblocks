@@ -506,6 +506,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
                 d.onChange(async (v) => {
                     this.plugin.settings.default = v;
+                    this.plugin.manager.setDefaultLayout(v);
                     await this.plugin.saveSettings();
                 });
             });
