@@ -1,7 +1,6 @@
 <script lang="ts">
     import type { SpellsItem, TraitsItem } from "src/layouts/layout.types";
     import { slugify } from "src/util/util";
-    import TextContent from "./TextContent.svelte";
 
     import TextContentHolder from "./TextContentHolder.svelte";
     import type { Monster, Trait } from "index";
@@ -39,7 +38,7 @@
 <div class="property {cssClasses} trait">
     {#if name}
         <div class="property-name trait-name">
-            <TextContent textToRender={name} />
+            <TextContentHolder property={name} />
         </div>
     {/if}
 
