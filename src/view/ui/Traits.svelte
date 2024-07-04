@@ -17,8 +17,8 @@
         try {
             const frame = document.body.createEl("iframe");
             const funct = (frame.contentWindow as any).Function;
-            const func = new funct("monster", item.callback);
-            desc = func.call(undefined, monster) ?? desc;
+            const func = new funct("monster", "property", item.callback);
+            desc = func.call(undefined, monster, trait) ?? desc;
             document.body.removeChild(frame);
         } catch (e) {
             new Notice(
