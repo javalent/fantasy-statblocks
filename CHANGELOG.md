@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.5.0](https://github.com/javalent/fantasy-statblocks/compare/4.4.2...4.5.0) (2024-07-04)
+
+
+### Features
+
+* Allow markdown formatting in trait names (close [#428](https://github.com/javalent/fantasy-statblocks/issues/428)) ([#430](https://github.com/javalent/fantasy-statblocks/issues/430)) ([dec459c](https://github.com/javalent/fantasy-statblocks/commit/dec459cb1be8cbb7cb7be73cfd2362a69a534208))
+
 ## [4.4.2](https://github.com/javalent/fantasy-statblocks/compare/4.4.1...4.4.2) (2024-05-09)
 
 
