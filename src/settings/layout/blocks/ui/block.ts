@@ -999,8 +999,10 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
                         text: "The callback will receive the "
                     });
                     e.createEl("code", { text: "monster" });
+                    e.createSpan({ text: " and " });
+                    e.createEl("code", { text: "property" });
                     e.createSpan({
-                        text: " parameter. The callback should return a string. For example: "
+                        text: " parameters. The callback should return a string. For example: "
                     });
 
                     e.createEl("code", { text: "return monster.name" });
