@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.6.0](https://github.com/javalent/fantasy-statblocks/compare/4.5.0...4.6.0) (2024-07-05)
+
+
+### Features
+
+* Pass the current property as a parameter for trait callbacks ([#432](https://github.com/javalent/fantasy-statblocks/issues/432)) ([c9475de](https://github.com/javalent/fantasy-statblocks/commit/c9475def0df2ce3919ee4d263f461bd5da8b3a3d))
+
 ## [4.5.0](https://github.com/javalent/fantasy-statblocks/compare/4.4.2...4.5.0) (2024-07-04)
 
 
