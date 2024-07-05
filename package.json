@@ -1,6 +1,6 @@
 {
     "name": "@javalent/fantasy-statblocks",
-    "version": "4.5.0",
+    "version": "4.6.0",
     "description": "Create Fantasy statblocks in Obsidian.md",
     "scripts": {
         "dev": "node ./esbuild.config.mjs",
