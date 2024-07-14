@@ -119,26 +119,20 @@ function getAbilities(json_abilities: PF2eMonsterAbility[]): Trait[] {
     return json_abilities.map(a => {
         const action_string = convert_action_to_icon(a.actions);
         const desc = transformDice(boldAbilityKeywords(a.description));
-        if (action_string === undefined) {
-            return {
-                name: a.name, 
-                desc: a.actions + desc, // Strings like "1 minute" should be moved into the description
-                type: a.type
-            };
-        };
         return {
-            name: action_string + a.name, 
-            desc: desc,
+            name: a.name, 
+            desc: action_string + desc, // Strings like "1 minute" should be moved into the description
             type: a.type
         };
     });
 };
 
 function getPerception(perception: PF2EMonsterValue): Trait[] {
+    const perceptionValue = addSign(getValue(perception));
     const perceptionNote = perception.note ? ` ${perception.note};` : "";
     return [{
         name: "Perception",
-        desc: `Perception ${getValue(perception)};${perceptionNote}`
+        desc: `Perception ${perceptionValue};${perceptionNote}`
     }]
 }
 
@@ -178,7 +172,8 @@ function convert_action_to_icon(action_string: string): string {
         "free": FREE_ACTION,
         "none": NO_ACTION
     };
-    return action_map[action_string];
+    const lookup = action_map[action_string]
+    return lookup ? lookup : action_string;
 };
 
 function getHealthStats(hp: PF2EMonsterValue, immunity: PF2EMonsterValue, resistance: PF2EMonsterValue, weakness: PF2EMonsterValue): Trait[] {
