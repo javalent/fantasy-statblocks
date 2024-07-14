@@ -945,7 +945,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
         inputPF2EMonsterTools.onchange = async () => {
             const { files } = inputPF2EMonsterTools;
             if (!files.length) return;
-            const monsters = await this.importer.import(files, "pf2e");
+            const monsters = await this.importer.import(files, "PF2eMonsterTool");
             if (monsters && monsters.length) {
                 await this.plugin.saveMonsters(monsters);
             }
