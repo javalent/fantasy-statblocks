@@ -18,7 +18,6 @@ export async function buildMonsterFromPF2EMonsterToolFile(
                     getValue(json.charisma)
                 ]
                 const ac = getValue(json.ac)
-                const hp = getValue(json.hp) || 1;
                 const abilities = getAbilities(json.specials)
                 const spellcasting = getSpells(json.spelltype, json.focuspoints, json.cantriplevel, json.spelldc, json.spellattack, json.spells, json.constant)
                 const creatureType = json.creature || "Creature"
@@ -38,8 +37,8 @@ export async function buildMonsterFromPF2EMonsterToolFile(
                     alignment: json.alignment,
                     ac: ac,
                     armorclass: getACStats(ac, getValue(json.fortitude), getValue(json.reflex), getValue(json.will)),
-                    hp: hp,
-                    health: getHealthStats(hp, json.immunity, json.resistance, json.weakness),
+                    hp: getValue(json.hp) || 1,
+                    health: getHealthStats(json.hp, json.immunity, json.resistance, json.weakness),
                     attacks: getAttacks(json.strikes),
                     spellcasting: spellcasting,
                     speed: json.speed || "5 feet",
@@ -119,7 +118,7 @@ function getValue(json_parameter: PF2EMonsterValue): number {
 function getAbilities(json_abilities: PF2eMonsterAbility[]): Trait[] {
     return json_abilities.map(a => {
         const action_string = convert_action_to_icon(a.actions);
-        const desc = boldAbilityKeywords(a.description);
+        const desc = transformDice(boldAbilityKeywords(a.description));
         if (action_string === undefined) {
             return {
                 name: a.name, 
@@ -151,6 +150,14 @@ function getModifierToDiceRoll(modifier: number): string {
     }
 };
 
+// Add sign to a number.
+function addSign(num: number): string {
+    if (num >= 0) {
+        return `+${num}`
+    }
+    return num.toString()
+}
+
 function getACStats(ac: number, fortitude: number, reflex: number, will: number): Trait[] {
     const fortStr = getModifierToDiceRoll(fortitude);
     const refStr = getModifierToDiceRoll(reflex);
@@ -174,28 +181,31 @@ function convert_action_to_icon(action_string: string): string {
     return action_map[action_string];
 };
 
-function getHealthStats(hp: number, immunity: PF2EMonsterValue, resistance: PF2EMonsterValue, weakness: PF2EMonsterValue): Trait[] {
+function getHealthStats(hp: PF2EMonsterValue, immunity: PF2EMonsterValue, resistance: PF2EMonsterValue, weakness: PF2EMonsterValue): Trait[] {
+    const hpValue = getValue(hp) || 1;
     const immunityValue = getValue(immunity);
     const resistanceValue = getValue(resistance);
     const weaknessValue = getValue(weakness);
-
+    
+    const hpNoteStr = hp.note ? ` (${hp.note});` : "";
     const immunityStr = immunityValue ? ` __Immunities__ ${immunityValue};` : "";
     const resistanceStr = resistanceValue ? ` __Resistances__ ${resistanceValue};` : "";
     const weaknessStr = weaknessValue ? ` __Weaknesses__ ${weaknessValue};` : "";
 
     return [{
         name: "HP",
-        desc: `${hp};${immunityStr}${resistanceStr}${weaknessStr}`
+        desc: `${hpValue};${hpNoteStr}${immunityStr}${resistanceStr}${weaknessStr}`
     }];
 };
 
 function getAttacks(strikes: PF2EMonsterStrike[]): Trait[] {
     return strikes.map(s => {
-        const traits = s.traits ? ` (${s.traits});` : ""
-        const damage = s.damage ? ` __Damage__ ${transformDice(s.damage)}`: ""
+        const traits = s.traits ? ` (${s.traits});` : "";
+        const damage = s.damage ? ` __Damage__ ${transformDice(s.damage)}`: "";
+        const attack = addSign(parseInt(s.attack));
         return {
             name: s.type,
-            desc: ONE_ACTION + ` ${s.name} ${s.attack}${traits}${damage}`
+            desc: ONE_ACTION + ` ${s.name} ${attack}${traits}${damage}`
         }
     });
 };
@@ -246,7 +256,7 @@ function getTraits(traits: string): string[] {
  * @returns 
  */
 function transformDice(str: string): string {
-    return str.replace(/( \d+d\d+)/g, ' $1 ($1)');
+    return str.replace(/ ?(\d+d\d+( ?[+-] ?\d+)?)/g, ' $1 ($1)');
 };
 
 function boldAbilityKeywords(str: string): string {
