@@ -274,7 +274,7 @@ class TetraMonster {
             legendary_description: (monster.isLegendary ?? false) ? monster.legendariesDescription : null,
             legendary_actions: (monster.isLegendary ?? false) ? importer.getTraits(monster.legendaries) : null,
             mythic_description: (monster.isMythic ?? false) ? monster.mythicDescription : null,
-            mythic_actions: (monster.ismythic ?? false) ? importer.getTraits(monster.mythics) : null,
+            mythic_actions: (monster.isMythic ?? false) ? importer.getTraits(monster.mythics) : null,
             lair_description: (monster.isLair ?? false) ? monster.lairDescription : null,
             lair_actions: (monster.isLair ?? false) ? importer.getTraits(monster.lairs) : null,
             lair_description_end: (monster.isLair ?? false) ? monster.lairDescriptionEnd : null,
