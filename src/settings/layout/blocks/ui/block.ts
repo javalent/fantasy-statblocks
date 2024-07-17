@@ -926,6 +926,17 @@ class TableModal extends BasicModal<TableItem> {
                     this.block.calculate = v;
                 });
             });
+        new Setting(el)
+            .setName("Do Not Add Property as CSS Class")
+            .setDesc(
+                "Disable this to prevent adding the property to the containing HTML element as a CSS class. This can be used to avoid collisions with native Obsidian CSS."
+            )
+            .addToggle((t) => {
+                t.setValue(this.block.doNotAddClass).onChange((v) => {
+                    this.block.doNotAddClass = v;
+                    this.display();
+                });
+            });
     }
 }
 class TraitsModal extends MarkdownEnabledModal<TraitsItem> {

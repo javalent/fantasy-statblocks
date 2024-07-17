@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Monster } from "index";
     import type { TableItem } from "src/layouts/layout.types";
-    import { stringify } from "src/util/util";
+    import { slugify, stringify } from "src/util/util";
     import TextContentHolder from "./TextContentHolder.svelte";
 
     export let monster: Monster;
@@ -48,9 +48,11 @@
     const headers = item.headers ?? [
         ...Array(values.length > 0 ? values.length : 1).keys()
     ];
+
+    $: cssClass = item.doNotAddClass ? "" : slugify(item.properties[0]);
 </script>
 
-<div class="statblock-table">
+<div class="statblock-table {cssClass}">
     {#each [...valueMap.entries()].slice(0, headers.length) as [index, values]}
         <div class="table-item">
             <span class="statblock-table-header">{headers[index]}</span>
