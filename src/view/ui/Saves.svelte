@@ -23,12 +23,11 @@
             if (!key) return null;
             const value = Object.values(ability)[0];
             if (typeof value == "string" && isNaN(Number(value)))
-                return `${toTitleCase(key)} ${value}`;
+                return [toTitleCase(key), value];
             if (value != 0 && (!value || isNaN(Number(value)))) return null;
-            return `${toTitleCase(key)} ${getMod(value as number)}`;
+            return [toTitleCase(key), getMod(value as number)];
         })
-        .filter((m) => m)
-        .join(", ");
+        .filter((m) => m);
 </script>
 
 <div class="info">
@@ -37,7 +36,16 @@
             >{item.display ?? toTitleCase(item.properties[0])}</span
         >
         <div class="property-text">
-            <TextContentHolder render={item.markdown} property={saves} />
+            {#each saves as [name, value]}
+                <div class="save-entry">
+                    <div class="save-name">
+                        <TextContentHolder property={name} />
+                    </div>
+                    <div class="save-value">
+                        <TextContentHolder property={value} />
+                    </div>
+                </div>
+            {/each}
         </div>
     </div>
 </div>
@@ -58,5 +66,13 @@
     .property-text {
         display: inline;
         margin: 0;
+    }
+    .save-entry,
+    .save-name,
+    .save-value {
+        display: inline;
+    }
+    .save-entry:not(:last-child) .save-value::after {
+        content: ", ";
     }
 </style>
