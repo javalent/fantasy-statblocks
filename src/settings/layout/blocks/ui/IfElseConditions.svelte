@@ -44,7 +44,12 @@
                     <code>monster</code>
                     <span>
                         parameter, which can be used to access properties of the
-                        monster being rendered.
+                        monster being rendered, and the 
+                    </span>
+                    <code>plugin</code>
+                    <span>
+                        parameter, which is a reference to the Fantasy Statblocks
+                        plugin and can be used for accessing app and plugin settings.
                     </span>
                     <br />
                     <br />
