@@ -191,8 +191,8 @@
                     const funct = (frame.contentWindow as any).Function;
                     let parsed: boolean = false;
                     try {
-                        const func = new funct("monster", condition);
-                        parsed = func.call(undefined, monster) ?? false;
+                        const func = new funct("monster", "plugin", condition);
+                        parsed = func.call(undefined, monster, plugin) ?? false;
                     } catch (e) {
                         console.error(e);
                         continue;
