@@ -1003,7 +1003,7 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
             .setDesc(
                 createFragment((e) => {
                     e.createSpan({
-                        text: "The block will run the callback and use the returned string as the property."
+                        text: "The block will run the callback on each trait and use the returned string as the trait description."
                     });
                     e.createEl("br");
                     e.createSpan({
