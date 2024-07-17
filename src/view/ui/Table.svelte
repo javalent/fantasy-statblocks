@@ -23,7 +23,7 @@
             const customMod = new Function("stat", "monster", func);
             mod = customMod(stat, monster);
         }
-        return `(${mod >= 0 ? "+" : "-"}${Math.abs(mod)})`;
+        return `${mod >= 0 ? "+" : "-"}${Math.abs(mod)}`;
     }
 
     let values: any[] = monster[item.properties[0]] as any[];
@@ -58,7 +58,7 @@
                 <span>
                     <TextContentHolder property={stringify(value)} />
                     {#if item.calculate}
-                        <span>
+                        <span class="calculated-modifier">
                             {getMod(value)}
                         </span>
                     {/if}
@@ -83,5 +83,11 @@
         justify-content: center;
         align-items: center;
         flex-flow: column nowrap;
+    }
+    .calculated-modifier::before {
+        content: "(";
+    }
+    .calculated-modifier::after {
+        content: ")";
     }
 </style>
