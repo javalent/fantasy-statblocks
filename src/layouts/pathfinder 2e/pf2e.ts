@@ -376,21 +376,39 @@ export const LayoutPF2eCreature: DefaultLayout = {
                     display: " "
                 },
                 {
-                    type: "inline",
-                    id: "499aea6a9aca",
-                    properties: [],
-                    nested: [
+                    type: "ifelse",
+                    id: "badbdb298988",
+                    conditions: [
                         {
-                            type: "action",
-                            id: "8a6a7a499b78",
-                            icon: "sword",
-                            callback: "try { InitiativeTracker.newEncounter({roll: true, creatures: [monster]}); } catch(e) {}"
-                        },
-                        {
-                            type: "action",
-                            id: "fbea380b09b9",
-                            icon: "plus-with-circle",
-                            callback: "try { InitiativeTracker.addCreatures([monster]); } catch(e) {}"
+                            nested: [
+                                {
+                                    type: "group",
+                                    id: "990a4a988ae8",
+                                    properties: [],
+                                    nested: [
+                                        {
+                                            type: "inline",
+                                            id: "499aea6a9aca",
+                                            properties: [],
+                                            nested: [
+                                                {
+                                                    type: "action",
+                                                    id: "8a6a7a499b78",
+                                                    icon: "sword",
+                                                    callback: "(async() => {\n  if (!InitiativeTracker.plugin.view) {\n    await InitiativeTracker.plugin.addTrackerView();\n  }\n  InitiativeTracker.newEncounter({\n    roll: true,\n    creatures: [monster]\n  });\n  if (InitiativeTracker.plugin.view) {\n    InitiativeTracker.plugin\n      .app\n      .workspace\n      .revealLeaf(InitiativeTracker.plugin.view.leaf);\n  }\n})();"
+                                                },
+                                                {
+                                                    type: "action",
+                                                    id: "fbea380b09b9",
+                                                    icon: "plus-with-circle",
+                                                    callback: "(async() => {\n  if (!InitiativeTracker.plugin.view) {\n    await InitiativeTracker.plugin.addTrackerView();\n  }\n  InitiativeTracker.addCreatures([monster]);\n  if (InitiativeTracker.plugin.view) {\n    InitiativeTracker.plugin\n      .app\n      .workspace\n      .revealLeaf(InitiativeTracker.plugin.view.leaf);\n  }\n})();"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ],
+                            condition: "return plugin.app.plugins.enabledPlugins.has(\"initiative-tracker\");\n"
                         }
                     ]
                 },
@@ -417,11 +435,9 @@ export const LayoutPF2eCreature: DefaultLayout = {
                 {
                     type: "property",
                     id: "0979a989583a",
-                    properties: [
-                        "traits"
-                    ],
+                    properties: [],
                     fallback: "-",
-                    callback: "if (!monster.traits) return \"\";\nvar s = \"\"\nif (monster.rarity) {\n  s += `- <span class=\"rarity ${monster.rarity.toLowerCase()}\">${monster.rarity}</span>\\n`\n}\nif (monster.alignment) {\n  s += `- <span class=alignment>${monster.alignment}</span>\\n`\n}\nif (monster.size) {\n  s += `- <span class=size>${monster.size}</span>\\n`\n}\nfor (const text of monster.traits) {\n  s += `- ${text}\\n`\n}\nreturn s;",
+                    callback: "const traits = []\nif (monster.rarity && monster.rarity.toLowerCase() !== \"common\") {\n  traits.push(`<span class=\"rarity ${monster.rarity.toLowerCase()}\">${monster.rarity}</span>`);\n}\n\nif (monster.alignment) {\n  traits.push(`<span class=alignment>${monster.alignment}</span>`);\n}\nif (monster.size) {\n  traits.push(`<span class=size>${monster.size}</span>`);\n}\n\nif (monster.traits) {\n  traits.push(...monster.traits);\n}\n\nreturn traits ? (\"- \" + traits.join(\"\\n- \")) : \"\";",
                     conditioned: true,
                     display: ""
                 }
@@ -449,7 +465,8 @@ export const LayoutPF2eCreature: DefaultLayout = {
                             display: "Perception",
                             conditioned: false,
                             dice: false,
-                            diceCallback: "return [\"+\" + property, \" (\", { text: \"1d20+\" + property }, \")\"]"
+                            diceCallback: "const num = (property < 0 ? \"-\" : \"+\") + Math.abs(property);\nreturn [num, \" (\", { text: \"1d20\"+num }, \")\"];",
+                            callback: "return (monster.modifier < 0 ? \"-\" : \"+\") + Math.abs(monster.modifier);"
                         },
                         {
                             type: "property",
@@ -521,10 +538,12 @@ export const LayoutPF2eCreature: DefaultLayout = {
                         "Wis",
                         "Cha"
                     ],
-                    calculate: false,
+                    calculate: true,
                     fallback: "-",
                     conditioned: true,
-                    dice: false
+                    dice: false,
+                    modifier: "stat",
+                    doNotAddClass: false
                 },
                 {
                     type: "property",
@@ -612,7 +631,7 @@ export const LayoutPF2eCreature: DefaultLayout = {
                             conditioned: true
                         }
                     ],
-                    cls: "oneline",
+                    cls: "oneline ac-saves",
                     conditioned: true
                 },
                 {
@@ -671,16 +690,6 @@ export const LayoutPF2eCreature: DefaultLayout = {
                         },
                         {
                             type: "property",
-                            id: "8b7a3b89fa59",
-                            properties: [
-                                "resistances"
-                            ],
-                            fallback: "-",
-                            conditioned: true,
-                            display: "Resistances"
-                        },
-                        {
-                            type: "property",
                             id: "78689b6b6b79",
                             properties: [
                                 "weaknesses"
@@ -688,6 +697,16 @@ export const LayoutPF2eCreature: DefaultLayout = {
                             fallback: "-",
                             conditioned: true,
                             display: "Weaknesses"
+                        },
+                        {
+                            type: "property",
+                            id: "8b7a3b89fa59",
+                            properties: [
+                                "resistances"
+                            ],
+                            fallback: "-",
+                            conditioned: true,
+                            display: "Resistances"
                         }
                     ],
                     cls: "oneline",
@@ -815,5 +834,6 @@ export const LayoutPF2eCreature: DefaultLayout = {
             id: "8bb8fbbb0869",
             desc: "+15"
         }
-    ]
+    ],
+    edited: true
 }

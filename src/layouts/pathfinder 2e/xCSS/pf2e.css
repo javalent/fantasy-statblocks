@@ -1313,6 +1313,13 @@ body.pathfinder-2e-affliction-layout-theme-kingmaker .statblock.pathfinder-2e-af
   font-weight: normal;
   font-style: normal;
 }
+.statblock.pathfinder-2e-creature-layout .statblock-content .statblock-table.abilitymods .statblock-markdown {
+  display: none;
+}
+.statblock.pathfinder-2e-creature-layout .statblock-content .statblock-table.abilitymods .calculated-modifier::before,
+.statblock.pathfinder-2e-creature-layout .statblock-content .statblock-table.abilitymods .calculated-modifier::after {
+  content: "";
+}
 .statblock.pathfinder-2e-creature-layout .statblock-content .inline-container.oneline {
   display: block;
 }
@@ -3419,6 +3426,9 @@ body.pathfinder-2e-affliction-layout-theme-kingmaker .statblock.pathfinder-2e-af
 .statblock.pathfinder-2e-creature-layout .property-name {
   margin-right: 0;
 }
+.statblock.pathfinder-2e-creature-layout .ac-saves .save-name {
+  font-weight: var(--statblock-property-name-font-weight);
+}
 .statblock.basic-pathfinder-2e-layout .statblock-item-inline:has(.statblock-inline-item .name) {
   display: flex;
   flex-direction: row;
@@ -4210,7 +4220,7 @@ body.pathfinder-2e-affliction-layout-theme-kingmaker .statblock.pathfinder-2e-af
 .statblock.pathfinder-2e-creature-layout .pf2e-traits.statblock-item-container.property-container {
   margin: 0;
 }
-.statblock.pathfinder-2e-creature-layout .pf2e-traits.statblock-item-container.property-container > .line.traits {
+.statblock.pathfinder-2e-creature-layout .pf2e-traits.statblock-item-container.property-container > .line:has(.property-name) {
   margin: 0;
   display: block;
 }
