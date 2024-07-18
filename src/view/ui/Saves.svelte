@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { Monster } from "index";
+    import { Notice } from "obsidian";
     import type { SavesItem } from "src/layouts/layout.types";
     import { toTitleCase } from "src/util/util";
     import TextContentHolder from "./TextContentHolder.svelte";
@@ -14,6 +15,23 @@
     let arr: any[] = monster[item.properties[0]] as any[];
     if (!Array.isArray(arr)) {
         arr = [];
+    }
+
+    if (item.callback) {
+        try {
+            const frame = document.body.createEl("iframe");
+            const funct = (frame.contentWindow as any).Function;
+            const func = new funct("monster", "property", item.callback);
+            arr = arr.map((save) => func.call(undefined, monster, save) ?? save);
+            document.body.removeChild(frame);
+        } catch (e) {
+            new Notice(
+                `There was an error executing the provided callback for [${item.properties.join(
+                    ", "
+                )}]\n\n${e.message}`
+            );
+            console.error(e);
+        }
     }
 
     const saves = arr

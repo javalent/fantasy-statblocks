@@ -773,6 +773,48 @@ class SavesModal extends MarkdownEnabledModal<SavesItem> {
                 );
             });
     }
+    buildAdvanced(el: HTMLDivElement): void {
+        super.buildAdvanced(el);
+        new Setting(el)
+            .setHeading()
+            .setName("Callback")
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "The block will run the callback on each save object and use the returned object as the save."
+                    });
+                    e.createEl("br");
+                    e.createSpan({
+                        text: "The callback will receive the "
+                    });
+                    e.createEl("code", { text: "monster" });
+                    e.createSpan({ text: " and " });
+                    e.createEl("code", { text: "property" });
+                    e.createSpan({
+                        text: " parameters. The callback should return an object with a single key and value. For example: "
+                    });
+
+                    e.createEl("code", { text: "return {\"fort\": property.fortitude}" });
+                    e.createEl("br");
+                    e.createEl("strong", {
+                        text: "Please Note: This will not run if a dice callback is provided."
+                    });
+                })
+            );
+
+        const component = new TextAreaComponent(el).setValue(
+            this.block.callback
+        );
+        component.inputEl.addClass("statblock-textarea");
+        this.editor = editorFromTextArea(
+            component.inputEl,
+            EditorView.updateListener.of((update) => {
+                if (update.docChanged) {
+                    this.block.callback = update.state.doc.toString();
+                }
+            })
+        );
+    }
 }
 class SpellsModal extends MarkdownEnabledModal<SpellsItem> {
     buildProperties(el: HTMLDivElement): void {
