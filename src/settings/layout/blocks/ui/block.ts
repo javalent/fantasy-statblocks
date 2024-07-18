@@ -765,6 +765,17 @@ class SavesModal extends MarkdownEnabledModal<SavesItem> {
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
         new Setting(el)
+            .setName("Do Not Add Property as CSS Class")
+            .setDesc(
+                "Disable this to prevent adding the property to the containing HTML element as a CSS class. This can be used to avoid collisions with native Obsidian CSS."
+            )
+            .addToggle((t) => {
+                t.setValue(this.block.doNotAddClass).onChange((v) => {
+                    this.block.doNotAddClass = v;
+                    this.display();
+                });
+            });
+        new Setting(el)
             .setName("Display Text")
             .setDesc("This text will be used for the property name.")
             .addText((t) => {

@@ -2,7 +2,7 @@
     import type { Monster } from "index";
     import { Notice } from "obsidian";
     import type { SavesItem } from "src/layouts/layout.types";
-    import { toTitleCase } from "src/util/util";
+    import { slugify, toTitleCase } from "src/util/util";
     import TextContentHolder from "./TextContentHolder.svelte";
 
     export let monster: Monster;
@@ -46,16 +46,20 @@
             return [toTitleCase(key), getMod(value as number)];
         })
         .filter((m) => m);
+
+    $: cssClasses = item.doNotAddClass
+        ? []
+        : [slugify(item.display), slugify(item.properties[0])].join(" ");
 </script>
 
 <div class="info">
-    <div class="line">
+    <div class="line {cssClasses}">
         <span class="property-name"
             >{item.display ?? toTitleCase(item.properties[0])}</span
         >
         <div class="property-text">
             {#each saves as [name, value]}
-                <div class="save-entry">
+                <div class="save-entry save-{slugify(name)}-entry">
                     <div class="save-name">
                         <TextContentHolder property={name} />
                     </div>
