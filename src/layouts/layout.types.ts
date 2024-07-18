@@ -97,6 +97,7 @@ type PropertyProps = {
 };
 type SavesProps = {
     type: "saves";
+    callback?: string;
     display?: string;
 };
 type SpellsProps = {
