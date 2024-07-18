@@ -494,35 +494,16 @@ export const LayoutPF2eCreature: DefaultLayout = {
                     markdown: true
                 },
                 {
-                    type: "inline",
-                    id: "db1a38ebcb6b",
-                    properties: [],
-                    nested: [
-                        {
-                            type: "saves",
-                            id: "6a2b78099b0b",
-                            properties: [
-                                "skills"
-                            ],
-                            fallback: "-",
-                            display: "Skills",
-                            conditioned: true,
-                            dice: true
-                        },
-                        {
-                            type: "property",
-                            id: "2b987aead8ab",
-                            properties: [
-                                "skillsNote"
-                            ],
-                            fallback: "-",
-                            conditioned: true,
-                            display: ""
-                        }
+                    type: "saves",
+                    id: "6a2b78099b0b",
+                    properties: [
+                        "skills"
                     ],
-                    heading: "",
-                    cls: "oneline",
-                    conditioned: true
+                    fallback: "-",
+                    display: "Skills",
+                    conditioned: true,
+                    dice: true,
+                    callback: "const keys = [...Object.keys(property)];\nconst name = keys.shift();\n\nif (name === \"note\") {\n  return {note: property.note};\n}\n\nvar note;\nvar stats = [];\nfor (const key of keys) {\n  if (key === \"note\") {\n    note = property[key];\n  } else {\n    const sign = property[key] < 0 ? \"-\" : \"+\";\n    const num = Math.abs(property[key]);\n    stats.push(`(${sign}${num} ${key})`);\n  }\n}\n\nif (stats.length == 0 && !note) {\n  return property;\n}\n\nstats.unshift(\n  (property[name] < 0 ? \"-\" : \"+\") +\n  Math.abs(property[name]));\nconst parts = [stats.join(\" \")];\nif (note) {\n  parts.push(note);\n}\nreturn {[name]: parts.join(\", \")};"
                 },
                 {
                     type: "table",
@@ -618,20 +599,11 @@ export const LayoutPF2eCreature: DefaultLayout = {
                             fallback: "-",
                             dice: true,
                             display: "",
-                            conditioned: true
-                        },
-                        {
-                            type: "property",
-                            id: "69aa5a7b196a",
-                            properties: [
-                                "savesNote"
-                            ],
-                            fallback: "-",
-                            display: "",
-                            conditioned: true
+                            conditioned: true,
+                            callback: "const keys = [...Object.keys(property)];\nconst name = keys.shift();\n\nif (name === \"note\") {\n  return {note: property.note};\n}\n\nvar note;\nvar stats = [];\nfor (const key of keys) {\n  if (key === \"note\") {\n    note = property[key];\n  } else {\n    const sign = property[key] < 0 ? \"-\" : \"+\";\n    const num = Math.abs(property[key]);\n    stats.push(`(${sign}${num} ${key})`);\n  }\n}\n\nif (stats.length == 0 && !note) {\n  return property;\n}\n\nstats.unshift(\n  (property[name] < 0 ? \"-\" : \"+\") +\n  Math.abs(property[name]));\nconst parts = [stats.join(\" \")];\nif (note) {\n  parts.push(note);\n}\nreturn {[name]: parts.join(\", \")};"
                         }
                     ],
-                    cls: "oneline ac-saves",
+                    cls: "oneline",
                     conditioned: true
                 },
                 {

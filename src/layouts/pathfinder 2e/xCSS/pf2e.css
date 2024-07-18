@@ -3426,8 +3426,14 @@ body.pathfinder-2e-affliction-layout-theme-kingmaker .statblock.pathfinder-2e-af
 .statblock.pathfinder-2e-creature-layout .property-name {
   margin-right: 0;
 }
-.statblock.pathfinder-2e-creature-layout .ac-saves .save-name {
+.statblock.pathfinder-2e-creature-layout .saves-container .saves.line .save-name {
   font-weight: var(--statblock-property-name-font-weight);
+}
+.statblock.pathfinder-2e-creature-layout .saves-container .save-entry.save-note-entry .save-name {
+  display: none;
+}
+.statblock.pathfinder-2e-creature-layout .saves-container .save-entry:has(+ .save-entry.save-note-entry) .save-value::after {
+  content: "; ";
 }
 .statblock.basic-pathfinder-2e-layout .statblock-item-inline:has(.statblock-inline-item .name) {
   display: flex;
