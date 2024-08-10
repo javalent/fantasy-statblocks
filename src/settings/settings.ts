@@ -14,19 +14,19 @@ import LayoutEditor from "./layout/LayoutEditor.svelte";
 
 import fastCopy from "fast-copy";
 
+import { ExpectedValue } from "@javalent/dice-roller";
+import { FolderInputSuggest } from "@javalent/utilities";
+import type { Monster } from "index";
 import Importer from "src/importers/importer";
-import { EditMonsterModal } from "./modal";
+import { DefaultLayouts } from "src/layouts";
 import { Layout5e } from "src/layouts/basic 5e/basic5e";
 import type { DefaultLayout, Layout } from "src/layouts/layout.types";
-import { DefaultLayouts } from "src/layouts";
-import { nanoid } from "src/util/util";
 import { DICE_ROLLER_SOURCE } from "src/main";
-import type { Monster } from "index";
 import FantasyStatblockModal from "src/modal/modal";
-import { FolderInputSuggest } from "@javalent/utilities";
+import { nanoid } from "src/util/util";
 import { Watcher } from "src/watcher/watcher";
 import Creatures from "./creatures/Creatures.svelte";
-import { ExpectedValue } from "@javalent/dice-roller";
+import { EditMonsterModal } from "./modal";
 
 export default class StatblockSettingTab extends PluginSettingTab {
     importer: Importer;
@@ -930,6 +930,34 @@ export default class StatblockSettingTab extends PluginSettingTab {
             b.buttonEl.addClass("statblock-file-upload");
             b.buttonEl.appendChild(inputTetra);
             b.onClick(() => inputTetra.click());
+        });
+        const importPF2EMonsterTools = new Setting(importAdditional)
+            .setName("Import PF2eMonsterTools Data")
+            .setDesc("Only import content that you own.");
+        const inputPF2EMonsterTools = createEl("input", {
+            attr: {
+                type: "file",
+                name: "PF2eMonsterTool",
+                accept: ".json, .monster",
+                multiple: true
+            }
+        });
+        inputPF2EMonsterTools.onchange = async () => {
+            const { files } = inputPF2EMonsterTools;
+            if (!files.length) return;
+            const monsters = await this.importer.import(files, "PF2eMonsterTool");
+            if (monsters && monsters.length) {
+                await this.plugin.saveMonsters(monsters);
+            }
+            this.display();
+        };
+        importPF2EMonsterTools.addButton((b) => {
+            b.setButtonText("Choose File(s)").setTooltip(
+                "Import PF2EMonsterTools Data"
+            );
+            b.buttonEl.addClass("statblock-file-upload");
+            b.buttonEl.appendChild(inputPF2EMonsterTools);
+            b.onClick(() => inputPF2EMonsterTools.click());
         });
         const importGeneric = new Setting(importAdditional)
             .setName("Import Generic Data")

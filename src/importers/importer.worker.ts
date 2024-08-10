@@ -2,7 +2,8 @@ import type { Monster } from "index";
 import {
     buildMonsterFromAppFile,
     buildMonsterFromCritterFile,
-    buildMonsterFromImprovedInitiativeFile
+    buildMonsterFromImprovedInitiativeFile,
+    buildMonsterFromPF2EMonsterToolFile
 } from ".";
 import { build5eMonsterFromFile } from "./5eToolsImport";
 import { buildMonsterFromTetraCube } from "./TetraCubeImport";
@@ -40,6 +41,11 @@ ctx.onmessage = async (event) => {
             }
             case "tetra": {
                 const imported = await buildMonsterFromTetraCube(file);
+                monsters.push(...(imported ?? []));
+                break;
+            }
+            case "PF2eMonsterTool": {
+                const imported = await buildMonsterFromPF2EMonsterToolFile(file);
                 monsters.push(...(imported ?? []));
                 break;
             }
