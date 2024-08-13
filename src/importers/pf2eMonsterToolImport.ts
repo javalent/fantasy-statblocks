@@ -100,7 +100,7 @@ type PF2EMonsterStrike = {
 };
 
 const REACTION = "⬲ ";
-const ONE_ACTION = "⬻ ";
+export const ONE_ACTION = "⬻ ";
 const TWO_ACTION = "⬺ ";
 const THREE_ACTION = "⬽ ";
 const FREE_ACTION = "⭓ ";
@@ -136,7 +136,7 @@ function getPerception(perception: PF2EMonsterValue): Trait[] {
     }]
 }
 
-function getModifierToDiceRoll(modifier: number): string {
+export function getModifierToDiceRoll(modifier: number): string {
     if (modifier < 0) {
         return `${modifier} (1d20${modifier})`;
     } else {
@@ -145,14 +145,14 @@ function getModifierToDiceRoll(modifier: number): string {
 };
 
 // Add sign to a number.
-function addSign(num: number): string {
+export function addSign(num: number): string {
     if (num >= 0) {
         return `+${num}`
     }
     return num.toString()
 }
 
-function getACStats(ac: number, fortitude: number, reflex: number, will: number): Trait[] {
+export function getACStats(ac: number, fortitude: number, reflex: number, will: number): Trait[] {
     const fortStr = getModifierToDiceRoll(fortitude);
     const refStr = getModifierToDiceRoll(reflex);
     const willStr = getModifierToDiceRoll(will);
@@ -264,7 +264,7 @@ function toOrdinal(n: number): string {
     return n + (s[(v - 20) % 10] || s[v] || s[0]);
 };
 
-function toTitleCase(str: string): string {
+export function toTitleCase(str: string): string {
     return str.replace(
       /\w\S*/g,
       text => text.charAt(0).toUpperCase() + text.substring(1).toLowerCase()
