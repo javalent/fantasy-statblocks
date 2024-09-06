@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.7.1](https://github.com/javalent/fantasy-statblocks/compare/4.7.0...4.7.1) (2024-09-06)
+
+
+### Bug Fixes
+
+* Subheadings should now properly stringify arrays ([5c3da30](https://github.com/javalent/fantasy-statblocks/commit/5c3da3000736eb0560fafd088edefac43057dea1))
+
 ## [4.7.0](https://github.com/javalent/fantasy-statblocks/compare/4.6.0...4.7.0) (2024-09-06)
 
 
