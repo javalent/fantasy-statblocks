@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.7.0](https://github.com/javalent/fantasy-statblocks/compare/4.6.0...4.7.0) (2024-09-06)
+
+
+### Features
+
+* Adds support for importing from PF2eMonsterTool ([df7f7f3](https://github.com/javalent/fantasy-statblocks/commit/df7f7f3f04ba37f019ff3c09b0e14e54786bc443))
+
+
+### Bug Fixes
+
+* Adds several missed fields to the TetraCube import ([4eb00cd](https://github.com/javalent/fantasy-statblocks/commit/4eb00cd8ec7a7708fae3c3164691a6550fdf81f5))
+* **css:** prioritize pf2e icons over system font ([#420](https://github.com/javalent/fantasy-statblocks/issues/420)) ([4de2457](https://github.com/javalent/fantasy-statblocks/commit/4de2457cdd8b2a91fb99e8a794b489e297ca9ccf))
+* Fix stringifier incorrectly matching some links ([#435](https://github.com/javalent/fantasy-statblocks/issues/435)) ([fe436d5](https://github.com/javalent/fantasy-statblocks/commit/fe436d50da8e37612b0188be1b9f306043a9491e))
+* Property lines now correctly stringify arrays ([9a27da8](https://github.com/javalent/fantasy-statblocks/commit/9a27da8633640dd1759f992063cf8e5ae3af4a1a))
+
 ## [4.6.0](https://github.com/javalent/fantasy-statblocks/compare/4.5.0...4.6.0) (2024-07-05)
 
 
