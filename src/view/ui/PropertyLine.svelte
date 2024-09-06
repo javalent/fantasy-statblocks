@@ -1,14 +1,14 @@
 <script lang="ts">
-    import type { Monster } from "index";
+    import type { Monster } from "../../../index";
     import { Notice } from "obsidian";
-    import type { PropertyItem } from "src/layouts/layout.types";
-    import { slugify, stringify } from "src/util/util";
+    import type { PropertyItem } from "../../layouts/layout.types";
+    import { slugify, stringify } from "../../util/util";
     import TextContentHolder from "./TextContentHolder.svelte";
 
     export let monster: Monster;
     export let item: PropertyItem;
 
-    let property = stringify(monster[item.properties[0]]);
+    let property = stringify(monster[item.properties[0]], 0, ", ", false);
     let display = item.display ?? item.properties[0];
 
     if (item.callback) {
