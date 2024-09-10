@@ -324,6 +324,10 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
 
         built = this.transformLinks(built);
 
+        if ("image" in built && Array.isArray(built.image)) {
+            built.image = built.image.flat(2).join("");
+        }
+
         return built as Monster;
     }
 
