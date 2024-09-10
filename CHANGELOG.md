@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.7.2](https://github.com/javalent/fantasy-statblocks/compare/4.7.1...4.7.2) (2024-09-10)
+
+
+### Bug Fixes
+
+* Fixes stringify skipping the sixth element of a list (close [#451](https://github.com/javalent/fantasy-statblocks/issues/451)) ([7dbc4a9](https://github.com/javalent/fantasy-statblocks/commit/7dbc4a9c99fb72a8c189513f13b778277cf37f88))
+* inspect image property and fix wikilinks ([bbc4ac8](https://github.com/javalent/fantasy-statblocks/commit/bbc4ac835717c4d987bb9dfc650e0fde32a51b65))
+
 ## [4.7.1](https://github.com/javalent/fantasy-statblocks/compare/4.7.0...4.7.1) (2024-09-06)
 
 
