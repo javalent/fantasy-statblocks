@@ -79,12 +79,12 @@ export function stringify(
     if (Array.isArray(property)) {
         ret.push(
             `${parens ? "(" : ""}${property
-                .map((p) => stringify(p, depth++))
+                .map((p) => stringify(p, depth + 1))
                 .join(joiner)}${parens ? ")" : ""}`
         );
     } else if (typeof property == "object") {
         for (const value of Object.values(property)) {
-            ret.push(stringify(value, depth++));
+            ret.push(stringify(value, depth + 1));
         }
     }
     return ret.join(" ");
