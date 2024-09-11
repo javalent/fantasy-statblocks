@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.7.4](https://github.com/javalent/fantasy-statblocks/compare/4.7.3...4.7.4) (2024-09-11)
+
+
+### Bug Fixes
+
+* Removed deprecated global app reference ([fde858b](https://github.com/javalent/fantasy-statblocks/commit/fde858ba4f941cb6d7f4e8a8a7299b6c8b27b38c))
+* Updated several outdated dependencies ([26f5355](https://github.com/javalent/fantasy-statblocks/commit/26f53556e62a99f9c7da39b612839ceec6b452f6))
+
 ## [4.7.3](https://github.com/javalent/fantasy-statblocks/compare/4.7.2...4.7.3) (2024-09-11)
 
 
