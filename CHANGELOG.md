@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.7.3](https://github.com/javalent/fantasy-statblocks/compare/4.7.2...4.7.3) (2024-09-11)
+
+
+### Bug Fixes
+
+* fixes incorrect link parsing in the stringifier ([fbbf048](https://github.com/javalent/fantasy-statblocks/commit/fbbf048ba551e4a1477c5c8235b9a0930fd03347))
+
 ## [4.7.2](https://github.com/javalent/fantasy-statblocks/compare/4.7.1...4.7.2) (2024-09-10)
 
 
