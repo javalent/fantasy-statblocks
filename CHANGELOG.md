@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.7.7](https://github.com/javalent/fantasy-statblocks/compare/4.7.6...4.7.7) (2024-09-11)
+
+
+### Bug Fixes
+
+* Fixes issue with dependency causing settings tab to not fully load ([b5f96c5](https://github.com/javalent/fantasy-statblocks/commit/b5f96c538a24d178d3e6d4cf1894e0322251bcb1))
+
 ## [4.7.6](https://github.com/javalent/fantasy-statblocks/compare/4.7.5...4.7.6) (2024-09-11)
 
 
