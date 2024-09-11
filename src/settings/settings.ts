@@ -31,8 +31,8 @@ import { EditMonsterModal } from "./modal";
 export default class StatblockSettingTab extends PluginSettingTab {
     importer: Importer;
     results: Partial<Monster>[] = [];
-    filter: Setting;
-    $UI: Creatures;
+    filter!: Setting;
+    $UI!: Creatures;
     constructor(app: App, private plugin: StatBlockPlugin) {
         super(app, plugin);
         this.importer = new Importer(this.plugin);
@@ -192,8 +192,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                         this.plugin.settings.renderDice,
                                     showFormula: false,
                                     showParens: false,
-                                    expectedValue: ExpectedValue.Average,
-                                    text: null
+                                    expectedValue: ExpectedValue.Average
                                 }
                             );
                         }
@@ -378,10 +377,10 @@ export default class StatblockSettingTab extends PluginSettingTab {
         });
         inputFile.onchange = async () => {
             const { files } = inputFile;
-            if (!files.length) return;
+            if (!files?.length) return;
             try {
                 const { files } = inputFile;
-                if (!files.length) return;
+                if (!files?.length) return;
                 for (const file of Array.from(files)) {
                     await new Promise<void>((resolve, reject) => {
                         const reader = new FileReader();
@@ -389,7 +388,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         reader.onload = async (event) => {
                             try {
                                 const layout: Layout = JSON.parse(
-                                    event.target.result as string
+                                    event.target?.result as string
                                 );
                                 if (!layout) {
                                     reject(
@@ -446,7 +445,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     });
                 }
                 await this.plugin.saveSettings();
-                inputFile.value = null;
+                inputFile.value = "";
                 this.buildCustomLayouts(layoutContainer, containerEl);
             } catch (e) {}
         };
@@ -613,7 +612,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     b.setIcon("undo").onClick(async () => {
                         const defLayout = DefaultLayouts.find(
                             ({ id }) => id == layout.id
-                        );
+                        )!;
                         delete this.plugin.settings.defaultLayouts[layout.id];
                         await this.plugin.saveSettings();
                         this.plugin.manager.updateDefaultLayout(
@@ -782,10 +781,10 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
         inputAppFile.onchange = async () => {
             const { files } = inputAppFile;
-            if (!files.length) return;
+            if (!files?.length) return;
             try {
                 const { files } = inputAppFile;
-                if (!files.length) return;
+                if (!files?.length) return;
                 const monsters = await this.importer.import(files, "appfile");
                 if (monsters && monsters.length) {
                     await this.plugin.saveMonsters(monsters);
@@ -817,10 +816,10 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
         inputImprovedInitiative.onchange = async () => {
             const { files } = inputImprovedInitiative;
-            if (!files.length) return;
+            if (!files?.length) return;
             try {
                 const { files } = inputImprovedInitiative;
-                if (!files.length) return;
+                if (!files?.length) return;
                 const monsters = await this.importer.import(files, "improved");
                 if (monsters && monsters.length) {
                     await this.plugin.saveMonsters(monsters);
@@ -852,10 +851,10 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
         inputCritterDB.onchange = async () => {
             const { files } = inputCritterDB;
-            if (!files.length) return;
+            if (!files?.length) return;
             try {
                 const { files } = inputCritterDB;
-                if (!files.length) return;
+                if (!files?.length) return;
                 const monsters = await this.importer.import(files, "critter");
                 if (monsters && monsters.length) {
                     await this.plugin.saveMonsters(monsters);
@@ -887,7 +886,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
         input5eTools.onchange = async () => {
             const { files } = input5eTools;
-            if (!files.length) return;
+            if (!files?.length) return;
             const monsters = await this.importer.import(files, "5e");
             if (monsters && monsters.length) {
                 await this.plugin.saveMonsters(monsters);
@@ -916,7 +915,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
         });
         inputTetra.onchange = async () => {
             const { files } = inputTetra;
-            if (!files.length) return;
+            if (!files?.length) return;
             const monsters = await this.importer.import(files, "tetra");
             if (monsters && monsters.length) {
                 await this.plugin.saveMonsters(monsters);
@@ -944,7 +943,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
         });
         inputPF2EMonsterTools.onchange = async () => {
             const { files } = inputPF2EMonsterTools;
-            if (!files.length) return;
+            if (!files?.length) return;
             const monsters = await this.importer.import(files, "PF2eMonsterTool");
             if (monsters && monsters.length) {
                 await this.plugin.saveMonsters(monsters);
@@ -982,7 +981,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
         });
         inputGeneric.onchange = async () => {
             const { files } = inputGeneric;
-            if (!files.length) return;
+            if (!files?.length) return;
             const monsters = await this.importer.import(files, "generic");
             if (monsters && monsters.length) {
                 await this.plugin.saveMonsters(monsters);
@@ -1014,7 +1013,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 });
             });
 
-        const ancestor = this.containerEl.closest(".statblock-settings");
+        const ancestor = this.containerEl.closest(".statblock-settings")!;
         const { backgroundColor, paddingTop } = getComputedStyle(ancestor);
 
         this.$UI = new Creatures({
@@ -1032,7 +1031,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
 }
 
 class CreateStatblockModal extends FantasyStatblockModal {
-    creator: LayoutEditor;
+    creator!: LayoutEditor;
     layout: Layout;
     saved: boolean = false;
     constructor(

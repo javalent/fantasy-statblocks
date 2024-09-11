@@ -44,7 +44,7 @@
                 }
                 if (
                     sources.length &&
-                    ![creature.source].flat().some((s) => sources.includes(s))
+                    ![creature.source].flat().some((s) => s && sources.includes(s))
                 ) {
                     should = false;
                 }
