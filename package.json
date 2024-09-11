@@ -38,7 +38,7 @@
         "esbuild-loader": "^2.16.0",
         "esbuild-plugin-inline-worker": "github:mitschabaude/esbuild-plugin-inline-worker",
         "esbuild-sass-plugin": "^2.3.3",
-        "esbuild-svelte": "^0.6.3",
+        "esbuild-svelte": "^0.8.1",
         "fast-copy": "^2.1.1",
         "fast-equals": "^5.0.1",
         "fast-sort": "^3.0.2",
