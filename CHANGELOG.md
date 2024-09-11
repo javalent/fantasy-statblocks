@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.7.6](https://github.com/javalent/fantasy-statblocks/compare/4.7.5...4.7.6) (2024-09-11)
+
+
+### Bug Fixes
+
+* temp fix for failure to load ([b3e4e21](https://github.com/javalent/fantasy-statblocks/commit/b3e4e210f42a9bdf9fe8d0b69b0df42fea7b59c5))
+
 ## [4.7.5](https://github.com/javalent/fantasy-statblocks/compare/4.7.4...4.7.5) (2024-09-11)
 
 
