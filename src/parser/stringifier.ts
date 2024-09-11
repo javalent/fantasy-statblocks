@@ -32,11 +32,11 @@ export class LinkStringifier {
      */
     static transformSource(source: string) {
         return source
-            .replace(/\[\[([^]]+?)\]\]/g, (_, $1) =>
+            .replace(/\[\[([^\]]+?)\]\]/g, (_, $1) =>
                 LinkStringifier.replaceWikiLink($1)
             )
             .replace(
-                /\[([^]]*?)\]\(([^)]+?)\)/g,
+                /\[([^\]]*?)\]\(([^)]+?)\)/g,
                 (_, alias: string, path: string) =>
                     LinkStringifier.replaceMarkdownLink(path, alias)
             );
