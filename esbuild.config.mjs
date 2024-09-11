@@ -2,7 +2,7 @@ import esbuild from "esbuild";
 import process from "process";
 import builtins from "builtin-modules";
 import sveltePlugin from "esbuild-svelte";
-import sveltePreprocess from "svelte-preprocess";
+import { sveltePreprocess } from "svelte-preprocess";
 import inlineWorkerPlugin from "esbuild-plugin-inline-worker";
 import { sassPlugin } from "esbuild-sass-plugin";
 import { config } from "dotenv";
@@ -12,6 +12,7 @@ config();
 
 const filteredWarnings = [
     "a11y-click-events-have-key-events",
+    "a11y-no-static-element-interaction",
     "security-anchor-rel-noreferrer"
 ];
 const banner = `/*
@@ -74,7 +75,7 @@ const params = {
             compilerOptions: { css: true },
             preprocess: sveltePreprocess(),
             filterWarnings: (warning) => {
-                return !filteredWarnings.includes(warning.code);
+                return false;
             }
         }),
         inlineWorkerPlugin({ workerName: "Fantasy Statblocks Creature Parser" })
