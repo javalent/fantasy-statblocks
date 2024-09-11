@@ -16,6 +16,7 @@ import { stringify } from "src/util/util";
 
 class LinkifierClass extends Component {
     #cache: Map<string, string> = new Map();
+    app: App;
     #addAliasesToCache(aliases: string[], file: TFile) {
         for (const alias of aliases) {
             this.#cache.set(alias, file.name);
@@ -47,13 +48,14 @@ class LinkifierClass extends Component {
                 : null;
         return {
             alias,
-            file: app.metadataCache.getFirstLinkpathDest(filePath, context)
+            file: this.app.metadataCache.getFirstLinkpathDest(filePath, context)
         };
     }
     metadataCache: MetadataCache;
 
-    initialize(metadataCache: MetadataCache) {
+    initialize(metadataCache: MetadataCache, app: App) {
         this.load();
+        this.app = app;
         this.metadataCache = metadataCache;
         if (metadataCache.initialized) {
             this.buildCache();

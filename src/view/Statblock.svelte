@@ -16,7 +16,7 @@
         onMount,
         setContext
     } from "svelte";
-    import { Writable, writable } from "svelte/store";
+    import { type Writable, writable } from "svelte/store";
     import type StatBlockRenderer from "./statblock";
 
     import Bar from "./ui/Bar.svelte";
@@ -33,7 +33,7 @@
     export let canSave: boolean = true;
     export let icons = true;
 
-    const monsterStore = writable();
+    const monsterStore = writable(monster);
     $: $monsterStore = monster;
     const maxColumns =
         !isNaN(Number(monster.columns ?? layout.columns)) &&
@@ -119,9 +119,9 @@
                 try {
                     await navigator.clipboard.writeText(stringifyYaml(monster));
                     new Notice("Creature YAML copied to clipboard");
-                } catch (e) {
+                } catch (e: unknown) {
                     new Notice(
-                        `There was an issue copying the yaml:\n\n${e.message}`
+                        `There was an issue copying the yaml:\n\n${(e as Error).message}`
                     );
                 }
             });
@@ -149,7 +149,7 @@
     const slugify = (str: string, fallback: string = "") =>
         str?.toLowerCase().replace(/\s+/g, "-") ?? fallback;
 
-    $: name = slugify(monster.name, "no-name");
+    $: name = slugify(monster.name ?? "", "no-name");
     $: layoutName = slugify(layout.name, "no-layout");
     const getNestedLayouts = (blocks: StatblockItem[]): string[] => {
         const classes: string[] = [];
@@ -158,7 +158,9 @@
                 const layout = plugin.manager
                     .getAllLayouts()
                     .find((l) => l.id == block.layout);
-                classes.push(slugify(layout?.name));
+                if (layout) {
+                    classes.push(slugify(layout.name));
+                }
             }
             if ("nested" in block) {
                 classes.push(...getNestedLayouts(block.nested));

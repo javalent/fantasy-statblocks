@@ -506,7 +506,7 @@ class BasicModal<I extends BasicItem> extends EditorEnabledModal<I> {
         const block = this.block;
         new Setting(el).setName("Link Monster Property").addText((t) =>
             t.setValue(block.properties[0]).onChange((v) => {
-                block.properties[0] = v as keyof Monster;
+                block.properties[0] = v;
             })
         );
     }
@@ -641,7 +641,7 @@ return ["The monster guesses you have: ", { text: diceText }, " freckles."];
                         "The dice roller will parse this property instead of the original."
                     )
                     .addText((t) => {
-                        t.setValue(block.diceProperty).onChange((v) => {
+                        t.setValue(`${block.diceProperty}`).onChange((v) => {
                             block.diceProperty = v as keyof Monster;
                         });
                     });
@@ -810,7 +810,7 @@ class SubheadingModal extends BasicModal<SubHeadingItem> {
                         new Notice("A valid property must be supplied.");
                         return;
                     }
-                    block.properties.push(tempProp as keyof Monster);
+                    block.properties.push(tempProp);
                     this.buildProperties(el);
                 })
             );
@@ -824,7 +824,7 @@ class SubheadingModal extends BasicModal<SubHeadingItem> {
                 })
             }
         });
-        sub.$on("sorted", (e: CustomEvent<(keyof Monster)[]>) => {
+        sub.$on("sorted", (e: CustomEvent<string[]>) => {
             block.properties = [...e.detail];
         });
     }
@@ -903,7 +903,7 @@ class TableModal extends BasicModal<TableItem> {
                         new Notice("A valid property must be supplied.");
                         return;
                     }
-                    this.block.headers.push(tempProp as keyof Monster);
+                    this.block.headers.push(tempProp);
                     this.buildProperties(el);
                 })
             );

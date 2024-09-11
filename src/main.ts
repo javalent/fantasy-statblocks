@@ -139,7 +139,7 @@ export default class StatBlockPlugin extends Plugin {
         this.register(() => this.manager.unload());
 
         Bestiary.initialize(this);
-        Linkifier.initialize(this.app.metadataCache);
+        Linkifier.initialize(this.app.metadataCache, this.app);
 
         this.register(() => Linkifier.unload());
 

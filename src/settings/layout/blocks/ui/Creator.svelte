@@ -13,7 +13,7 @@
     import { blockGenerator } from "../add";
     import { getModalForBlock } from "./block";
     import Rule from "src/view/ui/Rule.svelte";
-    import { StatblockItem, TypeNames } from "src/layouts/layout.types";
+    import { type StatblockItem, TypeNames } from "src/layouts/layout.types";
     import { setNodeIcon } from "src/util";
 
     const dispatch = createEventDispatcher();
@@ -113,7 +113,7 @@
                     .addItem((item) => {
                         item.setTitle("Add")
                             .setIcon("plus-with-circle")
-                            .onClick((e: MouseEvent) => {
+                            .onClick((e: MouseEvent | KeyboardEvent) => {
                                 add(block, evt);
                             });
                     })
@@ -275,10 +275,12 @@
                             <div
                                 class="action-container statblock-creator-container"
                             >
-                                <div
-                                    class="action-icon"
-                                    use:setNodeIcon={block.icon}
-                                />
+                                {#if block.icon}
+                                    <div
+                                        class="action-icon"
+                                        use:setNodeIcon={block.icon}
+                                    />
+                                {/if}
                                 <div class="icons">
                                     <div
                                         class="icon"
