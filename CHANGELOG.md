@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.7.5](https://github.com/javalent/fantasy-statblocks/compare/4.7.4...4.7.5) (2024-09-11)
+
+
+### Bug Fixes
+
+* Disable API spec generation ([5dc8165](https://github.com/javalent/fantasy-statblocks/commit/5dc81652333cf020d2d07dcb5f284edc29110465))
+
 ## [4.7.4](https://github.com/javalent/fantasy-statblocks/compare/4.7.3...4.7.4) (2024-09-11)
 
 
