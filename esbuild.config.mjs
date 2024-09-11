@@ -91,12 +91,12 @@ if (prod) {
         }
         process.exit(1);
     });
-    await build({
+    /* await build({
         entry: ["./src/api/api.ts"],
         dts: {
             only: true
         }
-    });
+    }); */
 } else {
     let ctx = await esbuild.context(params);
     await ctx.watch();
