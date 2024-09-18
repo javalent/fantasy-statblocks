@@ -14,6 +14,7 @@ export function parseForDice(
         regexes.set(entry.id, new RegExp(entry.regex));
         let scoped = `
 let anon = (original, matches, monster) => {
+    if (!matches || !matches.length) return original;
     ${entry.parser};
 }
 let result;
@@ -31,26 +32,30 @@ try {
     }
 
     for (const { id } of diceParsing) {
-        const regex = regexes.get(id);
+        const regex = regexes.get(id)!;
         property = property.replaceAll(new RegExp(regex, "g"), (str) => {
-            return `<MATCHED_DICE><ID>${id}<ID>${str}<MATCHED_DICE>`;
+            return `<MATCHED_DICE><DICE_ID>${id}<END_DICE_ID>${str}<END_MATCHED_DICE>`;
         });
     }
 
     const result = [];
-    for (const line of property.split(/(<MATCHED_DICE>.+?<MATCHED_DICE>)/)) {
-        if (!/<MATCHED_DICE>.+?<MATCHED_DICE>/.test(line)) {
+    for (const line of property.split(
+        /(<MATCHED_DICE>.+?<END_MATCHED_DICE>)/
+    )) {
+        if (!/<MATCHED_DICE>.+?<END_MATCHED_DICE>/.test(line)) {
             result.push(line);
             continue;
         }
         const [, id, prop] =
-            line.match(/<MATCHED_DICE><ID>(.+?)<ID>(.+)<MATCHED_DICE>/) ?? [];
+            line.match(
+                /<MATCHED_DICE><DICE_ID>(.+?)<END_DICE_ID>(.+)<END_MATCHED_DICE>/
+            ) ?? [];
         if (!id || !prop) {
             result.push(line);
             continue;
         }
-        const regex = regexes.get(id);
-        const parser = parsers.get(id);
+        const regex = regexes.get(id)!;
+        const parser = parsers.get(id)!;
         const matches = prop.match(regex);
         const res = parser.call(undefined, prop, matches, monster);
 
@@ -103,8 +108,9 @@ return { text, original: dice ?? original };`,
             desc: "4 (1d6 + 1)"
         },
         {
-            regex: /(.+) ([\+\-])(\d+)/.source,
-            parser: `let [, save, sign, number] = matches;
+            regex: /([^\s]+) ([\+\-])(\d+)/.source,
+            parser: `
+            let [, save, sign, number] = matches;
 let mult = 1;
 if (sign === "-") {
     mult = -1;
