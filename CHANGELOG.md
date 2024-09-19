@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.7.8](https://github.com/javalent/fantasy-statblocks/compare/4.7.7...4.7.8) (2024-09-19)
+
+
+### Bug Fixes
+
+* Fixes issue where an empty match array could cause the dice parser to fail ([be9aa85](https://github.com/javalent/fantasy-statblocks/commit/be9aa85ad8e675e3dcbe22de5fe8c3ff9fa90ef0))
+* Improves behavior of additive and reductive traits (close [#456](https://github.com/javalent/fantasy-statblocks/issues/456), close [#421](https://github.com/javalent/fantasy-statblocks/issues/421)) ([12df383](https://github.com/javalent/fantasy-statblocks/commit/12df3838d5e755fa2f5aa66cf3188b3dab7a3754))
+
 ## [4.7.7](https://github.com/javalent/fantasy-statblocks/compare/4.7.6...4.7.7) (2024-09-11)
 
 
