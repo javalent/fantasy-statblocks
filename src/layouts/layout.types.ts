@@ -20,7 +20,7 @@ export const StatblockItemTypes = [
     "action"
 ] as const;
 
-export const TypeNames: Array<[(typeof StatblockItemTypes)[number], string]> = [
+export const TypeNames: Array<[(typeof StatblockItemTypes)[number] | null, string]> = [
     ["group", "Group"],
     ["inline", "Inline Group"],
     ["ifelse", "If/Else"],

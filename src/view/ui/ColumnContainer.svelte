@@ -129,7 +129,7 @@
                         container: target,
                         classes: item.cls
                             ? [...(classes ?? []), item.cls]
-                            : classes ?? []
+                            : (classes ?? [])
                     });
 
                     targets.push(...element);
@@ -231,7 +231,7 @@
                         "statblock-item-inline",
                         ...(item.cls
                             ? [...(classes ?? []), item.cls]
-                            : classes ?? [])
+                            : (classes ?? []))
                     ]
                 });
                 for (const nested of item.nested ?? []) {
@@ -266,7 +266,7 @@
                                 type: "group",
                                 nested: layout.blocks,
                                 id: item.layout,
-                                properties: null
+                                properties: []
                             },
                             {
                                 classes: [
@@ -306,58 +306,55 @@
                     item.properties[0]
                 ] as Spell[];
 
-                if (!Array.isArray(blocks) || !blocks.length) return;
-                let spellBlocks: Array<SpellBlock> = blocks.reduce(
-                    (acc, current) => {
-                        if (
-                            typeof current === "string" &&
-                            (current.charAt(current.length - 1) == ":" ||
-                                !current.includes(":"))
-                        ) {
-                            const newBlock: SpellBlock = {
-                                header: ensureColon(current),
-                                spells: []
-                            };
-                            acc.push(newBlock);
-                            return acc;
-                        }
-                        const lastBlock: SpellBlock = acc[acc.length - 1];
-                        let spell: Spell;
-                        if (typeof current == "string") {
+                if (!Array.isArray(blocks) || !blocks.length) return [];
+                let spellBlocks: Array<SpellBlock> = blocks.reduce<
+                    SpellBlock[]
+                >((acc, current) => {
+                    if (
+                        typeof current === "string" &&
+                        (current.charAt(current.length - 1) == ":" ||
+                            !current.includes(":"))
+                    ) {
+                        const newBlock: SpellBlock = {
+                            header: ensureColon(current),
+                            spells: []
+                        };
+                        acc.push(newBlock);
+                        return acc;
+                    }
+                    const lastBlock: SpellBlock = acc[acc.length - 1];
+                    let spell: Spell;
+                    if (typeof current == "string") {
+                        spell = {
+                            spells: Linkifier.linkifySpells(
+                                current,
+                                context.get("context") as string
+                            )
+                        };
+                    } else {
+                        try {
                             spell = {
+                                level: Object.keys(current).shift(),
                                 spells: Linkifier.linkifySpells(
-                                    current,
+                                    stringify(Object.values(current).shift()!),
                                     context.get("context") as string
                                 )
                             };
-                        } else {
-                            try {
-                                spell = {
-                                    level: Object.keys(current).shift(),
-                                    spells: Linkifier.linkifySpells(
-                                        stringify(
-                                            Object.values(current).shift()
-                                        ),
-                                        context.get("context") as string
-                                    )
-                                };
-                            } catch (e) {
-                                return acc;
-                            }
+                        } catch (e) {
+                            return acc;
                         }
-                        if (lastBlock) {
-                            lastBlock.spells.push(spell);
-                        } else {
-                            const missingHeaderBlock: SpellBlock = {
-                                header: `${monster.name} knows the following spells:`,
-                                spells: [spell]
-                            };
-                            acc.push(missingHeaderBlock);
-                        }
-                        return acc;
-                    },
-                    []
-                );
+                    }
+                    if (lastBlock) {
+                        lastBlock.spells.push(spell);
+                    } else {
+                        const missingHeaderBlock: SpellBlock = {
+                            header: `${monster.name} knows the following spells:`,
+                            spells: [spell]
+                        };
+                        acc.push(missingHeaderBlock);
+                    }
+                    return acc;
+                }, []);
 
                 for (
                     let blockIndex = 0;
@@ -371,7 +368,7 @@
                             props: {
                                 name:
                                     blockIndex == 0
-                                        ? item.heading ?? "Spellcasting"
+                                        ? (item.heading ?? "Spellcasting")
                                         : "",
                                 property: item.properties[0],
                                 desc: block.header,
@@ -515,10 +512,12 @@
                         }
                     }
                 } catch (e) {
+                    console.error(e);
                     return [];
                 }
                 break;
             }
+
         }
         if ("hasRule" in item && item.hasRule) {
             const rule = createDiv(
@@ -535,7 +534,7 @@
         return targets.filter((el) => el.hasChildNodes());
     };
     $: maxHeight =
-        !isNaN(Number(monster.columnHeight)) && monster.columnHeight > 0
+        !isNaN(Number(monster.columnHeight)) && monster.columnHeight! > 0
             ? monster.columnHeight
             : Infinity;
 
@@ -582,7 +581,7 @@
             }
         });
         contentContainer.$on("built", () => {
-            const columnEl = temp.querySelector(".column");
+            const columnEl = temp.querySelector(".column")!;
             for (let target of targets) {
                 heights.push(target.scrollHeight);
             }
@@ -597,7 +596,7 @@
             } else {
                 split = Math.max(
                     600,
-                    Math.min(columnEl.scrollHeight / columns, maxHeight)
+                    Math.min(columnEl.scrollHeight / columns, maxHeight!)
                 );
             }
 

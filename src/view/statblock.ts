@@ -45,17 +45,17 @@ type RendererParameters = {
 );
 
 export default class StatBlockRenderer extends MarkdownRenderChild {
-    topBar: HTMLDivElement;
-    bottomBar: HTMLDivElement;
+    topBar!: HTMLDivElement;
+    bottomBar!: HTMLDivElement;
     loaded: boolean = false;
-    statblockEl: HTMLDivElement;
-    contentEl: HTMLDivElement;
+    statblockEl!: HTMLDivElement;
+    contentEl!: HTMLDivElement;
     container: HTMLElement;
-    monster: Monster;
+    monster!: Monster;
     plugin: StatBlockPlugin;
-    params: Partial<StatblockParameters>;
+    params!: Partial<StatblockParameters>;
     context: string;
-    layout: Layout;
+    layout!: Layout;
     constructor(
         public rendererParameters: RendererParameters,
         public icons = true
@@ -166,86 +166,57 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 }
                 switch (block.type) {
                     case "traits": {
+                        /**
+                         * Traits can be defined directly, as additive (+) or subtractive (-).
+                         *
+                         * Directly defined traits can be overidden by name up the extension tree.
+                         * Parameters > `creature` > `extends`
+                         * Directly defined parameter traits are *always shown*.
+                         *
+                         * Additive traits are *always* displayed, no matter where they originate.
+                         *
+                         * Subtractive traits are *always* removed, unless the trait is directly defined in the parameters.
+                         * Subtractive traits only work on directly defined traits.
+                         *
+                         */
                         const $TRAIT_MAP: Map<string, Trait> = new Map();
-                        let $ADDITIVE_TRAITS: Trait[] = [];
-                        let $DELETE_TRAITS: Set<string> = new Set();
-                        /** Add traits from the extensions group first. */
-                        for (const extension of extensions) {
-                            let traits = getTraitsList(property, extension);
-                            for (const trait of traits) {
-                                $TRAIT_MAP.set(trait.name, trait);
-                            }
+                        const $ADDITIVE_TRAITS: Trait[] = [];
 
-                            traits = getTraitsList(
-                                `${property}+` as keyof Monster,
-                                extension
-                            );
-                            for (const trait of traits) {
-                                $ADDITIVE_TRAITS.push(trait);
-                            }
-                            traits = getTraitsList(
+                        /**
+                         * Resolve extension traits first.
+                         */
+                        for (const creature of [...extensions]) {
+                            /**
+                             * Deleted traits. These are always removed.
+                             */
+                            for (const trait of getTraitsList(
                                 `${property}-` as keyof Monster,
-                                extension
-                            );
-                            for (const trait of traits) {
-                                $DELETE_TRAITS.add(trait.name);
-                            }
-                        }
-                        //next, underlying monster object
-                        let traits = getTraitsList(property, built);
-                        for (const trait of traits) {
-                            if (!(property in this.params)) {
+                                creature
+                            )) {
                                 $TRAIT_MAP.delete(trait.name);
-                                $ADDITIVE_TRAITS.push(trait);
-                            } else {
+                            }
+                            /**
+                             * Directly defined traits.
+                             *
+                             * Because these can be overridden, they go into a map by name.
+                             */
+                            for (const trait of getTraitsList(
+                                property,
+                                creature
+                            )) {
                                 $TRAIT_MAP.set(trait.name, trait);
                             }
-                        }
-                        traits = getTraitsList(
-                            `${property}+` as keyof Monster,
-                            built
-                        );
-                        for (const trait of traits) {
-                            $ADDITIVE_TRAITS.push(trait);
-                        }
-                        traits = getTraitsList(
-                            `${property}-` as keyof Monster,
-                            built
-                        );
-                        for (const trait of traits) {
-                            $DELETE_TRAITS.add(trait.name);
-                        }
 
-                        /** Remove these traits first, so you don't get hit by the params */
-                        traits = getTraitsList(
-                            `${property}-` as keyof Monster,
-                            this.params
-                        );
-                        for (const trait of traits) {
-                            $DELETE_TRAITS.add(trait.name);
+                            /**
+                             * Additive traits. These traits are always shown.
+                             */
+                            for (const trait of getTraitsList(
+                                `${property}+` as keyof Monster,
+                                creature
+                            )) {
+                                $ADDITIVE_TRAITS.push(trait);
+                            }
                         }
-                        for (const trait of $DELETE_TRAITS) {
-                            $TRAIT_MAP.delete(trait);
-                            $ADDITIVE_TRAITS = $ADDITIVE_TRAITS.filter(
-                                (t) => t.name !== trait
-                            );
-                        }
-                        //finally, the parameters should always be added
-                        traits = getTraitsList(property, this.params);
-                        for (const trait of traits) {
-                            $TRAIT_MAP.delete(trait.name);
-                            $ADDITIVE_TRAITS.push(trait);
-                        }
-
-                        traits = getTraitsList(
-                            `${property}+` as keyof Monster,
-                            this.params
-                        );
-
-                        for (const trait of traits) {
-                            $ADDITIVE_TRAITS.push(trait);
-                        }
-
                         Object.assign(built, {
                             [property]: [
                                 ...$TRAIT_MAP.values(),
@@ -398,7 +369,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         }
     }
 
-    $ui: Statblock;
+    $ui!: Statblock;
     async init() {
         this.containerEl.empty();
         this.monster = (await this.build()) as Monster;
@@ -434,7 +405,7 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
         this.$ui.$on("export", () => {
             this.plugin.exportAsPng(
                 this.monster.name,
-                this.containerEl.firstElementChild
+                this.containerEl.firstElementChild!
             );
         });
 

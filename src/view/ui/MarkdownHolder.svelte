@@ -9,6 +9,7 @@
     import { Linkifier } from "src/parser/linkify";
     import { parseForDice } from "src/parser/dice-parsing";
     import type { Writable } from "svelte/store";
+    import { stringify } from "src/util/util";
 
     export let property: string;
 
@@ -38,7 +39,7 @@
         ) {
             split = [{ text: monster[item.diceProperty] as string }];
         } else {
-            const parsed = parseForDice(layout, property, monster);
+            const parsed = parseForDice(layout, stringify(property), monster);
             if (Array.isArray(parsed)) {
                 split = parsed;
             } else {
@@ -62,7 +63,7 @@
             new Notice(
                 `There was an error executing the provided dice callback for [${item.properties.join(
                     ", "
-                )}]\n\n${e.message}`
+                )}]\n\n${(e as Error).message}`
             );
             console.error(e);
         }
