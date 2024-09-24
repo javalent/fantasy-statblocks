@@ -958,6 +958,38 @@ export default class StatblockSettingTab extends PluginSettingTab {
             b.buttonEl.appendChild(inputPF2EMonsterTools);
             b.onClick(() => inputPF2EMonsterTools.click());
         });
+        // import Pathbuilder
+        const importPathbuilder = new Setting(importAdditional)
+            .setName("Import Pathbuilder Data")
+            .setDesc("Import a PC or NPC exported from Pathbuilder2e.");
+        const inputPathbuilder = createEl("input", {
+            attr: {
+                type: "file",
+                name: "pathbuilder",
+                accept: ".json",
+                multiple: true
+            }
+        });
+        inputPathbuilder.onchange = async () => {
+            const { files } = inputPathbuilder;
+            if (!files.length) return;
+            const monsters = await this.importer.import(files, "pathbuilder");
+            if (monsters && monsters.length) {
+                await this.plugin.saveMonsters(monsters);
+            }
+            this.display();
+        };
+        importPathbuilder.addButton((b) => {
+            b.setButtonText("Choose File(s)").setTooltip(
+                "Import Pathbuilder Data"
+            );
+            b.buttonEl.addClass("statblock-file-upload");
+            b.buttonEl.appendChild(inputPathbuilder);
+            b.onClick(() => inputPathbuilder.click());
+        });
+
+
+
         const importGeneric = new Setting(importAdditional)
             .setName("Import Generic Data")
             .setDesc(
