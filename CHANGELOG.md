@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.8.0](https://github.com/javalent/fantasy-statblocks/compare/4.7.8...4.8.0) (2024-11-05)
+
+
+### Features
+
+* Initial implementation of pathbuilder import ([#447](https://github.com/javalent/fantasy-statblocks/issues/447)) ([a0a39b0](https://github.com/javalent/fantasy-statblocks/commit/a0a39b09ec92575e4d1c7a4fda3c70982b0e94d1))
+
 ## [4.7.8](https://github.com/javalent/fantasy-statblocks/compare/4.7.7...4.7.8) (2024-09-19)
 
 
