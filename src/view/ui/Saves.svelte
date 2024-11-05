@@ -8,7 +8,7 @@
     export let item: SavesItem;
 
     function getMod(value: number) {
-        return `${value > 0 ? "+" : ""}${value}`;
+        return `${value >= 0 ? "+" : ""}${value}`;
     }
 
     let arr: any[] = monster[item.properties[0]] as any[];
@@ -24,7 +24,7 @@
             const value = Object.values(ability)[0];
             if (typeof value == "string" && isNaN(Number(value)))
                 return `${toTitleCase(key)} ${value}`;
-            if (!value || isNaN(Number(value))) return null;
+            if (value != 0 && (!value || isNaN(Number(value)))) return null;
             return `${toTitleCase(key)} ${getMod(value as number)}`;
         })
         .filter((m) => m)
