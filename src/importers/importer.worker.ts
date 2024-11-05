@@ -7,6 +7,7 @@ import {
 } from ".";
 import { build5eMonsterFromFile } from "./5eToolsImport";
 import { buildMonsterFromTetraCube } from "./TetraCubeImport";
+import { buildMonsterFromPathbuilderFile } from "./PathbuilderImport";
 
 const ctx: Worker = self as any;
 
@@ -46,6 +47,11 @@ ctx.onmessage = async (event) => {
             }
             case "PF2eMonsterTool": {
                 const imported = await buildMonsterFromPF2EMonsterToolFile(file);
+                monsters.push(...(imported ?? []));
+                break;
+            }
+            case "pathbuilder": {
+                const imported = await buildMonsterFromPathbuilderFile(file);
                 monsters.push(...(imported ?? []));
                 break;
             }
@@ -93,6 +99,9 @@ ctx.onmessage = async (event) => {
                     }
                 );
                 monsters.push(...(imported ?? []));
+            }
+            default: {
+                console.error(`Unknown source: ${source}`);
             }
         }
     }
