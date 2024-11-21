@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.8.1](https://github.com/javalent/fantasy-statblocks/compare/4.8.0...4.8.1) (2024-11-21)
+
+
+### Bug Fixes
+
+* Exposes LinkStringifier and MarkdownRenderer methods on the FantasyStatblocks API ([b4571e1](https://github.com/javalent/fantasy-statblocks/commit/b4571e1fb5e5206461f56bf9726b40984878164f))
+
 ## [4.8.0](https://github.com/javalent/fantasy-statblocks/compare/4.7.8...4.8.0) (2024-11-05)
 
 
