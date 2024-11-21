@@ -51,7 +51,12 @@ export class LinkStringifier {
         return LinkStringifier.transformSource(source);
     }
 
-    static stringifyLinks(source: string) {
+    /**
+     * Replaces any already transformed links back into their original link type.
+     * @param source
+     * @returns {string} The corrected string.
+     */
+    static stringifyLinks(source: string): string {
         return source
             .replace(new RegExp(WIKILINK_REGEX, "g"), (_, $1) => `[[${$1}]]`)
             .replace(

@@ -1,6 +1,6 @@
 import fastCopy from "fast-copy";
 import type { Monster } from "index";
-import type { Component } from "obsidian";
+import { Component, MarkdownRenderer } from "obsidian";
 import type { HomebrewCreature } from "obsidian-overload";
 import { Bestiary } from "src/bestiary/bestiary";
 import type StatBlockPlugin from "src/main";
@@ -187,11 +187,11 @@ export class API {
             HomebrewCreature
         >(
             {},
-            fastCopy(this.getCreatureFromBestiary(creature.name) ?? {}),
+            fastCopy(this.getCreatureFromBestiary(creature.name ?? "") ?? {}),
             //@ts-ignore
             fastCopy(creature)
         ) as Monster;
-        if (!monster) return null;
+        if (!monster) return new Component();
         if (display) {
             monster.name = display;
         }
@@ -209,5 +209,45 @@ export class API {
     }
     parseStatblockLink(link: string): string {
         return LinkStringifier.stringifyLinks(link);
+    }
+    /**
+     * Replaces any already transformed links back into their original link type.
+     * @param source
+     * @returns {string} The corrected string.
+     */
+    stringifyLinks(source: string): string {
+        return LinkStringifier.stringifyLinks(source);
+    }
+    /**
+     * This method can be used to replace any markdown or wikilinks in a source, so that it
+     * can safely be transformed into YAML.
+     *
+     * @param {string} source The string to be transformed.
+     * @returns {string} A transformed source, with links replaced.
+     */
+    transformLinks(source: string): string {
+        return LinkStringifier.transformSource(source);
+    }
+
+    /**
+     * Renders markdown string to an HTML element using Obsidian's Markdown renderer.
+     * @param markdown — The markdown source code
+     * @param el — The element to append to
+     * @param sourcePath — The normalized path of this markdown file, used to resolve relative internal links
+     * @param component — A parent component to manage the lifecycle of the rendered child components.
+     */
+    renderMarkdown(
+        markdown: string,
+        el: HTMLElement,
+        sourcePath = "",
+        component = this.#plugin
+    ): void {
+        MarkdownRenderer.render(
+            this.#plugin.app,
+            markdown,
+            el,
+            sourcePath,
+            component
+        );
     }
 }
