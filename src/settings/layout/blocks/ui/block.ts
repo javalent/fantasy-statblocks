@@ -501,6 +501,19 @@ class ActionModal extends EditorEnabledModal<ActionItem> {
     }
 }
 class BasicModal<I extends BasicItem> extends EditorEnabledModal<I> {
+    addPropertyAsCssClassToggleSetting(el: HTMLDivElement) {
+        new Setting(el)
+          .setName("Add Property as CSS Class")
+          .setDesc(
+            "Disable this to prevent adding the property to the containing HTML element as a CSS class. This can be used to avoid collisions with native Obsidian CSS."
+          )
+          .addToggle((t) => {
+              t.setValue(!this.block.doNotAddClass).onChange((v) => {
+                  this.block.doNotAddClass = !v;
+                  this.display();
+              });
+          });
+    }
     buildProperties(el: HTMLDivElement) {
         el.empty();
         const block = this.block;
@@ -740,17 +753,7 @@ class PropertyModal extends MarkdownEnabledModal<PropertyItem> {
     }
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
-        new Setting(el)
-            .setName("Do Not Add Property as CSS Class")
-            .setDesc(
-                "Enable this to prevent adding the property to the containing HTML element as a CSS class. This can be used to avoid collisions with native Obsidian CSS."
-            )
-            .addToggle((t) => {
-                t.setValue(this.block.doNotAddClass).onChange((v) => {
-                    this.block.doNotAddClass = v;
-                    this.display();
-                });
-            });
+        super.addPropertyAsCssClassToggleSetting(el);
         new Setting(el)
             .setName("Display Text")
             .setDesc("This text will be used for the property name.")
@@ -764,17 +767,7 @@ class PropertyModal extends MarkdownEnabledModal<PropertyItem> {
 class SavesModal extends MarkdownEnabledModal<SavesItem> {
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
-        new Setting(el)
-            .setName("Do Not Add Property as CSS Class")
-            .setDesc(
-                "Disable this to prevent adding the property to the containing HTML element as a CSS class. This can be used to avoid collisions with native Obsidian CSS."
-            )
-            .addToggle((t) => {
-                t.setValue(this.block.doNotAddClass).onChange((v) => {
-                    this.block.doNotAddClass = v;
-                    this.display();
-                });
-            });
+        super.addPropertyAsCssClassToggleSetting(el);
         new Setting(el)
             .setName("Display Text")
             .setDesc("This text will be used for the property name.")
@@ -979,33 +972,13 @@ class TableModal extends BasicModal<TableItem> {
                     this.block.calculate = v;
                 });
             });
-        new Setting(el)
-            .setName("Do Not Add Property as CSS Class")
-            .setDesc(
-                "Disable this to prevent adding the property to the containing HTML element as a CSS class. This can be used to avoid collisions with native Obsidian CSS."
-            )
-            .addToggle((t) => {
-                t.setValue(this.block.doNotAddClass).onChange((v) => {
-                    this.block.doNotAddClass = v;
-                    this.display();
-                });
-            });
+        super.addPropertyAsCssClassToggleSetting(el);
     }
 }
 class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
-        new Setting(el)
-            .setName("Do Not Add Property as CSS Class")
-            .setDesc(
-                "Disable this to prevent adding the property to the containing HTML element as a CSS class. This can be used to avoid collisions with native Obsidian CSS."
-            )
-            .addToggle((t) => {
-                t.setValue(this.block.doNotAddClass).onChange((v) => {
-                    this.block.doNotAddClass = v;
-                    this.display();
-                });
-            });
+        super.addPropertyAsCssClassToggleSetting(el);
         new Setting(el)
             .setName("Use Monster Property for Heading")
             .setDesc(
