@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Monster } from "index";
     import type { TableItem } from "src/layouts/layout.types";
-    import { stringify } from "src/util/util";
+    import { slugify, stringify } from "src/util/util";
     import TextContentHolder from "./TextContentHolder.svelte";
 
     export let monster: Monster;
@@ -23,7 +23,7 @@
             const customMod = new Function("stat", "monster", func);
             mod = customMod(stat, monster);
         }
-        return `(${mod >= 0 ? "+" : "-"}${Math.abs(mod)})`;
+        return `${mod >= 0 ? "+" : "-"}${Math.abs(mod)}`;
     }
 
     let values: any[] = monster[item.properties[0]] as any[];
@@ -48,9 +48,11 @@
     const headers = item.headers ?? [
         ...Array(values.length > 0 ? values.length : 1).keys()
     ];
+
+    $: cssClass = item.doNotAddClass ? "" : slugify(item.properties[0]);
 </script>
 
-<div class="statblock-table">
+<div class="statblock-table {cssClass}">
     {#each [...valueMap.entries()].slice(0, headers.length) as [index, values]}
         <div class="table-item">
             <span class="statblock-table-header">{headers[index]}</span>
@@ -58,7 +60,7 @@
                 <span>
                     <TextContentHolder property={stringify(value)} />
                     {#if item.calculate}
-                        <span>
+                        <span class="calculated-modifier">
                             {getMod(value)}
                         </span>
                     {/if}
@@ -83,5 +85,11 @@
         justify-content: center;
         align-items: center;
         flex-flow: column nowrap;
+    }
+    .calculated-modifier::before {
+        content: "(";
+    }
+    .calculated-modifier::after {
+        content: ")";
     }
 </style>

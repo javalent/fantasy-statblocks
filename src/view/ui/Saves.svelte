@@ -1,7 +1,8 @@
 <script lang="ts">
     import type { Monster } from "index";
+    import { Notice } from "obsidian";
     import type { SavesItem } from "src/layouts/layout.types";
-    import { toTitleCase } from "src/util/util";
+    import { slugify, toTitleCase } from "src/util/util";
     import TextContentHolder from "./TextContentHolder.svelte";
 
     export let monster: Monster;
@@ -16,6 +17,23 @@
         arr = [];
     }
 
+    if (item.callback) {
+        try {
+            const frame = document.body.createEl("iframe");
+            const funct = (frame.contentWindow as any).Function;
+            const func = new funct("monster", "property", item.callback);
+            arr = arr.map((save) => func.call(undefined, monster, save) ?? save);
+            document.body.removeChild(frame);
+        } catch (e) {
+            new Notice(
+                `There was an error executing the provided callback for [${item.properties.join(
+                    ", "
+                )}]\n\n${e.message}`
+            );
+            console.error(e);
+        }
+    }
+
     const saves = arr
         .map((ability) => {
             if (typeof ability != "object" || ability == null) return null;
@@ -23,21 +41,33 @@
             if (!key) return null;
             const value = Object.values(ability)[0];
             if (typeof value == "string" && isNaN(Number(value)))
-                return `${toTitleCase(key)} ${value}`;
+                return [toTitleCase(key), value];
             if (value != 0 && (!value || isNaN(Number(value)))) return null;
-            return `${toTitleCase(key)} ${getMod(value as number)}`;
+            return [toTitleCase(key), getMod(value as number)];
         })
-        .filter((m) => m)
-        .join(", ");
+        .filter((m) => m);
+
+    $: cssClasses = item.doNotAddClass
+        ? []
+        : [slugify(item.display), slugify(item.properties[0])].join(" ");
 </script>
 
 <div class="info">
-    <div class="line">
+    <div class="line {cssClasses}">
         <span class="property-name"
             >{item.display ?? toTitleCase(item.properties[0])}</span
         >
         <div class="property-text">
-            <TextContentHolder render={item.markdown} property={saves} />
+            {#each saves as [name, value]}
+                <div class="save-entry save-{slugify(name)}-entry">
+                    <div class="save-name">
+                        <TextContentHolder property={name} />
+                    </div>
+                    <div class="save-value">
+                        <TextContentHolder property={value} />
+                    </div>
+                </div>
+            {/each}
         </div>
     </div>
 </div>
@@ -58,5 +88,13 @@
     .property-text {
         display: inline;
         margin: 0;
+    }
+    .save-entry,
+    .save-name,
+    .save-value {
+        display: inline;
+    }
+    .save-entry:not(:last-child) .save-value::after {
+        content: ", ";
     }
 </style>

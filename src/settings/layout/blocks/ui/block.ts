@@ -501,6 +501,19 @@ class ActionModal extends EditorEnabledModal<ActionItem> {
     }
 }
 class BasicModal<I extends BasicItem> extends EditorEnabledModal<I> {
+    addPropertyAsCssClassToggleSetting(el: HTMLDivElement) {
+        new Setting(el)
+          .setName("Add Property as CSS Class")
+          .setDesc(
+            "Disable this to prevent adding the property to the containing HTML element as a CSS class. This can be used to avoid collisions with native Obsidian CSS."
+          )
+          .addToggle((t) => {
+              t.setValue(!this.block.doNotAddClass).onChange((v) => {
+                  this.block.doNotAddClass = !v;
+                  this.display();
+              });
+          });
+    }
     buildProperties(el: HTMLDivElement) {
         el.empty();
         const block = this.block;
@@ -740,17 +753,7 @@ class PropertyModal extends MarkdownEnabledModal<PropertyItem> {
     }
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
-        new Setting(el)
-            .setName("Do Not Add Property as CSS Class")
-            .setDesc(
-                "Enable this to prevent adding the property to the containing HTML element as a CSS class. This can be used to avoid collisions with native Obsidian CSS."
-            )
-            .addToggle((t) => {
-                t.setValue(this.block.doNotAddClass).onChange((v) => {
-                    this.block.doNotAddClass = v;
-                    this.display();
-                });
-            });
+        super.addPropertyAsCssClassToggleSetting(el);
         new Setting(el)
             .setName("Display Text")
             .setDesc("This text will be used for the property name.")
@@ -764,6 +767,7 @@ class PropertyModal extends MarkdownEnabledModal<PropertyItem> {
 class SavesModal extends MarkdownEnabledModal<SavesItem> {
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
+        super.addPropertyAsCssClassToggleSetting(el);
         new Setting(el)
             .setName("Display Text")
             .setDesc("This text will be used for the property name.")
@@ -772,6 +776,48 @@ class SavesModal extends MarkdownEnabledModal<SavesItem> {
                     (v) => (this.block.display = v)
                 );
             });
+    }
+    buildAdvanced(el: HTMLDivElement): void {
+        super.buildAdvanced(el);
+        new Setting(el)
+            .setHeading()
+            .setName("Callback")
+            .setDesc(
+                createFragment((e) => {
+                    e.createSpan({
+                        text: "The block will run the callback on each save object and use the returned object as the save."
+                    });
+                    e.createEl("br");
+                    e.createSpan({
+                        text: "The callback will receive the "
+                    });
+                    e.createEl("code", { text: "monster" });
+                    e.createSpan({ text: " and " });
+                    e.createEl("code", { text: "property" });
+                    e.createSpan({
+                        text: " parameters. The callback should return an object with a single key and value. For example: "
+                    });
+
+                    e.createEl("code", { text: "return {\"fort\": property.fortitude}" });
+                    e.createEl("br");
+                    e.createEl("strong", {
+                        text: "Please Note: This will not run if a dice callback is provided."
+                    });
+                })
+            );
+
+        const component = new TextAreaComponent(el).setValue(
+            this.block.callback
+        );
+        component.inputEl.addClass("statblock-textarea");
+        this.editor = editorFromTextArea(
+            component.inputEl,
+            EditorView.updateListener.of((update) => {
+                if (update.docChanged) {
+                    this.block.callback = update.state.doc.toString();
+                }
+            })
+        );
     }
 }
 class SpellsModal extends MarkdownEnabledModal<SpellsItem> {
@@ -926,22 +972,13 @@ class TableModal extends BasicModal<TableItem> {
                     this.block.calculate = v;
                 });
             });
+        super.addPropertyAsCssClassToggleSetting(el);
     }
 }
 class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
-        new Setting(el)
-            .setName("Do Not Add Property as CSS Class")
-            .setDesc(
-                "Disable this to prevent adding the property to the containing HTML element as a CSS class. This can be used to avoid collisions with native Obsidian CSS."
-            )
-            .addToggle((t) => {
-                t.setValue(this.block.doNotAddClass).onChange((v) => {
-                    this.block.doNotAddClass = v;
-                    this.display();
-                });
-            });
+        super.addPropertyAsCssClassToggleSetting(el);
         new Setting(el)
             .setName("Use Monster Property for Heading")
             .setDesc(
@@ -992,7 +1029,7 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
             .setDesc(
                 createFragment((e) => {
                     e.createSpan({
-                        text: "The block will run the callback and use the returned string as the property."
+                        text: "The block will run the callback on each trait and use the returned string as the trait description."
                     });
                     e.createEl("br");
                     e.createSpan({
