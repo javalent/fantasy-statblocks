@@ -6,52 +6,14 @@ by:      Moritz Jung (https://github.com/mProjectsCode) and Sigrunixia
 repo:    https://github.com/mProjectsCode/obsidian-pathfinder2e-statblocks
 
 This file was generated from SCSS.
-Looking for `!important`? Check for Rare_0X, and Trait_0X. That is the only spots they are used in this file.
+Looking for `!important`?
+- Check for:
+Rare_0X
+Trait_0X
+Popover
+
+That is the only spots they are used in this file.
 */
-/*
-Pathfinder Glyphs Only and any associated classes to call those Glyphs
-*/
-@font-face {
-  font-family: "Pathfinder";
-  src: url("data:application/x-font-ttf;charset=utf-8;base64,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") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: block;
-  unicode-range: U+2B32, U+2B3A, U+2B3B, U+2B3D, U+2B53;
-}
-[class^=glyph-],
-[class*=" glyph-"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: "Pathfinder", serif !important;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  /* Better Font Rendering =========== */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.glyph-1action:before {
-  content: "⬻";
-}
-
-.glyph-2actions:before {
-  content: "⬺";
-}
-
-.glyph-3actions:before {
-  content: "⬽";
-}
-
-.glyph-free:before {
-  content: "⭓";
-}
-
-.glyph-reaction:before {
-  content: "⬲";
-}
 /*!
 /* @settings
 name: Pathfinder 2e Statblocks
@@ -450,64 +412,11 @@ body.pathfinder-2e-affliction-layout-theme-kingmaker .statblock.pathfinder-2e-af
   --statblock-box-shadow-blur: 1.5em;
   --statblock-font-color: rgb(51, 51, 51);
   --statblock-font-weight: 400;
-  --statblock-content-font: "Pathfinder", system-ui, -apple-system,
-  BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
-  "Open Sans", "Helvetica Neue", sans-serif;
-  --statblock-content-font-size: 13px;
-  --statblock-heading-font: "Pathfinder", system-ui, -apple-system,
-  BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell,
-  "Open Sans", "Helvetica Neue", sans-serif;
-  --statblock-heading-font-color: rgb(51, 51, 51);
-  --statblock-heading-font-size: 1.35em;
-  --statblock-heading-font-variant: small-caps;
-  --statblock-heading-font-weight: 700;
-  --statblock-heading-line-height: 1;
-  --statblock-property-line-height: 1.33em;
-  --statblock-property-font-color: rgb(51, 51, 51);
-  --statblock-property-name-font-color: rgb(51, 51, 51);
-  --statblock-property-name-font-weight: bold;
-  --statblock-section-heading-border-size: 1px;
-  --statblock-section-heading-border-color: transparent;
-  --statblock-section-heading-font-color: rgb(51, 51, 51);
-  --statblock-section-heading-font-size: 1.33em;
-  --statblock-section-heading-font-variant: small-caps;
-  --statblock-section-heading-font-weight: 400;
-  --statblock-saves-line-height: 1.33em;
-  --statblock-spells-font-style: italic;
-  --statblock-table-header-font-weight: bold;
-  --statblock-column-width: 400px;
-  --statblock-traits-gap: 2px;
-}
-
-.statblock.pathfinder-2e-creature-layout {
-  --statblock-color-common: rgb(54, 69, 79);
-  --statblock-color-uncommon: rgb(143, 85, 66);
-  --statblock-color-rare: rgb(11, 37, 96);
-  --statblock-color-unique: rgb(77, 27, 106);
-  --statblock-color-alignment: rgb(89, 98, 143);
-  --statblock-color-size: rgb(75, 122, 92);
-  --statblock-color-trait: rgb(86, 12, 6);
-  --statblock-primary-color: rgb(51, 51, 51);
-  --statblock-rule-color: rgb(51, 51, 51);
-  --statblock-background-color: rgb(246, 244, 242);
-  --statblock-bar-color: rgb(51, 51, 51);
-  --statblock-bar-border-size: 1px;
-  --statblock-bar-border-color: rgb(51, 51, 51);
-  --statblock-image-width: 75px;
-  --statblock-image-height: 75px;
-  --statblock-image-border-size: 2px;
-  --statblock-image-border-color: rgb(51, 51, 51);
-  --statblock-header-image-height: 22px;
-  --statblock-header-image-padding: 0 0 2px 0;
-  --statblock-border-size: 1px;
-  --statblock-border-color: rgb(51, 51, 51);
-  --statblock-box-shadow-color: none;
-  --statblock-box-shadow-x-offset: 0;
-  --statblock-box-shadow-y-offset: 0;
-  --statblock-box-shadow-blur: 1.5em;
-  --statblock-font-color: rgb(51, 51, 51);
-  --statblock-font-weight: 400;
-  --statblock-content-font: "Pathfinder-Actions", system-ui, -apple-system, BlinkMacSystemFont,
+  --statblock-content-font:
+    "Pathfinder-Actions",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
     "Segoe UI",
     Roboto,
     Oxygen,
@@ -551,7 +460,82 @@ body.pathfinder-2e-affliction-layout-theme-kingmaker .statblock.pathfinder-2e-af
   --statblock-column-width: 400px;
   --statblock-traits-gap: 2px;
 }
-
+.statblock.pathfinder-2e-creature-layout {
+  --statblock-color-common: rgb(54, 69, 79);
+  --statblock-color-uncommon: rgb(143, 85, 66);
+  --statblock-color-rare: rgb(11, 37, 96);
+  --statblock-color-unique: rgb(77, 27, 106);
+  --statblock-color-alignment: rgb(89, 98, 143);
+  --statblock-color-size: rgb(75, 122, 92);
+  --statblock-color-trait: rgb(86, 12, 6);
+  --statblock-primary-color: rgb(51, 51, 51);
+  --statblock-rule-color: rgb(51, 51, 51);
+  --statblock-background-color: rgb(246, 244, 242);
+  --statblock-bar-color: rgb(51, 51, 51);
+  --statblock-bar-border-size: 1px;
+  --statblock-bar-border-color: rgb(51, 51, 51);
+  --statblock-image-width: 75px;
+  --statblock-image-height: 75px;
+  --statblock-image-border-size: 2px;
+  --statblock-image-border-color: rgb(51, 51, 51);
+  --statblock-header-image-height: 22px;
+  --statblock-header-image-padding: 0 0 2px 0;
+  --statblock-border-size: 1px;
+  --statblock-border-color: rgb(51, 51, 51);
+  --statblock-box-shadow-color: none;
+  --statblock-box-shadow-x-offset: 0;
+  --statblock-box-shadow-y-offset: 0;
+  --statblock-box-shadow-blur: 1.5em;
+  --statblock-font-color: rgb(51, 51, 51);
+  --statblock-font-weight: 400;
+  --statblock-content-font:
+    "Pathfinder-Actions",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+  --statblock-content-font-size: 13px;
+  --statblock-heading-font:
+    "Pathfinder-Actions",
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    "Open Sans",
+    "Helvetica Neue",
+    sans-serif;
+  --statblock-heading-font-color: rgb(51, 51, 51);
+  --statblock-heading-font-size: 1.35em;
+  --statblock-heading-font-variant: small-caps;
+  --statblock-heading-font-weight: 700;
+  --statblock-heading-line-height: 1;
+  --statblock-property-line-height: 1.33em;
+  --statblock-property-font-color: rgb(51, 51, 51);
+  --statblock-property-name-font-color: rgb(51, 51, 51);
+  --statblock-property-name-font-weight: bold;
+  --statblock-section-heading-border-size: 1px;
+  --statblock-section-heading-border-color: transparent;
+  --statblock-section-heading-font-color: rgb(51, 51, 51);
+  --statblock-section-heading-font-size: 1.33em;
+  --statblock-section-heading-font-variant: small-caps;
+  --statblock-section-heading-font-weight: 400;
+  --statblock-saves-line-height: 1.33em;
+  --statblock-spells-font-style: italic;
+  --statblock-table-header-font-weight: bold;
+  --statblock-column-width: 400px;
+  --statblock-traits-gap: 2px;
+}
 .statblock.pathfinder-2e-action-layout {
   --statblock-color-common: rgb(54, 69, 79);
   --statblock-color-uncommon: rgb(143, 85, 66);
@@ -3423,10 +3407,13 @@ body.pathfinder-2e-affliction-layout-theme-kingmaker .statblock.pathfinder-2e-af
   color: var(--active-traits-name-font-color);
   font-weight: var(--statblock-traits-name-font-weight);
 }
-.statblock.pathfinder-2e-creature-layout .property-name {
+.statblock.pathfinder-2e-creature-layout .property-name,
+.statblock.pathfinder-2e-creature-layout .property-name:empty {
   margin-right: 0;
 }
-.statblock.pathfinder-2e-creature-layout .saves-container .saves.line .save-name {
+.statblock.pathfinder-2e-creature-layout .saves-container .saves.line .save-name,
+.statblock.pathfinder-2e-creature-layout .saves-container .attributes.line .save-name {
+  text-transform: capitalize;
   font-weight: var(--statblock-property-name-font-weight);
 }
 .statblock.pathfinder-2e-creature-layout .saves-container .save-entry.save-note-entry .save-name {

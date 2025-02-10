@@ -506,25 +506,14 @@ export const LayoutPF2eCreature: DefaultLayout = {
                     callback: "const keys = [...Object.keys(property)];\nconst name = keys.shift();\n\nif (name === \"note\") {\n  return {note: property.note};\n}\n\nvar note;\nvar stats = [];\nfor (const key of keys) {\n  if (key === \"note\") {\n    note = property[key];\n  } else {\n    const sign = property[key] < 0 ? \"-\" : \"+\";\n    const num = Math.abs(property[key]);\n    stats.push(`(${sign}${num} ${key})`);\n  }\n}\n\nif (stats.length == 0 && !note) {\n  return property;\n}\n\nstats.unshift(\n  (property[name] < 0 ? \"-\" : \"+\") +\n  Math.abs(property[name]));\nconst parts = [stats.join(\" \")];\nif (note) {\n  parts.push(note);\n}\nreturn {[name]: parts.join(\", \")};"
                 },
                 {
-                    type: "table",
+                    type: "saves",
                     id: "b82b0a1a9969",
                     properties: [
-                        "abilityMods"
+                        "attributes"
                     ],
-                    headers: [
-                        "Str",
-                        "Dex",
-                        "Con",
-                        "Int",
-                        "Wis",
-                        "Cha"
-                    ],
-                    calculate: true,
                     fallback: "-",
                     conditioned: true,
-                    dice: false,
-                    modifier: "stat",
-                    doNotAddClass: false
+                    display: ""
                 },
                 {
                     type: "property",

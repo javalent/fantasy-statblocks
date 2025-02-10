@@ -60,7 +60,13 @@ skills:
     note: Optionally, a skill might have an associated note. In this case, you can include it like this. Notice the indentation and lack of a "- " at the start of the line
   - "Lore: Something": You can include Lore skills too, but you need to surround the name in quotes
   - note: Optionally, you can include notes to do with skills in general here, with the "note" name
-abilityMods: Ability modifiers as a list of numbers in the order Str, Dex, Con, Int, Wis, Cha, e.g. [5, 4, 3, -1, 1, 2]
+attributes:
+  - str: Strength attribute modifier for the creature, e.g. +1
+  - dex: 1
+  - con: -2
+  - int: 0
+  - wis: -3
+  - cha: 4
 items: Items in the creature's possession e.g. javelin (5), longspear
 
 abilities_top:
@@ -93,7 +99,7 @@ abilities_bot:
   - name: Name of an ability which should be displayed in the bottom part of the statblock.
     desc: >
       If you want to use multiple lines, you can use the ">" character like this, and then you can
-      use multiple lines in the description without having multiple lines in the rendered output.
+      use multiple lines in the description and they will be removed in the rendered output.
       This can be useful for longer abilities or those with formatting. Example:
       ⬲ **Trigger** The creature is targeted with a melee or ranged attack;
       **Effect** The creature gains a +2 circumstance bonus to AC against the triggering attack.
