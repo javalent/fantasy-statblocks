@@ -729,7 +729,7 @@ export const LayoutPF2eCreature: DefaultLayout = {
                     markdown: true,
                     headingProp: false,
                     heading: "",
-                    callback: "var s = property.bonus < 0 ? \"-\" : \"+\";\ns += Math.abs(property.bonus);\nif (property.desc) {\n  s += \" \" + property.desc\n}\nif (property.damage) {\n  s += \", __Damage__ \" + property.damage\n}\nreturn s"
+                    callback: "var s = \"\";\nif (property.bonus) {\n  s += (property.bonus < 0 ? \"-\" : \"+\") + Math.abs(property.bonus);\n}\nif (property.desc) {\n  s += \" \" + property.desc\n}\nif (property.damage) {\n  s += \", __Damage__ \" + property.damage\n}\nreturn s"
                 },
                 {
                     type: "traits",
