@@ -36,7 +36,13 @@
 
     const saves = arr
         .map((ability) => {
-            if (typeof ability != "object" || ability == null) return null;
+            if (!ability || typeof ability !== "object") return null;
+
+            if (ability.desc) {
+                // Trait with a description
+                return [ability.name || "_", ability.desc];
+            }
+
             let key = Object.keys(ability)[0];
             if (!key) return null;
             const value = Object.values(ability)[0];
@@ -60,9 +66,11 @@
         <div class="property-text">
             {#each saves as [name, value]}
                 <div class="save-entry save-{slugify(name)}-entry">
+                    {#if !name.startsWith('_')}
                     <div class="save-name">
                         <TextContentHolder property={name} />
                     </div>
+                    {/if}
                     <div class="save-value">
                         <TextContentHolder property={value} />
                     </div>
