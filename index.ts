@@ -19,6 +19,9 @@ export type fage_ability =
     | "strength"
     | "willpower";
 
+export type AbilitySkill = { [key: string]: number }
+export type TraitAbilitySkill = Trait | AbilitySkill;
+
 export interface Monster {
     image?: string;
     name: string;
@@ -42,8 +45,8 @@ export interface Monster {
         number,
         number
     ];
-    saves?: { [K in ability]?: number } | { [K in ability]?: number }[];
-    skillsaves?: { [key: string]: number } | { [key: string]: number }[];
+    saves?: AbilitySkill | TraitAbilitySkill[];
+    skillsaves?: AbilitySkill | TraitAbilitySkill[];
     damage_vulnerabilities: string;
     damage_resistances: string;
     damage_immunities: string;
