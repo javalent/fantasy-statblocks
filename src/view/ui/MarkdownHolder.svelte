@@ -72,7 +72,7 @@
     property = "";
 
     for (const dice of split) {
-        if (canDice && typeof dice != "string") {
+        if (canDice && typeof dice == "object") {
             let diceString;
             let diceText = plugin.getRollerString(dice.text);
             if (dice.original) {
