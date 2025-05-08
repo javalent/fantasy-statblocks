@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.9.1](https://github.com/javalent/fantasy-statblocks/compare/4.9.0...4.9.1) (2025-05-08)
+
+
+### Bug Fixes
+
+* fixes issue where using numbers as property values instead of strings would incorrectly parse as dice (close [#488](https://github.com/javalent/fantasy-statblocks/issues/488)) ([0d83c8f](https://github.com/javalent/fantasy-statblocks/commit/0d83c8f1fc7bd130f4b490d930429aa888579489))
+
 ## [4.9.0](https://github.com/javalent/fantasy-statblocks/compare/4.8.1...4.9.0) (2025-05-01)
 
 
