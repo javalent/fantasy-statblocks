@@ -46,3 +46,10 @@ Fantasy Statblocks uses trademarks and/or copyrights owned by Paizo Inc., used u
 We are expressly prohibited from charging you to use or access this content.
 Fantasy Statblocks is not published, endorsed, or specifically approved by Paizo.
 For more information about Paizo Inc. and Paizo products, visit paizo.com.
+
+### Daggerheart and Darrington Press License Disclosure
+Fantasy Statblocks uses materials from the Daggerheart System Reference Document 1.0, © Critical Role, LLC. under the terms of the Darrington Press Community Gaming (DPCGL) License. More information can be found at https://www.daggerheart.com/. There are minor modifications to format and structure. No previous modifications by others.
+
+Daggerheart and all related marks are trademarks of Critical Role, LLC and used with permission. This project is not affiliated with, endorsed, or sponsored by Critical Role or Darrington Press.
+
+For full license terms, see: https://www.daggerheart.com/
