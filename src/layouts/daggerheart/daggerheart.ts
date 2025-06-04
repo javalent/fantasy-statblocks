@@ -50,7 +50,7 @@ export const LayoutDaggerheartAdversary: DefaultLayout = {
                     "properties": [
                         "description"
                     ],
-                    "text": null,
+                    "text": "",
                     "fallback": "-",
                     "conditioned": true
                 }
@@ -317,7 +317,7 @@ export const LayoutDaggerheartEnvironment: DefaultLayout = {
                     "properties": [
                         "description"
                     ],
-                    "text": null,
+                    "text": "",
                     "fallback": "-",
                     "conditioned": true
                 },
