@@ -1,11 +1,11 @@
 ---
-aliases: [Daggerheart Adversary Layout]
-description: "This page provides a basic code block for the Daggerheart Adversary Layout included within Fantasy Statblocks."
+aliases: [Daggerheart Layouts]
+description: "This page provides a basic code blocks for the Daggerheart Layouts included within Fantasy Statblocks."
 image: [[Example-Adversary.png]]
 order: 5
 permalink: statblock/layouts/integrated/daggerheart
 publish: true
-tags: [Statblocks/Layout/Daggerheart-Adversary]
+tags: [Statblocks/Layout/Daggerheart]
 ---
 
 [[Fantasy Statblocks|Fantasy Statblocks]] > [[Integrated Layouts|Integrated Statblock Layouts]] > Daggerheart
@@ -47,17 +47,15 @@ Daggerheart and all related marks are trademarks of Critical Role, LLC and used 
 For full license terms, see: https://www.daggerheart.com/
 
 
-## Sample Image
+## Adversary Sample Image
 
->[!screenshot]- Screenshot of a Monster
+>[!screenshot]- Screenshot of an Adversary
 > ![https://raw.githubusercontent.com/gotsanity/fantasy-statblocks/refs/heads/main/src/layouts/daggerheart/publish/images/Example-Adversary.png](https://raw.githubusercontent.com/gotsanity/fantasy-statblocks/refs/heads/main/src/layouts/daggerheart/publish/images/Example-Adversary.png) 
 
-## Daggerheart Code Block
+## Daggerheart Adversary Code Block
 
 ````yaml
 ```statblock
-columns: 2
-forceColumns: true
 layout: Daggerheart Adversary
 source: "daggerheart-adversary"
 name: "Acid Burrower"
@@ -87,32 +85,121 @@ feats:
 ````
 
 
-### Daggerheart Empty Codeblock
+### Daggerheart Adversary Empty Codeblock
 
 ````yaml
 ```statblock
 columns: integer between 1 and 2
 forceColumns: Boolean
 layout: Daggerheart Adversary
-source: 
-name: 
-tier:
-type:
-description:
-motives_and_tactics:
-difficulty:
-thresholds:
-hp:
-stress:
-atk:
-attack:
-range:
-damage:
-experience:
+source: Your Source
+name: string
+tier: integer
+type: string
+description: string
+motives_and_tactics: string
+difficulty: integer
+thresholds: string
+hp: integer
+stress: integer
+atk: string
+attack: string
+range: string
+damage: string
+experience: string
 feats:
-- name:
-  text:
-- name:
-  text:
+- name: Feature 1 string
+  text: Feature 1 text string
+- name: Feature 2 string
+  text: Feature 2 text string
+```
+````
+
+## Card Sample Image
+
+>[!screenshot]- Screenshot of a Card
+> ![https://raw.githubusercontent.com/gotsanity/fantasy-statblocks/refs/heads/main/src/layouts/daggerheart/publish/images/Example-Card.png](https://raw.githubusercontent.com/gotsanity/fantasy-statblocks/refs/heads/main/src/layouts/daggerheart/publish/images/Example-Card.png) 
+
+
+### Daggerheart Card Codeblock
+
+````yaml
+```statblock
+layout: Daggerheart Card
+name: Big Damage Ability
+image: image.png (Not Yet Impelemented)
+domain: Other
+level: 1
+recall: 0
+type: Ability
+text: This card does big damage
+```
+````
+
+### Daggerheart Card Empty Codeblock
+
+````yaml
+```statblock
+layout: Daggerheart Card
+name: string
+image: image.png (Not Yet Impelemented)
+domain: string
+level: integer
+recall: integer
+type: string
+text: string
+```
+````
+
+## Adversary Sample Image
+
+>[!screenshot]- Screenshot of an Adversary
+> ![https://raw.githubusercontent.com/gotsanity/fantasy-statblocks/refs/heads/main/src/layouts/daggerheart/publish/images/Example-Environment.png](https://raw.githubusercontent.com/gotsanity/fantasy-statblocks/refs/heads/main/src/layouts/daggerheart/publish/images/Example-Environment.png) 
+
+### Daggerheart Environment Code Block
+
+````yaml
+```statblock
+layout: Daggerheart Environment
+name: "Abandoned Grove"
+tier: 1
+type: "Exploration"
+description: "A former druidic grove lying fallow and fully reclaimed by nature."
+impulses: "Draw in the curious, echo the past"
+difficulty: 11
+potential_adversaries: "Beasts (Bear, Dire Wolf, Glass Snake), Grove Guardians (Minor Treant, Sylvan Soldier, Young Dryad)"
+feats:
+- name: Overgrown Battlefield - Passive,
+  text: There has been a battle here. A PC can make an Instinct Roll to identify evidence of that fight. On a success with Hope, learn all three pieces of information below. On a success with Fear, learn two. On a failure, a PC can mark 3 Stress to learn one and gain advantage on the next action roll to investigate this environment. A PC with an appropriate background or Experience can learn an additional detail and ask a follow-up question about the scene and get a truthful (if not always complete) answer.\n\n  - Traces of a battle (broken weapons and branches, gouges in the ground) litter the ground.\n  - A moss-covered tree trunk is actually the corpse of a treant.\n  - Still-standing trees are twisted in strange ways, as if by powerful magic.
+- name: Barbed Vines - Action,
+  text: Pick a point within the grove. All targets within Very Close range of that point must succeed on an Agility Reaction Roll or take 1d8+3 physical damage and become Restrained by barbed vines. Restrained creatures until they’re freed with a successful Finesse or Strength roll or by dealing at least 6 damage to the vines.
+- name: You Are Not Welcome Here - Action,
+  text: A Young Dryad, two Sylvan Soldiers, and a number of Minor Treants equal to the number of PCs appear to confront the party for their intrusion.
+- name: Defiler - Action,
+  text: Spend a Fear to summon a Minor Chaos Adversary drawn to the echoes of violence and discord. They appear within Far range of a chosen PC and immediately take the spotlight.
+```
+````
+
+
+### Daggerheart Environment Empty Codeblock
+
+````yaml
+```statblock
+columns: integer between 1 and 2
+forceColumns: Boolean
+layout: Daggerheart Adversary
+source: Your Source
+name: string
+tier: integer
+type: string
+description: string
+impulses: string
+difficulty: integer
+potential_adversaries: string
+feats:
+- name: Feature 1 string
+  text: Feature 1 text string
+- name: Feature 2 string
+  text: Feature 2 text string
 ```
 ````
