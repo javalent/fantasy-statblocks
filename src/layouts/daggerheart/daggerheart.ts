@@ -196,30 +196,10 @@ export const LayoutDaggerheartCard: DefaultLayout = {
                     "properties": [],
                     "nested": [
                         {
-                            "type": "group",
-                            "id": "db8a3b687b88",
-                            "properties": [],
-                            "nested": [
-                                {
-                                    "type": "property",
-                                    "id": "f868ba69789b",
-                                    "properties": [
-                                        "level"
-                                    ],
-                                    "fallback": "-",
-                                    "conditioned": true
-                                },
-                                {
-                                    "type": "property",
-                                    "id": "fa4b98f99829",
-                                    "properties": [
-                                        "domain"
-                                    ],
-                                    "fallback": "-",
-                                    "conditioned": true
-                                }
-                            ],
-                            "cls": "daggerheart-ribbon"
+                            "type": "javascript",
+                            "id": "685908eb3b9a",
+                            "conditioned": false,
+                            "code": "const ribbonBlock = document.createElement(\"div\");\nribbonBlock.classList.add(\"daggerheart-card-ribbon\");\n\nconst levelBlock = document.createElement(\"div\");\nlevelBlock.classList.add(\"card-level\");\n\nconst levelText = document.createElement(\"span\");\nlevelText.innerHTML = monster.level;\n\nlevelBlock.append(levelText);\n\nconst domainBlock = document.createElement(\"div\");\ndomainBlock.classList.add(\"card-domain\");\ndomainBlock.classList.add(monster.domain);\n\nconst domainText = document.createElement(\"span\");\ndomainText.innerText = monster.domain;\ndomainBlock.append(domainText)\n\nribbonBlock.append(levelBlock);\nribbonBlock.append(domainBlock);\n\nconsole.log(monster);\n\nreturn ribbonBlock;"
                         },
                         {
                             "type": "group",
@@ -241,6 +221,28 @@ export const LayoutDaggerheartCard: DefaultLayout = {
                     "conditioned": false
                 },
                 {
+                    "type": "image",
+                    "id": "9a0baa691af9",
+                    "properties": [
+                        "image"
+                    ],
+                    "fallback": "-"
+                },
+                {
+                    "type": "group",
+                    "id": "995ac80a7b5a",
+                    "properties": [],
+                    "nested": [
+                        {
+                            "type": "javascript",
+                            "id": "cb3a08baabfb",
+                            "conditioned": false,
+                            "code": "const headingBlock = document.createElement(\"div\");\nheadingBlock.classList.add(\"daggerheart-heading\");\n\nconst typeBlock = document.createElement(\"div\");\ntypeBlock.classList.add(\"card-type\");\ntypeBlock.classList.add(monster.domain);\n\nconst typeText = document.createElement(\"span\");\ntypeText.innerText = monster.type;\ntypeBlock.append(typeText)\n\nheadingBlock.append(typeBlock);\n\nreturn headingBlock;"
+                        }
+                    ],
+                    "hasRule": false
+                },
+                {
                     "type": "group",
                     "id": "098a5a785abb",
                     "properties": [],
@@ -253,39 +255,6 @@ export const LayoutDaggerheartCard: DefaultLayout = {
                             ],
                             "size": 1,
                             "fallback": "Card Name"
-                        }
-                    ],
-                    "hasRule": false
-                },
-                {
-                    "type": "group",
-                    "id": "198849facbf9",
-                    "properties": [],
-                    "nested": [
-                        {
-                            "type": "image",
-                            "id": "589be9a9490a",
-                            "properties": [
-                                "image"
-                            ],
-                            "fallback": "-",
-                            "conditioned": true
-                        }
-                    ]
-                },
-                {
-                    "type": "group",
-                    "id": "995ac80a7b5a",
-                    "properties": [],
-                    "nested": [
-                        {
-                            "type": "property",
-                            "id": "982bba4aa8bb",
-                            "properties": [
-                                "type"
-                            ],
-                            "fallback": "-",
-                            "conditioned": true
                         }
                     ],
                     "hasRule": false
