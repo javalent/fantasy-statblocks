@@ -29,6 +29,10 @@
         margin-right: 0;
     }
 
+    .statblock-content .features {
+        margin-top: 1.0rem;
+    }
+
     .features .statblock-rendered-text-content {
         font-size: 1.2em;
         font-weight: bold;
@@ -36,6 +40,12 @@
 
     .traits-container .statblock-trait-prop,
     .statblock-item-container.statblock-trait-prop {
+        margin: 0.5rem;
+    }
+
+    div.property-container div.experience,
+    div.property-container div.motives_and_tactics,
+    div.daggerheart-adversary-description div p {
         margin: 0.5rem;
     }
 
@@ -47,8 +57,43 @@
         margin: 1.25em;
     }
 
-    .difficulty {
+    .heading-container .name div {
         font-size: 1.5em;
+    }
+
+    div.property-container div.atk {
+        min-width: 60px;
+    }
+
+
+
+    div.property-container div.difficulty p,
+    div.property-container div.thresholds p,
+    div.property-container div.hp p,
+    div.property-container div.stress p,
+    div.property-container div.atk p {
+        font-size: 1.25em;
+        font-weight: bold;
+    }
+
+    div.property-container div.difficulty,
+    div.property-container div.thresholds,
+    div.property-container div.hp,
+    div.property-container div.stress,
+    div.property-container div.atk,
+    div.property-container div.attack {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .column .inline-container {
+        margin: 0.5rem;
+    }
+
+    div.property-container div.attack {
+        margin-right: 1.5rem;
     }
 }
 
