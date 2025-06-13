@@ -39,7 +39,8 @@
     }
 
     .traits-container .statblock-trait-prop,
-    .statblock-item-container.statblock-trait-prop {
+    .statblock-item-container.statblock-trait-prop,
+    .statblock-item-container.javascript-container {
         margin: 0.5rem;
     }
 
@@ -53,7 +54,8 @@
         font-style: italic;
     }
 
-    .statblock-item-container .feats {
+    .statblock-item-container .feats,
+    .statblock-item-container .adversary-block {
         margin: 1.25em;
     }
 
@@ -94,6 +96,38 @@
 
     div.property-container div.attack {
         margin-right: 1.5rem;
+    }
+
+    .adversary-block .stat-line {
+        margin-bottom: 0.5rem;
+    }
+    .adversary-block .stat-line span {
+        font-weight: bold;
+    }
+
+    .adversary-block .stat-line .adversary-name {
+        font-size: 1.2rem;
+    }
+    
+    .adversary-block .stat-line .stat-name {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+        line-height: 1.5rem;
+        width: 150px;
+    }
+
+    .adversary-block .stat-line input {
+        vertical-align: middle;
+    }
+
+    .adversary-block .stat-line input.hp-2,
+    .adversary-block .stat-line input.hp-5,
+    .adversary-block .stat-line input.hp-8,
+    .adversary-block .stat-line input.hp-11,
+    .adversary-block .stat-line input.hp-14,
+    .adversary-block .stat-line input.hp-17,
+    .adversary-block .stat-line input.hp-20 {
+        margin-right: 0.8rem;
     }
 }
 

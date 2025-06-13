@@ -47,7 +47,7 @@
                     "properties": [
                         "description"
                     ],
-                    "text": "",
+                    "text": null,
                     "fallback": "-",
                     "conditioned": true
                 }
@@ -101,6 +101,24 @@
                             ],
                             "fallback": "-",
                             "display": "Thresholds"
+                        },
+                        {
+                            "type": "property",
+                            "id": "eb3bf8ebdb2a",
+                            "properties": [
+                                "hp"
+                            ],
+                            "fallback": "-",
+                            "display": "HP:"
+                        },
+                        {
+                            "type": "property",
+                            "id": "08a959d9282b",
+                            "properties": [
+                                "stress"
+                            ],
+                            "fallback": "-",
+                            "display": "Stress:"
                         }
                     ]
                 },
@@ -155,12 +173,6 @@
             "conditioned": true,
             "headingProp": false,
             "callback": "return property.text;"
-        },
-        {
-            "type": "javascript",
-            "id": "38898abb38db",
-            "conditioned": false,
-            "code": "const getStatLine = () => {\n    const statLine = document.createElement(\"div\");\n    const statClass = `${monster.name.replace(/[^a-zA-Z0-9]/g,'-').toLowerCase()}-block`;\n    statLine.classList.add(\"adversary-block\");\n    statLine.classList.add(statClass);\n\n    let numBlocks = monster.qty ? monster.qty : 1;\n\n    for (let i = 1; i <= numBlocks; i++) {\n        let adversaryBlock = document.createElement(\"div\");\n        let adversaryClass = `${monster.name.replace(/[^a-zA-Z0-9]/g,'-').toLowerCase()}-block`;\n        adversaryBlock.classList.add(\"stat-line\");\n        adversaryBlock.classList.add(adversaryClass);\n\n        // add adversary name/number\n        adversaryBlock.append(getAdversaryNameBlock(monster.name, i));\n        \n        // add hp title\n        adversaryBlock.append(document.createElement(\"br\"));\n        adversaryBlock.append(getStatNameBlock(\"HP\", monster.hp));\n\n        // for each hp make checkbox\n        for (let h = 0; h < monster.hp; h++) {\n            adversaryBlock.append(getCheckboxValueBlock(\"hp\", h));\n        }\n        \n        // add stress title\n        adversaryBlock.append(document.createElement(\"br\"));\n        adversaryBlock.append(getStatNameBlock(\"stress\", monster.stress));\n\n        // for each stress make checkbox\n        for (let s = 0; s < monster.stress; s++) {\n            adversaryBlock.append(getCheckboxValueBlock(\"stress\", s));\n        }\n\n        statLine.append(adversaryBlock);\n    }\n    \n    return statLine;\n}\n\nconst getCheckboxValueBlock = (type, val) => {\n    const checkbox = document.createElement(\"input\");\n    checkbox.type = \"checkbox\";\n    checkbox.classList.add(`${type}-${val}`);\n    checkbox.classList.add(\"stat-value\");\n    checkbox.onclick = () => {\n        console.log(\"Invoke script to save data\");\n    };\n    return checkbox;\n}\n\nconst getStatNameBlock = (statName, val) => {\n    const statNameBlock = document.createElement(\"span\");\n    statNameBlock.classList.add(\"stat-name\");\n    statNameBlock.innerText = `${statName.toUpperCase()} (${val}): `;\n    return statNameBlock;\n}\n\nconst getAdversaryNameBlock = (adversaryName, num) => {\n    const adversaryNameBlock = document.createElement(\"span\");\n    adversaryNameBlock.classList.add(\"adversary-name\");\n    adversaryNameBlock.innerText = `${adversaryName.toUpperCase()} #${num}: `;\n    return adversaryNameBlock;\n}\n\nconst statFullBlock = document.createElement(\"div\");\nstatFullBlock.classList.add(\"stat-block\");\nstatFullBlock.append(getStatLine());\n\nreturn statFullBlock;\n"
         }
     ],
     "id": "daggerheart-adversary",
