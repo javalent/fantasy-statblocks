@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.10.0](https://github.com/javalent/fantasy-statblocks/compare/4.9.1...4.10.0) (2025-07-19)
+
+
+### Features
+
+* Added layouts for Daggerheart Adversaries, Cards and Environments ([#490](https://github.com/javalent/fantasy-statblocks/issues/490)) ([adbc2c0](https://github.com/javalent/fantasy-statblocks/commit/adbc2c03ae5ab1eaad257c90ea9091273f1877ae))
+
 ## [4.9.1](https://github.com/javalent/fantasy-statblocks/compare/4.9.0...4.9.1) (2025-05-08)
 
 
