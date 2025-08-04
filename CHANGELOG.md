@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.10.1](https://github.com/javalent/fantasy-statblocks/compare/4.10.0...4.10.1) (2025-08-04)
+
+
+### Bug Fixes
+
+* Fixes weapon name when using the pathfinder importer ([98f9f28](https://github.com/javalent/fantasy-statblocks/commit/98f9f2892557f51ce5a244069a0836a6b7b89a7d))
+
 ## [4.10.0](https://github.com/javalent/fantasy-statblocks/compare/4.9.1...4.10.0) (2025-07-19)
 
 
