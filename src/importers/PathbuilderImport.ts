@@ -196,7 +196,7 @@ function getWeapons(weapons: Weapon[]): Trait[] {
             damage_die="3"
         }
         return {
-            name: "Melee",
+            name: weapon.name,
             desc: ONE_ACTION + `[[${weapon.name}|${weapon.display}]] ${addSign(weapon.attack)} __Damage__ ${damage_die}${weapon.die}${damage_bonus} _(${weapon.damageType})_` 
         };
     });
