@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.10.2](https://github.com/javalent/fantasy-statblocks/compare/4.10.1...4.10.2) (2025-09-27)
+
+
+### Bug Fixes
+
+* Fixes issue where a `.` in a layout name would crash plugin ([651c2cd](https://github.com/javalent/fantasy-statblocks/commit/651c2cdb2129fe482c11724ad6707114bb5b080e))
+
 ## [4.10.1](https://github.com/javalent/fantasy-statblocks/compare/4.10.0...4.10.1) (2025-08-04)
 
 
