@@ -12,6 +12,7 @@ import {
     CSSProperties
 } from "./layout.css";
 import { DefaultLayouts } from ".";
+import { slugifyLayoutForCss } from "src/util/util";
 
 export default class LayoutManager {
     public initialize(settings: StatblockData) {
@@ -44,7 +45,7 @@ export default class LayoutManager {
     }
     getSheetRules(layout: Layout): string[] {
         if (!layout.cssProperties) return [];
-        const layoutName = `.${layout.name.toLowerCase().replace(/\s+/g, "-")}`;
+        const layoutName = `.${slugifyLayoutForCss(layout.name)}`;
         const rules: string[] = [
             this.#buildSheetRule(layoutName, {
                 ...DefaultLayoutCSSProperties,

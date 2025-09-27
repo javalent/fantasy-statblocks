@@ -21,6 +21,7 @@
 
     import Bar from "./ui/Bar.svelte";
     import ColumnContainer from "./ui/ColumnContainer.svelte";
+    import { slugifyLayoutForCss } from "src/util/util";
 
     const dispatch = createEventDispatcher();
 
@@ -146,11 +147,9 @@
         menu.showAtMouseEvent(evt);
     };
 
-    const slugify = (str: string, fallback: string = "") =>
-        str?.toLowerCase().replace(/\s+/g, "-") ?? fallback;
 
-    $: name = slugify(monster.name ?? "", "no-name");
-    $: layoutName = slugify(layout.name, "no-layout");
+    $: name = slugifyLayoutForCss(monster.name ?? "", "no-name");
+    $: layoutName = slugifyLayoutForCss(layout.name, "no-layout");
     const getNestedLayouts = (blocks: StatblockItem[]): string[] => {
         const classes: string[] = [];
         for (const block of blocks) {
@@ -159,7 +158,7 @@
                     .getAllLayouts()
                     .find((l) => l.id == block.layout);
                 if (layout) {
-                    classes.push(slugify(layout.name));
+                    classes.push(slugifyLayoutForCss(layout.name));
                 }
             }
             if ("nested" in block) {

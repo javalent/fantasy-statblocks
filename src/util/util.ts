@@ -41,6 +41,10 @@ export function slugify(str: string) {
         .replace(/\s+/g, "-");
 }
 
+export const slugifyLayoutForCss = (layoutName: string, fallback?: string) =>
+    layoutName?.toLowerCase().replace(/\s+/g, "-").replaceAll(".", "-") ??
+    fallback;
+
 export function toTitleCase(str: string): string {
     return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
