@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { _ } from "svelte-i18n";
     import { MarkdownRenderer, Notice } from "obsidian";
     import type { Layout, MarkdownableItem } from "src/layouts/layout.types";
     import type StatBlockPlugin from "src/main";

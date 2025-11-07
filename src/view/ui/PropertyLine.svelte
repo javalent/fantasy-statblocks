@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { _ } from "svelte-i18n";
     import type { Monster } from "../../../index";
     import { Notice } from "obsidian";
     import type { PropertyItem } from "../../layouts/layout.types";
@@ -36,7 +37,7 @@
 
 {#if !item.conditioned || (item.conditioned && `${property}`.length)}
     <div class="line {cssClass}">
-        <span class="property-name">{display}</span>
+        <span class="property-name">{$_(display)}</span>
         <TextContentHolder {property} />
     </div>
 {/if}

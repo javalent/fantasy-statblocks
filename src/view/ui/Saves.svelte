@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { _ } from "svelte-i18n";
     import type { Monster } from "index";
     import { Notice } from "obsidian";
     import type { SavesItem } from "src/layouts/layout.types";
@@ -61,7 +62,7 @@
 <div class="info">
     <div class="line {cssClasses}">
         <span class="property-name"
-            >{item.display ?? toTitleCase(item.properties[0])}</span
+            >{$_(item.display ?? toTitleCase(item.properties[0]))}</span
         >
         <div class="property-text">
             {#each saves as [name, value]}

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { _ } from "svelte-i18n";
     import type { Monster } from "index";
     import {
         debounce,
@@ -109,12 +110,12 @@
     menu.addItem((item) =>
         item
             .setIcon("save")
-            .setTitle("Save to Bestiary")
+            .setTitle($_("Save to Bestiary"))
             .setDisabled(!canSave)
             .onClick(() => dispatch("save"))
     );
     menu.addItem((item) => {
-        item.setTitle("Copy YAML")
+        item.setTitle($_("Copy YAML"))
             .setIcon("code")
             .onClick(async () => {
                 try {
@@ -130,7 +131,7 @@
     menu.addItem((item) =>
         item
             .setIcon("image-down")
-            .setTitle("Export as PNG")
+            .setTitle($_("Export as PNG"))
             .onClick(() => dispatch("export"))
     );
     if (canDice)
