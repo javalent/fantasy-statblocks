@@ -10,6 +10,7 @@ import {
 import domtoimage from "dom-to-image";
 
 import StatBlockRenderer from "./view/statblock";
+import { initI18n } from "./util/i18n";
 import { nanoid } from "./util/util";
 import type { Monster, StatblockParameters } from "../index";
 import StatblockSettingTab from "./settings/settings";
@@ -134,6 +135,8 @@ export default class StatBlockPlugin extends Plugin {
 
         await this.loadSettings();
         await this.saveSettings();
+
+        initI18n();
 
         this.manager.initialize(this.settings);
         this.register(() => this.manager.unload());
