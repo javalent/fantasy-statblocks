@@ -8,6 +8,8 @@ import {
     Setting,
     TFolder
 } from "obsidian";
+import { _ } from "svelte-i18n";
+import { get } from "svelte/store";
 
 import type StatBlockPlugin from "src/main";
 import LayoutEditor from "./layout/LayoutEditor.svelte";
@@ -28,6 +30,8 @@ import { Watcher } from "src/watcher/watcher";
 import Creatures from "./creatures/Creatures.svelte";
 import { EditMonsterModal } from "./modal";
 
+const t = get(_);
+
 export default class StatblockSettingTab extends PluginSettingTab {
     importer: Importer;
     results: Partial<Monster>[] = [];
@@ -46,7 +50,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
             containerEl.addClass("statblock-settings");
 
-            containerEl.createEl("h2", { text: "Fantasy Statblocks Settings" });
+            containerEl.createEl("h2", { text: t("Fantasy Statblocks Settings") });
 
             this.generateTopSettings(containerEl.createDiv());
             this.generateParseSettings(containerEl.createDiv());
@@ -69,24 +73,24 @@ export default class StatblockSettingTab extends PluginSettingTab {
         } catch (e) {
             console.error(e);
             new Notice(
-                "There was an error displaying the settings tab for 5e Statblocks."
+                t("There was an error displaying the settings tab for 5e Statblocks.")
             );
         }
     }
     generateAdvancedSettings(container: HTMLDivElement) {
         container.empty();
-        new Setting(container).setHeading().setName("Advanced Settings");
+        new Setting(container).setHeading().setName(t("Advanced Settings"));
 
         new Setting(container)
-            .setName("Try to Save Data Atomically")
+            .setName(t("Try to Save Data Atomically"))
             .setDesc(
                 createFragment((e) => {
                     e.createSpan({
-                        text: "This will cause to plugin to save data to a temporary file before saving the actual data file in an attempt to prevent data loss."
+                        text: t("This will cause to plugin to save data to a temporary file before saving the actual data file in an attempt to prevent data loss.")
                     });
                     e.createEl("br");
                     e.createSpan({
-                        text: "This can cause issues sometimes when using sync services."
+                        text: t("This can cause issues sometimes when using sync services.")
                     });
                     e.createEl("br");
                     const warning = e.createDiv();
@@ -95,7 +99,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                         attr: {
                             style: "color: var(--text-error)"
                         },
-                        text: "This setting is currently disabled."
+                        text: t("This setting is currently disabled.")
                     });
                 })
             )
@@ -111,7 +115,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
     generateTopSettings(container: HTMLDivElement) {
         container.empty();
-        new Setting(container).setHeading().setName("General Settings");
+        new Setting(container).setHeading().setName(t("General Settings"));
         /* new Setting(container)
             .setName("Enable Export to PNG")
             .setDesc(
@@ -133,20 +137,20 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 })
             ); */
         new Setting(container)
-            .setName("Integrate Dice Roller")
+            .setName(t("Integrate Dice Roller"))
             .setDesc(
                 createFragment((e) => {
                     if (this.plugin.diceRollerInstalled) {
                         e.createSpan({
-                            text: "Add Dice Roller dice to statblocks by default. Use "
+                            text: t("Add Dice Roller dice to statblocks by default. Use ")
                         });
                         e.createEl("code", { text: "dice: false" });
                         e.createSpan({
-                            text: " to disable per-statblock."
+                            text: t(" to disable per-statblock.")
                         });
                     } else {
                         e.createSpan({
-                            text: "This setting is only usable with the Dice Roller plugin enabled."
+                            text: t("This setting is only usable with the Dice Roller plugin enabled.")
                         });
                     }
                 })
@@ -159,20 +163,20 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 })
             );
         new Setting(container)
-            .setName("Render Dice Rolls")
+            .setName(t("Render Dice Rolls"))
             .setDesc(
                 createFragment((e) => {
                     if (this.plugin.diceRollerInstalled) {
                         e.createSpan({
-                            text: "Roll graphical dice inside statblocks by default. Use "
+                            text: t("Roll graphical dice inside statblocks by default. Use ")
                         });
                         e.createEl("code", { text: "render: false" });
                         e.createSpan({
-                            text: " to disable per-statblock."
+                            text: t(" to disable per-statblock.")
                         });
                     } else {
                         e.createSpan({
-                            text: "This setting is only usable with the Dice Roller plugin enabled."
+                            text: t("This setting is only usable with the Dice Roller plugin enabled.")
                         });
                     }
                 })
@@ -200,15 +204,15 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     })
             );
         new Setting(container)
-            .setName("Try to Render Wikilinks")
+            .setName(t("Try to Render Wikilinks"))
             .setDesc(
                 createFragment((e) => {
                     e.createSpan({
-                        text: "The plugin will attempt to detect wikilinks inside Statblocks."
+                        text: t("The plugin will attempt to detect wikilinks inside Statblocks.")
                     });
                     e.createEl("br");
                     e.createEl("strong", {
-                        text: "Please note: these links will not be added to the graph."
+                        text: t("Please note: these links will not be added to the graph.")
                     });
                 })
             )
@@ -221,11 +225,11 @@ export default class StatblockSettingTab extends PluginSettingTab {
                     })
             );
         new Setting(container)
-            .setName("Enable 5e SRD")
+            .setName(t("Enable 5e SRD"))
             .setDesc(
                 createFragment((e) => {
                     e.createSpan({
-                        text: "Use the Dungeons & Dragons 5th Edition System Reference Document monsters."
+                        text: t("Use the Dungeons & Dragons 5th Edition System Reference Document monsters.")
                     });
                 })
             )
@@ -247,18 +251,18 @@ export default class StatblockSettingTab extends PluginSettingTab {
         const additionalContainer = containerEl.createDiv(
             "statblock-additional-container"
         );
-        new Setting(additionalContainer).setHeading().setName("Note Parsing");
+        new Setting(additionalContainer).setHeading().setName(t("Note Parsing"));
         new Setting(additionalContainer)
-            .setName("Automatically Parse Frontmatter for Creatures")
+            .setName(t("Automatically Parse Frontmatter for Creatures"))
             .setDesc(
                 createFragment((e) => {
                     e.createSpan({
-                        text: "The plugin will watch the vault for creatures defined in note frontmatter."
+                        text: t("The plugin will watch the vault for creatures defined in note frontmatter.")
                     });
                     e.createEl("br");
                     e.createEl("br");
                     e.createSpan({
-                        text: `The "Parse Frontmatter for Creatures" command can also be used.`
+                        text: t(`The \"Parse Frontmatter for Creatures\" command can also be used.`)
                     });
                 })
             )
@@ -274,11 +278,11 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 );
             });
         new Setting(additionalContainer)
-            .setName("Enable Debug Messages")
+            .setName(t("Enable Debug Messages"))
             .setDesc(
                 createFragment((e) => {
                     e.createSpan({
-                        text: "Debug messages will be displayed by the file parser."
+                        text: t("Debug messages will be displayed by the file parser.")
                     });
                 })
             )
@@ -291,9 +295,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
             );
         let path: string;
         new Setting(additionalContainer)
-            .setName("Bestiary Folder")
+            .setName(t("Bestiary Folder"))
             .setDesc(
-                "The plugin will only parse notes inside these folders and their children."
+                t("The plugin will only parse notes inside these folders and their children.")
             )
             .addText(async (text) => {
                 let folders = this.app.vault
@@ -347,7 +351,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
     }
     generateLayouts(containerEl: HTMLDivElement) {
         containerEl.empty();
-        new Setting(containerEl).setHeading().setName("Layouts");
+        new Setting(containerEl).setHeading().setName(t("Layouts"));
 
         const statblockCreatorContainer = containerEl.createDiv(
             "statblock-additional-container"
@@ -358,15 +362,15 @@ export default class StatblockSettingTab extends PluginSettingTab {
             .appendChild(
                 createFragment((el) => {
                     el.createSpan({
-                        text: "New statblock layouts can be created and managed here. A specific layout can be used for a creature using the "
+                        text: t("New statblock layouts can be created and managed here. A specific layout can be used for a creature using the ")
                     });
                     el.createEl("code", { text: "layout" });
-                    el.createSpan({ text: " parameter." });
+                    el.createSpan({ text: t(" parameter.") });
                 })
             );
         const importFile = new Setting(statblockCreatorContainer)
-            .setName("Import From JSON")
-            .setDesc("Import a custom layout from a JSON file.");
+            .setName(t("Import From JSON"))
+            .setDesc(t("Import a custom layout from a JSON file."));
         const inputFile = createEl("input", {
             attr: {
                 type: "file",
@@ -392,14 +396,14 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                 );
                                 if (!layout) {
                                     reject(
-                                        new Error("Invalid layout imported")
+                                        new Error(t("Invalid layout imported"))
                                     );
                                     return;
                                 }
                                 if (!layout?.name) {
                                     reject(
                                         new Error(
-                                            "Invalid layout imported: layout does not have a name"
+                                            t("Invalid layout imported: layout does not have a name")
                                         )
                                     );
                                     return;
@@ -408,7 +412,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                                 if (!layout?.blocks) {
                                     reject(
                                         new Error(
-                                            "Invalid layout imported: no blocks defined in layout."
+                                            t("Invalid layout imported: no blocks defined in layout.")
                                         )
                                     );
                                     return;
@@ -457,11 +461,11 @@ export default class StatblockSettingTab extends PluginSettingTab {
             b.onClick(() => inputFile.click());
         });
         new Setting(statblockCreatorContainer)
-            .setName("Add New Layout")
+            .setName(t("Add New Layout"))
             .addButton((b) =>
                 b
                     .setIcon("plus-with-circle")
-                    .setTooltip("Add New Layout")
+                    .setTooltip(t("Add New Layout"))
                     .onClick(() => {
                         const modal = new CreateStatblockModal(this.plugin);
                         modal.onClose = async () => {
@@ -482,9 +486,9 @@ export default class StatblockSettingTab extends PluginSettingTab {
         const statblockAdditional =
             statblockCreatorContainer.createDiv("additional");
         new Setting(statblockAdditional)
-            .setName("Default Layout")
+            .setName(t("Default Layout"))
             .setDesc(
-                "Change the default statblock layout used, if not specified."
+                t("Change the default statblock layout used, if not specified.")
             )
             .addDropdown(async (d) => {
                 for (const layout of this.plugin.manager.getAllLayouts()) {
@@ -510,8 +514,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 });
             });
         new Setting(statblockAdditional)
-            .setName("Show Advanced Options")
-            .setDesc("Show advanced options when editing layout blocks.")
+            .setName(t("Show Advanced Options"))
+            .setDesc(t("Show advanced options when editing layout blocks."))
             .addToggle((t) =>
                 t
                     .setValue(this.plugin.settings.showAdvanced)
@@ -559,7 +563,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
         if (this.plugin.manager.getAllDefaultLayouts().some((f) => f.removed)) {
             new Setting(layoutContainer)
-                .setName("Restore Default Layouts")
+                .setName(t("Restore Default Layouts"))
                 .addButton((b) => {
                     b.setIcon("rotate-ccw").onClick(async () => {
                         for (const layout of Object.values(
@@ -584,7 +588,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 .setName(layout.name)
                 .addExtraButton((b) => {
                     b.setIcon("pencil")
-                        .setTooltip("Edit")
+                        .setTooltip(t("Edit"))
                         .onClick(() => {
                             const modal = new CreateStatblockModal(
                                 this.plugin,
@@ -627,7 +631,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
             setting
                 .addExtraButton((b) => {
                     b.setIcon("duplicate-glyph")
-                        .setTooltip("Create Copy")
+                        .setTooltip(t("Create Copy"))
                         .onClick(async () => {
                             const dupe = this.getDuplicate(layout);
                             this.plugin.settings.layouts.push(dupe);
@@ -642,7 +646,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 })
                 .addExtraButton((b) => {
                     b.setIcon("import-glyph")
-                        .setTooltip("Export as JSON")
+                        .setTooltip(t("Export as JSON"))
                         .onClick(() => {
                             const link = createEl("a");
                             const file = new Blob([JSON.stringify(layout)], {
@@ -657,7 +661,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 })
                 .addExtraButton((b) => {
                     b.setIcon("trash")
-                        .setTooltip("Delete")
+                        .setTooltip(t("Delete"))
                         .onClick(async () => {
                             layout.removed = true;
                             this.plugin.settings.defaultLayouts[layout.id] =
@@ -672,7 +676,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 .setName(layout.name)
                 .addExtraButton((b) => {
                     b.setIcon("pencil")
-                        .setTooltip("Edit")
+                        .setTooltip(t("Edit"))
                         .onClick(() => {
                             const modal = new CreateStatblockModal(
                                 this.plugin,
@@ -708,7 +712,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 })
                 .addExtraButton((b) => {
                     b.setIcon("duplicate-glyph")
-                        .setTooltip("Create Copy")
+                        .setTooltip(t("Create Copy"))
                         .onClick(async () => {
                             const dupe = this.getDuplicate(layout);
                             this.plugin.settings.layouts.push(dupe);
@@ -722,7 +726,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 })
                 .addExtraButton((b) => {
                     b.setIcon("import-glyph")
-                        .setTooltip("Export as JSON")
+                        .setTooltip(t("Export as JSON"))
                         .onClick(() => {
                             const link = createEl("a");
                             const file = new Blob([JSON.stringify(layout)], {
@@ -737,7 +741,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
                 })
                 .addExtraButton((b) => {
                     b.setIcon("trash")
-                        .setTooltip("Delete")
+                        .setTooltip(t("Delete"))
                         .onClick(async () => {
                             this.plugin.settings.layouts =
                                 this.plugin.settings.layouts.filter(
@@ -756,20 +760,20 @@ export default class StatblockSettingTab extends PluginSettingTab {
         containerEl.empty();
         new Setting(containerEl)
             .setHeading()
-            .setName("Import Homebrew Creatures");
+            .setName(t("Import Homebrew Creatures"));
         const importSettingsContainer = containerEl.createDiv(
             "statblock-additional-container"
         );
 
         new Setting(importSettingsContainer).setDesc(
-            "Import creatures from creature files. Monsters are stored by name, so only the last creature by that name will be saved. This is destructive - any saved creature will be overwritten."
+            t("Import creatures from creature files. Monsters are stored by name, so only the last creature by that name will be saved. This is destructive - any saved creature will be overwritten.")
         );
 
         const importAdditional =
             importSettingsContainer.createDiv("additional");
         const importAppFile = new Setting(importAdditional)
-            .setName("Import DnDAppFile")
-            .setDesc("Only import content that you own.");
+            .setName(t("Import DnDAppFile"))
+            .setDesc(t("Only import content that you own."));
         const inputAppFile = createEl("input", {
             attr: {
                 type: "file",
@@ -794,8 +798,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
         };
 
         importAppFile.addButton((b) => {
-            b.setButtonText("Choose File(s)").setTooltip(
-                "Import DnDAppFile Data"
+            b.setButtonText(t("Choose File(s)")).setTooltip(
+                t("Import DnDAppFile Data")
             );
             b.buttonEl.addClass("statblock-file-upload");
             b.buttonEl.appendChild(inputAppFile);
@@ -803,8 +807,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
         });
 
         const importImprovedInitiative = new Setting(importAdditional)
-            .setName("Import Improved Initiative Data")
-            .setDesc("Only import content that you own.");
+            .setName(t("Import Improved Initiative Data"))
+            .setDesc(t("Only import content that you own."));
         const inputImprovedInitiative = createEl("input", {
             attr: {
                 type: "file",
@@ -829,8 +833,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
         };
 
         importImprovedInitiative.addButton((b) => {
-            b.setButtonText("Choose File(s)").setTooltip(
-                "Import Improved Initiative Data"
+            b.setButtonText(t("Choose File(s)")).setTooltip(
+                t("Import Improved Initiative Data")
             );
             b.buttonEl.addClass("statblock-file-upload");
             b.buttonEl.appendChild(inputImprovedInitiative);
@@ -838,8 +842,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
         });
 
         const importCritterDB = new Setting(importAdditional)
-            .setName("Import CritterDB Data")
-            .setDesc("Only import content that you own.");
+            .setName(t("Import CritterDB Data"))
+            .setDesc(t("Only import content that you own."));
         const inputCritterDB = createEl("input", {
             attr: {
                 type: "file",
@@ -864,8 +868,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
         };
 
         importCritterDB.addButton((b) => {
-            b.setButtonText("Choose File(s)").setTooltip(
-                "Import CritterDB Data"
+            b.setButtonText(t("Choose File(s)")).setTooltip(
+                t("Import CritterDB Data")
             );
             b.buttonEl.addClass("statblock-file-upload");
             b.buttonEl.appendChild(inputCritterDB);
@@ -873,8 +877,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
         });
 
         const import5eTools = new Setting(importAdditional)
-            .setName("Import 5e.tools Data")
-            .setDesc("Only import content that you own.");
+            .setName(t("Import 5e.tools Data"))
+            .setDesc(t("Only import content that you own."));
         const input5eTools = createEl("input", {
             attr: {
                 type: "file",
@@ -895,16 +899,16 @@ export default class StatblockSettingTab extends PluginSettingTab {
         };
 
         import5eTools.addButton((b) => {
-            b.setButtonText("Choose File(s)").setTooltip(
-                "Import 5e.tools Data"
+            b.setButtonText(t("Choose File(s)")).setTooltip(
+                t("Import 5e.tools Data")
             );
             b.buttonEl.addClass("statblock-file-upload");
             b.buttonEl.appendChild(input5eTools);
             b.onClick(() => input5eTools.click());
         });
         const importTetra = new Setting(importAdditional)
-            .setName("Import TetraCube Data")
-            .setDesc("Only import content that you own.");
+            .setName(t("Import TetraCube Data"))
+            .setDesc(t("Only import content that you own."));
         const inputTetra = createEl("input", {
             attr: {
                 type: "file",
@@ -923,16 +927,16 @@ export default class StatblockSettingTab extends PluginSettingTab {
             this.display();
         };
         importTetra.addButton((b) => {
-            b.setButtonText("Choose File(s)").setTooltip(
-                "Import TetraCube Data"
+            b.setButtonText(t("Choose File(s)")).setTooltip(
+                t("Import TetraCube Data")
             );
             b.buttonEl.addClass("statblock-file-upload");
             b.buttonEl.appendChild(inputTetra);
             b.onClick(() => inputTetra.click());
         });
         const importPF2EMonsterTools = new Setting(importAdditional)
-            .setName("Import PF2eMonsterTools Data")
-            .setDesc("Only import content that you own.");
+            .setName(t("Import PF2eMonsterTools Data"))
+            .setDesc(t("Only import content that you own."));
         const inputPF2EMonsterTools = createEl("input", {
             attr: {
                 type: "file",
@@ -951,8 +955,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
             this.display();
         };
         importPF2EMonsterTools.addButton((b) => {
-            b.setButtonText("Choose File(s)").setTooltip(
-                "Import PF2EMonsterTools Data"
+            b.setButtonText(t("Choose File(s)")).setTooltip(
+                t("Import PF2EMonsterTools Data")
             );
             b.buttonEl.addClass("statblock-file-upload");
             b.buttonEl.appendChild(inputPF2EMonsterTools);
@@ -960,8 +964,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
         });
         // import Pathbuilder
         const importPathbuilder = new Setting(importAdditional)
-            .setName("Import Pathbuilder Data")
-            .setDesc("Import a PC or NPC exported from Pathbuilder2e.");
+            .setName(t("Import Pathbuilder Data"))
+            .setDesc(t("Import a PC or NPC exported from Pathbuilder2e."));
         const inputPathbuilder = createEl("input", {
             attr: {
                 type: "file",
@@ -980,8 +984,8 @@ export default class StatblockSettingTab extends PluginSettingTab {
             this.display();
         };
         importPathbuilder.addButton((b) => {
-            b.setButtonText("Choose File(s)").setTooltip(
-                "Import Pathbuilder Data"
+            b.setButtonText(t("Choose File(s)")).setTooltip(
+                t("Import Pathbuilder Data")
             );
             b.buttonEl.addClass("statblock-file-upload");
             b.buttonEl.appendChild(inputPathbuilder);
@@ -991,16 +995,16 @@ export default class StatblockSettingTab extends PluginSettingTab {
 
 
         const importGeneric = new Setting(importAdditional)
-            .setName("Import Generic Data")
+            .setName(t("Import Generic Data"))
             .setDesc(
                 createFragment((e) => {
                     e.createSpan({
-                        text: "Import generic JSON files. JSON objects will be imported "
+                        text: t("Import generic JSON files. JSON objects will be imported ")
                     });
                     e.createEl("strong", { text: "as-is" });
-                    e.createSpan({ text: " and all objects must have the " });
+                    e.createSpan({ text: t(" and all objects must have the ") });
                     e.createEl("code", { text: "name" });
-                    e.createSpan({ text: " property." });
+                    e.createSpan({ text: t(" property.") });
                 })
             );
         const inputGeneric = createEl("input", {
@@ -1021,7 +1025,7 @@ export default class StatblockSettingTab extends PluginSettingTab {
             this.display();
         };
         importGeneric.addButton((b) => {
-            b.setButtonText("Choose File(s)").setTooltip("Import Generic Data");
+            b.setButtonText(t("Choose File(s)")).setTooltip(t("Import Generic Data"));
             b.buttonEl.addClass("statblock-file-upload");
             b.buttonEl.appendChild(inputGeneric);
             b.onClick(() => inputGeneric.click());
@@ -1029,12 +1033,12 @@ export default class StatblockSettingTab extends PluginSettingTab {
     }
     generateMonsters(containerEl: HTMLDivElement) {
         containerEl.empty();
-        new Setting(containerEl).setHeading().setName("Bestiary");
+        new Setting(containerEl).setHeading().setName(t("Bestiary"));
         const additionalContainer = containerEl.createDiv(
             "statblock-additional-container statblock-monsters"
         );
         new Setting(additionalContainer)
-            .setName("Add Creature")
+            .setName(t("Add Creature"))
             .addButton((b) => {
                 b.setIcon("plus-with-circle").onClick(() => {
                     const modal = new EditMonsterModal(this.plugin);
@@ -1069,7 +1073,7 @@ class CreateStatblockModal extends FantasyStatblockModal {
     constructor(
         public plugin: StatBlockPlugin,
         layout: Layout = {
-            name: "Layout",
+            name: t("Layout"),
             blocks: [],
             id: nanoid()
         }
@@ -1085,7 +1089,7 @@ class CreateStatblockModal extends FantasyStatblockModal {
     }
 
     display() {
-        this.titleEl.createSpan({ text: "Create Layout" });
+        this.titleEl.createSpan({ text: t("Create Layout") });
         this.creator = new LayoutEditor({
             target: this.contentEl,
             props: {
@@ -1110,7 +1114,7 @@ class ConfirmModal extends FantasyStatblockModal {
         super(plugin);
     }
     onOpen() {
-        this.titleEl.setText("Are you sure?");
+        this.titleEl.setText(t("Are you sure?"));
         this.contentEl.createEl("p", {
             text: `This will delete ${this.filtered} creatures. This cannot be undone.`
         });
@@ -1153,10 +1157,10 @@ class ConfirmImport extends FantasyStatblockModal {
         this.contentEl.empty();
         this.contentEl.addClass("confirm-modal");
         this.contentEl.createEl("p", {
-            text: "This Layout includes JavaScript blocks. JavaScript blocks can execute code in your vault, which could cause loss or corruption of data."
+            text: t("This Layout includes JavaScript blocks. JavaScript blocks can execute code in your vault, which could cause loss or corruption of data.")
         });
         this.contentEl.createEl("p", {
-            text: "Are you sure you want to import this layout?"
+            text: t("Are you sure you want to import this layout?")
         });
 
         const buttonContainerEl = this.contentEl.createDiv(
@@ -1164,7 +1168,7 @@ class ConfirmImport extends FantasyStatblockModal {
         );
         buttonContainerEl.createEl("a").createEl("small", {
             cls: "dont-ask",
-            text: "Import and don't ask again"
+            text: t("Import and don't ask again")
         }).onclick = async () => {
             this.confirmed = true;
             this.plugin.settings.alwaysImport = true;
@@ -1173,7 +1177,7 @@ class ConfirmImport extends FantasyStatblockModal {
 
         const buttonEl = buttonContainerEl.createDiv("confirm-buttons");
         new ButtonComponent(buttonEl)
-            .setButtonText("Import")
+            .setButtonText(t("Import"))
             .setCta()
             .onClick(() => {
                 this.confirmed = true;
@@ -1181,7 +1185,7 @@ class ConfirmImport extends FantasyStatblockModal {
             });
         buttonEl.createEl("a").createEl("small", {
             cls: "dont-ask",
-            text: "Cancel"
+            text: t("Cancel")
         }).onclick = () => {
             this.close();
         };
