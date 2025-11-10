@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { _ } from "svelte-i18n";
     import type { Monster } from "index";
     import { Notice } from "obsidian";
     import type { SavesItem } from "src/layouts/layout.types";
+    import { t } from "src/util/i18n";
     import { slugify, toTitleCase } from "src/util/util";
     import TextContentHolder from "./TextContentHolder.svelte";
 
@@ -62,7 +62,7 @@
 <div class="info">
     <div class="line {cssClasses}">
         <span class="property-name"
-            >{$_(item.display ?? toTitleCase(item.properties[0]))}</span
+            >{t(item.display ?? toTitleCase(item.properties[0]))}</span
         >
         <div class="property-text">
             {#each saves as [name, value]}

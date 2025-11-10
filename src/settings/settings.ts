@@ -8,8 +8,6 @@ import {
     Setting,
     TFolder
 } from "obsidian";
-import { _ } from "svelte-i18n";
-import { get } from "svelte/store";
 
 import type StatBlockPlugin from "src/main";
 import LayoutEditor from "./layout/LayoutEditor.svelte";
@@ -25,12 +23,11 @@ import { Layout5e } from "src/layouts/basic 5e/basic5e";
 import type { DefaultLayout, Layout } from "src/layouts/layout.types";
 import { DICE_ROLLER_SOURCE } from "src/main";
 import FantasyStatblockModal from "src/modal/modal";
+import { t } from "src/util/i18n";
 import { nanoid } from "src/util/util";
 import { Watcher } from "src/watcher/watcher";
 import Creatures from "./creatures/Creatures.svelte";
 import { EditMonsterModal } from "./modal";
-
-const t = get(_);
 
 export default class StatblockSettingTab extends PluginSettingTab {
     importer: Importer;

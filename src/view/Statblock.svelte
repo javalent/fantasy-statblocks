@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { _ } from "svelte-i18n";
     import type { Monster } from "index";
     import {
         debounce,
@@ -22,6 +21,7 @@
 
     import Bar from "./ui/Bar.svelte";
     import ColumnContainer from "./ui/ColumnContainer.svelte";
+    import { t } from "src/util/i18n";
     import { slugifyLayoutForCss } from "src/util/util";
 
     const dispatch = createEventDispatcher();
@@ -110,12 +110,12 @@
     menu.addItem((item) =>
         item
             .setIcon("save")
-            .setTitle($_("Save to Bestiary"))
+            .setTitle(t("Save to Bestiary"))
             .setDisabled(!canSave)
             .onClick(() => dispatch("save"))
     );
     menu.addItem((item) => {
-        item.setTitle($_("Copy YAML"))
+        item.setTitle(t("Copy YAML"))
             .setIcon("code")
             .onClick(async () => {
                 try {
@@ -131,7 +131,7 @@
     menu.addItem((item) =>
         item
             .setIcon("image-down")
-            .setTitle($_("Export as PNG"))
+            .setTitle(t("Export as PNG"))
             .onClick(() => dispatch("export"))
     );
     if (canDice)

@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { _ } from "svelte-i18n";
     import type { Monster } from "index";
     import type { TableItem } from "src/layouts/layout.types";
+    import { t } from "src/util/i18n";
     import { slugify, stringify } from "src/util/util";
     import TextContentHolder from "./TextContentHolder.svelte";
 
@@ -56,7 +56,7 @@
 <div class="statblock-table {cssClass}">
     {#each [...valueMap.entries()].slice(0, headers.length) as [index, values]}
         <div class="table-item">
-            <span class="statblock-table-header">{$_(headers[index])}</span>
+            <span class="statblock-table-header">{t(headers[index])}</span>
             {#each values as value}
                 <span>
                     <TextContentHolder property={stringify(value)} />

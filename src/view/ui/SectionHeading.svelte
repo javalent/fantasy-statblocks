@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { _ } from "svelte-i18n";
     import type { Monster } from "index";
     import type {
         TextItem,
@@ -7,6 +6,7 @@
         GroupItem,
         InlineItem
     } from "src/layouts/layout.types";
+    import { t } from "src/util/i18n";
     import { stringify } from "src/util/util";
     import TextContent from "./TextContent.svelte";
 
@@ -32,7 +32,7 @@
 
 {#if header && header.length}
     <h3 class="section-header {slugify(header)}">
-        <TextContent textToRender={$_(header)} />
+        <TextContent textToRender={t(header)} />
     </h3>
 {/if}
 

@@ -1,4 +1,6 @@
-import { register, init, getLocaleFromNavigator } from "svelte-i18n";
+import { moment } from "obsidian";
+import { _, register, init, getLocaleFromNavigator } from "svelte-i18n";
+import { get } from "svelte/store";
 
 export function initI18n() {
     const lang = moment.locale();
@@ -16,3 +18,5 @@ export function initI18n() {
         }
     });
 }
+
+export const t = get(_);
