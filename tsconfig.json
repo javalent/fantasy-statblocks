@@ -10,6 +10,7 @@
         "moduleResolution": "node",
         "importHelpers": true,
         "experimentalDecorators": true,
+        "resolveJsonModule": true,
         "types": ["svelte", "node"],
         "lib": ["dom", "esnext", "scripthost", "es2020"],
         "isolatedModules": false
