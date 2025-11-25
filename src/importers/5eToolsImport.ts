@@ -39,12 +39,27 @@ function parseString(str: string) {
         .replace(/{@atk mw}/g, `Melee Weapon Attack`)
         .replace(/{@atk rw}/g, `Ranged Weapon Attack`)
         .replace(/{@atk mw,rw}/g, `Melee / Ranged Weapon Attack`)
+        .replace(/{@atkr m}/g, `Melee Attack Roll:`)
+        .replace(/{@atkr r}/g, `Ranged Attack Roll:`)
+        .replace(/{@atkr m,r}/g, `Melee or Ranged Attack Roll:`)
         .replace(/{@creature (.+?)(?:\|.+)?}/g, `$1`)
         .replace(/{@skill (.+?)(?:\|.+)?}/g, `$1`)
         .replace(/{@dice (.+?)(?:\|.+)?}/g, `$1`)
         .replace(/{@hit (\d+?)(?:\|.+)?}/g, `+$1`)
         .replace(/{@dc (\d+?)(?:\|.+)?}/g, `$1`)
-        .replace(/{@quickref (.+?)\|\|.+?}/, `$1`);
+        .replace(/{@quickref (.+?)\|\|.+?}/, `$1`)
+        .replace(/{@actSave str}/g, `Strength Saving Throw:`)
+        .replace(/{@actSave dex}/g, `Dexterity Saving Throw:`)
+        .replace(/{@actSave con}/g, `Constitution Saving Throw:`)
+        .replace(/{@actSave int}/g, `Inteligence Saving Throw:`)
+        .replace(/{@actSave wis}/g, `Wisdom Saving Throw:`)
+        .replace(/{@actSave cha}/g, `Charisma Saving Throw:`)
+        .replace(/{@actSaveFail}/g, `Failure:`)
+        .replace(/{@actSaveSuccess}/g, `Success:`)
+        .replace(/{actSaveSuccessOrFail}/g, `Failure or Success:`)
+        .replace(/{@variantrule (.+?)( |\|).+?}/g,`$1`)
+        ;
+
 }
 
 export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
