@@ -130,13 +130,13 @@ export default class StatBlockPlugin extends Plugin {
         }
     };
     async onload() {
+        initI18n();
+
         console.log("Fantasy StatBlocks loaded");
         this.app.workspace.trigger("fantasy-statblocks:loaded", null);
 
         await this.loadSettings();
         await this.saveSettings();
-
-        initI18n();
 
         this.manager.initialize(this.settings);
         this.register(() => this.manager.unload());
