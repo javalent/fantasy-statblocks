@@ -42,6 +42,7 @@ function parseString(str: string) {
         .replace(/{@atkr m}/g, `Melee Attack Roll:`)
         .replace(/{@atkr r}/g, `Ranged Attack Roll:`)
         .replace(/{@atkr m,r}/g, `Melee or Ranged Attack Roll:`)
+        .replace(/{@hom}/g, `Hit or Miss:`)
         .replace(/{@creature (.+?)(?:\|.+)?}/g, `$1`)
         .replace(/{@skill (.+?)(?:\|.+)?}/g, `$1`)
         .replace(/{@dice (.+?)(?:\|.+)?}/g, `$1`)
@@ -57,8 +58,7 @@ function parseString(str: string) {
         .replace(/{@actSaveFail}/g, `Failure:`)
         .replace(/{@actSaveSuccess}/g, `Success:`)
         .replace(/{actSaveSuccessOrFail}/g, `Failure or Success:`)
-        .replace(/{@variantrule (.+?)( \[|\|).+?}/g,`$1`)
-        ;
+        .replace(/{@variantrule (.+?)( \[|\|).+?}/g,`$1`);
 
 }
 
