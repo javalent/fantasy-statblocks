@@ -57,7 +57,7 @@ function parseString(str: string) {
         .replace(/{@actSaveFail}/g, `Failure:`)
         .replace(/{@actSaveSuccess}/g, `Success:`)
         .replace(/{actSaveSuccessOrFail}/g, `Failure or Success:`)
-        .replace(/{@variantrule (.+?)( |\|).+?}/g,`$1`)
+        .replace(/{@variantrule (.+?)( \[|\|).+?}/g,`$1`)
         ;
 
 }
