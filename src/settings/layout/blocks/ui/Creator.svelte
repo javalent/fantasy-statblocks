@@ -15,6 +15,7 @@
     import Rule from "src/view/ui/Rule.svelte";
     import { type StatblockItem, TypeNames } from "src/layouts/layout.types";
     import { setNodeIcon } from "src/util";
+    import { t } from "src/util/i18n";
 
     const dispatch = createEventDispatcher();
 
@@ -111,7 +112,7 @@
             } else {
                 new Menu()
                     .addItem((item) => {
-                        item.setTitle("Add")
+                        item.setTitle(t("Add"))
                             .setIcon("plus-with-circle")
                             .onClick((e: MouseEvent | KeyboardEvent) => {
                                 add(block, evt);
@@ -119,7 +120,7 @@
                     })
                     .addItem((item) =>
                         item
-                            .setTitle("Edit")
+                            .setTitle(t("Edit"))
                             .setIcon("pencil")
                             .onClick(() => {
                                 editBlock(block);
@@ -127,7 +128,7 @@
                     )
                     .addItem((item) =>
                         item
-                            .setTitle("Delete")
+                            .setTitle(t("Delete"))
                             .setIcon("trash")
                             .onClick(() => trash(block))
                     )
@@ -138,13 +139,13 @@
     const editIcon = (node: HTMLDivElement) => {
         new ExtraButtonComponent(node)
             .setIcon("pencil")
-            .setTooltip("Edit Block");
+            .setTooltip(t("Edit Block"));
     };
 
     const trashIcon = (node: HTMLDivElement) => {
         new ExtraButtonComponent(node)
             .setIcon("trash")
-            .setTooltip("Delete Block");
+            .setTooltip(t("Delete Block"));
     };
 </script>
 
@@ -209,7 +210,7 @@
                                             {#if block.heading}
                                                 <span>{block.heading}</span>
                                             {:else}
-                                                <span>Collapse</span>
+                                                <span>{t("Collapse")}</span>
                                             {/if}
                                             <svelte:self
                                                 bind:blocks={block.nested}
@@ -307,7 +308,7 @@
                         {/if}
                     </div>
                     {#if "hasRule" in block && block.hasRule}
-                        <div aria-label="Block Has Rule">
+                        <div aria-label="{t("Block Has Rule")}">
                             <Rule />
                         </div>
                     {/if}

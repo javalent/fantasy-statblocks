@@ -21,7 +21,7 @@
             document.body.removeChild(frame);
         } catch (e) {
             new Notice(
-                `There was an error executing the provided callback for [${item.properties.join(
+                `${t("There was an error executing the provided callback for")} [${item.properties.join(
                     ", "
                 )}]\n\n${e.message}`
             );

@@ -6,6 +6,7 @@
         Menu,
         TextComponent
     } from "obsidian";
+    import { t } from "src/util/i18n";
     import { createEventDispatcher } from "svelte";
     import type { Readable, Writable } from "svelte/store";
 
@@ -87,7 +88,7 @@
 <div class="pagination">
     <div class="slicer">
         <div use:slicer />
-        <span class="per">per page</span>
+        <span class="per">{t("per page")}</span>
     </div>
     <div class="paginated-container">
         <div class="previous" use:previous />

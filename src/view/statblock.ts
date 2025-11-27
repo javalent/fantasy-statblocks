@@ -26,6 +26,7 @@ import type {
     StatblockItem
 } from "src/layouts/layout.types";
 import { append } from "src/util/util";
+import { t } from "src/util/i18n";
 import { Linkifier } from "src/parser/linkify";
 import { Bestiary } from "src/bestiary/bestiary";
 import copy from "fast-copy";
@@ -391,13 +392,13 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                 Bestiary.hasCreature(this.monster.name) &&
                 !(await confirmWithModal(
                     this.plugin.app,
-                    "This will overwrite an existing monster in settings. Are you sure?"
+                    t("This will overwrite an existing monster in settings. Are you sure?")
                 ))
             )
                 return;
             this.plugin.saveMonster({
                 ...fastCopy(this.monster),
-                source: this.monster.source ?? "Homebrew",
+                source: this.monster.source ?? t("Homebrew"),
                 layout: this.layout.name
             } as Monster);
         });
@@ -440,8 +441,8 @@ export async function confirmWithModal(
     app: App,
     text: string,
     buttons: { cta: string; secondary: string } = {
-        cta: "Yes",
-        secondary: "No"
+        cta: t("Yes"),
+        secondary: t("No")
     }
 ): Promise<boolean> {
     return new Promise((resolve, reject) => {

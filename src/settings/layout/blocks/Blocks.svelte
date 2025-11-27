@@ -4,6 +4,7 @@
     import Creator from "./ui/Creator.svelte";
     import type StatBlockPlugin from "src/main";
     import { Menu, Setting } from "obsidian";
+    import { t } from "src/util/i18n";
     import { blockGenerator } from "./add";
     import { getContext } from "../context";
 
@@ -18,10 +19,10 @@
     const blocksSetting = (node: HTMLElement) => {
         new Setting(node)
             .setHeading()
-            .setName("Blocks")
+            .setName(t("Blocks"))
             .addExtraButton((b) => {
                 b.setIcon("plus-with-circle")
-                    .setTooltip("Add Block")
+                    .setTooltip(t("Add Block"))
                     .extraSettingsEl.onClickEvent((e) => add(e));
             });
     };

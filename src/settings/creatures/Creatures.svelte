@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { t } from "src/util/i18n";
     import { Bestiary } from "src/bestiary/bestiary";
     import Pagination from "./Pagination.svelte";
     import Creature from "./Creature.svelte";
@@ -65,7 +66,11 @@
         if (
             await confirmWithModal(
                 plugin.app,
-                `Are you sure you want to delete ${$filtered.length} creature${$filtered.length === 1 ? "" : "s"}?`
+                `${t("Are you sure you want to delete %d creature%s?")
+                    .replace("%d", $filtered.length)
+                    .replace("%s", $filtered.length === 1 ? "" : "s")
+
+                }`
             )
         ) {
             await plugin.deleteMonsters(...$filtered.map((m) => m.name));
@@ -90,10 +95,9 @@
     >
         <Filters on:remove={() => remove()} />
         <div class="setting-item-description">
-            {$filtered.length ? $filtered.length : "No"} creature{$filtered.length ===
-            1
-                ? ""
-                : "s"}
+            {$filtered.length ? $filtered.length : t("No")} {t("creature%s").replace("%s", 
+                $filtered.length === 1 ? "" : "s"
+            )}
         </div>
     </div>
     <div class="creatures-container">

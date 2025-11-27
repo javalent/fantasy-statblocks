@@ -7,6 +7,7 @@
     } from "obsidian";
 
     import type StatBlockPlugin from "src/main";
+    import { t } from "src/util/i18n";
     import { createEventDispatcher } from "svelte";
 
     import Blocks from "./blocks/Blocks.svelte";
@@ -44,7 +45,7 @@
             const buttons = node.createDiv("buttons");
             new ExtraButtonComponent(buttons)
                 .setIcon("checkmark")
-                .setTooltip("Save")
+                .setTooltip(t("Save"))
                 .onClick(() => {
                     editingName = false;
                     $store.name = temp;
@@ -52,7 +53,7 @@
                 });
             new ExtraButtonComponent(buttons)
                 .setIcon("cross-in-box")
-                .setTooltip("Cancel")
+                .setTooltip(t("Cancel"))
                 .onClick(() => {
                     editingName = false;
                     name(node);
@@ -61,7 +62,7 @@
             node.createEl("h5", { text: $store.name });
             new ExtraButtonComponent(node.createDiv("buttons"))
                 .setIcon("pencil")
-                .setTooltip("Edit Name")
+                .setTooltip(t("Edit Name"))
                 .onClick(() => {
                     editingName = true;
                     name(node);
@@ -74,7 +75,7 @@
         new ButtonComponent(node)
             .setIcon("checkmark")
             .setCta()
-            .setTooltip("Save")
+            .setTooltip(t("Save"))
             .onClick(() => {
                 dispatch("saved");
             });
@@ -82,7 +83,7 @@
     const cancel = (node: HTMLDivElement) => {
         new ExtraButtonComponent(node)
             .setIcon("cross")
-            .setTooltip("Cancel")
+            .setTooltip(t("Cancel"))
             .onClick(() => {
                 dispatch("cancel");
             });
@@ -99,7 +100,7 @@
 {#if !Platform.isMobile}
     <div class="vertical-tab-header">
         <div class="vertical-tab-header-group">
-            <h3>Layout Editor</h3>
+            <h3>{t("Layout Editor")}</h3>
 
             <div class="name" use:name />
             <div class="vertical-tab-header-group-items">

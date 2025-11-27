@@ -120,10 +120,10 @@
             .onClick(async () => {
                 try {
                     await navigator.clipboard.writeText(stringifyYaml(monster));
-                    new Notice("Creature YAML copied to clipboard");
+                    new Notice(t("Creature YAML copied to clipboard"));
                 } catch (e: unknown) {
                     new Notice(
-                        `There was an issue copying the yaml:\n\n${(e as Error).message}`
+                        `${t("There was an issue copying the yaml:")}\n\n${(e as Error).message}`
                     );
                 }
             });
@@ -138,7 +138,7 @@
         menu.addItem((item) =>
             item
                 .setIcon("reset")
-                .setTitle("Reset Dice")
+                .setTitle(t("Reset Dice"))
                 .onClick(() => {
                     reset.set(true);
                     reset.set(false);
@@ -199,7 +199,7 @@
                     {/key}
                     <Bar />
                 {:else}
-                    <span>Invalid monster.</span>
+                    <span>{t("Invalid monster.")}</span>
                 {/if}
             {/key}
         </div>

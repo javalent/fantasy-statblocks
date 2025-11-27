@@ -12,6 +12,7 @@
     import Image from "./Image.svelte";
     import type { Layout, StatblockItem } from "src/layouts/layout.types";
     import { /* linkifySpells, */ slugify, stringify } from "src/util/util";
+    import { t } from "src/util/i18n";
     import Collapse from "./Collapse.svelte";
     import JavaScript from "./JavaScript.svelte";
     import Content from "./Content.svelte";
@@ -348,7 +349,7 @@
                         lastBlock.spells.push(spell);
                     } else {
                         const missingHeaderBlock: SpellBlock = {
-                            header: `${monster.name} knows the following spells:`,
+                            header: `${monster.name} ${t("knows the following spells:")}`,
                             spells: [spell]
                         };
                         acc.push(missingHeaderBlock);
@@ -368,7 +369,7 @@
                             props: {
                                 name:
                                     blockIndex == 0
-                                        ? (item.heading ?? "Spellcasting")
+                                        ? (item.heading ?? t("Spellcasting"))
                                         : "",
                                 property: item.properties[0],
                                 desc: block.header,

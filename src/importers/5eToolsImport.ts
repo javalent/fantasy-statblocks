@@ -1,4 +1,5 @@
 import { stringify } from "src/util/util";
+import { t } from "src/util/i18n";
 import type {
     ConditionImmunityArray,
     Creature5eTools,
@@ -62,7 +63,7 @@ export async function build5eMonsterFromFile(file: File): Promise<Monster[]> {
                 } else if (typeof json == "object") {
                     monsters = [json];
                 } else {
-                    reject("Invalid monster JSON provided.");
+                    reject(t("Invalid monster JSON provided."));
                 }
                 const imported: Monster[] = [];
                 for (const monster of monsters) {
@@ -349,7 +350,7 @@ function extractSpellsBlocks(spellBlock: EntrySpellcasting): ExtractedSpells {
                 ret.push({ [name]: sp });
             }
         } catch (e) {
-            throw new Error("There was an error parsing the spells.");
+            throw new Error(t("There was an error parsing the spells."));
         }
     }
     if ("will" in spellBlock) {
@@ -360,7 +361,7 @@ function extractSpellsBlocks(spellBlock: EntrySpellcasting): ExtractedSpells {
                 });
             } catch (e) {
                 throw new Error(
-                    "There was an error parsing the at-will spells."
+                    t("There was an error parsing the at-will spells.")
                 );
             }
         }
@@ -373,7 +374,7 @@ function extractSpellsBlocks(spellBlock: EntrySpellcasting): ExtractedSpells {
                 });
             } catch (e) {
                 throw new Error(
-                    "There was an error parsing the ritual spells."
+                    t("There was an error parsing the ritual spells.")
                 );
             }
         }

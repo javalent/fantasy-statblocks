@@ -4,19 +4,20 @@ import type { Monster } from "index";
 import { App, Notice, Setting } from "obsidian";
 import type StatBlockPlugin from "src/main";
 import { nanoid } from "src/util/util";
+import { t } from "src/util/i18n";
 import FantasyStatblockModal from "src/modal/modal";
 
 class SourcePromptModal extends FantasyStatblockModal {
     source: string;
     saved: boolean = false;
     display() {
-        this.titleEl.createSpan({ text: "Set Sources" });
+        this.titleEl.createSpan({ text: t("Set Sources") });
         new Setting(this.contentEl)
             .setName(
-                "A source could not be found for some imported monsters. Do you wish to manually add one?"
+                t("A source could not be found for some imported monsters. Do you wish to manually add one?")
             )
-            .addText((t) => {
-                t.setPlaceholder("Unknown").onChange((v) => {
+            .addText((x) => {
+                x.setPlaceholder(t("Unknown")).onChange((v) => {
                     this.source = v;
                 });
             });
@@ -28,7 +29,7 @@ class SourcePromptModal extends FantasyStatblockModal {
                 b
                     .setCta()
                     .setIcon("checkmark")
-                    .setTooltip("Save")
+                    .setTooltip(t("Save"))
                     .onClick(() => {
                         this.saved = true;
                         this.close();
@@ -37,7 +38,7 @@ class SourcePromptModal extends FantasyStatblockModal {
             .addExtraButton((b) =>
                 b
                     .setIcon("cross")
-                    .setTooltip("Cancel")
+                    .setTooltip(t("Cancel"))
                     .onClick(() => {
                         this.close();
                     })
@@ -74,7 +75,7 @@ export default class Importer {
                 };
                 if (monsters) {
                     new Notice(
-                        `Successfully imported ${monsters.length} Monsters`
+                        `${t("Successfully imported %d Monsters").replace("%d", monsters.length)}`
                     );
                     const sourceless = monsters.filter(
                         (monster) =>
@@ -96,7 +97,7 @@ export default class Importer {
             }; //@ts-ignore
             worker.onerror = (e) => {
                 new Notice(
-                    `There was an error importing the file.\n\n${e.message}`
+                    `${t("There was an error importing the file.")}\n\n${e.message}`
                 );
                 worker.terminate();
                 this.workers.delete(id);

@@ -2,6 +2,7 @@
     import type { Monster } from "index";
     import type { ImageItem } from "src/layouts/layout.types";
     import type StatBlockPlugin from "src/main";
+    import { t } from "src/util/i18n";
     import { getContext } from "svelte";
     import { Platform, TFile } from "obsidian";
     import { Linkifier } from "src/parser/linkify";
@@ -34,7 +35,7 @@
                 link = plugin.app.vault.getResourcePath(file);
             }
         } catch (e) {
-            console.warn("No image could be loaded");
+            console.warn(t("No image could be loaded"));
         }
         return link;
     }
@@ -50,7 +51,7 @@
             );
             if (props.length > 1) {
                 console.log(
-                    "Fantasy Statblocks: Multiple image properties provided, using first."
+                    t("Fantasy Statblocks: Multiple image properties provided, using first.")
                 );
             }
             const path = monster[props[0]] as string;

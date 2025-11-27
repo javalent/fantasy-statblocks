@@ -7,6 +7,7 @@
         parseYaml,
         stringifyYaml
     } from "obsidian";
+    import { t } from "src/util/i18n";
     import type { Monster } from "index";
 
     const dispatch = createEventDispatcher();
@@ -16,17 +17,17 @@
     let textArea: HTMLTextAreaElement;
 
     const json = (node: HTMLElement) => {
-        new ExtraButtonComponent(node).setIcon("code-glyph").setTooltip("JSON");
+        new ExtraButtonComponent(node).setIcon("code-glyph").setTooltip(t("JSON"));
     };
     const yaml = (node: HTMLElement) => {
         new ExtraButtonComponent(node)
             .setIcon("lines-of-text")
-            .setTooltip("YAML");
+            .setTooltip(t("YAML"));
     };
     const save = (node: HTMLElement) => {
         new ButtonComponent(node)
             .setIcon("checkmark")
-            .setTooltip("Save Changes")
+            .setTooltip(t("Save Changes"))
             .onClick(() => {
                 if (useJson) {
                     try {
@@ -38,7 +39,7 @@
                     } catch (e) {
                         console.error(e);
                         new Notice(
-                            `There was an error saving the creaturen\n\n${e.message}`
+                            `${t("There was an error saving the creaturen")}\n\n${e.message}`
                         );
                         return;
                     }
@@ -49,7 +50,7 @@
     const cancel = (node: HTMLElement) => {
         new ExtraButtonComponent(node)
             .setIcon("cross")
-            .setTooltip("Cancel")
+            .setTooltip(t("Cancel"))
             .onClick(() => {
                 dispatch("cancel");
             });

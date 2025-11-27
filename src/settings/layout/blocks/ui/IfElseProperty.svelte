@@ -5,6 +5,7 @@
     import { EditorView } from "@codemirror/view";
     import { editorFromTextArea } from "src/util/util";
     import { setNodeIcon } from "src/util";
+    import { t } from "src/util/i18n";
 
     const dispatch = createEventDispatcher();
     export let condition: IfElseCondition;
@@ -52,7 +53,7 @@
         <div class="setting-item-name">
             {#if !condition || !condition.condition}
                 <div use:setNodeIcon={"alert-triangle"} />
-                <em>No condition set</em>
+                <em>{t("No condition set")}</em>
             {:else}
                 <code>
                     {condition.condition}

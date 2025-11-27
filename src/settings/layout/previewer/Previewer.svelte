@@ -12,6 +12,7 @@
     import { MonsterSuggestionModal } from "src/util/creature";
     import type { Monster } from "index";
     import { buildTextArea, setNodeIcon } from "src/util";
+    import { t } from "src/util/i18n";
     import type { EditorView } from "@codemirror/view";
     import StatBlockRenderer from "src/view/statblock";
     import { derived, writable } from "svelte/store";
@@ -48,7 +49,7 @@
     });
     const search = (node: HTMLElement) => {
         const search = new SearchComponent(node).setPlaceholder(
-            "Find a creature"
+            t("Find a creature")
         );
         const suggester = new MonsterSuggestionModal(
             plugin.app,
@@ -108,12 +109,12 @@
         });
     };
     const settingsDesc = derived([mode, scale], ([mode, scale]) => {
-        const desc = [`Scale: ${scale}`];
+        const desc = [`${t("Scale:")} ${scale}`];
         if (mode === ThemeMode.Light) {
-            desc.push("Mode: Light");
+            desc.push(t("Mode: Light"));
         }
         if (mode === ThemeMode.Dark) {
-            desc.push("Mode: Dark");
+            desc.push(t("Mode: Dark"));
         }
         return desc.join(", ");
     });
@@ -126,8 +127,7 @@
     style={`--scale: ${$scale}`}
 >
     <div>
-        Select a creature to preview the layout, or enter your own definition
-        below.
+        {t("Select a creature to preview the layout, or enter your own definition below.")}
     </div>
 
     <div class="preview">
@@ -138,18 +138,18 @@
     <Details name="Settings" desc={$settingsDesc} open={false}>
         <div class="setting-item">
             <div class="setting-item-info">
-                <div class="setting-item-name">Set theme mode</div>
+                <div class="setting-item-name">{t("Set theme mode")}</div>
             </div>
             <div class="setting-item-control">
                 <button
                     use:setNodeIcon={"sun"}
-                    aria-label="Light"
+                    aria-label="{t("Light")}"
                     class:mod-cta={$mode == ThemeMode.Light}
                     on:click={() => setMode(ThemeMode.Light)}
                 ></button>
                 <button
                     use:setNodeIcon={"moon"}
-                    aria-label="Dark"
+                    aria-label="{t("Dark")}"
                     class:mod-cta={$mode == ThemeMode.Dark}
                     on:click={() => setMode(ThemeMode.Dark)}
                 ></button>
@@ -157,8 +157,8 @@
         </div>
         <div class="setting-item">
             <div class="setting-item-info">
-                <div class="setting-item-name">Scale preview</div>
-                <div class="setting-item-description">Current: {$scale}</div>
+                <div class="setting-item-name">{t("Scale preview")}</div>
+                <div class="setting-item-description">{t("Current:")} {$scale}</div>
             </div>
             <div class="setting-item-control" use:reset>
                 <input

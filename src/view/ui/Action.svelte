@@ -1,5 +1,6 @@
 <script lang="ts">
     import { ExtraButtonComponent, Notice } from "obsidian";
+    import { t } from "src/util/i18n";
     import type { Monster } from "obsidian-overload";
     import type { ActionItem } from "src/layouts/layout.types";
 
@@ -14,7 +15,7 @@
                     func.call(undefined, monster);
                 } catch (e) {
                     new Notice(
-                        `There was an error executing the provided callback for the action block.\n\n${e.message}`
+                        `${t("There was an error executing the provided callback for the action block.")}\n\n${e.message}`
                     );
                     console.error(e);
                 }
@@ -23,7 +24,7 @@
                     app.commands.executeCommandById(block.action);
                 } catch (e) {
                     new Notice(
-                        `There was an error executing the command for the action block.\n\n${e.message}`
+                        `${t("There was an error executing the command for the action block.")}\n\n${e.message}`
                     );
                     console.error(e);
                 }
