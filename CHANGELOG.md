@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.10.3](https://github.com/javalent/fantasy-statblocks/compare/4.10.2...4.10.3) (2026-01-21)
+
+
+### Bug Fixes
+
+* Add support for additional variables with 5etools importer ([2b5bd85](https://github.com/javalent/fantasy-statblocks/commit/2b5bd859a75fc1be33a807b522d3ba45f010c3de))
+* Improvements to trait modification ([71c6336](https://github.com/javalent/fantasy-statblocks/commit/71c63363f31d11db2fc1c0ca1641981607f7311f))
+
 ## [4.10.2](https://github.com/javalent/fantasy-statblocks/compare/4.10.1...4.10.2) (2025-09-27)
 
 
