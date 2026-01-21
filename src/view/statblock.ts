@@ -187,15 +187,6 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                          */
                         for (const creature of [...extensions]) {
                             /**
-                             * Deleted traits. These are always removed.
-                             */
-                            for (const trait of getTraitsList(
-                                `${property}-` as keyof Monster,
-                                creature
-                            )) {
-                                $TRAIT_MAP.delete(trait.name);
-                            }
-                            /**
                              * Directly defined traits.
                              *
                              * Because these can be overridden, they go into a map by name.
@@ -205,6 +196,16 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                                 creature
                             )) {
                                 $TRAIT_MAP.set(trait.name, trait);
+                            }
+
+                            /**
+                             * Deleted traits. These are always removed.
+                             */
+                            for (const trait of getTraitsList(
+                                `${property}-` as keyof Monster,
+                                creature
+                            )) {
+                                $TRAIT_MAP.delete(trait.name);
                             }
 
                             /**
