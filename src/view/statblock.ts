@@ -209,6 +209,20 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                             }
 
                             /**
+                             * Modifiable traits. These traits modify existing traits by name.
+                             * If the trait does not exist, it is ignored.
+                             */
+
+                            for (const trait of getTraitsList(
+                                `${property}~` as keyof Monster,
+                                creature
+                            )) {
+                                if ($TRAIT_MAP.has(trait.name)) {
+                                    $TRAIT_MAP.set(trait.name, trait);
+                                }
+                            }
+
+                            /**
                              * Additive traits. These traits are always shown.
                              */
                             for (const trait of getTraitsList(
