@@ -187,15 +187,6 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                          */
                         for (const creature of [...extensions]) {
                             /**
-                             * Deleted traits. These are always removed.
-                             */
-                            for (const trait of getTraitsList(
-                                `${property}-` as keyof Monster,
-                                creature
-                            )) {
-                                $TRAIT_MAP.delete(trait.name);
-                            }
-                            /**
                              * Directly defined traits.
                              *
                              * Because these can be overridden, they go into a map by name.
@@ -205,6 +196,30 @@ export default class StatBlockRenderer extends MarkdownRenderChild {
                                 creature
                             )) {
                                 $TRAIT_MAP.set(trait.name, trait);
+                            }
+
+                            /**
+                             * Deleted traits. These are always removed.
+                             */
+                            for (const trait of getTraitsList(
+                                `${property}-` as keyof Monster,
+                                creature
+                            )) {
+                                $TRAIT_MAP.delete(trait.name);
+                            }
+
+                            /**
+                             * Modifiable traits. These traits modify existing traits by name.
+                             * If the trait does not exist, it is ignored.
+                             */
+
+                            for (const trait of getTraitsList(
+                                `${property}~` as keyof Monster,
+                                creature
+                            )) {
+                                if ($TRAIT_MAP.has(trait.name)) {
+                                    $TRAIT_MAP.set(trait.name, trait);
+                                }
                             }
 
                             /**
