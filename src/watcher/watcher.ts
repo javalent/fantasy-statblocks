@@ -8,6 +8,7 @@ import {
     getFrontMatterInfo
 } from "obsidian";
 import type StatBlockPlugin from "src/main";
+import { t } from "src/util/i18n";
 //have to ignore until i fix typing issue
 //@ts-expect-error
 import FSWorker, {
@@ -70,7 +71,7 @@ class WatcherClass extends Component {
                     return;
                 }
                 if (this.plugin.settings.debug)
-                    console.debug(`Fantasy Statblocks: Reparsing ${file.name}`);
+                    console.debug(`${t("Fantasy Statblocks: Reparsing")} ${file.name}`);
                 this.parsePath(file);
             })
         );
@@ -86,7 +87,10 @@ class WatcherClass extends Component {
 
                 if (this.plugin.settings.debug)
                     console.debug(
-                        `Fantasy Statblocks: Handling rename of ${oldPath} to ${abstractFile.path}`
+                        `${t("Fantasy Statblocks: Handling rename of %s1 to %s2")
+                            .replace("%s1", oldPath)
+                            .replace("%s2", abstractFile.path)
+                        }`
                     );
                 await this.delete(oldPath);
                 this.parsePath(abstractFile);
@@ -154,8 +158,8 @@ class WatcherClass extends Component {
 
                         if (this.plugin.settings.debug)
                             console.debug(
-                                `Fantasy Statblocks: ${
-                                    update ? "Updated" : "Added"
+                                `${t("Fantasy Statblocks:")} ${
+                                    update ? t("Updated") : t("Added")
                                 } ${monster.name}`
                             );
                     }
@@ -186,15 +190,14 @@ class WatcherClass extends Component {
         if (this.queue.size) return;
         if (this.startTime) {
             console.info(
-                `Fantasy Statblocks: Frontmatter Parsing Complete in ${(
-                    (Date.now() - this.startTime) /
-                    1000
-                ).toLocaleString()} seconds.`
+                `${t("Fantasy Statblocks: Frontmatter Parsing Complete in %d seconds.")
+                    .replace("%d", ((Date.now() - this.startTime) / 1000).toLocaleString())
+                }`
             );
             this.startTime = 0;
         }
         if (this.announce) {
-            new Notice("Fantasy Statblocks: Frontmatter Parsing complete.");
+            new Notice(t("Fantasy Statblocks: Frontmatter Parsing complete."));
             this.announce = false;
         }
         Bestiary.setResolved(true);
@@ -204,7 +207,7 @@ class WatcherClass extends Component {
         this.watchPaths.delete(path);
         if (this.plugin.settings.debug)
             console.debug(
-                `Fantasy Statblocks: Removing '${path}' from bestiary`
+                `${t("Fantasy Statblocks: Removing %s from bestiary").replace("%s", path)}`
             );
     }
     startTime: number;
@@ -212,7 +215,7 @@ class WatcherClass extends Component {
         Bestiary.setResolved(false);
         this.announce = announce;
         this.startTime = Date.now();
-        console.info("Fantasy Statblocks: Starting Frontmatter Parsing.");
+        console.info(t("Fantasy Statblocks: Starting Frontmatter Parsing."));
         if (!this.plugin.settings.paths?.length) {
             this.plugin.settings.paths = ["/"];
         }

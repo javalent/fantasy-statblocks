@@ -2,6 +2,7 @@ import type { Monster } from "index";
 import copy from "fast-copy";
 import type { CachedMetadata, FrontMatterInfo } from "obsidian";
 import { transformTraits } from "src/util/util";
+import { t } from "src/util/i18n";
 import YAML from "yaml";
 import { LinkStringifier } from "src/parser/stringifier";
 
@@ -64,7 +65,9 @@ class Parser {
 
                 if (this.debug) {
                     console.debug(
-                        `Fantasy Statblocks: Received queue message for ${event.data.data.length} paths`
+                        `${t("Fantasy Statblocks: Received queue message for %d paths")
+                            .replace("%d", event.data.data.length)
+                        }`
                     );
                 }
             }
@@ -78,7 +81,9 @@ class Parser {
     add(...paths: string[]) {
         if (this.debug) {
             console.debug(
-                `Fantasy Statblocks: Adding ${paths.length} paths to queue`
+                `${t("Fantasy Statblocks: Adding %d paths to queue")
+                    .replace("%d", paths.length)
+                }`
             );
         }
         this.queue.push(...paths);
@@ -86,14 +91,14 @@ class Parser {
     }
     processContent(content: string, file: FileDetails) {
         if (this.debug)
-            console.debug(`Fantasy Statblocks: Process Content: ${file.path}`);
+            console.debug(`${t("Fantasy Statblocks: Process Content: %s").replace("%s", file.path)}`);
         let statBlock = this.findFirstStatBlock(content);
         if (statBlock) {
             if (this.debug)
                 console.debug(
-                    `Fantasy Statblocks: found Statblock: ${JSON.stringify(
-                        statBlock
-                    )}`
+                    `${t("Fantasy Statblocks: found Statblock: %s")
+                        .replace("%s", JSON.stringify(statBlock))
+                    }`
                 );
 
             const frontmatter = LinkStringifier.transformSource(statBlock);
@@ -105,7 +110,9 @@ class Parser {
                 }
             );
             if (this.debug)
-                console.debug(`Fantasy Statblocks: ${JSON.stringify(monster)}`);
+                console.debug(`${t("Fantasy Statblocks: %s")
+                    .replace("%s", JSON.stringify(monster))
+                }`);
             this.processMonster(monster, file);
         }
     }
@@ -125,7 +132,10 @@ class Parser {
             const path = this.queue.shift();
             if (this.debug) {
                 console.debug(
-                    `Fantasy Statblocks: Parsing ${path} for statblocks (${this.queue.length} to go)`
+                    `${t("Fantasy Statblocks: Parsing %s for statblocks (%d to go)")
+                        .replace("%s", path)
+                        .replace("%d", this.queue.length)
+                    }`
                 );
             }
             const event = await this.getFileData(path);
@@ -147,7 +157,9 @@ class Parser {
                 }
             } catch (e) {
                 console.error(
-                    `There was an error parsing the Statblock in ${path}: \n\n${e.message}`
+                    `${t("There was an error parsing the Statblock in %s:")
+                        .replace("%s", path)
+                    } \n\n${e.message}`
                 );
             }
 
@@ -216,7 +228,10 @@ class Parser {
 
         if (this.debug)
             console.debug(
-                `Fantasy Statblocks: Adding ${monster.name} to bestiary from ${file.basename}`
+                `${t("Fantasy Statblocks: Adding %s1 to bestiary from %s2")
+                    .replace("%s1", monster.name)
+                    .replace("%s2", file.basename)
+                }`
             );
 
         ctx.postMessage<UpdateEventMessage>({

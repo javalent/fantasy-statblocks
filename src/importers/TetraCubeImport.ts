@@ -1,3 +1,4 @@
+import { t } from "src/util/i18n";
 import type { Monster, Spell, Trait } from "types";
 const CR: { [key: string]: any } = {
     "0": {
@@ -580,7 +581,7 @@ export async function buildMonsterFromTetraCube(
                 } else if (typeof json == "object") {
                     monsters = [json];
                 } else {
-                    reject("Invalid monster JSON provided.");
+                    reject(t("Invalid monster JSON provided."));
                 }
                 const imported: Monster[] = [];
                 for (const monster of monsters) {

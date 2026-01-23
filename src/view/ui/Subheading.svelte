@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { Monster } from "index";
     import type { SubHeadingItem } from "src/layouts/layout.types";
+    import { t } from "src/util/i18n";
     import { stringify } from "../../util/util";
     import TextContent from "./TextContent.svelte";
 
@@ -10,7 +11,7 @@
 
     for (let property of item.properties) {
         if (property in monster) {
-            subheading.push(`${stringify(monster[property], 0, ", ", false)}`);
+            subheading.push(`${stringify(t(monster[property]), 0, ", ", false)}`);
         }
     }
 </script>

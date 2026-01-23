@@ -10,6 +10,7 @@ import {
 import domtoimage from "dom-to-image";
 
 import StatBlockRenderer from "./view/statblock";
+import { initI18n, t } from "./util/i18n";
 import { nanoid } from "./util/util";
 import type { Monster, StatblockParameters } from "../index";
 import StatblockSettingTab from "./settings/settings";
@@ -129,7 +130,9 @@ export default class StatBlockPlugin extends Plugin {
         }
     };
     async onload() {
-        console.log("Fantasy StatBlocks loaded");
+        initI18n();
+
+        console.log(t("Fantasy StatBlocks loaded"));
         this.app.workspace.trigger("fantasy-statblocks:loaded", null);
 
         await this.loadSettings();
@@ -150,7 +153,7 @@ export default class StatBlockPlugin extends Plugin {
 
         this.addCommand({
             id: "open-creature-view",
-            name: "Open Creature pane",
+            name: t("Open Creature pane"),
             checkCallback: (checking) => {
                 const existing =
                     this.app.workspace.getLeavesOfType(CREATURE_VIEW);
@@ -165,7 +168,7 @@ export default class StatBlockPlugin extends Plugin {
         });
         this.addCommand({
             id: "reveal-creature-view",
-            name: "Reveal Creature pane",
+            name: t("Reveal Creature pane"),
             checkCallback: (checking) => {
                 const existing =
                     this.app.workspace.getLeavesOfType(CREATURE_VIEW);
@@ -180,12 +183,12 @@ export default class StatBlockPlugin extends Plugin {
         });
         this.addCommand({
             id: "open-new-creature-view",
-            name: "Open new Creature pane",
+            name: t("Open new Creature pane"),
             callback: () => {
                 this.openCreatureView(true);
             }
         });
-        this.addRibbonIcon("skull", "Open Creature pane", async (evt) => {
+        this.addRibbonIcon("skull", t("Open Creature pane"), async (evt) => {
             this.openCreatureView(evt.getModifierState("Meta"));
         });
 
@@ -381,7 +384,7 @@ export default class StatBlockPlugin extends Plugin {
     }
 
     onunload() {
-        console.log("Fantasy StatBlocks unloaded");
+        console.log(t("Fantasy StatBlocks unloaded"));
 
         this.app.workspace
             .getLeavesOfType(CREATURE_VIEW)
@@ -409,7 +412,7 @@ export default class StatBlockPlugin extends Plugin {
             })
             .catch((e) => {
                 new Notice(
-                    `There was an error creating the image: \n\n${e.message}`
+                    `${t("There was an error creating the image:")} \n\n${e.message}`
                 );
                 console.error(e);
             });
@@ -451,10 +454,10 @@ export default class StatBlockPlugin extends Plugin {
 
             ctx.addChild(statblock);
         } catch (e) {
-            console.error(`Obsidian Statblock Error:\n${e}`);
+            console.error(`${t("Obsidian Statblock Error:")}\n${e}`);
             let pre = createEl("pre");
             pre.setText(`\`\`\`statblock
-There was an error rendering the statblock:
+${t("There was an error rendering the statblock:")}
 ${e.stack
     .split("\n")
     .filter((line: string) => !/^at/.test(line?.trim()))

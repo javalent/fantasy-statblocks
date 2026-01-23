@@ -2,6 +2,7 @@
     import type { Monster } from "index";
     import { Notice } from "obsidian";
     import type { SavesItem } from "src/layouts/layout.types";
+    import { t } from "src/util/i18n";
     import { slugify, toTitleCase } from "src/util/util";
     import TextContentHolder from "./TextContentHolder.svelte";
 
@@ -26,7 +27,7 @@
             document.body.removeChild(frame);
         } catch (e) {
             new Notice(
-                `There was an error executing the provided callback for [${item.properties.join(
+                `${t("There was an error executing the provided callback for")} [${item.properties.join(
                     ", "
                 )}]\n\n${e.message}`
             );
@@ -61,7 +62,7 @@
 <div class="info">
     <div class="line {cssClasses}">
         <span class="property-name"
-            >{item.display ?? toTitleCase(item.properties[0])}</span
+            >{t(item.display ?? toTitleCase(item.properties[0]))}</span
         >
         <div class="property-text">
             {#each saves as [name, value]}

@@ -8,6 +8,7 @@
     import { blockGenerator } from "../add";
     import IfElseProperty from "./IfElseProperty.svelte";
     import { setNodeIcon } from "src/util";
+    import { t } from "src/util/i18n";
 
     type PropItem = { prop: IfElseCondition; id: string };
     /* export let conditions: IfElseCondition[] = []; */
@@ -76,7 +77,7 @@
         );
     };
     const add = (node: HTMLDivElement) => {
-        new Setting(node).setName("Add new condition").addButton((b) =>
+        new Setting(node).setName(t("Add new condition")).addButton((b) =>
             b.setIcon("plus").onClick(() => {
                 const id = nanoid();
                 editing = id;

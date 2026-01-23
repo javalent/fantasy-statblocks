@@ -1,3 +1,4 @@
+import { t } from "src/util/i18n";
 import { Monster, Trait } from "index";
 import { ONE_ACTION, getACStats, addSign, getModifierToDiceRoll, toTitleCase } from "./pf2eMonsterToolImport";
 import { Abilities, Proficiencies, PathbuilderCharacter, Weapon, Armor, Build, FocusTradition } from "./Pathbuilder.d";
@@ -101,7 +102,7 @@ export async function buildMonsterFromPathbuilderFile(file: File): Promise<Monst
                 };
                 resolve([monster]);
             } catch (e) {
-                console.error("Error importing Pathbuilder file", e);
+                console.error(t("Error importing Pathbuilder file"), e);
                 reject(e);
             }
         };

@@ -1,6 +1,7 @@
 import type { Monster } from "index";
 import { Modal, Notice, Platform } from "obsidian";
 import type StatBlockPlugin from "src/main";
+import { t } from "src/util/i18n";
 
 import EditMonsterApp from "./EditMonster.svelte";
 import StatBlockRenderer from "src/view/statblock";
@@ -27,7 +28,7 @@ export class EditMonsterModal extends FantasyStatblockModal {
         });
         this._instance.$on("save", async ({ detail }: { detail: Monster }) => {
             if (!detail.name) {
-                new Notice("Creatures must be given a name.");
+                new Notice(t("Creatures must be given a name."));
                 return;
             }
             await this.plugin.updateMonster(this.monster as Monster, detail);

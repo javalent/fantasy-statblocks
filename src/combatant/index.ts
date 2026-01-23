@@ -9,6 +9,7 @@ import {
 import { Bestiary } from "src/bestiary/bestiary";
 import type StatBlockPlugin from "src/main";
 import { MonsterSuggestionModal } from "src/util/creature";
+import { t } from "src/util/i18n";
 
 export const CREATURE_VIEW = "fantasy-statblocks-creature-pane";
 
@@ -44,7 +45,7 @@ export class CreatureView extends ItemView {
     }
     onload() {
         const search = new SearchComponent(this.topEl).setPlaceholder(
-            "Find a creature"
+            t("Find a creature")
         );
         const suggester = new MonsterSuggestionModal(
             this.plugin.app,
@@ -62,7 +63,7 @@ export class CreatureView extends ItemView {
         });
         new ExtraButtonComponent(this.topEl)
             .setIcon("cross")
-            .setTooltip("Close Statblock")
+            .setTooltip(t("Close Statblock"))
             .onClick(async () => {
                 await this.render();
                 search.setValue("");
@@ -72,7 +73,7 @@ export class CreatureView extends ItemView {
         this.statblockEl.empty();
         if (!creature) {
             this.statblockEl.createEl("em", {
-                text: "Select a creature to view it here."
+                text: t("Select a creature to view it here.")
             });
             return;
         }
@@ -81,7 +82,7 @@ export class CreatureView extends ItemView {
     }
 
     getDisplayText(): string {
-        return "Combatant";
+        return t("Combatant");
     }
     getIcon(): string {
         return "skull";

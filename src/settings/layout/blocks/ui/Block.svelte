@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { t } from "src/util/i18n";
     import PropertyBlock from "./PropertyBlock.svelte";
     import type StatBlockPlugin from "src/main";
     import { ExtraButtonComponent } from "obsidian";
@@ -25,7 +26,7 @@
     const edit = (node: HTMLDivElement) => {
         new ExtraButtonComponent(node)
             .setIcon("pencil")
-            .setTooltip("Edit Block")
+            .setTooltip(t("Edit Block"))
             .onClick(() => {
                 editBlock();
             });
@@ -33,7 +34,7 @@
     const add = (node: HTMLDivElement) => {
         new ExtraButtonComponent(node)
             .setIcon("plus")
-            .setTooltip("Add Condition")
+            .setTooltip(t("Add Condition"))
             .onClick(() => {
                 /* editBlock(); */
             });
@@ -42,7 +43,7 @@
     const trash = (node: HTMLDivElement) => {
         new ExtraButtonComponent(node)
             .setIcon("trash")
-            .setTooltip("Delete Block")
+            .setTooltip(t("Delete Block"))
             .onClick(() => dispatch("trash", block));
     };
 </script>
@@ -54,7 +55,7 @@
             class:layout={block.type == "layout"}
         >
             {#if block.type == "javascript"}
-                JavaScript
+                {t("JavaScript")}
             {:else if block.type != "ifelse" && block.type != "collapse"}
                 <PropertyBlock {block} {plugin} />
             {/if}

@@ -2,6 +2,7 @@
     import type { Monster } from "../../../index";
     import { Notice } from "obsidian";
     import type { PropertyItem } from "../../layouts/layout.types";
+    import { t } from "src/util/i18n";
     import { slugify, stringify } from "../../util/util";
     import TextContentHolder from "./TextContentHolder.svelte";
 
@@ -20,7 +21,7 @@
             document.body.removeChild(frame);
         } catch (e) {
             new Notice(
-                `There was an error executing the provided callback for [${item.properties.join(
+                `${t("There was an error executing the provided callback for")} [${item.properties.join(
                     ", "
                 )}]\n\n${e.message}`
             );
@@ -36,7 +37,7 @@
 
 {#if !item.conditioned || (item.conditioned && `${property}`.length)}
     <div class="line {cssClass}">
-        <span class="property-name">{display}</span>
+        <span class="property-name">{t(display)}</span>
         <TextContentHolder {property} />
     </div>
 {/if}

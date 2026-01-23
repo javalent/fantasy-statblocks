@@ -1,3 +1,4 @@
+import { t } from "src/util/i18n";
 import type { Monster } from "index";
 import {
     buildMonsterFromAppFile,
@@ -78,7 +79,7 @@ ctx.onmessage = async (event) => {
                                     }
                                 } else {
                                     reject(
-                                        "Invalid monster JSON provided. Must be array or object."
+                                        t("Invalid monster JSON provided. Must be array or object.")
                                     );
                                 }
                                 const imported: Monster[] = [];
@@ -101,7 +102,7 @@ ctx.onmessage = async (event) => {
                 monsters.push(...(imported ?? []));
             }
             default: {
-                console.error(`Unknown source: ${source}`);
+                console.error(`${t("Unknown source:")} ${source}`);
             }
         }
     }

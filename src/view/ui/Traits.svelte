@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { SpellsItem, TraitsItem } from "src/layouts/layout.types";
     import { slugify } from "src/util/util";
+    import { t } from "src/util/i18n";
 
     import TextContentHolder from "./TextContentHolder.svelte";
     import type { Monster, Trait } from "index";
@@ -22,7 +23,7 @@
             document.body.removeChild(frame);
         } catch (e) {
             new Notice(
-                `There was an error executing the provided callback for [${item.properties.join(
+                `${t("There was an error executing the provided callback for")} [${item.properties.join(
                     ", "
                 )}]\n\n${e.message}`
             );

@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Setting, ToggleComponent } from "obsidian";
+    import { t } from "src/util/i18n";
     import type { DiceParsing, Layout } from "src/layouts/layout.types";
     import DropZone from "../Dropzone.svelte";
     import DiceParsingComponent from "./DiceParsing.svelte";
@@ -44,20 +45,20 @@
     const diceParsingLayout = (node: HTMLElement) => {
         new Setting(node)
             .setHeading()
-            .setName("Dice Parsing")
+            .setName(t("Dice Parsing"))
             .setDesc(
                 createFragment((e) => {
-                    e.createSpan({ text: "Add " });
+                    e.createSpan({ text: t("Add ") });
                     e.createEl("a", {
                         href: "https://regex101.com",
-                        text: "regular expressions"
+                        text: t("regular expressions")
                     });
                     e.createSpan({
-                        text: " to detect dice rolls inside your layout."
+                        text: t(" to detect dice rolls inside your layout.")
                     });
                     e.createEl("br");
                     e.createSpan({
-                        text: "These are parsed in order, and the first one to trigger is what will be used."
+                        text: t("These are parsed in order, and the first one to trigger is what will be used.")
                     });
                 })
             )
@@ -71,8 +72,8 @@
         new Setting(node)
             .setName(
                 items == null
-                    ? "Remove default parsers"
-                    : "Restore default parsers"
+                    ? t("Remove default parsers")
+                    : t("Restore default parsers")
             )
             .addButton((t) => {
                 t.setIcon(items == null ? "trash" : "archive-restore").onClick(
@@ -94,9 +95,9 @@
 
 <div class="setting-item">
     <div class="setting-item-info">
-        <div class="setting-item-name">Columns</div>
+        <div class="setting-item-name">{t("Columns")}</div>
         <div class="setting-item-description">
-            Always try to split into this many columns, regardless of height.
+            {t("Always try to split into this many columns, regardless of height.")}
         </div>
     </div>
     <div class="setting-item-control">
@@ -105,9 +106,9 @@
 </div>
 <div class="setting-item">
     <div class="setting-item-info">
-        <div class="setting-item-name">Column width</div>
+        <div class="setting-item-name">{t("Column width")}</div>
         <div class="setting-item-description">
-            Width in pixels. Default: 400px
+            {t("Width in pixels. Default: 400px")}
         </div>
     </div>
     <div class="setting-item-control">
@@ -116,9 +117,9 @@
 </div>
 <div class="setting-item">
     <div class="setting-item-info">
-        <div class="setting-item-name">Force columns</div>
+        <div class="setting-item-name">{t("Force columns")}</div>
         <div class="setting-item-description">
-            Ignore available space when calculating columns.
+            {t("Ignore available space when calculating columns.")}
         </div>
     </div>
     <div class="setting-item-control" use:toggleForce />
@@ -130,14 +131,12 @@
         {#if !items}
             <div use:disableDice />
             <span class="defaults"
-                >This layout is currently using the default dice parsers. Add a
-                custom dice parser to override this behavior.</span
+                >{t("This layout is currently using the default dice parsers. Add a custom dice parser to override this behavior.")}</span
             >
         {:else if items.length == 0}
             <div use:disableDice />
             <span class="defaults"
-                >This layout does not have any dice parsers defined. Add one to
-                begin parsing for dice.</span
+                >{t("This layout does not have any dice parsers defined. Add one to begin parsing for dice.")}</span
             >
         {/if}
         {#key items}

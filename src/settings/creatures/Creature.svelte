@@ -7,6 +7,7 @@
     import { getContext } from "../layout/context";
     import { NameFilter } from "./filters/filters";
     import { createEventDispatcher } from "svelte";
+    import { t } from "src/util/i18n";
 
     export let item: Monster;
 
@@ -21,7 +22,7 @@
         if (Array.isArray(item.source)) {
             let source = item.source.slice(0, 4);
             if (item.source.length > 4) {
-                source.push(`and ${item.source.length - 4} more`);
+                source.push(`${t("and %d more").replace("%d", item.source.length - 4)}`);
                 needTooltip = true;
             }
             desc = stringify(source, 0, ", ", false);
@@ -40,7 +41,7 @@
             content
                 .addExtraButton((b) => {
                     b.setIcon("pencil")
-                        .setTooltip("Edit")
+                        .setTooltip(t("Edit"))
                         .onClick(() => {
                             const modal = new EditMonsterModal(plugin, item);
                             modal.open();
@@ -48,7 +49,7 @@
                 })
                 .addExtraButton((b) => {
                     b.setIcon("trash")
-                        .setTooltip("Delete")
+                        .setTooltip(t("Delete"))
                         .onClick(async () => {
                             await plugin.deleteMonsters(item.name);
                         });
@@ -66,7 +67,7 @@
         }
         content.addExtraButton((b) => {
             b.setIcon("info")
-                .setTooltip("View")
+                .setTooltip(t("View"))
                 .onClick(() => {
                     const modal = new ViewMonsterModal(plugin, item as Monster);
                     modal.open();

@@ -8,6 +8,7 @@
     } from "src/layouts/layout.types";
     import type StatBlockPlugin from "src/main";
     import { setNodeIcon } from "src/util";
+    import { t } from "src/util/i18n";
 
     export let block: Exclude<
         StatblockItem,
@@ -29,7 +30,7 @@
     };
 
     const getLayoutName = (id: string) => {
-        return plugin.manager.getLayout(id)?.name ?? "No layout selected";
+        return plugin.manager.getLayout(id)?.name ?? t("No layout selected");
     };
 </script>
 
@@ -59,35 +60,35 @@
             <div
                 class="context-item heading"
                 use:setNodeIcon={"heading-glyph"}
-                aria-label="Has Heading"
+                aria-label="{t("Has Heading")}"
             />
         {/if}
         {#if block.conditioned}
             <div
                 class="context-item conditioned"
                 use:setNodeIcon={"help-circle"}
-                aria-label="Conditioned"
+                aria-label="{t("Conditioned")}"
             />
         {/if}
         {#if "callback" in block}
             <div
                 class="context-item callback"
                 use:setNodeIcon={"code-glyph"}
-                aria-label="Has Callback"
+                aria-label="{t("Has Callback")}"
             />
         {/if}
         {#if ("dice" in block && block.dice) || ("diceCallback" in block && block.diceCallback?.length)}
             <div
                 class="context-item dice"
                 use:setNodeIcon={"dices"}
-                aria-label="Will Parse for Dice Rolls"
+                aria-label="{t("Will Parse for Dice Rolls")}"
             />
         {/if}
         {#if "markdown" in block && block.markdown}
             <div
                 class="context-item dice"
                 use:setNodeIcon={"markdown-icon"}
-                aria-label="Render markdown enabled"
+                aria-label="{t("Render markdown enabled")}"
             />
         {/if}
     </small>

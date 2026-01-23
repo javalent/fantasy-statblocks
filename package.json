@@ -48,6 +48,7 @@
         "standard-version": "^9.5.0",
         "svelte": "^4.2.19",
         "svelte-dnd-action": "^0.9.50",
+        "svelte-i18n": "^4.0.1",
         "svelte-loader": "^3.2.3",
         "svelte-multiselect": "^10.2.0",
         "svelte-preprocess": "^6.0.2",

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { _ } from "svelte-i18n";
     import { MarkdownRenderer, Notice } from "obsidian";
     import type { Layout, MarkdownableItem } from "src/layouts/layout.types";
     import type StatBlockPlugin from "src/main";
@@ -10,6 +11,7 @@
     import { parseForDice } from "src/parser/dice-parsing";
     import type { Writable } from "svelte/store";
     import { stringify } from "src/util/util";
+    import { t } from "src/util/i18n";
 
     export let property: string;
 
@@ -61,7 +63,7 @@
             }
         } catch (e) {
             new Notice(
-                `There was an error executing the provided dice callback for [${item.properties.join(
+                `${t("There was an error executing the provided dice callback for")} [${item.properties.join(
                     ", "
                 )}]\n\n${(e as Error).message}`
             );

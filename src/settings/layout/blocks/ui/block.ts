@@ -31,6 +31,7 @@ import type StatBlockPlugin from "src/main";
 import TableHeaders from "./TableHeaders.svelte";
 import SubheadingProperty from "./SubheadingProperty.svelte";
 import IfElseConditions from "./IfElseConditions.svelte";
+import { t } from "src/util/i18n";
 import { editorFromTextArea, nanoid } from "src/util/util";
 import { EditorView } from "@codemirror/view";
 import type { Monster } from "index";
@@ -134,7 +135,7 @@ abstract class BlockModal<
         this.containerEl.addClass("statblock-edit-block");
     }
     onOpen() {
-        this.titleEl.setText("Edit Block");
+        this.titleEl.setText(t("Edit Block"));
         this.display();
     }
 
@@ -147,7 +148,7 @@ abstract class BlockModal<
                 b
                     .setCta()
                     .setIcon("checkmark")
-                    .setTooltip("Save")
+                    .setTooltip(t("Save"))
                     .onClick(() => {
                         this.saved = true;
                         this.close();
@@ -156,7 +157,7 @@ abstract class BlockModal<
             .addExtraButton((b) =>
                 b
                     .setIcon("cross")
-                    .setTooltip("Cancel")
+                    .setTooltip(t("Cancel"))
                     .onClick(() => {
                         this.close();
                     })
@@ -170,9 +171,9 @@ class GroupModal extends BlockModal<GroupItem | InlineItem> {
     async display() {
         this.contentEl.empty();
         new Setting(this.contentEl)
-            .setName("Section Heading")
+            .setName(t("Section Heading"))
             .setDesc(
-                "This text will be used for the section heading. Can be left blank."
+                t("This text will be used for the section heading. Can be left blank.")
             )
             .addText((t) => {
                 t.setValue(this.block.heading).onChange(
@@ -180,9 +181,9 @@ class GroupModal extends BlockModal<GroupItem | InlineItem> {
                 );
             });
         new Setting(this.contentEl)
-            .setName("Has Rule")
+            .setName(t("Has Rule"))
             .setDesc(
-                "If present, the block will have a horizontal rule placed after it."
+                t("If present, the block will have a horizontal rule placed after it.")
             )
             .addToggle((t) => {
                 t.setValue(this.block.hasRule).onChange(
@@ -190,9 +191,9 @@ class GroupModal extends BlockModal<GroupItem | InlineItem> {
                 );
             });
         new Setting(this.contentEl)
-            .setName("CSS Container Class")
+            .setName(t("CSS Container Class"))
             .setDesc(
-                "All nested elements inside this group container will receive this CSS class. If blank, no class will be applied."
+                t("All nested elements inside this group container will receive this CSS class. If blank, no class will be applied.")
             )
             .addText((t) => {
                 t.setValue(this.block.cls).onChange(
@@ -206,9 +207,9 @@ class GroupModal extends BlockModal<GroupItem | InlineItem> {
         el.empty();
         const block = this.block;
         new Setting(el)
-            .setName("Conditional")
+            .setName(t("Conditional"))
             .setDesc(
-                "The block will not be added if the associated properties are not present."
+                t("The block will not be added if the associated properties are not present.")
             )
             .addToggle((t) => {
                 t.setValue(block.conditioned).onChange((v) => {
@@ -224,9 +225,9 @@ class CollapseModal extends BlockModal<CollapseItem> {
     async display() {
         this.contentEl.empty();
         new Setting(this.contentEl)
-            .setName("Section Heading")
+            .setName(t("Section Heading"))
             .setDesc(
-                "This text will be used for the section heading. Can be left blank."
+                t("This text will be used for the section heading. Can be left blank.")
             )
             .addText((t) => {
                 t.setValue(this.block.heading).onChange(
@@ -234,17 +235,17 @@ class CollapseModal extends BlockModal<CollapseItem> {
                 );
             });
         new Setting(this.contentEl)
-            .setName("Open by Default")
-            .setDesc("The block will start open.")
+            .setName(t("Open by Default"))
+            .setDesc(t("The block will start open."))
             .addToggle((t) => {
                 t.setValue(this.block.open).onChange(
                     (v) => (this.block.open = v)
                 );
             });
         new Setting(this.contentEl)
-            .setName("Has Rule")
+            .setName(t("Has Rule"))
             .setDesc(
-                "If present, the block will have a horizontal rule placed after it."
+                t("If present, the block will have a horizontal rule placed after it.")
             )
             .addToggle((t) => {
                 t.setValue(this.block.hasRule).onChange(
@@ -260,12 +261,12 @@ class JavaScriptModal extends BlockModal<JavaScriptItem> {
         this.contentEl.empty();
 
         new Setting(this.contentEl)
-            .setName("JavaScript")
+            .setName(t("JavaScript"))
             .setHeading()
             .setDesc(
                 createFragment((e) => {
                     e.createSpan({
-                        text: "JavaScript blocks can be used to do highly advanced HTML elements. The JavaScript code will be provided the "
+                        text: t("JavaScript blocks can be used to do highly advanced HTML elements. The JavaScript code will be provided the ")
                     });
                     e.createEl("code", {
                         text: "monster"
@@ -275,7 +276,7 @@ class JavaScriptModal extends BlockModal<JavaScriptItem> {
                         text: "property"
                     });
                     e.createSpan({
-                        text: "parameters and should return a HTML element, which will be attached to the block's container element."
+                        text: t("parameters and should return a HTML element, which will be attached to the block's container element.")
                     });
                 })
             );
@@ -317,7 +318,7 @@ class LayoutModal extends BlockModal<LayoutItem> {
         this.contentEl.empty();
 
         new Setting(this.contentEl)
-            .setName("Layout to Insert")
+            .setName(t("Layout to Insert"))
             .addDropdown((d) => {
                 for (const layout of this.plugin.manager.getAllLayouts()) {
                     if (layout.id == this.layout) continue;
@@ -392,7 +393,7 @@ abstract class EditorEnabledModal<
             this.plugin.saveSettings();
         };
         const summary = el.createEl("summary");
-        new Setting(summary).setHeading().setName("Advanced Settings");
+        new Setting(summary).setHeading().setName(t("Advanced Settings"));
         summary.createDiv("collapser").createDiv("handle");
         this.buildAdvanced(el.createDiv());
     }
@@ -413,8 +414,8 @@ class ActionModal extends EditorEnabledModal<ActionItem> {
         el.empty();
 
         new Setting(el)
-            .setName("Icon")
-            .setDesc("Choose the icon to use for the button.")
+            .setName(t("Icon"))
+            .setDesc(t("Choose the icon to use for the button."))
             .addText((t) => {
                 t.setValue(this.block.icon);
                 const icons = getIconIds().map((v) =>
@@ -439,8 +440,8 @@ class ActionModal extends EditorEnabledModal<ActionItem> {
                 b.setIcon(this.block.icon).setDisabled(true);
             });
         new Setting(el)
-            .setName("Action")
-            .setDesc("Choose a Command to run when this action is executed.")
+            .setName(t("Action"))
+            .setDesc(t("Choose a Command to run when this action is executed."))
             .addText((t) => {
                 t.setValue(this.block.action);
                 const commands = this.app.commands.listCommands();
@@ -465,23 +466,23 @@ class ActionModal extends EditorEnabledModal<ActionItem> {
 
         new Setting(el)
             .setHeading()
-            .setName("Callback")
+            .setName(t("Callback"))
             .setDesc(
                 createFragment((e) => {
                     e.createSpan({
-                        text: "Executing the action will run the callback. Any registered commands will "
+                        text: t("Executing the action will run the callback. Any registered commands will ")
                     });
-                    e.createEl("strong", { text: "not" });
+                    e.createEl("strong", { text: t("not") });
                     e.createSpan({
-                        text: " be ran."
+                        text: t(" be ran.")
                     });
                     e.createEl("br");
                     e.createSpan({
-                        text: "The callback will receive the "
+                        text: t("The callback will receive the ")
                     });
                     e.createEl("code", { text: "monster" });
                     e.createSpan({
-                        text: " parameter. "
+                        text: t(" parameter. ")
                     });
                 })
             );
@@ -503,9 +504,9 @@ class ActionModal extends EditorEnabledModal<ActionItem> {
 class BasicModal<I extends BasicItem> extends EditorEnabledModal<I> {
     addPropertyAsCssClassToggleSetting(el: HTMLDivElement) {
         new Setting(el)
-          .setName("Add Property as CSS Class")
+          .setName(t("Add Property as CSS Class"))
           .setDesc(
-            "Disable this to prevent adding the property to the containing HTML element as a CSS class. This can be used to avoid collisions with native Obsidian CSS."
+            t("Disable this to prevent adding the property to the containing HTML element as a CSS class. This can be used to avoid collisions with native Obsidian CSS.")
           )
           .addToggle((t) => {
               t.setValue(!this.block.doNotAddClass).onChange((v) => {
@@ -517,7 +518,7 @@ class BasicModal<I extends BasicItem> extends EditorEnabledModal<I> {
     buildProperties(el: HTMLDivElement) {
         el.empty();
         const block = this.block;
-        new Setting(el).setName("Link Monster Property").addText((t) =>
+        new Setting(el).setName(t("Link Monster Property")).addText((t) =>
             t.setValue(block.properties[0]).onChange((v) => {
                 block.properties[0] = v;
             })
@@ -528,29 +529,29 @@ class BasicModal<I extends BasicItem> extends EditorEnabledModal<I> {
         if (this.plugin.canUseDiceRoller) {
             new Setting(el)
                 .setHeading()
-                .setName("Dice Callback")
+                .setName(t("Dice Callback"))
                 .setDesc(
                     createFragment((e) => {
                         e.createSpan({
-                            text: "The block will run the callback and use the returned values for the dice strings."
+                            text: t("The block will run the callback and use the returned values for the dice strings.")
                         });
                         e.createEl("br");
                         e.createSpan({
-                            text: "The callback will receive the "
+                            text: t("The callback will receive the ")
                         });
                         e.createEl("code", { text: "monster" });
-                        e.createSpan({ text: " and " });
+                        e.createSpan({ text: t(" and ") });
                         e.createEl("code", { text: "property" });
                         e.createSpan({
-                            text: "parameters. Dice callbacks should return an array of strings and objects, with the objects defining the dice rolls:"
+                            text: t("parameters. Dice callbacks should return an array of strings and objects, with the objects defining the dice rolls:")
                         });
                         e.createEl("br");
                         MarkdownRenderer.render(
                             this.plugin.app,
                             `\`\`\`ts
 interface DiceCallbackObject {
-    text: string // string to be parsed into a dice roll
-    original?: string // optional, shown in parenthesis
+    text: string // ${t("string to be parsed into a dice roll")}
+    original?: string // ${t("optional, shown in parenthesis")}
 }
 \`\`\``,
                             e.createDiv(),
@@ -559,13 +560,13 @@ interface DiceCallbackObject {
                         );
 
                         e.createEl("br");
-                        e.createEl("span", { text: "For example: " });
+                        e.createEl("span", { text: t("For example: ") });
                         e.createEl("br");
                         MarkdownRenderer.render(
                             this.plugin.app,
                             `\`\`\`ts
 const diceText = monster.stats[5] + "d20 + 2";
-return ["The monster guesses you have: ", { text: diceText }, " freckles."];
+return ["${t("The monster guesses you have: ")}", { text: diceText }, "${t(" freckles.")}"];
 \`\`\``,
                             e.createDiv(),
                             "",
@@ -598,9 +599,9 @@ return ["The monster guesses you have: ", { text: diceText }, " freckles."];
         el.empty();
         const block = this.block;
         new Setting(el)
-            .setName("Conditional")
+            .setName(t("Conditional"))
             .setDesc(
-                "The block will not be added if the associated properties are not present."
+                t("The block will not be added if the associated properties are not present.")
             )
             .addToggle((t) => {
                 t.setValue(block.conditioned).onChange((v) => {
@@ -611,8 +612,8 @@ return ["The monster guesses you have: ", { text: diceText }, " freckles."];
             });
         if (!this.block.conditioned) {
             new Setting(el)
-                .setName("Fallback")
-                .setDesc("If not present, this text will be displayed.")
+                .setName(t("Fallback"))
+                .setDesc(t("If not present, this text will be displayed."))
                 .addText((t) => {
                     if (!block.fallback) {
                         block.fallback = "-";
@@ -623,9 +624,9 @@ return ["The monster guesses you have: ", { text: diceText }, " freckles."];
                 });
         }
         new Setting(el)
-            .setName("Has Rule")
+            .setName(t("Has Rule"))
             .setDesc(
-                "If present, the block will have a horizontal rule placed after it."
+                t("If present, the block will have a horizontal rule placed after it.")
             )
             .addToggle((t) => {
                 t.setValue(block.hasRule).onChange((v) => (block.hasRule = v));
@@ -636,9 +637,9 @@ return ["The monster guesses you have: ", { text: diceText }, " freckles."];
         const block = this.block;
         if (this.plugin.canUseDiceRoller) {
             new Setting(el)
-                .setName("Parse for Dice")
+                .setName(t("Parse for Dice"))
                 .setDesc(
-                    "The plugin will attempt to add dice rollers as specified."
+                    t("The plugin will attempt to add dice rollers as specified.")
                 )
 
                 .addToggle((t) =>
@@ -649,9 +650,9 @@ return ["The monster guesses you have: ", { text: diceText }, " freckles."];
                 );
             if (block.dice) {
                 new Setting(el.createDiv())
-                    .setName("Link Dice to Property")
+                    .setName(t("Link Dice to Property"))
                     .setDesc(
-                        "The dice roller will parse this property instead of the original."
+                        t("The dice roller will parse this property instead of the original.")
                     )
                     .addText((t) => {
                         t.setValue(`${block.diceProperty}`).onChange((v) => {
@@ -687,8 +688,8 @@ class HeadingModal extends BasicModal<HeadingItem> {
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
         new Setting(el)
-            .setName("Header Size")
-            .setDesc("The heading will use this size.")
+            .setName(t("Header Size"))
+            .setDesc(t("The heading will use this size."))
             .addDropdown((d) => {
                 if (!this.block.size) {
                     this.block.size == 1;
@@ -711,25 +712,25 @@ class PropertyModal extends MarkdownEnabledModal<PropertyItem> {
         super.buildAdvanced(el);
         new Setting(el)
             .setHeading()
-            .setName("Callback")
+            .setName(t("Callback"))
             .setDesc(
                 createFragment((e) => {
                     e.createSpan({
-                        text: "The block will run the callback and use the returned string as the property."
+                        text: t("The block will run the callback and use the returned string as the property.")
                     });
                     e.createEl("br");
                     e.createSpan({
-                        text: "The callback will receive the "
+                        text: t("The callback will receive the ")
                     });
                     e.createEl("code", { text: "monster" });
                     e.createSpan({
-                        text: " parameter. The callback should return a string. For example: "
+                        text: t(" parameter. The callback should return a string. For example: ")
                     });
 
                     e.createEl("code", { text: "return monster.name" });
                     e.createEl("br");
                     e.createEl("strong", {
-                        text: "Please Note: This will not run if a dice callback is provided."
+                        text: t("Please Note: This will not run if a dice callback is provided.")
                     });
                 })
             );
@@ -755,8 +756,8 @@ class PropertyModal extends MarkdownEnabledModal<PropertyItem> {
         super.buildProperties(el);
         super.addPropertyAsCssClassToggleSetting(el);
         new Setting(el)
-            .setName("Display Text")
-            .setDesc("This text will be used for the property name.")
+            .setName(t("Display Text"))
+            .setDesc(t("This text will be used for the property name."))
             .addText((t) => {
                 t.setValue(this.block.display).onChange(
                     (v) => (this.block.display = v)
@@ -769,8 +770,8 @@ class SavesModal extends MarkdownEnabledModal<SavesItem> {
         super.buildProperties(el);
         super.addPropertyAsCssClassToggleSetting(el);
         new Setting(el)
-            .setName("Display Text")
-            .setDesc("This text will be used for the property name.")
+            .setName(t("Display Text"))
+            .setDesc(t("This text will be used for the property name."))
             .addText((t) => {
                 t.setValue(this.block.display).onChange(
                     (v) => (this.block.display = v)
@@ -781,27 +782,27 @@ class SavesModal extends MarkdownEnabledModal<SavesItem> {
         super.buildAdvanced(el);
         new Setting(el)
             .setHeading()
-            .setName("Callback")
+            .setName(t("Callback"))
             .setDesc(
                 createFragment((e) => {
                     e.createSpan({
-                        text: "The block will run the callback on each save object and use the returned object as the save."
+                        text: t("The block will run the callback on each save object and use the returned object as the save.")
                     });
                     e.createEl("br");
                     e.createSpan({
-                        text: "The callback will receive the "
+                        text: t("The callback will receive the ")
                     });
                     e.createEl("code", { text: "monster" });
-                    e.createSpan({ text: " and " });
+                    e.createSpan({ text: t(" and ") });
                     e.createEl("code", { text: "property" });
                     e.createSpan({
-                        text: " parameters. The callback should return an object with a single key and value. For example: "
+                        text: t(" parameters. The callback should return an object with a single key and value. For example: ")
                     });
 
                     e.createEl("code", { text: "return {\"fort\": property.fortitude}" });
                     e.createEl("br");
                     e.createEl("strong", {
-                        text: "Please Note: This will not run if a dice callback is provided."
+                        text: t("Please Note: This will not run if a dice callback is provided.")
                     });
                 })
             );
@@ -824,9 +825,9 @@ class SpellsModal extends MarkdownEnabledModal<SpellsItem> {
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
         new Setting(el)
-            .setName("Trait Name")
+            .setName(t("Trait Name"))
             .setDesc(
-                "Name to display for the Spellcasting trait. Defaults to Spellcasting if not provided."
+                t("Name to display for the Spellcasting trait. Defaults to Spellcasting if not provided.")
             )
             .addText((t) => {
                 t.setValue(this.block.heading).onChange(
@@ -843,7 +844,7 @@ class SubheadingModal extends BasicModal<SubHeadingItem> {
         let tempProp = "";
         new Setting(container)
             .setHeading()
-            .setName("Link Monster Properties")
+            .setName(t("Link Monster Properties"))
             .addText((t) =>
                 t
                     .setPlaceholder("property")
@@ -853,7 +854,7 @@ class SubheadingModal extends BasicModal<SubHeadingItem> {
             .addExtraButton((b) =>
                 b.setIcon("plus-with-circle").onClick(() => {
                     if (!tempProp || !tempProp.length) {
-                        new Notice("A valid property must be supplied.");
+                        new Notice(t("A valid property must be supplied."));
                         return;
                     }
                     block.properties.push(tempProp);
@@ -878,8 +879,8 @@ class SubheadingModal extends BasicModal<SubHeadingItem> {
         el.empty();
 
         new Setting(el)
-            .setName("Separator")
-            .setDesc("Text separating properties")
+            .setName(t("Separator"))
+            .setDesc(t("Text separating properties"))
             .addText((t) => {
                 t.setValue(this.block.separator).onChange((v) => {
                     //If onchange(v) parameter is empty, get default ", " or v value
@@ -898,19 +899,19 @@ class TableModal extends BasicModal<TableItem> {
         super.buildAdvanced(el);
         new Setting(el)
             .setHeading()
-            .setName("Ability Modifier Calculation")
+            .setName(t("Ability Modifier Calculation"))
             .setDesc(
                 createFragment((e) => {
                     e.createSpan({
-                        text: "Allows a custom modifier for the stat."
+                        text: t("Allows a custom modifier for the stat.")
                     });
                     e.createEl("br");
-                    e.createSpan({ text: "Variables " });
+                    e.createSpan({ text: t("Variables ") });
                     e.createEl("code", { text: "stat" });
-                    e.createSpan({ text: " and " });
+                    e.createSpan({ text: t(" and ") });
                     e.createEl("code", { text: "monster" });
                     e.createSpan({
-                        text: "are accessible, use these to calculate the modifier."
+                        text: t("are accessible, use these to calculate the modifier.")
                     });
                 })
             );
@@ -936,17 +937,17 @@ class TableModal extends BasicModal<TableItem> {
         let tempProp = "";
         new Setting(container)
             .setHeading()
-            .setName("Table Headers")
-            .addText((t) =>
-                t
-                    .setPlaceholder("header")
+            .setName(t("Table Headers"))
+            .addText((x) =>
+                x
+                    .setPlaceholder(t("header"))
                     .setValue(tempProp)
                     .onChange((v) => (tempProp = v))
             )
             .addExtraButton((b) =>
                 b.setIcon("plus-with-circle").onClick(() => {
                     if (!tempProp || !tempProp.length) {
-                        new Notice("A valid property must be supplied.");
+                        new Notice(t("A valid property must be supplied."));
                         return;
                     }
                     this.block.headers.push(tempProp);
@@ -963,9 +964,9 @@ class TableModal extends BasicModal<TableItem> {
             this.block.headers = [...(e.detail?.map((v) => v.name) ?? [])];
         });
         new Setting(el)
-            .setName("Calculate Modifiers")
+            .setName(t("Calculate Modifiers"))
             .setDesc(
-                "The block will attempt to calculate modifiers for table values."
+                t("The block will attempt to calculate modifiers for table values.")
             )
             .addToggle((t) => {
                 t.setValue(this.block.calculate).onChange((v) => {
@@ -980,9 +981,9 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
         super.buildProperties(el);
         super.addPropertyAsCssClassToggleSetting(el);
         new Setting(el)
-            .setName("Use Monster Property for Heading")
+            .setName(t("Use Monster Property for Heading"))
             .setDesc(
-                "The Section heading will be set to the value of the specified property."
+                t("The Section heading will be set to the value of the specified property.")
             )
             .addToggle((t) => {
                 t.setValue(this.block.headingProp).onChange((v) => {
@@ -994,8 +995,8 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
             .setName("Section Heading")
             .setDesc(
                 this.block.headingProp
-                    ? "The section will use this property for the section heading. If the property does not exist or is blank, the section heading will not appear."
-                    : "This text will be used for the section heading. Can be left blank."
+                    ? t("The section will use this property for the section heading. If the property does not exist or is blank, the section heading will not appear.")
+                    : t("This text will be used for the section heading. Can be left blank.")
             )
             .addText((t) => {
                 t.setValue(this.block.heading).onChange(
@@ -1003,15 +1004,15 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
                 );
             });
         const subheading = new Setting(el)
-            .setName("Section Subheading Text")
+            .setName(t("Section Subheading Text"))
             .setDesc(
                 createFragment((e) => {
                     e.createSpan({
-                        text: "Text entered here will appear directly after the section heading, before the actual traits. Use "
+                        text: t("Text entered here will appear directly after the section heading, before the actual traits. Use ")
                     });
                     e.createEl("code", { text: "{{monster}}" });
                     e.createSpan({
-                        text: " to insert the current monster's name."
+                        text: t(" to insert the current monster's name.")
                     });
                 })
             );
@@ -1025,27 +1026,27 @@ class TraitsModal extends MarkdownEnabledModal<TraitsItem> {
         super.buildAdvanced(el);
         new Setting(el)
             .setHeading()
-            .setName("Callback")
+            .setName(t("Callback"))
             .setDesc(
                 createFragment((e) => {
                     e.createSpan({
-                        text: "The block will run the callback on each trait and use the returned string as the trait description."
+                        text: t("The block will run the callback on each trait and use the returned string as the trait description.")
                     });
                     e.createEl("br");
                     e.createSpan({
-                        text: "The callback will receive the "
+                        text: t("The callback will receive the ")
                     });
                     e.createEl("code", { text: "monster" });
                     e.createSpan({ text: " and " });
                     e.createEl("code", { text: "property" });
                     e.createSpan({
-                        text: " parameters. The callback should return a string. For example: "
+                        text: t(" parameters. The callback should return a string. For example: ")
                     });
 
                     e.createEl("code", { text: "return monster.name" });
                     e.createEl("br");
                     e.createEl("strong", {
-                        text: "Please Note: This will not run if a dice callback is provided."
+                        text: t("Please Note: This will not run if a dice callback is provided.")
                     });
                 })
             );
@@ -1069,13 +1070,13 @@ class TextModal extends MarkdownEnabledModal<TextItem> {
         super.buildAdvanced(el);
         new Setting(el)
             .setHeading()
-            .setName("Text to Show")
+            .setName(t("Text to Show"))
             .setDesc(
                 createFragment((e) => {
-                    e.createSpan({ text: "The block will " });
-                    e.createEl("strong", { text: "always" });
+                    e.createSpan({ text: t("The block will ") });
+                    e.createEl("strong", { text: t("always") });
                     e.createSpan({
-                        text: " display the text entered here."
+                        text: t(" display the text entered here.")
                     });
                 })
             );
@@ -1086,9 +1087,9 @@ class TextModal extends MarkdownEnabledModal<TextItem> {
     buildProperties(el: HTMLDivElement): void {
         super.buildProperties(el);
         new Setting(el)
-            .setName("Use Monster Property for Heading")
+            .setName(t("Use Monster Property for Heading"))
             .setDesc(
-                "The Section heading will be set to the value of the specified property."
+                t("The Section heading will be set to the value of the specified property.")
             )
             .addToggle((t) => {
                 t.setValue(this.block.headingProp).onChange((v) => {
@@ -1097,11 +1098,11 @@ class TextModal extends MarkdownEnabledModal<TextItem> {
                 });
             });
         new Setting(el)
-            .setName("Section Heading")
+            .setName(t("Section Heading"))
             .setDesc(
                 this.block.headingProp
-                    ? "The section will use this property for the section heading. If the property does not exist or is blank, the section heading will not appear."
-                    : "This text will be used for the section heading. Can be left blank."
+                    ? t("The section will use this property for the section heading. If the property does not exist or is blank, the section heading will not appear.")
+                    : t("This text will be used for the section heading. Can be left blank.")
             )
             .addText((t) => {
                 t.setValue(this.block.heading).onChange(

@@ -3,6 +3,7 @@ import { Component, MarkdownRenderer, Setting } from "obsidian";
 import type StatBlockPlugin from "src/main";
 import FantasyStatblockModal from "src/modal/modal";
 import { buildTextArea } from "src/util";
+import { t } from "src/util/i18n";
 import { nanoid } from "src/util/util";
 import type { DiceParsing } from "src/layouts/layout.types";
 
@@ -27,7 +28,7 @@ export default class DiceParsingModal extends FantasyStatblockModal {
 
     onOpen(): void {
         this.titleEl.setText(
-            this.editing ? `Editing Dice Parser` : "New Dice Parser"
+            this.editing ? `${t("Editing Dice Parser")}` : t("New Dice Parser")
         );
         this.display();
     }
@@ -37,8 +38,8 @@ export default class DiceParsingModal extends FantasyStatblockModal {
     async display() {
         this.contentEl.empty();
         new Setting(this.contentEl)
-            .setName("Example")
-            .setDesc("Add an example, for reference only.")
+            .setName(t("Example"))
+            .setDesc(t("Add an example, for reference only."))
             .addText((t) => {
                 t.setValue(this.item.desc).onChange(
                     (v) => (this.item.desc = v)
@@ -53,7 +54,7 @@ export default class DiceParsingModal extends FantasyStatblockModal {
         new Setting(this.contentEl).addExtraButton((b) =>
             b
                 .setIcon("cross")
-                .setTooltip("Cancel")
+                .setTooltip(t("Cancel"))
                 .onClick(() => {
                     this.saved = false;
                     this.close();
@@ -68,7 +69,7 @@ export default class DiceParsingModal extends FantasyStatblockModal {
         containerEl.empty();
         new Setting(containerEl)
             .setHeading()
-            .setName("Regular Expression")
+            .setName(t("Regular Expression"))
             .setDesc("");
 
         this.regex = buildTextArea(
@@ -83,36 +84,36 @@ export default class DiceParsingModal extends FantasyStatblockModal {
     getCallbackDescription() {
         return createFragment((e) => {
             e.createSpan({
-                text: "The dice parser callback needs to parse the results of the regular expression and return the correct dice string to display."
+                text: t("The dice parser callback needs to parse the results of the regular expression and return the correct dice string to display.")
             });
             e.createEl("br");
             e.createEl("br");
             e.createSpan({
-                text: "The callback will have the "
+                text: t("The callback will have the ")
             });
             e.createEl("code", { text: "original" });
-            e.createSpan({ text: " (the matched text), " });
+            e.createSpan({ text: t(" (the matched text), ") });
             e.createEl("code", { text: "matches" });
             e.createSpan({
-                text: " (the RegExpMatchArray), and "
+                text: t(" (the RegExpMatchArray), and ")
             });
 
             e.createEl("code", { text: "monster" });
             e.createSpan({
-                text: " (current monster being rendered) parameters available in the callback."
+                text: t(" (current monster being rendered) parameters available in the callback.")
             });
             e.createEl("br");
             e.createEl("br");
 
             e.createSpan({
-                text: "The callback should return an instance of:"
+                text: t("The callback should return an instance of:")
             });
             MarkdownRenderer.render(
                 this.plugin.app,
                 `\`\`\`ts
 interface DiceCallbackObject {
-    text: string // string to be parsed into a dice roll
-    original?: string // optional, shown in parenthesis
+    text: string // ${t("string to be parsed into a dice roll")}
+    original?: string // ${t("optional, shown in parenthesis")}
 }
 \`\`\``,
                 e.createDiv(),
@@ -120,7 +121,7 @@ interface DiceCallbackObject {
                 new Component()
             );
             e.createEl("br");
-            e.createEl("span", { text: "For example: " });
+            e.createEl("span", { text: t("For example: ") });
             e.createEl("br");
             MarkdownRenderer.render(
                 this.plugin.app,
@@ -137,7 +138,7 @@ return { text: "1d20 + 3" };
         containerEl.empty();
         let cbSetting = new Setting(containerEl)
             .setHeading()
-            .setName("Callback")
+            .setName(t("Callback"))
             .addExtraButton((b) => {
                 let appended = false;
                 b.setIcon("help-circle").onClick(() => {
